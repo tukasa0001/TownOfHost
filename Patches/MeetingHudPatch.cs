@@ -38,7 +38,7 @@ class CheckForEndVotingPatch
                         pc.RpcSetCustomRole(CustomRoles.Madmate);
                         ExtendedPlayerControl.RpcSetCustomRole(pc.PlayerId, CustomRoles.Madmate);
                         Utils.NotifyRoles(true, pc, true);
-                        Logger.Info("役職設定:" + pc?.Data?.PlayerName + " = " + pc.GetCustomRole().ToString() + " + " + CustomRoles.Madmate.ToString(), "Assign " + CustomRoles.Madmate.ToString());
+                        Logger.Info("设置职业:" + pc?.Data?.PlayerName + " = " + pc.GetCustomRole().ToString() + " + " + CustomRoles.Madmate.ToString(), "Assign " + CustomRoles.Madmate.ToString());
                     }
                 }
 
@@ -85,7 +85,6 @@ class CheckForEndVotingPatch
                         }
                     }
                 }
-
             }
             foreach (var ps in __instance.playerStates)
             {
@@ -115,11 +114,11 @@ class CheckForEndVotingPatch
                         {
                             case VoteMode.Suicide:
                                 TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Suicide, ps.TargetPlayerId);
-                                voteLog.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました");
+                                voteLog.Info($"{voter.GetNameWithRole()}因跳过投票自杀");
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
-                                voteLog.Info($"スキップしたため{voter.GetNameWithRole()}に自投票させました");
+                                voteLog.Info($"{voter.GetNameWithRole()}因跳过投票自票");
                                 break;
                             default:
                                 break;
@@ -131,15 +130,15 @@ class CheckForEndVotingPatch
                         {
                             case VoteMode.Suicide:
                                 TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Suicide, ps.TargetPlayerId);
-                                voteLog.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました");
+                                voteLog.Info($"{voter.GetNameWithRole()}因未投票自杀");
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
-                                voteLog.Info($"無投票のため{voter.GetNameWithRole()}に自投票させました");
+                                voteLog.Info($"{voter.GetNameWithRole()}因未投票自票");
                                 break;
                             case VoteMode.Skip:
                                 ps.VotedFor = 253;
-                                voteLog.Info($"無投票のため{voter.GetNameWithRole()}にスキップさせました");
+                                voteLog.Info($"{voter.GetNameWithRole()}因未投票跳过");
                                 break;
                             default:
                                 break;
@@ -171,27 +170,27 @@ class CheckForEndVotingPatch
             var VotingData = __instance.CustomCalculateVotes();
             byte exileId = byte.MaxValue;
             int max = 0;
-            voteLog.Info("===追放者確認処理開始===");
+            voteLog.Info("===决定驱逐玩家处理开始===");
             foreach (var data in VotingData)
             {
                 voteLog.Info($"{data.Key}({Utils.GetVoteName(data.Key)}):{data.Value}票");
                 if (data.Value > max)
                 {
-                    voteLog.Info(data.Key + "番が最高値を更新(" + data.Value + ")");
+                    voteLog.Info(data.Key + "拥有更高票数(" + data.Value + ")");
                     exileId = data.Key;
                     max = data.Value;
                     tie = false;
                 }
                 else if (data.Value == max)
                 {
-                    voteLog.Info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")");
+                    voteLog.Info(data.Key + "与" + exileId + "的票数相同(" + data.Value + ")");
                     exileId = byte.MaxValue;
                     tie = true;
                 }
-                voteLog.Info($"exileId: {exileId}, max: {max}票");
+                voteLog.Info($"驱逐ID: {exileId}, 最大: {max}票");
             }
 
-            voteLog.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})");
+            voteLog.Info($"决定驱逐玩家: {exileId}({Utils.GetVoteName(exileId)})");
 
             bool braked = false;
             if (tie) //破平者判断
@@ -596,7 +595,7 @@ class MeetingHudStartPatch
         if (Options.SyncButtonMode.GetBool())
         {
             Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount));
-            Logger.Info("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
+            Logger.Info("紧急会议剩余 " + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + " 次使用次数", "SyncButtonMode");
         }
         if (AntiBlackout.OverrideExiledPlayer)
         {
