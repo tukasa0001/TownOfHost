@@ -146,7 +146,8 @@ public static class Divinator
                 CustomRoles.Gangster or
                 CustomRoles.Dictator or
                 CustomRoles.CyberStar or
-                CustomRoles.Collector
+                CustomRoles.Collector or
+                CustomRoles.Sunnyboy
                 => "Enthusiasm",
 
                 CustomRoles.BoobyTrap or

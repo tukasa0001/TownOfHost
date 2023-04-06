@@ -128,6 +128,12 @@ class GameEndChecker
                         CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                         CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
                     }
+                    //Sunnyboy
+                    if (pc.Is(CustomRoles.Sunnyboy) && !pc.IsAlive())
+                    {
+                        CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                        CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Sunnyboy);
+                    }
                     //FFF
                     if (pc.Is(CustomRoles.FFF) && CustomWinnerHolder.WinnerTeam != CustomWinner.Lovers && !CustomWinnerHolder.AdditionalWinnerTeams.Contains(AdditionalWinners.Lovers) && !CustomRolesHelper.RoleExist(CustomRoles.Lovers) && !CustomRolesHelper.RoleExist(CustomRoles.Ntr))
                     {
@@ -284,6 +290,8 @@ class GameEndChecker
         public bool CheckGameEndByLivingPlayers(out GameOverReason reason)
         {
             reason = GameOverReason.ImpostorByKill;
+
+            if (CustomRolesHelper.RoleExist(CustomRoles.Sunnyboy) && Main.AllAlivePlayerControls.Count() > 1) return false;
 
             int Imp = Utils.AlivePlayersCount(CountTypes.Impostor);
             int Jackal = Utils.AlivePlayersCount(CountTypes.Jackal);

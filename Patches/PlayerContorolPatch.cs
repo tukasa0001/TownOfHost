@@ -1741,7 +1741,7 @@ class PlayerControlCompleteTaskPatch
             Utils.NotifyRoles(SpecifySeer: pc);
         }
         if ((isTaskFinish &&
-            pc.GetCustomRole() is CustomRoles.Doctor) ||
+            pc.GetCustomRole() is CustomRoles.Doctor or CustomRoles.Sunnyboy) ||
             pc.GetCustomRole() is CustomRoles.SpeedBooster)
         {
             //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する

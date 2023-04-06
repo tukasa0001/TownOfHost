@@ -43,6 +43,9 @@ KB_NormalInfo,击败所有人！,Kill all of them!
 # 其它 / Other
 GM,管理员,GM,GM (Призрак)
 
+# 隐藏 / Hidden
+Sunnyboy,阳光开朗大男孩
+
 # 原版职业 / Vanilla
 Crewmate,船员,Crewmate,Член Экипажа
 Engineer,工程师,Engineer,Инженер
@@ -304,6 +307,9 @@ MimicInfo,噔↗噔↗当→当↘当→当↗,Imitate others,Имитируй �
 GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер Игры
 NotAssignedInfo,未被分配职业,No assigned role,Нет назначенной роли
 
+# 隐藏 / Hidden descriptions
+SunnyboyInfo,这个角色的建立究竟有什么意义
+
 ## 以下是职业描述（使用/m或/r指令后得到的文本）
 
 # 内鬼阵营 / Long Impostors descriptions
@@ -420,6 +426,8 @@ MimicInfoLong,(附加职业)\n只有除黑手党以外的内鬼会成为宝箱�
 # 其它 / Other long description
 GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静地吃瓜而已。,"(None):\nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game, and all players know who the GM is. The GM role will be assigned to the host, who will automatically become a ghost at the start of the game.","(Никто):\nGM (Мастер Игры) — это роль, которая наблюдает за игрой в роле призрака. \nОн не влияет на игру, и все игроки всегда знают кто Мастер Игры. Всегда назначается только хосту лобби и становится призраком в самом начале игры."
 
+# 隐藏 / Hidden long descriptions
+SunnyboyInfoLong,(中立阵营):\n阳光开朗大男孩可以通过生命面板查看他人的生命状态。阳光开朗大男孩在场时游戏不会因人数优势结束（例如内鬼人数大于船员或没有存活内鬼），游戏结束时若阳光开朗大男孩死亡，则阳光开朗大男孩跟随胜利阵营一起胜利。
 
 ## 模式选项 / Settings
 DisableMeeting,禁用会议与报告尸体,Turn off Meetings,Отключить Собрания

@@ -734,6 +734,7 @@ public static class Options
         RevolutionistVentCountDown = FloatOptionItem.Create(5050621, "RevolutionistVentCountDown", new(1f, 180f, 1f), 15f, TabGroup.OtherRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Revolutionist])
             .SetValueFormat(OptionFormat.Seconds);
         SetupRoleOptions(5051412, TabGroup.OtherRoles, CustomRoles.Provocateur);
+        //SetupRoleOptions(5051422, TabGroup.OtherRoles, CustomRoles.Sunnyboy);
 
         // 副职
         TextOptionItem.Create(909096, "OtherRoles.Addons", TabGroup.OtherRoles)

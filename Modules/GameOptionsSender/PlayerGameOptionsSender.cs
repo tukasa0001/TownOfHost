@@ -189,6 +189,10 @@ public class PlayerGameOptionsSender : GameOptionsSender
             case CustomRoles.Hangman:
                 Hangman.ApplyGameOptions();
                 break;
+            case CustomRoles.Sunnyboy:
+                AURoleOptions.ScientistCooldown = 0f;
+                AURoleOptions.ScientistBatteryCharge = 60f;
+                break;
         }
 
         // 为迷惑者的凶手

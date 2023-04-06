@@ -1,4 +1,6 @@
 using AmongUs.GameOptions;
+using System.Linq;
+
 namespace TOHE;
 
 internal static class CustomRolesHelper
@@ -77,6 +79,7 @@ internal static class CustomRolesHelper
                 CustomRoles.Eraser => CustomRoles.Impostor,
                 CustomRoles.OverKiller => CustomRoles.Impostor,
                 CustomRoles.Hangman => CustomRoles.Shapeshifter,
+                CustomRoles.Sunnyboy => CustomRoles.Scientist,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
     }
@@ -225,7 +228,8 @@ internal static class CustomRolesHelper
             CustomRoles.DarkHide or
             CustomRoles.Workaholic or
             CustomRoles.Collector or
-            CustomRoles.Provocateur;
+            CustomRoles.Provocateur or
+            CustomRoles.Sunnyboy;
     }
     public static bool CheckAddonConfilct(CustomRoles role, PlayerControl pc)
     {
@@ -285,14 +289,7 @@ internal static class CustomRolesHelper
         if (role.IsNeutral()) type = CustomRoleTypes.Neutral;
         return type;
     }
-    public static bool RoleExist(this CustomRoles role, bool countDead = false)
-    {
-        foreach (var pc in Main.AllPlayerControls)
-        {
-            if (pc.Is(role) && (pc.IsAlive() || countDead)) return true;
-        }
-        return false;
-    }
+    public static bool RoleExist(this CustomRoles role, bool countDead = false) => Main.AllPlayerControls.Any(x => x.Is(role) && (x.IsAlive() || countDead));
     public static int GetCount(this CustomRoles role)
     {
         if (role.IsVanilla())

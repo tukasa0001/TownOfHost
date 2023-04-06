@@ -324,6 +324,7 @@ public class Main : BasePlugin
                 {CustomRoles.Workaholic, "#008b8b"},
                 {CustomRoles.Collector, "#9d8892"},
                 {CustomRoles.Provocateur, "#74ba43"},
+                {CustomRoles.Sunnyboy, "#ff9902"},
                 // GM
                 {CustomRoles.GM, "#ff5b70"},
                 //サブ役職
@@ -483,6 +484,7 @@ public enum CustomRoles
     Workaholic,
     Collector,
     Provocateur,
+    Sunnyboy,
 
     //SoloKombat
     KB_Normal,
@@ -548,6 +550,7 @@ public enum AdditionalWinners
     Executioner = CustomRoles.Executioner,
     FFF = CustomRoles.FFF,
     Provocateur = CustomRoles.Provocateur,
+    Sunnyboy = CustomRoles.Sunnyboy,
 }
 public enum SuffixModes
 {
