@@ -918,7 +918,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (isTaskFinish && pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor)
+                if (isTaskFinish && pc.GetCustomRole() is CustomRoles.Lighter)
                 {
                     Utils.MarkEveryoneDirtySettings();
                 }
