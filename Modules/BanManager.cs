@@ -68,7 +68,7 @@ public static class BanManager
     public static void AddBanPlayer(InnerNet.ClientData player)
     {
         if (!AmongUsClient.Instance.AmHost || player == null) return;
-        if (!CheckBanList(player) && player.FriendCode != "")
+        if (!CheckBanList(player?.FriendCode) && player.FriendCode != "")
         {
             File.AppendAllText(BAN_LIST_PATH, $"{player.FriendCode},{player.PlayerName}\n");
             Logger.SendInGame(string.Format(GetString("Message.AddedPlayerToBanList"), player.PlayerName));
@@ -104,17 +104,24 @@ public static class BanManager
     public static void CheckBanPlayer(InnerNet.ClientData player)
     {
         if (!AmongUsClient.Instance.AmHost || !Options.ApplyBanList.GetBool()) return;
-        if (CheckBanList(player))
+        if (CheckBanList(player?.FriendCode))
         {
             AmongUsClient.Instance.KickPlayer(player.Id, true);
             Logger.SendInGame(string.Format(GetString("Message.BanedByBanList"), player.PlayerName));
             Logger.Info($"{player.PlayerName}は過去にBAN済みのためBANされました。", "BAN");
             return;
         }
+        if (CheckEACList(player?.FriendCode))
+        {
+            AmongUsClient.Instance.KickPlayer(player.Id, true);
+            Logger.SendInGame(string.Format(GetString("Message.BanedByEACList"), player.PlayerName));
+            Logger.Info($"{player.PlayerName}存在于EAC封禁名单", "BAN");
+            return;
+        }
     }
-    public static bool CheckBanList(InnerNet.ClientData player)
+    public static bool CheckBanList(string code)
     {
-        if (player == null || player?.FriendCode == "") return false;
+        if (code == "") return false;
         try
         {
             Directory.CreateDirectory("TOHE_DATA");
@@ -125,19 +132,19 @@ public static class BanManager
             {
                 if (line == "") continue;
                 if (line.Contains("actorour#0029")) continue;
-                if (line.Contains(player.FriendCode)) return true;
+                if (line.Contains(code)) return true;
             }
         }
         catch (Exception ex)
         {
             Logger.Exception(ex, "CheckBanList");
         }
-        return CheckEACList(player.FriendCode);
+        return false;
     }
     public static bool CheckEACList(string code)
     {
         if (code == "") return false;
-        return EACList.Where(x => x.Contains(code)).Count() > 0;
+        return EACList.Any(x => x.Contains(code));
     }
 }
 [HarmonyPatch(typeof(BanMenu), nameof(BanMenu.Select))]
@@ -147,6 +154,6 @@ class BanMenuSelectPatch
     {
         InnerNet.ClientData recentClient = AmongUsClient.Instance.GetRecentClient(clientId);
         if (recentClient == null) return;
-        if (!BanManager.CheckBanList(recentClient)) __instance.BanButton.GetComponent<ButtonRolloverHandler>().SetEnabledColors();
+        if (!BanManager.CheckBanList(recentClient?.FriendCode)) __instance.BanButton.GetComponent<ButtonRolloverHandler>().SetEnabledColors();
     }
 }

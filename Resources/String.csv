@@ -877,6 +877,7 @@ Message.NowOverrideText,请房主在游戏根目录的 .\Language\SChinese.dat �
 Message.NoDescription,无描述,No description,Описание отсутствует
 Message.KickedByDenyName,【{0}】被踢出，因其昵称包含违禁词【{1}】,【{0}】 was kicked because its name matched 【{1}】","【{0}】 был кикнут, так как его имя соответствует 【{1}】"
 Message.BanedByBanList,【{0}】因在封禁名单内被踢出,【{0}】 has been banned because it has been banned in the past.,"【{0}】 был заблокирован, потому что он был заблокирован в прошлый раз"
+Message.BanedByEACList,【{0}】因在EAC封禁名单内被踢出
 Message.DumpfileSaved,日志文件已成功保存到桌面上了，文件名为：{0},"The log file was successfully saved to the desktop, filename: {0}","Файл журнала был успешно сохранен на рабочий стол, имя файла: {0}"
 Message.KickedByNoFriendCode,【{0}】因该房禁止未登录玩家被请离,"【{0}】 was kicked because the friend code does not exist.","【{0}】 был кикнут, так как у него нет кода друга"
 Message.AddedPlayerToBanList,【{0}】被添加至黑名单,Added 【{0}】 to the ban list,【{0}】 был добавлен в список забаненых игроков
