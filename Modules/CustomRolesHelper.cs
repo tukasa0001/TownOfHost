@@ -58,7 +58,6 @@ namespace TownOfHost
                 CustomRoles.Arsonist or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
-                CustomRoles.Jackal or
                 CustomRoles.JSchrodingerCat or
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
@@ -153,8 +152,7 @@ namespace TownOfHost
                 return roleInfo.BaseRoleType.Invoke();
             return role switch
             {
-                CustomRoles.Arsonist or
-                CustomRoles.Jackal => RoleTypes.Impostor,
+                CustomRoles.Arsonist => RoleTypes.Impostor,
 
                 CustomRoles.Scientist or
                 CustomRoles.Doctor => RoleTypes.Scientist,
