@@ -207,7 +207,6 @@ namespace TownOfHost
                     {CustomRoles.Snitch, "#b8fb4f"},
                     {CustomRoles.Lighter, "#eee5be"},
                     {CustomRoles.SpeedBooster, "#00ffff"},
-                    {CustomRoles.Doctor, "#80ffdd"},
                     {CustomRoles.Trapper, "#5a8fd0"},
                     {CustomRoles.Dictator, "#df9b00"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
