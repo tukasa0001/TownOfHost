@@ -152,8 +152,12 @@ class GameEndChecker
                             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Provocateur);
                         }
                     }
-                    //Lovers follow winner
-                    if (pc.Is(CustomRoles.Lovers) && CustomWinnerHolder.WinnerTeam is not CustomWinner.Lovers and not CustomWinner.Crewmate and not CustomWinner.Impostor)
+                }
+
+                //Lovers follow winner
+                if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Lovers and not CustomWinner.Crewmate and not CustomWinner.Impostor)
+                {
+                    foreach (var pc in Main.AllPlayerControls.Where(x => x.Is(CustomRoles.Lovers)))
                     {
                         if (CustomWinnerHolder.WinnerIds.Where(x => Utils.GetPlayerById(x).Is(CustomRoles.Lovers)).Count() > 0)
                         {
@@ -162,7 +166,7 @@ class GameEndChecker
                         }
                     }
                 }
-
+                
                 //中立共同胜利
                 if (Options.NeutralWinTogether.GetBool() && CustomWinnerHolder.WinnerIds.Where(x => Utils.GetPlayerById(x) != null && Utils.GetPlayerById(x).GetCustomRole().IsNeutral()).Count() >= 1)
                 {
