@@ -235,6 +235,7 @@ public class TaskState
             if (player.Is(CustomRoles.Workaholic) && (CompletedTasksCount + 1) >= AllTasksCount
                     && !(Options.WorkaholicCannotWinAtDeath.GetBool() && !player.IsAlive()))
             {
+                Logger.Info("工作狂任务做完了", "Workaholic");
                 RPC.PlaySoundRPC(player.PlayerId, Sounds.KillSound);
                 foreach (var pc in Main.AllAlivePlayerControls)
                 {
