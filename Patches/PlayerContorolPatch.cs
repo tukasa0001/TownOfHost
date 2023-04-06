@@ -630,20 +630,24 @@ class ShapeshiftPatch
                         float dis;
                         foreach (PlayerControl p in Main.AllAlivePlayerControls)
                         {
-                            if (!Options.WarlockCanKillSelf.GetBool() && cp == p) continue;
-                            if (!Options.WarlockCanKillAllies.GetBool() && p.Is(CustomRoles.Impostor)) continue;
+                            if (p.PlayerId == cp.PlayerId) continue;
+                            if (!Options.WarlockCanKillSelf.GetBool() && p.PlayerId == shapeshifter.PlayerId) continue;
+                            if (!Options.WarlockCanKillAllies.GetBool() && p.GetCustomRole().IsImpostor()) continue;
                             dis = Vector2.Distance(cppos, p.transform.position);
                             cpdistance.Add(p, dis);
                             Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "Warlock");
                         }
-                        var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
-                        PlayerControl targetw = min.Key;
-                        if (cp.RpcCheckAndMurder(targetw, true))
+                        if (cpdistance.Count >= 1)
                         {
-                            targetw.SetRealKiller(shapeshifter);
-                            Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
-                            cp.RpcMurderPlayerV3(targetw);//殺す
-                            shapeshifter.RpcGuardAndKill(shapeshifter);
+                            var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
+                            PlayerControl targetw = min.Key;
+                            if (cp.RpcCheckAndMurder(targetw, true))
+                            {
+                                targetw.SetRealKiller(shapeshifter);
+                                Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
+                                cp.RpcMurderPlayerV3(targetw);//殺す
+                                shapeshifter.RpcGuardAndKill(shapeshifter);
+                            }
                         }
                         Main.isCurseAndKill[shapeshifter.PlayerId] = false;
                     }
