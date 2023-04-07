@@ -127,6 +127,7 @@ public static class Judge
 
                 new LateTask(() =>
                 {
+                    Main.PlayerStates[dp.PlayerId].deathReason = PlayerState.DeathReason.Trialed;
                     dp.SetRealKiller(pc);
                     GuessManager.RpcGuesserMurderPlayer(dp);
 

@@ -114,6 +114,7 @@ public class PlayerState
         PissedOff,
         Dismembered,
         LossOfHead,
+        Trialed,
 
         etc = -1
     }

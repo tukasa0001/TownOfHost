@@ -818,6 +818,7 @@ DeathReason.Ashamed,卷死,Ashamed,Пристыженный
 DeathReason.PissedOff,气死,Destroyed,Уничтожен
 DeathReason.Dismembered,肢解,Dismembered,Расчленен
 DeathReason.LossOfHead,绞杀,Strangled,Задушен
+DeathReason.Trialed,审判
 DeathReason.etc,其它,Other,Другое
 Alive,存活,Alive,Выжил
 Win,胜利, Wins, Победили

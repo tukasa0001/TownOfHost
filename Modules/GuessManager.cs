@@ -189,6 +189,7 @@ public static class GuessManager
 
                 new LateTask(() =>
                 {
+                    Main.PlayerStates[dp.PlayerId].deathReason = PlayerState.DeathReason.Gambled;
                     dp.SetRealKiller(pc);
                     RpcGuesserMurderPlayer(dp);
 
@@ -217,7 +218,6 @@ public static class GuessManager
         var amOwner = pc.AmOwner;
         pc.Data.IsDead = true;
         pc.RpcExileV2();
-        Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Gambled;
         Main.PlayerStates[pc.PlayerId].SetDead();
         var meetingHud = MeetingHud.Instance;
         var hudManager = DestroyableSingleton<HudManager>.Instance;
