@@ -422,8 +422,7 @@ namespace TownOfHost
 
             TargetArrow.OnFixedUpdate(player);
 
-            if (GameStates.IsInTask)
-                __instance.GetRoleClass()?.OnFixedUpdate();
+            CustomRoleManager.OnFixedUpdate(player);
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
@@ -465,22 +464,6 @@ namespace TownOfHost
                 {
                     FallFromLadder.FixedUpdate(player);
                 }
-                /*if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId)) //会議後すぐにここの処理をするため不要になったコードです。今後#465で変更した仕様がバグって、ここの処理が必要になった時のために残してコメントアウトしています
-                {
-                    if (main.AirshipMeetingTimer[__instance.PlayerId] >= 9f && !main.AirshipMeetingCheck)
-                    {
-                        main.AirshipMeetingCheck = true;
-                        Utils.CustomSyncAllSettings();
-                    }
-                    if (main.AirshipMeetingTimer[__instance.PlayerId] >= 10f)
-                    {
-                        Utils.AfterMeetingTasks();
-                        main.AirshipMeetingTimer.Remove(__instance.PlayerId);
-                    }
-                    else
-                        main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
-                    }
-                }*/
 
                 if (GameStates.IsInGame) LoversSuicide();
 
@@ -568,15 +551,6 @@ namespace TownOfHost
                 }
                 if (GameStates.IsInTask && player == PlayerControl.LocalPlayer)
                     DisableDevice.FixedUpdate();
-
-                if (GameStates.IsInGame && Main.RefixCooldownDelay <= 0)
-                    foreach (var pc in Main.AllPlayerControls)
-                    {
-                        if (pc.Is(CustomRoles.Vampire) || pc.Is(CustomRoles.Warlock))
-                            Main.AllPlayerKillCooldown[pc.PlayerId] = Options.DefaultKillCooldown * 2;
-                    }
-
-                if (__instance.AmOwner) Utils.ApplySuffix();
             }
             //LocalPlayer専用
             if (__instance.AmOwner)
