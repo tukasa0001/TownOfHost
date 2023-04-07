@@ -109,11 +109,12 @@ public static class Judge
                     Utils.SendMessage(GetString("LaughToWhoTrialSelf"), pc.PlayerId, Utils.ColorString(Color.cyan, GetString("MessageFromDevTitle")));
                     judgeSuicide = true;
                 }
-                else if (pc.Is(CustomRoles.Madmate) && CanTrialMadmate.GetBool()) judgeSuicide = false;
-                else if (pc.GetCustomRole().IsCK() && CanTrialCrewKilling.GetBool()) judgeSuicide = false;
-                else if (pc.GetCustomRole().IsNK() && CanTrialNeutralK.GetBool()) judgeSuicide = false;
-                else if (pc.GetCustomRole().IsNNK() && CanTrialNeutralB.GetBool()) judgeSuicide = false;
-                else if (pc.GetCustomRole().IsImpostor()) judgeSuicide = false;
+                else if (pc.Is(CustomRoles.Madmate)) judgeSuicide = false;
+                else if (target.Is(CustomRoles.Madmate) && CanTrialMadmate.GetBool()) judgeSuicide = false;
+                else if (target.GetCustomRole().IsCK() && CanTrialCrewKilling.GetBool()) judgeSuicide = false;
+                else if (target.GetCustomRole().IsNK() && CanTrialNeutralK.GetBool()) judgeSuicide = false;
+                else if (target.GetCustomRole().IsNNK() && CanTrialNeutralB.GetBool()) judgeSuicide = false;
+                else if (target.GetCustomRole().IsImpostor()) judgeSuicide = false;
                 else judgeSuicide = true;
 
                 var dp = judgeSuicide ? pc : target;
