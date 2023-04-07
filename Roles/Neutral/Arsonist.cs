@@ -31,6 +31,7 @@ public sealed class Arsonist : RoleBase
         DouseCooldown = OptionDouseCooldown.GetFloat();
 
         TargetInfo = null;
+        IsDoused = new(14);
         CustomRoleManager.MarkOthers.Add(GetMarkOthers);
     }
     private static OptionItem OptionDouseTime;
@@ -82,16 +83,15 @@ public sealed class Arsonist : RoleBase
     }
     public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
     {
+        var arsonistId = reader.ReadByte();
         switch (rpcType)
         {
             case CustomRPC.SetDousedPlayer:
-                byte ArsonistId = reader.ReadByte();
                 byte DousedId = reader.ReadByte();
                 bool doused = reader.ReadBoolean();
                 IsDoused[DousedId] = doused;
                 break;
             case CustomRPC.SetCurrentDousingTarget:
-                byte arsonistId = reader.ReadByte();
                 byte dousingTargetId = reader.ReadByte();
                 if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
                     Main.currentDousingTarget = dousingTargetId;
@@ -202,7 +202,7 @@ public sealed class Arsonist : RoleBase
 
         if (IsDousedPlayer(seer, seen)) //seerがtargetに既にオイルを塗っている(完了)
             return Utils.ColorString(RoleInfo.RoleColor, "▲");
-        else if ((arsonist.TargetInfo?.TargetId ?? byte.MaxValue) == seen.PlayerId) //オイルを塗っている対象がtarget
+        else if (!isForMeeting && (arsonist.TargetInfo?.TargetId ?? byte.MaxValue) == seen.PlayerId) //オイルを塗っている対象がtarget
             return Utils.ColorString(RoleInfo.RoleColor, "△");
 
         return "";
