@@ -688,6 +688,7 @@ internal class ChatCommands
             "抹除者" or "抹除" => GetString("Eraser"),
             "肢解者" or "肢解" => GetString("OverKiller"),
             "劊子手" or "侩子手" or "柜子手" => GetString("Hangman"),
+            "陽光開朗大男孩" or "阳光" or "开朗" or "大男孩" or "阳光开朗" or "开朗大男孩" or "阳光大男孩" => GetString("Sunnyboy"),
             "法官" or "审判" => GetString("Judge"),
             "入殮師" or "入检师" or "入殓" => GetString("Mortician"),
             "通靈師" or "通灵" => GetString("Mediumshiper"),
