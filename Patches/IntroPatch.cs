@@ -288,10 +288,8 @@ namespace TownOfHost
                 }
 
                 // そのままだとホストのみDesyncImpostorの暗室内での視界がクルー仕様になってしまう
-                var amDesyncImpostor = PlayerControl.LocalPlayer.GetCustomRole() is
-                    CustomRoles.Sheriff or
-                    CustomRoles.Arsonist or
-                    CustomRoles.Jackal;
+                var roleInfo = PlayerControl.LocalPlayer.GetCustomRole().GetRoleInfo();
+                var amDesyncImpostor = roleInfo?.RequireResetCam == true || Main.ResetCamPlayerList.Contains(PlayerControl.LocalPlayer.PlayerId);
                 if (amDesyncImpostor)
                 {
                     PlayerControl.LocalPlayer.Data.Role.AffectedByLightAffectors = false;
