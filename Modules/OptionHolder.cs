@@ -100,7 +100,6 @@ namespace TownOfHost
         public static OptionItem DoctorTaskCompletedBatteryCharge;
         public static OptionItem SpeedBoosterUpSpeed; //加速値
         public static OptionItem SpeedBoosterTaskTrigger; //効果を発動するタスク完了数
-        public static OptionItem TrapperBlockMoveTime;
         public static OptionItem CanTerroristSuicideWin;
         public static OptionItem ArsonistDouseTime;
         public static OptionItem ArsonistCooldown;
@@ -373,9 +372,6 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Pieces);
             SetupRoleOptions(20700, TabGroup.CrewmateRoles, CustomRoles.Doctor);
             DoctorTaskCompletedBatteryCharge = FloatOptionItem.Create(20710, "DoctorTaskCompletedBatteryCharge", new(0f, 10f, 1f), 5f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Doctor])
-                .SetValueFormat(OptionFormat.Seconds);
-            SetupRoleOptions(20800, TabGroup.CrewmateRoles, CustomRoles.Trapper);
-            TrapperBlockMoveTime = FloatOptionItem.Create(20810, "TrapperBlockMoveTime", new(1f, 180f, 1f), 5f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Trapper])
                 .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
             SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
