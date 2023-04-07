@@ -161,7 +161,8 @@ public static class Divinator
                 CustomRoles.DarkHide or
                 CustomRoles.CursedWolf or
                 CustomRoles.OverKiller or
-                CustomRoles.Hangman
+                CustomRoles.Hangman or
+                CustomRoles.Mortician
                 => "Disturbed",
 
                 CustomRoles.Glitch or
