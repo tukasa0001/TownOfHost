@@ -555,6 +555,7 @@ class MeetingHudStartPatch
         Eraser.OnMeetingStart();
         Hacker.OnMeetingStart();
         Psychic.OnMeetingStart();
+        Judge.OnMeetingStart();
 
         NotifyRoleSkillOnMeetingStart();
     }
@@ -680,6 +681,12 @@ class MeetingHudStartPatch
                     if (!seer.Data.IsDead && !target.Data.IsDead)
                     {
                         pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(seer.Is(CustomRoles.NiceGuesser) ? CustomRoles.NiceGuesser : CustomRoles.EvilGuesser), target.PlayerId.ToString()) + " " + pva.NameText.text;
+                    }
+                    break;
+                case CustomRoles.Judge:
+                    if (!seer.Data.IsDead && !target.Data.IsDead)
+                    {
+                        pva.NameText.text = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Judge), target.PlayerId.ToString()) + " " + pva.NameText.text;
                     }
                     break;
                 case CustomRoles.Medicaler:

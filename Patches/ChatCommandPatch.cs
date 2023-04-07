@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using TOHE.Modules;
+using TOHE.Roles.Crewmate;
 using UnityEngine;
 using static TOHE.Translator;
 
@@ -244,6 +245,7 @@ internal class ChatCommands
         if (text.Length >= 3) if (text[..2] == "/r" && text[..3] != "/rn") args[0] = "/r";
         if (text.Length >= 4) if (text[..3] == "/up") args[0] = "/up";
         if (GuessManager.GuesserMsg(PlayerControl.LocalPlayer, text)) goto Canceled;
+        if (Judge.TrialMsg(PlayerControl.LocalPlayer, text)) goto Canceled;
         if (MafiaMsgCheck(PlayerControl.LocalPlayer, text)) goto Canceled;
         switch (args[0])
         {
@@ -690,6 +692,7 @@ internal class ChatCommands
             "抹除者" or "抹除" => GetString("Eraser"),
             "肢解者" or "肢解" => GetString("OverKiller"),
             "劊子手" or "侩子手" or "柜子手" => GetString("Hangman"),
+            "法官" or "审判" => GetString("Judge"),
             _ => text,
         };
     }
@@ -702,7 +705,6 @@ internal class ChatCommands
         if ((TranslationController.InstanceExists ? TranslationController.Instance.currentLanguage.languageID : SupportedLangs.SChinese) == SupportedLangs.SChinese)
         {
             Regex r = new("[\u4e00-\u9fa5]+$");
-            bool ismatch = r.IsMatch(name);
             MatchCollection mc = r.Matches(name);
             string result = string.Empty;
             for (int i = 0; i < mc.Count; i++)
@@ -799,6 +801,7 @@ internal class ChatCommands
         string subArgs = "";
         if (text.Length >= 3) if (text[..2] == "/r" && text[..3] != "/rn") args[0] = "/r";
         if (GuessManager.GuesserMsg(player, text)) return;
+        if (Judge.TrialMsg(player, text)) return;
         if (MafiaMsgCheck(player, text)) return;
         if (ProhibitedCheck(player, text)) return;
         switch (args[0])

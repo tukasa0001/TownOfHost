@@ -12,6 +12,8 @@ using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
 using static TOHE.Modules.CustomRoleSelector;
 using static TOHE.Translator;
+using static UnityEngine.GraphicsBuffer;
+
 namespace TOHE;
 
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame))]
@@ -188,6 +190,7 @@ internal class ChangeRoleSettings
             Hacker.Init();
             Psychic.Init();
             Hangman.Init();
+            Judge.Init();
             SoloKombatManager.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
@@ -491,6 +494,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.Hangman:
                         Hangman.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Judge:
+                        Judge.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())

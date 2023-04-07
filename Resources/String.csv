@@ -122,6 +122,7 @@ Grenadier,掷雷兵,Grenadier,Гренадёр
 Medicaler,医生,Medic,Медик
 Divinator,占卜师,Fortune Teller,Гадалка
 Glitch,活死人,The Glitch,Глитч
+Judge,法官
 
 # 中立阵营 / Neutrals
 Jester,小丑,Jester,Джестер
@@ -260,6 +261,7 @@ GrenadierInfo,投掷傻瓜蛋！！,Blind the Impostors,Ослепите Пре�
 MedicalerInfo,好像有必要治一治你？,Protect the Crew,Защитите Члена Экипажа
 DivinatorInfo,水晶球球，求求了,Check people by voting them,Проверяй игроков голосуя за них
 GlitchInfo,wDJwFPMNMm,wDJwFPMNMm,wDJwFPMNMm
+JudgeInfo,接着奏乐，接着审~
 
 # 中立阵营 / Neutral descriptions
 ArsonistInfo,乖乖站好！,Burn them to crisps,Облейте и подожгите всех игроков
@@ -381,6 +383,7 @@ GrenadierInfoLong,(船员阵营):\n掷雷兵可以通过使用通风管道使用
 MedicalerInfoLong,(船员阵营):\n医生可以通过使用击杀按键给目标发放一个护盾，若护盾发放成功则医生会看到目标身上出现护盾破碎动画作为提示，同时目标的名字旁会显示一个蓝色的「●」（仅医生可见）。医生可以发放护盾的数量会显示在医生的名字旁的括号内。每位玩家最多只能持有一个来自医生的护盾。根据房主设定目标可能可以看到自己是否持有护盾（显示在名字旁的蓝色「●」）。,"(Crewmates):\nMedic can create a shield, by using the kill button. If the shield is destroyed, Medic will see the shield breaking animation on the target as a reminder, and a blue circle will be displayed next to the target's name colored circle (visible only for Medic). The amount of shields a Medic is shown in brackets next to the Medic's name. Each player can hold at most one shield from Medic. Depending on the host setting the target may be able to see if they have a shield (shown in a blue circle next to their name).","(Член Экипажа):\nМедик может наложить на цель щит, нажав кнопку ''Убить''. Если щит снят, Медик увидит анимацию разрушения щита на цели в качестве напоминания, и синий кружек появится рядом с именем цели (виден только для Медика). Количество щитов, которые может дать Медик, написано в скобках рядом с именем Медика. Каждый игрок может иметь не более одного щита от Медика. В зависимости от настроек хоста цель может видеть, есть ли у нее щит (показан синим кружком рядом с ее именем)."
 DivinatorInfoLong,(船员阵营):\n占卜师可以通过在会议上投票给一位玩家以获得该玩家的相关信息，信息与该玩家的主职业关联。若占卜师完成所有任务，占卜时可以直接知道该玩家的具体职业。占卜师每次会议只能占卜一次，占卜次数根据房主设定。,"(Crewmates):\nA Fortune Teller can vote for a player at the meeting to obtain relevant information about the player, and the information is associated with the player's main occupation. Fortune Teller can only do one fortune-telling per meeting, and the number of fortune-tellings is set by the host.","(Член Экипажа):\nГадалка может проголосовать за игрока на собрании, чтобы получить актуальную информацию об игроке, и эта информация связана с основным занятием игрока. Гадалка может сделать только одно гадание за встречу, а количество гаданий устанавливает хост."
 GlitchInfoLong,(船员阵营):\n模组的程序不会将活死人视为存活状态，不过我不知道这样会导致什么。,"(Crewmates):\nThe Glitch doesn't treat the living dead as living, but I don't know where that will lead","(Член Экипажа):\nГлитч не рассматривает живых мертвецов как живых, но я не знаю, к чему это приведет."
+JudgeInfoLong,(船员阵营):\n法官可以在会议时审判某位玩家的，若目标为邪恶则击杀目标（是否邪恶根据房主设定），错误则会自杀。\n猜测指令为：/tl [玩家编号] [职业名]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。
 
 # 中立阵营 / Neutrals descriptions
 ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎的动画作为提示（仅自己可见）。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油。,"(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(Нейтрал):\nПоджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя."
@@ -703,7 +706,7 @@ TimeManagerLimitMeetingTime,会议时长上限,Increase limit,Лимит уве�
 AssignOnlyTo%role%,只有%role%会成为加班狂,"Assign Only To %role%","Назначить только для %role%"
 WorkhorseNumLongTasks,额外的长任务数,"Additional Long Tasks","Дополнительные долгие задания"
 WorkhorseNumShortTasks,额外的短任务数,"Additional Short Tasks","Дополнительные короткие задания"
-InnocentCanWinByImp,冤罪师栽赃<color=#ff1919>内鬼</color>时可以获胜,If his target was the <color=#ff1919>Impostor</color> then he win with him,Если его цель был <color=#ff1919>Предателем</color> то он победит вместе с ним
+InnocentCanWinByImp,栽赃<color=#ff1919>内鬼</color>时可以获胜,If his target was the <color=#ff1919>Impostor</color> then he win with him,Если его цель был <color=#ff1919>Предателем</color> то он победит вместе с ним
 CapitalismSkillCooldown,技能使用冷却,Skill cooldown,Откат навыка
 ImpCanBeAvanger,<color=#ff1919>内鬼</color>可以成为复仇者,<color=#ff1919>Impostor</color> can become an Avenger,<color=#ff1919>Предатель</color> может стать Мстителем
 ImpCanBeDualPersonality,<color=#ff1919>内鬼</color>可以成为双重人格,<color=#ff1919>Impostors</color> can become Schizophrenic,<color=#ff1919>Предатели</color> могут стать Шизофреником
@@ -731,16 +734,16 @@ RevolutionistDrawCount,需要拉拢人数,Number of players he needs to tag,Ко
 RevolutionistKillProbability,被拉拢玩家牺牲概率,Probability of successful retention,Вероятность успешного удерживания
 RevolutionistVentCountDown,达到胜利条件后跳管道时间限制,To enter vent he is given:,Чтобы прыгнуть в вентиляцию ему даётся:
 PelicanKillCooldown,吞人冷却时间,Cooldown Absorption,Откат поглощения
-SheriffCanBeMadmate,<color=#f8cd46>警长</color>可以成为叛徒,<color=#f8cd46>Sheriff</color> can become Madmate,<color=#f8cd46>Шериф</color> может стать <color=#ff1919>Безумцем</color>
-MayorCanBeMadmate,<color=#204d42>市长</color>可以成为叛徒,<color=#204d42>Mayor</color> can become Madmate,<color=#204d42>Мэр</color> может стать <color=#ff1919>Безумцем</color>
-NGuesserCanBeMadmate,<color=#eede26>正义赌怪</color>可以成为叛徒,<color=#eede26>Nice Guesser</color> can become Madmate,<color=#eede26>Добрый Угадыватель</color> может стать <color=#ff1919>Безумцем</color>
-SnitchCanBeMadmate,<color=#b8fb4f>告密者</color>可以成为叛徒
+SheriffCanBeMadmate,<color=#f8cd46>警长</color>可以成为<color=#ff1919>叛徒</color>,<color=#f8cd46>Sheriff</color> can become Madmate,<color=#f8cd46>Шериф</color> может стать <color=#ff1919>Безумцем</color>
+MayorCanBeMadmate,<color=#204d42>市长</color>可以成为<color=#ff1919>叛徒</color>,<color=#204d42>Mayor</color> can become Madmate,<color=#204d42>Мэр</color> может стать <color=#ff1919>Безумцем</color>
+NGuesserCanBeMadmate,<color=#eede26>正义赌怪</color>可以成为<color=#ff1919>叛徒</color>,<color=#eede26>Nice Guesser</color> can become Madmate,<color=#eede26>Добрый Угадыватель</color> может стать <color=#ff1919>Безумцем</color>
+SnitchCanBeMadmate,<color=#b8fb4f>告密者</color>可以成为<color=#ff1919>叛徒</color>
 MadSnitchTasks,背叛的告密者的任务数,<color=#b8fb4f>Snitch</color> Tasks,Задания <color=#b8fb4f>Стукача</color> 
 MedicalerCooldown,发放护盾冷却时间,Shield Cooldown,Откат Щита
 MedicalerSkillLimit,发放护盾次数上限,Skill Limit,Лимит Способности
 MedicalerTargetCanSeeProtect,玩家可以知道自己是否持有护盾,Target can see Protection,Цель может видеть Защиту
 DivinatorSkillLimit,占卜次数上限,Skill Limit,Лимит Способности
-MadmateSpawnMode,叛徒生成模式,Spawn Mode Madmate,Режим появления Безумца
+MadmateSpawnMode,<color=#ff1919>叛徒</color>生成模式,Spawn Mode Madmate,Режим появления Безумца
 MadmateSpawnMode.Assign,开局分配,Assign,Назначать
 MadmateSpawnMode.FirstKill,首刀叛变,First Kill,Первое Убийство
 MadmateSpawnMode.SelfVote,自票叛变,Self Vote,Само Голос
@@ -752,7 +755,7 @@ GamerSelfDamage,受到的伤害值,Demon damage received,Полученная в
 BallLightningConvertTime,汽化为量子幽灵的延迟,Duration of the transformation in Quantum Ghost,Длительность превращения в Квантового Призрака
 BallLightningKillCooldown,汽化冷却时间,Lightning Cooldown,Откат молнии
 BallLightningKillerConvertGhost,被击杀时凶手汽化为量子幽灵,Killer can transformation in quantum ghost,Убийца может превратиться в квантового призрака
-CanCountNeutralKiller,当<color=#8cffff>船员</color>通过击杀中立玩家胜利时可以抢夺胜利,"When <color=#8cffff>Crewmates</color> win by killing a neutral player, they can snatch victory","Когда <color=#8cffff>Члены Экипажа</color> побеждают убив нейтрального игрока, они могут вырвать победу"
+CanCountNeutralKiller,当<color=#8cffff>船员</color>通过击杀<color=#ffab1b>中立</color>玩家胜利时可以抢夺胜利,"When <color=#8cffff>Crewmates</color> win by killing a neutral player, they can snatch victory","Когда <color=#8cffff>Члены Экипажа</color> побеждают убив нейтрального игрока, они могут вырвать победу"
 OddKillCooldown,单数击杀冷却时间,Odd kill cooldown,Откат Нечётного убийства
 EvenKillCooldown,双数击杀冷却时间,Even kill cooldown,Откат Чётного убийства
 WorkaholicCannotWinAtDeath,死亡后无法胜利,Doesn't win at death,Не может победить когда он мёртв
@@ -775,6 +778,12 @@ KB_RecoverAfterSecond,脱离战斗几秒后开始回复血量,Recover Cooldown,�
 KB_RecoverPerSecond,每秒回复血量,Recover Per Second,Восстановления каждую секунду
 KB_ResurrectionWaitingTime,死亡后复活等待时间,Resurrection waiting time,Время возрождения
 KB_KillBonusMultiplier,击杀奖励倍率,Kill bonus multiplier,Множитель бонуса за убийство
+JudgeTryHideMsg,尝试混淆法官指令（试验性）
+TrialLimitPerMeeting,每次会议审判次数上限
+JudgeCanTrialMadmate,可以审判<color=#ff1919>叛徒</color>
+JudgeCanTrialnCrewKilling,可以审判带刀<color=#8cffff>船员</color>
+JudgeCanTrialNeutralB,可以审判无刀<color=#ffab1b>中立</color>
+JudgeCanTrialNeutralK,可以审判带刀<color=#ffab1b>中立</color>
 
 ## 死因 / Death Reasons
 DeathReason.Kill,被杀,Kill,Убит
@@ -849,11 +858,17 @@ GuessSuperStar,大明星才不会和你赌博，选个别的目标吧？,"Super 
 GuessGM,能想出这个也是把你闲的,"Being able to guess the GM is impossible, because he's already dead","Угадать GM невозможно, потому что он уже и так мертв"
 GuessAdtRole,很抱歉，该房设置不允许猜测附加职业,"Unfortunately, the Host settings do not allow you to guess add-ons","К сожалению, настройки Хоста не позволяют угадывать Атрибуты"
 GuessKill,很遗憾，【{0}】\n在赌局中失利了,Player: [{0}] \nwas guessed,Игрок: [{0}] \nбыл угадан
-GuessNull,请选择一个在场的存活角色进行赌注,"Please select an ID of a alive player to guess their role","Пожалуйста, выберите индификатор присутствующего выжившего игрока, чтобы угадать его роль"
+GuessNull,请选择一个在场的存活角色进行猜测,"Please select an ID of a alive player to guess their role","Пожалуйста, выберите индификатор присутствующего выжившего игрока, чтобы угадать его роль"
 GuessHelp,指令格式：/bt [玩家编号] [职业名]\n示例：/bt 3 告密者\n您可以在玩家的名字前看到该玩家的编号\n或者使用/id查看玩家编号列表,"Instructions: /bt [Player ID] [Role Name] \nExample: /bt 3 Bait \nYou can see the player ID before the player name \n or use the /id command to list the player IDs","Инструкция: /bt [Идентификатор игрока] [Название Роли] \nПример: /bt 3 Байт \nВы можете увидеть идентификатор игрока перед именем игрока \nили использовав команду /id для просмотра списка идентификаторов игроков"
 GGGuessMax,您已达到每次会议猜测次数上限\n不能再猜测啦！,"You've reached the maximum guessing limit for each encounter, you can't guess anymore!","Вы достигли максимального предела угадывания для каждой встречи, вы больше не можете угадывать!"
 EGGuessMax,您已达到每次会议猜测次数上限\n不能再猜测啦！,"You've reached the maximum guessing limit for each encounter, you can't guess anymore!","Вы достигли максимального предела угадывания для каждой встречи, вы больше не можете угадывать!"
 LaughToWhoGuessSelf,有一说一，你是懂赌怪的,"Try to guess, who tried to self-guessed! It's you! Ahah!","Попробуйте угадать, кто попытался себя угадать! Это ты! Ахах!"
+JudgeDead,很抱歉，死亡后不能进行审判
+JudgeTrialMax,您已达到每次会议审判次数上限\n不能再审判啦！
+LaughToWhoTrialSelf,哈哈哈，请问您在传承赌怪的行为艺术吗？
+TrialKill,很遗憾，【{0}】\n被法治社会抛弃了~
+TrialHelp,指令格式：/tl [玩家编号]\n您可以在玩家的名字前看到该玩家的编号\n或者使用/id查看玩家编号列表,
+TrialNull,请选择一个在场的存活角色进行审判,
 MimicDeadMsg,来自宝箱怪的线索：,Mimic's hint:,Подсказка от Мимика:
 DivinatorCheck,您透过水晶球发现：,"You're looking through a crystal ball","Ты смотришь сквозь хрустальный шар"
 DivinatorCheckLimit,提示：剩余【{0}】次占卜机会,"Reminder: You have 【{0}】 guesses left","Напоминание: У тебя осталось 【{0}】 угадываний"
@@ -944,6 +959,7 @@ MessageFromDevTitle,【 ★ 咔皮呆留言 ★ 】,【 ★ Self-Guessing ★ �
 DivinatorCheckMsgTitle,【 ★ 水晶球 ★ 】,【 ★ Crystall Ball ★ 】,【 ★ Хрустальный Шар ★ 】
 MimicMsgTitle,【 ★ 宝箱怪 ★ 】,【 ★ Mimic ★ 】,【 ★ Мимик ★ 】
 EraserEraseMsgTitle,【 ★ 抹除者 ★ 】,【 ★ Eraser ★ 】,【 ★ Стирачка ★ 】
+TrialKillTitle,【 ★ 法院事件 ★ 】
 TabGroup.SystemSettings,系统设置,System Settings,Системные настройки
 TabGroup.GameSettings,游戏设置,Game Settings,Игровые настройки
 TabGroup.CrewmateRoles,船员阵营职业,Crewmate Roles,Роли Членов Экипажа

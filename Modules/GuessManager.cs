@@ -290,7 +290,6 @@ public static class GuessManager
         if (msg.StartsWith("/")) msg = msg.Replace("/", string.Empty);
 
         Regex r = new("\\d+");
-        bool ismatch = r.IsMatch(msg);
         MatchCollection mc = r.Matches(msg);
         string result = string.Empty;
         for (int i = 0; i < mc.Count; i++)
@@ -314,11 +313,8 @@ public static class GuessManager
         }
 
         //判断选择的玩家是否合理
-        bool targetIsNull = false;
-        PlayerControl target = new();
-        try { target = Utils.GetPlayerById(id); }
-        catch { targetIsNull = true; }
-        if (targetIsNull || target == null || target.Data.IsDead)
+        PlayerControl target = Utils.GetPlayerById(id);
+        if (target == null || target.Data.IsDead)
         {
             error = GetString("GuessNull");
             role = new();

@@ -305,6 +305,7 @@ public class Main : BasePlugin
                 {CustomRoles.Medicaler, "#00a4ff"},
                 {CustomRoles.Divinator, "#882c83"},
                 {CustomRoles.Glitch, "#dcdcdc"},
+                {CustomRoles.Judge, "#f8d85a"},
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
@@ -465,6 +466,7 @@ public enum CustomRoles
     Medicaler,
     Divinator,
     Glitch,
+    Judge,
     //Neutral
     Arsonist,
     Jester,

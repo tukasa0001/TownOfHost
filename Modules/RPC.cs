@@ -637,6 +637,9 @@ internal static class RPC
             case CustomRoles.Hangman:
                 Hangman.Add(targetId);
                 break;
+            case CustomRoles.Judge:
+                Judge.Add(targetId);
+                break;
         }
         HudManager.Instance.SetHudActive(true);
         if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();

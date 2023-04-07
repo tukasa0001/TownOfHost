@@ -1104,6 +1104,13 @@ public static class Utils
                             TargetPlayerName = ColorString(GetRoleColor(seer.Is(CustomRoles.NiceGuesser) ? CustomRoles.NiceGuesser : CustomRoles.EvilGuesser), target.PlayerId.ToString()) + " " + TargetPlayerName;
                         }
                     }
+                    if (seer.Is(CustomRoles.Judge))
+                    {
+                        if (seer.IsAlive() && target.IsAlive() && isForMeeting)
+                        {
+                            TargetPlayerName = ColorString(GetRoleColor(CustomRoles.Judge), target.PlayerId.ToString()) + " " + TargetPlayerName;
+                        }
+                    }
 
                     //ターゲットのプレイヤー名の色を書き換えます。
                     TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isForMeeting);
