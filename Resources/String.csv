@@ -484,7 +484,7 @@ GhostIgnoreTasks,幽灵没有任务,Ghosts Exempt From Tasks,Призраки и
 DisableTaskWin,禁用任务胜利,Disable Task Win,Отключить победу по Заданиям
 HideGameSettings,隐藏游戏设置,Hide Game Settings,Скрыть настройки Игры
 DIYGameSettings,显示自定义的/n消息,Enable only custom /n messages,Включить только пользовательские /n сообщения
-PlayerCanSerColor,允许玩家使用/color指令,"Players can use the /color command",Игроки могут использовать команду /color
+PlayerCanSetColor,允许玩家使用/color指令,"Players can use the /color command",Игроки могут использовать команду /color
 RoleOptions,职业设置,Role Options,Настройка Ролей
 ModeOptions,模组设置,Mode Options,Настройка Режима
 AutoStart,人满自动开始,Auto start at full lobby,Авто. запуск игры при полном лобби

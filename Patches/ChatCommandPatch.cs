@@ -872,7 +872,7 @@ internal class ChatCommands
 
             case "/colour":
             case "/color":
-                if (Options.PlayerCanSerColor.GetBool())
+                if (Options.PlayerCanSetColor.GetBool())
                 {
                     subArgs = args.Length < 2 ? "" : args[1];
                     var color = Utils.MsgToColor(subArgs);
