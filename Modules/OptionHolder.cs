@@ -130,6 +130,7 @@ public static class Options
     public static OptionItem ShapeMasterShapeshiftDuration;
     public static OptionItem EGCanGuessImp;
     public static OptionItem EGCanGuessAdt;
+    public static OptionItem EGCanGuessTaskDoneSnitch;
     public static OptionItem EGCanGuessTime;
     public static OptionItem EGTryHideMsg;
     public static OptionItem WarlockCanKillAllies;
@@ -503,6 +504,7 @@ public static class Options
             .SetValueFormat(OptionFormat.Times);
         EGCanGuessImp = BooleanOptionItem.Create(901069, "EGCanGuessImp", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
         EGCanGuessAdt = BooleanOptionItem.Create(901073, "EGCanGuessAdt", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+        EGCanGuessTaskDoneSnitch = BooleanOptionItem.Create(901075, "EGCanGuessTaskDoneSnitch", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
         EGTryHideMsg = BooleanOptionItem.Create(901071, "GuesserTryHideMsg", true, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.EvilGuesser])
             .SetColor(Color.green);
         BountyHunter.SetupCustomOption();

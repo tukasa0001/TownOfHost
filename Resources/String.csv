@@ -602,10 +602,11 @@ NeutralRolesMaxPlayer,<color=#ffab1b>中立阵营</color>玩家数量上限,Maxi
 ImpKnowAlliesRole,<color=#ff1919>内鬼</color>知道队友的职业,<color=#ff1919>Impostor</color> may know the roles of other <color=#ff1919>impostors</color>,<color=#ff1919>Предатель</color> может знать роли других <color=#ff1919>Предателей</color>
 WarlockCanKillAllies,可以击杀<color=#ff1919>内鬼</color>,Can kill Crewmate,Может убивать Членов Экипажа
 WarlockCanKillSelf,可以击杀自己,Can kill Self,Может убить себя
-EGCanGuessImp,邪恶赌怪可以猜测<color=#ff1919>内鬼</color>,Can Guess role <color=#ff1919>Impostors</color>,Может угадывать роли <color=#ff1919>Предателей</color>
-GGCanGuessCrew,正义赌怪可以猜测<color=#8cffff>船员</color>,Can Guess role <color=#8cffff>Crewmate</color>,Может угадывать роли <color=#8cffff>Членов Экипажа</color>
-EGCanGuessAdt,邪恶赌怪可以猜测附加职业,Can Guess Add-ons,Может угадывать Атрибуты
-GGCanGuessAdt,正义赌怪可以猜测附加职业,Can Guess Add-ons,Может угадывать Атрибуты
+EGCanGuessImp,可以猜测<color=#ff1919>内鬼</color>,Can Guess role <color=#ff1919>Impostors</color>,Может угадывать роли <color=#ff1919>Предателей</color>
+GGCanGuessCrew,可以猜测<color=#8cffff>船员</color>,Can Guess role <color=#8cffff>Crewmate</color>,Может угадывать роли <color=#8cffff>Членов Экипажа</color>
+EGCanGuessAdt,可以猜测附加职业,Can Guess Add-ons,Может угадывать Атрибуты
+EGCanGuessTaskDoneSnitch,可以猜测完成任务的<color=#b8fb4f>告密者</color>
+GGCanGuessAdt,可以猜测附加职业,Can Guess Add-ons,Может угадывать Атрибуты
 GuesserCanGuessTimes,每次会议猜测次数上限,Maximum number of guesses,Максимальное количество угадываний
 GuesserTryHideMsg,尝试混淆赌怪指令（试验性）,Can confuse players in guessing (Experiment),Может запутать игроков в угадывании (Эксперимент)
 BountyTargetChangeTime,赏金目标切换时间,Time Until Target Swaps,Время смены цели
@@ -870,6 +871,7 @@ GuessNull,请选择一个在场的存活角色进行猜测,"Please select an ID 
 GuessHelp,指令格式：/bt [玩家编号] [职业名]\n示例：/bt 3 告密者\n您可以在玩家的名字前看到该玩家的编号\n或者使用/id查看玩家编号列表,"Instructions: /bt [Player ID] [Role Name] \nExample: /bt 3 Bait \nYou can see the player ID before the player name \n or use the /id command to list the player IDs","Инструкция: /bt [Идентификатор игрока] [Название Роли] \nПример: /bt 3 Байт \nВы можете увидеть идентификатор игрока перед именем игрока \nили использовав команду /id для просмотра списка идентификаторов игроков"
 GGGuessMax,您已达到每次会议猜测次数上限\n不能再猜测啦！,"You've reached the maximum guessing limit for each encounter, you can't guess anymore!","Вы достигли максимального предела угадывания для каждой встречи, вы больше не можете угадывать!"
 EGGuessMax,您已达到每次会议猜测次数上限\n不能再猜测啦！,"You've reached the maximum guessing limit for each encounter, you can't guess anymore!","Вы достигли максимального предела угадывания для каждой встречи, вы больше не можете угадывать!"
+EGGuessSnitchTaskDone,很抱歉，该房设置不允许猜测完成任务的告密者
 LaughToWhoGuessSelf,有一说一，你是懂赌怪的,"Try to guess, who tried to self-guessed! It's you! Ahah!","Попробуйте угадать, кто попытался себя угадать! Это ты! Ахах!"
 JudgeDead,很抱歉，死亡后不能进行审判
 JudgeTrialMax,您已达到每次会议审判次数上限\n不能再审判啦！
