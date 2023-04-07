@@ -52,7 +52,8 @@ public class SimpleRoleInfo
             };
         RoleColorCode = colorCode;
 
-        RoleColor = Utils.GetRoleColor(roleName);
+        ColorUtility.DoTryParseHtmlColor(colorCode, out var color);
+        RoleColor = color;
 
         if (tab == TabGroup.MainSettings)
             tab = CustomRoleType switch
