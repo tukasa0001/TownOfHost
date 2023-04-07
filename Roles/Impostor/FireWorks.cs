@@ -6,7 +6,6 @@ using UnityEngine;
 using AmongUs.GameOptions;
 using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
-using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.Impostor;
 
