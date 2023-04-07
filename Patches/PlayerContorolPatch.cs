@@ -898,6 +898,7 @@ class ReportDeadBodyPatch
             Pelican.OnReportDeadBody();
             Concealer.OnReportDeadBody();
             Mortician.OnReportOnReportDeadBody(__instance, target);
+            Mediumshiper.OnReportOnReportDeadBody(__instance, target);
 
             foreach (var x in Main.RevolutionistStart)
             {

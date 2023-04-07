@@ -647,6 +647,9 @@ internal static class RPC
             case CustomRoles.Mortician:
                 Mortician.Add(targetId);
                 break;
+            case CustomRoles.Mediumshiper:
+                Mediumshiper.Add(targetId);
+                break;
         }
         HudManager.Instance.SetHudActive(true);
         if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();

@@ -529,10 +529,30 @@ class MeetingHudStartPatch
                     new LateTask(() =>
                     {
                         Utils.SendMessage(msg.Item2, msg.Item1, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mortician), GetString("MorticianCheckTitle")));
-                    }, 5.0f, "Notice God Alive");
+                    }, 5.0f, "Notice Mortician Skill");
                     break;
                 }
                 Mortician.msgToSend.RemoveAll(x => x.Item1 == pc.PlayerId);
+            }
+            //通灵师目标的技能提示
+            if (Mediumshiper.ContactPlayer.ContainsKey(pc.PlayerId))
+            {
+                new LateTask(() =>
+                {
+                    var msPlayer = Utils.GetPlayerById(Mediumshiper.ContactPlayer[pc.PlayerId]);
+                    if (msPlayer != null)
+                        Utils.SendMessage(string.Format(GetString("MediumshipNotifyTarget"), msPlayer.GetRealName()), pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mediumshiper), GetString("MediumshipTitle")));
+                }, 5.0f, "Notice Mediumshiper Target Skill");
+            }
+            //通灵师自己的技能提示
+            if (Mediumshiper.ContactPlayer.ContainsValue(pc.PlayerId))
+            {
+                new LateTask(() =>
+                {
+                    var msPlayer = Utils.GetPlayerById(Mediumshiper.ContactPlayer.Where(x => x.Value == pc.PlayerId).FirstOrDefault().Key);
+                    if (msPlayer != null)
+                        Utils.SendMessage(string.Format(GetString("MediumshipNotifySelf"), msPlayer.GetRealName()), pc.PlayerId, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mediumshiper), GetString("MediumshipTitle")));
+                }, 5.0f, "Notice Mediumshiper Skill");
             }
         }
         if (MimicMsg != "")
@@ -805,7 +825,7 @@ class MeetingHudOnDestroyPatch
             Main.DetectiveNotify.Clear();
             Main.LastVotedPlayerInfo = null;
             EAC.MeetingTimes = 0;
-
+            Mediumshiper.ContactPlayer.Clear();
             Eraser.OnMeetingDestroy();
         }
     }

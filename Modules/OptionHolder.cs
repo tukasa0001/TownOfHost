@@ -620,6 +620,7 @@ public static class Options
         Divinator.SetupCustomOption();
         Judge.SetupCustomOption();
         Mortician.SetupCustomOption();
+        Mediumshiper.SetupCustomOption();
 
         // Neutral
         SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);

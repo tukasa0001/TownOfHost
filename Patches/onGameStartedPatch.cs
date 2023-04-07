@@ -193,6 +193,7 @@ internal class ChangeRoleSettings
             Hangman.Init();
             Judge.Init();
             Mortician.Init();
+            Mediumshiper.Init();
             SoloKombatManager.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
@@ -502,6 +503,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.Mortician:
                         Mortician.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Mediumshiper:
+                        Mediumshiper.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())

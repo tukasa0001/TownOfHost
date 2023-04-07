@@ -85,7 +85,7 @@ public static class Mortician
     }
     public static void OnReportOnReportDeadBody(PlayerControl pc, GameData.PlayerInfo target)
     {
-        if (!pc.Is(CustomRoles.Mortician)) return;
+        if (!pc.Is(CustomRoles.Mortician) || target == null) return;
         lastPlayerName.TryGetValue(target.PlayerId, out var name);
         if (name == "") msgToSend.Add((pc.PlayerId, string.Format(Translator.GetString("MorticianGetNoInfo"), target.PlayerName)));
         else msgToSend.Add((pc.PlayerId, string.Format(Translator.GetString("MorticianGetInfo"), target.PlayerName, name)));

@@ -246,6 +246,7 @@ internal class ChatCommands
         if (text.Length >= 4) if (text[..3] == "/up") args[0] = "/up";
         if (GuessManager.GuesserMsg(PlayerControl.LocalPlayer, text)) goto Canceled;
         if (Judge.TrialMsg(PlayerControl.LocalPlayer, text)) goto Canceled;
+        if (Mediumshiper.MsMsg(PlayerControl.LocalPlayer, text)) goto Canceled;
         if (MafiaMsgCheck(PlayerControl.LocalPlayer, text)) goto Canceled;
         switch (args[0])
         {
@@ -362,11 +363,6 @@ internal class ChatCommands
                 case "/r":
                     canceled = true;
                     subArgs = text.Remove(0, 2);
-                    if (subArgs.Trim() is "赌怪" or "賭怪")
-                    {
-                        Utils.SendMessage(GetString("GuesserInfoLong"), PlayerControl.LocalPlayer.PlayerId);
-                        break;
-                    }
                     SendRolesInfo(subArgs, 255, PlayerControl.LocalPlayer.FriendCode.GetDevUser().IsDev);
                     break;
 
@@ -693,6 +689,8 @@ internal class ChatCommands
             "肢解者" or "肢解" => GetString("OverKiller"),
             "劊子手" or "侩子手" or "柜子手" => GetString("Hangman"),
             "法官" or "审判" => GetString("Judge"),
+            "入殮師" or "入检师" or "入殓" => GetString("Mortician"),
+            "通靈師" or "通灵" => GetString("Mediumshiper"),
             _ => text,
         };
     }
@@ -802,6 +800,7 @@ internal class ChatCommands
         if (text.Length >= 3) if (text[..2] == "/r" && text[..3] != "/rn") args[0] = "/r";
         if (GuessManager.GuesserMsg(player, text)) return;
         if (Judge.TrialMsg(player, text)) return;
+        if (Mediumshiper.MsMsg(player, text)) return;
         if (MafiaMsgCheck(player, text)) return;
         if (ProhibitedCheck(player, text)) return;
         switch (args[0])
@@ -830,17 +829,11 @@ internal class ChatCommands
 
             case "/r":
                 subArgs = text.Remove(0, 2);
-                if (subArgs.Trim() is "赌怪" or "賭怪")
-                {
-                    Utils.SendMessage(GetString("GuesserInfoLong"), player.PlayerId);
-                    break;
-                }
                 SendRolesInfo(subArgs, player.PlayerId, player.FriendCode.GetDevUser().IsDev);
                 break;
 
             case "/h":
             case "/help":
-                subArgs = args.Length < 2 ? "" : args[1];
                 Utils.ShowHelpToClient(player.PlayerId);
                 break;
 
@@ -893,7 +886,9 @@ internal class ChatCommands
             case "/quit":
             case "/qt":
                 subArgs = args.Length < 2 ? "" : args[1];
-                if (subArgs.Equals(player.PlayerId.ToString()))
+                var cid = player.PlayerId.ToString();
+                cid = cid.Length != 1 ? cid.Substring(1, 1) : cid;
+                if (subArgs.Equals(cid))
                 {
                     string name = player.GetRealName();
                     Utils.SendMessage(string.Format(GetString("Message.PlayerQuitForever"), name));
@@ -901,7 +896,7 @@ internal class ChatCommands
                 }
                 else
                 {
-                    Utils.SendMessage(string.Format(GetString("SureUse.quit"), player.PlayerId.ToString()), player.PlayerId);
+                    Utils.SendMessage(string.Format(GetString("SureUse.quit"), cid), player.PlayerId);
                 }
                 break;
 

@@ -307,6 +307,7 @@ public class Main : BasePlugin
                 {CustomRoles.Glitch, "#dcdcdc"},
                 {CustomRoles.Judge, "#f8d85a"},
                 {CustomRoles.Mortician, "#333c49"},
+                {CustomRoles.Mediumshiper, "#a200ff"},
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
@@ -469,6 +470,7 @@ public enum CustomRoles
     Glitch,
     Judge,
     Mortician,
+    Mediumshiper,
     //Neutral
     Arsonist,
     Jester,
