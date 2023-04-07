@@ -118,7 +118,6 @@ namespace TownOfHost.Modules
                     opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                     break;
                 case CustomRoles.Sheriff:
-                case CustomRoles.Arsonist:
                     opt.SetVision(false);
                     break;
                 case CustomRoles.Lighter:

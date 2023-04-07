@@ -389,7 +389,6 @@ namespace TownOfHost
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Mafia => Utils.CanMafiaKill(),
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
-                CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
                 _ => roleClassCanUse ?? pc.Is(CustomRoleTypes.Impostor)
             };
@@ -403,17 +402,9 @@ namespace TownOfHost
                 CustomRoles.Sheriff => false,
                 CustomRoles.Egoist => true,
                 CustomRoles.Jackal => Jackal.CanVent.GetBool(),
-                CustomRoles.Arsonist => pc.IsDouseDone(),
+                CustomRoles.Arsonist => Arsonist.IsDouseDone(pc),
                 _ => pc.Is(CustomRoleTypes.Impostor),
             };
-        }
-        public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
-        {
-            if (arsonist == null) return false;
-            if (target == null) return false;
-            if (Main.isDoused == null) return false;
-            Main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
-            return isDoused;
         }
         public static void RpcSetDousedPlayer(this PlayerControl player, PlayerControl target, bool isDoused)
         {
@@ -433,9 +424,6 @@ namespace TownOfHost
                     break;
                 case CustomRoles.TimeThief:
                     TimeThief.SetKillCooldown(player.PlayerId); //タイムシーフはタイムシーフのキルクールに。
-                    break;
-                case CustomRoles.Arsonist:
-                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
                     break;
                 case CustomRoles.Egoist:
                     Egoist.ApplyKillCooldown(player.PlayerId);
@@ -461,12 +449,6 @@ namespace TownOfHost
                 killer.MarkDirtySettings();
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
-        }
-        public static bool IsDouseDone(this PlayerControl player)
-        {
-            if (!player.Is(CustomRoles.Arsonist)) return false;
-            var count = Utils.GetDousedPlayerCount(player.PlayerId);
-            return count.Item1 == count.Item2;
         }
         public static bool CanMakeMadmate(this PlayerControl player)
         {
