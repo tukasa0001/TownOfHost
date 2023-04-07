@@ -198,20 +198,20 @@ public sealed class Arsonist : RoleBase
 
     public static string GetMarkOthers(PlayerControl seer, PlayerControl seen, bool isForMeeting = false)
     {
-        if (seer.GetRoleClass() is not Arsonist arsonist) return "";
-
-        if (IsDousedPlayer(seer, seen)) //seerがtargetに既にオイルを塗っている(完了)
-            return Utils.ColorString(RoleInfo.RoleColor, "▲");
-        else if (!isForMeeting && (arsonist.TargetInfo?.TargetId ?? byte.MaxValue) == seen.PlayerId) //オイルを塗っている対象がtarget
-            return Utils.ColorString(RoleInfo.RoleColor, "△");
+        if (seer.GetRoleClass() is not null and Arsonist arsonist)
+        {
+            if (IsDousedPlayer(seer, seen)) //seerがtargetに既にオイルを塗っている(完了)
+                return Utils.ColorString(RoleInfo.RoleColor, "▲");
+            else if (!isForMeeting && (arsonist.TargetInfo?.TargetId ?? byte.MaxValue) == seen.PlayerId) //オイルを塗っている対象がtarget
+                return Utils.ColorString(RoleInfo.RoleColor, "△");
+        }
 
         return "";
     }
     public static bool IsDousedPlayer(PlayerControl arsonist, PlayerControl target)
     {
-        if (arsonist == null || target == null) return false;
         if (arsonist.GetRoleClass() is not Arsonist arsonistClass) return false;
-        if (arsonistClass.IsDoused.TryGetValue(target.PlayerId, out bool isDoused)) return false;
+        if (!arsonistClass.IsDoused.TryGetValue(target.PlayerId, out bool isDoused)) return false;
 
         return isDoused;
     }
