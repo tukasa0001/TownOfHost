@@ -41,9 +41,9 @@ namespace TownOfHost
                         ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
                         : $"<color={Main.ModColor}>{Main.HideName.Value}</color>";
 
-                warningText = UnityEngine.Object.Instantiate(__instance.GameStartText, DestroyableSingleton<HudManager>.Instance.transform);
+                warningText = UnityEngine.Object.Instantiate(__instance.GameStartText, __instance.transform);
                 warningText.name = "WarningText";
-                warningText.transform.localPosition = new(0f, 0f, -1f);
+                warningText.transform.localPosition = new(0f, 0f - __instance.transform.localPosition.y, -1f);
                 warningText.gameObject.SetActive(false);
 
                 if (!AmongUsClient.Instance.AmHost) return;
