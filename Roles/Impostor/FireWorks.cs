@@ -26,7 +26,7 @@ public sealed class FireWorks : RoleBase
             typeof(FireWorks),
             player => new FireWorks(player),
             CustomRoles.FireWorks,
-            RoleTypes.Shapeshifter,
+            () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
             1700,
             SetupCustomOption
@@ -134,7 +134,7 @@ public sealed class FireWorks : RoleBase
                         }
                         else
                         {
-                            Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
+                            Main.PlayerStates[fireTarget.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
                             fireTarget.SetRealKiller(Player);
                             fireTarget.RpcMurderPlayer(fireTarget);
                         }
