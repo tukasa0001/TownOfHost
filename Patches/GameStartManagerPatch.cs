@@ -5,6 +5,7 @@ using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
+using TMPro;
 using UnityEngine;
 using static TownOfHost.Translator;
 using TownOfHost.Roles;
@@ -23,10 +24,12 @@ namespace TownOfHost
     public class GameStartManagerPatch
     {
         private static float timer = 600f;
+        private static TextMeshPro warningText;
+
         [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
         public class GameStartManagerStartPatch
         {
-            public static TMPro.TextMeshPro HideName;
+            public static TextMeshPro HideName;
             public static void Postfix(GameStartManager __instance)
             {
                 __instance.GameRoomNameCode.text = GameCode.IntToGameName(AmongUsClient.Instance.GameId);
@@ -37,6 +40,11 @@ namespace TownOfHost
                 HideName.text = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
                         ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
                         : $"<color={Main.ModColor}>{Main.HideName.Value}</color>";
+
+                warningText = UnityEngine.Object.Instantiate(__instance.GameStartText, DestroyableSingleton<HudManager>.Instance.transform);
+                warningText.name = "WarningText";
+                warningText.transform.localPosition = new(0f, 0f, -1f);
+                warningText.gameObject.SetActive(false);
 
                 if (!AmongUsClient.Instance.AmHost) return;
 
@@ -122,16 +130,14 @@ namespace TownOfHost
                         warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.AutoExitAtMismatchedVersion"), $"<color={Main.ModColor}>{Main.ModName}</color>", Math.Round(10 - exitTimer).ToString()));
                     }
                 }
-                if (warningMessage != "")
+                if (warningMessage == "")
                 {
-                    __instance.GameStartText.text = warningMessage;
-                    __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition + Vector3.up * 2;
+                    warningText.gameObject.SetActive(false);
                 }
                 else
                 {
-                    __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition;
-                    if (!GameStates.IsCountDown)
-                        __instance.GameStartText.text = "";
+                    warningText.text = warningMessage;
+                    warningText.gameObject.SetActive(true);
                 }
 
                 // Lobby timer
