@@ -31,7 +31,7 @@ public sealed class Arsonist : RoleBase
         DouseCooldown = OptionDouseCooldown.GetFloat();
 
         TargetInfo = null;
-        IsDoused = new(14);
+        IsDoused = new(GameData.Instance.PlayerCount);
         CustomRoleManager.MarkOthers.Add(GetMarkOthers);
     }
     private static OptionItem OptionDouseTime;
