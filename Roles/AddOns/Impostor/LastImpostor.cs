@@ -24,7 +24,7 @@ public static class LastImpostor
     public static void SetSubRole()
     {
         //ラストインポスターがすでにいれば処理不要
-        if (currentId != byte.MaxValue) return;
+        if (currentId != byte.MaxValue || !AmongUsClient.Instance.AmHost) return;
         if (Options.CurrentGameMode == CustomGameMode.SoloKombat
         || !CustomRoles.LastImpostor.IsEnable() || Main.AliveImpostorCount != 1)
             return;
