@@ -68,6 +68,7 @@ enum CustomRPC
     SetMedicalerProtectList,
     SetHackerHackLimit,
     SyncPsychicRedList,
+    SetMorticianArrow,
 
     //SoloKombat
     SyncKBPlayer,
@@ -379,6 +380,9 @@ internal class RPCHandlerPatch
             case CustomRPC.SyncKBNameNotify:
                 SoloKombatManager.ReceiveRPCSyncNameNotify(reader);
                 break;
+            case CustomRPC.SetMorticianArrow:
+                Mortician.ReceiveRPC(reader);
+                break;
         }
     }
 }
@@ -639,6 +643,9 @@ internal static class RPC
                 break;
             case CustomRoles.Judge:
                 Judge.Add(targetId);
+                break;
+            case CustomRoles.Mortician:
+                Mortician.Add(targetId);
                 break;
         }
         HudManager.Instance.SetHudActive(true);

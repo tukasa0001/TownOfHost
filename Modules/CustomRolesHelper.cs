@@ -81,6 +81,7 @@ internal static class CustomRolesHelper
                 CustomRoles.Hangman => CustomRoles.Shapeshifter,
                 CustomRoles.Sunnyboy => CustomRoles.Scientist,
                 CustomRoles.Judge => CustomRoles.Crewmate,
+                CustomRoles.Mortician => CustomRoles.Crewmate,
                 _ => role.IsImpostor() ? CustomRoles.Impostor : CustomRoles.Crewmate,
             };
     }

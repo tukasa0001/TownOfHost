@@ -306,6 +306,7 @@ public class Main : BasePlugin
                 {CustomRoles.Divinator, "#882c83"},
                 {CustomRoles.Glitch, "#dcdcdc"},
                 {CustomRoles.Judge, "#f8d85a"},
+                {CustomRoles.Mortician, "#333c49"},
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
@@ -467,6 +468,7 @@ public enum CustomRoles
     Divinator,
     Glitch,
     Judge,
+    Mortician,
     //Neutral
     Arsonist,
     Jester,

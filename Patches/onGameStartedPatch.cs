@@ -170,6 +170,7 @@ internal class ChangeRoleSettings
             TimeManager.Init();
             LastImpostor.Init();
             TargetArrow.Init();
+            LocateArrow.Init();
             DoubleTrigger.Init();
             Workhorse.Init();
             Pelican.Init();
@@ -191,6 +192,7 @@ internal class ChangeRoleSettings
             Psychic.Init();
             Hangman.Init();
             Judge.Init();
+            Mortician.Init();
             SoloKombatManager.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
@@ -497,6 +499,9 @@ internal class SelectRolesPatch
                         break;
                     case CustomRoles.Judge:
                         Judge.Add(pc.PlayerId);
+                        break;
+                    case CustomRoles.Mortician:
+                        Mortician.Add(pc.PlayerId);
                         break;
                 }
                 foreach (var subRole in pc.GetCustomSubRoles())

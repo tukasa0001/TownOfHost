@@ -937,7 +937,10 @@ public static class Utils
                 SelfSuffix.Append(BountyHunter.GetTargetText(seer, false));
                 SelfSuffix.Append(BountyHunter.GetTargetArrow(seer));
             }
-
+            if (seer.Is(CustomRoles.Mortician))
+            {
+                SelfSuffix.Append(Mortician.GetTargetArrow(seer));
+            }
             if (seer.Is(CustomRoles.FireWorks))
             {
                 string stateText = FireWorks.GetStateText(seer);

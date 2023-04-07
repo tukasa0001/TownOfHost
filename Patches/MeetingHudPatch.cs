@@ -521,6 +521,19 @@ class MeetingHudStartPatch
                 foreach (var dpc in Main.AllPlayerControls.Where(x => (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == pc.PlayerId))
                     MimicMsg += $"\n{dpc.GetNameWithRole()}";
             }
+            //入殓师的检查
+            if (pc.Is(CustomRoles.Mortician) && pc.IsAlive())
+            {
+                foreach (var msg in Mortician.msgToSend.Where(x => x.Item1 == pc.PlayerId))
+                {
+                    new LateTask(() =>
+                    {
+                        Utils.SendMessage(msg.Item2, msg.Item1, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mortician), GetString("MorticianCheckTitle")));
+                    }, 5.0f, "Notice God Alive");
+                    break;
+                }
+                Mortician.msgToSend.RemoveAll(x => x.Item1 == pc.PlayerId);
+            }
         }
         if (MimicMsg != "")
         {
@@ -556,6 +569,7 @@ class MeetingHudStartPatch
         Hacker.OnMeetingStart();
         Psychic.OnMeetingStart();
         Judge.OnMeetingStart();
+        Mortician.OnMeetingStart();
 
         NotifyRoleSkillOnMeetingStart();
     }

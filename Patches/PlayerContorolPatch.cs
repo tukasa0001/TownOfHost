@@ -571,6 +571,7 @@ class MurderPlayerPatch
         if (Executioner.Target.ContainsValue(target.PlayerId))
             Executioner.ChangeRoleByTarget(target);
         Hacker.AddDeadBody(target);
+        Mortician.OnPlayerDead(target);
 
         FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
@@ -874,14 +875,16 @@ class ReportDeadBodyPatch
             else
             {
                 var tpc = Utils.GetPlayerById(target.PlayerId);
-
-                // 侦探报告
-                if (__instance.Is(CustomRoles.Detective))
+                if (tpc != null)
                 {
-                    string msg;
-                    msg = string.Format(GetString("DetectiveNoticeVictim"), tpc.GetRealName(), tpc.GetDisplayRoleName());
-                    if (Options.DetectiveCanknowKiller.GetBool()) msg += "；" + string.Format(GetString("DetectiveNoticeKiller"), tpc.GetRealKiller().GetDisplayRoleName());
-                    Main.DetectiveNotify.Add(__instance.PlayerId, msg);
+                    // 侦探报告
+                    if (__instance.Is(CustomRoles.Detective))
+                    {
+                        string msg;
+                        msg = string.Format(GetString("DetectiveNoticeVictim"), tpc.GetRealName(), tpc.GetDisplayRoleName());
+                        if (Options.DetectiveCanknowKiller.GetBool()) msg += "；" + string.Format(GetString("DetectiveNoticeKiller"), tpc.GetRealKiller().GetDisplayRoleName());
+                        Main.DetectiveNotify.Add(__instance.PlayerId, msg);
+                    }
                 }
             }
 
@@ -894,6 +897,7 @@ class ReportDeadBodyPatch
             Vampire.OnStartMeeting();
             Pelican.OnReportDeadBody();
             Concealer.OnReportDeadBody();
+            Mortician.OnReportOnReportDeadBody(__instance, target);
 
             foreach (var x in Main.RevolutionistStart)
             {
@@ -949,6 +953,7 @@ class FixedUpdatePatch
         if (!GameStates.IsModHost) return;
 
         TargetArrow.OnFixedUpdate(player);
+        LocateArrow.OnFixedUpdate(player);
         Sniper.OnFixedUpdate(player);
 
         if (AmongUsClient.Instance.AmHost)
@@ -1448,6 +1453,8 @@ class FixedUpdatePatch
                 Suffix.Append(Snitch.GetSnitchArrow(seer, target));
 
                 Suffix.Append(BountyHunter.GetTargetArrow(seer, target));
+
+                Suffix.Append(Mortician.GetTargetArrow(seer, target));
 
                 Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
 
