@@ -286,6 +286,16 @@ namespace TownOfHost
                             break;
                     }
                 }
+
+                // そのままだとホストのみDesyncImpostorの暗室内での視界がクルー仕様になってしまう
+                var amDesyncImpostor = PlayerControl.LocalPlayer.GetCustomRole() is
+                    CustomRoles.Sheriff or
+                    CustomRoles.Arsonist or
+                    CustomRoles.Jackal;
+                if (amDesyncImpostor)
+                {
+                    PlayerControl.LocalPlayer.Data.Role.AffectedByLightAffectors = false;
+                }
             }
             Logger.Info("OnDestroy", "IntroCutscene");
         }
