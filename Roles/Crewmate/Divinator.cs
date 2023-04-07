@@ -129,7 +129,8 @@ public static class Divinator
                 CustomRoles.Veteran or
                 CustomRoles.Divinator or
                 CustomRoles.QuickShooter or
-                CustomRoles.Mediumshiper
+                CustomRoles.Mediumshiper or
+                CustomRoles.Judge
                 => "Strong",
 
                 CustomRoles.Witch or
