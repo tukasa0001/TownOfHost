@@ -125,11 +125,6 @@ internal class ControllerManagerUpdatePatch
             }
             OptionShower.GetText();
         }
-        //实名投票
-        if (GetKeysDown(KeyCode.Return, KeyCode.V, KeyCode.LeftShift) && GameStates.IsMeeting && !GameStates.IsOnlineGame)
-        {
-            MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
-        }
         //放逐自己
         if (GetKeysDown(KeyCode.Return, KeyCode.E, KeyCode.LeftShift) && GameStates.IsInGame)
         {
@@ -145,6 +140,16 @@ internal class ControllerManagerUpdatePatch
             Logger.isAlsoInGame = !Logger.isAlsoInGame;
             Logger.SendInGame($"游戏中输出日志：{Logger.isAlsoInGame}");
         }
+
+        //--下面是调试模式的命令--//
+        if (!DebugModeManager.IsDebugMode) return;
+
+        //实名投票
+        if (GetKeysDown(KeyCode.Return, KeyCode.V, KeyCode.LeftShift) && GameStates.IsMeeting && !GameStates.IsOnlineGame)
+        {
+            MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
+        }
+
         //打开飞艇所有的门
         if (GetKeysDown(KeyCode.Return, KeyCode.D, KeyCode.LeftShift) && GameStates.IsInGame)
         {
@@ -153,20 +158,19 @@ internal class ControllerManagerUpdatePatch
             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 82);
         }
+
         //将击杀冷却设定为0秒
         if (GetKeysDown(KeyCode.Return, KeyCode.K, KeyCode.LeftShift) && GameStates.IsInGame)
         {
             PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);
         }
+
         //完成你的所有任务
         if (GetKeysDown(KeyCode.Return, KeyCode.T, KeyCode.LeftShift) && GameStates.IsInGame)
         {
             foreach (var task in PlayerControl.LocalPlayer.myTasks)
                 PlayerControl.LocalPlayer.RpcCompleteTask(task.Id);
         }
-
-        //--下面是调试模式的命令--//
-        if (!DebugModeManager.IsDebugMode) return;
 
         //同步设置
         if (Input.GetKeyDown(KeyCode.Y))
