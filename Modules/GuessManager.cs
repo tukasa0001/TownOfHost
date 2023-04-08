@@ -183,7 +183,6 @@ public static class GuessManager
                 target = dp;
 
                 string Name = dp.GetRealName();
-                Utils.SendMessage(string.Format(GetString("GuessKill"), Name), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.NiceGuesser), GetString("GuessKillTitle")));
 
                 Main.GuesserGuessed[pc.PlayerId]++;
 
@@ -204,6 +203,9 @@ public static class GuessManager
                         Executioner.ChangeRoleByTarget(target);
 
                     Utils.NotifyRoles(isForMeeting: true, NoCache: true);
+
+                    new LateTask(() => { Utils.SendMessage(string.Format(GetString("GuessKill"), Name), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.NiceGuesser), GetString("GuessKillTitle"))); }, 0.6f, "Guess Msg");
+
                 }, 0.2f, "Guesser Kill");
             }
         }
