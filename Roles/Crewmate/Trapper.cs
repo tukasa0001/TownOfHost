@@ -49,7 +49,7 @@ public sealed class Trapper : RoleBase
         killer.MarkDirtySettings();
         new LateTask(() =>
         {
-            Main.AllPlayerSpeed[killer.PlayerId] = Main.AllPlayerSpeed[killer.PlayerId] - Main.MinSpeed + tmpSpeed;
+            Main.AllPlayerSpeed[killer.PlayerId] = tmpSpeed;
             ReportDeadBodyPatch.CanReport[killer.PlayerId] = true;
             killer.MarkDirtySettings();
             RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
