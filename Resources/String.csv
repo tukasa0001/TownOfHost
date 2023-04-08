@@ -1159,6 +1159,9 @@ TOHEOptions,TOHE 选项
 Back,返回
 Yes,是,Yes
 No,否,No
+AntiBlackOutIgnored,【{0}】发生未知错误，根据房主设置将忽略该玩家
+AntiBlackOutEndGame,【{0}】发生未知错误，将终止游戏以防止黑屏
+AntiBlackOutNotifyInLobby,由于玩家【{0}】发生未知错误，已终止游戏防止卡房。若您不希望在其他玩家发生错误时终止游戏，请在设置关闭【{1}】
 
 ## 作弊 / EAC
 EAC.CheatDetected.EAC,开挂（使用AUM）,Cheating usage detected (Using AUM),Обнаружено использование читов (используется AUM)
