@@ -859,7 +859,7 @@ MafiaKillMax,您达到复仇的上限了，已经不能再复仇了,"You have re
 MafiaKillDead,请选择一个在场的存活角色进行复仇,"Choose a live player to take revenge","Выберите живого игрока для осуществления мести"
 MafiaKillSucceed,【{0}】被黑手党进行了复仇！,[{0}] \nWas avenged by the Mafia!,[{0}] \nБыл отомщен Мафией!
 MafiaKillDisable,很抱歉，根据房主设定，该房不允许黑手党复仇,"Sorry, but according to Host's settings, Mafia revenge is prohibited in this game","Извините, но согласно настройкам Хоста месть Мафии в этой игре запрещена"
-CyberStarDead,震惊！知名网红【{0}】在最近一段时间内不幸遇害！,Shock! Celebrity [{0}] has unfortunately been mercilessly killed in the recent period of time!,"Шок! Знаменитость [{0}], к сожалению была беспощадно убита в недавний период времени!"
+CyberStarDead,震惊！知名网红【{0}】\n在最近一段时间内不幸遇害！,Shock! Celebrity [{0}] has unfortunately been mercilessly killed in the recent period of time!,"Шок! Знаменитость [{0}], к сожалению была беспощадно убита в недавний период времени!"
 DetectiveNoticeVictim,根据您的调查，【{0}】(被害者) 的职业是 【{1}】,"According to your investigation, \n[{0}](victim) - Had a role of [{1}]","Согласно вашему расследованию, \nУ [{0}](жертвы) - была роль [{1}]"
 DetectiveNoticeKiller,而凶手的职业则是【{0}】,"\nThe killer who killed the victim, has a role - [{0}]","\nУбийца который убил жертву имеет роль - [{0}]"
 GodNoticeAlive,会议中大家感受到了上天的启示，神似乎就在你们的背后陪伴着你们,"During the meeting, each player felt a revelation from heaven, and it turned out that God is still alive!","Во время встречи каждый игрок почувствовал откровение с небес, и оказалось что Бог ещё жив!"
