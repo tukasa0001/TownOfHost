@@ -16,11 +16,11 @@ namespace TownOfHost
     {
         private static float timer = 600f;
         private static TextMeshPro warningText;
+        public static TextMeshPro HideName;
 
         [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
         public class GameStartManagerStartPatch
         {
-            public static TextMeshPro HideName;
             public static void Postfix(GameStartManager __instance)
             {
                 __instance.MinPlayers = 1;
@@ -30,9 +30,11 @@ namespace TownOfHost
                 timer = 600f;
 
                 HideName = UnityEngine.Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
-                HideName.text = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
-                        ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
-                        : $"<color={Main.ModColor}>{Main.HideName.Value}</color>";
+                HideName.gameObject.SetActive(true);
+                HideName.name = "HideName";
+                ColorUtility.TryParseHtmlString(Main.ModColor, out var modColor);
+                HideName.color = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out var color) ? color : modColor;
+                HideName.text = Main.HideName.Value;
 
                 warningText = UnityEngine.Object.Instantiate(__instance.GameStartText, __instance.transform);
                 warningText.name = "WarningText";
@@ -69,12 +71,12 @@ namespace TownOfHost
                 if (DataManager.Settings.Gameplay.StreamerMode)
                 {
                     __instance.GameRoomNameCode.color = new(255, 255, 255, 0);
-                    GameStartManagerStartPatch.HideName.enabled = true;
+                    HideName.enabled = true;
                 }
                 else
                 {
                     __instance.GameRoomNameCode.color = new(255, 255, 255, 255);
-                    GameStartManagerStartPatch.HideName.enabled = false;
+                    HideName.enabled = false;
                 }
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame) return; // Not host or no instance or LocalGame
                 update = GameData.Instance.PlayerCount != __instance.LastPlayerCount;
