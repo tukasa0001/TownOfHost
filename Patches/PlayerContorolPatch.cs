@@ -296,7 +296,7 @@ class CheckMurderPatch
         }
 
         // 肢解者肢解受害者
-        if (killer.Is(CustomRoles.OverKiller))
+        if (killer.Is(CustomRoles.OverKiller) && killer.PlayerId != target.PlayerId)
         {
             Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Dismembered;
             new LateTask(() =>
