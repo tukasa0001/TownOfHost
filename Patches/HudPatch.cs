@@ -67,9 +67,6 @@ namespace TownOfHost
                     //MOD入り用のボタン下テキスト変更
                     switch (player.GetCustomRole())
                     {
-                        case CustomRoles.SerialKiller:
-                            SerialKiller.GetAbilityButtonText(__instance, player);
-                            break;
                         case CustomRoles.Warlock:
                             if (!(Main.CheckShapeshift.TryGetValue(player.PlayerId, out bool shapeshifting) && shapeshifting) && !(Main.isCurseAndKill.TryGetValue(player.PlayerId, out bool curse) && curse))
                             {

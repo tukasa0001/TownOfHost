@@ -221,9 +221,6 @@ public static class CustomRoleManager
     {
         switch (pc.GetCustomRole())
         {
-            case CustomRoles.SerialKiller:
-                SerialKiller.Add(pc.PlayerId);
-                break;
             case CustomRoles.Witch:
                 Witch.Add(pc.PlayerId);
                 break;
