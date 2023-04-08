@@ -93,6 +93,7 @@ Concealer,隐蔽者（损坏）,Concealer (Broken),Консилер (Слома�
 Eraser,抹除者,Eraser,Стирачка
 OverKiller,肢解者,Butcher,Мясник
 Hangman,刽子手,Hangman,Вешатель
+Bard,吟游诗人
 
 # 船员阵营 / Crewmates
 Bait,诱饵,Bait,Байт
@@ -233,6 +234,7 @@ ConcealerInfo,当所有人戴上面具，一切都自由了,Change the appearanc
 EraserInfo,恕我直言，你不配拥有能力,Im sorry，but you don't deserve that.,Простите，вы этого не заслужили.
 OverKillerInfo,且欣赏我美丽的作品,Enjoy my beautiful work,Наслаждайтесь моей работой
 HangmanInfo,就由我，来结束你的生命,I will choice when your live will end,Это Я выбираю когда ты умрешь
+BardInfo,请让我赋诗一首
 
 # 船员阵营 / Crewmate descriptions
 BaitInfo,好消息，杀了我可以吃席,Bait your enemies,Убийца моментально зарепортит ваш труп
@@ -357,6 +359,7 @@ ConcealerInfoLong,(内鬼阵营):\n隐蔽者变形后会让所有人变成小黑
 EraserInfoLong,(内鬼阵营):\n抹除者可以在会议上投票给任意船员阵营目标以抹除目标的职业技能，抹除将在会议结束后生效。请注意：被抹除技能的玩家将被永远视为白板，包括游戏结算页面。,"(Impostors):\nErasers can vote for any crewmate at the meeting to erase the target's skills, and the removal will take effect after the meeting. Please note: Players with erased skills will always be treated as whiteboards, including game results.","(Предатель):\nСтирачка может проголосовать за любого Члена Экипажа на собрании, чтобы стереть профессиональные навыки цели, и удаление вступит в силу после собрания. Пожалуйста, обратите внимание: Игроки со стертыми навыками всегда будут рассматриваться как белые доски, включая резкльтат игры"
 OverKillerInfoLong,(内鬼阵营):\n肢解者击杀（包括被动击杀）的目标会出现多具尸体，以至于报告尸体时无法准确分辨其他受害者。请注意：因实现原理，被击杀的目标不得不重复地显示自己被击杀的动画，此动画无法跳过且期间无法正常参与会议。此外，若肢解者肢解了复仇者，则复仇者会因愤怒带走全场所有人。\n\n该职业在发动技能时可能造成房主严重卡顿，请谨慎开启。,"(Impostors):\nA target killed by Butcher will be treated as a set of dead bodies, so other dead bodies cannot be shown when reporting dead. Please note: A killed target may repeatedly display its kill animation. This animation cannot be skipped and cannot participate in the meeting during the period. You must wait for the animation to finish before you can participate normally in the game.","(Предатель):\nЦель, убитая Мясником, будет рассматриваться как множество трупов, так что другие трупы не могут быть показаны при сообщении о мёртвых. Пожалуйста, обратите внимание: Убитая цель может неоднократно отображать анимацию своего убийства. Эта анимация не может быть пропущена и не может участвовать во встрече в течение периода. Вы должны дождаться окончания анимации, прежде чем сможете нормально участвовать в игре."
 HangmanInfoLong,(内鬼阵营):\n刽子手在变形期间的击杀方式为绞杀，绞杀无视目标的任何状态例如医生的护盾、保镖的守护、大明星的技能等，被绞杀的玩家不会留下尸体，也不会触发其任何技能例如老兵反杀、幸运儿挡伤等（包括附加职业），此外，灵媒也不会得到提示。,"(Impostor):\nKills people by strangling them. Strangling ignores any kind of protection, like shield of a Medic, protection of Bodyguard and so on. Player who got stragnled will leave no body nor will activate any of perks, like Veteran's alert, the luck of Luckey. Doesn't appear for psychic.","(Предатель):\nВешатель убивает игроков, душа их. Удушение игнорирует любой вид защиты, такой как щит Медика, защита Телохранителя и тд. Игрок, которого задушили, не оставит тела и не активирует ни одну из способностей, таких как самозащита Ветерана, удача Удачника. Не появляется для Экстрасенса."
+BardInfoLong,(内鬼阵营):\n吟游诗人在场时，驱逐确认将会显示为吟游诗人创作的句子。每当吟游诗人完成一次创作，则吟游诗人的击杀冷却永久减半。
 
 # 船员阵营 / Crewmates descriptions
 BaitInfoLong,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告诱饵的尸体。但诱饵被清道夫或清理工击杀时技能会失效。,"(Crewmates):\nWhen you are killed, you force your killer to immediately self-report.","(Член Экипажа):\nКогда Приманку убивают, он заставляет убившего игрока \nмоментально зарепортить ваш труп."
@@ -898,6 +901,8 @@ MediumshipNo,您似乎在渺茫的精神世界中听到有阵愤愤的嘶吼，�
 MediumshipDone,您成功地向通灵师作出的回应
 MediumshipNotifyTarget,通灵师【{0}】与您建立了联系，本次会议结束前，您拥有一次回应其问题的机会。\n确认指令：/ms 是\n否认指令：/ms 否
 MediumshipNotifySelf,您与【{0}】建立了联系，请向其提问并等待其作出回应。
+ByBard,吟游诗人献
+ByBardGetFailed,没有灵感，也是一种灵感
 
 ## 信息 / Message
 Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to 【{0}】 seconds.,Установлен на 【{0}】 секунды

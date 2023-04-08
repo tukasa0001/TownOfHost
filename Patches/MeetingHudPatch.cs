@@ -283,6 +283,16 @@ class CheckForEndVotingPatch
         var name = "";
         int impnum = 0;
         int neutralnum = 0;
+
+        if (CustomRolesHelper.RoleExist(CustomRoles.Bard))
+        {
+            Main.BardCreations++;
+            try { name = ModUpdater.Get("https://v1.hitokoto.cn/?encode=text"); }
+            catch { name = GetString("ByBardGetFailed"); }
+            name += "\n\t\t——" + GetString("ByBard");
+            goto EndOfSession;
+        }
+
         foreach (var pc in Main.AllAlivePlayerControls)
         {
             var pc_role = pc.GetCustomRole();
@@ -347,6 +357,9 @@ class CheckForEndVotingPatch
             if (Options.ShowNKRemainOnEject.GetBool() && neutralnum > 0)
                 name += string.Format(GetString("NeutralRemain"), neutralnum);
         }
+
+    EndOfSession:
+
         name += "<size=0>";
         new LateTask(() =>
         {

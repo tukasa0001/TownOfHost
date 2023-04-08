@@ -700,6 +700,7 @@ internal class ChatCommands
             "法官" or "审判" => GetString("Judge"),
             "入殮師" or "入检师" or "入殓" => GetString("Mortician"),
             "通靈師" or "通灵" => GetString("Mediumshiper"),
+            "吟游詩人" or "诗人" => GetString("Bard"),
             _ => text,
         };
     }

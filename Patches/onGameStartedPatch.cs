@@ -81,6 +81,7 @@ internal class ChangeRoleSettings
             Main.ShieldPlayer = Options.ShieldPersonDiedFirst.GetBool() ? Main.FirstDied : byte.MaxValue;
             Main.FirstDied = byte.MaxValue;
             Main.MadmateNum = 0;
+            Main.BardCreations = 0;
 
             ReportDeadBodyPatch.CanReport = new();
 

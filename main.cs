@@ -152,6 +152,7 @@ public class Main : BasePlugin
     public static byte FirstDied;
     public static byte ShieldPlayer;
     public static int MadmateNum;
+    public static int BardCreations;
     public static Dictionary<byte, byte> Provoked = new();
 
     public static Dictionary<byte, CustomRoles> DevRole = new();
@@ -245,6 +246,7 @@ public class Main : BasePlugin
         ShieldPlayer = byte.MaxValue;
         FirstDied = byte.MaxValue;
         MadmateNum = 0;
+        BardCreations = 0;
 
         Preset1 = Config.Bind("Preset Name Options", "Preset1", "Preset_1");
         Preset2 = Config.Bind("Preset Name Options", "Preset2", "Preset_2");
@@ -436,6 +438,7 @@ public enum CustomRoles
     Eraser,
     OverKiller,
     Hangman,
+    Bard,
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,
