@@ -12,15 +12,6 @@ using TownOfHost.Roles;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
-    public static class GameStartManagerUpdatePatch
-    {
-        public static void Prefix(GameStartManager __instance)
-        {
-            __instance.MinPlayers = 1;
-        }
-    }
-    //タイマーとコード隠し
     public class GameStartManagerPatch
     {
         private static float timer = 600f;
@@ -32,6 +23,8 @@ namespace TownOfHost
             public static TextMeshPro HideName;
             public static void Postfix(GameStartManager __instance)
             {
+                __instance.MinPlayers = 1;
+
                 __instance.GameRoomNameCode.text = GameCode.IntToGameName(AmongUsClient.Instance.GameId);
                 // Reset lobby countdown timer
                 timer = 600f;
