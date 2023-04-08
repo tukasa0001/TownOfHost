@@ -245,6 +245,7 @@ namespace TownOfHost
             if (__instance.name == "GameIdText") __instance.outputText.text = new string('*', __instance.text.Length);
         }
     }
+
     [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.GetAdjustedNumImpostors))]
     class UnrestrictedNumImpostorsPatch
     {
