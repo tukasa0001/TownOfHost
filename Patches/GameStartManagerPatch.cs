@@ -197,7 +197,7 @@ namespace TownOfHost
             __instance.ReallyBegin(false);
             return false;
         }
-        public static bool Prefix(GameStartRandomMap __instance)
+        public static bool Prefix()
         {
             bool continueStart = true;
             if (Options.RandomMapsMode.GetBool())
