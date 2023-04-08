@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AmongUs.Data;
 using AmongUs.GameOptions;
@@ -7,6 +7,7 @@ using HarmonyLib;
 using InnerNet;
 using TMPro;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using static TownOfHost.Translator;
 using TownOfHost.Roles;
 
@@ -17,6 +18,7 @@ namespace TownOfHost
         private static float timer = 600f;
         private static TextMeshPro warningText;
         public static TextMeshPro HideName;
+        private static TextMeshPro timerText;
 
         [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
         public class GameStartManagerStartPatch
@@ -29,17 +31,25 @@ namespace TownOfHost
                 // Reset lobby countdown timer
                 timer = 600f;
 
-                HideName = UnityEngine.Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
+                HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
                 HideName.gameObject.SetActive(true);
                 HideName.name = "HideName";
                 ColorUtility.TryParseHtmlString(Main.ModColor, out var modColor);
                 HideName.color = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out var color) ? color : modColor;
                 HideName.text = Main.HideName.Value;
 
-                warningText = UnityEngine.Object.Instantiate(__instance.GameStartText, __instance.transform);
+                warningText = Object.Instantiate(__instance.GameStartText, __instance.transform);
                 warningText.name = "WarningText";
                 warningText.transform.localPosition = new(0f, 0f - __instance.transform.localPosition.y, -1f);
                 warningText.gameObject.SetActive(false);
+
+                timerText = Object.Instantiate(__instance.PlayerCounter, __instance.PlayerCounter.transform.parent);
+                timerText.autoSizeTextContainer = true;
+                timerText.fontSize = 3.2f;
+                timerText.name = "Timer";
+                timerText.DestroyChildren();
+                timerText.transform.localPosition += Vector3.down * 0.2f;
+                timerText.gameObject.SetActive(AmongUsClient.Instance.NetworkMode == NetworkModes.OnlineGame && AmongUsClient.Instance.AmHost);
 
                 if (!AmongUsClient.Instance.AmHost) return;
 
@@ -62,8 +72,6 @@ namespace TownOfHost
         [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
         public class GameStartManagerUpdatePatch
         {
-            private static bool update = false;
-            private static string currentText = "";
             private static float exitTimer = 0f;
             public static void Prefix(GameStartManager __instance)
             {
@@ -78,8 +86,6 @@ namespace TownOfHost
                     __instance.GameRoomNameCode.color = new(255, 255, 255, 255);
                     HideName.enabled = false;
                 }
-                if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame) return; // Not host or no instance or LocalGame
-                update = GameData.Instance.PlayerCount != __instance.LastPlayerCount;
             }
             public static void Postfix(GameStartManager __instance)
             {
@@ -136,18 +142,20 @@ namespace TownOfHost
                 }
 
                 // Lobby timer
-                if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
-
-                if (update) currentText = __instance.PlayerCounter.text;
+                if (
+                    !AmongUsClient.Instance.AmHost ||
+                    !GameData.Instance ||
+                    AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
+                {
+                    return;
+                }
 
                 timer = Mathf.Max(0f, timer -= Time.deltaTime);
                 int minutes = (int)timer / 60;
                 int seconds = (int)timer % 60;
-                string suffix = $" ({minutes:00}:{seconds:00})";
-                if (timer <= 60) suffix = Utils.ColorString(Color.red, suffix);
-
-                __instance.PlayerCounter.text = currentText + suffix;
-                __instance.PlayerCounter.autoSizeTextContainer = true;
+                string countDown = $"({minutes:00}:{seconds:00})";
+                if (timer <= 60) countDown = Utils.ColorString(Color.red, countDown);
+                timerText.text = countDown;
             }
             private static bool MatchVersions(byte playerId, bool acceptVanilla = false)
             {
