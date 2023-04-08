@@ -792,15 +792,16 @@ internal class ChatCommands
         else Utils.SendMessage(GetString("Message.CanNotFindRoleThePlayerEnter"), playerId);
         return;
     }
-    public static void OnReceiveChat(PlayerControl player, string text)
+    public static void OnReceiveChat(PlayerControl player, string text, out bool canceled)
     {
+        canceled = false;
         if (!AmongUsClient.Instance.AmHost) return;
         if (text.StartsWith("\n")) text = text[1..];
         string[] args = text.Split(' ');
         string subArgs = "";
         if (text.Length >= 3) if (text[..2] == "/r" && text[..3] != "/rn") args[0] = "/r";
-        if (GuessManager.GuesserMsg(player, text)) return;
-        if (Judge.TrialMsg(player, text)) return;
+        if (GuessManager.GuesserMsg(player, text)) { canceled = true; return; }
+        if (Judge.TrialMsg(player, text)) { canceled = true; return; }
         if (Mediumshiper.MsMsg(player, text)) return;
         if (MafiaMsgCheck(player, text)) return;
         if (ProhibitedCheck(player, text)) return;

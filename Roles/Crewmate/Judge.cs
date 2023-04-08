@@ -74,21 +74,9 @@ public static class Judge
         }
         else if (operate == 2)
         {
-            if (TryHideMsg.GetBool())
-            {
-                new LateTask(() =>
-                {
-                    GuessManager.TryHideMsg(true);
-                }, 0.01f, "Hide Judge Messgae To Host");
-                GuessManager.TryHideMsg();
-            }
-            else
-            {
-                if (pc == PlayerControl.LocalPlayer) //房主的消息会被撤销，所以这里强制发送一条一样的消息补上
-                {
-                    Utils.SendMessage(originMsg, 255, pc.GetRealName());
-                }
-            }
+
+            if (TryHideMsg.GetBool()) GuessManager.TryHideMsg();
+            else if (pc.AmOwner) Utils.SendMessage(originMsg, 255, pc.GetRealName());
 
             if (!MsgToPlayerAndRole(msg, out byte targetId, out string error))
             {
@@ -104,7 +92,7 @@ public static class Judge
                     Utils.SendMessage(GetString("JudgeTrialMax"), pc.PlayerId);
                     return true;
                 }
-                if (pc == target)
+                if (pc.PlayerId == target.PlayerId)
                 {
                     Utils.SendMessage(GetString("LaughToWhoTrialSelf"), pc.PlayerId, Utils.ColorString(Color.cyan, GetString("MessageFromDevTitle")));
                     judgeSuicide = true;

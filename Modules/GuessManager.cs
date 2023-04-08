@@ -105,24 +105,12 @@ public static class GuessManager
         }
         else if (operate == 2)
         {
+
             if (
             (pc.Is(CustomRoles.NiceGuesser) && Options.GGTryHideMsg.GetBool()) ||
             (pc.Is(CustomRoles.EvilGuesser) && Options.EGTryHideMsg.GetBool())
-            )
-            {
-                new LateTask(() =>
-                {
-                    TryHideMsg(true);
-                }, 0.01f, "Hide Guesser Messgae To Host");
-                TryHideMsg();
-            }
-            else
-            {
-                if (pc == PlayerControl.LocalPlayer) //房主的消息会被撤销，所以这里强制发送一条一样的消息补上
-                {
-                    Utils.SendMessage(originMsg, 255, pc.GetRealName());
-                }
-            }
+            ) TryHideMsg();
+            else if (pc.AmOwner) Utils.SendMessage(originMsg, 255, pc.GetRealName());
 
             if (!MsgToPlayerAndRole(msg, out byte targetId, out CustomRoles role, out string error))
             {
@@ -170,7 +158,7 @@ public static class GuessManager
                         return true;
                     }
                 }
-                if (pc == target)
+                if (pc.PlayerId == target.PlayerId)
                 {
                     Utils.SendMessage(GetString("LaughToWhoGuessSelf"), pc.PlayerId, Utils.ColorString(Color.cyan, GetString("MessageFromDevTitle")));
                     guesserSuicide = true;
@@ -338,17 +326,17 @@ public static class GuessManager
         return true;
     }
 
-    public static void TryHideMsg(bool toHost = false)
+    public static void TryHideMsg()
     {
         ChatUpdatePatch.DoBlockChat = true;
         Array values = Enum.GetValues(typeof(CustomRoles));
         var rd = IRandom.Instance;
         string msg;
-        string[] command = new string[] { "bet", "bt", "guess", "gs", "shoot", "st", "赌", "猜" };
+        string[] command = new string[] { "bet", "bt", "guess", "gs", "shoot", "st", "赌", "猜" , "审判" , "tl", "判", "审" };
         for (int i = 0; i < 20; i++)
         {
             msg = "/";
-            if (rd.Next(1, 100) < 50)
+            if (rd.Next(1, 100) < 30)
             {
                 msg += "id";
             }
@@ -362,16 +350,10 @@ public static class GuessManager
                 msg += rd.Next(1, 100) < 50 ? string.Empty : " ";
                 msg += Utils.GetRoleName(role);
             }
-
-            var pl = Main.AllAlivePlayerControls.OrderBy(x => x.PlayerId).ToArray();
-            var player = pl[rd.Next(0, pl.Length)];
-            if (player == null) return;
-
-            int clientId = toHost ? PlayerControl.LocalPlayer.PlayerId : -1;
-            var name = player.Data.PlayerName;
+            var player = Main.AllAlivePlayerControls.ToArray()[rd.Next(0, Main.AllAlivePlayerControls.Count())];
             DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
             var writer = CustomRpcSender.Create("MessagesToSend", SendOption.None);
-            writer.StartMessage(clientId);
+            writer.StartMessage(-1);
             writer.StartRpc(player.NetId, (byte)RpcCalls.SendChat)
                 .Write(msg)
                 .EndRpc();
