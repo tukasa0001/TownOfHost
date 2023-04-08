@@ -204,21 +204,21 @@ namespace TownOfHost
                 if (Options.RandomMapsMode.GetBool())
                 {
                     var rand = IRandom.Instance;
-                    List<byte> RandomMaps = new();
+                    List<byte> randomMaps = new();
                     /*TheSkeld   = 0
                     MIRAHQ     = 1
                     Polus      = 2
                     Dleks      = 3
                     TheAirShip = 4*/
-                    if (Options.AddedTheSkeld.GetBool()) RandomMaps.Add(0);
-                    if (Options.AddedMiraHQ.GetBool()) RandomMaps.Add(1);
-                    if (Options.AddedPolus.GetBool()) RandomMaps.Add(2);
+                    if (Options.AddedTheSkeld.GetBool()) randomMaps.Add(0);
+                    if (Options.AddedMiraHQ.GetBool()) randomMaps.Add(1);
+                    if (Options.AddedPolus.GetBool()) randomMaps.Add(2);
                     // if (Options.AddedDleks.GetBool()) RandomMaps.Add(3);
-                    if (Options.AddedTheAirShip.GetBool()) RandomMaps.Add(4);
+                    if (Options.AddedTheAirShip.GetBool()) randomMaps.Add(4);
 
-                    if (RandomMaps.Count <= 0) return;
-                    var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
-                    Main.NormalOptions.MapId = MapsId;
+                    if (randomMaps.Count <= 0) return;
+                    var mapsId = randomMaps[rand.Next(randomMaps.Count)];
+                    Main.NormalOptions.MapId = mapsId;
                 }
             }
         }
