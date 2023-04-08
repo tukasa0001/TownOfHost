@@ -590,14 +590,14 @@ class ShapeshiftPatch
 {
     public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
     {
-        Logger.Info($"{__instance?.GetNameWithRole()} => {target?.GetNameWithRole()}", "Shapeshift");
+        Logger.Info($"{__instance?.GetNameWithRole()} => {target?.GetNameWithRole().RemoveHtmlTags()}", "Shapeshift");
 
         var shapeshifter = __instance;
         var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
 
         if (Main.CheckShapeshift.TryGetValue(shapeshifter.PlayerId, out var last) && last == shapeshifting)
         {
-            Logger.Info($"{__instance?.GetNameWithRole()}:Cancel Shapeshift.Prefix", "Shapeshift");
+            Logger.Info($"{__instance?.GetNameWithRole().RemoveHtmlTags()}:Cancel Shapeshift.Prefix", "Shapeshift");
             return;
         }
 
