@@ -36,7 +36,7 @@ namespace TownOfHost
             if (roleInfo != null)
                 return roleInfo.CustomRoleType == CustomRoleTypes.Madmate;
             return
-                role is CustomRoles.Madmate or
+                role is
                 CustomRoles.SKMadmate or
                 CustomRoles.MadGuardian or
                 CustomRoles.MadSnitch or
@@ -159,7 +159,6 @@ namespace TownOfHost
                 CustomRoles.Doctor => RoleTypes.Scientist,
 
                 CustomRoles.Engineer or
-                CustomRoles.Madmate or
                 CustomRoles.Terrorist => RoleTypes.Engineer,
 
                 CustomRoles.GuardianAngel or
