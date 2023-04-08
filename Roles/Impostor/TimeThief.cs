@@ -46,7 +46,7 @@ namespace TownOfHost.Roles.Impostor
         public static int LowerLimitVotingTime;
         public static bool ReturnStolenTimeUponDeath;
 
-        public static HashSet<TimeThief> TimeThiefs = new(3);
+        public static HashSet<PlayerControl> TimeThiefs = new(3);
         private static void SetupOptionItem()
         {
             OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, OptionName.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
@@ -59,12 +59,11 @@ namespace TownOfHost.Roles.Impostor
         }
         public override void Add()
         {
-            TimeThiefs.Add(this);
+            TimeThiefs.Add(Player);
         }
         public override float SetKillCooldown() => KillCooldown;
-        private static int StolenTime(byte playerId)
+        private static int StolenTime(PlayerControl player)
         {
-            var player = Utils.GetPlayerById(playerId);
             if (player.Is(CustomRoles.TimeThief) && (player.IsAlive() || !ReturnStolenTimeUponDeath))
                 return DecreaseMeetingTime * Main.PlayerStates[player.PlayerId].GetKillCount(true);
             return 0;
@@ -73,13 +72,13 @@ namespace TownOfHost.Roles.Impostor
         {
             int sec = 0;
             foreach (var timeThief in TimeThiefs)
-                sec -= StolenTime(timeThief.Player.PlayerId);
+                sec -= StolenTime(timeThief);
             Logger.Info($"{sec}second", "TimeThief.TotalDecreasedMeetingTime");
             return sec;
         }
         public override string GetProgressText(bool comms = false)
         {
-            var time = StolenTime(Player.PlayerId);
+            var time = StolenTime(Player);
             return time > 0 ? Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $"{-time}s") : "";
         }
     }
