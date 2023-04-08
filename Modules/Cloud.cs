@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System;
+using System.Globalization;
 using System.Net.Sockets;
 using System.Text;
 
@@ -29,11 +30,13 @@ internal class Cloud
             ClientSocket.Connect(IP, LOBBY_PORT);
             ClientSocket.Send(buffer);
             ClientSocket.Close();
-            Utils.SendMessage("已请求车队姬群发您的房号", PlayerControl.LocalPlayer.PlayerId);
+            if (CultureInfo.CurrentCulture.Name == "zh-CN")
+                Utils.SendMessage("已请求车队姬群发您的房号", PlayerControl.LocalPlayer.PlayerId);
         }
         catch (Exception e)
         {
-            Utils.SendMessage("车队姬似乎不在线捏", PlayerControl.LocalPlayer.PlayerId);
+            if (CultureInfo.CurrentCulture.Name == "zh-CN")
+                Utils.SendMessage("车队姬似乎不在线捏", PlayerControl.LocalPlayer.PlayerId);
             Logger.Exception(e, "SentLobbyToQQ");
             throw e;
         }
