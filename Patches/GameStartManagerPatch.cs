@@ -165,14 +165,6 @@ namespace TownOfHost
                     && version.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})";
             }
         }
-        [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.SetText))]
-        public static class HiddenTextPatch
-        {
-            private static void Postfix(TextBoxTMP __instance)
-            {
-                if (__instance.name == "GameIdText") __instance.outputText.text = new string('*', __instance.text.Length);
-            }
-        }
     }
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
     public class GameStartRandomMap
@@ -241,6 +233,14 @@ namespace TownOfHost
                 Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
                 PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions));
             }
+        }
+    }
+    [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.SetText))]
+    public static class HiddenTextPatch
+    {
+        private static void Postfix(TextBoxTMP __instance)
+        {
+            if (__instance.name == "GameIdText") __instance.outputText.text = new string('*', __instance.text.Length);
         }
     }
     [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.GetAdjustedNumImpostors))]
