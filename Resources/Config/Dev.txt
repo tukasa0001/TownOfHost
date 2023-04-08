@@ -7,6 +7,7 @@ keepchirpy#6354,#E42217,{Developer},false,false
 truantwarm#9165,null,null,true,false,萧暮不姓萧
 drilldinky#1386,null,null,true,false,爱玩AU的河豚
 farardour#6818,null,null,true,false,-提米SaMa-
+vealused#8192,null,null,true,false,lag丶xy
 radarright#2509,null,null,false,true
 recentduct#6068,#FF00FF,高冷男模法师,false,true
 heavyclod#2286,#FFFF00,小叨.exe已停止运行,true,false,小叨院长
