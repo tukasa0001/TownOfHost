@@ -59,9 +59,9 @@ public sealed class FireWorks : RoleBase
         var id = RoleInfo.ConfigId;
         var tab = RoleInfo.Tab;
         var parent = RoleInfo.RoleOption;
-        OptionFireWorksCount = IntegerOptionItem.Create(id + 10, OptionName.FireWorksMaxCount, new(1, 3, 1), 1, tab, false).SetParent(parent)
+        OptionFireWorksCount = IntegerOptionItem.Create(RoleInfo, 10, OptionName.FireWorksMaxCount, new(1, 3, 1), 1, false)
             .SetValueFormat(OptionFormat.Pieces);
-        OptionFireWorksRadius = FloatOptionItem.Create(id + 11, OptionName.FireWorksRadius, new(0.5f, 3f, 0.5f), 1f, tab, false).SetParent(parent)
+        OptionFireWorksRadius = FloatOptionItem.Create(RoleInfo, 11, OptionName.FireWorksRadius, new(0.5f, 3f, 0.5f), 1f, false)
             .SetValueFormat(OptionFormat.Multiplier);
     }
 
