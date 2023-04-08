@@ -121,7 +121,6 @@ public static class Judge
                 target = dp;
 
                 string Name = dp.GetRealName();
-                Utils.SendMessage(string.Format(GetString("TrialKill"), Name), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Judge), GetString("TrialKillTitle")));
 
                 TrialLimit[pc.PlayerId]--;
 
@@ -142,6 +141,9 @@ public static class Judge
                         Executioner.ChangeRoleByTarget(target);
 
                     Utils.NotifyRoles(isForMeeting: true, NoCache: true);
+
+                    new LateTask(() => { Utils.SendMessage(string.Format(GetString("TrialKill"), Name), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Judge), GetString("TrialKillTitle"))); }, 0.6f, "Guess Msg");
+
                 }, 0.2f, "Trial Kill");
             }
         }
