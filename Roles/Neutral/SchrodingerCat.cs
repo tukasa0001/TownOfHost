@@ -22,8 +22,7 @@ public sealed class SchrodingerCat : RoleBase
     public SchrodingerCat(PlayerControl player)
     : base(
         RoleInfo,
-        player,
-        false
+        player
     )
     {
         CanWinTheCrewmateBeforeChange = OptionCanWinTheCrewmateBeforeChange.GetBool();

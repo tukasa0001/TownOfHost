@@ -275,7 +275,20 @@ namespace TownOfHost
                 var role = States.MainRole;
                 var roleClass = CustomRoleManager.GetByPlayerId(p.PlayerId);
                 if (roleClass != null)
-                    hasTasks = roleClass.HasTasks;
+                {
+                    switch (roleClass.HasTasks)
+                    {
+                        case HasTask.True:
+                            hasTasks = true;
+                            break;
+                        case HasTask.False:
+                            hasTasks = true;
+                            break;
+                        case HasTask.ForRecompute:
+                            hasTasks = !ForRecompute;
+                            break;
+                    }
+                }
                 switch (role)
                 {
                     case CustomRoles.GM:
