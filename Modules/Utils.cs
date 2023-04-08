@@ -891,7 +891,6 @@ namespace TownOfHost
         {
             CustomRoleManager.AllActiveRoles.Do(roleClass => roleClass.AfterMeetingTasks());
             EvilTracker.AfterMeetingTasks();
-            SerialKiller.AfterMeetingTasks();
             if (Options.AirShipVariableElectrical.GetBool())
                 AirShipElectricalDoors.Initialize();
         }

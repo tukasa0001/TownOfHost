@@ -101,9 +101,14 @@ public static class CustomRoleManager
     public static void OnMurderPlayer(PlayerControl appearanceKiller, PlayerControl appearanceTarget)
     {
         //MurderInfoの取得
-        //CheckMurderを経由していない場合はappearanceで処理
-        if (!CheckMurderInfos.TryGetValue(appearanceKiller.PlayerId, out var info))
+        if (CheckMurderInfos.TryGetValue(appearanceKiller.PlayerId, out var info))
         {
+            //参照出来たら削除
+            CheckMurderInfos.Remove(appearanceKiller.PlayerId);
+        }
+        else
+        {
+            //CheckMurderを経由していない場合はappearanceで処理
             info = new MurderInfo(appearanceKiller, appearanceTarget, appearanceKiller, appearanceTarget);
         }
 
@@ -121,6 +126,9 @@ public static class CustomRoleManager
         else
             OnMurderPlayerAsTarget(info);
 
+        //サブロール処理ができるまではラバーズをここで処理
+        FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
+
         //以降共通処理
         if (Main.PlayerStates[attemptTarget.PlayerId].deathReason == PlayerState.DeathReason.etc)
         {
@@ -137,8 +145,6 @@ public static class CustomRoleManager
 
         Utils.SyncAllSettings();
         Utils.NotifyRoles();
-
-        CheckMurderInfos.Remove(appearanceKiller.PlayerId);
     }
     /// <summary>
     /// RoleBase未実装のMurderPlayer処理
@@ -163,9 +169,6 @@ public static class CustomRoleManager
             Executioner.Target.Remove(attemptTarget.PlayerId);
             Executioner.SendRPC(attemptTarget.PlayerId);
         }
-
-        FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
-
     }
 
     public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
@@ -218,9 +221,6 @@ public static class CustomRoleManager
     {
         switch (pc.GetCustomRole())
         {
-            case CustomRoles.SerialKiller:
-                SerialKiller.Add(pc.PlayerId);
-                break;
             case CustomRoles.Witch:
                 Witch.Add(pc.PlayerId);
                 break;

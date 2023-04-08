@@ -428,9 +428,6 @@ namespace TownOfHost
             Main.AllPlayerKillCooldown[player.PlayerId] = player.GetRoleClass()?.SetKillCooldown() ?? Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
             switch (player.GetCustomRole())
             {
-                case CustomRoles.SerialKiller:
-                    SerialKiller.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
-                    break;
                 case CustomRoles.Arsonist:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
                     break;

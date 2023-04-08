@@ -73,9 +73,6 @@ namespace TownOfHost
                             else
                                 __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
                             break;
-                        case CustomRoles.SerialKiller:
-                            SerialKiller.GetAbilityButtonText(__instance, player);
-                            break;
                         case CustomRoles.Warlock:
                             if (!(Main.CheckShapeshift.TryGetValue(player.PlayerId, out bool shapeshifting) && shapeshifting) && !(Main.isCurseAndKill.TryGetValue(player.PlayerId, out bool curse) && curse))
                             {

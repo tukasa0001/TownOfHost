@@ -73,8 +73,14 @@ namespace TownOfHost
                 return false;
             }
             // targetがキル可能な状態か
-            if (target.Data == null || //PlayerDataがnullじゃないか確認
-                target.inVent || target.inMovingPlat) //targetの状態をチェック
+            if (
+                // PlayerDataがnullじゃないか確認
+                target.Data == null ||
+                // targetの状態をチェック
+                target.inVent ||
+                target.MyPhysics.Animations.IsPlayingEnterVentAnimation() ||
+                target.MyPhysics.Animations.IsPlayingAnyLadderAnimation() ||
+                target.inMovingPlat)
             {
                 Logger.Info("targetは現在キルできない状態です。", "CheckMurder");
                 return false;
@@ -130,9 +136,6 @@ namespace TownOfHost
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
-                    case CustomRoles.SerialKiller:
-                        SerialKiller.OnCheckMurder(killer);
-                        break;
                     case CustomRoles.Vampire:
                         info.DoKill = Vampire.OnCheckMurder(info);
                         break;
@@ -387,7 +390,6 @@ namespace TownOfHost
                 role.OnReportDeadBody(__instance, target);
             }
 
-            SerialKiller.OnReportDeadBody();
             Vampire.OnStartMeeting();
 
             Main.AllPlayerControls
@@ -441,7 +443,6 @@ namespace TownOfHost
                 DoubleTrigger.OnFixedUpdate(player);
                 Vampire.OnFixedUpdate(player);
 
-                if (GameStates.IsInTask && CustomRoles.SerialKiller.IsPresent()) SerialKiller.FixedUpdate(player);
                 if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
                 {
                     if (player.IsAlive())
