@@ -905,7 +905,7 @@ Message.MessageWaitHelp,指定一个数设定秒数,Specify the first argument i
 Message.TemplateNotFoundHost,未找到与“{0}”对应的消息,No messages matching ""{0}"" were found.,Сообщения соответствующие "{0}" не найдены
 Message.TemplateNotFoundClient,未找到与“{0}”相关的消息,No messages matching ""{0}"" were found.,Сообщения соответствующие "{0}" не найдены.
 Message.SyncButtonLeft,剩余紧急会议次数: {0}次，少拍桌多做事哦~,There are {0} more emergency buttons left,Кнопку экстренной встречи можно использовать еще {0} раз
-Message.Executed,【{0}】被房主处决了，请不要干坏事哦~,【{0}】 was executed,【{0}】 был казнен
+Message.Executed,【{0}】\n被房主使用指令处决了，请不要干坏事哦~,【{0}】 was executed,【{0}】 был казнен
 Message.HideGameSettings,游戏设置被房主隐藏,Game settings have been hidden by the host.,Настройки игры скрыты хостом
 Message.NowOverrideText,请房主在游戏根目录的 .\Language\SChinese.dat 文件中修改这段文本\n如果您不需要此功能或希望显示普通的/n消息\n请在设置里关掉“显示自定义的/n消息”,Please enter the root folder of the game.\Language\English.dat. Change this text in the dat file \nIf you don't need this feature or want to display regular /n messages. \nPlease disable "Enable only custom /n messages" in the settings.,"Пожалуйста, зайдите корневую папку игры.\Language\Russian.dat. Измените этот текст в файле dat \nЕсли вам не нужна эта функция или вы хотите отображать обычные /n сообщений. \nпожалуйста, отключите “Включить только пользовательские /n сообщения” в настройках."
 Message.NoDescription,无描述,No description,Описание отсутствует
@@ -1134,7 +1134,7 @@ turnOff,关,Off,Выкл
 CancelStartCountDown,开始倒计时被取消,The countdown to the start of the game has been cancelled,Обратный отсчет до начала игры был отменён
 RestTOHESetting,已恢复TOHE的默认设置,TOHE settings have been restored to default,Настройки TOHE были восстановлены по умолчанию
 FPSSetTo,帧数上限设置为: {0},FPS Set To: {0},FPS Установлен на: {0}
-HostKillSelfByCommand,房主选择自杀,Host lobby decided to commit suicide,Хост лобби решил покончить с собой
+HostKillSelfByCommand,房主选择自杀（使用了自杀指令）,Host lobby decided to commit suicide,Хост лобби решил покончить с собой
 SyncCustomSettingsRPC,已同步RPC,Synchronized RPC,Синхронизированный RPC
 TOHEVisitorCount,截至今日，TOHE已经被使用 <color={0}>{1}</color>次 啦~,To date TOHE has been used <color={0}>{1}</color> times~,На сегодняшний день TOHE использовался <color={0}>{1}</color> раз~
 Mode,模式,Mode,Режим
