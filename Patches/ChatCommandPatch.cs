@@ -451,6 +451,8 @@ internal class ChatCommands
                         Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.etc;
                         player.RpcExileV2();
                         Main.PlayerStates[player.PlayerId].SetDead();
+                        if (player.AmOwner) Utils.SendMessage(GetString("HostKillSelfByCommand"), title: $"<color=#ff0000>{GetString("DefaultSystemMessageTitle")}</color>");
+                        else Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     }
                     break;
 
@@ -462,7 +464,13 @@ internal class ChatCommands
                         break;
                     }
                     if (args.Length < 2 || !int.TryParse(args[1], out int id2)) break;
-                    Utils.GetPlayerById(id2)?.RpcMurderPlayerV3(Utils.GetPlayerById(id2));
+                    var target = Utils.GetPlayerById(id2);
+                    if (target != null)
+                    {
+                        target.RpcMurderPlayerV3(target);
+                        if (target.AmOwner) Utils.SendMessage(GetString("HostKillSelfByCommand"), title: $"<color=#ff0000>{GetString("DefaultSystemMessageTitle")}</color>");
+                        else Utils.SendMessage(string.Format(GetString("Message.Executed"), target.Data.PlayerName));
+                    }
                     break;
 
                 case "/colour":
