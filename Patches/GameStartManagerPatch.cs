@@ -165,76 +165,78 @@ namespace TownOfHost
                     && version.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})";
             }
         }
-    }
-    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
-    public class GameStartRandomMap
-    {
-        public static bool Prefix(GameStartManager __instance)
+
+        [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
+        public static class GameStartManagerBeginGamePatch
         {
-            var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
-            if (invalidColor.Count() != 0)
+            public static bool Prefix(GameStartManager __instance)
             {
-                var msg = Translator.GetString("Error.InvalidColor");
-                Logger.SendInGame(msg);
-                msg += "\n" + string.Join(",", invalidColor.Select(p => $"{p.name}({p.Data.DefaultOutfit.ColorId})"));
-                Utils.SendMessage(msg);
+                SelectRandomMap();
+
+                var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
+                if (invalidColor.Count() != 0)
+                {
+                    var msg = GetString("Error.InvalidColor");
+                    Logger.SendInGame(msg);
+                    msg += "\n" + string.Join(",", invalidColor.Select(p => $"{p.name}({p.Data.DefaultOutfit.ColorId})"));
+                    Utils.SendMessage(msg);
+                    return false;
+                }
+
+                RoleAssignManager.CheckRoleCount();
+
+                Options.DefaultKillCooldown = Main.NormalOptions.KillCooldown;
+                Main.LastKillCooldown.Value = Main.NormalOptions.KillCooldown;
+                Main.NormalOptions.KillCooldown = 0f;
+
+                var opt = Main.NormalOptions.Cast<IGameOptions>();
+                AURoleOptions.SetOpt(opt);
+                Main.LastShapeshifterCooldown.Value = AURoleOptions.ShapeshifterCooldown;
+                AURoleOptions.ShapeshifterCooldown = 0f;
+
+                PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(opt));
+
+                __instance.ReallyBegin(false);
                 return false;
             }
-
-            RoleAssignManager.CheckRoleCount();
-
-            Options.DefaultKillCooldown = Main.NormalOptions.KillCooldown;
-            Main.LastKillCooldown.Value = Main.NormalOptions.KillCooldown;
-            Main.NormalOptions.KillCooldown = 0f;
-
-            var opt = Main.NormalOptions.Cast<IGameOptions>();
-            AURoleOptions.SetOpt(opt);
-            Main.LastShapeshifterCooldown.Value = AURoleOptions.ShapeshifterCooldown;
-            AURoleOptions.ShapeshifterCooldown = 0f;
-
-            PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(opt));
-
-            __instance.ReallyBegin(false);
-            return false;
-        }
-        public static bool Prefix()
-        {
-            bool continueStart = true;
-            if (Options.RandomMapsMode.GetBool())
+            private static void SelectRandomMap()
             {
-                var rand = IRandom.Instance;
-                System.Collections.Generic.List<byte> RandomMaps = new();
-                /*TheSkeld   = 0
-                MIRAHQ     = 1
-                Polus      = 2
-                Dleks      = 3
-                TheAirShip = 4*/
-                if (Options.AddedTheSkeld.GetBool()) RandomMaps.Add(0);
-                if (Options.AddedMiraHQ.GetBool()) RandomMaps.Add(1);
-                if (Options.AddedPolus.GetBool()) RandomMaps.Add(2);
-                // if (Options.AddedDleks.GetBool()) RandomMaps.Add(3);
-                if (Options.AddedTheAirShip.GetBool()) RandomMaps.Add(4);
+                if (Options.RandomMapsMode.GetBool())
+                {
+                    var rand = IRandom.Instance;
+                    List<byte> RandomMaps = new();
+                    /*TheSkeld   = 0
+                    MIRAHQ     = 1
+                    Polus      = 2
+                    Dleks      = 3
+                    TheAirShip = 4*/
+                    if (Options.AddedTheSkeld.GetBool()) RandomMaps.Add(0);
+                    if (Options.AddedMiraHQ.GetBool()) RandomMaps.Add(1);
+                    if (Options.AddedPolus.GetBool()) RandomMaps.Add(2);
+                    // if (Options.AddedDleks.GetBool()) RandomMaps.Add(3);
+                    if (Options.AddedTheAirShip.GetBool()) RandomMaps.Add(4);
 
-                if (RandomMaps.Count <= 0) return true;
-                var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
-                Main.NormalOptions.MapId = MapsId;
-
+                    if (RandomMaps.Count <= 0) return;
+                    var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
+                    Main.NormalOptions.MapId = MapsId;
+                }
             }
-            return continueStart;
         }
-    }
-    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
-    class ResetStartStatePatch
-    {
-        public static void Prefix()
+
+        [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
+        class ResetStartStatePatch
         {
-            if (GameStates.IsCountDown)
+            public static void Prefix()
             {
-                Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
-                PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions));
+                if (GameStates.IsCountDown)
+                {
+                    Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
+                    PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions));
+                }
             }
         }
     }
+
     [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.SetText))]
     public static class HiddenTextPatch
     {
