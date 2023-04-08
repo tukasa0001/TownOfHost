@@ -119,7 +119,6 @@ namespace TownOfHost
             }
             CustomRoleManager.Initialize();
             FallFromLadder.Reset();
-            FireWorks.Init();
             TimeThief.Init();
             Witch.Init();
             Egoist.Init();

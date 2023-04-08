@@ -265,9 +265,6 @@ namespace TownOfHost
                 case CustomRoles.EvilTracker:
                     EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);
                     break;
-                case CustomRoles.FireWorks:
-                    FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
-                    break;
                 case CustomRoles.Warlock:
                     if (Main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
                     {
