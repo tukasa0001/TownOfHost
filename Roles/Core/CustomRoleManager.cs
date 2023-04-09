@@ -228,9 +228,6 @@ public static class CustomRoleManager
                 Main.CursedPlayers.Add(pc.PlayerId, null);
                 Main.isCurseAndKill.Add(pc.PlayerId, false);
                 break;
-            case CustomRoles.TimeThief:
-                TimeThief.Add(pc.PlayerId);
-                break;
             case CustomRoles.Vampire:
                 Vampire.Add(pc.PlayerId);
                 break;
