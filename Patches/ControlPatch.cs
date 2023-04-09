@@ -195,8 +195,9 @@ internal class ControllerManagerUpdatePatch
         //获取现在的坐标
         if (Input.GetKeyDown(KeyCode.I))
             Logger.Info(PlayerControl.LocalPlayer.GetTruePosition().ToString(), "GetLocalPlayerPos");
+
         //マスゲーム用コード
-        /*if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             foreach(var pc in PlayerControl.AllPlayerControls) {
                 if(!pc.AmOwner) pc.MyPhysics.RpcEnterVent(2);
@@ -221,7 +222,7 @@ internal class ControllerManagerUpdatePatch
         if (Input.GetKeyDown(KeyCode.N))
         {
             VentilationSystem.Update(VentilationSystem.Operation.StartCleaning, 0);
-        }*/
+        }
         //マスゲーム用コード終わり
     }
 
