@@ -20,8 +20,6 @@
 
 </p>
 
-<br>
-
 ---
 
 **This is a project for me to learn C#.**
