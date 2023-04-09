@@ -110,7 +110,7 @@ public sealed class BountyHunter : RoleBase
         }
         return;
     }
-    public override void OnFixedUpdate()
+    public override void OnFixedUpdate(PlayerControl player)
     {
         if (AmongUsClient.Instance.AmHost)
         {

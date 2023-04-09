@@ -126,6 +126,12 @@ public static class CustomRoleManager
         else
             OnMurderPlayerAsTarget(info);
 
+        //その他視点の処理があれば実行
+        foreach (var onMurderPlayer in OnMurderPlayerOthers)
+        {
+            onMurderPlayer(info);
+        }
+
         //サブロール処理ができるまではラバーズをここで処理
         FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
 
@@ -146,6 +152,12 @@ public static class CustomRoleManager
         Utils.SyncAllSettings();
         Utils.NotifyRoles();
     }
+    /// <summary>
+    /// その他視点からのMurderPlayer処理
+    /// 初期化時にOnMurderPlayerOthers+=で登録
+    /// </summary>
+    public static HashSet<Action<MurderInfo>> OnMurderPlayerOthers = new();
+
     /// <summary>
     /// RoleBase未実装のMurderPlayer処理
     /// </summary>
@@ -170,6 +182,25 @@ public static class CustomRoleManager
             Executioner.SendRPC(attemptTarget.PlayerId);
         }
     }
+    public static void OnFixedUpdate(PlayerControl player)
+    {
+        if (GameStates.IsInTask)
+        {
+            player.GetRoleClass()?.OnFixedUpdate(player);
+            //その他視点処理があれば実行
+            foreach (var onFixedUpdate in OnFixedUpdateOthers)
+            {
+                onFixedUpdate(player);
+            }
+        }
+    }
+    /// <summary>
+    /// タスクターンに常時呼ばれる関数
+    /// 他役職への干渉用
+    /// Host以外も呼ばれるので注意
+    /// 初期化時にOnFixedUpdateOthers+=で登録
+    /// </summary>
+    public static HashSet<Action<PlayerControl>> OnFixedUpdateOthers = new();
 
     public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
     {
@@ -196,6 +227,8 @@ public static class CustomRoleManager
         LowerOthers.Clear();
         SuffixOthers.Clear();
         CheckMurderInfos.Clear();
+        OnMurderPlayerOthers.Clear();
+        OnFixedUpdateOthers.Clear();
     }
     public static void CreateInstance()
     {
@@ -338,6 +371,9 @@ public static class CustomRoleManager
         LowerOthers.Clear();
         SuffixOthers.Clear();
         CheckMurderInfos.Clear();
+        OnMurderPlayerOthers.Clear();
+        OnFixedUpdateOthers.Clear();
+
         AllActiveRoles.Do(roleClass => roleClass.Dispose());
     }
 }

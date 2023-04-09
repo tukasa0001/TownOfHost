@@ -259,7 +259,7 @@ public sealed class Sniper : RoleBase
                 );
         }
     }
-    public override void OnFixedUpdate()
+    public override void OnFixedUpdate(PlayerControl player)
     {
         if (!Player.IsAlive()) return;
 
