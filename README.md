@@ -12,8 +12,9 @@
 > 该模组不隶属于我们之中或 Innersloth LLC，其中包含的内容未经 Innersloth LLC 认可或以其他方式赞助。 此处包含的部分材料是 Innersloth LLC 的财产。 © Innersloth LLC。
 >
 
-###  :zap: 更多信息请移步：[**tohe.cc**](https://tohe.cc)
-###  :sparkles: 最新版本下载：[点我](https://github.com/KARPED1EM/TownOfHostEdited/releases/latest)
+###  :zap: Discord：[**Click Here**](https://discord.gg/5PNwUaN5)
+###  :bookmark_tabs: 更多信息请移步：[**tohe.cc**](https://tohe.cc)
+###  :sparkles: Latest Version：[点我](https://github.com/KARPED1EM/TownOfHostEdited/releases/latest)
 
 </p>
 
