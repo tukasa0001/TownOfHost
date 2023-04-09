@@ -28,7 +28,7 @@ namespace TownOfHost.Roles.Impostor
             LowerLimitVotingTime = OptionLowerLimitVotingTime.GetInt();
             ReturnStolenTimeUponDeath = OptionReturnStolenTimeUponDeath.GetBool();
 
-            TimeThiefs.Clear();
+            TimeThiefs.Add(player);
         }
         private static OptionItem OptionKillCooldown;
         private static OptionItem OptionDecreaseMeetingTime;
@@ -57,9 +57,9 @@ namespace TownOfHost.Roles.Impostor
                 .SetValueFormat(OptionFormat.Seconds);
             OptionReturnStolenTimeUponDeath = BooleanOptionItem.Create(RoleInfo, 13, OptionName.TimeThiefReturnStolenTimeUponDeath, true, false);
         }
-        public override void Add()
+        public override void OnDestroy()
         {
-            TimeThiefs.Add(Player);
+            TimeThiefs.Clear();
         }
         public override float SetKillCooldown() => KillCooldown;
         private static int StolenTime(PlayerControl player)
