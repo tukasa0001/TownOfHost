@@ -1196,8 +1196,6 @@ class FixedUpdatePatch
                         int time = (int)(Main.RevolutionistLastTime[player.PlayerId] - Main.RevolutionistStart[player.PlayerId]);
                         int countdown = Options.RevolutionistVentCountDown.GetInt() - time;
                         Main.RevolutionistCountdown.Clear();
-                        Main.RevolutionistCountdown.Add(player.PlayerId, countdown);
-                        Utils.NotifyRoles(player);
                         if (countdown <= 0)//倒计时结束
                         {
                             Utils.GetDrawPlayerCount(player.PlayerId, out var y);
@@ -1207,11 +1205,16 @@ class FixedUpdatePatch
                                 Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
                                 pc.RpcMurderPlayerV3(pc);
                                 Main.PlayerStates[pc.PlayerId].SetDead();
+                                Utils.NotifyRoles(pc);
                             }
                             player.Data.IsDead = true;
                             Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
                             player.RpcMurderPlayerV3(player);
                             Main.PlayerStates[player.PlayerId].SetDead();
+                        }
+                        else
+                        {
+                            Main.RevolutionistCountdown.Add(player.PlayerId, countdown);
                         }
                     }
                     else
