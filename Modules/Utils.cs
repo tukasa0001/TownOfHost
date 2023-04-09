@@ -1247,7 +1247,8 @@ public static class Utils
     {
         int draw = 0;
         int all = Options.RevolutionistDrawCount.GetInt();
-        int max = Main.AllAlivePlayerControls.Count() - 1;
+        int max = Main.AllAlivePlayerControls.Count();
+        if (!Main.PlayerStates[playerId].IsDead) max--;
         winnerList = new();
         if (all > max) all = max;
         foreach (var pc in Main.AllPlayerControls)
