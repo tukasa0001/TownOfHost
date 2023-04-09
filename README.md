@@ -3,7 +3,7 @@
 
 <br>
 
-<img align="left" alt="Cover" src="Resources/Images/TOHE-BG.jpg" width="40%" height="auto" /> 
+<img align="left" alt="Cover" src="Resources/Images/TOHE-BG.jpg" width="50%" height="auto" /> 
 
 <p align="right">
   
@@ -20,7 +20,7 @@
 
 </p>
 
-<br>
+<br><br>
 
 ---
 
