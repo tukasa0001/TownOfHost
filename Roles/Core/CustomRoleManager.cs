@@ -101,9 +101,14 @@ public static class CustomRoleManager
     public static void OnMurderPlayer(PlayerControl appearanceKiller, PlayerControl appearanceTarget)
     {
         //MurderInfoの取得
-        //CheckMurderを経由していない場合はappearanceで処理
-        if (!CheckMurderInfos.TryGetValue(appearanceKiller.PlayerId, out var info))
+        if (CheckMurderInfos.TryGetValue(appearanceKiller.PlayerId, out var info))
         {
+            //参照出来たら削除
+            CheckMurderInfos.Remove(appearanceKiller.PlayerId);
+        }
+        else
+        {
+            //CheckMurderを経由していない場合はappearanceで処理
             info = new MurderInfo(appearanceKiller, appearanceTarget, appearanceKiller, appearanceTarget);
         }
 
@@ -121,6 +126,9 @@ public static class CustomRoleManager
         else
             OnMurderPlayerAsTarget(info);
 
+        //サブロール処理ができるまではラバーズをここで処理
+        FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
+
         //以降共通処理
         if (Main.PlayerStates[attemptTarget.PlayerId].deathReason == PlayerState.DeathReason.etc)
         {
@@ -137,8 +145,6 @@ public static class CustomRoleManager
 
         Utils.SyncAllSettings();
         Utils.NotifyRoles();
-
-        CheckMurderInfos.Remove(appearanceKiller.PlayerId);
     }
     /// <summary>
     /// RoleBase未実装のMurderPlayer処理
@@ -149,21 +155,13 @@ public static class CustomRoleManager
         (var attemptKiller, var attemptTarget) = info.AttemptTuple;
         var suicide = info.IsSuicide;
         //RoleClass非対応の処理
-        if (attemptTarget.Is(CustomRoles.Bait) && !suicide)
-        {
-            Logger.Info(attemptTarget?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
-            new LateTask(() => attemptKiller.CmdReportDeadBody(attemptTarget.Data), 0.15f, "Bait Self Report");
-        }
-        else if (attemptTarget.Is(CustomRoles.Terrorist))
+        if (attemptTarget.Is(CustomRoles.Terrorist))
         {
             Logger.Info(attemptTarget?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
             Utils.CheckTerroristWin(attemptTarget.Data);
         }
         else if (attemptTarget.Is(CustomRoles.Trapper) && !suicide)
             attemptKiller.TrapperKilled(attemptTarget);
-
-        FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
-
     }
 
     public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
@@ -216,18 +214,12 @@ public static class CustomRoleManager
     {
         switch (pc.GetCustomRole())
         {
-            case CustomRoles.SerialKiller:
-                SerialKiller.Add(pc.PlayerId);
-                break;
             case CustomRoles.Witch:
                 Witch.Add(pc.PlayerId);
                 break;
             case CustomRoles.Warlock:
                 Main.CursedPlayers.Add(pc.PlayerId, null);
                 Main.isCurseAndKill.Add(pc.PlayerId, false);
-                break;
-            case CustomRoles.FireWorks:
-                FireWorks.Add(pc.PlayerId);
                 break;
             case CustomRoles.TimeThief:
                 TimeThief.Add(pc.PlayerId);
@@ -463,4 +455,10 @@ public enum CustomRoleTypes
     Impostor,
     Neutral,
     Madmate
+}
+public enum HasTask
+{
+    True,
+    False,
+    ForRecompute
 }

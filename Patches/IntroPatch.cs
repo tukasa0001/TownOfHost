@@ -286,6 +286,14 @@ namespace TownOfHost
                             break;
                     }
                 }
+
+                // そのままだとホストのみDesyncImpostorの暗室内での視界がクルー仕様になってしまう
+                var roleInfo = PlayerControl.LocalPlayer.GetCustomRole().GetRoleInfo();
+                var amDesyncImpostor = roleInfo?.RequireResetCam == true || Main.ResetCamPlayerList.Contains(PlayerControl.LocalPlayer.PlayerId);
+                if (amDesyncImpostor)
+                {
+                    PlayerControl.LocalPlayer.Data.Role.AffectedByLightAffectors = false;
+                }
             }
             Logger.Info("OnDestroy", "IntroCutscene");
         }

@@ -110,7 +110,6 @@ namespace TownOfHost
         /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
         /// </summary>
         public static Dictionary<byte, byte> PuppeteerList = new();
-        public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool isCursed;
@@ -203,11 +202,9 @@ namespace TownOfHost
                     {CustomRoles.Watcher, "#800080"},
                     //特殊クルー役職
                     {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
-                    {CustomRoles.Bait, "#00f7ff"},
                     {CustomRoles.SabotageMaster, "#0000ff"},
                     {CustomRoles.Snitch, "#b8fb4f"},
                     {CustomRoles.Lighter, "#eee5be"},
-                    {CustomRoles.SpeedBooster, "#00ffff"},
                     {CustomRoles.Doctor, "#80ffdd"},
                     {CustomRoles.Trapper, "#5a8fd0"},
                     {CustomRoles.Dictator, "#df9b00"},

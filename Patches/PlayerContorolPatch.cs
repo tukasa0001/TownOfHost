@@ -73,8 +73,14 @@ namespace TownOfHost
                 return false;
             }
             // targetがキル可能な状態か
-            if (target.Data == null || //PlayerDataがnullじゃないか確認
-                target.inVent || target.inMovingPlat) //targetの状態をチェック
+            if (
+                // PlayerDataがnullじゃないか確認
+                target.Data == null ||
+                // targetの状態をチェック
+                target.inVent ||
+                target.MyPhysics.Animations.IsPlayingEnterVentAnimation() ||
+                target.MyPhysics.Animations.IsPlayingAnyLadderAnimation() ||
+                target.inMovingPlat)
             {
                 Logger.Info("targetは現在キルできない状態です。", "CheckMurder");
                 return false;
@@ -130,9 +136,6 @@ namespace TownOfHost
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
-                    case CustomRoles.SerialKiller:
-                        SerialKiller.OnCheckMurder(killer);
-                        break;
                     case CustomRoles.Vampire:
                         info.DoKill = Vampire.OnCheckMurder(info);
                         break;
@@ -262,9 +265,6 @@ namespace TownOfHost
                 case CustomRoles.EvilTracker:
                     EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);
                     break;
-                case CustomRoles.FireWorks:
-                    FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
-                    break;
                 case CustomRoles.Warlock:
                     if (Main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
                     {
@@ -387,7 +387,6 @@ namespace TownOfHost
                 role.OnReportDeadBody(__instance, target);
             }
 
-            SerialKiller.OnReportDeadBody();
             Vampire.OnStartMeeting();
 
             Main.AllPlayerControls
@@ -441,7 +440,6 @@ namespace TownOfHost
                 DoubleTrigger.OnFixedUpdate(player);
                 Vampire.OnFixedUpdate(player);
 
-                if (GameStates.IsInTask && CustomRoles.SerialKiller.IsPresent()) SerialKiller.FixedUpdate(player);
                 if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
                 {
                     if (player.IsAlive())
@@ -884,37 +882,6 @@ namespace TownOfHost
                     foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
                     {
                         NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
-                    }
-                }
-                if (pc.Is(CustomRoles.SpeedBooster))
-                {
-                    //FIXME:SpeedBooster class transplant
-                    if (pc.IsAlive()
-                    && (isTaskFinish || (taskState.CompletedTasksCount) >= Options.SpeedBoosterTaskTrigger.GetInt())
-                    && !Main.SpeedBoostTarget.ContainsKey(pc.PlayerId))
-                    {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合
-                        var rand = IRandom.Instance;
-                        List<PlayerControl> targetPlayers = new();
-                        //切断者と死亡者を除外
-                        foreach (var p in Main.AllAlivePlayerControls)
-                        {
-                            if (!Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetPlayers.Add(p);
-                        }
-                        //ターゲットが0ならアップ先をプレイヤーをnullに
-                        if (targetPlayers.Count >= 1)
-                        {
-                            PlayerControl target = targetPlayers[rand.Next(0, targetPlayers.Count)];
-                            Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
-                            Main.SpeedBoostTarget.Add(pc.PlayerId, target.PlayerId);
-                            Main.AllPlayerSpeed[Main.SpeedBoostTarget[pc.PlayerId]] += Options.SpeedBoosterUpSpeed.GetFloat();
-                            target.MarkDirtySettings();
-                        }
-                        else
-                        {
-                            Main.SpeedBoostTarget.Add(pc.PlayerId, 255);
-                            Logger.SendInGame("Error.SpeedBoosterNullException");
-                            Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
-                        }
                     }
                 }
                 if (isTaskFinish && pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor)

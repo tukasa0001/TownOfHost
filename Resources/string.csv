@@ -263,7 +263,6 @@
 "HideGameSettings","Hide Game Settings","ゲーム設定を隠す","隐藏游戏设置","隱藏遊戲設定","Скрыть настройки Игры","Esconder Configurações"
 "RoleOptions","Role Options","役職設定","职业设置","職業設定","Настройка Ролей","Opções de Papéis"
 "ModeOptions","Mode Options","モード設定","模组设置","模式設定","Настройка Режима","Opções de Modos"
-"ForceJapanese","Force Japanese","日本語に強制","强制使用日语","強制使用日語","Принудительный Японский","Forçar Japonês"
 "AutoDisplayLastResult","Auto Display Last Result","自動的に試合結果を表示","自动显示最终结果","自動顯示上一回合結果","Отображать результат последней игры в чате","Mostrar Ultimo Resultado"
 "AutoDisplayKillLog","Auto Display KillLog","自動的にキルログを表示","自动显示击杀日志","","Отображать историю убийств в чате",""
 "VoteMode","Voting Mode","投票モード","投票相关设定","投票設定","Режим Голосования","Modo de Votação"
@@ -467,6 +466,12 @@
 "PolusReactorTimeLimit","Polus Reactor Duration","ポーラスのリアクター制限時間","波鲁斯抗震稳定器修理时限","Polus地震抑制器破壞最大時間","Polus время саботажа Реактора","Duração do Reator em Polus"
 "AirshipReactorTimeLimit","Airship Reactor Duration","エアシップのリアクター制限時間","飞艇坠毁路线修理时限","Airship間隙室破壞最大時間","Airship время саботажа Реактора","Duração do Reator em Airship"
 
+"## クライアント設定"
+"Close","Close","閉じる","","","",""
+"TOHOptions","<color=#00bfff>TOH</color> Options","<color=#00bfff>TOH</color>の設定","","","",""
+"ForceJapanese","Force Japanese","日本語に強制","强制使用日语","強制使用日語","Принудительный Японский","Forçar Japonês"
+"JapaneseRoleName","Japanese Role Name","日本語の役職名","","","",""
+
 "## ヘルプテキスト"
 "CommandList","Command List:","コマンド一覧:","指令列表:","指令列表:","Список команд:","Lista de Comandos:"
 "Command.winner","Display Winners","勝者を表示","显示获胜玩家","顯示上一局的獲勝玩家","Показать победителей","Mostrar Ganhadores"
@@ -504,6 +509,8 @@
 "Warning.NoModHost","No mod installed on the host","ホストにMODが導入されていません","该房主并未安装mod","該房房主沒有安裝Town Of Host模組","У Хоста Лобби не установлен Town of Host",""
 "Warning.MismatchedVersion",""{0}\nhave a different version of {1}","{0} の\n{1} のバージョンがホストと合致しません。"
 "Warning.AutoExitAtMismatchedVersion","The host has no or a different version of {0}\nYou will be kicked in {1}","{0} のバージョンがホストと合致しません。\nあと {1} 秒で切断されます。"
+"Warning.NotMatchImpostorCount","Max/min number of Impostor roles is greater than the number of Impostors.","インポスター役職の最小/最大割り当て人数がインポスターより多すぎます。"
+"Warning.NotMatchRoleCount","The role is not cast correctly because the minimum number of roles is greater than the number of players.","ロールの最少人数合計がプレイヤーより多いため正常に配役されません。"
 
 "## エラー"
 "Error.MeetingException","Error: {0}\r\nPlease use SHIFT+M+ENTER to end the meeting","エラー: {0}\r\nSHIFT+M+ENTERで会議を強制終了してください","错误: {0}\r\n使用 SHIFT+M+ENTER 来中止会议","錯誤: {0}\r\n按下SHIFT+M+ENTER來結束會議","Ошибка: {0}\r\nПожалуйста используйте SHIFT+M+ENTER чтобы принудительно завершить собрание","Erro: {0}\r\nPor favor use SHIFT+M+ENTER para encerrar a reunião"

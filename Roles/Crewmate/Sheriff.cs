@@ -27,7 +27,7 @@ public sealed class Sheriff : RoleBase
     : base(
         RoleInfo,
         player,
-        false
+        HasTask.False
     )
     {
         ShotLimit = ShotLimitOpt.GetInt();
@@ -120,8 +120,6 @@ public sealed class Sheriff : RoleBase
         && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
         && ShotLimit > 0;
     public override bool CanSabotage(SystemTypes systemType) => false;
-
-    // == CheckMurder関連処理 ==
     public override void OnCheckMurderAsKiller(MurderInfo info)
     {
         if (Is(info.AttemptKiller) && !info.IsSuicide)
@@ -150,7 +148,6 @@ public sealed class Sheriff : RoleBase
         }
         return;
     }
-    // ==/CheckMurder関連処理 ==
     public override string GetProgressText(bool comms = false) => Utils.ColorString(CanUseKillButton() ? Color.yellow : Color.gray, $"({ShotLimit})");
     public static bool CanBeKilledBy(PlayerControl player)
     {

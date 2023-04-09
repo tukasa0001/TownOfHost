@@ -386,7 +386,6 @@ namespace TownOfHost
 
             return pc.GetCustomRole() switch
             {
-                CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Mafia => Utils.CanMafiaKill(),
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
@@ -428,9 +427,6 @@ namespace TownOfHost
             Main.AllPlayerKillCooldown[player.PlayerId] = player.GetRoleClass()?.SetKillCooldown() ?? Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
             switch (player.GetCustomRole())
             {
-                case CustomRoles.SerialKiller:
-                    SerialKiller.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
-                    break;
                 case CustomRoles.TimeThief:
                     TimeThief.SetKillCooldown(player.PlayerId); //タイムシーフはタイムシーフのキルクールに。
                     break;

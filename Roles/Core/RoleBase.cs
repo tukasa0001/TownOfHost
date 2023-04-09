@@ -16,7 +16,7 @@ public abstract class RoleBase : IDisposable
     /// タスクは持っているか。
     /// 初期値はクルー役職のみ持つ
     /// </summary>
-    public bool HasTasks;
+    public HasTask HasTasks;
     /// <summary>
     /// キル能力を持っているか
     /// </summary>
@@ -28,12 +28,12 @@ public abstract class RoleBase : IDisposable
     public RoleBase(
         SimpleRoleInfo roleInfo,
         PlayerControl player,
-        bool? hasTasks = null,
+        HasTask? hasTasks = null,
         bool? canKill = null
     )
     {
         Player = player;
-        HasTasks = hasTasks ?? roleInfo.CustomRoleType == CustomRoleTypes.Crewmate;
+        HasTasks = hasTasks ?? (roleInfo.CustomRoleType == CustomRoleTypes.Crewmate ? HasTask.True : HasTask.False);
         CanKill = canKill ?? roleInfo.BaseRoleType.Invoke() is RoleTypes.Impostor or RoleTypes.Shapeshifter;
         IsKiller = CanKill;
 

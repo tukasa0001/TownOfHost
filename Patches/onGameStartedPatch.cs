@@ -45,7 +45,6 @@ namespace TownOfHost
 
             Main.CheckShapeshift = new();
             Main.ShapeshiftTarget = new();
-            Main.SpeedBoostTarget = new Dictionary<byte, byte>();
 
             ReportDeadBodyPatch.CanReport = new();
 
@@ -119,8 +118,6 @@ namespace TownOfHost
             }
             CustomRoleManager.Initialize();
             FallFromLadder.Reset();
-            SerialKiller.Init();
-            FireWorks.Init();
             TimeThief.Init();
             Witch.Init();
             Egoist.Init();

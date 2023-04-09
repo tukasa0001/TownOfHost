@@ -157,9 +157,6 @@ namespace TownOfHost
                     for (int i = 0; i < count; i++)
                         Main.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
                     break;
-                case CustomRPC.SendFireWorksState:
-                    FireWorks.ReceiveRPC(reader);
-                    break;
                 case CustomRPC.SetCurrentDousingTarget:
                     byte arsonistId = reader.ReadByte();
                     byte dousingTargetId = reader.ReadByte();
