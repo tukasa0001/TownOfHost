@@ -64,7 +64,11 @@ namespace TownOfHost
                 exiled.IsDead = true;
                 Main.PlayerStates[exiled.PlayerId].deathReason = PlayerState.DeathReason.Vote;
 
-                CustomRoleManager.GetByPlayerId(exiled.PlayerId).OnExileWrapUp(exiled, ref DecidedWinner);
+                foreach (var roleClass in CustomRoleManager.AllActiveRoles)
+                {
+                    if (roleClass.Player.GetCustomRole().IsPresent())
+                        roleClass.OnExileWrapUp(exiled, ref DecidedWinner);
+                }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
                 {
                     Utils.CheckTerroristWin(exiled);
