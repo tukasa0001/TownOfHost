@@ -5,6 +5,7 @@ using HarmonyLib;
 using InnerNet;
 
 using TownOfHost.Modules;
+using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
@@ -78,6 +79,7 @@ namespace TownOfHost
             //            main.RealNames.Remove(data.Character.PlayerId);
             if (GameStates.IsInGame)
             {
+                var roleClass = data.Character.GetRoleClass();
                 if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
                     foreach (var lovers in Main.LoversPlayers.ToArray())
                     {
@@ -85,10 +87,10 @@ namespace TownOfHost
                         Main.LoversPlayers.Remove(lovers);
                         Main.PlayerStates[lovers.PlayerId].RemoveSubRole(CustomRoles.Lovers);
                     }
-                if (data.Character.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(data.Character.PlayerId))
-                    Executioner.ChangeRole(data.Character);
-                if (Executioner.Target.ContainsValue(data.Character.PlayerId))
-                    Executioner.ChangeRoleByTarget(data.Character);
+                if (roleClass is Executioner executioner)
+                    executioner.ChangeRole();
+                if (CustomRoles.Executioner.IsPresent())
+                    Executioner.ChangeRoleByTarget(data.Character.PlayerId);
                 if (Main.PlayerStates[data.Character.PlayerId].deathReason == PlayerState.DeathReason.etc) //死因が設定されていなかったら
                 {
                     Main.PlayerStates[data.Character.PlayerId].deathReason = PlayerState.DeathReason.Disconnected;

@@ -124,7 +124,6 @@ namespace TownOfHost
             TimeThief.Init();
             Witch.Init();
             Egoist.Init();
-            Executioner.Init();
             Jackal.Init();
             EvilTracker.Init();
             Vampire.Init();

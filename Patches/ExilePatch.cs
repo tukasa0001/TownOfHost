@@ -1,6 +1,7 @@
 using AmongUs.Data;
 using HarmonyLib;
 
+using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Crewmate;
@@ -69,7 +70,6 @@ namespace TownOfHost
                     Utils.CheckTerroristWin(exiled);
                     DecidedWinner = true;
                 }
-                Executioner.CheckExileTarget(exiled, DecidedWinner);
                 SchrodingerCat.ChangeTeam(exiled.Object);
 
 
@@ -136,6 +136,7 @@ namespace TownOfHost
                     Main.AfterMeetingDeathPlayers.Do(x =>
                     {
                         var player = Utils.GetPlayerById(x.Key);
+                        var roleClass = CustomRoleManager.GetByPlayerId(x.Key);
                         var requireResetCam = player?.GetCustomRole().GetRoleInfo()?.RequireResetCam;
                         Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
                         Main.PlayerStates[x.Key].deathReason = x.Value;
@@ -145,8 +146,8 @@ namespace TownOfHost
                             player?.SetRealKiller(player, true);
                         if (Main.ResetCamPlayerList.Contains(x.Key) || (requireResetCam.HasValue && requireResetCam.Value))
                             player?.ResetPlayerCam(1f);
-                        if (Executioner.Target.ContainsValue(x.Key))
-                            Executioner.ChangeRoleByTarget(player);
+                        if (roleClass is Executioner executioner && executioner.Target == x.Key)
+                            Executioner.ChangeRoleByTarget(x.Key);
                     });
                     Main.AfterMeetingDeathPlayers.Clear();
                 }, 0.5f, "AfterMeetingDeathPlayers Task");

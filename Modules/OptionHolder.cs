@@ -402,7 +402,6 @@ namespace TownOfHost
             SetupLoversRoleOptionsToggle(50300);
 
             Egoist.SetupCustomOption();
-            Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
 
             // Add-Ons

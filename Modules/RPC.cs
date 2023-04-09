@@ -30,7 +30,6 @@ namespace TownOfHost
         SniperSync,
         SetLoversPlayers,
         SetExecutionerTarget,
-        RemoveExecutionerTarget,
         SendFireWorksState,
         SetCurrentDousingTarget,
         SetEvilTrackerTarget,
@@ -157,12 +156,6 @@ namespace TownOfHost
                     int count = reader.ReadInt32();
                     for (int i = 0; i < count; i++)
                         Main.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
-                    break;
-                case CustomRPC.SetExecutionerTarget:
-                    Executioner.ReceiveRPC(reader, SetTarget: true);
-                    break;
-                case CustomRPC.RemoveExecutionerTarget:
-                    Executioner.ReceiveRPC(reader, SetTarget: false);
                     break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.ReceiveRPC(reader);

@@ -29,16 +29,6 @@ public sealed class Jester : RoleBase
 
         CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jester);
         CustomWinnerHolder.WinnerIds.Add(exiled.PlayerId);
-        //吊られたJesterをターゲットにしているExecutionerも追加勝利
-        foreach (var executioner in Executioner.playerIdList)
-        {
-            var GetValue = Executioner.Target.TryGetValue(executioner, out var targetId);
-            if (GetValue && exiled.PlayerId == targetId)
-            {
-                CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
-                CustomWinnerHolder.WinnerIds.Add(executioner);
-            }
-        }
         DecidedWinner = true;
     }
 }

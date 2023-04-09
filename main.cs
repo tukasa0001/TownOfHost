@@ -217,7 +217,6 @@ namespace TownOfHost
                     //ニュートラル役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Terrorist, "#00ff00"},
-                    {CustomRoles.Executioner, "#611c3a"},
                     {CustomRoles.Opportunist, "#00ff00"},
                     {CustomRoles.SchrodingerCat, "#696969"},
                     {CustomRoles.Egoist, "#5600ff"},

@@ -54,7 +54,6 @@ namespace TownOfHost
                 CustomRoles.Opportunist or
                 CustomRoles.SchrodingerCat or
                 CustomRoles.Terrorist or
-                CustomRoles.Executioner or
                 CustomRoles.Arsonist or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or

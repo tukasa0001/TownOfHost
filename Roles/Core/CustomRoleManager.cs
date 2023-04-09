@@ -161,13 +161,6 @@ public static class CustomRoleManager
         }
         else if (attemptTarget.Is(CustomRoles.Trapper) && !suicide)
             attemptKiller.TrapperKilled(attemptTarget);
-        else if (Executioner.Target.ContainsValue(attemptTarget.PlayerId))
-            Executioner.ChangeRoleByTarget(attemptTarget);
-        else if (attemptTarget.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(attemptTarget.PlayerId))
-        {
-            Executioner.Target.Remove(attemptTarget.PlayerId);
-            Executioner.SendRPC(attemptTarget.PlayerId);
-        }
 
         FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
 
@@ -246,9 +239,6 @@ public static class CustomRoleManager
             case CustomRoles.Arsonist:
                 foreach (var ar in Main.AllPlayerControls)
                     Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
-                break;
-            case CustomRoles.Executioner:
-                Executioner.Add(pc.PlayerId);
                 break;
             case CustomRoles.Egoist:
                 Egoist.Add(pc.PlayerId);

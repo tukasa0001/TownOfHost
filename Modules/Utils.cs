@@ -294,7 +294,7 @@ namespace TownOfHost
                             hasTasks = false;
                         break;
                     case CustomRoles.Executioner:
-                        if (Executioner.ChangeRolesAfterTargetKilled.GetValue() == 0)
+                        if (Executioner.ChangeRolesAfterTargetKilled == CustomRoles.Crewmate)
                             hasTasks = !ForRecompute;
                         else hasTasks = false;
                         break;
@@ -859,7 +859,6 @@ namespace TownOfHost
 
                         if (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
                             TargetMark.Append(ColorString(GetRoleColor(CustomRoles.MadSnitch), "★"));
-                        TargetMark.Append(Executioner.TargetMark(seer, target));
 
                         string TargetDeathReason = "";
                         if (seer.KnowDeathReason(target))
