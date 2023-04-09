@@ -497,7 +497,7 @@ PlayerCanSetColor,允许玩家使用/color指令,"Players can use the /color com
 RoleOptions,职业设置,Role Options,Настройка Ролей
 ModeOptions,模组设置,Mode Options,Настройка Режима
 AutoStart,人满自动开始,Auto start at full lobby,Авто. запуск игры при полном лобби
-DisableTOHE,切换为原版,Disable TOHE,Отключить TOHE
+SwitchVanilla,切换为原版,Switch Vanilla,
 UnlockFPS,解锁帧数限制,Unlock FPS,Убрать ограничение FPS
 AutoDisplayKillLog,结束后自动显示击杀记录,Display Killlog,Показывать убийства
 AutoDisplayLastRoles,结束后自动显示上局职业,Display Last Roles,Показывать роли в прошлой игре

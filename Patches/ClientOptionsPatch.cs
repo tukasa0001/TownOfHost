@@ -9,13 +9,13 @@ public static class OptionsMenuBehaviourStartPatch
 {
     private static ClientOptionItem UnlockFPS;
     private static ClientOptionItem AutoStart;
-    private static ClientOptionItem DisableTOHE;
+    private static ClientOptionItem SwitchVanilla;
 
     public static void Postfix(OptionsMenuBehaviour __instance)
     {
         if (__instance.DisableMouseMovement == null) return;
 
-        Main.DisableTOHE.Value = false;
+        Main.SwitchVanilla.Value = false;
         if (!Main.SetAutoStartToDisable)
         {
             Main.AutoStart.Value = false;
@@ -43,10 +43,10 @@ public static class OptionsMenuBehaviourStartPatch
                 }
             }
         }
-        if (DisableTOHE == null || DisableTOHE.ToggleButton == null)
+        if (SwitchVanilla == null || SwitchVanilla.ToggleButton == null)
         {
-            DisableTOHE = ClientOptionItem.Create("DisableTOHE", Main.DisableTOHE, __instance, DisableTOHEButtonToggle);
-            static void DisableTOHEButtonToggle()
+            SwitchVanilla = ClientOptionItem.Create("SwitchVanilla", Main.SwitchVanilla, __instance, SwitchVanillaButtonToggle);
+            static void SwitchVanillaButtonToggle()
             {
                 Harmony.UnpatchAll();
                 Main.Instance.Unload();
