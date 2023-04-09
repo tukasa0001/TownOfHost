@@ -141,10 +141,10 @@ internal class RPCHandlerPatch
                 {
                     Logger.Fatal($"{__instance?.Data?.PlayerName}({__instance.PlayerId}): {reader.ReadString()} 错误，根据设定终止游戏", "Anti-black");
                     ChatUpdatePatch.DoBlockChat = true;
-                    Main.OverrideWelcomeMsg = string.Format(GetString("AntiBlackOutNotifyInLobby"), __instance?.Data?.PlayerName, GetString("EndWhenPlayerBug"));
+                    Main.OverrideWelcomeMsg = string.Format(GetString("RpcAntiBlackOutNotifyInLobby"), __instance?.Data?.PlayerName, GetString("EndWhenPlayerBug"));
                     new LateTask(() =>
                     {
-                        Logger.SendInGame(string.Format(GetString("AntiBlackOutEndGame"), __instance?.Data?.PlayerName), true);
+                        Logger.SendInGame(string.Format(GetString("RpcAntiBlackOutEndGame"), __instance?.Data?.PlayerName), true);
                     }, 3f, "Anti-Black Msg SendInGame");
                     new LateTask(() =>
                     {
@@ -158,7 +158,7 @@ internal class RPCHandlerPatch
                     Logger.Fatal($"{__instance?.Data?.PlayerName}({__instance.PlayerId}): Change Role Setting Postfix 错误，根据设定继续游戏", "Anti-black");
                     new LateTask(() =>
                     {
-                        Logger.SendInGame(string.Format(GetString("AntiBlackOutIgnored"), __instance?.Data?.PlayerName), true);
+                        Logger.SendInGame(string.Format(GetString("RpcAntiBlackOutIgnored"), __instance?.Data?.PlayerName), true);
                     }, 3f, "Anti-Black Msg SendInGame");
                 }
                 break;
