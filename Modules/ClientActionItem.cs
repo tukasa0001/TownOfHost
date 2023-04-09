@@ -10,6 +10,7 @@ namespace TownOfHost
         public Action OnClickAction { get; protected set; }
 
         public static SpriteRenderer CustomBackground { get; private set; }
+        public static ToggleButtonBehaviour ModOptionsButton { get; private set; }
         private static int numItems = 0;
 
         protected ClientActionItem(
@@ -64,12 +65,12 @@ namespace TownOfHost
                     }
                     var generalTab = mouseMoveToggle.transform.parent.parent.parent;
 
-                    var modOptionsButton = Object.Instantiate(mouseMoveToggle, generalTab);
-                    modOptionsButton.transform.localPosition = leaveButton?.transform?.localPosition ?? new(0f, -2.4f, 1f);
-                    modOptionsButton.name = "TOHOptions";
-                    modOptionsButton.Text.text = Translator.GetString("TOHOptions");
-                    modOptionsButton.Background.color = new Color32(0x00, 0xbf, 0xff, 0xff);
-                    var modOptionsPassiveButton = modOptionsButton.GetComponent<PassiveButton>();
+                    ModOptionsButton = Object.Instantiate(mouseMoveToggle, generalTab);
+                    ModOptionsButton.transform.localPosition = leaveButton?.transform?.localPosition ?? new(0f, -2.4f, 1f);
+                    ModOptionsButton.name = "TOHOptions";
+                    ModOptionsButton.Text.text = Translator.GetString("TOHOptions");
+                    ModOptionsButton.Background.color = new Color32(0x00, 0xbf, 0xff, 0xff);
+                    var modOptionsPassiveButton = ModOptionsButton.GetComponent<PassiveButton>();
                     modOptionsPassiveButton.OnClick = new();
                     modOptionsPassiveButton.OnClick.AddListener(new Action(() =>
                     {

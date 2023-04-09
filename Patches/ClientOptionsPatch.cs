@@ -5,8 +5,9 @@ namespace TownOfHost
     [HarmonyPatch(typeof(OptionsMenuBehaviour), nameof(OptionsMenuBehaviour.Start))]
     public static class OptionsMenuBehaviourStartPatch
     {
-        private static ClientOptionItem ForceJapanese;
-        private static ClientOptionItem JapaneseRoleName;
+        private static ClientActionItem ForceJapanese;
+        private static ClientActionItem JapaneseRoleName;
+        private static ClientActionItem UnloadMod;
 
         public static void Postfix(OptionsMenuBehaviour __instance)
         {
@@ -23,6 +24,15 @@ namespace TownOfHost
             {
                 JapaneseRoleName = ClientOptionItem.Create("JapaneseRoleName", Main.JapaneseRoleName, __instance);
             }
+            if (UnloadMod == null || UnloadMod.ToggleButton == null)
+            {
+                UnloadMod = ClientActionItem.Create("UnloadMod", ModUnloaderScreen.Show, __instance);
+            }
+
+            if (ModUnloaderScreen.Popup == null)
+            {
+                ModUnloaderScreen.Init(__instance);
+            }
         }
     }
 
@@ -35,6 +45,7 @@ namespace TownOfHost
             {
                 ClientOptionItem.CustomBackground.gameObject.SetActive(false);
             }
+            ModUnloaderScreen.Hide();
         }
     }
 }
