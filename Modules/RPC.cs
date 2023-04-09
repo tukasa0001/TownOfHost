@@ -164,9 +164,6 @@ namespace TownOfHost
                 case CustomRPC.RemoveExecutionerTarget:
                     Executioner.ReceiveRPC(reader, SetTarget: false);
                     break;
-                case CustomRPC.SendFireWorksState:
-                    FireWorks.ReceiveRPC(reader);
-                    break;
                 case CustomRPC.SetCurrentDousingTarget:
                     byte arsonistId = reader.ReadByte();
                     byte dousingTargetId = reader.ReadByte();

@@ -221,18 +221,12 @@ public static class CustomRoleManager
     {
         switch (pc.GetCustomRole())
         {
-            case CustomRoles.SerialKiller:
-                SerialKiller.Add(pc.PlayerId);
-                break;
             case CustomRoles.Witch:
                 Witch.Add(pc.PlayerId);
                 break;
             case CustomRoles.Warlock:
                 Main.CursedPlayers.Add(pc.PlayerId, null);
                 Main.isCurseAndKill.Add(pc.PlayerId, false);
-                break;
-            case CustomRoles.FireWorks:
-                FireWorks.Add(pc.PlayerId);
                 break;
             case CustomRoles.TimeThief:
                 TimeThief.Add(pc.PlayerId);
@@ -471,4 +465,10 @@ public enum CustomRoleTypes
     Impostor,
     Neutral,
     Madmate
+}
+public enum HasTask
+{
+    True,
+    False,
+    ForRecompute
 }
