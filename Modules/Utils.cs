@@ -282,7 +282,7 @@ namespace TownOfHost
                             hasTasks = true;
                             break;
                         case HasTask.False:
-                            hasTasks = true;
+                            hasTasks = false;
                             break;
                         case HasTask.ForRecompute:
                             hasTasks = !ForRecompute;
@@ -363,9 +363,6 @@ namespace TownOfHost
                         break;
                     case CustomRoles.EvilTracker:
                         ProgressText.Append(EvilTracker.GetMarker(playerId));
-                        break;
-                    case CustomRoles.TimeThief:
-                        ProgressText.Append(TimeThief.GetProgressText(playerId));
                         break;
                     default:
                         //タスクテキスト
