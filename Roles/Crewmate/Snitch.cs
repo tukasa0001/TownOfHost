@@ -32,11 +32,12 @@ public class Snitch : RoleBase
 
         //他視点用のMarkメソッド登録
         CustomRoleManager.MarkOthers.Add(GetMarkOthers);
-
+    }
+    public override void OnDestroy()
+    {
         TargetList.Clear();
         TargetColorlist.Clear();
         ExposedList.Clear();
-
     }
 
     private static OptionItem OptionEnableTargetArrow;

@@ -31,9 +31,12 @@ public sealed class Sniper : RoleBase
         AimAssist = SniperAimAssist.GetBool();
         AimAssistOneshot = SniperAimAssistOnshot.GetBool();
 
-        Snipers.Clear();
-
         CustomRoleManager.MarkOthers.Add(GetMarkOthers);
+    }
+
+    public override void OnDestroy()
+    {
+        Snipers.Clear();
     }
     static OptionItem SniperBulletCount;
     static OptionItem SniperPrecisionShooting;
