@@ -466,3 +466,9 @@ public enum CustomRoleTypes
     Neutral,
     Madmate
 }
+public enum HasTask
+{
+    True,
+    False,
+    ForRecompute
+}
