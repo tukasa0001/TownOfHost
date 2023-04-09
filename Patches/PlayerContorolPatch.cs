@@ -885,37 +885,6 @@ namespace TownOfHost
                         NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
                     }
                 }
-                if (pc.Is(CustomRoles.SpeedBooster))
-                {
-                    //FIXME:SpeedBooster class transplant
-                    if (pc.IsAlive()
-                    && (isTaskFinish || (taskState.CompletedTasksCount) >= Options.SpeedBoosterTaskTrigger.GetInt())
-                    && !Main.SpeedBoostTarget.ContainsKey(pc.PlayerId))
-                    {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SpeedBoostTargetに登録済みでない場合
-                        var rand = IRandom.Instance;
-                        List<PlayerControl> targetPlayers = new();
-                        //切断者と死亡者を除外
-                        foreach (var p in Main.AllAlivePlayerControls)
-                        {
-                            if (!Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetPlayers.Add(p);
-                        }
-                        //ターゲットが0ならアップ先をプレイヤーをnullに
-                        if (targetPlayers.Count >= 1)
-                        {
-                            PlayerControl target = targetPlayers[rand.Next(0, targetPlayers.Count)];
-                            Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
-                            Main.SpeedBoostTarget.Add(pc.PlayerId, target.PlayerId);
-                            Main.AllPlayerSpeed[Main.SpeedBoostTarget[pc.PlayerId]] += Options.SpeedBoosterUpSpeed.GetFloat();
-                            target.MarkDirtySettings();
-                        }
-                        else
-                        {
-                            Main.SpeedBoostTarget.Add(pc.PlayerId, 255);
-                            Logger.SendInGame("Error.SpeedBoosterNullException");
-                            Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
-                        }
-                    }
-                }
                 if (isTaskFinish && pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor)
                 {
                     Utils.MarkEveryoneDirtySettings();
