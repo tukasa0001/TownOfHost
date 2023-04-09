@@ -39,7 +39,7 @@ enum CustomRPC
     SetRealKiller,
 
     // TOHE
-    AntiBlack,
+    AntiBlackout,
     RestTOHESetting,
     PlayCustomSound,
     PlayCustomSoundAll,
@@ -117,7 +117,7 @@ internal class RPCHandlerPatch
         }
         if (__instance.PlayerId != 0
             && Enum.IsDefined(typeof(CustomRPC), (int)callId)
-            && !(callId == (byte)CustomRPC.VersionCheck || callId == (byte)CustomRPC.RequestRetryVersionCheck || callId == (byte)CustomRPC.AntiBlack)) //ホストではなく、CustomRPCで、VersionCheckではない
+            && !(callId == (byte)CustomRPC.VersionCheck || callId == (byte)CustomRPC.RequestRetryVersionCheck || callId == (byte)CustomRPC.AntiBlackout)) //ホストではなく、CustomRPCで、VersionCheckではない
         {
             Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) 已取消，因为它是由主机以外的其他人发送的。", "CustomRPC");
             if (AmongUsClient.Instance.AmHost)
@@ -136,7 +136,7 @@ internal class RPCHandlerPatch
         var rpcType = (CustomRPC)callId;
         switch (rpcType)
         {
-            case CustomRPC.AntiBlack:
+            case CustomRPC.AntiBlackout:
                 if (Options.EndWhenPlayerBug.GetBool())
                 {
                     Logger.Fatal($"{__instance?.Data?.PlayerName}({__instance.PlayerId}): {reader.ReadString()} 错误，根据设定终止游戏", "Anti-black");
