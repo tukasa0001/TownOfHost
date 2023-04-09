@@ -831,7 +831,7 @@ public static class Utils
             if (!GameStates.IsLobby) return;
             if (player.AmOwner)
             {
-                if (AmongUsClient.Instance.IsGamePublic)
+                if (GameStates.IsOnlineGame)
                     name = $"<color=#ffd6ec>TOHE</color><color=#baf7ca>★</color>" + name;
                 if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
                     name = $"<color=#f55252><size=1.9>{GetString("ModeSoloKombat")}</size></color>\r\n" + name;
