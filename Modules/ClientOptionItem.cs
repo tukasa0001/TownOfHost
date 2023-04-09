@@ -20,6 +20,14 @@ namespace TownOfHost
             UpdateToggle();
         }
 
+        /// <summary>
+        /// Modオプション画面にconfigのトグルを追加します
+        /// </summary>
+        /// <param name="name">ボタンラベルの翻訳キーとボタンのオブジェクト名</param>
+        /// <param name="config">対応するconfig</param>
+        /// <param name="optionsMenuBehaviour">OptionsMenuBehaviourのインスタンス</param>
+        /// <param name="additionalOnClickAction">クリック時に追加で発火するアクション．configが変更されたあとに呼ばれる</param>
+        /// <returns>作成したアイテム</returns>
         public static ClientOptionItem Create(
             string name,
             ConfigEntry<bool> config,

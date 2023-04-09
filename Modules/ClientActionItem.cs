@@ -106,6 +106,13 @@ namespace TownOfHost
             }
         }
 
+        /// <summary>
+        /// Modオプション画面に何かアクションを起こすボタンを追加します
+        /// </summary>
+        /// <param name="name">ボタンラベルの翻訳キーとボタンのオブジェクト名</param>
+        /// <param name="onClickAction">クリック時に発火するアクション</param>
+        /// <param name="optionsMenuBehaviour">OptionsMenuBehaviourのインスタンス</param>
+        /// <returns>作成したアイテム</returns>
         public static ClientActionItem Create(
             string name,
             Action onClickAction,
