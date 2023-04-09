@@ -41,9 +41,9 @@ namespace TownOfHost
     {
         public static void Postfix()
         {
-            if (ClientOptionItem.CustomBackground != null)
+            if (ClientActionItem.CustomBackground != null)
             {
-                ClientOptionItem.CustomBackground.gameObject.SetActive(false);
+                ClientActionItem.CustomBackground.gameObject.SetActive(false);
             }
             ModUnloaderScreen.Hide();
         }
