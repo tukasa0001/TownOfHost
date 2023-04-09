@@ -6,6 +6,7 @@ using HarmonyLib;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -22,6 +23,7 @@ public class MainMenuManagerPatch
 {
     public static GameObject template;
     public static GameObject qqButton;
+    public static GameObject discordButton;
     public static GameObject updateButton;
 
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPrefix]
@@ -29,22 +31,44 @@ public class MainMenuManagerPatch
     {
         if (template == null) template = GameObject.Find("/MainUI/ExitGameButton");
         if (template == null) return;
-        //Discordボタンを生成
-        if (qqButton == null) qqButton = UnityEngine.Object.Instantiate(template, template.transform.parent);
-        qqButton.name = "qqButton";
-        qqButton.transform.position = Vector3.Reflect(template.transform.position, Vector3.left);
 
-        var discordText = qqButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
-        Color qqColor = new Color32(255, 192, 203, byte.MaxValue);
-        PassiveButton qqPassiveButton = qqButton.GetComponent<PassiveButton>();
-        SpriteRenderer qqButtonSprite = qqButton.GetComponent<SpriteRenderer>();
-        qqPassiveButton.OnClick = new();
-        qqPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(Main.QQInviteUrl)));
-        qqPassiveButton.OnMouseOut.AddListener((Action)(() => qqButtonSprite.color = discordText.color = qqColor));
-        __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => discordText.SetText("QQ群"))));
-        qqButtonSprite.color = discordText.color = qqColor;
-        qqButton.gameObject.SetActive(Main.ShowQQButton && !Main.IsAprilFools);
+        if (CultureInfo.CurrentCulture.Name == "zh-CN")
+        {
+            //生成QQ群按钮
+            if (qqButton == null) qqButton = UnityEngine.Object.Instantiate(template, template.transform.parent);
+            qqButton.name = "qqButton";
+            qqButton.transform.position = Vector3.Reflect(template.transform.position, Vector3.left);
 
+            var qqText = qqButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
+            Color qqColor = new Color32(0, 164, 255, byte.MaxValue);
+            PassiveButton qqPassiveButton = qqButton.GetComponent<PassiveButton>();
+            SpriteRenderer qqButtonSprite = qqButton.GetComponent<SpriteRenderer>();
+            qqPassiveButton.OnClick = new();
+            qqPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(Main.QQInviteUrl)));
+            qqPassiveButton.OnMouseOut.AddListener((Action)(() => qqButtonSprite.color = qqText.color = qqColor));
+            __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => qqText.SetText("QQ群"))));
+            qqButtonSprite.color = qqText.color = qqColor;
+            qqButton.gameObject.SetActive(Main.ShowQQButton && !Main.IsAprilFools);
+        }
+        else
+        {
+            //Discordボタンを生成
+            if (discordButton == null) discordButton = Object.Instantiate(template, template.transform.parent);
+            discordButton.name = "DiscordButton";
+            discordButton.transform.position = Vector3.Reflect(template.transform.position, Vector3.left);
+
+            var discordText = discordButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
+            Color discordColor = new Color32(86, 98, 246, byte.MaxValue);
+            PassiveButton discordPassiveButton = discordButton.GetComponent<PassiveButton>();
+            SpriteRenderer discordButtonSprite = discordButton.GetComponent<SpriteRenderer>();
+            discordPassiveButton.OnClick = new();
+            discordPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(Main.DiscordInviteUrl)));
+            discordPassiveButton.OnMouseOut.AddListener((Action)(() => discordButtonSprite.color = discordText.color = discordColor));
+            __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => discordText.SetText("Discord"))));
+            discordButtonSprite.color = discordText.color = discordColor;
+            discordButton.gameObject.SetActive(Main.ShowDiscordButton && !Main.IsAprilFools);
+        }
+        
         //Updateボタンを生成
         if (updateButton == null) updateButton = Object.Instantiate(template, template.transform.parent);
         updateButton.name = "UpdateButton";
@@ -52,7 +76,7 @@ public class MainMenuManagerPatch
         updateButton.transform.GetChild(0).GetComponent<RectTransform>().localScale *= 1.5f;
 
         var updateText = updateButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
-        Color updateColor = new Color32(128, 255, 255, byte.MaxValue);
+        Color updateColor = new Color32(247, 56, 23, byte.MaxValue);
         PassiveButton updatePassiveButton = updateButton.GetComponent<PassiveButton>();
         SpriteRenderer updateButtonSprite = updateButton.GetComponent<SpriteRenderer>();
         updatePassiveButton.OnClick = new();
