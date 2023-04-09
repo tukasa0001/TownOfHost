@@ -282,7 +282,7 @@ namespace TownOfHost
                             hasTasks = true;
                             break;
                         case HasTask.False:
-                            hasTasks = true;
+                            hasTasks = false;
                             break;
                         case HasTask.ForRecompute:
                             hasTasks = !ForRecompute;
