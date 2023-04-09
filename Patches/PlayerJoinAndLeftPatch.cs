@@ -228,7 +228,8 @@ class CreatePlayerPatch
             }, 1f, "Name Format");
         }
 
-        OptionItem.SyncAllOptions();
+        OptionItem.SyncAllOptions(client.Id);
+
         new LateTask(() =>
         {
             if (client.Character == null) return;

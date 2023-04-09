@@ -47,7 +47,7 @@ public static class Utils
         }
         else
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.AntiBlack, SendOption.Reliable);
+            MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.AntiBlackout, SendOption.Reliable);
             writer.Write(text);
             writer.EndMessage();
             if (Options.EndWhenPlayerBug.GetBool())

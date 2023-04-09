@@ -391,25 +391,25 @@ internal class RPCHandlerPatch
 internal static class RPC
 {
     //来源：https://github.com/music-discussion/TownOfHost-TheOtherRoles/blob/main/Modules/RPC.cs
-    public static void SyncCustomSettingsRPC()
+    public static void SyncCustomSettingsRPC(int targetId = -1)
     {
         if (!AmongUsClient.Instance.AmHost || PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
         var amount = OptionItem.AllOptions.Count;
         int divideBy = amount / 10;
         for (var i = 0; i <= 10; i++)
-            SyncOptionsBetween(i * divideBy, (i + 1) * divideBy);
+            SyncOptionsBetween(i * divideBy, (i + 1) * divideBy, targetId);
     }
-    public static void SyncCustomSettingsRPCforOneOption(OptionItem option)
+    public static void SyncCustomSettingsRPCforOneOption(OptionItem option, int targetId = -1)
     {
         List<OptionItem> allOptions = new(OptionItem.AllOptions);
         var placement = allOptions.IndexOf(option);
         if (placement != -1)
-            SyncOptionsBetween(placement, placement);
+            SyncOptionsBetween(placement, placement, targetId);
     }
-    static void SyncOptionsBetween(int startAmount, int lastAmount)
+    static void SyncOptionsBetween(int startAmount, int lastAmount, int targetId = -1)
     {
         if (!AmongUsClient.Instance.AmHost || PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, SendOption.Reliable, -1);
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, SendOption.Reliable, targetId);
         List<OptionItem> list = new();
         writer.Write(startAmount);
         writer.Write(lastAmount);
