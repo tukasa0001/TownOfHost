@@ -275,7 +275,20 @@ namespace TownOfHost
                 var role = States.MainRole;
                 var roleClass = CustomRoleManager.GetByPlayerId(p.PlayerId);
                 if (roleClass != null)
-                    hasTasks = roleClass.HasTasks;
+                {
+                    switch (roleClass.HasTasks)
+                    {
+                        case HasTask.True:
+                            hasTasks = true;
+                            break;
+                        case HasTask.False:
+                            hasTasks = true;
+                            break;
+                        case HasTask.ForRecompute:
+                            hasTasks = !ForRecompute;
+                            break;
+                    }
+                }
                 switch (role)
                 {
                     case CustomRoles.GM:
@@ -730,11 +743,6 @@ namespace TownOfHost
                 //seerに関わらず発動するLowerText
                 SelfSuffix.Append(CustomRoleManager.GetLowerTextOthers(seer, isForMeeting: isForMeeting));
 
-                if (seer.Is(CustomRoles.FireWorks))
-                {
-                    string stateText = FireWorks.GetStateText(seer);
-                    SelfSuffix.Append(stateText);
-                }
                 if (seer.Is(CustomRoles.Witch))
                 {
                     SelfSuffix.Append(Witch.GetSpellModeText(seer, false, isForMeeting));
@@ -894,7 +902,6 @@ namespace TownOfHost
         {
             CustomRoleManager.AllActiveRoles.Do(roleClass => roleClass.AfterMeetingTasks());
             EvilTracker.AfterMeetingTasks();
-            SerialKiller.AfterMeetingTasks();
             if (Options.AirShipVariableElectrical.GetBool())
                 AirShipElectricalDoors.Initialize();
         }

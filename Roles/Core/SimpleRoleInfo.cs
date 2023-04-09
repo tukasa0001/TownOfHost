@@ -13,7 +13,7 @@ public class SimpleRoleInfo
     public CustomRoles RoleName;
     public Func<RoleTypes> BaseRoleType;
     public CustomRoleTypes CustomRoleType;
-    public Color32 RoleColor;
+    public Color RoleColor;
     public string RoleColorCode;
     public int ConfigId;
     public TabGroup Tab;
@@ -52,7 +52,7 @@ public class SimpleRoleInfo
             };
         RoleColorCode = colorCode;
 
-        RoleColor = Utils.GetRoleColor(roleName);
+        ColorUtility.TryParseHtmlString(colorCode, out RoleColor);
 
         if (tab == TabGroup.MainSettings)
             tab = CustomRoleType switch
