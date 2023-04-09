@@ -446,7 +446,7 @@ DisableMeeting,禁用会议与报告尸体,Turn off Meetings,Отключить 
 DisableCloseDoor,禁用关门,Disable Doors sabotage,Отключить саботаж дверей
 DisableSabotage,禁用破坏,Disable Sabotage,Отключить Саботаж
 NoGameEnd,测试模式（游戏不结束）,NoGameEnd,Игра Не Закончится
-AllowConsole,允许控制台,Console,Консоль
+AllowConsole,允许控制台（可能被用于作弊）,Console,Консоль
 DebugMode,调试模式,Debug Mode,Режим отладки
 SyncButtonMode,所有船员共享会议次数,SyncButtonMode,Общая кнопка встреч
 RandomMapsMode,随机地图模式,RandomMapsMode,Случайная карта
