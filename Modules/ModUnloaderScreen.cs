@@ -3,6 +3,7 @@ using HarmonyLib;
 using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using InnerNet;
 
 namespace TownOfHost;
 
@@ -25,7 +26,6 @@ public static class ModUnloaderScreen
         WarnText.name = "Warning";
         WarnText.transform.localPosition = new(0f, 1f, -1f);
         WarnText.transform.localScale = new(2.5f, 2.5f, 1f);
-        WarnText.text = Translator.GetString("UnloadWarning");
         WarnText.gameObject.SetActive(true);
 
         CancelButton = Object.Instantiate(optionsMenuBehaviour.DisableMouseMovement, Popup.transform);
@@ -59,6 +59,17 @@ public static class ModUnloaderScreen
         if (Popup != null)
         {
             Popup.gameObject.SetActive(true);
+
+            if (AmongUsClient.Instance.GameState == InnerNetClient.GameStates.Started)
+            {
+                WarnText.text = Translator.GetString("CannotUnloadDuringGame");
+                UnloadButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                WarnText.text = Translator.GetString("UnloadWarning");
+                UnloadButton.gameObject.SetActive(true);
+            }
         }
     }
     public static void Hide()
