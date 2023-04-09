@@ -127,7 +127,7 @@ public static class CustomRoleManager
             OnMurderPlayerAsTarget(info);
 
         //その他視点の処理があれば実行
-        foreach (var onMurderPlayer in OnMuderPlayerOthrers)
+        foreach (var onMurderPlayer in OnMuderPlayerOthers)
         {
             onMurderPlayer(info);
         }
@@ -154,9 +154,9 @@ public static class CustomRoleManager
     }
     /// <summary>
     /// その他視点からのMurderPlayer処理
-    /// 初期化時にOnMuderPlayerOthrers+=で登録
+    /// 初期化時にOnMuderPlayerOthers+=で登録
     /// </summary>
-    public static HashSet<Action<MurderInfo>> OnMuderPlayerOthrers = new();
+    public static HashSet<Action<MurderInfo>> OnMuderPlayerOthers = new();
 
     /// <summary>
     /// RoleBase未実装のMurderPlayer処理
@@ -198,7 +198,7 @@ public static class CustomRoleManager
     /// タスクターンに常時呼ばれる関数
     /// 他役職への干渉用
     /// Host以外も呼ばれるので注意
-    /// 初期化時にOnFixedUpdateOthrers+=で登録
+    /// 初期化時にOnFixedUpdateOthers+=で登録
     /// </summary>
     public static HashSet<Action<PlayerControl>> OnFixedUpdateOthers = new();
 
@@ -227,7 +227,7 @@ public static class CustomRoleManager
         LowerOthers.Clear();
         SuffixOthers.Clear();
         CheckMurderInfos.Clear();
-        OnMuderPlayerOthrers.Clear();
+        OnMuderPlayerOthers.Clear();
         OnFixedUpdateOthers.Clear();
     }
     public static void CreateInstance()
@@ -380,7 +380,7 @@ public static class CustomRoleManager
         LowerOthers.Clear();
         SuffixOthers.Clear();
         CheckMurderInfos.Clear();
-        OnMuderPlayerOthrers.Clear();
+        OnMuderPlayerOthers.Clear();
         OnFixedUpdateOthers.Clear();
 
         AllActiveRoles.Do(roleClass => roleClass.Dispose());
