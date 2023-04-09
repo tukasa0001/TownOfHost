@@ -1143,36 +1143,36 @@ class FixedUpdatePatch
                 }
                 else
                 {
-                    var ar_target = Main.RevolutionistTimer[player.PlayerId].Item1;//拉拢的人
-                    var ar_time = Main.RevolutionistTimer[player.PlayerId].Item2;//拉拢时间
-                    if (!ar_target.IsAlive())
+                    var rv_target = Main.RevolutionistTimer[player.PlayerId].Item1;//拉拢的人
+                    var rv_time = Main.RevolutionistTimer[player.PlayerId].Item2;//拉拢时间
+                    if (!rv_target.IsAlive())
                     {
                         Main.RevolutionistTimer.Remove(player.PlayerId);
                     }
-                    else if (ar_time >= Options.RevolutionistDrawTime.GetFloat())//在一起时间超过多久
+                    else if (rv_time >= Options.RevolutionistDrawTime.GetFloat())//在一起时间超过多久
                     {
                         player.SetKillCooldown();
                         Main.RevolutionistTimer.Remove(player.PlayerId);//拉拢完成从字典中删除
-                        Main.isDraw[(player.PlayerId, ar_target.PlayerId)] = true;//完成拉拢
-                        player.RpcSetDrawPlayer(ar_target, true);
+                        Main.isDraw[(player.PlayerId, rv_target.PlayerId)] = true;//完成拉拢
+                        player.RpcSetDrawPlayer(rv_target, true);
                         Utils.NotifyRoles(player);
                         RPC.ResetCurrentDrawTarget(player.PlayerId);
                         if (IRandom.Instance.Next(1, 100) <= Options.RevolutionistKillProbability.GetInt())
                         {
-                            ar_target.SetRealKiller(player);
-                            Main.PlayerStates[ar_target.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
-                            player.RpcMurderPlayerV3(ar_target);
-                            Main.PlayerStates[ar_target.PlayerId].SetDead();
-                            Logger.Info($"Revolutionist: {player.GetNameWithRole()} killed {ar_target.GetNameWithRole()}", "Revolutionist");
+                            rv_target.SetRealKiller(player);
+                            Main.PlayerStates[rv_target.PlayerId].deathReason = PlayerState.DeathReason.Sacrifice;
+                            player.RpcMurderPlayerV3(rv_target);
+                            Main.PlayerStates[rv_target.PlayerId].SetDead();
+                            Logger.Info($"Revolutionist: {player.GetNameWithRole()} killed {rv_target.GetNameWithRole()}", "Revolutionist");
                         }
                     }
                     else
                     {
                         float dis;
-                        dis = Vector2.Distance(player.transform.position, ar_target.transform.position);//超出距离
+                        dis = Vector2.Distance(player.transform.position, rv_target.transform.position);//超出距离
                         if (dis <= 1.75f)//在一定距离内则计算时间
                         {
-                            Main.RevolutionistTimer[player.PlayerId] = (ar_target, ar_time + Time.fixedDeltaTime);
+                            Main.RevolutionistTimer[player.PlayerId] = (rv_target, rv_time + Time.fixedDeltaTime);
                         }
                         else//否则删除
                         {
