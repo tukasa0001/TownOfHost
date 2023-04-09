@@ -193,6 +193,8 @@ internal static class SoloKombatManager
     }
     public static void OnPlayerBack(PlayerControl pc)
     {
+        pc.MyPhysics.RpcExitVent(2);
+
         BackCountdown.Remove(pc.PlayerId);
         PlayerHP[pc.PlayerId] = pc.HPMAX();
         SendRPCSyncKBPlayer(pc.PlayerId);
@@ -227,6 +229,8 @@ internal static class SoloKombatManager
     }
     public static void OnPlyaerDead(PlayerControl target)
     {
+        target.MyPhysics.RpcExitVent(2);
+
         originalSpeed.Remove(target.PlayerId);
         originalSpeed.Add(target.PlayerId, Main.AllPlayerSpeed[target.PlayerId]);
 
