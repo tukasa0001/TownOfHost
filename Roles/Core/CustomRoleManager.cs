@@ -188,7 +188,7 @@ public static class CustomRoleManager
         {
             player.GetRoleClass()?.OnFixedUpdate(player);
             //その他視点処理があれば実行
-            foreach (var onFixedUpdate in OnFixedUpdateOthrers)
+            foreach (var onFixedUpdate in OnFixedUpdateOthers)
             {
                 onFixedUpdate(player);
             }
@@ -200,7 +200,7 @@ public static class CustomRoleManager
     /// Host以外も呼ばれるので注意
     /// 初期化時にOnFixedUpdateOthrers+=で登録
     /// </summary>
-    public static HashSet<Action<PlayerControl>> OnFixedUpdateOthrers = new();
+    public static HashSet<Action<PlayerControl>> OnFixedUpdateOthers = new();
 
     public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
     {
@@ -228,7 +228,7 @@ public static class CustomRoleManager
         SuffixOthers.Clear();
         CheckMurderInfos.Clear();
         OnMuderPlayerOthrers.Clear();
-        OnFixedUpdateOthrers.Clear();
+        OnFixedUpdateOthers.Clear();
     }
     public static void CreateInstance()
     {
@@ -381,7 +381,7 @@ public static class CustomRoleManager
         SuffixOthers.Clear();
         CheckMurderInfos.Clear();
         OnMuderPlayerOthrers.Clear();
-        OnFixedUpdateOthrers.Clear();
+        OnFixedUpdateOthers.Clear();
 
         AllActiveRoles.Do(roleClass => roleClass.Dispose());
     }
