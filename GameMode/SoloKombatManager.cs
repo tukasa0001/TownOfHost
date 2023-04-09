@@ -294,16 +294,10 @@ internal static class SoloKombatManager
                     // 锁定死亡玩家在小黑屋
                     if (!pc.SoloAlive())
                     {
-                        if (!pc.inVent)
-                        {
-                            var pos = Pelican.GetBlackRoomPS();
-                            var dis = Vector2.Distance(pos, pc.GetTruePosition());
-                            if (dis > 1f) Utils.TP(pc.NetTransform, pos);
-                        }
-                        else
-                        {
-                            pc.MyPhysics.RpcBootFromVent(Main.LastEnteredVent[pc.PlayerId].Id);
-                        }
+                        if (pc.inVent) pc.MyPhysics.RpcExitVent(2);
+                        var pos = Pelican.GetBlackRoomPS();
+                        var dis = Vector2.Distance(pos, pc.GetTruePosition());
+                        if (dis > 1f) Utils.TP(pc.NetTransform, pos);
                     }
                 }
 
