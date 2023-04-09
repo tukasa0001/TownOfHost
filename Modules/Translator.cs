@@ -2,6 +2,7 @@ using Csv;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -66,6 +67,7 @@ public static class Translator
     public static string GetString(string s, Dictionary<string, string> replacementDic = null)
     {
         var langId = TranslationController.InstanceExists ? TranslationController.Instance.currentLanguage.languageID : SupportedLangs.SChinese;
+        if (Main.ForceOwnLanguage.Value) langId = GetUserTrueLang();
         string str = GetString(s, langId);
         if (replacementDic != null)
             foreach (var rd in replacementDic)
@@ -105,8 +107,19 @@ public static class Translator
     {
         var CurrentLanguage = TranslationController.Instance.currentLanguage.languageID;
         var lang = CurrentLanguage;
+        if (Main.ForceOwnLanguageRoleName.Value)
+            lang = GetUserTrueLang();
 
         return GetString(str, lang);
+    }
+    public static SupportedLangs GetUserTrueLang()
+    {
+        var name = CultureInfo.CurrentUICulture.Name;
+        if (name.StartsWith("en")) return SupportedLangs.English;
+        if (name.StartsWith("zh_CHT")) return SupportedLangs.TChinese;
+        if (name.StartsWith("zh")) return SupportedLangs.SChinese;
+        if (name.StartsWith("ru")) return SupportedLangs.Russian;
+        return TranslationController.Instance.currentLanguage.languageID;
     }
     public static void LoadCustomTranslation(string filename, SupportedLangs lang)
     {

@@ -499,6 +499,8 @@ ModeOptions,模组设置,Mode Options,Настройка Режима
 AutoStart,人满自动开始,Auto start at full lobby,Авто. запуск игры при полном лобби
 SwitchVanilla,切换为原版,Switch Vanilla,
 UnlockFPS,解锁帧数限制,Unlock FPS,Убрать ограничение FPS
+ForceOwnLanguage,强制模组使用您的语言,Force use your language if can
+ForceOwnLanguageRoleName,强制用您的语言显示职业名,Force role name in your language if can
 AutoDisplayKillLog,结束后自动显示击杀记录,Display Killlog,Показывать убийства
 AutoDisplayLastRoles,结束后自动显示上局职业,Display Last Roles,Показывать роли в прошлой игре
 AutoDisplayLastResult,结束后自动显示最终结果,Auto Display Last Result,Отображать результат последней игры в чате

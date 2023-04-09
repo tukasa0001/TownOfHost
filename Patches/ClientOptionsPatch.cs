@@ -10,6 +10,8 @@ public static class OptionsMenuBehaviourStartPatch
     private static ClientOptionItem UnlockFPS;
     private static ClientOptionItem AutoStart;
     private static ClientOptionItem SwitchVanilla;
+    private static ClientOptionItem ForceOwnLanguage;
+    private static ClientOptionItem ForceOwnLanguageRoleName;
 
     public static void Postfix(OptionsMenuBehaviour __instance)
     {
@@ -51,6 +53,14 @@ public static class OptionsMenuBehaviourStartPatch
                 Harmony.UnpatchAll();
                 Main.Instance.Unload();
             }
+        }
+        if (ForceOwnLanguage == null || ForceOwnLanguage.ToggleButton == null)
+        {
+            ForceOwnLanguage = ClientOptionItem.Create("ForceOwnLanguage", Main.ForceOwnLanguage, __instance);
+        }
+        if (ForceOwnLanguageRoleName == null || ForceOwnLanguageRoleName.ToggleButton == null)
+        {
+            ForceOwnLanguageRoleName = ClientOptionItem.Create("ForceOwnLanguageRoleName", Main.ForceOwnLanguageRoleName, __instance);
         }
     }
 }

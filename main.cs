@@ -56,6 +56,8 @@ public class Main : BasePlugin
     public static ConfigEntry<string> HideColor { get; private set; }
     public static ConfigEntry<bool> UnlockFPS { get; private set; }
     public static ConfigEntry<bool> AutoStart { get; private set; }
+    public static ConfigEntry<bool> ForceOwnLanguage { get; private set; }
+    public static ConfigEntry<bool> ForceOwnLanguageRoleName { get; private set; }
     public static ConfigEntry<bool> SwitchVanilla { get; private set; }
     public static ConfigEntry<int> MessageWait { get; private set; }
 
@@ -184,7 +186,9 @@ public class Main : BasePlugin
         AutoStart = Config.Bind("Client Options", "AutoStart", false);
         UnlockFPS = Config.Bind("Client Options", "UnlockFPS", true);
         SwitchVanilla = Config.Bind("Client Options", "SwitchVanilla", false);
-        DebugKeyInput = Config.Bind("Authentication", "Debug Key", "kpd233");
+        ForceOwnLanguage = Config.Bind("Client Options", "ForceOwnLanguage", false);
+        ForceOwnLanguageRoleName = Config.Bind("Client Options", "ForceOwnLanguageRoleName", false);
+        DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
 
         Logger = BepInEx.Logging.Logger.CreateLogSource("TOHE");
         TOHE.Logger.Enable();
