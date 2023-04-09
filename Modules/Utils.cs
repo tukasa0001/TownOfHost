@@ -1267,7 +1267,7 @@ public static class Utils
         var name = Main.AllPlayerNames[id].RemoveHtmlTags().Replace("\r\n", string.Empty);
         if (id == PlayerControl.LocalPlayer.PlayerId) name = DataManager.player.Customization.Name;
         else name = GetPlayerById(id)?.Data.PlayerName ?? name;
-        string summary = $"{ColorString(Main.PlayerColors[id], name)}<pos=22%>{GetProgressText(id)}</pos><pos=30%>{GetVitalText(id, true)}</pos><pos={RolePos}%> {GetDisplayRoleName(id, true)}{GetSubRolesText(id, summary: true)}</pos>";
+        string summary = $"{ColorString(Main.PlayerColors[id], name)}<pos=24%>{GetProgressText(id)}</pos><pos=32%>{GetVitalText(id, true)}</pos><pos={RolePos}%> {GetDisplayRoleName(id, true)}{GetSubRolesText(id, summary: true)}</pos>";
         if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
         {
             if (TranslationController.Instance.currentLanguage.languageID is SupportedLangs.SChinese or SupportedLangs.TChinese)
