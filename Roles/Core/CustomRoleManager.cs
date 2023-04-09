@@ -127,7 +127,7 @@ public static class CustomRoleManager
             OnMurderPlayerAsTarget(info);
 
         //その他視点の処理があれば実行
-        foreach (var onMurderPlayer in OnMuderPlayerOthers)
+        foreach (var onMurderPlayer in OnMurderPlayerOthers)
         {
             onMurderPlayer(info);
         }
@@ -154,9 +154,9 @@ public static class CustomRoleManager
     }
     /// <summary>
     /// その他視点からのMurderPlayer処理
-    /// 初期化時にOnMuderPlayerOthers+=で登録
+    /// 初期化時にOnMurderPlayerOthers+=で登録
     /// </summary>
-    public static HashSet<Action<MurderInfo>> OnMuderPlayerOthers = new();
+    public static HashSet<Action<MurderInfo>> OnMurderPlayerOthers = new();
 
     /// <summary>
     /// RoleBase未実装のMurderPlayer処理
@@ -227,7 +227,7 @@ public static class CustomRoleManager
         LowerOthers.Clear();
         SuffixOthers.Clear();
         CheckMurderInfos.Clear();
-        OnMuderPlayerOthers.Clear();
+        OnMurderPlayerOthers.Clear();
         OnFixedUpdateOthers.Clear();
     }
     public static void CreateInstance()
@@ -380,7 +380,7 @@ public static class CustomRoleManager
         LowerOthers.Clear();
         SuffixOthers.Clear();
         CheckMurderInfos.Clear();
-        OnMuderPlayerOthers.Clear();
+        OnMurderPlayerOthers.Clear();
         OnFixedUpdateOthers.Clear();
 
         AllActiveRoles.Do(roleClass => roleClass.Dispose());
