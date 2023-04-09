@@ -53,16 +53,14 @@ namespace TownOfHost
             updateButtonSprite.size *= 1.5f;
             updateButton.SetActive(false);
 
-#if RELEASE
             //フリープレイの無効化
             var freeplayButton = GameObject.Find("/MainUI/FreePlayButton");
             if (freeplayButton != null)
             {
                 freeplayButton.GetComponent<PassiveButton>().OnClick = new();
-                freeplayButton.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.OpenURL("https://github.com/tukasa0001/TownOfHost")));
+                freeplayButton.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.OpenURL("https://github.com/KYMario/TownOfHost-K")));
                 __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => freeplayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().SetText("GitHub"))));
             }
-#endif
         }
     }
 }
