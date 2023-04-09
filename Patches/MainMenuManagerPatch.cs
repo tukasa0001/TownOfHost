@@ -156,6 +156,7 @@ public static class HorseModePatch
 public class ModNews
 {
     public int Number;
+    public uint Lang;
     public int BeforeNumber;
     public string Title;
     public string SubTitle;
@@ -168,11 +169,11 @@ public class ModNews
         var result = new Announcement
         {
             Number = Number,
+            Language = Lang,
             Title = Title,
             SubTitle = SubTitle,
             ShortTitle = ShortTitle,
             Text = Text,
-            Language = (uint)DataManager.Settings.Language.CurrentLanguage,
             Date = Date,
             Id = "ModNews"
         };
@@ -214,10 +215,13 @@ public class ModNewsHistory
         stream.Position = 0;
         using StreamReader reader = new(stream, Encoding.UTF8);
         string text = "";
+        //uint langId = (uint)DataManager.Settings.Language.CurrentLanguage;
+        uint langId = (uint)SupportedLangs.SChinese;
         while (!reader.EndOfStream)
         {
             string line = reader.ReadLine();
             if (line.StartsWith("#Number:")) mn.Number = int.Parse(line.Replace("#Number:", string.Empty));
+            if (line.StartsWith("#LangId:")) langId = uint.Parse(line.Replace("#LangId:", string.Empty));
             else if (line.StartsWith("#Title:")) mn.Title = line.Replace("#Title:", string.Empty);
             else if (line.StartsWith("#SubTitle:")) mn.SubTitle = line.Replace("#SubTitle:", string.Empty);
             else if (line.StartsWith("#ShortTitle:")) mn.ShortTitle = line.Replace("#ShortTitle:", string.Empty);
@@ -225,12 +229,12 @@ public class ModNewsHistory
             else if (line.StartsWith("#---")) continue;
             else
             {
-
                 if (line.StartsWith("## ")) line = line.Replace("## ", "<b>") + "</b>";
                 else if (line.StartsWith("- ")) line = line.Replace("- ", "・");
                 text += $"\n{line}";
             }
         }
+        mn.Lang = langId;
         mn.Text = text;
         Logger.Info($"Number:{mn.Number}", "ModNews");
         Logger.Info($"Title:{mn.Title}", "ModNews");
