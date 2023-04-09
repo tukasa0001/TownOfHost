@@ -228,7 +228,7 @@ class CreatePlayerPatch
             }, 1f, "Name Format");
         }
 
-        OptionItem.SyncAllOptions(client.Id);
+        new LateTask(() => { if (client.Character == null) return; OptionItem.SyncAllOptions(client.Id); }, 1.5f, "Sync All Options For New Player");
 
         new LateTask(() =>
         {

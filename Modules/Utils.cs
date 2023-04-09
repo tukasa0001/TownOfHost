@@ -1,6 +1,7 @@
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using Hazel;
+using InnerNet;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -86,6 +87,18 @@ public static class Utils
         NetHelpers.WriteVector2(location, writer);
         writer.Write(nt.lastSequenceId);
         AmongUsClient.Instance.FinishRpcImmediately(writer);
+    }
+    public static ClientData GetClientById(int id)
+    {
+        try
+        {
+            var client = AmongUsClient.Instance.allClients.ToArray().Where(cd => cd.Id == id).FirstOrDefault();
+            return client;
+        }
+        catch
+        {
+            return null;
+        }
     }
     public static bool IsActive(SystemTypes type)
     {

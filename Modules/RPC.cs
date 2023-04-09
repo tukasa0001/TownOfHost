@@ -171,19 +171,19 @@ internal class RPCHandlerPatch
                     Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
                     // Kick Unmached Player Start
                     if (AmongUsClient.Instance.AmHost &&
-                        tag != $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" &&
-                        forkId != Main.ForkId)
+                        tag != $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})")
                     {
-                        new LateTask(() =>
-                        {
-                            if (__instance?.Data?.Disconnected is not null and not true)
+                        if (forkId != Main.ForkId)
+                            new LateTask(() =>
                             {
-                                var msg = string.Format(GetString("KickBecauseDiffrentVersionOrMod"), __instance?.Data?.PlayerName);
-                                Logger.Warn(msg, "Version Kick");
-                                Logger.SendInGame(msg);
-                                AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
-                            }
-                        }, 5f, "Kick");
+                                if (__instance?.Data?.Disconnected is not null and not true)
+                                {
+                                    var msg = string.Format(GetString("KickBecauseDiffrentVersionOrMod"), __instance?.Data?.PlayerName);
+                                    Logger.Warn(msg, "Version Kick");
+                                    Logger.SendInGame(msg);
+                                    AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
+                                }
+                            }, 5f, "Kick");
                     }
                     // Kick Unmached Player End
                 }
@@ -393,21 +393,25 @@ internal static class RPC
     //来源：https://github.com/music-discussion/TownOfHost-TheOtherRoles/blob/main/Modules/RPC.cs
     public static void SyncCustomSettingsRPC(int targetId = -1)
     {
+        var client = Utils.GetClientById(targetId);
+        if (client == null || client.Character == null || !Main.playerVersion.ContainsKey(client.Character.PlayerId)) return;
         if (!AmongUsClient.Instance.AmHost || PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
         var amount = OptionItem.AllOptions.Count;
         int divideBy = amount / 10;
         for (var i = 0; i <= 10; i++)
             SyncOptionsBetween(i * divideBy, (i + 1) * divideBy, targetId);
     }
-    public static void SyncCustomSettingsRPCforOneOption(OptionItem option, int targetId = -1)
+    public static void SyncCustomSettingsRPCforOneOption(OptionItem option)
     {
         List<OptionItem> allOptions = new(OptionItem.AllOptions);
         var placement = allOptions.IndexOf(option);
         if (placement != -1)
-            SyncOptionsBetween(placement, placement, targetId);
+            SyncOptionsBetween(placement, placement);
     }
     static void SyncOptionsBetween(int startAmount, int lastAmount, int targetId = -1)
     {
+        var client = Utils.GetClientById(targetId);
+        if (client == null || client.Character == null || !Main.playerVersion.ContainsKey(client.Character.PlayerId)) return;
         if (!AmongUsClient.Instance.AmHost || PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, SendOption.Reliable, targetId);
         List<OptionItem> list = new();
@@ -422,7 +426,7 @@ internal static class RPC
     public static void PlaySoundRPC(byte PlayerID, Sounds sound)
     {
         if (AmongUsClient.Instance.AmHost)
-            RPC.PlaySound(PlayerID, sound);
+            PlaySound(PlayerID, sound);
         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.PlaySound, Hazel.SendOption.Reliable, -1);
         writer.Write(PlayerID);
         writer.Write((byte)sound);
