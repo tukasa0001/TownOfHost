@@ -58,9 +58,23 @@ namespace TownOfHost
             if (freeplayButton != null)
             {
                 freeplayButton.GetComponent<PassiveButton>().OnClick = new();
-                freeplayButton.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.OpenURL("https://github.com/KYMario/TownOfHost-K")));
+                freeplayButton.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.OpenURL("https://github.com/tukasa0001/TownOfHost")));
                 __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => freeplayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().SetText("GitHub"))));
             }
         }
     }
+    [HarmonyPatch(typeof(AnnouncementPopUp), nameof(AnnouncementPopUp.UpdateAnnounceText))]
+    public static class Announcement
+    {
+        public static bool Prefix(AnnouncementPopUp __instance)
+        {
+            var text = __instance.AnnounceTextMeshPro;
+            text.text = "<size=2.5><color=#00c1ff>TownOfHost-K</color>!"
+            + "\n <color=#ff6633>動作テストバージョン </color></size>"
+
+            + "</color></size>";
+            return false;
+        }
+    }
+
 }
