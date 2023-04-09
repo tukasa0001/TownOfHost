@@ -18,19 +18,19 @@ public static class ModUnloaderScreen
         Popup = Object.Instantiate(optionsMenuBehaviour.Background, ClientActionItem.CustomBackground.transform);
         Popup.name = "UnloadModPopup";
         Popup.transform.localPosition = new(0f, 0f, -8f);
-        Popup.transform.localScale = new(0.7f, 0.7f, 1f);
+        Popup.transform.localScale = new(0.8f, 0.8f, 1f);
         Popup.gameObject.SetActive(false);
 
         WarnText = Object.Instantiate(optionsMenuBehaviour.DisableMouseMovement.Text, Popup.transform);
         WarnText.name = "Warning";
-        WarnText.transform.localPosition = new(0f, 0.3f, -1f);
+        WarnText.transform.localPosition = new(0f, 1f, -1f);
+        WarnText.transform.localScale = new(2.5f, 2.5f, 1f);
         WarnText.text = Translator.GetString("UnloadWarning");
         WarnText.gameObject.SetActive(true);
 
         CancelButton = Object.Instantiate(optionsMenuBehaviour.DisableMouseMovement, Popup.transform);
         CancelButton.name = "Cancel";
-        CancelButton.transform.localPosition = new(-0.8f, -0.7f, -2f);
-        CancelButton.transform.localScale = new(0.7f, 0.7f, 1f);
+        CancelButton.transform.localPosition = new(-1.2f, -1f, -2f);
         CancelButton.Text.text = Translator.GetString("Cancel");
         var cancelPassiveButton = CancelButton.GetComponent<PassiveButton>();
         cancelPassiveButton.OnClick = new();
@@ -39,8 +39,8 @@ public static class ModUnloaderScreen
 
         UnloadButton = Object.Instantiate(optionsMenuBehaviour.DisableMouseMovement, Popup.transform);
         UnloadButton.name = "Unload";
-        UnloadButton.transform.localPosition = new(0.8f, -0.7f, -2f);
-        UnloadButton.transform.localScale = new(0.7f, 0.7f, 1f);
+        UnloadButton.transform.localPosition = new(1.2f, -1f, -2f);
+        UnloadButton.Background.color = UnloadButton.Text.color = Color.red;
         UnloadButton.Text.text = Translator.GetString("Unload");
         var unloadPassiveButton = UnloadButton.GetComponent<PassiveButton>();
         unloadPassiveButton.OnClick = new();
