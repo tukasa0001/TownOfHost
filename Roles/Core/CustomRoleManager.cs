@@ -337,6 +337,7 @@ public static class CustomRoleManager
     /// </summary>
     public static void Dispose()
     {
+        Logger.Info($"Dispose ActiveRoles", "CustomRoleManager");
         MarkOthers.Clear();
         LowerOthers.Clear();
         SuffixOthers.Clear();
