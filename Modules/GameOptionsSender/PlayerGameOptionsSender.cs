@@ -110,9 +110,6 @@ namespace TownOfHost.Modules
                 case CustomRoles.Warlock:
                     AURoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
                     break;
-                case CustomRoles.SerialKiller:
-                    SerialKiller.ApplyGameOptions(player);
-                    break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
                     opt.SetBool(BoolOptionNames.AnonymousVotes, false);

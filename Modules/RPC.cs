@@ -158,9 +158,6 @@ namespace TownOfHost
                 case CustomRPC.RemoveExecutionerTarget:
                     Executioner.ReceiveRPC(reader, SetTarget: false);
                     break;
-                case CustomRPC.SendFireWorksState:
-                    FireWorks.ReceiveRPC(reader);
-                    break;
                 case CustomRPC.SetEvilTrackerTarget:
                     EvilTracker.ReceiveRPC(reader);
                     break;
