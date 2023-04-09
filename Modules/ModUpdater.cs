@@ -14,7 +14,7 @@ namespace TownOfHost
     [HarmonyPatch]
     public class ModUpdater
     {
-        private static readonly string URL = "https://api.github.com/repos/tukasa0001/TownOfHost";
+        private static readonly string URL = "https://api.github.com/repos/KYMario/TownOfHost-K";
         public static bool hasUpdate = false;
         public static bool isBroken = false;
         public static bool isChecked = false;
@@ -52,7 +52,7 @@ namespace TownOfHost
                 string result;
                 using (HttpClient client = new())
                 {
-                    client.DefaultRequestHeaders.Add("User-Agent", "TownOfHost Updater");
+                    client.DefaultRequestHeaders.Add("User-Agent", "TownOfHost-K Updater");
                     using var response = await client.GetAsync(new Uri(url), HttpCompletionOption.ResponseContentRead);
                     if (!response.IsSuccessStatusCode || response.Content == null)
                     {
@@ -75,17 +75,17 @@ namespace TownOfHost
                     JArray assets = data["assets"].Cast<JArray>();
                     for (int i = 0; i < assets.Count; i++)
                     {
-                        if (assets[i]["name"].ToString() == "TownOfHost_Steam.dll" && Constants.GetPlatformType() == Platforms.StandaloneSteamPC)
+                        if (assets[i]["name"].ToString() == "TownOfHost-K_Steam.dll" && Constants.GetPlatformType() == Platforms.StandaloneSteamPC)
                         {
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                             break;
                         }
-                        if (assets[i]["name"].ToString() == "TownOfHost_Epic.dll" && Constants.GetPlatformType() == Platforms.StandaloneEpicPC)
+                        if (assets[i]["name"].ToString() == "TownOfHost-K_Epic.dll" && Constants.GetPlatformType() == Platforms.StandaloneEpicPC)
                         {
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                             break;
                         }
-                        if (assets[i]["name"].ToString() == "TownOfHost.dll")
+                        if (assets[i]["name"].ToString() == "TownOfHost-K.dll")
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                     }
                     hasUpdate = latestVersion.CompareTo(Main.version) > 0;
@@ -152,7 +152,7 @@ namespace TownOfHost
             {
                 using WebClient client = new();
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadCallBack);
-                client.DownloadFileAsync(new Uri(url), "BepInEx/plugins/TownOfHost.dll");
+                client.DownloadFileAsync(new Uri(url), "BepInEx/plugins/TownOfHost-K.dll");
                 while (client.IsBusy) await Task.Delay(1);
                 ShowPopup(GetString("updateRestart"), true);
             }
