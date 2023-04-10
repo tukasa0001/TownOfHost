@@ -1,2 +1,2 @@
-welcome:★ Welcome！here is TOHE v{{ModVersion}}\n○ Check our website for more info：tohe.cc\n● Send：/help → Show all commands
+welcome:★ Welcome！here is TOHE v{{ModVersion}}\n○ Check website for more info：tohe.cc\n● Send：/help → Show all commands
 OnMeeting:● Discord: discord.gg/5PNwUaN5\n○ Website：tohe.cc\n————————————————————\n★ Send：/r → Show role list\n★ Send：/r [role] → Show role describe\n★ Send：/m → Check your roles
