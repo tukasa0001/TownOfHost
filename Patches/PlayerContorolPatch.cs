@@ -10,6 +10,7 @@ using UnityEngine;
 using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
@@ -296,14 +297,18 @@ namespace TownOfHost
                     break;
             }
 
+            // 変身したとき一番近い人をマッドメイトにする処理
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
-            {//変身したとき一番近い人をマッドメイトにする処理
+            {
+                var sidekickable = shapeshifter.GetRoleClass() as ISidekickable;
+                var targetRole = sidekickable?.SidekickTargetRole ?? CustomRoles.SKMadmate;
+
                 Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new();
                 float dis;
                 foreach (var p in Main.AllAlivePlayerControls)
                 {
-                    if (p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(CustomRoleTypes.Impostor) && !p.Is(CustomRoles.SKMadmate))
+                    if (p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(CustomRoleTypes.Impostor) && !p.Is(targetRole))
                     {
                         dis = Vector2.Distance(shapeshifterPosition, p.transform.position);
                         mpdistance.Add(p, dis);
@@ -313,7 +318,7 @@ namespace TownOfHost
                 {
                     var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                     PlayerControl targetm = min.Key;
-                    targetm.RpcSetCustomRole(CustomRoles.SKMadmate);
+                    targetm.RpcSetCustomRole(targetRole);
                     Logger.Info($"Make SKMadmate:{targetm.name}", "Shapeshift");
                     Main.SKMadmateNowCount++;
                     Utils.MarkEveryoneDirtySettings();
