@@ -559,6 +559,11 @@ class MurderPlayerPatch
                 break;
         }
 
+        if (killer.Is(CustomRoles.TicketsStealer) && killer.PlayerId != target.PlayerId)
+        {
+            killer.Notify(string.Format(GetString("TicketsStealerGetTicket"), (int)(Main.AllPlayerControls.Where(x => (x.GetRealKiller() == null ? -1 : x.GetRealKiller().PlayerId) == killer.PlayerId).Count() * Options.TicketsPerKill.GetFloat())));
+        }
+
         if (target.Is(CustomRoles.Avanger))
         {
             var pcList = Main.AllAlivePlayerControls.Where(x => x.IsAlive() && !Pelican.IsEaten(x.PlayerId) && x.PlayerId != target.PlayerId).ToList();
