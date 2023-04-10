@@ -135,6 +135,7 @@ namespace TownOfHost
 
             return seer.GetCustomRole() switch
             {
+                // IKillFlashSeeable未適用役職はここに書く
                 CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
                 CustomRoles.Seer => true,
                 _ => seer.Is(CustomRoleTypes.Madmate) && Options.MadmateCanSeeKillFlash.GetBool(),
