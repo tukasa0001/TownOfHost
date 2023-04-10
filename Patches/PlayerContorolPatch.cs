@@ -1645,6 +1645,7 @@ class EnterVentPatch
             {
                 Main.VeteranInProtect.Remove(pc.PlayerId);
                 Main.VeteranInProtect.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
+                Main.VeteranNumOfUsed[pc.PlayerId]--;
                 pc.RpcGuardAndKill(pc);
                 pc.Notify(GetString("VeteranOnGuard"), Options.VeteranSkillDuration.GetFloat());
             }
@@ -1709,7 +1710,8 @@ class CoEnterVentPatch
         if ((__instance.myPlayer.Data.Role.Role != RoleTypes.Engineer && //不是工程师
         !__instance.myPlayer.CanUseImpostorVentButton()) || //不能使用内鬼的跳管按钮
         (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||
-        (__instance.myPlayer.Is(CustomRoles.Paranoia) && Main.ParaUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count2) && count2 >= Options.ParanoiaNumOfUseButton.GetInt())
+        (__instance.myPlayer.Is(CustomRoles.Paranoia) && Main.ParaUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count2) && count2 >= Options.ParanoiaNumOfUseButton.GetInt()) ||
+        (__instance.myPlayer.Is(CustomRoles.Veteran) && Main.VeteranNumOfUsed.TryGetValue(__instance.myPlayer.PlayerId, out var count3) && count3 < 1)
         )
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
