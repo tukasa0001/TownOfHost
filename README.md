@@ -1,6 +1,6 @@
 # Town Of Host-K
 
-Englishは作るのめんどいからない!
+Englishは作るのめんどいからない!<br>
 ソースコードはリリースにありまあす上のソースコードは更新していません
 
 <p align="center"><a href="https://github.com/KYMario/TownOfHost-K/releases/"><img src="https://badgen.net/github/release/KYMario/TownOfHost-K"></a></p>
