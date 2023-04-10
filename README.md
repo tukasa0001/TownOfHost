@@ -1,5 +1,7 @@
 # Town Of Host-K
 
+[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/5DPqH8seFq)
+
 Englishは作るのめんどいからない!<br>
 ソースコードはリリースにありまあす上のソースコードは更新していません
 
