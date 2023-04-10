@@ -2,5 +2,5 @@ namespace TownOfHost.Roles.Core.Interfaces;
 
 public interface IKillFlashSeeable
 {
-    public bool CanSeeKillFlash(MurderInfo info);
+    public bool CanSeeKillFlash(MurderInfo info) => true;
 }
