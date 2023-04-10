@@ -922,7 +922,7 @@ SpeedBoosterTaskDone,您的速度提升至{0}x
 CleanerCleanBody,目标的尸体已被清理
 QuickShooterStoraging,子弹储存成功
 VampireTargetDead,您的目标已死亡
-WarlockNoTarget,因没有合适目标操纵击杀失败
+WarlockNoTarget,因没有目标操纵失败
 WarlockControlKill,已操纵目标完成击杀
 OnCyberStarDead,紧急通知：网红死亡
 
