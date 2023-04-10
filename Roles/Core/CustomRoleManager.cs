@@ -6,6 +6,7 @@ using Hazel;
 using Il2CppSystem.Text;
 
 using AmongUs.GameOptions;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.Crewmate;
@@ -147,7 +148,7 @@ public static class CustomRoleManager
 
         Utils.CountAlivePlayers(true);
 
-        Utils.TargetDies(appearanceKiller, attemptTarget);
+        Utils.TargetDies(info);
 
         Utils.SyncAllSettings();
         Utils.NotifyRoles();
