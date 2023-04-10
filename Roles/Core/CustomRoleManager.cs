@@ -147,7 +147,7 @@ public static class CustomRoleManager
 
         Utils.CountAlivePlayers(true);
 
-        Utils.TargetDies(appearanceKiller, attemptTarget);
+        Utils.TargetDies(info);
 
         Utils.SyncAllSettings();
         Utils.NotifyRoles();
