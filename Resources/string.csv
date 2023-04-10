@@ -471,6 +471,12 @@
 "TOHOptions","<color=#00bfff>TOH</color> Options","<color=#00bfff>TOH</color>の設定","","","",""
 "ForceJapanese","Force Japanese","日本語に強制","强制使用日语","強制使用日語","Принудительный Японский","Forçar Japonês"
 "JapaneseRoleName","Japanese Role Name","日本語の役職名","","","",""
+"UnloadMod","Disable The Mod","Modを無効化","","","",""
+"UnloadWarning","<color=#ffff00><size=200%>Warning</size></color>\n\nTo re-enable the mod, you must restart the game. Would you like to continue anyway?","<color=#ffff00><size=200%>警告</size></color>\n\nModを再び有効化するにはゲームの再起動が必要です。本当に無効化しますか？","","","",""
+"CannotUnloadDuringGame","The mod cannot be disabled during a game.","試合中はModを無効化できません","","","",""
+"Cancel","Cancel","キャンセル","","","",""
+"Unload","DISABLE","無効化","","","",""
+"DumpLog","Output Log","ログを出力","","","",""
 
 "## ヘルプテキスト"
 "CommandList","Command List:","コマンド一覧:","指令列表:","指令列表:","Список команд:","Lista de Comandos:"

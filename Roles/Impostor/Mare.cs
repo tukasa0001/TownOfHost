@@ -65,7 +65,7 @@ public sealed class Mare : RoleBase
             Main.AllPlayerSpeed[Player.PlayerId] -= SpeedInLightsOut;//Mareの速度を減算
         }
     }
-    public override void OnFixedUpdate()
+    public override void OnFixedUpdate(PlayerControl player)
     {
         if (GameStates.IsInTask && IsActivateKill)
         {

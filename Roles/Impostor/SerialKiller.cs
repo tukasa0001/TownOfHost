@@ -71,7 +71,7 @@ namespace TownOfHost.Roles.Impostor
 
             return true;
         }
-        public override void OnFixedUpdate()
+        public override void OnFixedUpdate(PlayerControl player)
         {
             if (!HasKilled())
             {

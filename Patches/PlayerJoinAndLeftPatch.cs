@@ -46,6 +46,8 @@ namespace TownOfHost
 
             if (AmongUsClient.Instance.AmHost && GameStates.InGame)
                 GameManager.Instance.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
+
+            CustomRoleManager.Dispose();
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
