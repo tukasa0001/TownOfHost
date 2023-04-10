@@ -139,7 +139,6 @@ namespace TownOfHost
         public static bool CanMakeMadmate(this CustomRoles role)
             => role switch
             {
-                CustomRoles.Shapeshifter => true,
                 CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate,
                 CustomRoles.Egoist => Egoist.CanCreateMadmate,
                 _ => false,
