@@ -926,6 +926,7 @@ VampireTargetDead,您的目标已死亡
 WarlockNoTarget,因没有目标操纵失败
 WarlockControlKill,已操纵目标完成击杀
 OnCyberStarDead,紧急通知：网红死亡
+TeleportedByTransporter,您被传送至：{0}
 
 ## 信息 / Message
 Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to 【{0}】 seconds.,Установлен на 【{0}】 секунды

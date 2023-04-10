@@ -230,6 +230,8 @@ public class TaskState
                     var pos = tar1.GetTruePosition();
                     Utils.TP(tar1.NetTransform, tar2.GetTruePosition());
                     Utils.TP(tar2.NetTransform, pos);
+                    tar1.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Transporter), string.Format(Translator.GetString("TeleportedByTransporter"), tar2.GetRealName())));
+                    tar2.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Transporter), string.Format(Translator.GetString("TeleportedByTransporter"), tar1.GetRealName())));
                 }
             }
 
