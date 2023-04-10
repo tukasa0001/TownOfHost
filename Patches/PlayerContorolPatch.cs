@@ -980,6 +980,7 @@ class FixedUpdatePatch
                     Main.VeteranInProtect.Remove(vp.Key);
                     var pc = Utils.GetPlayerById(vp.Key);
                     if (pc != null && GameStates.IsInTask) pc.RpcGuardAndKill(pc);
+                    pc.Notify(GetString("VeteranOffGuard"));
                     break;
                 }
             }
@@ -993,6 +994,7 @@ class FixedUpdatePatch
                     Main.GrenadierBlinding.Remove(gb.Key);
                     var pc = Utils.GetPlayerById(gb.Key);
                     if (pc != null && GameStates.IsInTask) pc.RpcGuardAndKill(pc);
+                    pc.Notify(GetString("GrenadierSkillStop"));
                     Utils.MarkEveryoneDirtySettings();
                     break;
                 }
@@ -1624,6 +1626,7 @@ class EnterVentPatch
             Main.VeteranInProtect.Remove(pc.PlayerId);
             Main.VeteranInProtect.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
             pc.RpcGuardAndKill(pc);
+            pc.Notify(GetString("VeteranOnGuard"), Options.VeteranSkillDuration.GetFloat());
         }
         if (pc.Is(CustomRoles.Grenadier))
         {
@@ -1638,6 +1641,7 @@ class EnterVentPatch
                 Main.GrenadierBlinding.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
             }
             pc.RpcGuardAndKill(pc);
+            pc.Notify(GetString("GrenadierSkillInUse"), Options.GrenadierSkillDuration.GetFloat());
             Utils.MarkEveryoneDirtySettings();
         }
     }

@@ -908,6 +908,10 @@ ByBardGetFailed,没有灵感，也是一种灵感
 GangsterSuccessfullyRecruited,您成功招募了一位玩家
 GangsterRecruitmentFailure,目标无法被招募
 BeRecruitedByGangster,您已被教父招募
+VeteranOnGuard,已进入警戒状态
+VeteranOffGuard,警戒状态已失效
+GrenadierSkillInUse,闪光弹生效中
+GrenadierSkillStop,闪光弹已失效
 
 ## 信息 / Message
 Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to 【{0}】 seconds.,Установлен на 【{0}】 секунды
