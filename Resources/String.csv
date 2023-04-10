@@ -920,6 +920,7 @@ BecomeMadmateCuzMadmateMode,您因死亡成为叛徒
 ExecutionerRoleChanged,您因目标死亡转变为{0}
 SpeedBoosterTaskDone,您的速度提升至{0}x
 CleanerCleanBody,目标的尸体已被清理
+QuickShooterStoraging,子弹储存成功
 
 ## 信息 / Message
 Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to 【{0}】 seconds.,Установлен на 【{0}】 секунды

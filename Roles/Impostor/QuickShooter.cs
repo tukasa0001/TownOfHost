@@ -33,7 +33,6 @@ internal static class QuickShooter
     {
         playerIdList.Add(playerId);
         ShotLimit.TryAdd(playerId, 0);
-        Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit[playerId]}発", "QuickShooter");
     }
     public static bool IsEnable => playerIdList.Count > 0;
     private static void SendRPC(byte playerId)
@@ -61,6 +60,8 @@ internal static class QuickShooter
             Storaging = true;
             pc.ResetKillCooldown();
             pc.SetKillCooldown();
+            pc.Notify(Translator.GetString("QuickShooterStoraging"));
+            Logger.Info($"{Utils.GetPlayerById(pc.PlayerId)?.GetNameWithRole()} : 残り{ShotLimit[pc.PlayerId]}発", "QuickShooter");
         }
     }
     private static bool Storaging;
