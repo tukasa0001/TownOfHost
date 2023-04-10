@@ -816,7 +816,7 @@ class ReportDeadBodyPatch
                     Main.CleanerBodies.Remove(target.PlayerId);
                     Main.CleanerBodies.Add(target.PlayerId);
                     __instance.RpcGuardAndKill(__instance);
-                    __instance.ResetKillCooldown();
+                    __instance.Notify(GetString("CleanerCleanBody"));
                     Logger.Info($"{__instance.GetRealName()} 清理了 {target.PlayerName} 的尸体", "Cleaner");
                     return false;
                 }
