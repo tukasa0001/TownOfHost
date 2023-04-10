@@ -476,6 +476,7 @@
 "CannotUnloadDuringGame","The mod cannot be disabled during a game.","試合中はModを無効化できません","","","",""
 "Cancel","Cancel","キャンセル","","","",""
 "Unload","DISABLE","無効化","","","",""
+"DumpLog","Output Log","ログを出力","","","",""
 
 "## ヘルプテキスト"
 "CommandList","Command List:","コマンド一覧:","指令列表:","指令列表:","Список команд:","Lista de Comandos:"
