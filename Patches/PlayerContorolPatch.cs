@@ -953,6 +953,7 @@ class FixedUpdatePatch
 
         if (!GameStates.IsModHost) return;
 
+        NameNotifyManager.OnFixedUpdate(player);
         TargetArrow.OnFixedUpdate(player);
         LocateArrow.OnFixedUpdate(player);
         Sniper.OnFixedUpdate(player);
@@ -1363,7 +1364,8 @@ class FixedUpdatePatch
                     if (Pelican.IsEaten(seer.PlayerId))
                         RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Pelican), GetString("EatenByPelican"));
                     if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
-                        SoloKombatManager.GetNameNotify(target, ref RealName);
+                        SoloKombatManager.GetNameNotify(target, ref RealName, );
+                    NameNotifyManager.GetNameNotify(target, ref RealName);
                 }
 
                 //NameColorManager準拠の処理

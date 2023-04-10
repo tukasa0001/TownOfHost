@@ -19,6 +19,7 @@ using TOHE.Roles.Neutral;
 using UnhollowerBaseLib;
 using UnityEngine;
 using static TOHE.Translator;
+using static UnityEngine.GraphicsBuffer;
 
 namespace TOHE;
 
@@ -1001,6 +1002,10 @@ public static class Utils
             if (Options.CurrentGameMode == CustomGameMode.SoloKombat)
             {
                 SoloKombatManager.GetNameNotify(seer, ref SelfName);
+                SelfName = $"<size={fontSize}>{SelfTaskText}</size>\r\n{SelfName}";
+            }
+            if (NameNotifyManager.GetNameNotify(seer, ref SelfName))
+            {
                 SelfName = $"<size={fontSize}>{SelfTaskText}</size>\r\n{SelfName}";
             }
             else SelfName = SelfRoleName + "\r\n" + SelfName;

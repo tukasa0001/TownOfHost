@@ -198,6 +198,7 @@ internal class ChangeRoleSettings
             SoloKombatManager.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
+            NameNotifyManager.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
 
             MeetingStates.MeetingCalled = false;
