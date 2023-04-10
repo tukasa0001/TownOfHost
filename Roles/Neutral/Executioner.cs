@@ -120,6 +120,9 @@ public static class Executioner
         executioner.RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetValue()]);
         Target.Remove(executioner.PlayerId);
         SendRPC(executioner.PlayerId);
+        var text = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), Translator.GetString(""));
+        text = string.Format(text, Utils.ColorString(Utils.GetRoleColor(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetValue()]), Translator.GetString(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetValue()].ToString())));
+        executioner.Notify(text);
     }
     public static string TargetMark(PlayerControl seer, PlayerControl target)
     {

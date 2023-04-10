@@ -13,6 +13,7 @@ public static class NameNotifyManager
     public static void Notify(this PlayerControl pc, string text, float time = 3.5f)
     {
         if (!GameStates.IsInTask) return;
+        if (!text.Contains("<color=#")) text = Utils.ColorString(Utils.GetRoleColor(pc.GetCustomRole()), text);
         Notice.Remove(pc.PlayerId);
         Notice.Add(pc.PlayerId, new (text, Utils.GetTimeStamp(DateTime.Now) + (long)time));
         SendRPC(pc.PlayerId);
