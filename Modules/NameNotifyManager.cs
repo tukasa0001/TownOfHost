@@ -45,7 +45,7 @@ public static class NameNotifyManager
         {
             writer.Write(true);
             writer.Write(Notice[playerId].Item1);
-            writer.Write(Notice[playerId].Item2);
+            writer.Write(Notice[playerId].Item2 - Utils.GetTimeStamp(DateTime.Now));
         }
         else writer.Write(false);
         AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -55,7 +55,7 @@ public static class NameNotifyManager
         byte PlayerId = reader.ReadByte();
         Notice.Remove(PlayerId);
         if (reader.ReadBoolean())
-            Notice.Add(PlayerId, new(reader.ReadString(), (long)reader.ReadSingle()));
+            Notice.Add(PlayerId, new(reader.ReadString(), Utils.GetTimeStamp(DateTime.Now) + (long)reader.ReadSingle()));
         Logger.Info($"New name notify for {Main.AllPlayerNames[PlayerId]}: {Notice[PlayerId].Item1} ({Notice[PlayerId].Item2}s)", "Name Notify");
     }
 }
