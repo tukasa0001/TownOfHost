@@ -3,7 +3,7 @@ actorour#0029,#ffc0cb,{Developer},true,true,KARPED1EM
 pinklaze#1776,#30548e,{Developer},true,true,NCSIMON
 keepchirpy#6354,#E42217,{Developer},false,false
 
-## Booster
+## Sponsor
 lordcosy#8966,#FFD6EC,HostTOHE,false,false,K
 truantwarm#9165,null,null,true,false,萧暮不姓萧
 drilldinky#1386,null,null,true,false,爱玩AU的河豚
