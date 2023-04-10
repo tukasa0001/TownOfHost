@@ -95,6 +95,6 @@ public static class Mortician
         if (!seer.Is(CustomRoles.Mortician)) return "";
         if (target != null && seer.PlayerId != target.PlayerId) return "";
         if (GameStates.IsMeeting) return "";
-        return Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mortician), LocateArrow.GetArrows(seer));
+        return Utils.ColorString(Color.white, LocateArrow.GetArrows(seer));
     }
 }
