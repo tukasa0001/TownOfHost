@@ -568,6 +568,9 @@ class MurderPlayerPatch
             rp.RpcMurderPlayerV3(rp);
         }
 
+        foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.Is(CustomRoles.Mediumshiper)))
+            pc.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Mediumshiper), GetString("MediumshiperKnowPlayerDead")));
+
         if (Executioner.Target.ContainsValue(target.PlayerId))
             Executioner.ChangeRoleByTarget(target);
         Hacker.AddDeadBody(target);
