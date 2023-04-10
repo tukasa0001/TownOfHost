@@ -69,7 +69,10 @@ namespace TownOfHost
                     ModOptionsButton.transform.localPosition = leaveButton?.transform?.localPosition ?? new(0f, -2.4f, 1f);
                     ModOptionsButton.name = "TOHOptions";
                     ModOptionsButton.Text.text = Translator.GetString("TOHOptions");
-                    ModOptionsButton.Background.color = new Color32(0x00, 0xbf, 0xff, 0xff);
+                    if (ColorUtility.TryParseHtmlString(Main.ModColor, out var modColor))
+                    {
+                        ModOptionsButton.Background.color = modColor;
+                    }
                     var modOptionsPassiveButton = ModOptionsButton.GetComponent<PassiveButton>();
                     modOptionsPassiveButton.OnClick = new();
                     modOptionsPassiveButton.OnClick.AddListener(new Action(() =>
