@@ -659,6 +659,9 @@ internal static class RPC
             case CustomRoles.Mediumshiper:
                 Mediumshiper.Add(targetId);
                 break;
+            case CustomRoles.Veteran:
+                Main.VeteranNumOfUsed.Add(targetId, Options.VeteranSkillMaxOfUseage.GetInt());
+                break;
         }
         HudManager.Instance.SetHudActive(true);
         if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();

@@ -983,7 +983,7 @@ class FixedUpdatePatch
                     Main.VeteranInProtect.Remove(vp.Key);
                     var pc = Utils.GetPlayerById(vp.Key);
                     if (pc != null && GameStates.IsInTask) pc.RpcGuardAndKill(pc);
-                    pc.Notify(GetString("VeteranOffGuard"));
+                    pc.Notify(string.Format(GetString("VeteranOffGuard"), Main.VeteranNumOfUsed[pc.PlayerId]));
                     break;
                 }
             }
@@ -1626,10 +1626,18 @@ class EnterVentPatch
 
         if (pc.Is(CustomRoles.Veteran))
         {
-            Main.VeteranInProtect.Remove(pc.PlayerId);
-            Main.VeteranInProtect.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
-            pc.RpcGuardAndKill(pc);
-            pc.Notify(GetString("VeteranOnGuard"), Options.VeteranSkillDuration.GetFloat());
+            if (Main.VeteranNumOfUsed[pc.PlayerId] < 1)
+            {
+                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                pc.Notify(GetString("VeteranMaxUsage"));
+            }
+            else
+            {
+                Main.VeteranInProtect.Remove(pc.PlayerId);
+                Main.VeteranInProtect.Add(pc.PlayerId, Utils.GetTimeStamp(DateTime.Now));
+                pc.RpcGuardAndKill(pc);
+                pc.Notify(GetString("VeteranOnGuard"), Options.VeteranSkillDuration.GetFloat());
+            }
         }
         if (pc.Is(CustomRoles.Grenadier))
         {

@@ -134,6 +134,7 @@ public class Main : BasePlugin
     public static Dictionary<byte, int> ParaUsedButtonCount = new();
     public static Dictionary<byte, int> MarioVentCount = new();
     public static Dictionary<byte, long> VeteranInProtect = new();
+    public static Dictionary<byte, int> VeteranNumOfUsed = new();
     public static Dictionary<byte, long> GrenadierBlinding = new();
     public static Dictionary<byte, long> MadGrenadierBlinding = new();
     public static Dictionary<byte, int> CursedWolfSpellCount = new();
@@ -237,6 +238,7 @@ public class Main : BasePlugin
         MayorUsedButtonCount = new Dictionary<byte, int>();
         ParaUsedButtonCount = new Dictionary<byte, int>();
         VeteranInProtect = new Dictionary<byte, long>();
+        VeteranNumOfUsed = new Dictionary<byte, int>();
         GrenadierBlinding = new Dictionary<byte, long>();
         MadGrenadierBlinding = new Dictionary<byte, long>();
         MarioVentCount = new Dictionary<byte, int>();

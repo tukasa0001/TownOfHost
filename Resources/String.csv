@@ -798,6 +798,7 @@ JudgeCanTrialMadmate,可以审判<color=#ff1919>叛徒</color>
 JudgeCanTrialnCrewKilling,可以审判带刀<color=#8cffff>船员</color>
 JudgeCanTrialNeutralB,可以审判无刀<color=#ffab1b>中立</color>
 JudgeCanTrialNeutralK,可以审判带刀<color=#ffab1b>中立</color>
+VeteranSkillMaxOfUseage,技能使用次数上限
 
 ## 死因 / Death Reasons
 DeathReason.Kill,被杀,Kill,Убит
@@ -909,7 +910,8 @@ GangsterSuccessfullyRecruited,您成功招募了一位玩家
 GangsterRecruitmentFailure,目标无法被招募
 BeRecruitedByGangster,您已被教父招募
 VeteranOnGuard,已进入警戒状态
-VeteranOffGuard,警戒状态已失效
+VeteranOffGuard,警戒状态已失效，剩余{0}次使用次数
+VeteranMaxUsage,已达到技能使用次数上限
 GrenadierSkillInUse,闪光弹生效中
 GrenadierSkillStop,闪光弹已失效
 MediumshiperKnowPlayerDead,刚刚似乎有亡魂发出了一阵嘶吼
