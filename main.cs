@@ -205,7 +205,6 @@ namespace TownOfHost
                     {CustomRoles.SabotageMaster, "#0000ff"},
                     {CustomRoles.Snitch, "#b8fb4f"},
                     {CustomRoles.Lighter, "#eee5be"},
-                    {CustomRoles.Trapper, "#5a8fd0"},
                     {CustomRoles.Dictator, "#df9b00"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     {CustomRoles.Seer, "#61b26c"},

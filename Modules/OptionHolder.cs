@@ -97,7 +97,6 @@ namespace TownOfHost
         public static OptionItem EvilWatcherChance;
         public static OptionItem LighterTaskCompletedVision;
         public static OptionItem LighterTaskCompletedDisableLightOut;
-        public static OptionItem TrapperBlockMoveTime;
         public static OptionItem CanTerroristSuicideWin;
         public static OptionItem ArsonistDouseTime;
         public static OptionItem ArsonistCooldown;
@@ -360,9 +359,6 @@ namespace TownOfHost
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
                 info.OptionCreator?.Invoke();
             });
-            SetupRoleOptions(20800, TabGroup.CrewmateRoles, CustomRoles.Trapper);
-            TrapperBlockMoveTime = FloatOptionItem.Create(20810, "TrapperBlockMoveTime", new(1f, 180f, 1f), 5f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Trapper])
-                .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
             SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
             TimeManager.SetupCustomOption();
