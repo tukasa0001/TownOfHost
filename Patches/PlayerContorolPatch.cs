@@ -419,8 +419,8 @@ class CheckMurderPatch
             Main.MadmateNum++;
             target.RpcSetCustomRole(CustomRoles.Madmate);
             ExtendedPlayerControl.RpcSetCustomRole(target.PlayerId, CustomRoles.Madmate);
-            Utils.NotifyRoles(target);
-            killer.RpcGuardAndKill(killer);
+            target.Notify(GetString("BecomeMadmateCuzMadmateMode"));
+            killer.SetKillCooldown();
             killer.RpcGuardAndKill(target);
             target.RpcGuardAndKill(killer);
             target.RpcGuardAndKill(target);

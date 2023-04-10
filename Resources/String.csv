@@ -916,6 +916,7 @@ GrenadierSkillInUse,闪光弹生效中
 GrenadierSkillStop,闪光弹已失效
 MediumshiperKnowPlayerDead,刚刚似乎有亡魂发出了一阵嘶吼
 TicketsStealerGetTicket,您的票数共增加{0}
+BecomeMadmateCuzMadmateMode,您因死亡成为叛徒
 
 ## 信息 / Message
 Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to 【{0}】 seconds.,Установлен на 【{0}】 секунды
