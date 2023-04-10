@@ -903,8 +903,11 @@ MediumshipNo,您似乎在渺茫的精神世界中听到有阵愤愤的嘶吼，�
 MediumshipDone,您成功地向通灵师作出的回应
 MediumshipNotifyTarget,通灵师【{0}】与您建立了联系，本次会议结束前，您拥有一次回应其问题的机会。\n确认指令：/ms 是\n否认指令：/ms 否
 MediumshipNotifySelf,您与【{0}】建立了联系，请向其提问并等待其作出回应。
-ByBard,吟游诗人献
+ByBard,<color=#ff1919>吟游诗人</color>献
 ByBardGetFailed,没有灵感，也是一种灵感
+GangsterSuccessfullyRecruited,您成功招募了一位玩家
+GangsterRecruitmentFailure,目标无法被招募
+BeRecruitedByGangster,您已被教父招募
 
 ## 信息 / Message
 Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to 【{0}】 seconds.,Установлен на 【{0}】 секунды

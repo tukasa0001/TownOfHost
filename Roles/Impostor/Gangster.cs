@@ -78,8 +78,8 @@ public static class Gangster
             SendRPC(killer.PlayerId);
             target.RpcSetCustomRole(CustomRoles.Madmate);
             NameColorManager.Add(killer.PlayerId, target.PlayerId, "#ff1919");
-            Utils.NotifyRoles(target);
-            Utils.NotifyRoles(killer);
+            killer.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Gangster), GetString("GangsterSuccessfullyRecruited")));
+            target.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Gangster), GetString("BeRecruitedByGangster")));
             killer.RpcGuardAndKill(target);
             target.RpcGuardAndKill(killer);
             target.RpcGuardAndKill(target);
@@ -92,6 +92,7 @@ public static class Gangster
         }
         if (RecruitLimit[killer.PlayerId] < 0)
             HudManager.Instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+        killer.Notify(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Gangster), GetString("GangsterRecruitmentFailure")));
         Logger.Info($"{killer.GetNameWithRole()} : 剩余{RecruitLimit[killer.PlayerId]}次招募机会", "Gangster");
         return false;
     }
