@@ -13,6 +13,7 @@ using UnityEngine;
 
 using TownOfHost.Modules;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Impostor;
@@ -107,21 +108,34 @@ namespace TownOfHost
             }
         }
         //誰かが死亡したときのメソッド
-        public static void TargetDies(PlayerControl killer, PlayerControl target)
+        public static void TargetDies(MurderInfo info)
         {
+            PlayerControl killer = info.AppearanceKiller, target = info.AttemptTarget;
+
             if (!target.Data.IsDead || GameStates.IsMeeting) return;
             foreach (var seer in Main.AllPlayerControls)
             {
-                if (!KillFlashCheck(killer, target, seer)) continue;
-                seer.KillFlash();
+                if (KillFlashCheck(info, seer))
+                {
+                    seer.KillFlash();
+                }
             }
         }
-        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer)
+        public static bool KillFlashCheck(MurderInfo info, PlayerControl seer)
         {
+            PlayerControl killer = info.AppearanceKiller, target = info.AttemptTarget;
+
             if (seer.Is(CustomRoles.GM)) return true;
             if (seer.Data.IsDead || killer == seer || target == seer) return false;
+
+            if (seer.GetRoleClass() is IKillFlashSeeable killFlashSeeable)
+            {
+                return killFlashSeeable.CanSeeKillFlash(info);
+            }
+
             return seer.GetCustomRole() switch
             {
+                // IKillFlashSeeable未適用役職はここに書く
                 CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
                 CustomRoles.Seer => true,
                 _ => seer.Is(CustomRoleTypes.Madmate) && Options.MadmateCanSeeKillFlash.GetBool(),

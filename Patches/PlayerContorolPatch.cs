@@ -859,10 +859,6 @@ namespace TownOfHost
                         NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
                     }
                 }
-                if (isTaskFinish && pc.GetCustomRole() is CustomRoles.Doctor)
-                {
-                    Utils.MarkEveryoneDirtySettings();
-                }
             }
             Utils.NotifyRoles();
             return ret;

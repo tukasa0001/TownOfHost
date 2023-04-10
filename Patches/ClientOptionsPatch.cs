@@ -8,6 +8,7 @@ namespace TownOfHost
         private static ClientActionItem ForceJapanese;
         private static ClientActionItem JapaneseRoleName;
         private static ClientActionItem UnloadMod;
+        private static ClientActionItem DumpLog;
 
         public static void Postfix(OptionsMenuBehaviour __instance)
         {
@@ -27,6 +28,10 @@ namespace TownOfHost
             if (UnloadMod == null || UnloadMod.ToggleButton == null)
             {
                 UnloadMod = ClientActionItem.Create("UnloadMod", ModUnloaderScreen.Show, __instance);
+            }
+            if (DumpLog == null || DumpLog.ToggleButton == null)
+            {
+                DumpLog = ClientActionItem.Create("DumpLog", Utils.DumpLog, __instance);
             }
 
             if (ModUnloaderScreen.Popup == null)

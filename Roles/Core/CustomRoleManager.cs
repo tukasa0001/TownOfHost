@@ -147,7 +147,7 @@ public static class CustomRoleManager
 
         Utils.CountAlivePlayers(true);
 
-        Utils.TargetDies(appearanceKiller, attemptTarget);
+        Utils.TargetDies(info);
 
         Utils.SyncAllSettings();
         Utils.NotifyRoles();
@@ -172,8 +172,6 @@ public static class CustomRoleManager
             Logger.Info(attemptTarget?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
             Utils.CheckTerroristWin(attemptTarget.Data);
         }
-        else if (attemptTarget.Is(CustomRoles.Trapper) && !suicide)
-            attemptKiller.TrapperKilled(attemptTarget);
         else if (Executioner.Target.ContainsValue(attemptTarget.PlayerId))
             Executioner.ChangeRoleByTarget(attemptTarget);
         else if (attemptTarget.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(attemptTarget.PlayerId))
