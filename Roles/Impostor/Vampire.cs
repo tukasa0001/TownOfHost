@@ -101,6 +101,7 @@ public static class Vampire
                 RPC.PlaySoundRPC(vampire.PlayerId, Sounds.KillSound);
                 if (target.Is(CustomRoles.Trapper))
                     vampire.TrapperKilled(target);
+                vampire.Notify(GetString("VampireTargetDead"));
             }
         }
         else
