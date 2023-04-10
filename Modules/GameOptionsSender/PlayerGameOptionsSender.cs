@@ -135,10 +135,6 @@ namespace TownOfHost.Modules
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(true);
                     break;
-                case CustomRoles.Doctor:
-                    AURoleOptions.ScientistCooldown = 0f;
-                    AURoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
-                    break;
                 case CustomRoles.EvilTracker:
                     EvilTracker.ApplyGameOptions(player.PlayerId);
                     break;

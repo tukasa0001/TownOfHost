@@ -45,9 +45,9 @@ namespace TownOfHost.Modules
             int MeetingTimeMin = 0;
             int MeetingTimeMax = 300;
 
-            if (TimeThief.IsEnable)
+            if (TimeThief.TimeThiefs.Count > 0)
             {
-                MeetingTimeMin = TimeThief.LowerLimitVotingTime.GetInt();
+                MeetingTimeMin = TimeThief.LowerLimitVotingTime;
                 BonusMeetingTime += TimeThief.TotalDecreasedMeetingTime();
             }
             if (TimeManager.IsEnable)

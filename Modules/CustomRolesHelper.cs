@@ -24,7 +24,6 @@ namespace TownOfHost
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or
                 CustomRoles.EvilWatcher or
-                CustomRoles.TimeThief or
                 CustomRoles.Mafia or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
@@ -155,8 +154,7 @@ namespace TownOfHost
                 CustomRoles.Arsonist or
                 CustomRoles.Jackal => RoleTypes.Impostor,
 
-                CustomRoles.Scientist or
-                CustomRoles.Doctor => RoleTypes.Scientist,
+                CustomRoles.Scientist => RoleTypes.Scientist,
 
                 CustomRoles.Engineer or
                 CustomRoles.Madmate or
