@@ -120,7 +120,7 @@ public class GameStartManagerPatch
             }
             else
             {
-                if (MatchVersions(0, true))
+                if (MatchVersions(0, true) || Main.VersionCheat.Value)
                     exitTimer = 0;
                 else
                 {

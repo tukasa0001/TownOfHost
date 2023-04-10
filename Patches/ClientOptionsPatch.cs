@@ -12,6 +12,7 @@ public static class OptionsMenuBehaviourStartPatch
     private static ClientOptionItem SwitchVanilla;
     private static ClientOptionItem ForceOwnLanguage;
     private static ClientOptionItem ForceOwnLanguageRoleName;
+    private static ClientOptionItem VersionCheat;
 
     public static void Postfix(OptionsMenuBehaviour __instance)
     {
@@ -20,6 +21,7 @@ public static class OptionsMenuBehaviourStartPatch
         Main.SwitchVanilla.Value = false;
         if (!Main.SetAutoStartToDisable)
         {
+            Main.VersionCheat.Value = false;
             Main.AutoStart.Value = false;
             Main.SetAutoStartToDisable = true;
         }
@@ -61,6 +63,10 @@ public static class OptionsMenuBehaviourStartPatch
         if (ForceOwnLanguageRoleName == null || ForceOwnLanguageRoleName.ToggleButton == null)
         {
             ForceOwnLanguageRoleName = ClientOptionItem.Create("ForceOwnLanguageRoleName", Main.ForceOwnLanguageRoleName, __instance);
+        }
+        if ((VersionCheat == null || VersionCheat.ToggleButton == null) && DebugModeManager.AmDebugger)
+        {
+            VersionCheat = ClientOptionItem.Create("VersionCheat", Main.VersionCheat, __instance);
         }
     }
 }

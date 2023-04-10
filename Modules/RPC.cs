@@ -170,6 +170,9 @@ internal class RPCHandlerPatch
                     string tag = reader.ReadString();
                     string forkId = reader.ReadString();
                     Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
+
+                    if (Main.VersionCheat.Value && __instance.PlayerId == 0) RPC.RpcVersionCheck();
+
                     // Kick Unmached Player Start
                     if (AmongUsClient.Instance.AmHost && tag != $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})")
                     {
@@ -463,11 +466,15 @@ internal static class RPC
     public static async void RpcVersionCheck()
     {
         while (PlayerControl.LocalPlayer == null) await Task.Delay(500);
-        MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, SendOption.Reliable);
-        writer.Write(Main.PluginVersion);
-        writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
-        writer.Write(Main.ForkId);
-        writer.EndMessage();
+        if (Main.playerVersion.ContainsKey(0) || !Main.VersionCheat.Value)
+        {
+            bool cheating = Main.VersionCheat.Value;
+            MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, SendOption.Reliable);
+            writer.Write(cheating ? Main.playerVersion[0].version.ToString() : Main.PluginVersion);
+            writer.Write(cheating ? Main.playerVersion[0].tag : $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
+            writer.Write(cheating ? Main.playerVersion[0].forkId : Main.ForkId);
+            writer.EndMessage();
+        }
         Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})", Main.ForkId);
     }
     public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
