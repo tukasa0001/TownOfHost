@@ -157,8 +157,11 @@ public abstract class RoleBase : IDisposable
     /// タスクターンに常時呼ばれる関数
     /// 自分自身について呼ばれるため本人確認不要
     /// Host以外も呼ばれるので注意
+    /// playerが自分以外であるときに処理したい場合は同じ引数でstaticとして実装し
+    /// CustomRoleManager.OnFixedUpdateOthersに登録する
     /// </summary>
-    public virtual void OnFixedUpdate()
+    /// <param name="player">対象プレイヤー</param>
+    public virtual void OnFixedUpdate(PlayerControl player)
     { }
 
     /// <summary>

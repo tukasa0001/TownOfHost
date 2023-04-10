@@ -428,21 +428,6 @@ namespace TownOfHost
             if (player.PlayerId == LastImpostor.currentId)
                 LastImpostor.SetKillCooldown();
         }
-        public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
-        {
-            Logger.Info($"{target?.Data?.PlayerName}はTrapperだった", "Trapper");
-            var tmpSpeed = Main.AllPlayerSpeed[killer.PlayerId];
-            Main.AllPlayerSpeed[killer.PlayerId] = Main.MinSpeed;    //tmpSpeedで後ほど値を戻すので代入しています。
-            ReportDeadBodyPatch.CanReport[killer.PlayerId] = false;
-            killer.MarkDirtySettings();
-            new LateTask(() =>
-            {
-                Main.AllPlayerSpeed[killer.PlayerId] = Main.AllPlayerSpeed[killer.PlayerId] - Main.MinSpeed + tmpSpeed;
-                ReportDeadBodyPatch.CanReport[killer.PlayerId] = true;
-                killer.MarkDirtySettings();
-                RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
-            }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
-        }
         public static bool CanMakeMadmate(this PlayerControl player)
         {
             return Options.CanMakeMadmateCount.GetInt() > Main.SKMadmateNowCount
