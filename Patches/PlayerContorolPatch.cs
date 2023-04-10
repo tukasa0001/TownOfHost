@@ -656,7 +656,12 @@ class ShapeshiftPatch
                                 Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
                                 cp.RpcMurderPlayerV3(targetw);//殺す
                                 shapeshifter.RpcGuardAndKill(shapeshifter);
+                                shapeshifter.Notify(GetString("WarlockControlKill"));
                             }
+                        }
+                        else
+                        {
+                            shapeshifter.Notify(GetString("WarlockNoTarget"));
                         }
                         Main.isCurseAndKill[shapeshifter.PlayerId] = false;
                     }
