@@ -68,7 +68,7 @@ public class MainMenuManagerPatch
             discordButtonSprite.color = discordText.color = discordColor;
             discordButton.gameObject.SetActive(Main.ShowDiscordButton && !Main.IsAprilFools);
         }
-        
+
         //Updateボタンを生成
         if (updateButton == null) updateButton = Object.Instantiate(template, template.transform.parent);
         updateButton.name = "UpdateButton";

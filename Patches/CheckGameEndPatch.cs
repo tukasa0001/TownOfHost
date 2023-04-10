@@ -170,7 +170,7 @@ class GameEndChecker
                         }
                     }
                 }
-                
+
                 //中立共同胜利
                 if (Options.NeutralWinTogether.GetBool() && CustomWinnerHolder.WinnerIds.Where(x => Utils.GetPlayerById(x) != null && Utils.GetPlayerById(x).GetCustomRole().IsNeutral()).Count() >= 1)
                 {

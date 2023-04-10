@@ -199,15 +199,18 @@ internal class ControllerManagerUpdatePatch
         //マスゲーム用コード
         if (Input.GetKeyDown(KeyCode.C))
         {
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(!pc.AmOwner) pc.MyPhysics.RpcEnterVent(2);
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (!pc.AmOwner) pc.MyPhysics.RpcEnterVent(2);
             }
         }
         if (Input.GetKeyDown(KeyCode.V))
         {
             Vector2 pos = PlayerControl.LocalPlayer.NetTransform.transform.position;
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(!pc.AmOwner) {
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (!pc.AmOwner)
+                {
                     pc.NetTransform.RpcSnapTo(pos);
                     pos.x += 0.5f;
                 }
@@ -215,8 +218,9 @@ internal class ControllerManagerUpdatePatch
         }
         if (Input.GetKeyDown(KeyCode.B))
         {
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(!pc.AmOwner) pc.MyPhysics.RpcExitVent(2);
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (!pc.AmOwner) pc.MyPhysics.RpcExitVent(2);
             }
         }
         if (Input.GetKeyDown(KeyCode.N))

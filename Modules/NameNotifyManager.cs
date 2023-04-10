@@ -1,7 +1,6 @@
 ﻿using Hazel;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace TOHE;
 
@@ -15,7 +14,7 @@ public static class NameNotifyManager
         if (!GameStates.IsInTask) return;
         if (!text.Contains("<color=#")) text = Utils.ColorString(Utils.GetRoleColor(pc.GetCustomRole()), text);
         Notice.Remove(pc.PlayerId);
-        Notice.Add(pc.PlayerId, new (text, Utils.GetTimeStamp(DateTime.Now) + (long)time));
+        Notice.Add(pc.PlayerId, new(text, Utils.GetTimeStamp(DateTime.Now) + (long)time));
         SendRPC(pc.PlayerId);
         Utils.NotifyRoles(pc);
         Logger.Info($"New name notify for {pc.GetNameWithRole().RemoveHtmlTags()}: {text} ({time}s)", "Name Notify");

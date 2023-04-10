@@ -12,7 +12,6 @@ using TOHE.Roles.Impostor;
 using TOHE.Roles.Neutral;
 using static TOHE.Modules.CustomRoleSelector;
 using static TOHE.Translator;
-using static UnityEngine.GraphicsBuffer;
 
 namespace TOHE;
 
@@ -35,31 +34,31 @@ internal class ChangeRoleSettings
 
             Main.PlayerStates = new();
 
-            Main.AllPlayerKillCooldown = new ();
-            Main.AllPlayerSpeed = new ();
-            Main.WarlockTimer = new ();
-            Main.AssassinTimer = new ();
-            Main.isDoused = new ();
-            Main.isDraw = new ();
-            Main.ArsonistTimer = new ();
-            Main.RevolutionistTimer = new ();
-            Main.RevolutionistStart = new ();
-            Main.RevolutionistLastTime = new ();
-            Main.RevolutionistCountdown = new ();
-            Main.CursedPlayers = new ();
-            Main.MafiaRevenged = new ();
-            Main.isCurseAndKill = new ();
+            Main.AllPlayerKillCooldown = new();
+            Main.AllPlayerSpeed = new();
+            Main.WarlockTimer = new();
+            Main.AssassinTimer = new();
+            Main.isDoused = new();
+            Main.isDraw = new();
+            Main.ArsonistTimer = new();
+            Main.RevolutionistTimer = new();
+            Main.RevolutionistStart = new();
+            Main.RevolutionistLastTime = new();
+            Main.RevolutionistCountdown = new();
+            Main.CursedPlayers = new();
+            Main.MafiaRevenged = new();
+            Main.isCurseAndKill = new();
             Main.isCursed = false;
-            Main.PuppeteerList = new ();
-            Main.DetectiveNotify = new ();
-            Main.CyberStarDead = new ();
-            Main.BoobyTrapBody = new ();
-            Main.KillerOfBoobyTrapBody = new ();
-            Main.CleanerBodies = new ();
+            Main.PuppeteerList = new();
+            Main.DetectiveNotify = new();
+            Main.CyberStarDead = new();
+            Main.BoobyTrapBody = new();
+            Main.KillerOfBoobyTrapBody = new();
+            Main.CleanerBodies = new();
 
-            Main.LastEnteredVent = new ();
-            Main.LastEnteredVentLocation = new ();
-            Main.EscapeeLocation = new ();
+            Main.LastEnteredVent = new();
+            Main.LastEnteredVentLocation = new();
+            Main.EscapeeLocation = new();
 
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();
@@ -70,15 +69,15 @@ internal class ChangeRoleSettings
             Main.CheckShapeshift = new();
             Main.ShapeshiftTarget = new();
             Main.SpeedBoostTarget = new();
-            Main.MayorUsedButtonCount = new ();
-            Main.ParaUsedButtonCount = new ();
-            Main.MarioVentCount = new ();
-            Main.VeteranInProtect = new ();
-            Main.VeteranNumOfUsed = new ();
-            Main.GrenadierBlinding = new ();
-            Main.MadGrenadierBlinding = new ();
-            Main.CursedWolfSpellCount = new ();
-            Main.Provoked = new ();
+            Main.MayorUsedButtonCount = new();
+            Main.ParaUsedButtonCount = new();
+            Main.MarioVentCount = new();
+            Main.VeteranInProtect = new();
+            Main.VeteranNumOfUsed = new();
+            Main.GrenadierBlinding = new();
+            Main.MadGrenadierBlinding = new();
+            Main.CursedWolfSpellCount = new();
+            Main.Provoked = new();
             Main.ShieldPlayer = Options.ShieldPersonDiedFirst.GetBool() ? Main.FirstDied : byte.MaxValue;
             Main.FirstDied = byte.MaxValue;
             Main.MadmateNum = 0;

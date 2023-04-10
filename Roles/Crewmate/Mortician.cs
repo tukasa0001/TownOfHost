@@ -89,7 +89,7 @@ public static class Mortician
         lastPlayerName.TryGetValue(target.PlayerId, out var name);
         if (name == "") msgToSend.Add((pc.PlayerId, string.Format(Translator.GetString("MorticianGetNoInfo"), target.PlayerName)));
         else msgToSend.Add((pc.PlayerId, string.Format(Translator.GetString("MorticianGetInfo"), target.PlayerName, name)));
-    } 
+    }
     public static string GetTargetArrow(PlayerControl seer, PlayerControl target = null)
     {
         if (!seer.Is(CustomRoles.Mortician)) return "";

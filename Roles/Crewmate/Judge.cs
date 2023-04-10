@@ -87,7 +87,7 @@ public static class Judge
             if (target != null)
             {
                 bool judgeSuicide = true;
-                if (TrialLimit[pc.PlayerId] <1)
+                if (TrialLimit[pc.PlayerId] < 1)
                 {
                     Utils.SendMessage(GetString("JudgeTrialMax"), pc.PlayerId);
                     return true;

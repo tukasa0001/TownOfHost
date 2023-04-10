@@ -1,6 +1,5 @@
 ﻿using Hazel;
 using System;
-using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TOHE.Roles.Neutral;
@@ -332,7 +331,7 @@ public static class GuessManager
         Array values = Enum.GetValues(typeof(CustomRoles));
         var rd = IRandom.Instance;
         string msg;
-        string[] command = new string[] { "bet", "bt", "guess", "gs", "shoot", "st", "赌", "猜" , "审判" , "tl", "判", "审" };
+        string[] command = new string[] { "bet", "bt", "guess", "gs", "shoot", "st", "赌", "猜", "审判", "tl", "判", "审" };
         for (int i = 0; i < 20; i++)
         {
             msg = "/";
