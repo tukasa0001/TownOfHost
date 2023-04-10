@@ -45,6 +45,7 @@ enum CustomRPC
     PlayCustomSoundAll,
     SetKillTimer,
     SyncAllPlayerNames,
+    SyncNameNotify,
 
     //Roles
     SetDrawPlayer,
@@ -383,6 +384,9 @@ internal class RPCHandlerPatch
                 break;
             case CustomRPC.SetMorticianArrow:
                 Mortician.ReceiveRPC(reader);
+                break;
+            case CustomRPC.SyncNameNotify:
+                NameNotifyManager.ReceiveRPC(reader);
                 break;
         }
     }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Hazel;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace TOHE;
 
@@ -12,6 +14,7 @@ public static class NameNotifyManager
     {
         Notice.Remove(pc.PlayerId);
         Notice.Add(pc.PlayerId, new (text, Utils.GetTimeStamp(DateTime.Now) + (long)time));
+        SendRPC(pc.PlayerId);
         Utils.NotifyRoles(pc);
         Logger.Info($"New name notify for {pc.GetNameWithRole().RemoveHtmlTags()}: {text} ({time}s)", "Name Notify");
     }
@@ -33,5 +36,26 @@ public static class NameNotifyManager
         if (!Notice.ContainsKey(player.PlayerId)) return false;
         name = Notice[player.PlayerId].Item1;
         return true;
+    }
+    private static void SendRPC(byte playerId)
+    {
+        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncNameNotify, SendOption.Reliable, -1);
+        writer.Write(playerId);
+        if (Notice.ContainsKey(playerId))
+        {
+            writer.Write(true);
+            writer.Write(Notice[playerId].Item1);
+            writer.Write(Notice[playerId].Item2);
+        }
+        else writer.Write(false);
+        AmongUsClient.Instance.FinishRpcImmediately(writer);
+    }
+    public static void ReceiveRPC(MessageReader reader)
+    {
+        byte PlayerId = reader.ReadByte();
+        Notice.Remove(PlayerId);
+        if (reader.ReadBoolean())
+            Notice.Add(PlayerId, new(reader.ReadString(), (long)reader.ReadSingle()));
+        Logger.Info($"New name notify for {Main.AllPlayerNames[PlayerId]}: {Notice[PlayerId].Item1} ({Notice[PlayerId].Item2}s)", "Name Notify");
     }
 }
