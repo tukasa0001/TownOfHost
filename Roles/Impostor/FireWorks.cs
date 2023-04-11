@@ -69,23 +69,6 @@ public sealed class FireWorks : RoleBase
         State = FireWorksState.Initial;
     }
 
-    public void SendRPC()
-    {
-        Logger.Info($"Player{Player.PlayerId}:SendRPC", "FireWorks");
-        using var sender = CreateSender(CustomRPC.SetBountyTarget);
-
-        sender.Writer.Write(NowFireWorksCount);
-        sender.Writer.Write((int)State);
-    }
-
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
-    {
-        if (rpcType != CustomRPC.SendFireWorksState) return;
-
-        NowFireWorksCount = reader.ReadInt32();
-        State = (FireWorksState)reader.ReadInt32();
-    }
-
     public override bool CanUseKillButton()
     {
         if (!Player.IsAlive()) return false;
@@ -152,7 +135,6 @@ public sealed class FireWorks : RoleBase
             default:
                 break;
         }
-        SendRPC();
         Utils.NotifyRoles();
     }
 
