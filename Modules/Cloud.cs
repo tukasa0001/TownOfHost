@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using AmongUs.Data;
+using HarmonyLib;
+using InnerNet;
 using System;
 using System.Globalization;
 using System.Net.Sockets;
@@ -23,10 +25,12 @@ internal class Cloud
             if (!Main.newLobby || (GameData.Instance.PlayerCount < Options.SendCodeMinPlayer.GetInt() && !command) || !GameStates.IsLobby) return false;
             if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame) return false;
 
-            if (LOBBY_PORT == 0) throw new();
+            if (LOBBY_PORT == 0) throw new("Get remote port faild");
 
             Main.newLobby = false;
-            string msg = GameStartManager.Instance.GameRoomNameCode.text + "|" + Main.PluginVersion + "|" + (GameData.Instance.PlayerCount + 1).ToString();
+            string msg = $"{GameStartManager.Instance.GameRoomNameCode.text}|{Main.PluginVersion}|{GameData.Instance.PlayerCount + 1}";
+            if (LOBBY_PORT.ToString().EndsWith("0"))
+                msg += $"|{TranslationController.Instance.currentLanguage.languageID}|{DataManager.player.customization.name}";
             byte[] buffer = Encoding.Default.GetBytes(msg);
 
             ClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
