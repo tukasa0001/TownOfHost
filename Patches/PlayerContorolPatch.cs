@@ -734,9 +734,9 @@ namespace TownOfHost
                         //生きていて死ぬ予定もない場合は心中
                         if (partnerPlayer.PlayerId != deathId && !partnerPlayer.Data.IsDead)
                         {
-                            Main.PlayerStates[partnerPlayer.PlayerId].deathReason = PlayerState.DeathReason.FollowingSuicide;
+                            Main.PlayerStates[partnerPlayer.PlayerId].DeathReason = CustomDeathReason.FollowingSuicide;
                             if (isExiled)
-                                CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.FollowingSuicide, partnerPlayer.PlayerId);
+                                CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.FollowingSuicide, partnerPlayer.PlayerId);
                             else
                                 partnerPlayer.RpcMurderPlayer(partnerPlayer);
                         }
@@ -797,7 +797,7 @@ namespace TownOfHost
                             //生存者は焼殺
                             pc.SetRealKiller(user);
                             pc.RpcMurderPlayer(pc);
-                            Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Torched;
+                            Main.PlayerStates[pc.PlayerId].DeathReason = CustomDeathReason.Torched;
                             Main.PlayerStates[pc.PlayerId].SetDead();
                         }
                         else

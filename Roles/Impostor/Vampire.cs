@@ -103,7 +103,7 @@ namespace TownOfHost.Roles.Impostor
         {
             if (target.IsAlive())
             {
-                Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Bite;
+                Main.PlayerStates[target.PlayerId].DeathReason = CustomDeathReason.Bite;
                 target.SetRealKiller(vampire);
                 CustomRoleManager.OnCheckMurder(
                     vampire, target,

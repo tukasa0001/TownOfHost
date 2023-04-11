@@ -83,7 +83,7 @@ namespace TownOfHost
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, Color32> PlayerColors = new();
-        public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
+        public static Dictionary<byte, CustomDeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
@@ -276,6 +276,24 @@ namespace TownOfHost
 
             Harmony.PatchAll();
         }
+    }
+    public enum CustomDeathReason
+    {
+        Kill,
+        Vote,
+        Suicide,
+        Spell,
+        FollowingSuicide,
+        Bite,
+        Bombed,
+        Misfire,
+        Torched,
+        Sniped,
+        Revenge,
+        Execution,
+        Disconnected,
+        Fall,
+        etc = -1
     }
     //WinData
     public enum CustomWinner

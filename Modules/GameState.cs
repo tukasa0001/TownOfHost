@@ -15,7 +15,7 @@ namespace TownOfHost
         public List<CustomRoles> SubRoles;
         public CountTypes countTypes;
         public bool IsDead { get; set; }
-        public DeathReason deathReason { get; set; }
+        public CustomDeathReason DeathReason { get; set; }
         public TaskState taskState;
         public bool IsBlackOut { get; set; }
         public (DateTime, byte) RealKiller;
@@ -28,7 +28,7 @@ namespace TownOfHost
             countTypes = CountTypes.OutOfGame;
             PlayerId = playerId;
             IsDead = false;
-            deathReason = DeathReason.etc;
+            DeathReason = CustomDeathReason.etc;
             taskState = new();
             IsBlackOut = false;
             RealKiller = (DateTime.MinValue, byte.MaxValue);
@@ -75,10 +75,10 @@ namespace TownOfHost
             IsDead = true;
             if (AmongUsClient.Instance.AmHost)
             {
-                RPC.SendDeathReason(PlayerId, deathReason);
+                RPC.SendDeathReason(PlayerId, DeathReason);
             }
         }
-        public bool IsSuicide() { return deathReason == DeathReason.Suicide; }
+        public bool IsSuicide() { return DeathReason == CustomDeathReason.Suicide; }
         public TaskState GetTaskState() { return taskState; }
         public void InitTask(PlayerControl player)
         {
@@ -88,24 +88,7 @@ namespace TownOfHost
         {
             taskState.Update(player);
         }
-        public enum DeathReason
-        {
-            Kill,
-            Vote,
-            Suicide,
-            Spell,
-            FollowingSuicide,
-            Bite,
-            Bombed,
-            Misfire,
-            Torched,
-            Sniped,
-            Revenge,
-            Execution,
-            Disconnected,
-            Fall,
-            etc = -1
-        }
+
         public byte GetRealKiller()
             => IsDead && RealKiller.Item1 != DateTime.MinValue ? RealKiller.Item2 : byte.MaxValue;
         public int GetKillCount(bool ExcludeSelfKill = false)
