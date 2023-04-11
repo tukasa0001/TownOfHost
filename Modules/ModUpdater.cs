@@ -100,12 +100,11 @@ public class ModUpdater
 
             url = UrlSetId(UrlSetInfo(URL)) + "&data=remark|notice|md5|visit";
             string[] data = Get(url).Split("|");
-            string[] remark = data[0].Split(",");
             string[] notices = data[1].Split("&&");
             if (CultureInfo.CurrentCulture.Name.StartsWith("zh")) notice = notices[0];
             else notice = notices[1];
-            int create = int.Parse(remark[0]);
-            Cloud.Remote_int = int.Parse(remark[1]);
+            int create = int.Parse(data[0][..2]);
+            Cloud.Remote_int = int.Parse(data[0].Substring(2, 5));
             MD5 = data[2];
             visit = int.TryParse(data[3], out int x) ? x : 0;
             visit += 26810; //1x版本的访问量
