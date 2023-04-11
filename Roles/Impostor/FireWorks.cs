@@ -98,39 +98,42 @@ public sealed class FireWorks : RoleBase
                 break;
             case FireWorksState.ReadyFire:
                 Logger.Info("花火を爆破", "FireWorks");
-                bool suicide = false;
-                foreach (var fireTarget in Main.AllAlivePlayerControls)
+                if (AmongUsClient.Instance.AmHost)
                 {
-                    foreach (var pos in FireWorksPosition)
+                    bool suicide = false;
+                    foreach (var fireTarget in Main.AllAlivePlayerControls)
                     {
-                        var dis = Vector2.Distance(pos, fireTarget.transform.position);
-                        if (dis > FireWorksRadius) continue;
+                        foreach (var pos in FireWorksPosition)
+                        {
+                            var dis = Vector2.Distance(pos, fireTarget.transform.position);
+                            if (dis > FireWorksRadius) continue;
 
-                        if (fireTarget == Player)
-                        {
-                            //自分は後回し
-                            suicide = true;
-                        }
-                        else
-                        {
-                            Main.PlayerStates[fireTarget.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
-                            fireTarget.SetRealKiller(Player);
-                            fireTarget.RpcMurderPlayer(fireTarget);
+                            if (fireTarget == Player)
+                            {
+                                //自分は後回し
+                                suicide = true;
+                            }
+                            else
+                            {
+                                Main.PlayerStates[fireTarget.PlayerId].deathReason = PlayerState.DeathReason.Bombed;
+                                fireTarget.SetRealKiller(Player);
+                                fireTarget.RpcMurderPlayer(fireTarget);
+                            }
                         }
                     }
-                }
-                if (suicide)
-                {
-                    var totalAlive = Main.AllAlivePlayerControls.Count();
-                    //自分が最後の生き残りの場合は勝利のために死なない
-                    if (totalAlive != 1)
+                    if (suicide)
                     {
-                        Main.PlayerStates[Player.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
-                        Player.RpcMurderPlayer(Player);
+                        var totalAlive = Main.AllAlivePlayerControls.Count();
+                        //自分が最後の生き残りの場合は勝利のために死なない
+                        if (totalAlive != 1)
+                        {
+                            Main.PlayerStates[Player.PlayerId].deathReason = PlayerState.DeathReason.Misfire;
+                            Player.RpcMurderPlayer(Player);
+                        }
                     }
+                    Player.MarkDirtySettings();
                 }
                 State = FireWorksState.FireEnd;
-                Player.MarkDirtySettings();
                 break;
             default:
                 break;
@@ -146,7 +149,6 @@ public sealed class FireWorks : RoleBase
         {
             Logger.Info("爆破準備OK", "FireWorks");
             State = FireWorksState.ReadyFire;
-            SendRPC();
             Utils.NotifyRoles();
         }
         switch (State)
