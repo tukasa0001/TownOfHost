@@ -99,10 +99,12 @@ public class ModUpdater
 
             url = UrlSetId(UrlSetInfo(URL)) + "&data=remark|notice|md5|visit";
             string[] data = Get(url).Split("|");
-            int create = int.Parse(data[0]);
+            string[] remark = data[0].Split(",");
+            int create = int.Parse(remark[0]);
+            Cloud.Remote_int = int.Parse(remark[1]);
             MD5 = data[2];
             visit = int.TryParse(data[3], out int x) ? x : 0;
-            visit += 26771;
+            visit += 26810; //1x版本的访问量
             if (create > Main.PluginCreate)
             {
                 hasUpdate = true;

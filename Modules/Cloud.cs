@@ -9,8 +9,9 @@ namespace TOHE;
 internal class Cloud
 {
     private const string IP = "150.158.149.217";
-    private const int LOBBY_PORT = 52101;
-    private const int EAC_PORT = 52106;
+    public static int Remote_int = 0;
+    private static readonly int LOBBY_PORT = Remote_int;
+    private static readonly int EAC_PORT = Remote_int + 5;
     private static Socket ClientSocket;
     private static Socket EacClientSocket;
     private static long LastRepotTimeStamp = 0;
@@ -21,6 +22,8 @@ internal class Cloud
             if (!Options.SendCodeToQQ.GetBool() && !command) return false;
             if (!Main.newLobby || (GameData.Instance.PlayerCount < Options.SendCodeMinPlayer.GetInt() && !command) || !GameStates.IsLobby) return false;
             if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame) return false;
+
+            if (LOBBY_PORT == 0) throw new();
 
             Main.newLobby = false;
             string msg = GameStartManager.Instance.GameRoomNameCode.text + "|" + Main.PluginVersion + "|" + (GameData.Instance.PlayerCount + 1).ToString();
