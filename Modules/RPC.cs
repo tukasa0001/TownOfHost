@@ -31,7 +31,6 @@ namespace TownOfHost
         SetLoversPlayers,
         SetExecutionerTarget,
         RemoveExecutionerTarget,
-        SendFireWorksState,
         SetCurrentDousingTarget,
         SetEvilTrackerTarget,
         SetRealKiller,
