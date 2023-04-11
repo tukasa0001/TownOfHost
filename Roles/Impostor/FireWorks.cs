@@ -100,6 +100,7 @@ public sealed class FireWorks : RoleBase
                 Logger.Info("花火を爆破", "FireWorks");
                 if (AmongUsClient.Instance.AmHost)
                 {
+                    //爆破処理はホストのみ
                     bool suicide = false;
                     foreach (var fireTarget in Main.AllAlivePlayerControls)
                     {
