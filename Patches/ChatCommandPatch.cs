@@ -758,13 +758,13 @@ internal class ChatCommands
             Utils.ShowActiveRoles(playerId);
             return;
         }
-        role = FixRoleNameInput(role);
+        role = FixRoleNameInput(role).ToLower().Trim().Replace(" ", string.Empty);
 
         foreach (CustomRoles rl in Enum.GetValues(typeof(CustomRoles)))
         {
             if (rl.IsVanilla()) continue;
             var roleName = GetString(rl.ToString());
-            if (role.Contains(roleName.ToLower().Trim()))
+            if (role.Contains(roleName.ToLower().Trim().TrimStart('*').Replace(" ", string.Empty)))
             {
                 string devMark = "";
                 if ((isDev || isUp) && GameStates.IsLobby)

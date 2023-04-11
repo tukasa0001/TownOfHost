@@ -44,7 +44,7 @@ KB_NormalInfo,击败所有人！,Kill all of them!
 GM,管理员,GM,GM (Призрак)
 
 # 隐藏 / Hidden
-Sunnyboy,阳光开朗大男孩
+Sunnyboy,阳光开朗大男孩,Sunnyboy
 
 # 原版职业 / Vanilla
 Crewmate,船员,Crewmate,Член Экипажа
@@ -961,7 +961,7 @@ Message.OnlyCanUseInLobby,很抱歉，只有在大厅才能使用该指令,"Sorr
 Message.CanNotUseInLobby,很抱歉，在大厅无法使用该指令,"Sorry, this command cannot be used in the lobby","Извините, эта команда не может быть использована в лобби"
 Message.CanNotUseByHost,很抱歉，房主无法使用该指令,"Sorry, Host can't use this command","Извините, но Хост не может воспользоваться этой командой"
 Message.TryFixName,已尝试修复名字遮挡,An attempt was made to fix hidden message content due to roles,Была предпринята попытка исправить скрытые содержания сообщений из за ролей
-Message.CanNotFindRoleThePlayerEnter,请正确拼写您要查询的职业哦~\n查看所有职业请直接输入/r,"Please write the correct role you want to request ~ \nTo view all roles type /r command","Пожалуйста, правильно напишите роль, которую вы хотите запросить ~\nЧтобы просмотреть все роли, напишите команду /r"
+Message.CanNotFindRoleThePlayerEnter,请正确拼写您要查询的职业哦~\n查看所有职业请直接输入/r,"Could not find the role you searching\nUse command /r to show role list","Пожалуйста, правильно напишите роль, которую вы хотите запросить ~\nЧтобы просмотреть все роли, напишите команду /r"
 Message.PlayerQuitForever,【{0}】选择自愿离开\n很抱歉给大家带来了糟糕的游戏体验\n我们真的很努力地在进步了,"【{0}】decided to leave voluntarily \nSorry for the bad gaming experience \nI really worked hard to make progress","【{0}】решил уйти добровольно \nПрошу прощения за плохой игровой опыт \nЯ действительно усердно работал, чтобы добиться прогресса"
 Message.MadmateSelfVoteModeNotify,请注意：当前叛徒生成模式为【{0}】\n投票给自己代表您希望成为叛徒。若您符合成为叛徒的条件且还有剩余名额，将立刻成为叛徒。,"Please note: The current Madness generation mode is [{0}]\n Voting for yourself means you want to be Madmate. If you meet the conditions to become Madmate and there are still spaces left, you will immediately become Madmate","Пожалуйста, обратите внимание: Текущий режим появления Безумцев - [{0}]\n Голосование за себя означает, что вы хотите быть Безумцем. Если вы соответствуете условиям, чтобы стать Безумцем и еще остались места, вы немедленно станете Безумцем"
 Message.HostLeftGameInGame,警告：房主已退出游戏，接下来游戏将无法正常运行，请各位退出游戏，或等待新房主重开游戏。,"★Warning★ Host left the game, in next time game wouldn't start normally. Please, exit the lobby or wait until new Host opens a lobby.","★Предупреждение★ Хост покинул игру, и в следуйщий раз игра не запуститься нормально. Пожайлуста, выйдите из лобби или подождите пока новый Хост начнёт игру."

@@ -1,0 +1,56 @@
+#Number:100031
+#Title:TownOfHostEdited v2.2.7
+#SubTitle:★★★★Try Full English Support★★★★
+#ShortTitle:★TOHE v2.2.7
+#Date:2023-4-11T00:00:00Z
+#-----------------------------
+Sry for my suck English :)
+
+
+## Base
+- Base on TOH v4.1.2
+
+## Fix
+- Fixed an issue that the executioner sometimes could not win
+- Fixed an issue that the overkiller would use skill to themselves in certain situations
+- Fixed an issue that the vent notice is still displayed after the death of the revolutionist
+- Fixed an issue that the number of people who need to be recruited after the death of the revolutionaries displayed abnormally
+- Fixed an issue that the remaining bullets displayed incorrectly after saving bullet on the vanilla of the quick shooter
+
+## Changing
+- Some hotkeys are only available in debug mode
+- Delay the message of the judge's trial and the guesser's guess to prevent being override by hiding messages
+- System messages can send when nobody alive
+- Show discord button on main menu
+- Replaced 'Practice' button to Github link mod in menu game
+- When a player joins a lobby, only the settings of the joined player will be synchronized instead of all players to reduce network pressure and reduce game lag
+- When vanilla players join a lobby, they will not receive RPCs to set synchronization to reduce network pressure
+- The Mortician's dead body pointing arrow has been changed to white for easy identification
+
+## New Feature
+- Added some message prompts for hosts
+- Option: Force display of mod / role names in your language
+- English translation of announcement and template.txt files
+- In pvp mode, if the player is stuck in the vent, try to force it out
+- Rename prompt system (a more obvious and convenient way to notify players)
+- Notify the player when the gangster recruits successfully or fails or is recruited by the gangster
+- Notify Veteran when their skills take effect and become invalid
+- Notify Grenadier when their skills take effect and become invalid
+- Option: Max use times of skills for Veteran
+- Notify Stealer how many votes they have got when they kill a player
+- Notify player when they become Madmate
+- Notify Executioner When their target dies
+- Notify SpeedBooster about their current speed when they boosting
+- Notify Cleanner when they clean the dead body
+- Notify Quick Shooter when they storing bullet
+- Notify Vampire when their target dies
+- Notify Warlock when their target kills another player
+- Notify everyone when CyberStar is killed
+- Notify Notifies players teleported by Teleporter
+
+## Role Changing
+- Mediumshiper are now notified when players are killed
+- Cleaner no longer resets kill cooldown after cleaning dead body
+
+## New Role
+- Impostor:???
