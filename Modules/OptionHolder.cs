@@ -360,7 +360,6 @@ namespace TownOfHost
                 info.OptionCreator?.Invoke();
             });
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
-            SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
             TimeManager.SetupCustomOption();
 
             // Neutral
