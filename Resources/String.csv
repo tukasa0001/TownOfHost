@@ -93,7 +93,7 @@ Concealer,隐蔽者（损坏）,Concealer (Broken),Консилер (Слома�
 Eraser,抹除者,Eraser,Стирачка
 OverKiller,肢解者,Butcher,Мясник
 Hangman,刽子手,Hangman,Вешатель
-Bard,吟游诗人
+Bard,吟游诗人,Bard
 
 # 船员阵营 / Crewmates
 Bait,诱饵,Bait,Байт
@@ -123,9 +123,9 @@ Grenadier,掷雷兵,Grenadier,Гренадёр
 Medicaler,医生,Medic,Медик
 Divinator,占卜师,Fortune Teller,Гадалка
 Glitch,活死人,The Glitch,Глитч
-Judge,法官
-Mortician,入殓师
-Mediumshiper,通灵师
+Judge,法官,Judge
+Mortician,入殓师,Mortician
+Mediumshiper,通灵师,Mediumshiper
 
 # 中立阵营 / Neutrals
 Jester,小丑,Jester,Джестер
@@ -234,7 +234,7 @@ ConcealerInfo,当所有人戴上面具，一切都自由了,Change the appearanc
 EraserInfo,恕我直言，你不配拥有能力,Im sorry，but you don't deserve that.,Простите，вы этого не заслужили.
 OverKillerInfo,且欣赏我美丽的作品,Enjoy my beautiful work,Наслаждайтесь моей работой
 HangmanInfo,就由我，来结束你的生命,I will choice when your live will end,Это Я выбираю когда ты умрешь
-BardInfo,请让我赋诗一首
+BardInfo,请让我赋诗一首,Please let me compose a poem
 
 # 船员阵营 / Crewmate descriptions
 BaitInfo,好消息，杀了我可以吃席,Bait your enemies,Убийца моментально зарепортит ваш труп
@@ -265,9 +265,9 @@ GrenadierInfo,投掷傻瓜蛋！！,Blind the Impostors,Ослепите Пре�
 MedicalerInfo,好像有必要治一治你？,Protect the Crew,Защитите Члена Экипажа
 DivinatorInfo,水晶球球，求求了,Check people by voting them,Проверяй игроков голосуя за них
 GlitchInfo,wDJwFPMNMm,wDJwFPMNMm,wDJwFPMNMm
-JudgeInfo,接着奏乐，接着审~
-MorticianInfo,现在，你可以安心地离开了
-MediumshiperInfo,若君心存不甘，不妨和我谈谈
+JudgeInfo,接着奏乐，接着审~,Do justice!
+MorticianInfo,现在，你可以安心地离开了,Leave in peace
+MediumshiperInfo,若君心存不甘，不妨和我谈谈,Just talk with me bro
 
 # 中立阵营 / Neutral descriptions
 ArsonistInfo,乖乖站好！,Burn them to crisps,Облейте и подожгите всех игроков
@@ -316,7 +316,7 @@ GMInfo,开局死的冤魂隔岸观火,You are the Game Master,Вы Мастер 
 NotAssignedInfo,未被分配职业,No assigned role,Нет назначенной роли
 
 # 隐藏 / Hidden descriptions
-SunnyboyInfo,这个角色的建立究竟有什么意义
+SunnyboyInfo,这个角色的建立究竟有什么意义,What is the meaning of this role
 
 ## 以下是职业描述（使用/m或/r指令后得到的文本）
 
@@ -359,7 +359,7 @@ ConcealerInfoLong,(内鬼阵营):\n隐蔽者变形后会让所有人变成小黑
 EraserInfoLong,(内鬼阵营):\n抹除者可以在会议上投票给任意船员阵营目标以抹除目标的职业技能，抹除将在会议结束后生效。请注意：被抹除技能的玩家将被永远视为白板，包括游戏结算页面。,"(Impostors):\nErasers can vote for any crewmate at the meeting to erase the target's skills, and the removal will take effect after the meeting. Please note: Players with erased skills will always be treated as whiteboards, including game results.","(Предатель):\nСтирачка может проголосовать за любого Члена Экипажа на собрании, чтобы стереть профессиональные навыки цели, и удаление вступит в силу после собрания. Пожалуйста, обратите внимание: Игроки со стертыми навыками всегда будут рассматриваться как белые доски, включая резкльтат игры"
 OverKillerInfoLong,(内鬼阵营):\n肢解者击杀（包括被动击杀）的目标会出现多具尸体，以至于报告尸体时无法准确分辨其他受害者。请注意：因实现原理，被击杀的目标不得不重复地显示自己被击杀的动画，此动画无法跳过且期间无法正常参与会议。此外，若肢解者肢解了复仇者，则复仇者会因愤怒带走全场所有人。\n\n该职业在发动技能时可能造成房主严重卡顿，请谨慎开启。,"(Impostors):\nA target killed by Butcher will be treated as a set of dead bodies, so other dead bodies cannot be shown when reporting dead. Please note: A killed target may repeatedly display its kill animation. This animation cannot be skipped and cannot participate in the meeting during the period. You must wait for the animation to finish before you can participate normally in the game.","(Предатель):\nЦель, убитая Мясником, будет рассматриваться как множество трупов, так что другие трупы не могут быть показаны при сообщении о мёртвых. Пожалуйста, обратите внимание: Убитая цель может неоднократно отображать анимацию своего убийства. Эта анимация не может быть пропущена и не может участвовать во встрече в течение периода. Вы должны дождаться окончания анимации, прежде чем сможете нормально участвовать в игре."
 HangmanInfoLong,(内鬼阵营):\n刽子手在变形期间的击杀方式为绞杀，绞杀无视目标的任何状态例如医生的护盾、保镖的守护、大明星的技能等，被绞杀的玩家不会留下尸体，也不会触发其任何技能例如老兵反杀、幸运儿挡伤等（包括附加职业），此外，灵媒也不会得到提示。,"(Impostor):\nKills people by strangling them. Strangling ignores any kind of protection, like shield of a Medic, protection of Bodyguard and so on. Player who got stragnled will leave no body nor will activate any of perks, like Veteran's alert, the luck of Luckey. Doesn't appear for psychic.","(Предатель):\nВешатель убивает игроков, душа их. Удушение игнорирует любой вид защиты, такой как щит Медика, защита Телохранителя и тд. Игрок, которого задушили, не оставит тела и не активирует ни одну из способностей, таких как самозащита Ветерана, удача Удачника. Не появляется для Экстрасенса."
-BardInfoLong,(内鬼阵营):\n吟游诗人在场时，驱逐确认将会显示为吟游诗人创作的句子。每当吟游诗人完成一次创作，则吟游诗人的击杀冷却永久减半。
+BardInfoLong,(内鬼阵营):\n吟游诗人在场时，驱逐确认将会显示为吟游诗人创作的句子。每当吟游诗人完成一次创作，则吟游诗人的击杀冷却永久减半。,"(Impostor):\nWhen a bard is alive, the exile confirmation will display a sentence composed by the bard. Whenever the bard completes a creation, the bard's kill cooldown is permanently halved."
 
 # 船员阵营 / Crewmates descriptions
 BaitInfoLong,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告诱饵的尸体。但诱饵被清道夫或清理工击杀时技能会失效。,"(Crewmates):\nWhen you are killed, you force your killer to immediately self-report.","(Член Экипажа):\nКогда Приманку убивают, он заставляет убившего игрока \nмоментально зарепортить ваш труп."
@@ -390,9 +390,9 @@ GrenadierInfoLong,(船员阵营):\n掷雷兵可以通过使用通风管道使用
 MedicalerInfoLong,(船员阵营):\n医生可以通过使用击杀按键给目标发放一个护盾，若护盾发放成功则医生会看到目标身上出现护盾破碎动画作为提示，同时目标的名字旁会显示一个蓝色的「●」（仅医生可见）。医生可以发放护盾的数量会显示在医生的名字旁的括号内。每位玩家最多只能持有一个来自医生的护盾。根据房主设定目标可能可以看到自己是否持有护盾（显示在名字旁的蓝色「●」）。,"(Crewmates):\nMedic can create a shield, by using the kill button. If the shield is destroyed, Medic will see the shield breaking animation on the target as a reminder, and a blue circle will be displayed next to the target's name colored circle (visible only for Medic). The amount of shields a Medic is shown in brackets next to the Medic's name. Each player can hold at most one shield from Medic. Depending on the host setting the target may be able to see if they have a shield (shown in a blue circle next to their name).","(Член Экипажа):\nМедик может наложить на цель щит, нажав кнопку ''Убить''. Если щит снят, Медик увидит анимацию разрушения щита на цели в качестве напоминания, и синий кружек появится рядом с именем цели (виден только для Медика). Количество щитов, которые может дать Медик, написано в скобках рядом с именем Медика. Каждый игрок может иметь не более одного щита от Медика. В зависимости от настроек хоста цель может видеть, есть ли у нее щит (показан синим кружком рядом с ее именем)."
 DivinatorInfoLong,(船员阵营):\n占卜师可以通过在会议上投票给一位玩家以获得该玩家的相关信息，信息与该玩家的主职业关联。若占卜师完成所有任务，占卜时可以直接知道该玩家的具体职业。占卜师每次会议只能占卜一次，占卜次数根据房主设定。,"(Crewmates):\nA Fortune Teller can vote for a player at the meeting to obtain relevant information about the player, and the information is associated with the player's main occupation. Fortune Teller can only do one fortune-telling per meeting, and the number of fortune-tellings is set by the host.","(Член Экипажа):\nГадалка может проголосовать за игрока на собрании, чтобы получить актуальную информацию об игроке, и эта информация связана с основным занятием игрока. Гадалка может сделать только одно гадание за встречу, а количество гаданий устанавливает хост."
 GlitchInfoLong,(船员阵营):\n模组的程序不会将活死人视为存活状态，不过我不知道这样会导致什么。,"(Crewmates):\nThe Glitch doesn't treat the living dead as living, but I don't know where that will lead","(Член Экипажа):\nГлитч не рассматривает живых мертвецов как живых, но я не знаю, к чему это приведет."
-JudgeInfoLong,(船员阵营):\n法官可以在会议时审判某位玩家的，若目标为邪恶角色则击杀目标（是否邪恶根据房主设定），错误则会自杀。\n审判指令为：/tl [玩家编号]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。当法官成为叛徒时可以随意审判。
-MorticianInfoLong,(船员阵营):\n入殓师可以看到指向所有尸体的箭头，入殓师报告尸体可以在会议上得知被害者生前最后一个接触的玩家。请注意：入殓师不会成为胆小鬼。
-MediumshiperInfoLong,(船员阵营):\n当场上有玩家被击杀，通灵师会收到提示。通灵师报告尸体后可以与被害者建立联系，在本次会议结束前，被害者拥有一次机会回答通灵师的问题，只能回答是或否。请注意：通灵师不会成为胆小鬼。
+JudgeInfoLong,(船员阵营):\n法官可以在会议时审判某位玩家的，若目标为邪恶角色则击杀目标（是否邪恶根据房主设定），错误则会自杀。\n审判指令为：/tl [玩家编号]\n您可以在玩家名字前看到该玩家的编号，或者使用/id指令查看所有玩家的编号。当法官成为叛徒时可以随意审判。,"(Crewmates):\nThe judge can judge a certain player during the meeting. If the target is evil, the target will be killed (whether it is evil or not is set by the host), and if it is wrong, the judge gonna suicide. \nThe judgment command is: /tl [player id]\nYou can see the player's id before the player's name, or use the /id command to view the id of all players. Judges can judge all players when they become madmate."
+MorticianInfoLong,(船员阵营):\n入殓师可以看到指向所有尸体的箭头，入殓师报告尸体可以在会议上得知被害者生前最后一个接触的玩家。请注意：入殓师不会成为胆小鬼。,"(Crewmates):\nThe Mortician can see arrows pointing to all dead bodies, and the Mortician reports that the body can know the last player the victim had contact with during the meeting. Note: Mortician won't be Oblivious."
+MediumshiperInfoLong,(船员阵营):\n当场上有玩家被击杀，通灵师会收到提示。通灵师报告尸体后可以与被害者建立联系，在本次会议结束前，被害者拥有一次机会回答通灵师的问题，只能回答是或否。请注意：通灵师不会成为胆小鬼。,"(Crewmates):\nIf a player is killed, the Mediumshiper will receive a reminder. After the Mediumshiper reports the body, he can establish contact with the victim. Before the end of the meeting, the victim has one chance to answer the Mediumshiper's questions, and can only answer yes or no. Note: Mediumshiper  won't be Oblivious."
 
 # 中立阵营 / Neutrals descriptions
 ArsonistInfoLong,(中立阵营):\n纵火犯可以通过对玩家点击击杀按钮并跟随其数秒来完成涂油，开始涂油以及涂油成功时会显示护盾破碎的动画作为提示（仅自己可见）。当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。\n\n玩家名显示「△」表示涂油中\n玩家名显示「▲」表示已涂油。,"(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(Нейтрал):\nПоджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя."
@@ -439,7 +439,7 @@ MimicInfoLong,(附加职业)\n只有除黑手党以外的内鬼会成为宝箱�
 GMInfoLong,(房主):\n看我干啥，我只是个开局就死的冤魂，静静地吃瓜而已。,"(None):\nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game, and all players know who the GM is. The GM role will be assigned to the host, who will automatically become a ghost at the start of the game.","(Никто):\nGM (Мастер Игры) — это роль, которая наблюдает за игрой в роле призрака. \nОн не влияет на игру, и все игроки всегда знают кто Мастер Игры. Всегда назначается только хосту лобби и становится призраком в самом начале игры."
 
 # 隐藏 / Hidden long descriptions
-SunnyboyInfoLong,(中立阵营):\n阳光开朗大男孩可以通过生命面板查看他人的生命状态。阳光开朗大男孩在场时游戏不会因人数优势结束（例如内鬼人数大于船员或没有存活内鬼），游戏结束时若阳光开朗大男孩死亡，则阳光开朗大男孩跟随胜利阵营一起胜利。
+SunnyboyInfoLong,(中立阵营):\n阳光开朗大男孩可以通过生命面板查看他人的生命状态。阳光开朗大男孩在场时游戏不会因人数优势结束（例如内鬼人数大于船员或没有存活内鬼），游戏结束时若阳光开朗大男孩死亡，则阳光开朗大男孩跟随胜利阵营一起胜利。,"(Neutrals):\nThe Sunnyboy can check the life status of others through the life panel. When the Sunnyboy is alive, the game will not end due to a numerical advantage (for example, the number of imporstors is greater than the crew or there are no survivors). If the Sunnyboy dies at the end of the game, the Sunnyboy will win with the winning team."
 
 ## 模式选项 / Settings
 DisableMeeting,禁用会议与报告尸体,Turn off Meetings,Отключить Собрания
@@ -480,10 +480,10 @@ SuffixMode.DoNotKillMe,佛祖保佑,Do not kill me,Не убивайте мен�
 SuffixMode.NoAndroidPlz,安卓别进,No phones,Без телефонов
 SuffixModeText.DoNotKillMe,别首刀我啊啊啊,Do not kill me,Не убивайте меня
 SuffixModeText.NoAndroidPlz,安卓别进求求了,No phones please,Без телефонов пожалуйста
-FormatNameMode,玩家名字同步模式
-FormatNameModes.None,无
-FormatNameModes.Color,颜色
-FormatNameModes.Snacks,随机
+FormatNameMode,玩家名字同步模式,Player Name Mode
+FormatNameModes.None,无,Disable
+FormatNameModes.Color,颜色,Color
+FormatNameModes.Snacks,随机,Random
 DisableEmojiName,禁止玩家使用表情符号作为名字, Disable Emoji in names, Отключить Эмодзи в именах
 FixFirstKillCooldown,修正首刀冷却时间,Normalize First Kill Cooldown,Нормализовать откат убийства в начале Игры
 GhostCanSeeOtherRoles,幽灵可见他人职业,Ghosts Can See Other Roles,Призраки могут видеть все Роли
@@ -793,13 +793,13 @@ KB_RecoverAfterSecond,脱离战斗几秒后开始回复血量,Recover Cooldown,�
 KB_RecoverPerSecond,每秒回复血量,Recover Per Second,Восстановления каждую секунду
 KB_ResurrectionWaitingTime,死亡后复活等待时间,Resurrection waiting time,Время возрождения
 KB_KillBonusMultiplier,击杀奖励倍率,Kill bonus multiplier,Множитель бонуса за убийство
-JudgeTryHideMsg,尝试混淆法官指令（试验性）
-TrialLimitPerMeeting,每次会议审判次数上限
-JudgeCanTrialMadmate,可以审判<color=#ff1919>叛徒</color>
-JudgeCanTrialnCrewKilling,可以审判带刀<color=#8cffff>船员</color>
-JudgeCanTrialNeutralB,可以审判无刀<color=#ffab1b>中立</color>
-JudgeCanTrialNeutralK,可以审判带刀<color=#ffab1b>中立</color>
-VeteranSkillMaxOfUseage,技能使用次数上限
+JudgeTryHideMsg,尝试混淆法官指令（试验性）,Try hide judge's command
+TrialLimitPerMeeting,每次会议审判次数上限,Skill times limit per meeting
+JudgeCanTrialMadmate,可以审判<color=#ff1919>叛徒</color>,Can trial <color=#ff1919>Madmate</color>
+JudgeCanTrialnCrewKilling,可以审判带刀<color=#8cffff>船员</color>,Can trial Killing <color=#8cffff>Crewmate</color>
+JudgeCanTrialNeutralB,可以审判无刀<color=#ffab1b>中立</color>,Can trial Non-Killing<color=#ffab1b>Neutrals</color>
+JudgeCanTrialNeutralK,可以审判带刀<color=#ffab1b>中立</color>,Can trial Killing<color=#ffab1b>Neutrals</color>
+VeteranSkillMaxOfUseage,技能使用次数上限,Number of skills
 
 ## 死因 / Death Reasons
 DeathReason.Kill,被杀,Kill,Убит
@@ -879,14 +879,14 @@ GuessNull,请选择一个在场的存活角色进行猜测,"Please select an ID 
 GuessHelp,指令格式：/bt [玩家编号] [职业名]\n示例：/bt 3 告密者\n您可以在玩家的名字前看到该玩家的编号\n或者使用/id查看玩家编号列表,"Instructions: /bt [Player ID] [Role Name] \nExample: /bt 3 Bait \nYou can see the player ID before the player name \n or use the /id command to list the player IDs","Инструкция: /bt [Идентификатор игрока] [Название Роли] \nПример: /bt 3 Байт \nВы можете увидеть идентификатор игрока перед именем игрока \nили использовав команду /id для просмотра списка идентификаторов игроков"
 GGGuessMax,您已达到每次会议猜测次数上限\n不能再猜测啦！,"You've reached the maximum guessing limit for each encounter, you can't guess anymore!","Вы достигли максимального предела угадывания для каждой встречи, вы больше не можете угадывать!"
 EGGuessMax,您已达到每次会议猜测次数上限\n不能再猜测啦！,"You've reached the maximum guessing limit for each encounter, you can't guess anymore!","Вы достигли максимального предела угадывания для каждой встречи, вы больше не можете угадывать!"
-EGGuessSnitchTaskDone,很抱歉，该房设置不允许猜测完成任务的告密者
+EGGuessSnitchTaskDone,很抱歉，该房设置不允许猜测完成任务的告密者,"Sorry, the lobby settings do not allow guessing the snitch who completed the tasks."
 LaughToWhoGuessSelf,有一说一，你是懂赌怪的,"Try to guess, who tried to self-guessed! It's you! Ahah!","Попробуйте угадать, кто попытался себя угадать! Это ты! Ахах!"
-JudgeDead,很抱歉，死亡后不能进行审判
-JudgeTrialMax,您已达到每次会议审判次数上限\n不能再审判啦！
-LaughToWhoTrialSelf,哈哈哈，请问您在传承赌怪的行为艺术吗？
-TrialKill,很遗憾，【{0}】\n被法治社会抛弃了~
-TrialHelp,指令格式：/tl [玩家编号]\n您可以在玩家的名字前看到该玩家的编号\n或者使用/id查看玩家编号列表
-TrialNull,请选择一个在场的存活角色进行审判
+JudgeDead,很抱歉，死亡后不能进行审判,"Sorry, no trial after death."
+JudgeTrialMax,您已达到每次会议审判次数上限\n不能再审判啦！,"You have reached the upper limit of trials per meeting\nNo more trials!"
+LaughToWhoTrialSelf,哈哈哈，请问您在传承赌怪的行为艺术吗？,"What is that? trying to trial yourself?"
+TrialKill,很遗憾，【{0}】\n被法治社会抛弃了~,"[{0}] was judged."
+TrialHelp,指令格式：/tl [玩家编号]\n您可以在玩家的名字前看到该玩家的编号\n或者使用/id查看玩家编号列表,"Command: /tl [player id]\nYou can see the player's id before the player's name\nOr use /id to view the list of player id."
+TrialNull,请选择一个在场的存活角色进行审判,"Please choose a surviving player present for trial."
 MimicDeadMsg,来自宝箱怪的线索：,Mimic's hint:,Подсказка от Мимика:
 DivinatorCheck,您透过水晶球发现：,"You're looking through a crystal ball","Ты смотришь сквозь хрустальный шар"
 DivinatorCheckLimit,提示：剩余【{0}】次占卜机会,"Reminder: You have 【{0}】 guesses left","Напоминание: У тебя осталось 【{0}】 угадываний"
@@ -897,36 +897,36 @@ EraserEraseNeutralNotice,很抱歉，您发动技能的目标属于中立阵营�
 KB_Buff_HPMax,奖励：血量上限 +{0},Gain: HP Max +{0},Дано: Макс Здоровья +{0}
 KB_Buff_HPReco,奖励：每秒血量回复 +{0},Gain: Recover HP Per Second +{0},Дано: Восстановление хп кажду секунду +{0}
 KB_Buff_ATK,奖励：攻击力 +{0},Gain: Attack +{0}, Дано: Урон +{0}
-MorticianGetNoInfo,根据您的检查，受害者【{0}】在生前似乎没有接触任何人。
-MorticianGetInfo,根据您的检查，受害者【{0}】在生前接触的最后一个人是【{1}】。
-MediumshipHelp,确认指令：/ms 是\n否认指令：/ms 否,Instructions: /ms [Yes/No]
-MediumshipYes,您似乎在渺茫的精神世界中听到有个虚弱的声音，在肯定着您的提问。
-MediumshipNo,您似乎在渺茫的精神世界中听到有阵愤愤的嘶吼，在否定着您的提问。
-MediumshipDone,您成功地向通灵师作出的回应
-MediumshipNotifyTarget,通灵师【{0}】与您建立了联系，本次会议结束前，您拥有一次回应其问题的机会。\n确认指令：/ms 是\n否认指令：/ms 否
-MediumshipNotifySelf,您与【{0}】建立了联系，请向其提问并等待其作出回应。
-ByBard,<color=#ff1919>吟游诗人</color>献
-ByBardGetFailed,没有灵感，也是一种灵感
-GangsterSuccessfullyRecruited,您成功招募了一位玩家
-GangsterRecruitmentFailure,目标无法被招募
-BeRecruitedByGangster,您已被教父招募
-VeteranOnGuard,已进入警戒状态
-VeteranOffGuard,警戒状态已失效，剩余{0}次使用次数
-VeteranMaxUsage,已达到技能使用次数上限
-GrenadierSkillInUse,闪光弹生效中
-GrenadierSkillStop,闪光弹已失效
-MediumshiperKnowPlayerDead,刚刚似乎有亡魂发出了一阵嘶吼
-TicketsStealerGetTicket,您的票数共增加{0}
-BecomeMadmateCuzMadmateMode,您因死亡成为叛徒
-ExecutionerRoleChanged,您因目标死亡转变为{0}
-SpeedBoosterTaskDone,您的速度提升至{0}x
-CleanerCleanBody,目标的尸体已被清理
-QuickShooterStoraging,子弹储存成功
-VampireTargetDead,您的目标已死亡
-WarlockNoTarget,因没有目标操纵失败
-WarlockControlKill,已操纵目标完成击杀
-OnCyberStarDead,紧急通知：网红死亡
-TeleportedByTransporter,您被传送至：{0}
+MorticianGetNoInfo,根据您的检查，受害者【{0}】在生前似乎没有接触任何人。,"According to your inspection, the victim [{0}] seems to have had no contact with anyone when he was killed."
+MorticianGetInfo,根据您的检查，受害者【{0}】在生前接触的最后一个人是【{1}】。,"According to your inspection, the last person that the victim [{0}] had contact with was [{1}]."
+MediumshipHelp,确认指令：/ms 是\n否认指令：/ms 否,"Answer Command: /ms [Yes/No]"
+MediumshipYes,您似乎在渺茫的精神世界中听到有个虚弱的声音，在肯定着您的提问。,"You seem to hear a weak voice in the vague spiritual world, affirming your question."
+MediumshipNo,您似乎在渺茫的精神世界中听到有阵愤愤的嘶吼，在否定着您的提问。,"You seem to hear an angry howl in the vague spiritual world, denying your question."
+MediumshipDone,您成功地向通灵师作出的回应,"Your successful response to the psychic."
+MediumshipNotifyTarget,通灵师【{0}】与您建立了联系，本次会议结束前，您拥有一次回应其问题的机会。\n确认指令：/ms 是\n否认指令：/ms 否,"The Mediumshiper [{0}] has established contact with you, and you have one chance to respond to his questions before the end of this meeting. \nAnswer Yes Command: /ms Yes\nAnswer No Command: /ms No"
+MediumshipNotifySelf,您与【{0}】建立了联系，请向其提问并等待其作出回应。,"You have established contact with 【{0}】, please ask him a question and wait for his response."
+ByBard,<color=#ff1919>吟游诗人</color>献,"by <color=#ff1919>Bard</color>"
+ByBardGetFailed,没有灵感，也是一种灵感,"ops, I seem to be out of inspiration."
+GangsterSuccessfullyRecruited,您成功招募了一位玩家,You successfully recruited a player
+GangsterRecruitmentFailure,目标无法被招募,Target cannot be recruited
+BeRecruitedByGangster,您已被教父招募,You have been recruited by the gangster
+VeteranOnGuard,已进入警戒状态,Skill in use
+VeteranOffGuard,警戒状态已失效，剩余{0}次使用次数,The skill is over, and {0} uses remain
+VeteranMaxUsage,已达到技能使用次数上限,The skill use limit has been reached
+GrenadierSkillInUse,闪光弹生效中,Skill in use
+GrenadierSkillStop,闪光弹已失效,The skill is over
+MediumshiperKnowPlayerDead,刚刚似乎有亡魂发出了一阵嘶吼,Someone dead somewhere
+TicketsStealerGetTicket,您的票数共增加{0},You have got {0} votes
+BecomeMadmateCuzMadmateMode,您因死亡成为叛徒,You become madmate cuz dead
+ExecutionerRoleChanged,您因目标死亡转变为{0},You become {0} cuz target dead
+SpeedBoosterTaskDone,您的速度提升至{0}x,Your speed is {0} now
+CleanerCleanBody,目标的尸体已被清理,The body has been cleaned
+QuickShooterStoraging,子弹储存成功,Bullets stored successfully
+VampireTargetDead,您的目标已死亡,Target dead
+WarlockNoTarget,因没有目标操纵失败,Manipulation failed due to no target
+WarlockControlKill,已操纵目标完成击杀,Target dead
+OnCyberStarDead,紧急通知：网红死亡,Warning: Celebrity death
+TeleportedByTransporter,您被传送至：{0},Teleporting to: {0}
 
 ## 信息 / Message
 Message.SetToSeconds,信息发送冷却时间为【{0}】秒,Set to 【{0}】 seconds.,Установлен на 【{0}】 секунды
@@ -1006,9 +1006,9 @@ MessageFromDevTitle,【 ★ 咔皮呆留言 ★ 】,【 ★ Self-Guessing ★ �
 DivinatorCheckMsgTitle,【 ★ 水晶球 ★ 】,【 ★ Crystall Ball ★ 】,【 ★ Хрустальный Шар ★ 】
 MimicMsgTitle,【 ★ 宝箱怪 ★ 】,【 ★ Mimic ★ 】,【 ★ Мимик ★ 】
 EraserEraseMsgTitle,【 ★ 抹除者 ★ 】,【 ★ Eraser ★ 】,【 ★ Стирачка ★ 】
-TrialKillTitle,【 ★ 法院事件 ★ 】
-MorticianCheckTitle,【 ★ 尸体检查 ★ 】
-MediumshipTitle,【 ★ 冥界之声 ★ 】
+TrialKillTitle,【 ★ 法院事件 ★ 】,【 ★ Judge ★ 】
+MorticianCheckTitle,【 ★ 尸体检查 ★ 】,【 ★ Mortician ★ 】
+MediumshipTitle,【 ★ 冥界之声 ★ 】,【 ★ Mediumship ★ 】
 TabGroup.SystemSettings,系统设置,System Settings,Системные настройки
 TabGroup.GameSettings,游戏设置,Game Settings,Игровые настройки
 TabGroup.CrewmateRoles,船员阵营职业,Crewmate Roles,Роли Членов Экипажа
