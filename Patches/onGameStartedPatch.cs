@@ -123,7 +123,6 @@ namespace TownOfHost
             Executioner.Init();
             Jackal.Init();
             EvilTracker.Init();
-            Vampire.Init();
             TimeManager.Init();
             LastImpostor.Init();
             TargetArrow.Init();

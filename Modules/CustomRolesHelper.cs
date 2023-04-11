@@ -17,7 +17,6 @@ namespace TownOfHost
                 role is CustomRoles.Impostor or
                 CustomRoles.Shapeshifter or
                 CustomRoles.BountyHunter or
-                CustomRoles.Vampire or
                 CustomRoles.Witch or
                 CustomRoles.ShapeMaster or
                 CustomRoles.Warlock or

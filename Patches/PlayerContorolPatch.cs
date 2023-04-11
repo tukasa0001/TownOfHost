@@ -137,9 +137,6 @@ namespace TownOfHost
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
-                    case CustomRoles.Vampire:
-                        info.DoKill = Vampire.OnCheckMurder(info);
-                        break;
                     case CustomRoles.Warlock:
                         if (!Main.CheckShapeshift[killer.PlayerId] && !Main.isCurseAndKill[killer.PlayerId])
                         { //Warlockが変身時以外にキルしたら、呪われる処理
@@ -392,8 +389,6 @@ namespace TownOfHost
                 role.OnReportDeadBody(__instance, target);
             }
 
-            Vampire.OnStartMeeting();
-
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
                 .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
@@ -442,7 +437,6 @@ namespace TownOfHost
                 }
 
                 DoubleTrigger.OnFixedUpdate(player);
-                Vampire.OnFixedUpdate(player);
 
                 if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
                 {
