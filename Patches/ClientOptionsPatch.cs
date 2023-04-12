@@ -1,5 +1,7 @@
 using HarmonyLib;
 
+using TownOfHost.Modules.ClientOptions;
+
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(OptionsMenuBehaviour), nameof(OptionsMenuBehaviour.Start))]
