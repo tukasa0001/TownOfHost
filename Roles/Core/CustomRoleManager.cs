@@ -255,10 +255,6 @@ public static class CustomRoleManager
             case CustomRoles.Witch:
                 Witch.Add(pc.PlayerId);
                 break;
-            case CustomRoles.Warlock:
-                Main.CursedPlayers.Add(pc.PlayerId, null);
-                Main.isCurseAndKill.Add(pc.PlayerId, false);
-                break;
             case CustomRoles.Vampire:
                 Vampire.Add(pc.PlayerId);
                 break;

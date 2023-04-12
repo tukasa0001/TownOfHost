@@ -20,7 +20,6 @@ namespace TownOfHost
                 CustomRoles.Vampire or
                 CustomRoles.Witch or
                 CustomRoles.ShapeMaster or
-                CustomRoles.Warlock or
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or
                 CustomRoles.EvilWatcher or
@@ -168,7 +167,6 @@ namespace TownOfHost
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
                 CustomRoles.ShapeMaster or
-                CustomRoles.Warlock or
                 CustomRoles.Egoist => RoleTypes.Shapeshifter,
 
                 CustomRoles.EvilTracker => EvilTracker.RoleTypes,
