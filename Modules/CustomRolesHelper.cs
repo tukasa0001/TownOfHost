@@ -22,7 +22,6 @@ namespace TownOfHost
                 CustomRoles.ShapeMaster or
                 CustomRoles.Warlock or
                 CustomRoles.Mare or
-                CustomRoles.Puppeteer or
                 CustomRoles.EvilWatcher or
                 CustomRoles.Mafia or
                 CustomRoles.FireWorks or

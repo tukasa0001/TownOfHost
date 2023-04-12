@@ -37,7 +37,6 @@ namespace TownOfHost
             Main.isCurseAndKill = new Dictionary<byte, bool>();
             Main.SKMadmateNowCount = 0;
             Main.isCursed = false;
-            Main.PuppeteerList = new Dictionary<byte, byte>();
 
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();

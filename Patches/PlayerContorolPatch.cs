@@ -162,12 +162,6 @@ namespace TownOfHost
                     case CustomRoles.Witch:
                         info.DoKill = Witch.OnCheckMurder(info);
                         break;
-                    case CustomRoles.Puppeteer:
-                        Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
-                        killer.SetKillCooldown();
-                        Utils.NotifyRoles(SpecifySeer: killer);
-                        info.DoKill = false;
-                        break;
 
                     //==========マッドメイト系役職==========//
 
@@ -385,7 +379,6 @@ namespace TownOfHost
 
 
             Main.ArsonistTimer.Clear();
-            Main.PuppeteerList.Clear();
 
             foreach (var role in CustomRoleManager.AllActiveRoles)
             {
@@ -515,43 +508,6 @@ namespace TownOfHost
 
                     }
                 }
-                if (GameStates.IsInTask && Main.PuppeteerList.ContainsKey(player.PlayerId))
-                {
-                    if (!player.IsAlive())
-                    {
-                        Main.PuppeteerList.Remove(player.PlayerId);
-                    }
-                    else
-                    {
-                        Vector2 puppeteerPos = player.transform.position;//PuppeteerListのKeyの位置
-                        Dictionary<byte, float> targetDistance = new();
-                        float dis;
-                        foreach (var target in Main.AllAlivePlayerControls)
-                        {
-                            if (target.PlayerId != player.PlayerId && !target.Is(CountTypes.Impostor))
-                            {
-                                dis = Vector2.Distance(puppeteerPos, target.transform.position);
-                                targetDistance.Add(target.PlayerId, dis);
-                            }
-                        }
-                        if (targetDistance.Count() != 0)
-                        {
-                            var min = targetDistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
-                            PlayerControl target = Utils.GetPlayerById(min.Key);
-                            var KillRange = NormalGameOptionsV07.KillDistances[Mathf.Clamp(Main.NormalOptions.KillDistance, 0, 2)];
-                            if (min.Value <= KillRange && player.CanMove && target.CanMove)
-                            {
-                                var puppeteerId = Main.PuppeteerList[player.PlayerId];
-                                RPC.PlaySoundRPC(puppeteerId, Sounds.KillSound);
-                                target.SetRealKiller(Utils.GetPlayerById(puppeteerId));
-                                player.RpcMurderPlayer(target);
-                                Utils.MarkEveryoneDirtySettings();
-                                Main.PuppeteerList.Remove(player.PlayerId);
-                                Utils.NotifyRoles();
-                            }
-                        }
-                    }
-                }
                 if (GameStates.IsInTask && player == PlayerControl.LocalPlayer)
                     DisableDevice.FixedUpdate();
             }
@@ -654,13 +610,6 @@ namespace TownOfHost
                         }
                     }
                     Mark.Append(Executioner.TargetMark(seer, target));
-                    if (seer.Is(CustomRoles.Puppeteer))
-                    {
-                        if (seer.Is(CustomRoles.Puppeteer) &&
-                        Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
-                        Main.PuppeteerList.ContainsKey(target.PlayerId))
-                            Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>");
-                    }
                     if (seer.Is(CustomRoles.EvilTracker)) Mark.Append(EvilTracker.GetTargetMark(seer, target));
 
                     //ハートマークを付ける(会議中MOD視点)

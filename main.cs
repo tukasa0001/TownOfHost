@@ -106,10 +106,6 @@ namespace TownOfHost
         public static Dictionary<byte, bool> isCurseAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
-        /// <summary>
-        /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
-        /// </summary>
-        public static Dictionary<byte, byte> PuppeteerList = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool isCursed;
