@@ -42,6 +42,7 @@ public sealed class Puppeteer : RoleBase
     public override void OnCheckMurderAsKiller(MurderInfo info)
     {
         var (killer, target) = info.AttemptTuple;
+
         TargetIds.Add(target.PlayerId);
         killer.SetKillCooldown();
         Utils.NotifyRoles(SpecifySeer: killer);
