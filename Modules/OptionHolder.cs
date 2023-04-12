@@ -311,7 +311,6 @@ namespace TownOfHost
             Vampire.SetupCustomOption();
             SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
             Witch.SetupCustomOption();
-            SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
             SetupRoleOptions(2000, TabGroup.ImpostorRoles, CustomRoles.Puppeteer);
             EvilTracker.SetupCustomOption();
 
