@@ -13,13 +13,13 @@ namespace TownOfHost.Roles.Impostor
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(
-                  typeof(Witch),
-                  player => new Witch(player),
-                  CustomRoles.Witch,
-                  () => RoleTypes.Impostor,
-                  CustomRoleTypes.Impostor,
-                  1500,
-                  SetupOptionItem
+                typeof(Witch),
+                player => new Witch(player),
+                CustomRoles.Witch,
+                () => RoleTypes.Impostor,
+                CustomRoleTypes.Impostor,
+                1500,
+                SetupOptionItem
             );
         public Witch(PlayerControl player)
         : base(
