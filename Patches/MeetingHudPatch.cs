@@ -202,7 +202,6 @@ namespace TownOfHost
         }
         public static void CheckForDeathOnExile(CustomDeathReason deathReason, params byte[] playerIds)
         {
-            Witch.OnCheckForEndVoting(deathReason, playerIds);
             foreach (var playerId in playerIds)
             {
                 //Loversの後追い
@@ -387,9 +386,6 @@ namespace TownOfHost
                             break;
                     }
                 }
-
-                //呪われている場合
-                sb.Append(Witch.GetSpelledMark(target.PlayerId, true));
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
 

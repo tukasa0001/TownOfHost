@@ -18,7 +18,6 @@ namespace TownOfHost
                 CustomRoles.Shapeshifter or
                 CustomRoles.BountyHunter or
                 CustomRoles.Vampire or
-                CustomRoles.Witch or
                 CustomRoles.ShapeMaster or
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or

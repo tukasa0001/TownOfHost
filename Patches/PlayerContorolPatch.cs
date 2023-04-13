@@ -140,9 +140,6 @@ namespace TownOfHost
                     case CustomRoles.Vampire:
                         info.DoKill = Vampire.OnCheckMurder(info);
                         break;
-                    case CustomRoles.Witch:
-                        info.DoKill = Witch.OnCheckMurder(info);
-                        break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
                         killer.SetKillCooldown();
@@ -720,7 +717,6 @@ namespace TownOfHost
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                     __instance.RpcBootFromVent(id);
 
-                Witch.OnEnterVent(user);
                 if (AmongUsClient.Instance.IsGameStarted &&
                     user.IsDouseDone())
                 {
