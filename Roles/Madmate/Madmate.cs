@@ -1,9 +1,10 @@
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Madmate;
-public sealed class Madmate : RoleBase
+public sealed class Madmate : RoleBase, IKillFlashSeeable
 {
     public static SimpleRoleInfo RoleInfo =
         new(
@@ -20,5 +21,11 @@ public sealed class Madmate : RoleBase
         RoleInfo,
         player
     )
-    { }
+    {
+        canSeeKillFlash = Options.MadmateCanSeeKillFlash.GetBool();
+    }
+
+    private static bool canSeeKillFlash;
+
+    public bool CanSeeKillFlash(MurderInfo info) => canSeeKillFlash;
 }
