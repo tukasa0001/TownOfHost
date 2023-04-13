@@ -86,7 +86,7 @@ namespace TownOfHost.Roles.Impostor
             else if (SuicideTimer >= TimeLimit)
             {
                 //自爆時間が来たとき
-                Main.PlayerStates[Player.PlayerId].deathReason = PlayerState.DeathReason.Suicide;//死因：自殺
+                Main.PlayerStates[Player.PlayerId].DeathReason = CustomDeathReason.Suicide;//死因：自殺
                 Player.RpcMurderPlayer(Player);//自殺させる
                 SuicideTimer = null;
             }

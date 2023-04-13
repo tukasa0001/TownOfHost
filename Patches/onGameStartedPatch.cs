@@ -30,11 +30,7 @@ namespace TownOfHost
             Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
             Main.AllPlayerSpeed = new Dictionary<byte, float>();
 
-            Main.WarlockTimer = new Dictionary<byte, float>();
-            Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
-            Main.isCurseAndKill = new Dictionary<byte, bool>();
             Main.SKMadmateNowCount = 0;
-            Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
 
             Main.AfterMeetingDeathPlayers = new();

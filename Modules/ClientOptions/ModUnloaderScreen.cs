@@ -2,10 +2,10 @@ using System;
 using HarmonyLib;
 using TMPro;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using InnerNet;
+using Object = UnityEngine.Object;
 
-namespace TownOfHost;
+namespace TownOfHost.Modules.ClientOptions;
 
 public static class ModUnloaderScreen
 {
