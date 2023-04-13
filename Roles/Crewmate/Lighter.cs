@@ -25,6 +25,8 @@ public sealed class Lighter : RoleBase
     {
         TaskCompletedVision = OptionTaskCompletedVision.GetFloat();
         TaskCompletedDisableLightOut = OptionTaskCompletedDisableLightOut.GetBool();
+
+        IsTaskFinished = false;
     }
 
     private static OptionItem OptionTaskCompletedVision;
@@ -38,6 +40,8 @@ public sealed class Lighter : RoleBase
     private static float TaskCompletedVision;
     private static bool TaskCompletedDisableLightOut;
 
+    private bool IsTaskFinished;
+
     private static void SetupOptionItem()
     {
         OptionTaskCompletedVision = FloatOptionItem.Create(RoleInfo, 10, OptionName.LighterTaskCompletedVision, new(0f, 5f, 0.25f), 2f, false)
@@ -47,7 +51,7 @@ public sealed class Lighter : RoleBase
 
     public override void ApplyGameOptions(IGameOptions opt)
     {
-        if (!Player.GetPlayerTaskState().IsTaskFinished) return;
+        if (!IsTaskFinished) return;
 
         var crewLightMod = FloatOptionNames.CrewLightMod;
 
@@ -60,7 +64,10 @@ public sealed class Lighter : RoleBase
     public override bool OnCompleteTask()
     {
         if (Player.GetPlayerTaskState().IsTaskFinished)
+        {
+            IsTaskFinished = true;
             Player.MarkDirtySettings();
+        }
 
         return true;
     }
