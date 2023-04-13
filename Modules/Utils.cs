@@ -305,7 +305,6 @@ namespace TownOfHost
                 switch (role)
                 {
                     case CustomRoles.GM:
-                    case CustomRoles.Madmate:
                     case CustomRoles.SKMadmate:
                     case CustomRoles.Arsonist:
                     case CustomRoles.Egoist:
