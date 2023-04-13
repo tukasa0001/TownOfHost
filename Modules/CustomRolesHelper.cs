@@ -19,7 +19,6 @@ namespace TownOfHost
                 CustomRoles.BountyHunter or
                 CustomRoles.Witch or
                 CustomRoles.ShapeMaster or
-                CustomRoles.Warlock or
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or
                 CustomRoles.EvilWatcher or
@@ -34,7 +33,7 @@ namespace TownOfHost
             if (roleInfo != null)
                 return roleInfo.CustomRoleType == CustomRoleTypes.Madmate;
             return
-                role is CustomRoles.Madmate or
+                role is
                 CustomRoles.SKMadmate or
                 CustomRoles.MadGuardian or
                 CustomRoles.MadSnitch or
@@ -155,7 +154,6 @@ namespace TownOfHost
                 CustomRoles.Scientist => RoleTypes.Scientist,
 
                 CustomRoles.Engineer or
-                CustomRoles.Madmate or
                 CustomRoles.Terrorist => RoleTypes.Engineer,
 
                 CustomRoles.GuardianAngel or
@@ -167,7 +165,6 @@ namespace TownOfHost
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
                 CustomRoles.ShapeMaster or
-                CustomRoles.Warlock or
                 CustomRoles.Egoist => RoleTypes.Shapeshifter,
 
                 CustomRoles.EvilTracker => EvilTracker.RoleTypes,
