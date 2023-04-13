@@ -23,8 +23,7 @@ public sealed class Arsonist : RoleBase
     public Arsonist(PlayerControl player)
     : base(
         RoleInfo,
-        player,
-        false
+        player
     )
     {
         DouseTime = OptionDouseTime.GetFloat();
@@ -118,7 +117,7 @@ public sealed class Arsonist : RoleBase
 
         return true;
     }
-    public override void OnFixedUpdate()
+    public override void OnFixedUpdate(PlayerControl player)
     {
         if (GameStates.IsInTask && TargetInfo != null)//アーソニストが誰かを塗っているとき
         {
@@ -177,7 +176,7 @@ public sealed class Arsonist : RoleBase
                     //生存者は焼殺
                     pc.SetRealKiller(Player);
                     pc.RpcMurderPlayer(pc);
-                    Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Torched;
+                    Main.PlayerStates[pc.PlayerId].DeathReason = CustomDeathReason.Torched;
                     Main.PlayerStates[pc.PlayerId].SetDead();
                 }
                 else
