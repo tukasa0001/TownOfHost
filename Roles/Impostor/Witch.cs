@@ -12,15 +12,15 @@ namespace TownOfHost.Roles.Impostor
     public sealed class Witch : RoleBase
     {
         public static readonly SimpleRoleInfo RoleInfo =
-          new(
-              typeof(Witch),
-              player => new Witch(player),
-              CustomRoles.Witch,
-              () => RoleTypes.Impostor,
-              CustomRoleTypes.Impostor,
-              1500,
-              SetupOptionItem
-        );
+            new(
+                  typeof(Witch),
+                  player => new Witch(player),
+                  CustomRoles.Witch,
+                  () => RoleTypes.Impostor,
+                  CustomRoleTypes.Impostor,
+                  1500,
+                  SetupOptionItem
+            );
         public Witch(PlayerControl player)
         : base(
             RoleInfo,
