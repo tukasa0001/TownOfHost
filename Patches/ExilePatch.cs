@@ -97,11 +97,6 @@ namespace TownOfHost
             foreach (var pc in Main.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
-                if (pc.Is(CustomRoles.Warlock))
-                {
-                    Main.CursedPlayers[pc.PlayerId] = null;
-                    Main.isCurseAndKill[pc.PlayerId] = false;
-                }
             }
             if (Options.RandomSpawn.GetBool())
             {

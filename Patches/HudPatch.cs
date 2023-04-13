@@ -67,16 +67,6 @@ namespace TownOfHost
                     //MOD入り用のボタン下テキスト変更
                     switch (player.GetCustomRole())
                     {
-                        case CustomRoles.Warlock:
-                            if (!(Main.CheckShapeshift.TryGetValue(player.PlayerId, out bool shapeshifting) && shapeshifting) && !(Main.isCurseAndKill.TryGetValue(player.PlayerId, out bool curse) && curse))
-                            {
-                                __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
-                            }
-                            else
-                            {
-                                __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
-                            }
-                            break;
                         case CustomRoles.Witch:
                             Witch.GetAbilityButtonText(__instance);
                             break;

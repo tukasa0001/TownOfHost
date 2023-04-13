@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Impostor
 {
-    public sealed class TimeThief : RoleBase
+    public sealed class TimeThief : RoleBase, IMeetingTimeAlterable
     {
         public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -46,6 +47,8 @@ namespace TownOfHost.Roles.Impostor
         public static int LowerLimitVotingTime;
         public static bool ReturnStolenTimeUponDeath;
 
+        public bool RevertOnDie => ReturnStolenTimeUponDeath;
+
         public static HashSet<PlayerControl> TimeThiefs = new(3);
         private static void SetupOptionItem()
         {
@@ -62,24 +65,15 @@ namespace TownOfHost.Roles.Impostor
             TimeThiefs.Clear();
         }
         public override float SetKillCooldown() => KillCooldown;
-        private static int StolenTime(PlayerControl player)
+        public int CalculateMeetingTimeDelta()
         {
-            if (player.Is(CustomRoles.TimeThief) && (player.IsAlive() || !ReturnStolenTimeUponDeath))
-                return DecreaseMeetingTime * Main.PlayerStates[player.PlayerId].GetKillCount(true);
-            return 0;
-        }
-        public static int TotalDecreasedMeetingTime()
-        {
-            int sec = 0;
-            foreach (var timeThief in TimeThiefs)
-                sec -= StolenTime(timeThief);
-            Logger.Info($"{sec}second", "TimeThief.TotalDecreasedMeetingTime");
+            var sec = -(DecreaseMeetingTime * Main.PlayerStates[Player.PlayerId].GetKillCount(true));
             return sec;
         }
         public override string GetProgressText(bool comms = false)
         {
-            var time = StolenTime(Player);
-            return time > 0 ? Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $"{-time}s") : "";
+            var time = CalculateMeetingTimeDelta();
+            return time < 0 ? Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $"{time}s") : "";
         }
     }
 }
