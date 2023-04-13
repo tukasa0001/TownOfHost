@@ -94,6 +94,7 @@ namespace TownOfHost.Roles.Impostor
         }
         public static void KillBitten(PlayerControl vampire, PlayerControl target, bool isButton = false)
         {
+            if (vampire == null || target == null) return;
             if (target.IsAlive())
             {
                 Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Bite;
