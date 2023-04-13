@@ -102,7 +102,7 @@ public abstract class RoleBase : IDisposable
     /// <summary>
     /// キルクールダウンを設定する関数
     /// </summary>
-    public virtual float SetKillCooldown() => 30f;
+    public virtual float SetKillCooldown() => Options.DefaultKillCooldown;
     /// <summary>
     /// BuildGameOptionsで呼ばれる関数
     /// </summary>
