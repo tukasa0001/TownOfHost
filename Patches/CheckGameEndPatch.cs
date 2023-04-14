@@ -6,7 +6,6 @@ using Hazel;
 
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost
 {
@@ -83,8 +82,6 @@ namespace TownOfHost
                             CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
                             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
                         }
-                        //SchrodingerCat
-                        SchrodingerCat.CheckAdditionalWin(pc);
                     }
                 }
                 ShipStatus.Instance.enabled = false;
