@@ -70,10 +70,10 @@ namespace TownOfHost
                     {
                         if (pc.GetRoleClass() is IAdditionalWinner additionalWinner)
                         {
-                            if (additionalWinner.CheckWin())
+                            if (additionalWinner.CheckWin(out var winnerType))
                             {
                                 CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                                CustomWinnerHolder.AdditionalWinnerTeams.Add(additionalWinner.WinnerType);
+                                CustomWinnerHolder.AdditionalWinnerTeams.Add(winnerType);
                             }
                         }
 
