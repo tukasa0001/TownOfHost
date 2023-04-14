@@ -93,9 +93,9 @@ namespace TownOfHost
                     executioner.ChangeRole();
                 if (CustomRoles.Executioner.IsPresent())
                     Executioner.ChangeRoleByTarget(data.Character.PlayerId);
-                if (Main.PlayerStates[data.Character.PlayerId].deathReason == PlayerState.DeathReason.etc) //死因が設定されていなかったら
+                if (Main.PlayerStates[data.Character.PlayerId].DeathReason == CustomDeathReason.etc) //死因が設定されていなかったら
                 {
-                    Main.PlayerStates[data.Character.PlayerId].deathReason = PlayerState.DeathReason.Disconnected;
+                    Main.PlayerStates[data.Character.PlayerId].DeathReason = CustomDeathReason.Disconnected;
                     Main.PlayerStates[data.Character.PlayerId].SetDead();
                 }
                 AntiBlackout.OnDisconnect(data.Character.Data);

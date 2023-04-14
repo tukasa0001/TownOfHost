@@ -126,7 +126,7 @@ public sealed class Sniper : RoleBase
         //ターゲットが自殺扱いなら狙撃
         if (!Is(info.AppearanceKiller) && info.IsFakeSuicide)
         {
-            Main.PlayerStates[info.AttemptTarget.PlayerId].deathReason = PlayerState.DeathReason.Sniped;
+            Main.PlayerStates[info.AttemptTarget.PlayerId].DeathReason = CustomDeathReason.Sniped;
         }
     }
 
