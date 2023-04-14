@@ -301,7 +301,6 @@ namespace TownOfHost
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
                 info.OptionCreator?.Invoke();
             });
-            Witch.SetupCustomOption();
             SetupRoleOptions(2000, TabGroup.ImpostorRoles, CustomRoles.Puppeteer);
             EvilTracker.SetupCustomOption();
 

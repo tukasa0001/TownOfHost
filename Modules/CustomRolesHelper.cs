@@ -16,13 +16,8 @@ namespace TownOfHost
             return
                 role is CustomRoles.Impostor or
                 CustomRoles.Shapeshifter or
-                CustomRoles.BountyHunter or
-                CustomRoles.Witch or
-                CustomRoles.Mare or
                 CustomRoles.Puppeteer or
                 CustomRoles.EvilWatcher or
-                CustomRoles.FireWorks or
-                CustomRoles.Sniper or
                 CustomRoles.EvilTracker;
         }
         public static bool IsMadmate(this CustomRoles role)

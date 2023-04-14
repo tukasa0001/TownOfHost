@@ -90,8 +90,6 @@ namespace TownOfHost
                 if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) Main.PlayerStates[exiled.PlayerId].SetDead();
             }
 
-            Witch.RemoveSpelledPlayer();
-
             foreach (var pc in Main.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
