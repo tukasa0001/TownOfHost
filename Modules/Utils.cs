@@ -314,7 +314,6 @@ namespace TownOfHost
                         hasTasks = false;
                         break;
                     case CustomRoles.MadGuardian:
-                    case CustomRoles.MadSnitch:
                     case CustomRoles.Terrorist:
                         if (ForRecompute)
                             hasTasks = false;
@@ -741,9 +740,6 @@ namespace TownOfHost
                 //ハートマークを付ける(自分に)
                 if (seer.Is(CustomRoles.Lovers)) SelfMark.Append(ColorString(GetRoleColor(CustomRoles.Lovers), "♡"));
 
-                //呪われている場合
-                SelfMark.Append(Witch.GetSpelledMark(seer.PlayerId, isForMeeting));
-
                 //Markとは違い、改行してから追記されます。
                 SelfSuffix.Clear();
 
@@ -751,11 +747,6 @@ namespace TownOfHost
                 SelfSuffix.Append(seerRole?.GetLowerText(seer, isForMeeting: isForMeeting));
                 //seerに関わらず発動するLowerText
                 SelfSuffix.Append(CustomRoleManager.GetLowerTextOthers(seer, isForMeeting: isForMeeting));
-
-                if (seer.Is(CustomRoles.Witch))
-                {
-                    SelfSuffix.Append(Witch.GetSpellModeText(seer, false, isForMeeting));
-                }
 
                 //seer役職が対象のSuffix
                 SelfSuffix.Append(seerRole?.GetSuffix(seer, isForMeeting: isForMeeting));
@@ -789,7 +780,7 @@ namespace TownOfHost
                     || Main.PlayerStates[seer.PlayerId].TargetColorData.Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.Is(CustomRoles.Arsonist)
                     || seer.Is(CustomRoles.Lovers)
-                    || Witch.HaveSpelledPlayer()
+                    || Witch.IsSpelled()
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
@@ -813,9 +804,6 @@ namespace TownOfHost
                         TargetMark.Append(seerRole?.GetMark(seer, target, isForMeeting));
                         //seerに関わらず発動するMark
                         TargetMark.Append(CustomRoleManager.GetMarkOthers(seer, target, isForMeeting));
-
-                        //呪われている人
-                        TargetMark.Append(Witch.GetSpelledMark(target.PlayerId, isForMeeting));
 
                         //ハートマークを付ける(相手に)
                         if (seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
@@ -871,8 +859,6 @@ namespace TownOfHost
                         //ターゲットのプレイヤー名の色を書き換えます。
                         TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isForMeeting);
 
-                        if (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
-                            TargetMark.Append(ColorString(GetRoleColor(CustomRoles.MadSnitch), "★"));
                         TargetMark.Append(Executioner.TargetMark(seer, target));
 
                         string TargetDeathReason = "";

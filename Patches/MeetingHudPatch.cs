@@ -202,7 +202,6 @@ namespace TownOfHost
         }
         public static void CheckForDeathOnExile(CustomDeathReason deathReason, params byte[] playerIds)
         {
-            Witch.OnCheckForEndVoting(deathReason, playerIds);
             foreach (var playerId in playerIds)
             {
                 //Loversの後追い
@@ -355,14 +354,6 @@ namespace TownOfHost
 
                 sb.Append(seerRole?.GetMark(seer, target, true));
                 sb.Append(CustomRoleManager.GetMarkOthers(seer, target, true));
-                //インポスター表示
-                switch (seer.GetCustomRole().GetCustomRoleTypes())
-                {
-                    case CustomRoleTypes.Impostor:
-                        if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
-                            sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★")); //変更対象にSnitchマークをつける
-                        break;
-                }
                 switch (seer.GetCustomRole())
                 {
                     case CustomRoles.Arsonist:
@@ -387,9 +378,6 @@ namespace TownOfHost
                             break;
                     }
                 }
-
-                //呪われている場合
-                sb.Append(Witch.GetSpelledMark(target.PlayerId, true));
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
 
