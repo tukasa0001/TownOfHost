@@ -140,9 +140,6 @@ namespace TownOfHost
                     case CustomRoles.Vampire:
                         info.DoKill = Vampire.OnCheckMurder(info);
                         break;
-                    case CustomRoles.Witch:
-                        info.DoKill = Witch.OnCheckMurder(info);
-                        break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
                         killer.SetKillCooldown();
@@ -714,7 +711,6 @@ namespace TownOfHost
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                     __instance.RpcBootFromVent(id);
 
-                Witch.OnEnterVent(user);
                 if (AmongUsClient.Instance.IsGameStarted &&
                     user.IsDouseDone())
                 {
@@ -785,10 +781,6 @@ namespace TownOfHost
             {
                 ret = Workhorse.OnCompleteTask(pc);
                 var isTaskFinish = taskState.IsTaskFinished;
-                if (isTaskFinish && pc.GetCustomRole() is CustomRoles.Lighter)
-                {
-                    Utils.MarkEveryoneDirtySettings();
-                }
             }
             Utils.NotifyRoles();
             return ret;
