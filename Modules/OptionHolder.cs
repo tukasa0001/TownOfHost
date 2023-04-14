@@ -92,8 +92,6 @@ namespace TownOfHost
         public static OptionItem MadmateVentMaxTime;
 
         public static OptionItem EvilWatcherChance;
-        public static OptionItem LighterTaskCompletedVision;
-        public static OptionItem LighterTaskCompletedDisableLightOut;
         public static OptionItem CanTerroristSuicideWin;
         public static OptionItem ArsonistDouseTime;
         public static OptionItem ArsonistCooldown;
@@ -340,10 +338,6 @@ namespace TownOfHost
             EvilWatcherChance = IntegerOptionItem.Create(30010, "EvilWatcherChance", new(0, 100, 10), 0, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Watcher])
                 .SetValueFormat(OptionFormat.Percent);
             // Crewmate
-            SetupRoleOptions(20100, TabGroup.CrewmateRoles, CustomRoles.Lighter);
-            LighterTaskCompletedVision = FloatOptionItem.Create(20110, "LighterTaskCompletedVision", new(0f, 5f, 0.25f), 2f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter])
-                .SetValueFormat(OptionFormat.Multiplier);
-            LighterTaskCompletedDisableLightOut = BooleanOptionItem.Create(20111, "LighterTaskCompletedDisableLightOut", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter]);
             sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Crewmate).Do(info =>
             {
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);

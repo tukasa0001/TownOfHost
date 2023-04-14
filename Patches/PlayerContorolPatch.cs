@@ -781,10 +781,6 @@ namespace TownOfHost
             {
                 ret = Workhorse.OnCompleteTask(pc);
                 var isTaskFinish = taskState.IsTaskFinished;
-                if (isTaskFinish && pc.GetCustomRole() is CustomRoles.Lighter)
-                {
-                    Utils.MarkEveryoneDirtySettings();
-                }
             }
             Utils.NotifyRoles();
             return ret;
