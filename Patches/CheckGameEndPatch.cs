@@ -75,13 +75,6 @@ namespace TownOfHost
                                 CustomWinnerHolder.AdditionalWinnerTeams.Add(winnerType);
                             }
                         }
-
-                        //Opportunist
-                        if (pc.Is(CustomRoles.Opportunist) && pc.IsAlive())
-                        {
-                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
-                        }
                     }
                 }
                 ShipStatus.Instance.enabled = false;
