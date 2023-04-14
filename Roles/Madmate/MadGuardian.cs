@@ -1,10 +1,11 @@
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.Madmate;
-public sealed class MadGuardian : RoleBase
+public sealed class MadGuardian : RoleBase, IKillFlashSeeable
 {
     public static SimpleRoleInfo RoleInfo =
         new(
@@ -23,6 +24,7 @@ public sealed class MadGuardian : RoleBase
         HasTask.ForRecompute
     )
     {
+        canSeeKillFlash = MadmateCanSeeKillFlash.GetBool();
         CanSeeWhoTriedToKill = OptionCanSeeWhoTriedToKill.GetBool();
     }
 
@@ -32,7 +34,7 @@ public sealed class MadGuardian : RoleBase
     {
         MadGuardianCanSeeWhoTriedToKill
     }
-
+    private static bool canSeeKillFlash;
     private static bool CanSeeWhoTriedToKill;
 
     private static void SetupOptionItem()
@@ -61,5 +63,5 @@ public sealed class MadGuardian : RoleBase
         }
         return true;
     }
-
+    public bool CanSeeKillFlash(MurderInfo info) => canSeeKillFlash;
 }
