@@ -310,7 +310,6 @@ namespace TownOfHost
                     case CustomRoles.Egoist:
                     case CustomRoles.Jackal:
                     case CustomRoles.Jester:
-                    case CustomRoles.Opportunist:
                         hasTasks = false;
                         break;
                     case CustomRoles.MadGuardian:
