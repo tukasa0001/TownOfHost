@@ -251,9 +251,6 @@ public static class CustomRoleManager
     {
         switch (pc.GetCustomRole())
         {
-            case CustomRoles.Vampire:
-                Vampire.Add(pc.PlayerId);
-                break;
 
             case CustomRoles.Executioner:
                 Executioner.Add(pc.PlayerId);

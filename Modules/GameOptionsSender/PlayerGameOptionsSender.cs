@@ -109,20 +109,6 @@ namespace TownOfHost.Modules
                 case CustomRoles.Sheriff:
                     opt.SetVision(false);
                     break;
-                case CustomRoles.Lighter:
-                    if (player.GetPlayerTaskState().IsTaskFinished)
-                    {
-                        opt.SetFloat(
-                            FloatOptionNames.CrewLightMod,
-                            Options.LighterTaskCompletedVision.GetFloat());
-                        if (Utils.IsActive(SystemTypes.Electrical) && Options.LighterTaskCompletedDisableLightOut.GetBool())
-                        {
-                            opt.SetFloat(
-                            FloatOptionNames.CrewLightMod,
-                            opt.GetFloat(FloatOptionNames.CrewLightMod) * 5);
-                        }
-                    }
-                    break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(true);
                     break;
