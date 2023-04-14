@@ -313,7 +313,6 @@ namespace TownOfHost
                         hasTasks = false;
                         break;
                     case CustomRoles.MadGuardian:
-                    case CustomRoles.MadSnitch:
                     case CustomRoles.Terrorist:
                         if (ForRecompute)
                             hasTasks = false;
@@ -856,8 +855,6 @@ namespace TownOfHost
                         //ターゲットのプレイヤー名の色を書き換えます。
                         TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isForMeeting);
 
-                        if (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
-                            TargetMark.Append(ColorString(GetRoleColor(CustomRoles.MadSnitch), "★"));
                         TargetMark.Append(Executioner.TargetMark(seer, target));
 
                         string TargetDeathReason = "";
@@ -959,19 +956,6 @@ namespace TownOfHost
             return disableColor ? summary.RemoveHtmlTags() : summary;
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
-        public static bool CanMafiaKill()
-        {
-            if (Main.PlayerStates == null) return false;
-            //マフィアを除いた生きているインポスターの人数  Number of Living Impostors excluding mafia
-            int LivingImpostorsNum = 0;
-            foreach (var pc in Main.AllAlivePlayerControls)
-            {
-                var role = pc.GetCustomRole();
-                if (role != CustomRoles.Mafia && role.IsImpostor()) LivingImpostorsNum++;
-            }
-
-            return LivingImpostorsNum <= 0;
-        }
         public static void FlashColor(Color color, float duration = 1f)
         {
             var hud = DestroyableSingleton<HudManager>.Instance;

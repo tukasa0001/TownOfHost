@@ -54,7 +54,22 @@ namespace TownOfHost
         public void SetMainRole(CustomRoles role)
         {
             MainRole = role;
-            countTypes = role.GetCountTypes();
+
+            var roleClass = CustomRoleManager.GetByPlayerId(PlayerId);
+            if (roleClass != null)
+                countTypes = roleClass.CountType;
+            else
+            {
+                countTypes = role switch
+                {
+                    CustomRoles.GM => CountTypes.OutOfGame,
+                    CustomRoles.Egoist => CountTypes.Impostor,
+                    CustomRoles.Jackal => CountTypes.Jackal,
+                    CustomRoles.HASFox or
+                    CustomRoles.HASTroll => CountTypes.None,
+                    _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,
+                };
+            }
         }
         public void SetSubRole(CustomRoles role, bool AllReplace = false)
         {

@@ -355,14 +355,6 @@ namespace TownOfHost
 
                 sb.Append(seerRole?.GetMark(seer, target, true));
                 sb.Append(CustomRoleManager.GetMarkOthers(seer, target, true));
-                //インポスター表示
-                switch (seer.GetCustomRole().GetCustomRoleTypes())
-                {
-                    case CustomRoleTypes.Impostor:
-                        if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
-                            sb.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★")); //変更対象にSnitchマークをつける
-                        break;
-                }
                 switch (seer.GetCustomRole())
                 {
                     case CustomRoles.Executioner:
