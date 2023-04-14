@@ -36,7 +36,6 @@ namespace TownOfHost
             return
                 role is
                 CustomRoles.SKMadmate or
-                CustomRoles.MadGuardian or
                 CustomRoles.MadSnitch or
                 CustomRoles.MSchrodingerCat;
         }

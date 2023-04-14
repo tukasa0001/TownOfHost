@@ -81,7 +81,6 @@ namespace TownOfHost
         public static OptionItem ShapeMasterShapeshiftDuration;
         public static OptionItem DefaultShapeshiftCooldown;
         public static OptionItem CanMakeMadmateCount;
-        public static OptionItem MadGuardianCanSeeWhoTriedToKill;
         public static OptionItem MadSnitchCanVent;
         public static OptionItem MadSnitchCanAlsoBeExposedToImpostor;
         public static OptionItem MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
@@ -210,7 +209,6 @@ namespace TownOfHost
         public static OptionItem DisableAirshipCargoLightsPanel;
 
         // タスク上書き
-        public static OverrideTasksData MadGuardianTasks;
         public static OverrideTasksData TerroristTasks;
         public static OverrideTasksData SnitchTasks;
         public static OverrideTasksData MadSnitchTasks;
@@ -326,10 +324,6 @@ namespace TownOfHost
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
                 info.OptionCreator?.Invoke();
             });
-            SetupRoleOptions(10100, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
-            MadGuardianCanSeeWhoTriedToKill = BooleanOptionItem.Create(10110, "MadGuardianCanSeeWhoTriedToKill", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadGuardian]);
-            //ID10120~10123を使用
-            MadGuardianTasks = OverrideTasksData.Create(10120, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
             SetupRoleOptions(10200, TabGroup.ImpostorRoles, CustomRoles.MadSnitch);
             MadSnitchCanVent = BooleanOptionItem.Create(10210, "CanVent", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadSnitch]);
             MadSnitchCanAlsoBeExposedToImpostor = BooleanOptionItem.Create(10211, "MadSnitchCanAlsoBeExposedToImpostor", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadSnitch]);
