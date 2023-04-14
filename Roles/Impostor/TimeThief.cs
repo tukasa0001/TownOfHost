@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Impostor
 {
-    public sealed class TimeThief : RoleBase
+    public sealed class TimeThief : RoleBase, IMeetingTimeAlterable
     {
         public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -27,8 +28,6 @@ namespace TownOfHost.Roles.Impostor
             DecreaseMeetingTime = OptionDecreaseMeetingTime.GetInt();
             LowerLimitVotingTime = OptionLowerLimitVotingTime.GetInt();
             ReturnStolenTimeUponDeath = OptionReturnStolenTimeUponDeath.GetBool();
-
-            TimeThiefs.Add(player);
         }
         private static OptionItem OptionKillCooldown;
         private static OptionItem OptionDecreaseMeetingTime;
@@ -46,7 +45,8 @@ namespace TownOfHost.Roles.Impostor
         public static int LowerLimitVotingTime;
         public static bool ReturnStolenTimeUponDeath;
 
-        public static HashSet<PlayerControl> TimeThiefs = new(3);
+        public bool RevertOnDie => ReturnStolenTimeUponDeath;
+
         private static void SetupOptionItem()
         {
             OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, OptionName.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
@@ -57,29 +57,16 @@ namespace TownOfHost.Roles.Impostor
                 .SetValueFormat(OptionFormat.Seconds);
             OptionReturnStolenTimeUponDeath = BooleanOptionItem.Create(RoleInfo, 13, OptionName.TimeThiefReturnStolenTimeUponDeath, true, false);
         }
-        public override void OnDestroy()
-        {
-            TimeThiefs.Clear();
-        }
         public override float SetKillCooldown() => KillCooldown;
-        private static int StolenTime(PlayerControl player)
+        public int CalculateMeetingTimeDelta()
         {
-            if (player.Is(CustomRoles.TimeThief) && (player.IsAlive() || !ReturnStolenTimeUponDeath))
-                return DecreaseMeetingTime * Main.PlayerStates[player.PlayerId].GetKillCount(true);
-            return 0;
-        }
-        public static int TotalDecreasedMeetingTime()
-        {
-            int sec = 0;
-            foreach (var timeThief in TimeThiefs)
-                sec -= StolenTime(timeThief);
-            Logger.Info($"{sec}second", "TimeThief.TotalDecreasedMeetingTime");
+            var sec = -(DecreaseMeetingTime * Main.PlayerStates[Player.PlayerId].GetKillCount(true));
             return sec;
         }
         public override string GetProgressText(bool comms = false)
         {
-            var time = StolenTime(Player);
-            return time > 0 ? Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $"{-time}s") : "";
+            var time = CalculateMeetingTimeDelta();
+            return time < 0 ? Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $"{time}s") : "";
         }
     }
 }

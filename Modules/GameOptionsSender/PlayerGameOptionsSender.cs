@@ -102,14 +102,6 @@ namespace TownOfHost.Modules
                     AURoleOptions.EngineerCooldown = 0;
                     AURoleOptions.EngineerInVentMaxTime = 0;
                     break;
-                case CustomRoles.ShapeMaster:
-                    AURoleOptions.ShapeshifterCooldown = 0f;
-                    AURoleOptions.ShapeshifterLeaveSkin = false;
-                    AURoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
-                    break;
-                case CustomRoles.Warlock:
-                    AURoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
-                    break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
                     opt.SetBool(BoolOptionNames.AnonymousVotes, false);

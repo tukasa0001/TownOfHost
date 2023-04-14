@@ -10,6 +10,7 @@ using UnityEngine;
 using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
@@ -139,25 +140,6 @@ namespace TownOfHost
                     case CustomRoles.Vampire:
                         info.DoKill = Vampire.OnCheckMurder(info);
                         break;
-                    case CustomRoles.Warlock:
-                        if (!Main.CheckShapeshift[killer.PlayerId] && !Main.isCurseAndKill[killer.PlayerId])
-                        { //Warlockが変身時以外にキルしたら、呪われる処理
-                            Main.isCursed = true;
-                            killer.SetKillCooldown();
-                            Main.CursedPlayers[killer.PlayerId] = target;
-                            Main.WarlockTimer.Add(killer.PlayerId, 0f);
-                            Main.isCurseAndKill[killer.PlayerId] = true;
-                            info.DoKill = false;
-                            return;
-                        }
-                        if (Main.CheckShapeshift[killer.PlayerId])
-                        {//呪われてる人がいないくて変身してるときに通常キルになる
-                            killer.RpcGuardAndKill(target);
-                            return;
-                        }
-                        if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
-                        info.DoKill = false;
-                        break;
                     case CustomRoles.Witch:
                         info.DoKill = Witch.OnCheckMurder(info);
                         break;
@@ -265,45 +247,20 @@ namespace TownOfHost
                 case CustomRoles.EvilTracker:
                     EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);
                     break;
-                case CustomRoles.Warlock:
-                    if (Main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
-                    {
-                        if (shapeshifting && !Main.CursedPlayers[shapeshifter.PlayerId].Data.IsDead)//変身解除の時に反応しない
-                        {
-                            var cp = Main.CursedPlayers[shapeshifter.PlayerId];
-                            Vector2 cppos = cp.transform.position;//呪われた人の位置
-                            Dictionary<PlayerControl, float> cpdistance = new();
-                            float dis;
-                            foreach (PlayerControl p in Main.AllAlivePlayerControls)
-                            {
-                                if (p != cp)
-                                {
-                                    dis = Vector2.Distance(cppos, p.transform.position);
-                                    cpdistance.Add(p, dis);
-                                    Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "Warlock");
-                                }
-                            }
-                            var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
-                            PlayerControl targetw = min.Key;
-                            targetw.SetRealKiller(shapeshifter);
-                            Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
-                            cp.RpcMurderPlayerV2(targetw);//殺す
-                            shapeshifter.RpcGuardAndKill(shapeshifter);
-                            Main.isCurseAndKill[shapeshifter.PlayerId] = false;
-                        }
-                        Main.CursedPlayers[shapeshifter.PlayerId] = null;
-                    }
-                    break;
             }
 
+            // 変身したとき一番近い人をマッドメイトにする処理
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
-            {//変身したとき一番近い人をマッドメイトにする処理
+            {
+                var sidekickable = shapeshifter.GetRoleClass() as ISidekickable;
+                var targetRole = sidekickable?.SidekickTargetRole ?? CustomRoles.SKMadmate;
+
                 Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new();
                 float dis;
                 foreach (var p in Main.AllAlivePlayerControls)
                 {
-                    if (p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(CustomRoleTypes.Impostor) && !p.Is(CustomRoles.SKMadmate))
+                    if (p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(CustomRoleTypes.Impostor) && !p.Is(targetRole))
                     {
                         dis = Vector2.Distance(shapeshifterPosition, p.transform.position);
                         mpdistance.Add(p, dis);
@@ -313,7 +270,7 @@ namespace TownOfHost
                 {
                     var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                     PlayerControl targetm = min.Key;
-                    targetm.RpcSetCustomRole(CustomRoles.SKMadmate);
+                    targetm.RpcSetCustomRole(targetRole);
                     Logger.Info($"Make SKMadmate:{targetm.name}", "Shapeshift");
                     Main.SKMadmateNowCount++;
                     Utils.MarkEveryoneDirtySettings();
@@ -439,24 +396,6 @@ namespace TownOfHost
                 DoubleTrigger.OnFixedUpdate(player);
                 Vampire.OnFixedUpdate(player);
 
-                if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
-                {
-                    if (player.IsAlive())
-                    {
-                        if (Main.WarlockTimer[player.PlayerId] >= 1f)
-                        {
-                            player.RpcResetAbilityCooldown();
-                            Main.isCursed = false;//変身クールを１秒に変更
-                            player.SyncSettings();
-                            Main.WarlockTimer.Remove(player.PlayerId);
-                        }
-                        else Main.WarlockTimer[player.PlayerId] = Main.WarlockTimer[player.PlayerId] + Time.fixedDeltaTime;//時間をカウント
-                    }
-                    else
-                    {
-                        Main.WarlockTimer.Remove(player.PlayerId);
-                    }
-                }
                 //ターゲットのリセット
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
                 {
@@ -628,12 +567,6 @@ namespace TownOfHost
                     //seerに関わらず発動するMark
                     Mark.Append(CustomRoleManager.GetMarkOthers(seer, target, false));
 
-                    if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
-                    {
-                        if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool()) //targetがタスクを終わらせたマッドスニッチ
-                            Mark.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★")); //targetにマーク付与
-                    }
-
                     if (seer.Is(CustomRoles.Arsonist))
                     {
                         if (seer.IsDousedPlayer(target))
@@ -729,9 +662,9 @@ namespace TownOfHost
                         //生きていて死ぬ予定もない場合は心中
                         if (partnerPlayer.PlayerId != deathId && !partnerPlayer.Data.IsDead)
                         {
-                            Main.PlayerStates[partnerPlayer.PlayerId].deathReason = PlayerState.DeathReason.FollowingSuicide;
+                            Main.PlayerStates[partnerPlayer.PlayerId].DeathReason = CustomDeathReason.FollowingSuicide;
                             if (isExiled)
-                                CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.FollowingSuicide, partnerPlayer.PlayerId);
+                                CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.FollowingSuicide, partnerPlayer.PlayerId);
                             else
                                 partnerPlayer.RpcMurderPlayer(partnerPlayer);
                         }
@@ -792,7 +725,7 @@ namespace TownOfHost
                             //生存者は焼殺
                             pc.SetRealKiller(user);
                             pc.RpcMurderPlayer(pc);
-                            Main.PlayerStates[pc.PlayerId].deathReason = PlayerState.DeathReason.Torched;
+                            Main.PlayerStates[pc.PlayerId].DeathReason = CustomDeathReason.Torched;
                             Main.PlayerStates[pc.PlayerId].SetDead();
                         }
                         else
@@ -852,13 +785,6 @@ namespace TownOfHost
             {
                 ret = Workhorse.OnCompleteTask(pc);
                 var isTaskFinish = taskState.IsTaskFinished;
-                if (isTaskFinish && pc.Is(CustomRoles.MadSnitch))
-                {
-                    foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
-                    {
-                        NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
-                    }
-                }
             }
             Utils.NotifyRoles();
             return ret;

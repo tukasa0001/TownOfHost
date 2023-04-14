@@ -9,6 +9,7 @@ using UnityEngine;
 
 using TownOfHost.Modules;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Impostor;
@@ -386,7 +387,6 @@ namespace TownOfHost
 
             return pc.GetCustomRole() switch
             {
-                CustomRoles.Mafia => Utils.CanMafiaKill(),
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.Arsonist => !pc.IsDouseDone(),
                 CustomRoles.Egoist or CustomRoles.Jackal => true,
@@ -448,10 +448,22 @@ namespace TownOfHost
         }
         public static bool CanMakeMadmate(this PlayerControl player)
         {
-            return Options.CanMakeMadmateCount.GetInt() > Main.SKMadmateNowCount
-                    && player != null
-                    && player.Data.Role.Role == RoleTypes.Shapeshifter
-                    && player.GetCustomRole().CanMakeMadmate();
+            if (
+                Options.CanMakeMadmateCount.GetInt() <= Main.SKMadmateNowCount ||
+                player == null ||
+                player.Data.Role.Role != RoleTypes.Shapeshifter)
+            {
+                return false;
+            }
+
+            var isSidekickableCustomRole = player.GetRoleClass() is ISidekickable sidekickable && sidekickable.CanMakeSidekick();
+            if (player.Is(CustomRoles.Shapeshifter) || isSidekickableCustomRole)
+            {
+                return true;
+            }
+
+            // ISideKickable対応前の役職はこちら
+            return player.GetCustomRole().CanMakeMadmate();
         }
         public static void RpcExileV2(this PlayerControl player)
         {
@@ -516,6 +528,7 @@ namespace TownOfHost
             && target.Data.IsDead;
         public static string GetRoleInfo(this PlayerControl player, bool InfoLong = false)
         {
+            var roleClass = player.GetRoleClass();
             var role = player.GetCustomRole();
             if (role is CustomRoles.Crewmate or CustomRoles.Impostor)
                 InfoLong = false;
@@ -527,7 +540,9 @@ namespace TownOfHost
                 switch (role)
                 {
                     case CustomRoles.Mafia:
-                        Prefix = Utils.CanMafiaKill() ? "After" : "Before";
+                        if (roleClass is not Mafia mafia) break;
+
+                        Prefix = mafia.CanUseKillButton() ? "After" : "Before";
                         break;
                     case CustomRoles.EvilWatcher:
                     case CustomRoles.NiceWatcher:

@@ -78,12 +78,9 @@ namespace TownOfHost
         public static OptionItem EnableGM;
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
         public static OptionItem VampireKillDelay;
-        public static OptionItem ShapeMasterShapeshiftDuration;
         public static OptionItem DefaultShapeshiftCooldown;
         public static OptionItem CanMakeMadmateCount;
         public static OptionItem MadGuardianCanSeeWhoTriedToKill;
-        public static OptionItem MadSnitchCanVent;
-        public static OptionItem MadSnitchCanAlsoBeExposedToImpostor;
         public static OptionItem MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static OptionItem MadmateCanFixComms;
         public static OptionItem MadmateHasImpostorVision;
@@ -211,7 +208,6 @@ namespace TownOfHost
         public static OverrideTasksData MadGuardianTasks;
         public static OverrideTasksData TerroristTasks;
         public static OverrideTasksData SnitchTasks;
-        public static OverrideTasksData MadSnitchTasks;
 
         // その他
         public static OptionItem FixFirstKillCooldown;
@@ -304,12 +300,8 @@ namespace TownOfHost
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
                 info.OptionCreator?.Invoke();
             });
-            SetupRoleOptions(1200, TabGroup.ImpostorRoles, CustomRoles.ShapeMaster);
-            ShapeMasterShapeshiftDuration = FloatOptionItem.Create(1210, "ShapeMasterShapeshiftDuration", new(1, 1000, 1), 10, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             Vampire.SetupCustomOption();
-            SetupRoleOptions(1400, TabGroup.ImpostorRoles, CustomRoles.Warlock);
             Witch.SetupCustomOption();
-            SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
             SetupRoleOptions(2000, TabGroup.ImpostorRoles, CustomRoles.Puppeteer);
             EvilTracker.SetupCustomOption();
 
@@ -320,16 +312,15 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Times);
 
             // Madmate
-            SetupRoleOptions(10000, TabGroup.ImpostorRoles, CustomRoles.Madmate);
+            sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Madmate).Do(info =>
+            {
+                SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
+                info.OptionCreator?.Invoke();
+            });
             SetupRoleOptions(10100, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
             MadGuardianCanSeeWhoTriedToKill = BooleanOptionItem.Create(10110, "MadGuardianCanSeeWhoTriedToKill", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadGuardian]);
             //ID10120~10123を使用
             MadGuardianTasks = OverrideTasksData.Create(10120, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
-            SetupRoleOptions(10200, TabGroup.ImpostorRoles, CustomRoles.MadSnitch);
-            MadSnitchCanVent = BooleanOptionItem.Create(10210, "CanVent", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadSnitch]);
-            MadSnitchCanAlsoBeExposedToImpostor = BooleanOptionItem.Create(10211, "MadSnitchCanAlsoBeExposedToImpostor", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadSnitch]);
-            //ID10220~10223を使用
-            MadSnitchTasks = OverrideTasksData.Create(10220, TabGroup.ImpostorRoles, CustomRoles.MadSnitch);
             // Madmate Common Options
             MadmateCanFixLightsOut = BooleanOptionItem.Create(15010, "MadmateCanFixLightsOut", false, TabGroup.ImpostorRoles, false)
                 .SetHeader(true);
@@ -354,7 +345,6 @@ namespace TownOfHost
                 info.OptionCreator?.Invoke();
             });
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
-            SetupRoleOptions(21000, TabGroup.CrewmateRoles, CustomRoles.Seer);
             TimeManager.SetupCustomOption();
 
             // Neutral

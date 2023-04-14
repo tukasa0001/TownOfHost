@@ -178,9 +178,9 @@ namespace TownOfHost.Roles.Impostor
             //キル処理終了させる
             return false;
         }
-        public static void OnCheckForEndVoting(PlayerState.DeathReason deathReason, params byte[] exileIds)
+        public static void OnCheckForEndVoting(CustomDeathReason deathReason, params byte[] exileIds)
         {
-            if (!IsEnable || deathReason != PlayerState.DeathReason.Vote) return;
+            if (!IsEnable || deathReason != CustomDeathReason.Vote) return;
             foreach (var id in exileIds)
             {
                 if (SpelledPlayer.ContainsKey(id))
@@ -199,7 +199,7 @@ namespace TownOfHost.Roles.Impostor
                     spelledIdList.Add(pc.PlayerId);
                 }
             }
-            CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Spell, spelledIdList.ToArray());
+            CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.Spell, spelledIdList.ToArray());
             RemoveSpelledPlayer();
         }
         public static string GetSpelledMark(byte target, bool isMeeting)

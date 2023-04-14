@@ -136,10 +136,10 @@ public static class CustomRoleManager
         FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
 
         //以降共通処理
-        if (Main.PlayerStates[attemptTarget.PlayerId].deathReason == PlayerState.DeathReason.etc)
+        if (Main.PlayerStates[attemptTarget.PlayerId].DeathReason == CustomDeathReason.etc)
         {
             //死因が設定されていない場合は死亡判定
-            Main.PlayerStates[attemptTarget.PlayerId].deathReason = PlayerState.DeathReason.Kill;
+            Main.PlayerStates[attemptTarget.PlayerId].DeathReason = CustomDeathReason.Kill;
         }
 
         Main.PlayerStates[attemptTarget.PlayerId].SetDead();
@@ -254,10 +254,6 @@ public static class CustomRoleManager
         {
             case CustomRoles.Witch:
                 Witch.Add(pc.PlayerId);
-                break;
-            case CustomRoles.Warlock:
-                Main.CursedPlayers.Add(pc.PlayerId, null);
-                Main.isCurseAndKill.Add(pc.PlayerId, false);
                 break;
             case CustomRoles.Vampire:
                 Vampire.Add(pc.PlayerId);

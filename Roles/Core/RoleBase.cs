@@ -25,10 +25,15 @@ public abstract class RoleBase : IDisposable
     /// キル動作 == キルの役職か
     /// </summary>
     public bool IsKiller;
+    /// <summary>
+    /// どの陣営にカウントされるか
+    /// </summary>
+    public CountTypes CountType;
     public RoleBase(
         SimpleRoleInfo roleInfo,
         PlayerControl player,
         HasTask? hasTasks = null,
+        CountTypes? countType = null,
         bool? canKill = null
     )
     {
@@ -36,6 +41,8 @@ public abstract class RoleBase : IDisposable
         HasTasks = hasTasks ?? (roleInfo.CustomRoleType == CustomRoleTypes.Crewmate ? HasTask.True : HasTask.False);
         CanKill = canKill ?? roleInfo.BaseRoleType.Invoke() is RoleTypes.Impostor or RoleTypes.Shapeshifter;
         IsKiller = CanKill;
+
+        CountType = countType ?? (roleInfo.RoleName.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew);
 
         CustomRoleManager.AllActiveRoles.Add(this);
     }
@@ -102,7 +109,7 @@ public abstract class RoleBase : IDisposable
     /// <summary>
     /// キルクールダウンを設定する関数
     /// </summary>
-    public virtual float SetKillCooldown() => 30f;
+    public virtual float SetKillCooldown() => Options.DefaultKillCooldown;
     /// <summary>
     /// BuildGameOptionsで呼ばれる関数
     /// </summary>
