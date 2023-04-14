@@ -25,13 +25,13 @@ public sealed class Mafia : RoleBase
     {
         if (Main.PlayerStates == null) return false;
         //マフィアを除いた生きているインポスターの人数  Number of Living Impostors excluding mafia
-        int LivingImpostorsNum = 0;
+        int livingImpostorsNum = 0;
         foreach (var pc in Main.AllAlivePlayerControls)
         {
             var role = pc.GetCustomRole();
-            if (role != CustomRoles.Mafia && role.IsImpostor()) LivingImpostorsNum++;
+            if (role != CustomRoles.Mafia && role.IsImpostor()) livingImpostorsNum++;
         }
 
-        return LivingImpostorsNum <= 0;
+        return livingImpostorsNum <= 0;
     }
 }
