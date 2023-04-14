@@ -19,11 +19,9 @@ namespace TownOfHost
                 CustomRoles.BountyHunter or
                 CustomRoles.Vampire or
                 CustomRoles.Witch or
-                CustomRoles.ShapeMaster or
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or
                 CustomRoles.EvilWatcher or
-                CustomRoles.Mafia or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
                 CustomRoles.EvilTracker;
@@ -36,7 +34,6 @@ namespace TownOfHost
             return
                 role is
                 CustomRoles.SKMadmate or
-                CustomRoles.MadSnitch or
                 CustomRoles.MSchrodingerCat;
         }
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
@@ -159,12 +156,9 @@ namespace TownOfHost
                 CustomRoles.GuardianAngel or
                 CustomRoles.GM => RoleTypes.GuardianAngel,
 
-                CustomRoles.MadSnitch => Options.MadSnitchCanVent.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
-
                 CustomRoles.Shapeshifter or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
-                CustomRoles.ShapeMaster or
                 CustomRoles.Egoist => RoleTypes.Shapeshifter,
 
                 CustomRoles.EvilTracker => EvilTracker.RoleTypes,

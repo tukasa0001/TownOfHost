@@ -538,12 +538,6 @@ namespace TownOfHost
                     //seerに関わらず発動するMark
                     Mark.Append(CustomRoleManager.GetMarkOthers(seer, target, false));
 
-                    if (seer.GetCustomRole().IsImpostor()) //seerがインポスター
-                    {
-                        if (target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool()) //targetがタスクを終わらせたマッドスニッチ
-                            Mark.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★")); //targetにマーク付与
-                    }
-
                     if (seer.Is(CustomRoles.Arsonist))
                     {
                         if (seer.IsDousedPlayer(target))
@@ -762,13 +756,6 @@ namespace TownOfHost
             {
                 ret = Workhorse.OnCompleteTask(pc);
                 var isTaskFinish = taskState.IsTaskFinished;
-                if (isTaskFinish && pc.Is(CustomRoles.MadSnitch))
-                {
-                    foreach (var impostor in Main.AllAlivePlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
-                    {
-                        NameColorManager.Add(pc.PlayerId, impostor.PlayerId);
-                    }
-                }
                 if (isTaskFinish && pc.GetCustomRole() is CustomRoles.Lighter)
                 {
                     Utils.MarkEveryoneDirtySettings();
