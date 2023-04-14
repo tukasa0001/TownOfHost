@@ -18,16 +18,6 @@ namespace TownOfHost
             //ここより上、全員が実行する
             if (!AmongUsClient.Instance.AmHost) return;
             //ここより下、ホストのみが実行する
-            if (Main.IsFixedCooldown && Main.RefixCooldownDelay >= 0)
-            {
-                Main.RefixCooldownDelay -= Time.fixedDeltaTime;
-            }
-            else if (!float.IsNaN(Main.RefixCooldownDelay))
-            {
-                Utils.MarkEveryoneDirtySettings();
-                Main.RefixCooldownDelay = float.NaN;
-                Logger.Info("Refix Cooldown", "CoolDown");
-            }
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Main.introDestroyed)
             {
                 if (Options.HideAndSeekKillDelayTimer > 0)

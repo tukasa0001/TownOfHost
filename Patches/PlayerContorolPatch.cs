@@ -136,13 +136,6 @@ namespace TownOfHost
                 //自殺でない場合のみ役職チェック
                 switch (killer.GetCustomRole())
                 {
-                    //==========インポスター役職==========//
-                    case CustomRoles.Vampire:
-                        info.DoKill = Vampire.OnCheckMurder(info);
-                        break;
-
-                    //==========マッドメイト系役職==========//
-
                     //==========ニュートラル役職==========//
                     case CustomRoles.Arsonist:
                         Logger.Info("Arsonist start douse", "OnCheckMurderAsKiller");
@@ -334,8 +327,6 @@ namespace TownOfHost
                 role.OnReportDeadBody(__instance, target);
             }
 
-            Vampire.OnStartMeeting();
-
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
                 .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
@@ -384,7 +375,6 @@ namespace TownOfHost
                 }
 
                 DoubleTrigger.OnFixedUpdate(player);
-                Vampire.OnFixedUpdate(player);
 
                 //ターゲットのリセット
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
@@ -730,10 +720,6 @@ namespace TownOfHost
             {
                 ret = Workhorse.OnCompleteTask(pc);
                 var isTaskFinish = taskState.IsTaskFinished;
-                if (isTaskFinish && pc.GetCustomRole() is CustomRoles.Lighter)
-                {
-                    Utils.MarkEveryoneDirtySettings();
-                }
             }
             Utils.NotifyRoles();
             return ret;

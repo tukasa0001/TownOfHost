@@ -101,7 +101,6 @@ namespace TownOfHost
             if (__instance.AmHost)
             {
                 RPC.SyncCustomSettingsRPC();
-                Main.RefixCooldownDelay = 0;
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
                     Options.HideAndSeekKillDelayTimer = Options.KillDelay.GetFloat();
@@ -117,7 +116,6 @@ namespace TownOfHost
             Executioner.Init();
             Jackal.Init();
             EvilTracker.Init();
-            Vampire.Init();
             TimeManager.Init();
             LastImpostor.Init();
             TargetArrow.Init();

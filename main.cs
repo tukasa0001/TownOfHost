@@ -85,8 +85,6 @@ namespace TownOfHost
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, CustomDeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
-        public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
-        public static float RefixCooldownDelay = 0f;
         public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
         public static List<int> clientIdList;
@@ -194,7 +192,6 @@ namespace TownOfHost
                     {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
                     {CustomRoles.SabotageMaster, "#0000ff"},
                     {CustomRoles.Snitch, "#b8fb4f"},
-                    {CustomRoles.Lighter, "#eee5be"},
                     {CustomRoles.Dictator, "#df9b00"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     {CustomRoles.TimeManager, "#6495ed"},
