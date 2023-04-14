@@ -310,7 +310,6 @@ namespace TownOfHost
             ShapeMasterShapeshiftDuration = FloatOptionItem.Create(1210, "ShapeMasterShapeshiftDuration", new(1, 1000, 1), 10, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             Vampire.SetupCustomOption();
             Witch.SetupCustomOption();
-            SetupRoleOptions(1600, TabGroup.ImpostorRoles, CustomRoles.Mafia);
             EvilTracker.SetupCustomOption();
 
             DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)

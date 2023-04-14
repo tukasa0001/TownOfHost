@@ -22,7 +22,6 @@ namespace TownOfHost
                 CustomRoles.ShapeMaster or
                 CustomRoles.Mare or
                 CustomRoles.EvilWatcher or
-                CustomRoles.Mafia or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
                 CustomRoles.EvilTracker;
@@ -172,16 +171,6 @@ namespace TownOfHost
                 _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate,
             };
         }
-        public static CountTypes GetCountTypes(this CustomRoles role)
-            => role switch
-            {
-                CustomRoles.GM => CountTypes.OutOfGame,
-                CustomRoles.Egoist => CountTypes.Impostor,
-                CustomRoles.Jackal => CountTypes.Jackal,
-                CustomRoles.HASFox or
-                CustomRoles.HASTroll => CountTypes.None,
-                _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,
-            };
     }
     public enum CountTypes
     {
