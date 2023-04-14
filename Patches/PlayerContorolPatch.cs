@@ -137,9 +137,6 @@ namespace TownOfHost
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
-                    case CustomRoles.Vampire:
-                        info.DoKill = Vampire.OnCheckMurder(info);
-                        break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
                         killer.SetKillCooldown();
@@ -341,8 +338,6 @@ namespace TownOfHost
                 role.OnReportDeadBody(__instance, target);
             }
 
-            Vampire.OnStartMeeting();
-
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
                 .Do(pc => Camouflage.RpcSetSkin(pc, RevertToDefault: true));
@@ -391,7 +386,6 @@ namespace TownOfHost
                 }
 
                 DoubleTrigger.OnFixedUpdate(player);
-                Vampire.OnFixedUpdate(player);
 
                 //ターゲットのリセット
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
