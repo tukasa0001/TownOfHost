@@ -64,7 +64,6 @@ namespace TownOfHost
                 {
                     CustomRoles.GM => CountTypes.OutOfGame,
                     CustomRoles.Egoist => CountTypes.Impostor,
-                    CustomRoles.Jackal => CountTypes.Jackal,
                     CustomRoles.HASFox or
                     CustomRoles.HASTroll => CountTypes.None,
                     _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,

@@ -22,7 +22,9 @@ namespace TownOfHost.Roles.Neutral
         public Jackal(PlayerControl player)
         : base(
             RoleInfo,
-            player
+            player,
+            HasTask.False,
+            CountTypes.Jackal
         )
         {
             KillCooldown = OptionKillCooldown.GetFloat();
