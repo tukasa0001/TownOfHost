@@ -83,7 +83,7 @@ namespace TownOfHost
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, Color32> PlayerColors = new();
-        public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
+        public static Dictionary<byte, CustomDeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
@@ -101,19 +101,14 @@ namespace TownOfHost
         /// </summary>
         public static Dictionary<byte, float> AllPlayerSpeed = new();
         public const float MinSpeed = 0.0001f;
-        public static Dictionary<byte, float> WarlockTimer = new();
-        public static Dictionary<byte, PlayerControl> CursedPlayers = new();
-        public static Dictionary<byte, bool> isCurseAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
         /// <summary>
         /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
         /// </summary>
         public static Dictionary<byte, byte> PuppeteerList = new();
-        public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
-        public static bool isCursed;
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<byte, byte> ShapeshiftTarget = new();
         public static bool VisibleTasksCount;
@@ -156,8 +151,6 @@ namespace TownOfHost
             // 認証関連-認証
             DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
 
-            WarlockTimer = new Dictionary<byte, float>();
-            CursedPlayers = new Dictionary<byte, PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new();
@@ -206,12 +199,8 @@ namespace TownOfHost
                     {CustomRoles.SabotageMaster, "#0000ff"},
                     {CustomRoles.Snitch, "#b8fb4f"},
                     {CustomRoles.Lighter, "#eee5be"},
-                    {CustomRoles.SpeedBooster, "#00ffff"},
-                    {CustomRoles.Doctor, "#80ffdd"},
-                    {CustomRoles.Trapper, "#5a8fd0"},
                     {CustomRoles.Dictator, "#df9b00"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
-                    {CustomRoles.Seer, "#61b26c"},
                     {CustomRoles.TimeManager, "#6495ed"},
                     //ニュートラル役職
                     {CustomRoles.Arsonist, "#ff6633"},
@@ -279,6 +268,24 @@ namespace TownOfHost
 
             Harmony.PatchAll();
         }
+    }
+    public enum CustomDeathReason
+    {
+        Kill,
+        Vote,
+        Suicide,
+        Spell,
+        FollowingSuicide,
+        Bite,
+        Bombed,
+        Misfire,
+        Torched,
+        Sniped,
+        Revenge,
+        Execution,
+        Disconnected,
+        Fall,
+        etc = -1
     }
     //WinData
     public enum CustomWinner

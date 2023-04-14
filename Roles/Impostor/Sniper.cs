@@ -31,9 +31,12 @@ public sealed class Sniper : RoleBase
         AimAssist = SniperAimAssist.GetBool();
         AimAssistOneshot = SniperAimAssistOnshot.GetBool();
 
-        Snipers.Clear();
-
         CustomRoleManager.MarkOthers.Add(GetMarkOthers);
+    }
+
+    public override void OnDestroy()
+    {
+        Snipers.Clear();
     }
     static OptionItem SniperBulletCount;
     static OptionItem SniperPrecisionShooting;
@@ -123,7 +126,7 @@ public sealed class Sniper : RoleBase
         //ターゲットが自殺扱いなら狙撃
         if (!Is(info.AppearanceKiller) && info.IsFakeSuicide)
         {
-            Main.PlayerStates[info.AttemptTarget.PlayerId].deathReason = PlayerState.DeathReason.Sniped;
+            Main.PlayerStates[info.AttemptTarget.PlayerId].DeathReason = CustomDeathReason.Sniped;
         }
     }
 
@@ -259,7 +262,7 @@ public sealed class Sniper : RoleBase
                 );
         }
     }
-    public override void OnFixedUpdate()
+    public override void OnFixedUpdate(PlayerControl player)
     {
         if (!Player.IsAlive()) return;
 

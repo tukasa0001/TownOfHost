@@ -31,7 +31,6 @@ namespace TownOfHost
         SetLoversPlayers,
         SetExecutionerTarget,
         RemoveExecutionerTarget,
-        SendFireWorksState,
         SetCurrentDousingTarget,
         SetEvilTrackerTarget,
         SetRealKiller,
@@ -164,9 +163,6 @@ namespace TownOfHost
                 case CustomRPC.RemoveExecutionerTarget:
                     Executioner.ReceiveRPC(reader, SetTarget: false);
                     break;
-                case CustomRPC.SendFireWorksState:
-                    FireWorks.ReceiveRPC(reader);
-                    break;
                 case CustomRPC.SetCurrentDousingTarget:
                     byte arsonistId = reader.ReadByte();
                     byte dousingTargetId = reader.ReadByte();
@@ -226,7 +222,7 @@ namespace TownOfHost
             writer.EndMessage();
             Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})", Main.ForkId);
         }
-        public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
+        public static void SendDeathReason(byte playerId, CustomDeathReason deathReason)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDeathReason, Hazel.SendOption.Reliable, -1);
             writer.Write(playerId);
@@ -236,8 +232,8 @@ namespace TownOfHost
         public static void GetDeathReason(MessageReader reader)
         {
             var playerId = reader.ReadByte();
-            var deathReason = (PlayerState.DeathReason)reader.ReadInt32();
-            Main.PlayerStates[playerId].deathReason = deathReason;
+            var deathReason = (CustomDeathReason)reader.ReadInt32();
+            Main.PlayerStates[playerId].DeathReason = deathReason;
             Main.PlayerStates[playerId].IsDead = true;
         }
 

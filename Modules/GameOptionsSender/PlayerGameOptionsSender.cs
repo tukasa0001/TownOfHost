@@ -103,17 +103,6 @@ namespace TownOfHost.Modules
                     AURoleOptions.EngineerCooldown = 0;
                     AURoleOptions.EngineerInVentMaxTime = 0;
                     break;
-                case CustomRoles.ShapeMaster:
-                    AURoleOptions.ShapeshifterCooldown = 0f;
-                    AURoleOptions.ShapeshifterLeaveSkin = false;
-                    AURoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
-                    break;
-                case CustomRoles.Warlock:
-                    AURoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
-                    break;
-                case CustomRoles.SerialKiller:
-                    SerialKiller.ApplyGameOptions(player);
-                    break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
                     opt.SetBool(BoolOptionNames.AnonymousVotes, false);
@@ -138,10 +127,6 @@ namespace TownOfHost.Modules
                     break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(true);
-                    break;
-                case CustomRoles.Doctor:
-                    AURoleOptions.ScientistCooldown = 0f;
-                    AURoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
                     break;
                 case CustomRoles.EvilTracker:
                     EvilTracker.ApplyGameOptions(player.PlayerId);

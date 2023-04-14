@@ -1,6 +1,8 @@
 using System;
 using AmongUs.GameOptions;
 
+using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Crewmate;
 
@@ -45,11 +47,28 @@ namespace TownOfHost.Modules
             int MeetingTimeMin = 0;
             int MeetingTimeMax = 300;
 
-            if (TimeThief.IsEnable)
+            foreach (var role in CustomRoleManager.AllActiveRoles)
             {
-                MeetingTimeMin = TimeThief.LowerLimitVotingTime.GetInt();
-                BonusMeetingTime += TimeThief.TotalDecreasedMeetingTime();
+                if (role is IMeetingTimeAlterable meetingTimeAlterable)
+                {
+                    if (role is TimeThief)
+                    {
+                        // Hyz-sui: 会議時間をいじる役職が増えたら上限&下限設定の置き場所要検討
+                        MeetingTimeMin = TimeThief.LowerLimitVotingTime;
+                    }
+
+                    if (!role.Player.IsAlive() && meetingTimeAlterable.RevertOnDie)
+                    {
+                        continue;
+                    }
+
+                    var time = meetingTimeAlterable.CalculateMeetingTimeDelta();
+                    Logger.Info($"会議時間-{role.Player.GetNameWithRole()}: {time} s", "MeetingTimeManager.OnReportDeadBody");
+                    BonusMeetingTime += time;
+                }
             }
+
+            // IMeetingTimeAlterable未対応役職はこちら
             if (TimeManager.IsEnable)
             {
                 MeetingTimeMax = TimeManager.MeetingTimeLimit.GetInt();

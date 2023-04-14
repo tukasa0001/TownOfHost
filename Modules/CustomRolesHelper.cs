@@ -19,14 +19,9 @@ namespace TownOfHost
                 CustomRoles.BountyHunter or
                 CustomRoles.Vampire or
                 CustomRoles.Witch or
-                CustomRoles.ShapeMaster or
-                CustomRoles.Warlock or
-                CustomRoles.SerialKiller or
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or
                 CustomRoles.EvilWatcher or
-                CustomRoles.TimeThief or
-                CustomRoles.Mafia or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
                 CustomRoles.EvilTracker;
@@ -37,10 +32,9 @@ namespace TownOfHost
             if (roleInfo != null)
                 return roleInfo.CustomRoleType == CustomRoleTypes.Madmate;
             return
-                role is CustomRoles.Madmate or
+                role is
                 CustomRoles.SKMadmate or
                 CustomRoles.MadGuardian or
-                CustomRoles.MadSnitch or
                 CustomRoles.MSchrodingerCat;
         }
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
@@ -140,7 +134,6 @@ namespace TownOfHost
         public static bool CanMakeMadmate(this CustomRoles role)
             => role switch
             {
-                CustomRoles.Shapeshifter => true,
                 CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate,
                 CustomRoles.Egoist => Egoist.CanCreateMadmate,
                 _ => false,
@@ -154,24 +147,17 @@ namespace TownOfHost
             {
                 CustomRoles.Arsonist => RoleTypes.Impostor,
 
-                CustomRoles.Scientist or
-                CustomRoles.Doctor => RoleTypes.Scientist,
+                CustomRoles.Scientist => RoleTypes.Scientist,
 
                 CustomRoles.Engineer or
-                CustomRoles.Madmate or
                 CustomRoles.Terrorist => RoleTypes.Engineer,
 
                 CustomRoles.GuardianAngel or
                 CustomRoles.GM => RoleTypes.GuardianAngel,
 
-                CustomRoles.MadSnitch => Options.MadSnitchCanVent.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
-
                 CustomRoles.Shapeshifter or
-                CustomRoles.SerialKiller or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
-                CustomRoles.ShapeMaster or
-                CustomRoles.Warlock or
                 CustomRoles.Egoist => RoleTypes.Shapeshifter,
 
                 CustomRoles.EvilTracker => EvilTracker.RoleTypes,
@@ -179,16 +165,6 @@ namespace TownOfHost
                 _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate,
             };
         }
-        public static CountTypes GetCountTypes(this CustomRoles role)
-            => role switch
-            {
-                CustomRoles.GM => CountTypes.OutOfGame,
-                CustomRoles.Egoist => CountTypes.Impostor,
-                CustomRoles.Jackal => CountTypes.Jackal,
-                CustomRoles.HASFox or
-                CustomRoles.HASTroll => CountTypes.None,
-                _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,
-            };
     }
     public enum CountTypes
     {

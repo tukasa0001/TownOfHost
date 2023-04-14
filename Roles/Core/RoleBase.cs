@@ -16,7 +16,7 @@ public abstract class RoleBase : IDisposable
     /// タスクは持っているか。
     /// 初期値はクルー役職のみ持つ
     /// </summary>
-    public bool HasTasks;
+    public HasTask HasTasks;
     /// <summary>
     /// キル能力を持っているか
     /// </summary>
@@ -25,17 +25,24 @@ public abstract class RoleBase : IDisposable
     /// キル動作 == キルの役職か
     /// </summary>
     public bool IsKiller;
+    /// <summary>
+    /// どの陣営にカウントされるか
+    /// </summary>
+    public CountTypes CountType;
     public RoleBase(
         SimpleRoleInfo roleInfo,
         PlayerControl player,
-        bool? hasTasks = null,
+        HasTask? hasTasks = null,
+        CountTypes? countType = null,
         bool? canKill = null
     )
     {
         Player = player;
-        HasTasks = hasTasks ?? roleInfo.CustomRoleType == CustomRoleTypes.Crewmate;
+        HasTasks = hasTasks ?? (roleInfo.CustomRoleType == CustomRoleTypes.Crewmate ? HasTask.True : HasTask.False);
         CanKill = canKill ?? roleInfo.BaseRoleType.Invoke() is RoleTypes.Impostor or RoleTypes.Shapeshifter;
         IsKiller = CanKill;
+
+        CountType = countType ?? (roleInfo.RoleName.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew);
 
         CustomRoleManager.AllActiveRoles.Add(this);
     }
@@ -102,7 +109,7 @@ public abstract class RoleBase : IDisposable
     /// <summary>
     /// キルクールダウンを設定する関数
     /// </summary>
-    public virtual float SetKillCooldown() => 30f;
+    public virtual float SetKillCooldown() => Options.DefaultKillCooldown;
     /// <summary>
     /// BuildGameOptionsで呼ばれる関数
     /// </summary>
@@ -157,8 +164,11 @@ public abstract class RoleBase : IDisposable
     /// タスクターンに常時呼ばれる関数
     /// 自分自身について呼ばれるため本人確認不要
     /// Host以外も呼ばれるので注意
+    /// playerが自分以外であるときに処理したい場合は同じ引数でstaticとして実装し
+    /// CustomRoleManager.OnFixedUpdateOthersに登録する
     /// </summary>
-    public virtual void OnFixedUpdate()
+    /// <param name="player">対象プレイヤー</param>
+    public virtual void OnFixedUpdate(PlayerControl player)
     { }
 
     /// <summary>

@@ -61,7 +61,7 @@ namespace TownOfHost
                     exiled.Object?.ResetPlayerCam(1f);
 
                 exiled.IsDead = true;
-                Main.PlayerStates[exiled.PlayerId].deathReason = PlayerState.DeathReason.Vote;
+                Main.PlayerStates[exiled.PlayerId].DeathReason = CustomDeathReason.Vote;
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jester);
@@ -97,11 +97,6 @@ namespace TownOfHost
             foreach (var pc in Main.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
-                if (pc.Is(CustomRoles.Warlock))
-                {
-                    Main.CursedPlayers[pc.PlayerId] = null;
-                    Main.isCurseAndKill[pc.PlayerId] = false;
-                }
             }
             if (Options.RandomSpawn.GetBool())
             {
@@ -152,10 +147,10 @@ namespace TownOfHost
                         var player = Utils.GetPlayerById(x.Key);
                         var requireResetCam = player?.GetCustomRole().GetRoleInfo()?.RequireResetCam;
                         Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
-                        Main.PlayerStates[x.Key].deathReason = x.Value;
+                        Main.PlayerStates[x.Key].DeathReason = x.Value;
                         Main.PlayerStates[x.Key].SetDead();
                         player?.RpcExileV2();
-                        if (x.Value == PlayerState.DeathReason.Suicide)
+                        if (x.Value == CustomDeathReason.Suicide)
                             player?.SetRealKiller(player, true);
                         if (Main.ResetCamPlayerList.Contains(x.Key) || (requireResetCam.HasValue && requireResetCam.Value))
                             player?.ResetPlayerCam(1f);

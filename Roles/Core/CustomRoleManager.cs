@@ -126,14 +126,20 @@ public static class CustomRoleManager
         else
             OnMurderPlayerAsTarget(info);
 
+        //その他視点の処理があれば実行
+        foreach (var onMurderPlayer in OnMurderPlayerOthers)
+        {
+            onMurderPlayer(info);
+        }
+
         //サブロール処理ができるまではラバーズをここで処理
         FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
 
         //以降共通処理
-        if (Main.PlayerStates[attemptTarget.PlayerId].deathReason == PlayerState.DeathReason.etc)
+        if (Main.PlayerStates[attemptTarget.PlayerId].DeathReason == CustomDeathReason.etc)
         {
             //死因が設定されていない場合は死亡判定
-            Main.PlayerStates[attemptTarget.PlayerId].deathReason = PlayerState.DeathReason.Kill;
+            Main.PlayerStates[attemptTarget.PlayerId].DeathReason = CustomDeathReason.Kill;
         }
 
         Main.PlayerStates[attemptTarget.PlayerId].SetDead();
@@ -141,11 +147,17 @@ public static class CustomRoleManager
 
         Utils.CountAlivePlayers(true);
 
-        Utils.TargetDies(appearanceKiller, attemptTarget);
+        Utils.TargetDies(info);
 
         Utils.SyncAllSettings();
         Utils.NotifyRoles();
     }
+    /// <summary>
+    /// その他視点からのMurderPlayer処理
+    /// 初期化時にOnMurderPlayerOthers+=で登録
+    /// </summary>
+    public static HashSet<Action<MurderInfo>> OnMurderPlayerOthers = new();
+
     /// <summary>
     /// RoleBase未実装のMurderPlayer処理
     /// </summary>
@@ -160,8 +172,6 @@ public static class CustomRoleManager
             Logger.Info(attemptTarget?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
             Utils.CheckTerroristWin(attemptTarget.Data);
         }
-        else if (attemptTarget.Is(CustomRoles.Trapper) && !suicide)
-            attemptKiller.TrapperKilled(attemptTarget);
         else if (Executioner.Target.ContainsValue(attemptTarget.PlayerId))
             Executioner.ChangeRoleByTarget(attemptTarget);
         else if (attemptTarget.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(attemptTarget.PlayerId))
@@ -170,6 +180,25 @@ public static class CustomRoleManager
             Executioner.SendRPC(attemptTarget.PlayerId);
         }
     }
+    public static void OnFixedUpdate(PlayerControl player)
+    {
+        if (GameStates.IsInTask)
+        {
+            player.GetRoleClass()?.OnFixedUpdate(player);
+            //その他視点処理があれば実行
+            foreach (var onFixedUpdate in OnFixedUpdateOthers)
+            {
+                onFixedUpdate(player);
+            }
+        }
+    }
+    /// <summary>
+    /// タスクターンに常時呼ばれる関数
+    /// 他役職への干渉用
+    /// Host以外も呼ばれるので注意
+    /// 初期化時にOnFixedUpdateOthers+=で登録
+    /// </summary>
+    public static HashSet<Action<PlayerControl>> OnFixedUpdateOthers = new();
 
     public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
     {
@@ -196,6 +225,8 @@ public static class CustomRoleManager
         LowerOthers.Clear();
         SuffixOthers.Clear();
         CheckMurderInfos.Clear();
+        OnMurderPlayerOthers.Clear();
+        OnFixedUpdateOthers.Clear();
     }
     public static void CreateInstance()
     {
@@ -221,21 +252,8 @@ public static class CustomRoleManager
     {
         switch (pc.GetCustomRole())
         {
-            case CustomRoles.SerialKiller:
-                SerialKiller.Add(pc.PlayerId);
-                break;
             case CustomRoles.Witch:
                 Witch.Add(pc.PlayerId);
-                break;
-            case CustomRoles.Warlock:
-                Main.CursedPlayers.Add(pc.PlayerId, null);
-                Main.isCurseAndKill.Add(pc.PlayerId, false);
-                break;
-            case CustomRoles.FireWorks:
-                FireWorks.Add(pc.PlayerId);
-                break;
-            case CustomRoles.TimeThief:
-                TimeThief.Add(pc.PlayerId);
                 break;
             case CustomRoles.Vampire:
                 Vampire.Add(pc.PlayerId);
@@ -340,10 +358,14 @@ public static class CustomRoleManager
     /// </summary>
     public static void Dispose()
     {
+        Logger.Info($"Dispose ActiveRoles", "CustomRoleManager");
         MarkOthers.Clear();
         LowerOthers.Clear();
         SuffixOthers.Clear();
         CheckMurderInfos.Clear();
+        OnMurderPlayerOthers.Clear();
+        OnFixedUpdateOthers.Clear();
+
         AllActiveRoles.Do(roleClass => roleClass.Dispose());
     }
 }
@@ -468,4 +490,10 @@ public enum CustomRoleTypes
     Impostor,
     Neutral,
     Madmate
+}
+public enum HasTask
+{
+    True,
+    False,
+    ForRecompute
 }

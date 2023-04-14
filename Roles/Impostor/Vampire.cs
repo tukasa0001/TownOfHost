@@ -59,6 +59,7 @@ namespace TownOfHost.Roles.Impostor
 
             if (!IsThisRole(killer.PlayerId)) return true;
             if (target.Is(CustomRoles.Bait)) return true;
+            if (info.AttemptTuple != info.AppearanceTuple) return true;
 
             killer.SetKillCooldown();
 
@@ -102,15 +103,16 @@ namespace TownOfHost.Roles.Impostor
         {
             if (target.IsAlive())
             {
-                Main.PlayerStates[target.PlayerId].deathReason = PlayerState.DeathReason.Bite;
+                Main.PlayerStates[target.PlayerId].DeathReason = CustomDeathReason.Bite;
                 target.SetRealKiller(vampire);
-                target.RpcMurderPlayer(target);
+                CustomRoleManager.OnCheckMurder(
+                    vampire, target,
+                    target, target
+                );
                 Logger.Info($"Vampireに噛まれている{target.name}を自爆させました。", "Vampire");
                 if (!isButton && vampire.IsAlive())
                 {
                     RPC.PlaySoundRPC(vampire.PlayerId, Sounds.KillSound);
-                    if (target.Is(CustomRoles.Trapper))
-                        vampire.TrapperKilled(target);
                 }
             }
             else
