@@ -314,7 +314,6 @@ namespace TownOfHost
                         hasTasks = false;
                         break;
                     case CustomRoles.MadGuardian:
-                    case CustomRoles.MadSnitch:
                     case CustomRoles.Terrorist:
                         if (ForRecompute)
                             hasTasks = false;
@@ -875,8 +874,6 @@ namespace TownOfHost
                         //ターゲットのプレイヤー名の色を書き換えます。
                         TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isForMeeting);
 
-                        if (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoles.MadSnitch) && target.GetPlayerTaskState().IsTaskFinished && Options.MadSnitchCanAlsoBeExposedToImpostor.GetBool())
-                            TargetMark.Append(ColorString(GetRoleColor(CustomRoles.MadSnitch), "★"));
                         TargetMark.Append(Executioner.TargetMark(seer, target));
 
                         string TargetDeathReason = "";
