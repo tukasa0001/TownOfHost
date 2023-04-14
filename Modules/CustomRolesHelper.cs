@@ -23,7 +23,6 @@ namespace TownOfHost
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or
                 CustomRoles.EvilWatcher or
-                CustomRoles.Mafia or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
                 CustomRoles.EvilTracker;
