@@ -301,7 +301,6 @@ namespace TownOfHost
                 info.OptionCreator?.Invoke();
             });
             Vampire.SetupCustomOption();
-            Witch.SetupCustomOption();
             SetupRoleOptions(2000, TabGroup.ImpostorRoles, CustomRoles.Puppeteer);
             EvilTracker.SetupCustomOption();
 
