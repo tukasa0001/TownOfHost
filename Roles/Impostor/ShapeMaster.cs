@@ -7,15 +7,15 @@ namespace TownOfHost.Roles.Impostor;
 public sealed class ShapeMaster : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
-    new(
-        typeof(ShapeMaster),
-        player => new ShapeMaster(player),
-        CustomRoles.ShapeMaster,
-        () => RoleTypes.Shapeshifter,
-        CustomRoleTypes.Impostor,
-        1200,
-        SetupOptionItem
-    );
+        new(
+            typeof(ShapeMaster),
+            player => new ShapeMaster(player),
+            CustomRoles.ShapeMaster,
+            () => RoleTypes.Shapeshifter,
+            CustomRoleTypes.Impostor,
+            1200,
+            SetupOptionItem
+        );
     public ShapeMaster(PlayerControl player)
     : base(
         RoleInfo,
