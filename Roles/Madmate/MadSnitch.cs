@@ -69,12 +69,13 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable
     }
     public static string GetMarkOthers(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
     {
+        seen ??= seer;
         if (
             // オプションが無効
             !canAlsoBeExposedToImpostor ||
             // インポスター→MadSnitchではない
             !seer.Is(CustomRoleTypes.Impostor) ||
-            (seen ??= seer).GetRoleClass() is not MadSnitch madSnitch ||
+            seen.GetRoleClass() is not MadSnitch madSnitch ||
             // マッドスニッチがまだインポスターを知らない
             !madSnitch.KnowsImpostor())
         {
