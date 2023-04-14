@@ -114,7 +114,6 @@ namespace TownOfHost
             }
             CustomRoleManager.Initialize();
             FallFromLadder.Reset();
-            Witch.Init();
             Egoist.Init();
             Executioner.Init();
             Jackal.Init();

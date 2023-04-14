@@ -22,11 +22,10 @@ namespace TownOfHost
         PlaySound,
         SetCustomRole,
         SetBountyTarget,
-        SetKillOrSpell,
+        WitchSync,
         SetSheriffShotLimit,
         SetDousedPlayer,
         SetNameColorData,
-        DoSpell,
         SniperSync,
         SetLoversPlayers,
         SetExecutionerTarget,
@@ -136,9 +135,6 @@ namespace TownOfHost
                     CustomRoles role = (CustomRoles)reader.ReadPackedInt32();
                     RPC.SetCustomRole(CustomRoleTargetId, role);
                     break;
-                case CustomRPC.SetKillOrSpell:
-                    Witch.ReceiveRPC(reader, false);
-                    break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
                     byte DousedId = reader.ReadByte();
@@ -147,9 +143,6 @@ namespace TownOfHost
                     break;
                 case CustomRPC.SetNameColorData:
                     NameColorManager.ReceiveRPC(reader);
-                    break;
-                case CustomRPC.DoSpell:
-                    Witch.ReceiveRPC(reader, true);
                     break;
                 case CustomRPC.SetLoversPlayers:
                     Main.LoversPlayers.Clear();
@@ -277,13 +270,6 @@ namespace TownOfHost
 
             HudManager.Instance.SetHudActive(true);
             if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();
-        }
-        public static void RpcDoSpell(byte targetId, byte killerId)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.DoSpell, Hazel.SendOption.Reliable, -1);
-            writer.Write(targetId);
-            writer.Write(killerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void SyncLoversPlayers()
         {
