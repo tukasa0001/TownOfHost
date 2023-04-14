@@ -52,7 +52,6 @@ public sealed class Warlock : RoleBase
             return base.GetKillButtonText();
         }
     }
-    public override float SetKillCooldown() => Options.DefaultKillCooldown;
     public override void ApplyGameOptions(IGameOptions opt)
     {
         AURoleOptions.ShapeshifterCooldown = IsCursed ? 1f : Options.DefaultKillCooldown;
