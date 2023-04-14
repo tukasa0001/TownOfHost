@@ -39,7 +39,6 @@ namespace TownOfHost
                 return roleInfo.CustomRoleType == CustomRoleTypes.Neutral;
             return
                 role is CustomRoles.Jester or
-                CustomRoles.Opportunist or
                 CustomRoles.SchrodingerCat or
                 CustomRoles.Terrorist or
                 CustomRoles.Executioner or
