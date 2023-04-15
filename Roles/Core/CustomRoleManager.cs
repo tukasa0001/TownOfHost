@@ -55,7 +55,7 @@ public static class CustomRoleManager
         var targetRole = attemptTarget.GetRoleClass();
 
         //キラーがキル能力持ちならターゲットのキルチェック処理実行
-        if (killerRole?.IsKiller == true)
+        if (killerRole?.IsKiller == true || !attemptKiller.Is(CustomRoles.Arsonist))
         {
             if (targetRole != null)
             {
