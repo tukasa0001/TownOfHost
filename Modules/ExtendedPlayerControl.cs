@@ -405,14 +405,6 @@ namespace TownOfHost
                 _ => pc.Is(CustomRoleTypes.Impostor),
             };
         }
-        public static void RpcSetDousedPlayer(this PlayerControl player, PlayerControl target, bool isDoused)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
-            writer.Write(player.PlayerId);
-            writer.Write(target.PlayerId);
-            writer.Write(isDoused);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
         public static void ResetKillCooldown(this PlayerControl player)
         {
             Main.AllPlayerKillCooldown[player.PlayerId] = player.GetRoleClass()?.SetKillCooldown() ?? Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
