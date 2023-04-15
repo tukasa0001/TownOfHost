@@ -96,8 +96,6 @@ namespace TownOfHost
                 Main.winnerList.Add(pc.PlayerId);
             }
 
-            Main.isDoused = new Dictionary<(byte, byte), bool>();
-
             Main.VisibleTasksCount = false;
             if (AmongUsClient.Instance.AmHost)
             {
