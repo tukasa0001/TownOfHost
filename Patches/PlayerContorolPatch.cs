@@ -124,26 +124,6 @@ namespace TownOfHost
             }
             return true;
         }
-
-        public static void OnCheckMurderAsKiller(MurderInfo info)
-        {
-            (var killer, var target) = info.AttemptTuple;
-
-            //キル時の特殊判定
-            if (killer.PlayerId != target.PlayerId)
-            {
-                var roleClass = killer.GetRoleClass();
-                //自殺でない場合のみ役職チェック
-                switch (killer.GetCustomRole())
-                {
-                    //==========インポスター役職==========//
-
-                    //==========マッドメイト系役職==========//
-
-                    //==========ニュートラル役職==========//
-                }
-            }
-        }
         public static bool OnCheckMurderAsTarget(MurderInfo info)
         {
             (var killer, var target) = info.AttemptTuple;

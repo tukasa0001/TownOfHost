@@ -73,11 +73,6 @@ public static class CustomRoleManager
         {
             killerRole.OnCheckMurderAsKiller(info);
         }
-        else
-        {
-            //RoleBase化されていないキラー処理
-            CheckMurderPatch.OnCheckMurderAsKiller(info);
-        }
 
         //キル可能だった場合のみMurderPlayerに進む
         if (info.CanKill && info.DoKill)
