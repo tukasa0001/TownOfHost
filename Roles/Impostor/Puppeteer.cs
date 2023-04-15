@@ -26,7 +26,6 @@ public sealed class Puppeteer : RoleBase
     )
     {
         Puppeteers.Add(this);
-        TargetIds = new(GameData.Instance.PlayerCount);
 
         CustomRoleManager.MarkOthers.Add(GetMarkOthers);
         CustomRoleManager.OnFixedUpdateOthers.Add(OnFixedUpdateOthers);
@@ -37,20 +36,23 @@ public sealed class Puppeteer : RoleBase
     }
 
     public static HashSet<Puppeteer> Puppeteers = new(3);
-    public HashSet<byte> TargetIds;
+    /// <summary>
+    /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
+    /// </summary>
+    private static Dictionary<byte, byte> Puppets = new(15);
 
     public override void OnCheckMurderAsKiller(MurderInfo info)
     {
-        var (killer, target) = info.AttemptTuple;
+        var (puppeteer, target) = info.AttemptTuple;
 
-        TargetIds.Add(target.PlayerId);
-        killer.SetKillCooldown();
-        Utils.NotifyRoles(SpecifySeer: killer);
+        Puppets[target.PlayerId] = puppeteer.PlayerId;
+        puppeteer.SetKillCooldown();
+        Utils.NotifyRoles(SpecifySeer: puppeteer);
         info.DoKill = false;
     }
     public override bool OnReportDeadBody(PlayerControl _, GameData.PlayerInfo __)
     {
-        TargetIds.Clear();
+        Puppets.Clear();
 
         return true;
     }
@@ -61,11 +63,11 @@ public sealed class Puppeteer : RoleBase
     }
     private void CheckPuppetKill(PlayerControl puppet)
     {
-        if (!TargetIds.Contains(puppet.PlayerId)) return;
+        if (!Puppets.ContainsKey(puppet.PlayerId)) return;
 
         if (!puppet.IsAlive())
         {
-            TargetIds.Remove(puppet.PlayerId);
+            Puppets.Remove(puppet.PlayerId);
         }
         else
         {
@@ -90,7 +92,7 @@ public sealed class Puppeteer : RoleBase
                 target.SetRealKiller(Player);
                 puppet.RpcMurderPlayer(target);
                 Utils.MarkEveryoneDirtySettings();
-                TargetIds.Remove(puppet.PlayerId);
+                Puppets.Remove(puppet.PlayerId);
                 Utils.NotifyRoles();
             }
         }
@@ -100,8 +102,9 @@ public sealed class Puppeteer : RoleBase
         //seenが省略の場合seer
         seen ??= seer;
 
-        if (seer.GetRoleClass() is not Puppeteer puppeteer) return "";
-        if (puppeteer.TargetIds.Count <= 0 || !puppeteer.TargetIds.Contains(seen.PlayerId)) return "";
+        if (!seer.Is(CustomRoles.Puppeteer)) return "";
+        if (!(Puppets.ContainsValue(seer.PlayerId) &&
+            Puppets.ContainsKey(seen.PlayerId))) return "";
 
         return Utils.ColorString(RoleInfo.RoleColor, "◆");
     }
