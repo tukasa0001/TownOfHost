@@ -55,7 +55,7 @@ public static class CustomRoleManager
         var targetRole = attemptTarget.GetRoleClass();
 
         //キラーがキル能力持ちならターゲットのキルチェック処理実行
-        if (killerRole?.IsKiller == true || attemptKiller.GetCustomRole() is not (CustomRoles.Impostor or CustomRoles.Shapeshifter or CustomRoles.EvilTracker))
+        if (killerRole?.IsKiller == true || attemptKiller.GetCustomRole() is CustomRoles.Impostor or CustomRoles.Shapeshifter or CustomRoles.EvilTracker)
         {
             if (targetRole != null)
             {
