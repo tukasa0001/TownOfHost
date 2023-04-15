@@ -126,6 +126,8 @@ public sealed class Arsonist : RoleBase
     }
     public override void OnFixedUpdate(PlayerControl player)
     {
+        if (!AmongUsClient.Instance.AmHost) return;
+
         if (GameStates.IsInTask && TargetInfo != null)//アーソニストが誰かを塗っているとき
         {
             if (!Player.IsAlive())
