@@ -3,10 +3,11 @@ using System.Linq;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
 
 namespace TownOfHost.Roles.Neutral;
-public sealed class SchrodingerCat : RoleBase
+public sealed class SchrodingerCat : RoleBase, IAdditionalWinner
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -139,14 +140,9 @@ public sealed class SchrodingerCat : RoleBase
         var Role = Rand[rand.Next(Rand.Count)];
         player.RpcSetCustomRole(Role);
     }
-    public static void CheckAdditionalWin(PlayerControl player)
+    public bool CheckWin(out AdditionalWinners winnerType)
     {
-        if (!player || !player.Is(CustomRoles.SchrodingerCat)) return;
-
-        if (CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate && CanWinTheCrewmateBeforeChange)
-        {
-            CustomWinnerHolder.WinnerIds.Add(player.PlayerId);
-            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.SchrodingerCat);
-        }
+        winnerType = AdditionalWinners.SchrodingerCat;
+        return CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate && CanWinTheCrewmateBeforeChange;
     }
 }

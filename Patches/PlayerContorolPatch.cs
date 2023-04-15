@@ -137,12 +137,6 @@ namespace TownOfHost
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
-                    case CustomRoles.Vampire:
-                        info.DoKill = Vampire.OnCheckMurder(info);
-                        break;
-                    case CustomRoles.Witch:
-                        info.DoKill = Witch.OnCheckMurder(info);
-                        break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
                         killer.SetKillCooldown();
@@ -150,20 +144,9 @@ namespace TownOfHost
                         info.DoKill = false;
                         break;
 
-                    //==========マッドメイト系役職==========//
+                        //==========マッドメイト系役職==========//
 
-                    //==========ニュートラル役職==========//
-                    case CustomRoles.Arsonist:
-                        Logger.Info("Arsonist start douse", "OnCheckMurderAsKiller");
-                        killer.SetKillCooldown(Options.ArsonistDouseTime.GetFloat());
-                        if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
-                        {
-                            Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
-                            Utils.NotifyRoles(SpecifySeer: killer);
-                            RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
-                        }
-                        info.DoKill = false;
-                        break;
+                        //==========ニュートラル役職==========//
                 }
             }
         }
@@ -307,15 +290,12 @@ namespace TownOfHost
             //=============================================
 
 
-            Main.ArsonistTimer.Clear();
             Main.PuppeteerList.Clear();
 
             foreach (var role in CustomRoleManager.AllActiveRoles)
             {
                 role.OnReportDeadBody(__instance, target);
             }
-
-            Vampire.OnStartMeeting();
 
             Main.AllPlayerControls
                 .Where(pc => Main.CheckShapeshift.ContainsKey(pc.PlayerId))
@@ -365,7 +345,6 @@ namespace TownOfHost
                 }
 
                 DoubleTrigger.OnFixedUpdate(player);
-                Vampire.OnFixedUpdate(player);
 
                 //ターゲットのリセット
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
@@ -375,51 +354,6 @@ namespace TownOfHost
 
                 if (GameStates.IsInGame) LoversSuicide();
 
-                if (GameStates.IsInTask && Main.ArsonistTimer.ContainsKey(player.PlayerId))//アーソニストが誰かを塗っているとき
-                {
-                    if (!player.IsAlive())
-                    {
-                        Main.ArsonistTimer.Remove(player.PlayerId);
-                        Utils.NotifyRoles(SpecifySeer: __instance);
-                        RPC.ResetCurrentDousingTarget(player.PlayerId);
-                    }
-                    else
-                    {
-                        var ar_target = Main.ArsonistTimer[player.PlayerId].Item1;//塗られる人
-                        var ar_time = Main.ArsonistTimer[player.PlayerId].Item2;//塗った時間
-                        if (!ar_target.IsAlive())
-                        {
-                            Main.ArsonistTimer.Remove(player.PlayerId);
-                        }
-                        else if (ar_time >= Options.ArsonistDouseTime.GetFloat())//時間以上一緒にいて塗れた時
-                        {
-                            player.SetKillCooldown();
-                            Main.ArsonistTimer.Remove(player.PlayerId);//塗が完了したのでDictionaryから削除
-                            Main.isDoused[(player.PlayerId, ar_target.PlayerId)] = true;//塗り完了
-                            player.RpcSetDousedPlayer(ar_target, true);
-                            Utils.NotifyRoles();//名前変更
-                            RPC.ResetCurrentDousingTarget(player.PlayerId);
-                        }
-                        else
-                        {
-                            float dis;
-                            dis = Vector2.Distance(player.transform.position, ar_target.transform.position);//距離を出す
-                            if (dis <= 1.75f)//一定の距離にターゲットがいるならば時間をカウント
-                            {
-                                Main.ArsonistTimer[player.PlayerId] = (ar_target, ar_time + Time.fixedDeltaTime);
-                            }
-                            else//それ以外は削除
-                            {
-                                Main.ArsonistTimer.Remove(player.PlayerId);
-                                Utils.NotifyRoles(SpecifySeer: __instance);
-                                RPC.ResetCurrentDousingTarget(player.PlayerId);
-
-                                Logger.Info($"Canceled: {__instance.GetNameWithRole()}", "Arsonist");
-                            }
-                        }
-
-                    }
-                }
                 if (GameStates.IsInTask && Main.PuppeteerList.ContainsKey(player.PlayerId))
                 {
                     if (!player.IsAlive())
@@ -526,7 +460,7 @@ namespace TownOfHost
                     //自分自身の名前の色を変更
                     if (target.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //targetが自分自身
-                        if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
+                        if (target.Is(CustomRoles.Arsonist) && Arsonist.IsDouseDone(target))
                             RealName = Utils.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
                     }
 
@@ -538,20 +472,6 @@ namespace TownOfHost
                     //seerに関わらず発動するMark
                     Mark.Append(CustomRoleManager.GetMarkOthers(seer, target, false));
 
-                    if (seer.Is(CustomRoles.Arsonist))
-                    {
-                        if (seer.IsDousedPlayer(target))
-                        {
-                            Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>");
-                        }
-                        else if (
-                            Main.currentDousingTarget != 255 &&
-                            Main.currentDousingTarget == target.PlayerId
-                        )
-                        {
-                            Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>");
-                        }
-                    }
                     Mark.Append(Executioner.TargetMark(seer, target));
                     if (seer.Is(CustomRoles.Puppeteer))
                     {
@@ -685,27 +605,6 @@ namespace TownOfHost
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                     __instance.RpcBootFromVent(id);
 
-                Witch.OnEnterVent(user);
-                if (AmongUsClient.Instance.IsGameStarted &&
-                    user.IsDouseDone())
-                {
-                    foreach (var pc in Main.AllAlivePlayerControls)
-                    {
-                        if (pc != user)
-                        {
-                            //生存者は焼殺
-                            pc.SetRealKiller(user);
-                            pc.RpcMurderPlayer(pc);
-                            Main.PlayerStates[pc.PlayerId].DeathReason = CustomDeathReason.Torched;
-                            Main.PlayerStates[pc.PlayerId].SetDead();
-                        }
-                        else
-                            RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
-                    }
-                    CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Arsonist); //焼殺で勝利した人も勝利させる
-                    CustomWinnerHolder.WinnerIds.Add(user.PlayerId);
-                    return true;
-                }
                 if ((!user.GetRoleClass()?.OnEnterVent(__instance, id) ?? false) ||
                     (user.Data.Role.Role != RoleTypes.Engineer && //エンジニアでなく
                 !user.CanUseImpostorVentButton()) //インポスターベントも使えない
@@ -756,10 +655,6 @@ namespace TownOfHost
             {
                 ret = Workhorse.OnCompleteTask(pc);
                 var isTaskFinish = taskState.IsTaskFinished;
-                if (isTaskFinish && pc.GetCustomRole() is CustomRoles.Lighter)
-                {
-                    Utils.MarkEveryoneDirtySettings();
-                }
             }
             Utils.NotifyRoles();
             return ret;

@@ -77,7 +77,6 @@ namespace TownOfHost
         // 各役職の詳細設定
         public static OptionItem EnableGM;
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
-        public static OptionItem VampireKillDelay;
         public static OptionItem DefaultShapeshiftCooldown;
         public static OptionItem CanMakeMadmateCount;
         public static OptionItem MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
@@ -91,11 +90,7 @@ namespace TownOfHost
         public static OptionItem MadmateVentMaxTime;
 
         public static OptionItem EvilWatcherChance;
-        public static OptionItem LighterTaskCompletedVision;
-        public static OptionItem LighterTaskCompletedDisableLightOut;
         public static OptionItem CanTerroristSuicideWin;
-        public static OptionItem ArsonistDouseTime;
-        public static OptionItem ArsonistCooldown;
         public static OptionItem KillFlashDuration;
 
         // HideAndSeek
@@ -300,8 +295,6 @@ namespace TownOfHost
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
                 info.OptionCreator?.Invoke();
             });
-            Vampire.SetupCustomOption();
-            Witch.SetupCustomOption();
             SetupRoleOptions(2000, TabGroup.ImpostorRoles, CustomRoles.Puppeteer);
             EvilTracker.SetupCustomOption();
 
@@ -335,10 +328,6 @@ namespace TownOfHost
             EvilWatcherChance = IntegerOptionItem.Create(30010, "EvilWatcherChance", new(0, 100, 10), 0, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Watcher])
                 .SetValueFormat(OptionFormat.Percent);
             // Crewmate
-            SetupRoleOptions(20100, TabGroup.CrewmateRoles, CustomRoles.Lighter);
-            LighterTaskCompletedVision = FloatOptionItem.Create(20110, "LighterTaskCompletedVision", new(0f, 5f, 0.25f), 2f, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter])
-                .SetValueFormat(OptionFormat.Multiplier);
-            LighterTaskCompletedDisableLightOut = BooleanOptionItem.Create(20111, "LighterTaskCompletedDisableLightOut", true, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Lighter]);
             sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Crewmate).Do(info =>
             {
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
@@ -348,13 +337,7 @@ namespace TownOfHost
             TimeManager.SetupCustomOption();
 
             // Neutral
-            SetupRoleOptions(50500, TabGroup.NeutralRoles, CustomRoles.Arsonist);
-            ArsonistDouseTime = FloatOptionItem.Create(50510, "ArsonistDouseTime", new(1f, 10f, 1f), 3f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Arsonist])
-                .SetValueFormat(OptionFormat.Seconds);
-            ArsonistCooldown = FloatOptionItem.Create(50511, "Cooldown", new(5f, 100f, 1f), 10f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Arsonist])
-                .SetValueFormat(OptionFormat.Seconds);
             SetupRoleOptions(50000, TabGroup.NeutralRoles, CustomRoles.Jester);
-            SetupRoleOptions(50100, TabGroup.NeutralRoles, CustomRoles.Opportunist);
             SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])
                 .SetGameMode(CustomGameMode.Standard);

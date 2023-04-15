@@ -22,11 +22,10 @@ namespace TownOfHost
         PlaySound,
         SetCustomRole,
         SetBountyTarget,
-        SetKillOrSpell,
+        WitchSync,
         SetSheriffShotLimit,
         SetDousedPlayer,
         SetNameColorData,
-        DoSpell,
         SniperSync,
         SetLoversPlayers,
         SetExecutionerTarget,
@@ -136,20 +135,8 @@ namespace TownOfHost
                     CustomRoles role = (CustomRoles)reader.ReadPackedInt32();
                     RPC.SetCustomRole(CustomRoleTargetId, role);
                     break;
-                case CustomRPC.SetKillOrSpell:
-                    Witch.ReceiveRPC(reader, false);
-                    break;
-                case CustomRPC.SetDousedPlayer:
-                    byte ArsonistId = reader.ReadByte();
-                    byte DousedId = reader.ReadByte();
-                    bool doused = reader.ReadBoolean();
-                    Main.isDoused[(ArsonistId, DousedId)] = doused;
-                    break;
                 case CustomRPC.SetNameColorData:
                     NameColorManager.ReceiveRPC(reader);
-                    break;
-                case CustomRPC.DoSpell:
-                    Witch.ReceiveRPC(reader, true);
                     break;
                 case CustomRPC.SetLoversPlayers:
                     Main.LoversPlayers.Clear();
@@ -162,12 +149,6 @@ namespace TownOfHost
                     break;
                 case CustomRPC.RemoveExecutionerTarget:
                     Executioner.ReceiveRPC(reader, SetTarget: false);
-                    break;
-                case CustomRPC.SetCurrentDousingTarget:
-                    byte arsonistId = reader.ReadByte();
-                    byte dousingTargetId = reader.ReadByte();
-                    if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
-                        Main.currentDousingTarget = dousingTargetId;
                     break;
                 case CustomRPC.SetEvilTrackerTarget:
                     EvilTracker.ReceiveRPC(reader);
@@ -278,13 +259,6 @@ namespace TownOfHost
             HudManager.Instance.SetHudActive(true);
             if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();
         }
-        public static void RpcDoSpell(byte targetId, byte killerId)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.DoSpell, Hazel.SendOption.Reliable, -1);
-            writer.Write(targetId);
-            writer.Write(killerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
         public static void SyncLoversPlayers()
         {
             if (!AmongUsClient.Instance.AmHost) return;
@@ -318,21 +292,6 @@ namespace TownOfHost
             else rpcName = callId.ToString();
             return rpcName;
         }
-        public static void SetCurrentDousingTarget(byte arsonistId, byte targetId)
-        {
-            if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
-            {
-                Main.currentDousingTarget = targetId;
-            }
-            else
-            {
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCurrentDousingTarget, Hazel.SendOption.Reliable, -1);
-                writer.Write(arsonistId);
-                writer.Write(targetId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-            }
-        }
-        public static void ResetCurrentDousingTarget(byte arsonistId) => SetCurrentDousingTarget(arsonistId, 255);
         public static void SetRealKiller(byte targetId, byte killerId)
         {
             var state = Main.PlayerStates[targetId];
