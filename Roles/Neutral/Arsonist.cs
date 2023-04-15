@@ -73,7 +73,7 @@ public sealed class Arsonist : RoleBase
     public override float SetKillCooldown() => DouseCooldown;
     public override string GetProgressText(bool comms = false)
     {
-        var doused = GetDousedPlayerCount(Player.PlayerId);
+        var doused = GetDousedPlayerCount();
         return Utils.ColorString(((Color)RoleInfo.RoleColor).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})");
     }
     public override void ApplyGameOptions(IGameOptions opt)
@@ -213,25 +213,22 @@ public sealed class Arsonist : RoleBase
     public bool IsDousedPlayer(byte targetId) => IsDoused.TryGetValue(targetId, out bool isDoused) && isDoused;
     public static bool IsDouseDone(PlayerControl player)
     {
-        if (!player.Is(CustomRoles.Arsonist)) return false;
-        var count = GetDousedPlayerCount(player.PlayerId);
+        if (player.GetRoleClass() is not Arsonist arsonist) return false;
+        var count = arsonist.GetDousedPlayerCount();
         return count.Item1 == count.Item2;
     }
-    public static (int, int) GetDousedPlayerCount(byte playerId)
+    public (int, int) GetDousedPlayerCount()
     {
         int doused = 0, all = 0;
-        if (CustomRoleManager.GetByPlayerId(playerId) is Arsonist arsonist)
+        //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
+        foreach (var pc in Main.AllAlivePlayerControls)
         {
-            //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
-            foreach (var pc in Main.AllAlivePlayerControls)
-            {
-                if (pc.PlayerId == playerId) continue; //アーソニストは除外
+            if (pc.PlayerId == Player.PlayerId) continue; //アーソニストは除外
 
-                all++;
-                if (arsonist.IsDoused.TryGetValue(pc.PlayerId, out var isDoused) && isDoused)
-                    //塗れている場合
-                    doused++;
-            }
+            all++;
+            if (IsDoused.TryGetValue(pc.PlayerId, out var isDoused) && isDoused)
+                //塗れている場合
+                doused++;
         }
 
         return (doused, all);
