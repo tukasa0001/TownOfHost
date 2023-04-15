@@ -85,7 +85,6 @@ public sealed class Arsonist : RoleBase
     public void SendRPC(CustomRPC rpcType, byte targetId = byte.MaxValue, bool isDoused = false)
     {
         using var sender = CreateSender(rpcType);
-        sender.Writer.Write(Player.PlayerId);
         sender.Writer.Write(targetId);
 
         if (rpcType == CustomRPC.SetDousedPlayer)
@@ -93,7 +92,6 @@ public sealed class Arsonist : RoleBase
     }
     public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
     {
-        var arsonistId = reader.ReadByte();
         var targetId = reader.ReadByte();
         switch (rpcType)
         {
@@ -102,7 +100,7 @@ public sealed class Arsonist : RoleBase
                 IsDoused[targetId] = doused;
                 break;
             case CustomRPC.SetCurrentDousingTarget:
-                if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
+                if (PlayerControl.LocalPlayer.PlayerId == Player.PlayerId)
                     Main.currentDousingTarget = targetId;
                 break;
         }
