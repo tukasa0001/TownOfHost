@@ -23,7 +23,10 @@ public sealed class Arsonist : RoleBase
     public Arsonist(PlayerControl player)
     : base(
         RoleInfo,
-        player
+        player,
+        HasTask.False,
+        CountTypes.Crew,
+        false
     )
     {
         DouseTime = OptionDouseTime.GetFloat();
