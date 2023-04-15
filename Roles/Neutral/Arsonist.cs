@@ -74,7 +74,7 @@ public sealed class Arsonist : RoleBase
     public override string GetProgressText(bool comms = false)
     {
         var doused = GetDousedPlayerCount();
-        return Utils.ColorString(((Color)RoleInfo.RoleColor).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})");
+        return Utils.ColorString(RoleInfo.RoleColor.ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})");
     }
     public override void ApplyGameOptions(IGameOptions opt)
     {
