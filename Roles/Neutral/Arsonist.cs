@@ -34,7 +34,6 @@ public sealed class Arsonist : RoleBase
 
         TargetInfo = null;
         IsDoused = new(GameData.Instance.PlayerCount);
-        CustomRoleManager.MarkOthers.Add(GetMarkOthers);
     }
     private static OptionItem OptionDouseTime;
     private static OptionItem OptionDouseCooldown;
@@ -201,18 +200,15 @@ public sealed class Arsonist : RoleBase
     }
     public override string GetKillButtonText() => GetString("ArsonistDouseButtonText");
 
-    public static string GetMarkOthers(PlayerControl seer, PlayerControl seen, bool isForMeeting = false)
+    public override string GetMark(PlayerControl seer, PlayerControl seen, bool isForMeeting = false)
     {
         //seenが省略の場合seer
         seen ??= seer;
 
-        if (seer.GetRoleClass() is not null and Arsonist arsonist)
-        {
-            if (arsonist.IsDousedPlayer(seen.PlayerId)) //seerがtargetに既にオイルを塗っている(完了)
-                return Utils.ColorString(RoleInfo.RoleColor, "▲");
-            if (!isForMeeting && (arsonist.TargetInfo?.TargetId ?? byte.MaxValue) == seen.PlayerId) //オイルを塗っている対象がtarget
-                return Utils.ColorString(RoleInfo.RoleColor, "△");
-        }
+        if (IsDousedPlayer(seen.PlayerId)) //seerがtargetに既にオイルを塗っている(完了)
+            return Utils.ColorString(RoleInfo.RoleColor, "▲");
+        if (!isForMeeting && TargetInfo?.TargetId == seen.PlayerId) //オイルを塗っている対象がtarget
+            return Utils.ColorString(RoleInfo.RoleColor, "△");
 
         return "";
     }
