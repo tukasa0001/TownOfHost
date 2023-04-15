@@ -100,8 +100,7 @@ public sealed class Arsonist : RoleBase
                 IsDoused[targetId] = doused;
                 break;
             case CustomRPC.SetCurrentDousingTarget:
-                if (PlayerControl.LocalPlayer.PlayerId == Player.PlayerId)
-                    Main.currentDousingTarget = targetId;
+                TargetInfo = new(targetId, 0f);
                 break;
         }
     }

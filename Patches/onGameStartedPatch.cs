@@ -55,7 +55,6 @@ namespace TownOfHost
 
             Main.LastNotifyNames = new();
 
-            Main.currentDousingTarget = 255;
             Main.PlayerColors = new();
             //名前の記録
             Main.AllPlayerNames = new();

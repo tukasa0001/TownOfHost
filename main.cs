@@ -110,7 +110,6 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
-        public static byte currentDousingTarget;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
         public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;
@@ -150,7 +149,6 @@ namespace TownOfHost
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte, string)>();
-            currentDousingTarget = 255;
 
             Preset1 = Config.Bind("Preset Name Options", "Preset1", "Preset_1");
             Preset2 = Config.Bind("Preset Name Options", "Preset2", "Preset_2");
