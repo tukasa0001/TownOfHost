@@ -55,8 +55,7 @@ public static class CustomRoleManager
         var targetRole = attemptTarget.GetRoleClass();
 
         //キラーがキル能力持ちならターゲットのキルチェック処理実行
-        //ここに来ている時点で今のところキラーじゃないのはRoleBase非対応アーソのみ
-        if ((killerRole?.IsKiller ?? false) || !attemptKiller.Is(CustomRoles.Arsonist))
+        if (killerRole?.IsKiller != false)
         {
             if (targetRole != null)
             {
@@ -253,10 +252,6 @@ public static class CustomRoleManager
         switch (pc.GetCustomRole())
         {
 
-            case CustomRoles.Arsonist:
-                foreach (var ar in Main.AllPlayerControls)
-                    Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
-                break;
             case CustomRoles.Executioner:
                 Executioner.Add(pc.PlayerId);
                 break;

@@ -306,11 +306,9 @@ namespace TownOfHost
                 {
                     case CustomRoles.GM:
                     case CustomRoles.SKMadmate:
-                    case CustomRoles.Arsonist:
                     case CustomRoles.Egoist:
                     case CustomRoles.Jackal:
                     case CustomRoles.Jester:
-                    case CustomRoles.Opportunist:
                         hasTasks = false;
                         break;
                     case CustomRoles.MadGuardian:
@@ -368,10 +366,6 @@ namespace TownOfHost
             {
                 switch (role)
                 {
-                    case CustomRoles.Arsonist:
-                        var doused = GetDousedPlayerCount(playerId);
-                        ProgressText.Append(ColorString(GetRoleColor(CustomRoles.Arsonist).ShadeColor(0.25f), $"({doused.Item1}/{doused.Item2})"));
-                        break;
                     case CustomRoles.EvilTracker:
                         ProgressText.Append(EvilTracker.GetMarker(playerId));
                         break;
@@ -765,7 +759,7 @@ namespace TownOfHost
                 string SelfRoleName = $"<size={fontSize}>{seer.GetDisplayRoleName()}{SelfTaskText}</size>";
                 string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
                 string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
-                if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
+                if (Arsonist.IsDouseDone(seer))
                     SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
                 SelfName = SelfRoleName + "\r\n" + SelfName;
                 SelfName += SelfSuffix.ToString() == "" ? "" : "\r\n " + SelfSuffix.ToString();
@@ -816,20 +810,6 @@ namespace TownOfHost
                             TargetMark.Append($"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>");
                         }
 
-                        if (seer.Is(CustomRoles.Arsonist))//seerがアーソニストの時
-                        {
-                            if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
-                            {
-                                TargetMark.Append($"<color={GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>");
-                            }
-                            if (
-                                Main.ArsonistTimer.TryGetValue(seer.PlayerId, out var ar_kvp) && //seerがオイルを塗っている途中(現在進行)
-                                ar_kvp.Item1 == target //オイルを塗っている対象がtarget
-                            )
-                            {
-                                TargetMark.Append($"<color={GetRoleColorCode(CustomRoles.Arsonist)}>△</color>");
-                            }
-                        }
 
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{target.GetDisplayRoleName()}{GetProgressText(target)}</size>\r\n" : "";
@@ -952,22 +932,6 @@ namespace TownOfHost
             System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
             if (PlayerControl.LocalPlayer != null)
                 HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
-        }
-        public static (int, int) GetDousedPlayerCount(byte playerId)
-        {
-            int doused = 0, all = 0; //学校で習った書き方
-                                     //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
-            foreach (var pc in Main.AllAlivePlayerControls)
-            {
-                if (pc.PlayerId == playerId) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
-
-                all++;
-                if (Main.isDoused.TryGetValue((playerId, pc.PlayerId), out var isDoused) && isDoused)
-                    //塗れている場合
-                    doused++;
-            }
-
-            return (doused, all);
         }
         public static string SummaryTexts(byte id, bool disableColor = true)
         {
