@@ -80,6 +80,8 @@ public sealed class Puppeteer : RoleBase
     }
     public static void OnFixedUpdateOthers(PlayerControl puppet)
     {
+        if (!AmongUsClient.Instance.AmHost) return;
+
         if (Puppets.TryGetValue(puppet.PlayerId, out var puppeteer))
             puppeteer.CheckPuppetKill(puppet);
     }
