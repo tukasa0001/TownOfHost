@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using HarmonyLib;
 using Hazel;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
-using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.Neutral;
 public sealed class Executioner : RoleBase
