@@ -111,12 +111,13 @@ public sealed class Executioner : RoleBase
     {
         if (!AmongUsClient.Instance.AmHost) return;
         if (Player == null || !Player.IsAlive()) return;
+        if (exiled.PlayerId != TargetId) return;
 
         if (exiled.GetCustomRole() == CustomRoles.Jester)
         {
             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
         }
-        else if (!DecidedWinner && TargetId != exiled.PlayerId)
+        else if (!DecidedWinner)
         {
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return; //勝者がいるなら処理をスキップ
             CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Executioner);
