@@ -18,6 +18,10 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public HasTask HasTasks;
     /// <summary>
+    /// タスクが完了しているか
+    /// </summary>
+    public bool IsTaskFinished;
+    /// <summary>
     /// キル能力を持っているか
     /// </summary>
     public bool CanKill;

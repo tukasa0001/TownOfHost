@@ -48,8 +48,7 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
         (var killer, var target) = info.AttemptTuple;
 
         //MadGuardianを切れるかの判定処理
-        var taskState = target.GetPlayerTaskState();
-        if (taskState.IsTaskFinished)
+        if (IsTaskFinished)
         {
             info.CanKill = false;
             if (!NameColorManager.TryGetData(killer, target, out var value) || value != RoleInfo.RoleColorCode)
