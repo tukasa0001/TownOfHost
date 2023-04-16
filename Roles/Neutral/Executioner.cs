@@ -31,7 +31,9 @@ public sealed class Executioner : RoleBase
         CanTargetNeutralKiller = OptionCanTargetNeutralKiller.GetBool();
         ChangeRolesAfterTargetKilled = ChangeRoles[OptionChangeRolesAfterTargetKilled.GetValue()];
 
+        Executioners.Add(this);
         CustomRoleManager.MarkOthers.Add(GetMarkOthers);
+        CustomRoleManager.OnMurderPlayerOthers.Add(OnMurderPlayerOthers);
     }
     public static byte WinnerID;
 
@@ -49,6 +51,7 @@ public sealed class Executioner : RoleBase
     private static bool CanTargetNeutralKiller;
     public static CustomRoles ChangeRolesAfterTargetKilled;
 
+    public static HashSet<Executioner> Executioners = new(15);
     public byte TargetId;
     public static readonly CustomRoles[] ChangeRoles =
     {
@@ -84,6 +87,10 @@ public sealed class Executioner : RoleBase
         SendRPC();
         Logger.Info($"{Player.GetNameWithRole()}:{SelectedTarget.GetNameWithRole()}", "Executioner");
     }
+    public override void OnDestroy()
+    {
+        Executioners.Clear();
+    }
     public void SendRPC()
     {
         if (!AmongUsClient.Instance.AmHost) return;
@@ -96,15 +103,19 @@ public sealed class Executioner : RoleBase
         byte targetId = reader.ReadByte();
         TargetId = targetId;
     }
-    public override void OnMurderPlayerAsTarget(MurderInfo info)
+    public static void OnMurderPlayerOthers(MurderInfo info)
     {
         var target = info.AttemptTarget;
-        if (TargetId == target.PlayerId)
-            ChangeRoleByTarget(TargetId);
-        else if (Is(target))
+
+        foreach (var executioner in Executioners)
         {
-            TargetId = byte.MaxValue;
-            SendRPC();
+            if (executioner.TargetId == target.PlayerId)
+                executioner.ChangeRole();
+            else if (executioner.Is(target))
+            {
+                executioner.TargetId = byte.MaxValue;
+                executioner.SendRPC();
+            }
         }
     }
     public override void OnExileWrapUp(GameData.PlayerInfo exiled, ref bool DecidedWinner)
@@ -134,10 +145,8 @@ public sealed class Executioner : RoleBase
 
     public static void ChangeRoleByTarget(byte targetId)
     {
-        foreach (var pc in Main.AllAlivePlayerControls.ToArray())
+        foreach (var executioner in Executioners)
         {
-            if (!pc.Is(CustomRoles.Executioner)) continue;
-            if (pc.GetRoleClass() is not Executioner executioner) continue;
             if (executioner.TargetId != targetId) continue;
 
             executioner.ChangeRole();
