@@ -49,7 +49,7 @@ public sealed class Executioner : RoleBase
     private static bool CanTargetNeutralKiller;
     public static CustomRoles ChangeRolesAfterTargetKilled;
 
-    public byte Target;
+    public byte TargetId;
     public static readonly CustomRoles[] ChangeRoles =
     {
             CustomRoles.Crewmate, CustomRoles.Jester, CustomRoles.Opportunist,
@@ -80,7 +80,7 @@ public sealed class Executioner : RoleBase
             targetList.Add(target);
         }
         var SelectedTarget = targetList[rand.Next(targetList.Count)];
-        Target = SelectedTarget.PlayerId;
+        TargetId = SelectedTarget.PlayerId;
         SendRPC();
         Logger.Info($"{Player.GetNameWithRole()}:{SelectedTarget.GetNameWithRole()}", "Executioner");
     }
@@ -89,21 +89,21 @@ public sealed class Executioner : RoleBase
         if (!AmongUsClient.Instance.AmHost) return;
 
         using var sender = CreateSender(CustomRPC.SetExecutionerTarget);
-        sender.Writer.Write(Target);
+        sender.Writer.Write(TargetId);
     }
     public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
     {
         byte targetId = reader.ReadByte();
-        Target = targetId;
+        TargetId = targetId;
     }
     public override void OnMurderPlayerAsTarget(MurderInfo info)
     {
         var target = info.AttemptTarget;
-        if (Target == target.PlayerId)
-            ChangeRoleByTarget(Target);
+        if (TargetId == target.PlayerId)
+            ChangeRoleByTarget(TargetId);
         else if (Is(target))
         {
-            Target = byte.MaxValue;
+            TargetId = byte.MaxValue;
             SendRPC();
         }
     }
@@ -116,7 +116,7 @@ public sealed class Executioner : RoleBase
         {
             CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
         }
-        else if (!DecidedWinner && Target != exiled.PlayerId)
+        else if (!DecidedWinner && TargetId != exiled.PlayerId)
         {
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return; //勝者がいるなら処理をスキップ
             CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Executioner);
@@ -126,7 +126,7 @@ public sealed class Executioner : RoleBase
     public void ChangeRole()
     {
         Player.RpcSetCustomRole(ChangeRolesAfterTargetKilled);
-        Target = byte.MaxValue;
+        TargetId = byte.MaxValue;
         SendRPC();
         Utils.NotifyRoles();
     }
@@ -137,7 +137,7 @@ public sealed class Executioner : RoleBase
         {
             if (!pc.Is(CustomRoles.Executioner)) continue;
             if (pc.GetRoleClass() is not Executioner executioner) continue;
-            if (executioner.Target != targetId) continue;
+            if (executioner.TargetId != targetId) continue;
 
             executioner.ChangeRole();
             break;
@@ -149,7 +149,7 @@ public sealed class Executioner : RoleBase
         seen ??= seer;
 
         if (seer.GetRoleClass() is not Executioner executioner) return ""; //エクスキューショナー以外処理しない
-        if (executioner.Target != seen.PlayerId) return "";
+        if (executioner.TargetId != seen.PlayerId) return "";
 
         return Utils.ColorString(RoleInfo.RoleColor, "♦");
     }
