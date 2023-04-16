@@ -27,7 +27,6 @@ public sealed class Puppeteer : RoleBase
     {
         Puppeteers.Add(this);
 
-        CustomRoleManager.MarkOthers.Add(GetMarkOthers);
         CustomRoleManager.OnFixedUpdateOthers.Add(OnFixedUpdateOthers);
     }
     public override void OnDestroy()
@@ -37,15 +36,15 @@ public sealed class Puppeteer : RoleBase
 
     public static HashSet<Puppeteer> Puppeteers = new(3);
     /// <summary>
-    /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
+    /// Key: ターゲットのPlayerId, Value: パペッティア
     /// </summary>
-    private static Dictionary<byte, byte> Puppets = new(15);
+    private static Dictionary<byte, Puppeteer> Puppets = new(15);
 
     public override void OnCheckMurderAsKiller(MurderInfo info)
     {
         var (puppeteer, target) = info.AttemptTuple;
 
-        Puppets[target.PlayerId] = puppeteer.PlayerId;
+        Puppets[target.PlayerId] = this;
         puppeteer.SetKillCooldown();
         Utils.NotifyRoles(SpecifySeer: puppeteer);
         info.DoKill = false;
@@ -97,13 +96,12 @@ public sealed class Puppeteer : RoleBase
             }
         }
     }
-    public static string GetMarkOthers(PlayerControl seer, PlayerControl seen, bool _ = false)
+    public override string GetMark(PlayerControl seer, PlayerControl seen, bool _ = false)
     {
         //seenが省略の場合seer
         seen ??= seer;
 
-        if (!seer.Is(CustomRoles.Puppeteer)) return "";
-        if (!(Puppets.ContainsValue(seer.PlayerId) &&
+        if (!(Puppets.ContainsValue(this) &&
             Puppets.ContainsKey(seen.PlayerId))) return "";
 
         return Utils.ColorString(RoleInfo.RoleColor, "◆");
