@@ -30,10 +30,7 @@ namespace TownOfHost
             Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
             Main.AllPlayerSpeed = new Dictionary<byte, float>();
 
-            Main.isDoused = new Dictionary<(byte, byte), bool>();
-            Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             Main.SKMadmateNowCount = 0;
-            Main.PuppeteerList = new Dictionary<byte, byte>();
 
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();
@@ -57,7 +54,6 @@ namespace TownOfHost
 
             Main.LastNotifyNames = new();
 
-            Main.currentDousingTarget = 255;
             Main.PlayerColors = new();
             //名前の記録
             Main.AllPlayerNames = new();
@@ -102,7 +98,6 @@ namespace TownOfHost
             if (__instance.AmHost)
             {
                 RPC.SyncCustomSettingsRPC();
-                Main.RefixCooldownDelay = 0;
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
                     Options.HideAndSeekKillDelayTimer = Options.KillDelay.GetFloat();
@@ -114,11 +109,9 @@ namespace TownOfHost
             }
             CustomRoleManager.Initialize();
             FallFromLadder.Reset();
-            Witch.Init();
             Egoist.Init();
             Jackal.Init();
             EvilTracker.Init();
-            Vampire.Init();
             TimeManager.Init();
             LastImpostor.Init();
             TargetArrow.Init();
@@ -327,8 +320,6 @@ namespace TownOfHost
                 }
             }
 
-            // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
-            Main.ResetCamPlayerList.AddRange(Main.AllPlayerControls.Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId));
             /*
             //インポスターのゴーストロールがクルーになるバグ対策
             foreach (var pc in PlayerControl.AllPlayerControls)

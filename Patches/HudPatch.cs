@@ -67,18 +67,6 @@ namespace TownOfHost
                     //MOD入り用のボタン下テキスト変更
                     switch (player.GetCustomRole())
                     {
-                        case CustomRoles.Witch:
-                            Witch.GetAbilityButtonText(__instance);
-                            break;
-                        case CustomRoles.Vampire:
-                            Vampire.SetKillButtonText();
-                            break;
-                        case CustomRoles.Arsonist:
-                            __instance.KillButton.OverrideText($"{GetString("ArsonistDouseButtonText")}");
-                            break;
-                        case CustomRoles.Puppeteer:
-                            __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
-                            break;
                         case CustomRoles.EvilTracker:
                             EvilTracker.GetAbilityButtonText(__instance, player.PlayerId);
                             break;
@@ -99,11 +87,6 @@ namespace TownOfHost
                     }
 
                     LowerInfoText.text = roleClass?.GetLowerText(player, isForHud: true) ?? "";
-
-                    if (player.Is(CustomRoles.Witch))
-                    {
-                        LowerInfoText.text = Witch.GetSpellModeText(player, true);
-                    }
                     LowerInfoText.enabled = LowerInfoText.text != "";
 
                     if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)

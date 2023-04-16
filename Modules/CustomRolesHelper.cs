@@ -16,14 +16,7 @@ namespace TownOfHost
             return
                 role is CustomRoles.Impostor or
                 CustomRoles.Shapeshifter or
-                CustomRoles.BountyHunter or
-                CustomRoles.Vampire or
-                CustomRoles.Witch or
-                CustomRoles.Mare or
-                CustomRoles.Puppeteer or
                 CustomRoles.EvilWatcher or
-                CustomRoles.FireWorks or
-                CustomRoles.Sniper or
                 CustomRoles.EvilTracker;
         }
         public static bool IsMadmate(this CustomRoles role)
@@ -45,10 +38,8 @@ namespace TownOfHost
                 return roleInfo.CustomRoleType == CustomRoleTypes.Neutral;
             return
                 role is
-                CustomRoles.Opportunist or
                 CustomRoles.SchrodingerCat or
                 CustomRoles.Terrorist or
-                CustomRoles.Arsonist or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
                 CustomRoles.Jackal or
@@ -145,7 +136,6 @@ namespace TownOfHost
                 return roleInfo.BaseRoleType.Invoke();
             return role switch
             {
-                CustomRoles.Arsonist or
                 CustomRoles.Jackal => RoleTypes.Impostor,
 
                 CustomRoles.Scientist => RoleTypes.Scientist,

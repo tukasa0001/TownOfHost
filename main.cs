@@ -85,8 +85,6 @@ namespace TownOfHost
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, CustomDeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
-        public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
-        public static float RefixCooldownDelay = 0f;
         public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
         public static List<int> clientIdList;
@@ -101,12 +99,6 @@ namespace TownOfHost
         /// </summary>
         public static Dictionary<byte, float> AllPlayerSpeed = new();
         public const float MinSpeed = 0.0001f;
-        public static Dictionary<(byte, byte), bool> isDoused = new();
-        public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
-        /// <summary>
-        /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
-        /// </summary>
-        public static Dictionary<byte, byte> PuppeteerList = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static Dictionary<byte, bool> CheckShapeshift = new();
@@ -114,7 +106,6 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
-        public static byte currentDousingTarget;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
         public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;
@@ -151,12 +142,9 @@ namespace TownOfHost
             // 認証関連-認証
             DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
 
-            isDoused = new Dictionary<(byte, byte), bool>();
-            ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte, string)>();
-            currentDousingTarget = 255;
 
             Preset1 = Config.Bind("Preset Name Options", "Preset1", "Preset_1");
             Preset2 = Config.Bind("Preset Name Options", "Preset2", "Preset_2");
@@ -198,14 +186,11 @@ namespace TownOfHost
                     {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
                     {CustomRoles.SabotageMaster, "#0000ff"},
                     {CustomRoles.Snitch, "#b8fb4f"},
-                    {CustomRoles.Lighter, "#eee5be"},
                     {CustomRoles.Dictator, "#df9b00"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     {CustomRoles.TimeManager, "#6495ed"},
                     //ニュートラル役職
-                    {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Terrorist, "#00ff00"},
-                    {CustomRoles.Opportunist, "#00ff00"},
                     {CustomRoles.SchrodingerCat, "#696969"},
                     {CustomRoles.Egoist, "#5600ff"},
                     {CustomRoles.EgoSchrodingerCat, "#5600ff"},
