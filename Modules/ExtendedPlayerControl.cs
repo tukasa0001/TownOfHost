@@ -514,7 +514,7 @@ namespace TownOfHost
                 return deathReasonSeeable.CanSeeDeathReason(seen);
             }
             // IDeathReasonSeeable未対応役職はこちら
-            return seer.Is(CustomRoles.Doctor) || (seer.Is(CustomRoleTypes.Madmate) && Options.MadmateCanSeeDeathReason.GetBool());
+            return seer.Is(CustomRoleTypes.Madmate) && Options.MadmateCanSeeDeathReason.GetBool();
         }
         public static string GetRoleInfo(this PlayerControl player, bool InfoLong = false)
         {
