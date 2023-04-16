@@ -33,6 +33,10 @@ public sealed class Puppeteer : RoleBase
     /// Key: ターゲットのPlayerId, Value: パペッティア
     /// </summary>
     private static Dictionary<byte, Puppeteer> Puppets = new(15);
+    public override void OnDestroy()
+    {
+        Puppets.Clear();
+    }
 
     private void SendRPC(byte targetId, byte typeId)
     {
