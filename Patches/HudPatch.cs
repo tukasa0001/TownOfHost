@@ -67,9 +67,6 @@ namespace TownOfHost
                     //MOD入り用のボタン下テキスト変更
                     switch (player.GetCustomRole())
                     {
-                        case CustomRoles.Puppeteer:
-                            __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
-                            break;
                         case CustomRoles.EvilTracker:
                             EvilTracker.GetAbilityButtonText(__instance, player.PlayerId);
                             break;

@@ -16,7 +16,6 @@ namespace TownOfHost
             return
                 role is CustomRoles.Impostor or
                 CustomRoles.Shapeshifter or
-                CustomRoles.Puppeteer or
                 CustomRoles.EvilWatcher or
                 CustomRoles.EvilTracker;
         }

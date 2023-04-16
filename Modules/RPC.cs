@@ -33,6 +33,7 @@ namespace TownOfHost
         SetCurrentDousingTarget,
         SetEvilTrackerTarget,
         SetRealKiller,
+        SyncPuppet
     }
     public enum Sounds
     {
