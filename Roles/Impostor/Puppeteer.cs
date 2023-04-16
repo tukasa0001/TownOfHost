@@ -25,16 +25,9 @@ public sealed class Puppeteer : RoleBase
         player
     )
     {
-        Puppeteers.Add(this);
 
         CustomRoleManager.OnFixedUpdateOthers.Add(OnFixedUpdateOthers);
     }
-    public override void OnDestroy()
-    {
-        Puppeteers.Clear();
-    }
-
-    public static HashSet<Puppeteer> Puppeteers = new(3);
     /// <summary>
     /// Key: ターゲットのPlayerId, Value: パペッティア
     /// </summary>
