@@ -79,7 +79,7 @@ public sealed class Mayor : RoleBase
 
         return false;
     }
-    public override bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva)
+    public override bool OnCheckForEndVoting(MeetingHud _, ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva)
     {
         for (var i = 0; i < AdditionalVote; i++)
         {

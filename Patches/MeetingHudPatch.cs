@@ -31,31 +31,8 @@ namespace TownOfHost
                     PlayerControl pc = Utils.GetPlayerById(pva.TargetPlayerId);
                     if (pc == null) continue;
 
-                    pc.GetRoleClass()?.OnCheckForEndVoting(ref statesList, pva);
-                    //死んでいないディクテーターが投票済み
-                    if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
-                    {
-                        var voteTarget = Utils.GetPlayerById(pva.VotedFor);
-                        TryAddAfterMeetingDeathPlayers(CustomDeathReason.Suicide, pc.PlayerId);
-                        statesList.Add(new()
-                        {
-                            VoterId = pva.TargetPlayerId,
-                            VotedForId = pva.VotedFor
-                        });
-                        states = statesList.ToArray();
-                        if (AntiBlackout.OverrideExiledPlayer)
-                        {
-                            __instance.RpcVotingComplete(states, null, true);
-                            ExileControllerWrapUpPatch.AntiBlackout_LastExiled = voteTarget.Data;
-                        }
-                        else __instance.RpcVotingComplete(states, voteTarget.Data, false); //通常処理
-
-                        Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
-                        CheckForDeathOnExile(CustomDeathReason.Vote, pva.VotedFor);
-                        Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
-                        voteTarget.SetRealKiller(pc);
-                        return true;
-                    }
+                    if (pc.GetRoleClass()?.OnCheckForEndVoting(__instance, ref statesList, pva) == false)
+                        return false;
                 }
                 foreach (var ps in __instance.playerStates)
                 {
