@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Hazel;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
@@ -33,11 +34,39 @@ public sealed class Puppeteer : RoleBase
     /// </summary>
     private static Dictionary<byte, Puppeteer> Puppets = new(15);
 
+    private void SendRPC(byte targetId, byte typeId)
+    {
+        using var sender = CreateSender(CustomRPC.SyncPuppet);
+
+        sender.Writer.Write(typeId);
+        sender.Writer.Write(targetId);
+    }
+    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    {
+        if (rpcType != CustomRPC.SyncPuppet) return;
+
+        var typeId = reader.ReadByte();
+        var targetId = reader.ReadByte();
+
+        switch (typeId)
+        {
+            case 0: //Dictionaryのクリア
+                Puppets.Clear();
+                break;
+            case 1: //Dictionaryに追加
+                Puppets[targetId] = this;
+                break;
+            case 2: //DictionaryのKey削除
+                Puppets.Remove(targetId);
+                break;
+        }
+    }
     public override void OnCheckMurderAsKiller(MurderInfo info)
     {
         var (puppeteer, target) = info.AttemptTuple;
 
         Puppets[target.PlayerId] = this;
+        SendRPC(target.PlayerId, 1);
         puppeteer.SetKillCooldown();
         Utils.NotifyRoles(SpecifySeer: puppeteer);
         info.DoKill = false;
@@ -45,6 +74,7 @@ public sealed class Puppeteer : RoleBase
     public override bool OnReportDeadBody(PlayerControl _, GameData.PlayerInfo __)
     {
         Puppets.Clear();
+        SendRPC(byte.MaxValue, 0);
 
         return true;
     }
@@ -58,6 +88,7 @@ public sealed class Puppeteer : RoleBase
         if (!puppet.IsAlive())
         {
             Puppets.Remove(puppet.PlayerId);
+            SendRPC(puppet.PlayerId, 2);
         }
         else
         {
@@ -83,6 +114,7 @@ public sealed class Puppeteer : RoleBase
                 puppet.RpcMurderPlayer(target);
                 Utils.MarkEveryoneDirtySettings();
                 Puppets.Remove(puppet.PlayerId);
+                SendRPC(puppet.PlayerId, 2);
                 Utils.NotifyRoles();
             }
         }
