@@ -24,7 +24,7 @@ public sealed class Dictator : RoleBase
         player
     )
     { }
-    public override bool OnCheckForEndVoting(MeetingHud meetingHud, ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva)
+    public override bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva)
     {
         //死んでいないディクテーターが投票済み
         if (pva.DidVote && Player.PlayerId != pva.VotedFor && pva.VotedFor < 253 && Player.IsAlive())
@@ -39,10 +39,10 @@ public sealed class Dictator : RoleBase
             var states = statesList.ToArray();
             if (AntiBlackout.OverrideExiledPlayer)
             {
-                meetingHud.RpcVotingComplete(states, null, true);
+                MeetingHud.Instance.RpcVotingComplete(states, null, true);
                 ExileControllerWrapUpPatch.AntiBlackout_LastExiled = voteTarget.Data;
             }
-            else meetingHud.RpcVotingComplete(states, voteTarget.Data, false); //通常処理
+            else MeetingHud.Instance.RpcVotingComplete(states, voteTarget.Data, false); //通常処理
 
             CheckForDeathOnExile(CustomDeathReason.Vote, pva.VotedFor);
             Logger.Info($"ディクテーターによる強制会議終了(追放者:{voteTarget.GetNameWithRole()})", "Special Phase");

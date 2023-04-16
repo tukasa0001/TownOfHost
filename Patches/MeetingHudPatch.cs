@@ -31,7 +31,7 @@ namespace TownOfHost
                     PlayerControl pc = Utils.GetPlayerById(pva.TargetPlayerId);
                     if (pc == null) continue;
 
-                    if (pc.GetRoleClass()?.OnCheckForEndVoting(__instance, ref statesList, pva) == false)
+                    if (pc.GetRoleClass()?.OnCheckForEndVoting(ref statesList, pva) == false)
                         return false;
                 }
                 foreach (var ps in __instance.playerStates)
