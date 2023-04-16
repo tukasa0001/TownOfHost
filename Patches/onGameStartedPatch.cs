@@ -31,7 +31,6 @@ namespace TownOfHost
             Main.AllPlayerSpeed = new Dictionary<byte, float>();
 
             Main.SKMadmateNowCount = 0;
-            Main.PuppeteerList = new Dictionary<byte, byte>();
 
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();

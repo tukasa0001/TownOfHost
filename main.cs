@@ -99,10 +99,6 @@ namespace TownOfHost
         /// </summary>
         public static Dictionary<byte, float> AllPlayerSpeed = new();
         public const float MinSpeed = 0.0001f;
-        /// <summary>
-        /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
-        /// </summary>
-        public static Dictionary<byte, byte> PuppeteerList = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static Dictionary<byte, bool> CheckShapeshift = new();
