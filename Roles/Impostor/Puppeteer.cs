@@ -57,7 +57,7 @@ public sealed class Puppeteer : RoleBase
     }
     public static void OnFixedUpdateOthers(PlayerControl puppet)
     {
-        foreach (var thisClass in Puppeteers)
+        if (Puppets.TryGetValue(puppet.PlayerId, out var thisClass))
             thisClass.CheckPuppetKill(puppet);
     }
     private void CheckPuppetKill(PlayerControl puppet)
