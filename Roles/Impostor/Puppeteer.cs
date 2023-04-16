@@ -55,8 +55,6 @@ public sealed class Puppeteer : RoleBase
     }
     private void CheckPuppetKill(PlayerControl puppet)
     {
-        if (!Puppets.ContainsKey(puppet.PlayerId)) return;
-
         if (!puppet.IsAlive())
         {
             Puppets.Remove(puppet.PlayerId);
