@@ -31,7 +31,6 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
         ChangeRolesAfterTargetKilled = ChangeRoles[OptionChangeRolesAfterTargetKilled.GetValue()];
 
         Executioners.Add(this);
-        CustomRoleManager.MarkOthers.Add(GetMarkOthers);
         CustomRoleManager.OnMurderPlayerOthers.Add(OnMurderPlayerOthers);
 
         TargetExiled = false;
@@ -95,7 +94,6 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
 
         if (Executioners.Count <= 0)
         {
-            CustomRoleManager.MarkOthers.Remove(GetMarkOthers);
             CustomRoleManager.OnMurderPlayerOthers.Remove(OnMurderPlayerOthers);
         }
     }
@@ -128,6 +126,13 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
                 break;
             }
         }
+    }
+    public override string GetMark(PlayerControl seer, PlayerControl seen, bool _ = false)
+    {
+        //seenが省略の場合seer
+        seen ??= seer;
+
+        return TargetId == seen.PlayerId ? Utils.ColorString(RoleInfo.RoleColor, "♦") : "";
     }
     public override void OnExileWrapUp(GameData.PlayerInfo exiled, ref bool DecidedWinner)
     {
@@ -165,15 +170,5 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
             executioner.ChangeRole();
             break;
         }
-    }
-    public static string GetMarkOthers(PlayerControl seer, PlayerControl seen, bool isForMeeting = false)
-    {
-        //seenが省略の場合seer
-        seen ??= seer;
-
-        if (seer.GetRoleClass() is not Executioner executioner) return ""; //エクスキューショナー以外処理しない
-        if (executioner.TargetId != seen.PlayerId) return "";
-
-        return Utils.ColorString(RoleInfo.RoleColor, "♦");
     }
 }
