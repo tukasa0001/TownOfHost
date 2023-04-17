@@ -66,8 +66,7 @@ namespace TownOfHost
 
                 foreach (var roleClass in CustomRoleManager.AllActiveRoles)
                 {
-                    if (roleClass.Player.GetCustomRole().IsPresent())
-                        roleClass.OnExileWrapUp(exiled, ref DecidedWinner);
+                    roleClass.OnExileWrapUp(exiled, ref DecidedWinner);
                 }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
                 {
