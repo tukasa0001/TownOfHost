@@ -39,7 +39,6 @@ namespace TownOfHost
             return
                 role is CustomRoles.Jester or
                 CustomRoles.SchrodingerCat or
-                CustomRoles.Terrorist or
                 CustomRoles.Executioner or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
@@ -141,8 +140,7 @@ namespace TownOfHost
 
                 CustomRoles.Scientist => RoleTypes.Scientist,
 
-                CustomRoles.Engineer or
-                CustomRoles.Terrorist => RoleTypes.Engineer,
+                CustomRoles.Engineer => RoleTypes.Engineer,
 
                 CustomRoles.GuardianAngel or
                 CustomRoles.GM => RoleTypes.GuardianAngel,

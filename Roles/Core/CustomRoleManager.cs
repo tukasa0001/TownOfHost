@@ -161,12 +161,7 @@ public static class CustomRoleManager
         (var attemptKiller, var attemptTarget) = info.AttemptTuple;
         var suicide = info.IsSuicide;
         //RoleClass非対応の処理
-        if (attemptTarget.Is(CustomRoles.Terrorist))
-        {
-            Logger.Info(attemptTarget?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
-            Utils.CheckTerroristWin(attemptTarget.Data);
-        }
-        else if (Executioner.Target.ContainsValue(attemptTarget.PlayerId))
+        if (Executioner.Target.ContainsValue(attemptTarget.PlayerId))
             Executioner.ChangeRoleByTarget(attemptTarget);
         else if (attemptTarget.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(attemptTarget.PlayerId))
         {

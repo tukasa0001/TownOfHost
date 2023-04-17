@@ -312,7 +312,6 @@ namespace TownOfHost
                         hasTasks = false;
                         break;
                     case CustomRoles.MadGuardian:
-                    case CustomRoles.Terrorist:
                         if (ForRecompute)
                             hasTasks = false;
                         break;
@@ -611,11 +610,6 @@ namespace TownOfHost
                             //追放された場合は生存扱い
                             Main.PlayerStates[pc.PlayerId].DeathReason = CustomDeathReason.etc;
                             //生存扱いのためSetDeadは必要なし
-                        }
-                        else
-                        {
-                            //キルされた場合は自爆扱い
-                            Main.PlayerStates[pc.PlayerId].DeathReason = CustomDeathReason.Suicide;
                         }
                     }
                     else if (!pc.Data.IsDead)
