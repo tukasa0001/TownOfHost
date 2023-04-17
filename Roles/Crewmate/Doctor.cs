@@ -1,9 +1,10 @@
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Crewmate;
-public sealed class Doctor : RoleBase
+public sealed class Doctor : RoleBase, IDeathReasonSeeable
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(

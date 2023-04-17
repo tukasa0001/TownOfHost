@@ -495,11 +495,27 @@ namespace TownOfHost
                 CustomRoles.Egoist or
                 CustomRoles.Jackal;
         }
-        public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)
-            => (seer.Is(CustomRoles.Doctor)
-            || (seer.Is(CustomRoleTypes.Madmate) && Options.MadmateCanSeeDeathReason.GetBool())
-            || (seer.Data.IsDead && Options.GhostCanSeeDeathReason.GetBool()))
-            && target.Data.IsDead;
+        public static bool KnowDeathReason(this PlayerControl seer, PlayerControl seen)
+        {
+            // targetが生きてたらfalse
+            if (seen.IsAlive())
+            {
+                return false;
+            }
+            // seerが死亡済で，霊界から死因が見える設定がON
+            if (!seer.IsAlive() && Options.GhostCanSeeDeathReason.GetBool())
+            {
+                return true;
+            }
+
+            // 役職による仕分け
+            if (seer.GetRoleClass() is IDeathReasonSeeable deathReasonSeeable)
+            {
+                return deathReasonSeeable.CanSeeDeathReason(seen);
+            }
+            // IDeathReasonSeeable未対応役職はこちら
+            return seer.Is(CustomRoleTypes.Madmate) && Options.MadmateCanSeeDeathReason.GetBool();
+        }
         public static string GetRoleInfo(this PlayerControl player, bool InfoLong = false)
         {
             var roleClass = player.GetRoleClass();
