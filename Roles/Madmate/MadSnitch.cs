@@ -43,7 +43,7 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
         MadSnitchCanAlsoBeExposedToImpostor,
     }
 
-    public static bool canSeeKillFlash;
+    private static bool canSeeKillFlash;
     private static bool canSeeDeathReason;
     private static bool canVent;
     private static bool canAlsoBeExposedToImpostor;
