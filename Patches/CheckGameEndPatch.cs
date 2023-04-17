@@ -5,7 +5,7 @@ using HarmonyLib;
 using Hazel;
 
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Neutral;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost
 {
@@ -67,14 +67,14 @@ namespace TownOfHost
                     //追加勝利陣営
                     foreach (var pc in Main.AllPlayerControls)
                     {
-                        //Opportunist
-                        if (pc.Is(CustomRoles.Opportunist) && pc.IsAlive())
+                        if (pc.GetRoleClass() is IAdditionalWinner additionalWinner)
                         {
-                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
+                            if (additionalWinner.CheckWin(out var winnerType))
+                            {
+                                CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                                CustomWinnerHolder.AdditionalWinnerTeams.Add(winnerType);
+                            }
                         }
-                        //SchrodingerCat
-                        SchrodingerCat.CheckAdditionalWin(pc);
                     }
                 }
                 ShipStatus.Instance.enabled = false;
