@@ -7,7 +7,7 @@ using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Madmate;
 
-public sealed class MadSnitch : RoleBase, IKillFlashSeeable
+public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
 {
     public static SimpleRoleInfo RoleInfo =
         new(
@@ -26,6 +26,7 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable
         HasTask.ForRecompute)
     {
         canSeeKillFlash = Options.MadmateCanSeeKillFlash.GetBool();
+        canSeeDeathReason = Options.MadmateCanSeeDeathReason.GetBool();
 
         canVent = OptionCanVent.GetBool();
         canAlsoBeExposedToImpostor = OptionCanAlsoBeExposedToImpostor.GetBool();
@@ -42,7 +43,8 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable
         MadSnitchCanAlsoBeExposedToImpostor,
     }
 
-    public static bool canSeeKillFlash;
+    private static bool canSeeKillFlash;
+    private static bool canSeeDeathReason;
     private static bool canVent;
     private static bool canAlsoBeExposedToImpostor;
 
@@ -86,4 +88,5 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable
     }
 
     public bool CanSeeKillFlash(MurderInfo info) => canSeeKillFlash;
+    public bool CanSeeDeathReason(PlayerControl seen) => canSeeDeathReason;
 }

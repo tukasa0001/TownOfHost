@@ -4,7 +4,7 @@ using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Madmate;
-public sealed class Madmate : RoleBase, IKillFlashSeeable
+public sealed class Madmate : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
 {
     public static SimpleRoleInfo RoleInfo =
         new(
@@ -23,9 +23,12 @@ public sealed class Madmate : RoleBase, IKillFlashSeeable
     )
     {
         canSeeKillFlash = Options.MadmateCanSeeKillFlash.GetBool();
+        canSeeDeathReason = Options.MadmateCanSeeDeathReason.GetBool();
     }
 
     private static bool canSeeKillFlash;
+    private static bool canSeeDeathReason;
 
     public bool CanSeeKillFlash(MurderInfo info) => canSeeKillFlash;
+    public bool CanSeeDeathReason(PlayerControl seen) => canSeeDeathReason;
 }
