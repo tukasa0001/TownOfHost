@@ -4,9 +4,10 @@ using Hazel;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Neutral;
-public sealed class Executioner : RoleBase
+public sealed class Executioner : RoleBase, IAdditionalWinner
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -32,6 +33,8 @@ public sealed class Executioner : RoleBase
         Executioners.Add(this);
         CustomRoleManager.MarkOthers.Add(GetMarkOthers);
         CustomRoleManager.OnMurderPlayerOthers.Add(OnMurderPlayerOthers);
+
+        TargetExiled = false;
     }
     public static byte WinnerID;
 
@@ -51,6 +54,7 @@ public sealed class Executioner : RoleBase
 
     public static HashSet<Executioner> Executioners = new(15);
     public byte TargetId;
+    private bool TargetExiled;
     public static readonly CustomRoles[] ChangeRoles =
     {
             CustomRoles.Crewmate, CustomRoles.Jester, CustomRoles.Opportunist,
@@ -119,19 +123,23 @@ public sealed class Executioner : RoleBase
     public override void OnExileWrapUp(GameData.PlayerInfo exiled, ref bool DecidedWinner)
     {
         if (!AmongUsClient.Instance.AmHost) return;
-        if (Player == null || !Player.IsAlive()) return;
+        if (Player?.IsAlive() != true) return;
         if (exiled.PlayerId != TargetId) return;
 
-        if (exiled.GetCustomRole() == CustomRoles.Jester)
-        {
-            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
-        }
-        else if (!DecidedWinner)
+        TargetExiled = true;
+
+        if (!DecidedWinner)
         {
             if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return; //勝者がいるなら処理をスキップ
+
             CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Executioner);
         }
         CustomWinnerHolder.WinnerIds.Add(Player.PlayerId);
+    }
+    public bool CheckWin(out AdditionalWinners winnerType)
+    {
+        winnerType = AdditionalWinners.Executioner;
+        return TargetExiled && CustomWinnerHolder.WinnerTeam != CustomWinner.Default;
     }
     public void ChangeRole()
     {
