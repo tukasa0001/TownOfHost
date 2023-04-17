@@ -91,7 +91,13 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
     }
     public override void OnDestroy()
     {
-        Executioners.Clear();
+        Executioners.Remove(this);
+
+        if (Executioners.Count <= 0)
+        {
+            CustomRoleManager.MarkOthers.Remove(GetMarkOthers);
+            CustomRoleManager.OnMurderPlayerOthers.Remove(OnMurderPlayerOthers);
+        }
     }
     public void SendRPC()
     {
@@ -105,18 +111,21 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
         byte targetId = reader.ReadByte();
         TargetId = targetId;
     }
+    public override void OnMurderPlayerAsTarget(MurderInfo _)
+    {
+        TargetId = byte.MaxValue;
+        SendRPC();
+    }
     public static void OnMurderPlayerOthers(MurderInfo info)
     {
         var target = info.AttemptTarget;
 
-        foreach (var executioner in Executioners)
+        foreach (var executioner in Executioners.ToArray())
         {
             if (executioner.TargetId == target.PlayerId)
-                executioner.ChangeRole();
-            else if (executioner.Is(target))
             {
-                executioner.TargetId = byte.MaxValue;
-                executioner.SendRPC();
+                executioner.ChangeRole();
+                break;
             }
         }
     }
@@ -144,8 +153,6 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
     public void ChangeRole()
     {
         Player.RpcSetCustomRole(ChangeRolesAfterTargetKilled);
-        TargetId = byte.MaxValue;
-        SendRPC();
         Utils.NotifyRoles();
     }
 

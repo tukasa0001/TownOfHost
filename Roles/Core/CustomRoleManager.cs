@@ -121,7 +121,7 @@ public static class CustomRoleManager
             OnMurderPlayerAsTarget(info);
 
         //その他視点の処理があれば実行
-        foreach (var onMurderPlayer in OnMurderPlayerOthers)
+        foreach (var onMurderPlayer in OnMurderPlayerOthers.ToArray())
         {
             onMurderPlayer(info);
         }
