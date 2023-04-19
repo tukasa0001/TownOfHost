@@ -48,7 +48,7 @@ public sealed class Terrorist : RoleBase
     }
     public override void OnMurderPlayerAsTarget(MurderInfo info)
     {
-        Logger.Info($"{Player.GetRealName()}はTerroristだった", "MurderPlayer");
+        Logger.Info($"{Player.GetRealName()}はTerroristだった", nameof(Terrorist));
         var playerState = Main.PlayerStates[Player.PlayerId];
         if (CanWin())
         {
