@@ -81,7 +81,6 @@ namespace TownOfHost
             //            main.RealNames.Remove(data.Character.PlayerId);
             if (GameStates.IsInGame)
             {
-                var roleClass = data.Character.GetRoleClass();
                 if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
                     foreach (var lovers in Main.LoversPlayers.ToArray())
                     {
@@ -89,8 +88,6 @@ namespace TownOfHost
                         Main.LoversPlayers.Remove(lovers);
                         Main.PlayerStates[lovers.PlayerId].RemoveSubRole(CustomRoles.Lovers);
                     }
-                if (roleClass is Executioner executioner)
-                    executioner.ChangeRole();
                 if (CustomRoles.Executioner.IsPresent())
                     Executioner.ChangeRoleByTarget(data.Character.PlayerId);
                 if (Main.PlayerStates[data.Character.PlayerId].DeathReason == CustomDeathReason.etc) //死因が設定されていなかったら
