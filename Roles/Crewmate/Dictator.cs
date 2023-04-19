@@ -27,7 +27,10 @@ public sealed class Dictator : RoleBase
     public override bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva)
     {
         //死んでいないディクテーターが投票済み
-        if (pva.DidVote && Player.PlayerId != pva.VotedFor && pva.VotedFor < 253 && Player.IsAlive())
+        if (pva.DidVote &&
+            pva.VotedFor != Player.PlayerId &&
+            pva.VotedFor < 253 &&
+            Player.IsAlive())
         {
             var voteTarget = Utils.GetPlayerById(pva.VotedFor);
             TryAddAfterMeetingDeathPlayers(CustomDeathReason.Suicide, Player.PlayerId);
