@@ -200,7 +200,7 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     /// <param name="statesList">投票情報を保存しておくリスト</param>
     /// <param name="pva">プレイヤー</param>
-    /// <returns>falseを返すと会議終了判定をキャンセルする</returns>
+    /// <returns>falseを返すと会議を強制終了する</returns>
     public virtual bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva) => true;
 
     /// <summary>
