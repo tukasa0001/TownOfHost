@@ -6,7 +6,7 @@ namespace TownOfHost.Roles.Neutral;
 
 public sealed class Terrorist : RoleBase
 {
-    public static SimpleRoleInfo RoleInfo =
+    public static readonly SimpleRoleInfo RoleInfo =
         new(
             typeof(Terrorist),
             player => new Terrorist(player),
