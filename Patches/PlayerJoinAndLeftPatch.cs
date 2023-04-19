@@ -75,6 +75,11 @@ namespace TownOfHost
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
     class OnPlayerLeftPatch
     {
+        static void Prefix([HarmonyArgument(0)] ClientData data)
+        {
+            if (CustomRoles.Executioner.IsPresent())
+                Executioner.ChangeRoleByTarget(data.Character.PlayerId);
+        }
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
         {
             //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
@@ -88,8 +93,6 @@ namespace TownOfHost
                         Main.LoversPlayers.Remove(lovers);
                         Main.PlayerStates[lovers.PlayerId].RemoveSubRole(CustomRoles.Lovers);
                     }
-                if (CustomRoles.Executioner.IsPresent())
-                    Executioner.ChangeRoleByTarget(data.Character.PlayerId);
                 if (Main.PlayerStates[data.Character.PlayerId].DeathReason == CustomDeathReason.etc) //死因が設定されていなかったら
                 {
                     Main.PlayerStates[data.Character.PlayerId].DeathReason = CustomDeathReason.Disconnected;
