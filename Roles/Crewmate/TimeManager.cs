@@ -8,7 +8,7 @@ namespace TownOfHost.Roles.Crewmate
     public sealed class TimeManager : RoleBase, IMeetingTimeAlterable
     {
         public static readonly SimpleRoleInfo RoleInfo =
-        new(
+            new(
             typeof(TimeManager),
             player => new TimeManager(player),
             CustomRoles.TimeManager,
