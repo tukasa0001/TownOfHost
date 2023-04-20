@@ -314,11 +314,6 @@ namespace TownOfHost
                         if (ForRecompute)
                             hasTasks = false;
                         break;
-                    case CustomRoles.Executioner:
-                        if (Executioner.ChangeRolesAfterTargetKilled == CustomRoles.Crewmate)
-                            hasTasks = !ForRecompute;
-                        else hasTasks = false;
-                        break;
                     default:
                         if (role.IsImpostor() || role.IsKilledSchrodingerCat()) hasTasks = false;
                         break;
