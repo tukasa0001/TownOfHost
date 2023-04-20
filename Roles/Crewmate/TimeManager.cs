@@ -6,7 +6,7 @@ using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Crewmate
 {
-    public sealed class TimeManager : RoleBase
+    public sealed class TimeManager : RoleBase, IMeetingTimeAlterable
     {
         public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -37,6 +37,8 @@ namespace TownOfHost.Roles.Crewmate
         public static int IncreaseMeetingTime;
         public static int MeetingTimeLimit;
 
+        public bool RevertOnDie => true;
+
         private static void SetupOptionItem()
         {
             OptionIncreaseMeetingTime = IntegerOptionItem.Create(RoleInfo, 10, OptionName.TimeManagerIncreaseMeetingTime, new(5, 50, 1), 20, false)
@@ -50,26 +52,5 @@ namespace TownOfHost.Roles.Crewmate
             var sec = IncreaseMeetingTime * Player.GetPlayerTaskState().CompletedTasksCount;
             return sec;
         }
-
-
-
-
-
-        /*
-                private static int AdditionalTime(PlayerControl player)
-                {
-                    if (player.Is(CustomRoles.TimeThief) && player.IsAlive())
-                        return OptionIncreaseMeetingTime.GetInt() * player.GetPlayerTaskState().CompletedTasksCount;
-                    return 0;
-                }
-
-                public static int TotalIncreasedMeetingTime()
-                {
-                    int sec = 0;
-                    foreach (var timemanager in TimeManagers)
-                        sec += AdditionalTime(playerId);
-                    Logger.Info($"{sec}second", "TimeManager.TotalIncreasedMeetingTime");
-                    return sec;
-                }*/
     }
 }
