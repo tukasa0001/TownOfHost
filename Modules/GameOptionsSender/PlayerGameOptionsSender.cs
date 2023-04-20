@@ -95,7 +95,8 @@ namespace TownOfHost.Modules
                     break;
             }
 
-            player.GetRoleClass()?.ApplyGameOptions(opt);
+            var roleClass = player.GetRoleClass();
+            roleClass?.ApplyGameOptions(opt);
             switch (role)
             {
                 case CustomRoles.EvilWatcher:
@@ -113,7 +114,7 @@ namespace TownOfHost.Modules
                     break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
-                    Jackal.ApplyGameOptions(opt);
+                    ((Jackal)roleClass).ApplyGameOptions(opt);
                     break;
             }
             if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))

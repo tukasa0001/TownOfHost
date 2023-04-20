@@ -336,13 +336,20 @@ namespace TownOfHost
             // Neutral
             sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Neutral).Do(info =>
             {
-                SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
+                switch (info.RoleName)
+                {
+                    case CustomRoles.Jackal: //ジャッカルは1人固定
+                        SetupSingleRoleOptions(info.ConfigId, info.Tab, info.RoleName, 1);
+                        break;
+                    default:
+                        SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
+                        break;
+                }
                 info.OptionCreator?.Invoke();
             });
             SetupLoversRoleOptionsToggle(50300);
 
             Egoist.SetupCustomOption();
-            Jackal.SetupCustomOption();
 
             // Add-Ons
             LastImpostor.SetupCustomOption();
@@ -617,6 +624,7 @@ namespace TownOfHost
                 .SetGameMode(customGameMode) as IntegerOptionItem;
             // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(count, count, count), count, tab, false).SetParent(spawnOption)
+                .SetHidden(true)
                 .SetGameMode(customGameMode);
 
             CustomRoleSpawnChances.Add(role, spawnOption);

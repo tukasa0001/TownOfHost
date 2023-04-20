@@ -40,7 +40,6 @@ namespace TownOfHost
                 CustomRoles.SchrodingerCat or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
-                CustomRoles.Jackal or
                 CustomRoles.JSchrodingerCat or
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
@@ -134,8 +133,6 @@ namespace TownOfHost
                 return roleInfo.BaseRoleType.Invoke();
             return role switch
             {
-                CustomRoles.Jackal => RoleTypes.Impostor,
-
                 CustomRoles.Scientist => RoleTypes.Scientist,
 
                 CustomRoles.Engineer => RoleTypes.Engineer,

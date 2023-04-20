@@ -397,7 +397,7 @@ namespace TownOfHost
             return pc.GetCustomRole() switch
             {
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
-                CustomRoles.Egoist or CustomRoles.Jackal => true,
+                CustomRoles.Egoist => true,
                 _ => roleClassCanUse ?? pc.Is(CustomRoleTypes.Impostor)
             };
         }
@@ -409,7 +409,7 @@ namespace TownOfHost
             {
                 CustomRoles.Sheriff => false,
                 CustomRoles.Egoist => true,
-                CustomRoles.Jackal => Jackal.CanVent.GetBool(),
+                CustomRoles.Jackal => Jackal.CanVent,
                 CustomRoles.Arsonist => Arsonist.IsDouseDone(pc),
                 _ => pc.Is(CustomRoleTypes.Impostor),
             };
@@ -421,9 +421,6 @@ namespace TownOfHost
             {
                 case CustomRoles.Egoist:
                     Egoist.ApplyKillCooldown(player.PlayerId);
-                    break;
-                case CustomRoles.Jackal:
-                    Jackal.SetKillCooldown(player.PlayerId);
                     break;
             }
             if (player.PlayerId == LastImpostor.currentId)

@@ -221,9 +221,6 @@ public static class CustomRoleManager
             case CustomRoles.Egoist:
                 Egoist.Add(pc.PlayerId);
                 break;
-            case CustomRoles.Jackal:
-                Jackal.Add(pc.PlayerId);
-                break;
 
             case CustomRoles.EvilTracker:
                 EvilTracker.Add(pc.PlayerId);

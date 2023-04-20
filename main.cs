@@ -191,7 +191,6 @@ namespace TownOfHost
                     {CustomRoles.SchrodingerCat, "#696969"},
                     {CustomRoles.Egoist, "#5600ff"},
                     {CustomRoles.EgoSchrodingerCat, "#5600ff"},
-                    {CustomRoles.Jackal, "#00b4eb"},
                     {CustomRoles.JSchrodingerCat, "#00b4eb"},
                     //HideAndSeek
                     {CustomRoles.HASFox, "#e478ff"},

@@ -307,7 +307,6 @@ namespace TownOfHost
                     case CustomRoles.GM:
                     case CustomRoles.SKMadmate:
                     case CustomRoles.Egoist:
-                    case CustomRoles.Jackal:
                         hasTasks = false;
                         break;
                     default:
