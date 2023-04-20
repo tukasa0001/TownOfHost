@@ -341,7 +341,6 @@ namespace TownOfHost
             TimeManager.SetupCustomOption();
 
             // Neutral
-            SetupRoleOptions(50000, TabGroup.NeutralRoles, CustomRoles.Jester);
             SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])
                 .SetGameMode(CustomGameMode.Standard);
@@ -355,7 +354,6 @@ namespace TownOfHost
             SetupLoversRoleOptionsToggle(50300);
 
             Egoist.SetupCustomOption();
-            Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
 
             // Add-Ons

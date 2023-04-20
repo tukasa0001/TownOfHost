@@ -29,7 +29,6 @@ namespace TownOfHost
         SniperSync,
         SetLoversPlayers,
         SetExecutionerTarget,
-        RemoveExecutionerTarget,
         SetCurrentDousingTarget,
         SetEvilTrackerTarget,
         SetRealKiller,
@@ -145,12 +144,6 @@ namespace TownOfHost
                     for (int i = 0; i < count; i++)
                         Main.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
                     break;
-                case CustomRPC.SetExecutionerTarget:
-                    Executioner.ReceiveRPC(reader, SetTarget: true);
-                    break;
-                case CustomRPC.RemoveExecutionerTarget:
-                    Executioner.ReceiveRPC(reader, SetTarget: false);
-                    break;
                 case CustomRPC.SetEvilTrackerTarget:
                     EvilTracker.ReceiveRPC(reader);
                     break;
@@ -247,6 +240,14 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role)
         {
+            var roleClass = CustomRoleManager.GetByPlayerId(targetId);
+            if (roleClass != null)
+            {
+                var player = roleClass.Player;
+                roleClass.Dispose();
+                CustomRoleManager.CreateInstance(role, player);
+            }
+
             if (role < CustomRoles.NotAssigned)
             {
                 Main.PlayerStates[targetId].SetMainRole(role);

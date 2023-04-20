@@ -333,9 +333,6 @@ namespace TownOfHost
                 sb.Append(CustomRoleManager.GetMarkOthers(seer, target, true));
                 switch (seer.GetCustomRole())
                 {
-                    case CustomRoles.Executioner:
-                        sb.Append(Executioner.TargetMark(seer, target));
-                        break;
                     case CustomRoles.EvilTracker:
                         sb.Append(EvilTracker.GetTargetMark(seer, target));
                         break;

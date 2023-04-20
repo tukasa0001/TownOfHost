@@ -204,6 +204,14 @@ public abstract class RoleBase : IDisposable
     public virtual bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva) => true;
 
     /// <summary>
+    /// 追放後に行われる処理
+    /// </summary>
+    /// <param name="exiled">追放されるプレイヤー</param>
+    /// <param name="DecidedWinner">勝者を確定させるか</param>
+    public virtual void OnExileWrapUp(GameData.PlayerInfo exiled, ref bool DecidedWinner)
+    { }
+
+    /// <summary>
     /// タスクターンが始まる直前に毎回呼ばれる関数
     /// </summary>
     public virtual void AfterMeetingTasks()

@@ -110,7 +110,6 @@ namespace TownOfHost
             CustomRoleManager.Initialize();
             FallFromLadder.Reset();
             Egoist.Init();
-            Executioner.Init();
             Jackal.Init();
             EvilTracker.Init();
             TimeManager.Init();
