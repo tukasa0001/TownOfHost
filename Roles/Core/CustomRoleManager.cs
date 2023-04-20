@@ -61,11 +61,6 @@ public static class CustomRoleManager
             {
                 if (!targetRole.OnCheckMurderAsTarget(info)) return;
             }
-            else
-            {
-                //RoleBase化されていないターゲット処理
-                if (!CheckMurderPatch.OnCheckMurderAsTarget(info)) return;
-            }
 
         }
         //キラーのキルチェック処理実行

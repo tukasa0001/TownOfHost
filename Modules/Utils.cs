@@ -310,7 +310,6 @@ namespace TownOfHost
                     case CustomRoles.Jackal:
                         hasTasks = false;
                         break;
-                    case CustomRoles.MadGuardian:
                     case CustomRoles.Terrorist:
                         if (ForRecompute)
                             hasTasks = false;

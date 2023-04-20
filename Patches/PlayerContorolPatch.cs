@@ -124,35 +124,6 @@ namespace TownOfHost
             }
             return true;
         }
-        public static bool OnCheckMurderAsTarget(MurderInfo info)
-        {
-            (var killer, var target) = info.AttemptTuple;
-
-            //キルされた時の特殊判定
-            switch (target.GetCustomRole())
-            {
-                //==========マッドメイト系役職==========//
-                case CustomRoles.MadGuardian:
-                    //MadGuardianを切れるかの判定処理
-                    var taskState = target.GetPlayerTaskState();
-                    if (taskState.IsTaskFinished)
-                    {
-                        info.CanKill = false;
-                        var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
-                        if (!NameColorManager.TryGetData(killer, target, out var value) || value != colorCode)
-                        {
-                            NameColorManager.Add(killer.PlayerId, target.PlayerId);
-                            if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                                NameColorManager.Add(target.PlayerId, killer.PlayerId, colorCode);
-                            Utils.NotifyRoles();
-                        }
-                        return true;
-                    }
-                    break;
-            }
-            return true;
-
-        }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
     class MurderPlayerPatch
@@ -606,6 +577,7 @@ namespace TownOfHost
             var ret = true;
             if (roleClass != null)
             {
+                roleClass.IsTaskFinished = taskState.IsTaskFinished;
                 ret = roleClass.OnCompleteTask();
             }
             else
