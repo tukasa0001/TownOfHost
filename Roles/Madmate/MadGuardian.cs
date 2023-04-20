@@ -24,7 +24,7 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
         HasTask.ForRecompute
     )
     {
-        canSeeKillFlash = MadmateCanSeeKillFlash.GetBool();
+        FieldCanSeeKillFlash = MadmateCanSeeKillFlash.GetBool();
         CanSeeWhoTriedToKill = OptionCanSeeWhoTriedToKill.GetBool();
     }
 
@@ -34,7 +34,7 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
     {
         MadGuardianCanSeeWhoTriedToKill
     }
-    private static bool canSeeKillFlash;
+    private static bool FieldCanSeeKillFlash;
     private static bool CanSeeWhoTriedToKill;
 
     private static void SetupOptionItem()
@@ -62,5 +62,5 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
         }
         return true;
     }
-    public bool CanSeeKillFlash(MurderInfo info) => canSeeKillFlash;
+    public bool CanSeeKillFlash(MurderInfo info) => FieldCanSeeKillFlash;
 }
