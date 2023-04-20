@@ -245,9 +245,6 @@ public static class CustomRoleManager
             case CustomRoles.EvilTracker:
                 EvilTracker.Add(pc.PlayerId);
                 break;
-            case CustomRoles.TimeManager:
-                TimeManager.Add(pc.PlayerId);
-                break;
         }
         foreach (var subRole in pc.GetCustomSubRoles())
         {

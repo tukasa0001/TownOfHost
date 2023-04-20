@@ -57,6 +57,11 @@ namespace TownOfHost.Modules
                         MeetingTimeMin = TimeThief.LowerLimitVotingTime;
                     }
 
+                    if (role is TimeManager)
+                    {
+                        MeetingTimeMax = TimeManager.MeetingTimeLimit;
+                    }
+
                     if (!role.Player.IsAlive() && meetingTimeAlterable.RevertOnDie)
                     {
                         continue;
@@ -66,13 +71,6 @@ namespace TownOfHost.Modules
                     Logger.Info($"会議時間-{role.Player.GetNameWithRole()}: {time} s", "MeetingTimeManager.OnReportDeadBody");
                     BonusMeetingTime += time;
                 }
-            }
-
-            // IMeetingTimeAlterable未対応役職はこちら
-            if (TimeManager.IsEnable)
-            {
-                MeetingTimeMax = TimeManager.MeetingTimeLimit.GetInt();
-                BonusMeetingTime += TimeManager.TotalIncreasedMeetingTime();
             }
 
             int TotalMeetingTime = DiscussionTime + VotingTime;
