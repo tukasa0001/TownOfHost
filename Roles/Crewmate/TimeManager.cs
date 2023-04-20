@@ -9,14 +9,14 @@ namespace TownOfHost.Roles.Crewmate
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(
-            typeof(TimeManager),
-            player => new TimeManager(player),
-            CustomRoles.TimeManager,
-            () => RoleTypes.Crewmate,
-            CustomRoleTypes.Crewmate,
-            21500,
-            SetupOptionItem
-        );
+                typeof(TimeManager),
+                player => new TimeManager(player),
+                CustomRoles.TimeManager,
+                () => RoleTypes.Crewmate,
+                CustomRoleTypes.Crewmate,
+                21500,
+                SetupOptionItem
+            );
         public TimeManager(PlayerControl player)
         : base(
             RoleInfo,
