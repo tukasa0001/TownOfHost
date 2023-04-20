@@ -24,7 +24,7 @@ public sealed class Arsonist : RoleBase
     : base(
         RoleInfo,
         player,
-        HasTask.False,
+        () => HasTask.False,
         CountTypes.Crew,
         false
     )

@@ -289,7 +289,7 @@ namespace TownOfHost
                 var roleClass = CustomRoleManager.GetByPlayerId(p.PlayerId);
                 if (roleClass != null)
                 {
-                    switch (roleClass.HasTasks)
+                    switch (roleClass.HasTasks.Invoke())
                     {
                         case HasTask.True:
                             hasTasks = true;
@@ -313,11 +313,6 @@ namespace TownOfHost
                     case CustomRoles.Terrorist:
                         if (ForRecompute)
                             hasTasks = false;
-                        break;
-                    case CustomRoles.Executioner:
-                        if (Executioner.ChangeRolesAfterTargetKilled == CustomRoles.Crewmate)
-                            hasTasks = !ForRecompute;
-                        else hasTasks = false;
                         break;
                     default:
                         if (role.IsImpostor() || role.IsKilledSchrodingerCat()) hasTasks = false;
