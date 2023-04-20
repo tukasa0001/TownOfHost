@@ -56,7 +56,19 @@ public sealed class Terrorist : RoleBase
             Win();
         }
     }
-    // TODO: 追放されたとき
+    public override void OnExileWrapUp(GameData.PlayerInfo exiled, ref bool DecidedWinner)
+    {
+        if (exiled.PlayerId != Player.PlayerId)
+        {
+            return;
+        }
+
+        if (CanWin())
+        {
+            Win();
+            DecidedWinner = true;
+        }
+    }
     public bool CanWin()
     {
         var playerState = Main.PlayerStates[Player.PlayerId];
