@@ -112,7 +112,6 @@ namespace TownOfHost
             Egoist.Init();
             Jackal.Init();
             EvilTracker.Init();
-            TimeManager.Init();
             LastImpostor.Init();
             TargetArrow.Init();
             DoubleTrigger.Init();
