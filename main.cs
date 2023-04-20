@@ -187,7 +187,6 @@ namespace TownOfHost
                     {CustomRoles.SabotageMaster, "#0000ff"},
                     {CustomRoles.Snitch, "#b8fb4f"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
-                    {CustomRoles.TimeManager, "#6495ed"},
                     //ニュートラル役職
                     {CustomRoles.SchrodingerCat, "#696969"},
                     {CustomRoles.Egoist, "#5600ff"},
