@@ -339,7 +339,6 @@ namespace TownOfHost
                 info.OptionCreator?.Invoke();
             });
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
-            TimeManager.SetupCustomOption();
 
             // Neutral
             SetupRoleOptions(50000, TabGroup.NeutralRoles, CustomRoles.Jester);

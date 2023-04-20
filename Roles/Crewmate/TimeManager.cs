@@ -1,47 +1,75 @@
 using System.Collections.Generic;
+using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
-using static TownOfHost.Options;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Crewmate
 {
-    public static class TimeManager
+    public sealed class TimeManager : RoleBase
     {
-        static readonly int Id = 21500;
-        static List<byte> playerIdList = new();
-        public static OptionItem IncreaseMeetingTime;
-        public static OptionItem MeetingTimeLimit;
-        public static void SetupCustomOption()
+        public static readonly SimpleRoleInfo RoleInfo =
+        new(
+            typeof(TimeManager),
+            player => new TimeManager(player),
+            CustomRoles.TimeManager,
+            () => RoleTypes.Crewmate,
+            CustomRoleTypes.Crewmate,
+            21500,
+            SetupOptionItem
+        );
+        public TimeManager(PlayerControl player)
+        : base(
+            RoleInfo,
+            player
+        )
         {
-            SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.TimeManager);
-            IncreaseMeetingTime = IntegerOptionItem.Create(Id + 10, "TimeManagerIncreaseMeetingTime", new(5, 30, 1), 15, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.TimeManager])
+            IncreaseMeetingTime = OptionIncreaseMeetingTime.GetInt();
+            MeetingTimeLimit = OptionMeetingTimeLimit.GetInt();
+        }
+        private static OptionItem OptionIncreaseMeetingTime;
+        private static OptionItem OptionMeetingTimeLimit;
+        enum OptionName
+        {
+            TimeManagerIncreaseMeetingTime,
+            TimeManagerLimitMeetingTime
+        }
+        public static int IncreaseMeetingTime;
+        public static int MeetingTimeLimit;
+
+        private static void SetupOptionItem()
+        {
+            OptionIncreaseMeetingTime = IntegerOptionItem.Create(RoleInfo, 10, OptionName.TimeManagerIncreaseMeetingTime, new(5, 50, 1), 20, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            MeetingTimeLimit = IntegerOptionItem.Create(Id + 11, "TimeManagerLimitMeetingTime", new(200, 900, 10), 300, TabGroup.CrewmateRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.TimeManager])
+            OptionMeetingTimeLimit = IntegerOptionItem.Create(RoleInfo, 11, OptionName.TimeManagerLimitMeetingTime, new(250, 500, 10), 300, false)
                 .SetValueFormat(OptionFormat.Seconds);
         }
-        public static void Init()
+
+        public int CalculateMeetingTimeDelta()
         {
-            playerIdList = new();
-        }
-        public static void Add(byte playerId)
-        {
-            playerIdList.Add(playerId);
-        }
-        public static bool IsEnable => playerIdList.Count > 0;
-        private static int AdditionalTime(byte id)
-        {
-            var pc = Utils.GetPlayerById(id);
-            if (playerIdList.Contains(id) && pc.IsAlive())
-                return IncreaseMeetingTime.GetInt() * pc.GetPlayerTaskState().CompletedTasksCount;
-            return 0;
-        }
-        public static int TotalIncreasedMeetingTime()
-        {
-            int sec = 0;
-            foreach (var playerId in playerIdList)
-                sec += AdditionalTime(playerId);
-            Logger.Info($"{sec}second", "TimeManager.TotalIncreasedMeetingTime");
+            var sec = IncreaseMeetingTime * Player.GetPlayerTaskState().CompletedTasksCount;
             return sec;
         }
+
+
+
+
+
+        /*
+                private static int AdditionalTime(PlayerControl player)
+                {
+                    if (player.Is(CustomRoles.TimeThief) && player.IsAlive())
+                        return OptionIncreaseMeetingTime.GetInt() * player.GetPlayerTaskState().CompletedTasksCount;
+                    return 0;
+                }
+
+                public static int TotalIncreasedMeetingTime()
+                {
+                    int sec = 0;
+                    foreach (var timemanager in TimeManagers)
+                        sec += AdditionalTime(playerId);
+                    Logger.Info($"{sec}second", "TimeManager.TotalIncreasedMeetingTime");
+                    return sec;
+                }*/
     }
 }
