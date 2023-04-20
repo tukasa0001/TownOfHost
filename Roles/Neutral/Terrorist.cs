@@ -76,7 +76,7 @@ public sealed class Terrorist : RoleBase
         {
             return false;
         }
-        return Player.GetPlayerTaskState().IsTaskFinished;
+        return IsTaskFinished;
     }
     public void Win()
     {
