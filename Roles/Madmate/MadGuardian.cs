@@ -48,19 +48,18 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
         (var killer, var target) = info.AttemptTuple;
 
         //MadGuardianを切れるかの判定処理
-        if (IsTaskFinished)
+        if (!IsTaskFinished) return true;
+
+        info.CanKill = false;
+        if (!NameColorManager.TryGetData(killer, target, out var value) || value != RoleInfo.RoleColorCode)
         {
-            info.CanKill = false;
-            if (!NameColorManager.TryGetData(killer, target, out var value) || value != RoleInfo.RoleColorCode)
-            {
-                NameColorManager.Add(killer.PlayerId, target.PlayerId);
-                if (CanSeeWhoTriedToKill)
-                    NameColorManager.Add(target.PlayerId, killer.PlayerId, RoleInfo.RoleColorCode);
-                Utils.NotifyRoles();
-            }
-            return false;
+            NameColorManager.Add(killer.PlayerId, target.PlayerId);
+            if (CanSeeWhoTriedToKill)
+                NameColorManager.Add(target.PlayerId, killer.PlayerId, RoleInfo.RoleColorCode);
+            Utils.NotifyRoles();
         }
-        return true;
+
+        return false;
     }
     public bool CanSeeKillFlash(MurderInfo info) => FieldCanSeeKillFlash;
 }
