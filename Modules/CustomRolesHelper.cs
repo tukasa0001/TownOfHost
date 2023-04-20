@@ -27,7 +27,6 @@ namespace TownOfHost
             return
                 role is
                 CustomRoles.SKMadmate or
-                CustomRoles.MadGuardian or
                 CustomRoles.MSchrodingerCat;
         }
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
@@ -37,9 +36,8 @@ namespace TownOfHost
             if (roleInfo != null)
                 return roleInfo.CustomRoleType == CustomRoleTypes.Neutral;
             return
-                role is CustomRoles.Jester or
+                role is
                 CustomRoles.SchrodingerCat or
-                CustomRoles.Executioner or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
                 CustomRoles.Jackal or

@@ -40,8 +40,6 @@ public sealed class Lighter : RoleBase
     private static float TaskCompletedVision;
     private static bool TaskCompletedDisableLightOut;
 
-    private bool IsTaskFinished;
-
     private static void SetupOptionItem()
     {
         OptionTaskCompletedVision = FloatOptionItem.Create(RoleInfo, 10, OptionName.LighterTaskCompletedVision, new(0f, 5f, 0.25f), 2f, false)

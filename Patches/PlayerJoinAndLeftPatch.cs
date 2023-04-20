@@ -5,6 +5,7 @@ using HarmonyLib;
 using InnerNet;
 
 using TownOfHost.Modules;
+using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
@@ -74,6 +75,11 @@ namespace TownOfHost
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
     class OnPlayerLeftPatch
     {
+        static void Prefix([HarmonyArgument(0)] ClientData data)
+        {
+            if (CustomRoles.Executioner.IsPresent())
+                Executioner.ChangeRoleByTarget(data.Character.PlayerId);
+        }
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
         {
             //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
@@ -87,10 +93,6 @@ namespace TownOfHost
                         Main.LoversPlayers.Remove(lovers);
                         Main.PlayerStates[lovers.PlayerId].RemoveSubRole(CustomRoles.Lovers);
                     }
-                if (data.Character.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(data.Character.PlayerId))
-                    Executioner.ChangeRole(data.Character);
-                if (Executioner.Target.ContainsValue(data.Character.PlayerId))
-                    Executioner.ChangeRoleByTarget(data.Character);
                 if (Main.PlayerStates[data.Character.PlayerId].DeathReason == CustomDeathReason.etc) //死因が設定されていなかったら
                 {
                     Main.PlayerStates[data.Character.PlayerId].DeathReason = CustomDeathReason.Disconnected;
