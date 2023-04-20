@@ -9,16 +9,16 @@ namespace TownOfHost.Roles.Neutral
     public sealed class Jackal : RoleBase
     {
         public static readonly SimpleRoleInfo RoleInfo =
-        new(
-            typeof(Jackal),
-            player => new Jackal(player),
-            CustomRoles.Jackal,
-            () => RoleTypes.Impostor,
-            CustomRoleTypes.Neutral,
-            50900,
-            SetupOptionItem,
-            "#00b4eb"
-        );
+            new(
+                typeof(Jackal),
+                player => new Jackal(player),
+                CustomRoles.Jackal,
+                () => RoleTypes.Impostor,
+                CustomRoleTypes.Neutral,
+                50900,
+                SetupOptionItem,
+                "#00b4eb"
+            );
         public Jackal(PlayerControl player)
         : base(
             RoleInfo,
