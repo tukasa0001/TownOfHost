@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using AmongUs.GameOptions;
-using Hazel;
 
 using TownOfHost.Roles.Core;
 
