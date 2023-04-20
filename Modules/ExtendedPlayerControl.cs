@@ -21,6 +21,8 @@ namespace TownOfHost
     {
         public static void RpcSetCustomRole(this PlayerControl player, CustomRoles role)
         {
+            if (player.GetCustomRole() == role) return;
+
             if (role < CustomRoles.NotAssigned)
             {
                 Main.PlayerStates[player.PlayerId].SetMainRole(role);
@@ -31,6 +33,13 @@ namespace TownOfHost
             }
             if (AmongUsClient.Instance.AmHost)
             {
+                var roleClass = player.GetRoleClass();
+                if (roleClass != null)
+                {
+                    roleClass.Dispose();
+                    CustomRoleManager.CreateInstance(role, player);
+                }
+
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
                 writer.Write(player.PlayerId);
                 writer.WritePacked((int)role);

@@ -308,16 +308,14 @@ namespace TownOfHost
                     case CustomRoles.SKMadmate:
                     case CustomRoles.Egoist:
                     case CustomRoles.Jackal:
-                    case CustomRoles.Jester:
                         hasTasks = false;
                         break;
-                    case CustomRoles.MadGuardian:
                     case CustomRoles.Terrorist:
                         if (ForRecompute)
                             hasTasks = false;
                         break;
                     case CustomRoles.Executioner:
-                        if (Executioner.ChangeRolesAfterTargetKilled.GetValue() == 0)
+                        if (Executioner.ChangeRolesAfterTargetKilled == CustomRoles.Crewmate)
                             hasTasks = !ForRecompute;
                         else hasTasks = false;
                         break;
@@ -839,7 +837,6 @@ namespace TownOfHost
                         //ターゲットのプレイヤー名の色を書き換えます。
                         TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isForMeeting);
 
-                        TargetMark.Append(Executioner.TargetMark(seer, target));
 
                         string TargetDeathReason = "";
                         if (seer.KnowDeathReason(target))

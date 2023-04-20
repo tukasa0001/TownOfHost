@@ -18,6 +18,10 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public HasTask HasTasks;
     /// <summary>
+    /// タスクが完了しているか
+    /// </summary>
+    public bool IsTaskFinished;
+    /// <summary>
     /// キル能力を持っているか
     /// </summary>
     public bool CanKill;
@@ -200,8 +204,16 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     /// <param name="statesList">投票情報を保存しておくリスト</param>
     /// <param name="pva">プレイヤー</param>
-    /// <returns>falseを返すと会議終了判定をキャンセルする</returns>
+    /// <returns>falseを返すと会議を強制終了する</returns>
     public virtual bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva) => true;
+
+    /// <summary>
+    /// 追放後に行われる処理
+    /// </summary>
+    /// <param name="exiled">追放されるプレイヤー</param>
+    /// <param name="DecidedWinner">勝者を確定させるか</param>
+    public virtual void OnExileWrapUp(GameData.PlayerInfo exiled, ref bool DecidedWinner)
+    { }
 
     /// <summary>
     /// タスクターンが始まる直前に毎回呼ばれる関数

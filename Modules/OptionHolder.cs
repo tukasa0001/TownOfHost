@@ -79,7 +79,6 @@ namespace TownOfHost
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
         public static OptionItem DefaultShapeshiftCooldown;
         public static OptionItem CanMakeMadmateCount;
-        public static OptionItem MadGuardianCanSeeWhoTriedToKill;
         public static OptionItem MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static OptionItem MadmateCanFixComms;
         public static OptionItem MadmateHasImpostorVision;
@@ -202,7 +201,6 @@ namespace TownOfHost
         public static OptionItem DisableAirshipCargoLightsPanel;
 
         // タスク上書き
-        public static OverrideTasksData MadGuardianTasks;
         public static OverrideTasksData TerroristTasks;
         public static OverrideTasksData SnitchTasks;
 
@@ -311,10 +309,6 @@ namespace TownOfHost
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
                 info.OptionCreator?.Invoke();
             });
-            SetupRoleOptions(10100, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
-            MadGuardianCanSeeWhoTriedToKill = BooleanOptionItem.Create(10110, "MadGuardianCanSeeWhoTriedToKill", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadGuardian]);
-            //ID10120~10123を使用
-            MadGuardianTasks = OverrideTasksData.Create(10120, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
             // Madmate Common Options
             MadmateCanFixLightsOut = BooleanOptionItem.Create(15010, "MadmateCanFixLightsOut", false, TabGroup.ImpostorRoles, false)
                 .SetHeader(true);
@@ -341,7 +335,6 @@ namespace TownOfHost
             SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
 
             // Neutral
-            SetupRoleOptions(50000, TabGroup.NeutralRoles, CustomRoles.Jester);
             SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])
                 .SetGameMode(CustomGameMode.Standard);
@@ -355,7 +348,6 @@ namespace TownOfHost
             SetupLoversRoleOptionsToggle(50300);
 
             Egoist.SetupCustomOption();
-            Executioner.SetupCustomOption();
             Jackal.SetupCustomOption();
 
             // Add-Ons
