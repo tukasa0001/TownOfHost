@@ -332,7 +332,6 @@ namespace TownOfHost
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
                 info.OptionCreator?.Invoke();
             });
-            SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
 
             // Neutral
             SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
