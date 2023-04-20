@@ -21,7 +21,7 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
     : base(
         RoleInfo,
         player,
-        HasTask.ForRecompute
+        () => HasTask.ForRecompute
     )
     {
         FieldCanSeeKillFlash = MadmateCanSeeKillFlash.GetBool();
