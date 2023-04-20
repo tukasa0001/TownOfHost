@@ -21,7 +21,7 @@ public sealed class Terrorist : RoleBase
     : base(
         RoleInfo,
         player,
-        HasTask.ForRecompute
+        () => HasTask.ForRecompute
     )
     {
         canSuicideWin = OptionCanSuicideWin.GetBool();
