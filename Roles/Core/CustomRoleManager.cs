@@ -121,7 +121,7 @@ public static class CustomRoleManager
             OnMurderPlayerAsTarget(info);
 
         //その他視点の処理があれば実行
-        foreach (var onMurderPlayer in OnMurderPlayerOthers)
+        foreach (var onMurderPlayer in OnMurderPlayerOthers.ToArray())
         {
             onMurderPlayer(info);
         }
@@ -165,13 +165,6 @@ public static class CustomRoleManager
         {
             Logger.Info(attemptTarget?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
             Utils.CheckTerroristWin(attemptTarget.Data);
-        }
-        else if (Executioner.Target.ContainsValue(attemptTarget.PlayerId))
-            Executioner.ChangeRoleByTarget(attemptTarget);
-        else if (attemptTarget.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(attemptTarget.PlayerId))
-        {
-            Executioner.Target.Remove(attemptTarget.PlayerId);
-            Executioner.SendRPC(attemptTarget.PlayerId);
         }
     }
     public static void OnFixedUpdate(PlayerControl player)
@@ -247,9 +240,6 @@ public static class CustomRoleManager
         switch (pc.GetCustomRole())
         {
 
-            case CustomRoles.Executioner:
-                Executioner.Add(pc.PlayerId);
-                break;
             case CustomRoles.Egoist:
                 Egoist.Add(pc.PlayerId);
                 break;

@@ -437,7 +437,6 @@ namespace TownOfHost
                     //seerに関わらず発動するMark
                     Mark.Append(CustomRoleManager.GetMarkOthers(seer, target, false));
 
-                    Mark.Append(Executioner.TargetMark(seer, target));
                     if (seer.Is(CustomRoles.EvilTracker)) Mark.Append(EvilTracker.GetTargetMark(seer, target));
 
                     //ハートマークを付ける(会議中MOD視点)
