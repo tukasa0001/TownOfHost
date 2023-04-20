@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
@@ -41,9 +40,9 @@ namespace TownOfHost.Roles.Crewmate
 
         private static void SetupOptionItem()
         {
-            OptionIncreaseMeetingTime = IntegerOptionItem.Create(RoleInfo, 10, OptionName.TimeManagerIncreaseMeetingTime, new(5, 50, 1), 20, false)
+            OptionIncreaseMeetingTime = IntegerOptionItem.Create(RoleInfo, 10, OptionName.TimeManagerIncreaseMeetingTime, new(5, 50, 1), 15, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionMeetingTimeLimit = IntegerOptionItem.Create(RoleInfo, 11, OptionName.TimeManagerLimitMeetingTime, new(250, 500, 10), 300, false)
+            OptionMeetingTimeLimit = IntegerOptionItem.Create(RoleInfo, 11, OptionName.TimeManagerLimitMeetingTime, new(200, 900, 10), 300, false)
                 .SetValueFormat(OptionFormat.Seconds);
         }
 
