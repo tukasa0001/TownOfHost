@@ -310,10 +310,6 @@ namespace TownOfHost
                     case CustomRoles.Jackal:
                         hasTasks = false;
                         break;
-                    case CustomRoles.Terrorist:
-                        if (ForRecompute)
-                            hasTasks = false;
-                        break;
                     default:
                         if (role.IsImpostor() || role.IsKilledSchrodingerCat()) hasTasks = false;
                         break;
@@ -587,42 +583,6 @@ namespace TownOfHost
                 + $"\n/h modes {GetString("Command.h_modes")}"
                 + $"\n/dump - {GetString("Command.dump")}"
                 );
-
-        }
-        public static void CheckTerroristWin(GameData.PlayerInfo Terrorist)
-        {
-            if (!AmongUsClient.Instance.AmHost) return;
-            var taskState = GetPlayerById(Terrorist.PlayerId).GetPlayerTaskState();
-            if (taskState.IsTaskFinished && (!Main.PlayerStates[Terrorist.PlayerId].IsSuicide() || Options.CanTerroristSuicideWin.GetBool())) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
-            {
-                foreach (var pc in Main.AllPlayerControls)
-                {
-                    if (pc.Is(CustomRoles.Terrorist))
-                    {
-                        if (Main.PlayerStates[pc.PlayerId].DeathReason == CustomDeathReason.Vote)
-                        {
-                            //追放された場合は生存扱い
-                            Main.PlayerStates[pc.PlayerId].DeathReason = CustomDeathReason.etc;
-                            //生存扱いのためSetDeadは必要なし
-                        }
-                        else
-                        {
-                            //キルされた場合は自爆扱い
-                            Main.PlayerStates[pc.PlayerId].DeathReason = CustomDeathReason.Suicide;
-                        }
-                    }
-                    else if (!pc.Data.IsDead)
-                    {
-                        //生存者は爆死
-                        pc.SetRealKiller(Terrorist.Object);
-                        pc.RpcMurderPlayer(pc);
-                        Main.PlayerStates[pc.PlayerId].DeathReason = CustomDeathReason.Bombed;
-                        Main.PlayerStates[pc.PlayerId].SetDead();
-                    }
-                }
-                CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Terrorist);
-                CustomWinnerHolder.WinnerIds.Add(Terrorist.PlayerId);
-            }
         }
         public static void SendMessage(string text, byte sendTo = byte.MaxValue, string title = "")
         {

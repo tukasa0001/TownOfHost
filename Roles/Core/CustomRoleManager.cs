@@ -112,8 +112,6 @@ public static class CustomRoleManager
         var targetRole = attemptTarget.GetRoleClass();
         if (targetRole != null)
             targetRole.OnMurderPlayerAsTarget(info);
-        else
-            OnMurderPlayerAsTarget(info);
 
         //その他視点の処理があれば実行
         foreach (var onMurderPlayer in OnMurderPlayerOthers.ToArray())
@@ -147,21 +145,6 @@ public static class CustomRoleManager
     /// </summary>
     public static HashSet<Action<MurderInfo>> OnMurderPlayerOthers = new();
 
-    /// <summary>
-    /// RoleBase未実装のMurderPlayer処理
-    /// </summary>
-    /// <param name="info"></param>
-    public static void OnMurderPlayerAsTarget(MurderInfo info)
-    {
-        (var attemptKiller, var attemptTarget) = info.AttemptTuple;
-        var suicide = info.IsSuicide;
-        //RoleClass非対応の処理
-        if (attemptTarget.Is(CustomRoles.Terrorist))
-        {
-            Logger.Info(attemptTarget?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
-            Utils.CheckTerroristWin(attemptTarget.Data);
-        }
-    }
     public static void OnFixedUpdate(PlayerControl player)
     {
         if (GameStates.IsInTask)

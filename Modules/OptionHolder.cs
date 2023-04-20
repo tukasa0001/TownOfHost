@@ -334,11 +334,6 @@ namespace TownOfHost
             });
 
             // Neutral
-            SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
-            CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])
-                .SetGameMode(CustomGameMode.Standard);
-            //50220~50223を使用
-            TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Neutral).Do(info =>
             {
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);

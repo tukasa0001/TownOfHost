@@ -1,10 +1,7 @@
 using AmongUs.Data;
 using HarmonyLib;
 
-using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost
@@ -68,13 +65,7 @@ namespace TownOfHost
                 {
                     roleClass.OnExileWrapUp(exiled, ref DecidedWinner);
                 }
-                if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
-                {
-                    Utils.CheckTerroristWin(exiled);
-                    DecidedWinner = true;
-                }
                 SchrodingerCat.ChangeTeam(exiled.Object);
-
 
                 if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) Main.PlayerStates[exiled.PlayerId].SetDead();
             }

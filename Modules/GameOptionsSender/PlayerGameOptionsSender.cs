@@ -98,10 +98,6 @@ namespace TownOfHost.Modules
             player.GetRoleClass()?.ApplyGameOptions(opt);
             switch (role)
             {
-                case CustomRoles.Terrorist:
-                    AURoleOptions.EngineerCooldown = 0;
-                    AURoleOptions.EngineerInVentMaxTime = 0;
-                    break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
                     opt.SetBool(BoolOptionNames.AnonymousVotes, false);
