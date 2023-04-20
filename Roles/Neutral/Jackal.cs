@@ -23,7 +23,7 @@ namespace TownOfHost.Roles.Neutral
         : base(
             RoleInfo,
             player,
-            HasTask.False,
+            () => HasTask.False,
             CountTypes.Jackal
         )
         {
