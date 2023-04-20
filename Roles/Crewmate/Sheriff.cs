@@ -27,7 +27,7 @@ public sealed class Sheriff : RoleBase
     : base(
         RoleInfo,
         player,
-        HasTask.False
+        () => HasTask.False
     )
     {
         ShotLimit = ShotLimitOpt.GetInt();

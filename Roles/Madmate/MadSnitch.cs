@@ -23,7 +23,7 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
     : base(
         RoleInfo,
         player,
-        HasTask.ForRecompute)
+        () => HasTask.ForRecompute)
     {
         canSeeKillFlash = Options.MadmateCanSeeKillFlash.GetBool();
         canSeeDeathReason = Options.MadmateCanSeeDeathReason.GetBool();
