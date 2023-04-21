@@ -7,7 +7,7 @@ using static TownOfHost.Options;
 namespace TownOfHost.Roles.Madmate;
 public sealed class MadGuardian : RoleBase, IKillFlashSeeable
 {
-    public static SimpleRoleInfo RoleInfo =
+    public static readonly SimpleRoleInfo RoleInfo =
         new(
             typeof(MadGuardian),
             player => new MadGuardian(player),
