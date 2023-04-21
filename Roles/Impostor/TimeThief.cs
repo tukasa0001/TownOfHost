@@ -9,15 +9,15 @@ namespace TownOfHost.Roles.Impostor
     public sealed class TimeThief : RoleBase, IMeetingTimeAlterable
     {
         public static readonly SimpleRoleInfo RoleInfo =
-        new(
-            typeof(TimeThief),
-            player => new TimeThief(player),
-            CustomRoles.TimeThief,
-            () => RoleTypes.Impostor,
-            CustomRoleTypes.Impostor,
-            2400,
-            SetupOptionItem
-        );
+            new(
+                typeof(TimeThief),
+                player => new TimeThief(player),
+                CustomRoles.TimeThief,
+                () => RoleTypes.Impostor,
+                CustomRoleTypes.Impostor,
+                2400,
+                SetupOptionItem
+            );
         public TimeThief(PlayerControl player)
         : base(
             RoleInfo,

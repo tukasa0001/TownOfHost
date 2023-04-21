@@ -11,15 +11,15 @@ namespace TownOfHost.Roles.Impostor
     public sealed class Vampire : RoleBase
     {
         public static readonly SimpleRoleInfo RoleInfo =
-        new(
-            typeof(Vampire),
-            player => new Vampire(player),
-            CustomRoles.Vampire,
-            () => RoleTypes.Impostor,
-            CustomRoleTypes.Impostor,
-            1300,
-            SetupOptionItem
-        );
+            new(
+                typeof(Vampire),
+                player => new Vampire(player),
+                CustomRoles.Vampire,
+                () => RoleTypes.Impostor,
+                CustomRoleTypes.Impostor,
+                1300,
+                SetupOptionItem
+            );
         public Vampire(PlayerControl player)
         : base(
             RoleInfo,
