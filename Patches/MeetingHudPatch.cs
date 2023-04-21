@@ -282,7 +282,7 @@ namespace TownOfHost
                     roleTextMeeting.enabled = true;
                 }
             }
-            CustomRoleManager.AllActiveRoles.Do(role => role.OnStartMeeting());
+            CustomRoleManager.AllActiveRoles.Values.Do(role => role.OnStartMeeting());
             if (Options.SyncButtonMode.GetBool())
             {
                 Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount));

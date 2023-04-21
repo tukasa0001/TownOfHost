@@ -6,15 +6,15 @@ namespace TownOfHost.Roles.Impostor;
 public sealed class Mafia : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
-    new(
-        typeof(Mafia),
-        player => new Mafia(player),
-        CustomRoles.Mafia,
-        () => RoleTypes.Impostor,
-        CustomRoleTypes.Impostor,
-        1600,
-        null
-    );
+        new(
+            typeof(Mafia),
+            player => new Mafia(player),
+            CustomRoles.Mafia,
+            () => RoleTypes.Impostor,
+            CustomRoleTypes.Impostor,
+            1600,
+            null
+        );
     public Mafia(PlayerControl player)
     : base(
         RoleInfo,

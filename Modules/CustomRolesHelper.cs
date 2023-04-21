@@ -141,8 +141,6 @@ namespace TownOfHost
                 CustomRoles.GM => RoleTypes.GuardianAngel,
 
                 CustomRoles.Shapeshifter or
-                CustomRoles.FireWorks or
-                CustomRoles.Sniper or
                 CustomRoles.Egoist => RoleTypes.Shapeshifter,
 
                 CustomRoles.EvilTracker => EvilTracker.RoleTypes,

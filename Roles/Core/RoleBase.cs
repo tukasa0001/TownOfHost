@@ -49,13 +49,13 @@ public abstract class RoleBase : IDisposable
 
         CountType = countType ?? (roleInfo.RoleName.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew);
 
-        CustomRoleManager.AllActiveRoles.Add(this);
+        CustomRoleManager.AllActiveRoles.Add(Player.PlayerId, this);
     }
     public void Dispose()
     {
         Player = null;
         OnDestroy();
-        CustomRoleManager.AllActiveRoles.Remove(this);
+        CustomRoleManager.AllActiveRoles.Remove(Player.PlayerId);
     }
     public bool Is(PlayerControl player)
     {

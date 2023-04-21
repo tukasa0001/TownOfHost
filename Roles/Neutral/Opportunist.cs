@@ -7,7 +7,7 @@ namespace TownOfHost.Roles.Neutral;
 
 public sealed class Opportunist : RoleBase, IAdditionalWinner
 {
-    public static SimpleRoleInfo RoleInfo =
+    public static readonly SimpleRoleInfo RoleInfo =
         new(
             typeof(Opportunist),
             player => new Opportunist(player),
