@@ -131,31 +131,11 @@ namespace TownOfHost
                     __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Madmate);
                     __instance.ImpostorText.text = GetString("TeamImpostor");
                     StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
             }
             switch (role)
             {
-                case CustomRoles.Terrorist:
-                    var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
-                    .MinigamePrefab.OpenSound;
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
-                    break;
-
-                case CustomRoles.Executioner:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
-                    break;
-
-                case CustomRoles.Vampire:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
-                    break;
-
-                case CustomRoles.SabotageMaster:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
-                    break;
-
                 case CustomRoles.Sheriff:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                     __instance.ImpostorText.gameObject.SetActive(true);
                     var numImpostors = Main.NormalOptions.NumImpostors;
@@ -163,17 +143,6 @@ namespace TownOfHost
                         ? GetString(StringNames.NumImpostorsS)
                         : string.Format(GetString(StringNames.NumImpostorsP), numImpostors);
                     __instance.ImpostorText.text = text.Replace("[FF1919FF]", "<color=#FF1919FF>").Replace("[]", "</color>");
-                    break;
-                case CustomRoles.Arsonist:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
-                    break;
-
-                case CustomRoles.SchrodingerCat:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
-                    break;
-
-                case CustomRoles.Mayor:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;
 
                 case CustomRoles.GM:
@@ -202,10 +171,6 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Color.magenta;
                 StartFadeIntro(__instance, Color.magenta, Color.magenta);
             }
-        }
-        private static AudioClip GetIntroSound(RoleTypes roleType)
-        {
-            return RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
         }
         private static async void StartFadeIntro(IntroCutscene __instance, Color start, Color end)
         {

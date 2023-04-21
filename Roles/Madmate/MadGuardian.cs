@@ -15,7 +15,8 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Madmate,
             10100,
-            SetupOptionItem
+            SetupOptionItem,
+            introSound: () => GetIntroSound(RoleTypes.Impostor)
         );
     public MadGuardian(PlayerControl player)
     : base(
