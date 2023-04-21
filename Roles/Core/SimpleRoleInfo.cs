@@ -24,7 +24,6 @@ public class SimpleRoleInfo
     private Func<AudioClip> introSound;
     public AudioClip IntroSound => introSound?.Invoke();
 
-
     public SimpleRoleInfo(
         Type classType,
         Func<PlayerControl, RoleBase> createInstance,
