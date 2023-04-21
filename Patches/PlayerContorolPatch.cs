@@ -265,7 +265,7 @@ namespace TownOfHost
 
 
 
-            foreach (var role in CustomRoleManager.AllActiveRoles)
+            foreach (var role in CustomRoleManager.AllActiveRoles.Values)
             {
                 role.OnReportDeadBody(__instance, target);
             }
