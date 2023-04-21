@@ -130,7 +130,7 @@ namespace TownOfHost
 
             if (seer.GetRoleClass() is IKillFlashSeeable killFlashSeeable)
             {
-                return killFlashSeeable.CanSeeKillFlash(info);
+                return killFlashSeeable.CheckKillFlash(info);
             }
 
             return seer.GetCustomRole() switch

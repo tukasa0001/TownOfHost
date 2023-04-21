@@ -29,6 +29,6 @@ public sealed class Madmate : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
     private static bool canSeeKillFlash;
     private static bool canSeeDeathReason;
 
-    public bool CanSeeKillFlash(MurderInfo info) => canSeeKillFlash;
-    public bool CanSeeDeathReason(PlayerControl seen) => canSeeDeathReason;
+    public bool CheckKillFlash(MurderInfo info) => canSeeKillFlash;
+    public bool CheckSeeDeathReason(PlayerControl seen) => canSeeDeathReason;
 }

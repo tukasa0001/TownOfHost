@@ -61,5 +61,5 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
 
         return false;
     }
-    public bool CanSeeKillFlash(MurderInfo info) => FieldCanSeeKillFlash;
+    public bool CheckKillFlash(MurderInfo info) => FieldCanSeeKillFlash;
 }
