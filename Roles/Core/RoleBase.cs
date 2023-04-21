@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Hazel;
 using AmongUs.GameOptions;
@@ -334,4 +335,7 @@ public abstract class RoleBase : IDisposable
         };
         return GetString(str);
     }
+
+    protected static AudioClip GetIntroSound(RoleTypes roleType) =>
+        RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
 }

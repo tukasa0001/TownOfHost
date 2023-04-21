@@ -107,6 +107,11 @@ namespace TownOfHost
             //チーム表示変更
             CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
 
+            if (role.GetRoleInfo()?.IntroSound is AudioClip introSound)
+            {
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = introSound;
+            }
+
             switch (role.GetCustomRoleTypes())
             {
                 case CustomRoleTypes.Neutral:
