@@ -61,7 +61,7 @@ namespace TownOfHost
                 exiled.IsDead = true;
                 Main.PlayerStates[exiled.PlayerId].DeathReason = CustomDeathReason.Vote;
 
-                foreach (var roleClass in CustomRoleManager.AllActiveRoles)
+                foreach (var roleClass in CustomRoleManager.AllActiveRoles.Values)
                 {
                     roleClass.OnExileWrapUp(exiled, ref DecidedWinner);
                 }

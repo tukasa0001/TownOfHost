@@ -16,11 +16,11 @@ public static class CustomRoleManager
 {
     public static Type[] AllRolesClassType;
     public static Dictionary<CustomRoles, SimpleRoleInfo> AllRolesInfo = new(Enum.GetValues(typeof(CustomRoles)).Length);
-    public static List<RoleBase> AllActiveRoles = new(Enum.GetValues(typeof(CustomRoles)).Length);
+    public static Dictionary<byte, RoleBase> AllActiveRoles = new(15);
 
     public static SimpleRoleInfo GetRoleInfo(this CustomRoles role) => AllRolesInfo.ContainsKey(role) ? AllRolesInfo[role] : null;
     public static RoleBase GetRoleClass(this PlayerControl player) => GetByPlayerId(player.PlayerId);
-    public static RoleBase GetByPlayerId(byte playerId) => AllActiveRoles.ToArray().Where(roleClass => roleClass.Player.PlayerId == playerId).FirstOrDefault();
+    public static RoleBase GetByPlayerId(byte playerId) => AllActiveRoles.TryGetValue(playerId, out var roleBase) ? roleBase : null;
     public static void Do<T>(this List<T> list, Action<T> action) => list.ToArray().Do(action);
     // == CheckMurder関連処理 ==
     public static Dictionary<byte, MurderInfo> CheckMurderInfos = new();
@@ -168,7 +168,7 @@ public static class CustomRoleManager
     public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
     {
         bool cancel = false;
-        foreach (var roleClass in AllActiveRoles)
+        foreach (var roleClass in AllActiveRoles.Values)
         {
             if (!roleClass.OnSabotage(player, systemType, amount))
             {
@@ -244,7 +244,7 @@ public static class CustomRoleManager
     public static void DispatchRpc(MessageReader reader, CustomRPC rpcType)
     {
         var playerId = reader.ReadByte();
-        AllActiveRoles.FirstOrDefault(r => r.Player.PlayerId == playerId)?.ReceiveRPC(reader, rpcType);
+        GetByPlayerId(playerId)?.ReceiveRPC(reader, rpcType);
     }
     //NameSystem
     public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> MarkOthers = new();
@@ -315,7 +315,7 @@ public static class CustomRoleManager
         OnMurderPlayerOthers.Clear();
         OnFixedUpdateOthers.Clear();
 
-        AllActiveRoles.Do(roleClass => roleClass.Dispose());
+        AllActiveRoles.Values.Do(roleClass => roleClass.Dispose());
     }
 }
 public class MurderInfo

@@ -47,7 +47,7 @@ namespace TownOfHost.Modules
             int MeetingTimeMin = 0;
             int MeetingTimeMax = 300;
 
-            foreach (var role in CustomRoleManager.AllActiveRoles)
+            foreach (var role in CustomRoleManager.AllActiveRoles.Values)
             {
                 if (role is IMeetingTimeAlterable meetingTimeAlterable)
                 {
