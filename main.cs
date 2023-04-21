@@ -186,7 +186,6 @@ namespace TownOfHost
                     {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     //ニュートラル役職
-                    {CustomRoles.SchrodingerCat, "#696969"},
                     {CustomRoles.Egoist, "#5600ff"},
                     {CustomRoles.EgoSchrodingerCat, "#5600ff"},
                     {CustomRoles.JSchrodingerCat, "#00b4eb"},
