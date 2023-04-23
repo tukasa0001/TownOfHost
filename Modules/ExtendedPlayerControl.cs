@@ -517,7 +517,7 @@ namespace TownOfHost
             // 役職による仕分け
             if (seer.GetRoleClass() is IDeathReasonSeeable deathReasonSeeable)
             {
-                return deathReasonSeeable.CanSeeDeathReason(seen);
+                return deathReasonSeeable.CheckSeeDeathReason(seen);
             }
             // IDeathReasonSeeable未対応役職はこちら
             return seer.Is(CustomRoleTypes.Madmate) && Options.MadmateCanSeeDeathReason.GetBool();

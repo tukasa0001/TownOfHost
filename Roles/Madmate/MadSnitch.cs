@@ -88,6 +88,6 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
         return Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★");
     }
 
-    public bool CanSeeKillFlash(MurderInfo info) => canSeeKillFlash;
-    public bool CanSeeDeathReason(PlayerControl seen) => canSeeDeathReason;
+    public bool CheckKillFlash(MurderInfo info) => canSeeKillFlash;
+    public bool CheckSeeDeathReason(PlayerControl seen) => canSeeDeathReason;
 }
