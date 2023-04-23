@@ -119,7 +119,7 @@ namespace TownOfHost
 
         public static PlayerState GetByPlayerId(byte playerId)
         {
-            if (allPlayerStates?.TryGetValue(playerId, out var state) == true)
+            if (AllPlayerStates?.TryGetValue(playerId, out var state) == true)
             {
                 return state;
             }
