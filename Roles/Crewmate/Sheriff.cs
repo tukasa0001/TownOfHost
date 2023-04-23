@@ -117,7 +117,7 @@ public sealed class Sheriff : RoleBase
     }
     public override float SetKillCooldown() => CanUseKillButton() ? CurrentKillCooldown : 0f;
     public override bool CanUseKillButton()
-        => !Main.PlayerStates[Player.PlayerId].IsDead
+        => Player.IsAlive()
         && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
         && ShotLimit > 0;
     public override bool CanSabotage(SystemTypes systemType) => false;

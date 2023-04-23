@@ -100,7 +100,7 @@ namespace TownOfHost.Roles.Impostor
         }
         public override void AfterMeetingTasks()
         {
-            if (!Main.PlayerStates[Player.PlayerId].IsDead)
+            if (Player.IsAlive())
             {
                 Player.RpcResetAbilityCooldown();
                 if (HasKilled())
