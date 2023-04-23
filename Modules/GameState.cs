@@ -113,6 +113,21 @@ namespace TownOfHost
                     count++;
             return count;
         }
+
+        private static Dictionary<byte, PlayerState> allPlayerStates = new(15);
+        public static IReadOnlyDictionary<byte, PlayerState> AllPlayerStates => allPlayerStates;
+
+        public static PlayerState GetByPlayerId(byte playerId) => allPlayerStates.TryGetValue(playerId, out var state) ? state : null;
+        public static void Clear() => allPlayerStates.Clear();
+        public static void Create(byte playerId)
+        {
+            if (allPlayerStates.ContainsKey(playerId))
+            {
+                Logger.Warn($"重複したIDのPlayerStateが作成されました: {playerId}", nameof(PlayerState));
+                return;
+            }
+            allPlayerStates[playerId] = new(playerId);
+        }
     }
     public class TaskState
     {

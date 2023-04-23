@@ -25,7 +25,7 @@ namespace TownOfHost
             //注:この時点では役職は設定されていません。
             Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.GuardianAngel, 0, 0);
 
-            Main.PlayerStates = new();
+            PlayerState.Clear();
 
             Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
             Main.AllPlayerSpeed = new Dictionary<byte, float>();
@@ -81,7 +81,7 @@ namespace TownOfHost
             {
                 var colorId = pc.Data.DefaultOutfit.ColorId;
                 if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(colorId));
-                Main.PlayerStates[pc.PlayerId] = new(pc.PlayerId);
+                PlayerState.Create(pc.PlayerId);
                 Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
                 Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[colorId];
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.GetFloat(FloatOptionNames.PlayerSpeedMod); //移動速度をデフォルトの移動速度に変更
