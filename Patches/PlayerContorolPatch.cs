@@ -327,7 +327,7 @@ namespace TownOfHost
 
                 if (GameStates.IsInGame) LoversSuicide();
 
-                if (GameStates.IsInGame && player == PlayerControl.LocalPlayer)
+                if (GameStates.IsInGame && player.AmOwner)
                     DisableDevice.FixedUpdate();
             }
             //LocalPlayer専用
