@@ -101,7 +101,7 @@ namespace TownOfHost
                         }
                     }
                     doComms &= !ignore;
-                    if (doComms && !pc.inVent)
+                    if (doComms && !pc.inVent && GameStates.IsInTask)
                     {
                         if (!DesyncComms.Contains(pc.PlayerId))
                             DesyncComms.Add(pc.PlayerId);
