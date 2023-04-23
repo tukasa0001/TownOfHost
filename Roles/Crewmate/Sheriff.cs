@@ -138,7 +138,7 @@ public sealed class Sheriff : RoleBase
             if (!CanBeKilledBy(target))
             {
                 killer.RpcMurderPlayer(killer);
-                Main.PlayerStates[killer.PlayerId].DeathReason = CustomDeathReason.Misfire;
+                PlayerState.GetByPlayerId(killer.PlayerId).DeathReason = CustomDeathReason.Misfire;
                 if (!MisfireKillsTarget.GetBool())
                 {
                     info.DoKill = false;

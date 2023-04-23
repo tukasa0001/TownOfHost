@@ -234,7 +234,7 @@ namespace TownOfHost
                 Logger.Warn($"{__instance.GetNameWithRole()}:通報禁止中のため可能になるまで待機します", "ReportDeadBody");
                 return false;
             }
-            foreach (var kvp in Main.PlayerStates)
+            foreach (var kvp in PlayerState.AllPlayerStates)
             {
                 var pc = Utils.GetPlayerById(kvp.Key);
                 kvp.Value.LastRoom = pc.GetPlainShipRoom();
@@ -481,7 +481,7 @@ namespace TownOfHost
                         //生きていて死ぬ予定もない場合は心中
                         if (partnerPlayer.PlayerId != deathId && !partnerPlayer.Data.IsDead)
                         {
-                            Main.PlayerStates[partnerPlayer.PlayerId].DeathReason = CustomDeathReason.FollowingSuicide;
+                            PlayerState.GetByPlayerId(partnerPlayer.PlayerId).DeathReason = CustomDeathReason.FollowingSuicide;
                             if (isExiled)
                                 CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.FollowingSuicide, partnerPlayer.PlayerId);
                             else

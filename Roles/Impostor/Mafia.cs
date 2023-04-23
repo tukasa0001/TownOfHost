@@ -23,7 +23,7 @@ public sealed class Mafia : RoleBase
     { }
     public override bool CanUseKillButton()
     {
-        if (Main.PlayerStates == null) return false;
+        if (PlayerState.AllPlayerStates == null) return false;
         //マフィアを除いた生きているインポスターの人数  Number of Living Impostors excluding mafia
         int livingImpostorsNum = 0;
         foreach (var pc in Main.AllAlivePlayerControls)

@@ -76,7 +76,7 @@ namespace TownOfHost.Modules
 
             var opt = BasedGameOptions;
             AURoleOptions.SetOpt(opt);
-            var state = Main.PlayerStates[player.PlayerId];
+            var state = PlayerState.GetByPlayerId(player.PlayerId);
             opt.BlackOut(state.IsBlackOut);
 
             CustomRoles role = player.GetCustomRole();

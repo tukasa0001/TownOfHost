@@ -266,7 +266,7 @@ public abstract class RoleBase : IDisposable
     {
         var playerId = Player.PlayerId;
         //タスクテキスト
-        var taskState = Main.PlayerStates?[playerId].GetTaskState();
+        var taskState = PlayerState.GetByPlayerId(playerId).GetTaskState();
         if (!taskState.hasTasks) return "";
 
         Color TextColor = Color.yellow;
