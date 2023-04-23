@@ -593,9 +593,21 @@ namespace TownOfHost
         public static bool IsAlive(this PlayerControl target)
         {
             //ロビーなら生きている
+            if (GameStates.IsLobby)
+            {
+                return true;
+            }
             //targetがnullならば切断者なので生きていない
+            if (target == null)
+            {
+                return false;
+            }
             //targetがnullでなく取得できない場合は登録前なので生きているとする
-            return GameStates.IsLobby || (target != null && (!Main.PlayerStates.TryGetValue(target.PlayerId, out var ps) || !ps.IsDead));
+            if (PlayerState.GetByPlayerId(target.PlayerId) is not PlayerState state)
+            {
+                return true;
+            }
+            return !state.IsDead;
         }
 
     }
