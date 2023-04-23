@@ -117,14 +117,7 @@ namespace TownOfHost
         private static Dictionary<byte, PlayerState> allPlayerStates = new(15);
         public static IReadOnlyDictionary<byte, PlayerState> AllPlayerStates => allPlayerStates;
 
-        public static PlayerState GetByPlayerId(byte playerId)
-        {
-            if (AllPlayerStates?.TryGetValue(playerId, out var state) == true)
-            {
-                return state;
-            }
-            return null;
-        }
+        public static PlayerState GetByPlayerId(byte playerId) => AllPlayerStates.TryGetValue(playerId, out var state) ? state : null;
         public static void Clear() => allPlayerStates.Clear();
         public static void Create(byte playerId)
         {
