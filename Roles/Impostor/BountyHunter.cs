@@ -178,7 +178,7 @@ public sealed class BountyHunter : RoleBase
     public override string GetAbilityButtonText() => GetString("BountyHunterChangeButtonText");
     public override void AfterMeetingTasks()
     {
-        if (!Main.PlayerStates[Player.PlayerId].IsDead)
+        if (Player.IsAlive())
         {
             Player.RpcResetAbilityCooldown();
             ChangeTimer = 0f;

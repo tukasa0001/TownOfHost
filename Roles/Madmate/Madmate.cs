@@ -14,7 +14,8 @@ public sealed class Madmate : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
             () => RoleTypes.Engineer,
             CustomRoleTypes.Madmate,
             10000,
-            null
+            null,
+            introSound: () => GetIntroSound(RoleTypes.Impostor)
         );
     public Madmate(PlayerControl player)
     : base(
@@ -29,6 +30,6 @@ public sealed class Madmate : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
     private static bool canSeeKillFlash;
     private static bool canSeeDeathReason;
 
-    public bool CanSeeKillFlash(MurderInfo info) => canSeeKillFlash;
-    public bool CanSeeDeathReason(PlayerControl seen) => canSeeDeathReason;
+    public bool CheckKillFlash(MurderInfo info) => canSeeKillFlash;
+    public bool CheckSeeDeathReason(PlayerControl seen) => canSeeDeathReason;
 }

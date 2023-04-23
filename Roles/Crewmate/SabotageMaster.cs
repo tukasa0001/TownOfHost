@@ -15,7 +15,8 @@ public sealed class SabotageMaster : RoleBase
             CustomRoleTypes.Crewmate,
             20300,
             SetupOptionItem,
-            "#0000ff"
+            "#0000ff",
+            introSound: () => ShipStatus.Instance.SabotageSound
         );
     public SabotageMaster(PlayerControl player)
     : base(

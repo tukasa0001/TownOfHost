@@ -15,7 +15,8 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Madmate,
             10100,
-            SetupOptionItem
+            SetupOptionItem,
+            introSound: () => GetIntroSound(RoleTypes.Impostor)
         );
     public MadGuardian(PlayerControl player)
     : base(
@@ -61,5 +62,5 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
 
         return false;
     }
-    public bool CanSeeKillFlash(MurderInfo info) => FieldCanSeeKillFlash;
+    public bool CheckKillFlash(MurderInfo info) => FieldCanSeeKillFlash;
 }

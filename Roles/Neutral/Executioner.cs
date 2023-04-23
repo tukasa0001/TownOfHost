@@ -18,7 +18,8 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
             CustomRoleTypes.Neutral,
             50700,
             SetupOptionItem,
-            "#611c3a"
+            "#611c3a",
+            introSound: () => GetIntroSound(RoleTypes.Shapeshifter)
         );
     public Executioner(PlayerControl player)
     : base(

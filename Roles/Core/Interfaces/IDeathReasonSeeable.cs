@@ -7,5 +7,5 @@ public interface IDeathReasonSeeable
     /// </summary>
     /// <param name="seen">死亡済みの対象プレイヤー</param>
     /// <returns>見られるならtrue</returns>
-    public bool CanSeeDeathReason(PlayerControl seen) => true;
+    public bool CheckSeeDeathReason(PlayerControl seen) => true;
 }

@@ -21,6 +21,8 @@ public class SimpleRoleInfo
     public bool IsEnable = false;
     public OptionCreatorDelegate OptionCreator;
     public bool RequireResetCam;
+    private Func<AudioClip> introSound;
+    public AudioClip IntroSound => introSound?.Invoke();
 
     public SimpleRoleInfo(
         Type classType,
@@ -32,7 +34,8 @@ public class SimpleRoleInfo
         OptionCreatorDelegate optionCreator,
         string colorCode = "",
         bool requireResetCam = false,
-        TabGroup tab = TabGroup.MainSettings
+        TabGroup tab = TabGroup.MainSettings,
+        Func<AudioClip> introSound = null
     )
     {
         ClassType = classType;
@@ -43,6 +46,7 @@ public class SimpleRoleInfo
         ConfigId = configId;
         OptionCreator = optionCreator;
         RequireResetCam = requireResetCam;
+        this.introSound = introSound;
 
         if (colorCode == "")
             colorCode = customRoleType switch
