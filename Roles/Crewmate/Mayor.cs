@@ -15,7 +15,8 @@ public sealed class Mayor : RoleBase
             CustomRoleTypes.Crewmate,
             20200,
             SetupOptionItem,
-            "#204d42"
+            "#204d42",
+            introSound: () => GetIntroSound(RoleTypes.Crewmate)
         );
     public Mayor(PlayerControl player)
     : base(

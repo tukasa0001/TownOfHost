@@ -17,7 +17,8 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
             () => OptionCanVent.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
             CustomRoleTypes.Madmate,
             10200,
-            SetupOptionItem
+            SetupOptionItem,
+            introSound: () => GetIntroSound(RoleTypes.Impostor)
         );
     public MadSnitch(PlayerControl player)
     : base(
