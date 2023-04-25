@@ -315,7 +315,7 @@ public static class CustomRoleManager
         OnMurderPlayerOthers.Clear();
         OnFixedUpdateOthers.Clear();
 
-        AllActiveRoles.Values.Do(roleClass => roleClass.Dispose());
+        AllActiveRoles.Values.ToArray().Do(roleClass => roleClass.Dispose());
     }
 }
 public class MurderInfo
