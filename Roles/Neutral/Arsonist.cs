@@ -74,6 +74,7 @@ public sealed class Arsonist : RoleBase
     }
     public override bool CanUseKillButton() => !IsDouseDone(Player);
     public override float SetKillCooldown() => DouseCooldown;
+    public override bool CanSabotage(SystemTypes systemType) => false;
     public override string GetProgressText(bool comms = false)
     {
         var doused = GetDousedPlayerCount();
