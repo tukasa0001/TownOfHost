@@ -367,8 +367,9 @@ namespace TownOfHost
                 {
                     var player = Utils.GetPlayerById(x.TargetPlayerId);
                     player.RpcExileV2();
-                    PlayerState.GetByPlayerId(player.PlayerId).DeathReason = CustomDeathReason.Execution;
-                    PlayerState.GetByPlayerId(player.PlayerId).SetDead();
+                    var state = PlayerState.GetByPlayerId(player.PlayerId);
+                    state.DeathReason = CustomDeathReason.Execution;
+                    state.SetDead();
                     Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                     __instance.CheckForEndVoting();

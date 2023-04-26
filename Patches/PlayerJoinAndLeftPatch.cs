@@ -93,9 +93,9 @@ namespace TownOfHost
                         Main.LoversPlayers.Remove(lovers);
                         PlayerState.GetByPlayerId(lovers.PlayerId).RemoveSubRole(CustomRoles.Lovers);
                     }
-                if (PlayerState.GetByPlayerId(data.Character.PlayerId).DeathReason == CustomDeathReason.etc) //死因が設定されていなかったら
+                var state = PlayerState.GetByPlayerId(data.Character.PlayerId);
+                if (state.DeathReason == CustomDeathReason.etc) //死因が設定されていなかったら
                 {
-                    var state = PlayerState.GetByPlayerId(data.Character.PlayerId);
                     state.DeathReason = CustomDeathReason.Disconnected;
                     state.SetDead();
                 }

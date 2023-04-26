@@ -123,13 +123,14 @@ public static class CustomRoleManager
         FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
 
         //以降共通処理
-        if (PlayerState.GetByPlayerId(attemptTarget.PlayerId).DeathReason == CustomDeathReason.etc)
+        var targetState = PlayerState.GetByPlayerId(attemptTarget.PlayerId);
+        if (targetState.DeathReason == CustomDeathReason.etc)
         {
             //死因が設定されていない場合は死亡判定
-            PlayerState.GetByPlayerId(attemptTarget.PlayerId).DeathReason = CustomDeathReason.Kill;
+            targetState.DeathReason = CustomDeathReason.Kill;
         }
 
-        PlayerState.GetByPlayerId(attemptTarget.PlayerId).SetDead();
+        targetState.SetDead();
         attemptTarget.SetRealKiller(attemptKiller, true);
 
         Utils.CountAlivePlayers(true);

@@ -151,7 +151,8 @@ namespace TownOfHost
             if (ReactorCheck) Duration += 0.2f; //リアクター中はブラックアウトを長くする
 
             //実行
-            PlayerState.GetByPlayerId(player.PlayerId).IsBlackOut = true; //ブラックアウト
+            var state = PlayerState.GetByPlayerId(player.PlayerId);
+            state.IsBlackOut = true; //ブラックアウト
             if (player.PlayerId == 0)
             {
                 FlashColor(new(1f, 0f, 0f, 0.5f));
@@ -161,7 +162,7 @@ namespace TownOfHost
             player.MarkDirtySettings();
             new LateTask(() =>
             {
-                PlayerState.GetByPlayerId(player.PlayerId).IsBlackOut = false; //ブラックアウト解除
+                state.IsBlackOut = false; //ブラックアウト解除
                 player.MarkDirtySettings();
             }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
         }
@@ -205,11 +206,12 @@ namespace TownOfHost
             string RoleText = "Invalid Role";
             Color RoleColor = Color.red;
 
-            var mainRole = PlayerState.GetByPlayerId(playerId).MainRole;
-            var SubRoles = PlayerState.GetByPlayerId(playerId).SubRoles;
+            var state = PlayerState.GetByPlayerId(playerId);
+            var mainRole = state.MainRole;
+            var SubRoles = state.SubRoles;
             RoleText = GetRoleName(mainRole);
             RoleColor = GetRoleColor(mainRole);
-            foreach (var subRole in PlayerState.GetByPlayerId(playerId).SubRoles)
+            foreach (var subRole in state.SubRoles)
             {
                 switch (subRole)
                 {

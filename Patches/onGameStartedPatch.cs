@@ -197,7 +197,8 @@ namespace TownOfHost
             foreach (var pc in Main.AllPlayerControls)
             {
                 pc.Data.IsDead = false; //プレイヤーの死を解除する
-                if (PlayerState.GetByPlayerId(pc.PlayerId).MainRole != CustomRoles.NotAssigned) continue; //既にカスタム役職が割り当てられていればスキップ
+                var state = PlayerState.GetByPlayerId(pc.PlayerId);
+                if (state.MainRole != CustomRoles.NotAssigned) continue; //既にカスタム役職が割り当てられていればスキップ
                 var role = CustomRoles.NotAssigned;
                 switch (pc.Data.Role.Role)
                 {
@@ -229,7 +230,7 @@ namespace TownOfHost
                         Logger.SendInGame(string.Format(GetString("Error.InvalidRoleAssignment"), pc?.Data?.PlayerName));
                         break;
                 }
-                PlayerState.GetByPlayerId(pc.PlayerId).SetMainRole(role);
+                state.SetMainRole(role);
             }
 
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
