@@ -103,16 +103,12 @@ namespace TownOfHost.Modules
                 case CustomRoles.NiceWatcher:
                     opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                     break;
-                case CustomRoles.Sheriff:
-                    opt.SetVision(false);
-                    break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(true);
                     break;
                 case CustomRoles.EvilTracker:
                     EvilTracker.ApplyGameOptions(player.PlayerId);
                     break;
-                case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
                     ((Jackal)roleClass).ApplyGameOptions(opt);
                     break;

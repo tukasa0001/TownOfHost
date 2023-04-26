@@ -53,9 +53,9 @@ public abstract class RoleBase : IDisposable
     }
     public void Dispose()
     {
-        Player = null;
         OnDestroy();
         CustomRoleManager.AllActiveRoles.Remove(Player.PlayerId);
+        Player = null;
     }
     public bool Is(PlayerControl player)
     {
