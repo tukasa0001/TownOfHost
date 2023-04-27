@@ -10,15 +10,14 @@
 
 この Mod は非公式のものであり、この Mod の開発に関して Among Us の開発元である"Innersloth"は一切関与していません。<br>
 この Mod の問題などに関して公式に問い合わせないでください。<br>
-また、本Modで発生した不具合について、本家TOH及びTOHY開発者様には問い合わせないでください。<br>
 
 ## リリース
 
 AmongUsバージョン : **2022.12.14**
 
-リリースは2023年GW中予定！<br>
-**本家最新版は[こちら](https://github.com/tukasa0001/TownOfHost/releases/latest)**<br>
-**更にそこから派生され、TOH4Eの元となったTOHYの最新版は[こちら](https://github.com/Yumenopai/TownOfHost_Y/releases/latest)**<br>
+リリースは2023年GW中予定！
+**本家最新版は[こちら](https://github.com/tukasa0001/TownOfHost/releases/latest)**
+**そこから派生され、TOH4Eの元となったTOHYの最新版は[こちら](https://github.com/Yumenopai/TownOfHost_Y/releases/latest)**
 
 TOH過去バージョンは[こちら](https://github.com/tukasa0001/TownOfHost/releases)
 
@@ -104,7 +103,6 @@ TOH4Eでは爆破するまでキルできない制限を解除できます。
 陣営 : インポスター<br>
 判定 : シェイプシフター<br>
 
-ｴｸｽﾌﾟﾛｰｼﾞｮﾝ!!
 1度だけ爆裂魔法によって大量キル出来る役職です。<br>
 任意のタイミングで変身を行うことで自身の近くにいるクルーをキルできます。<br>
 この爆裂魔法に自身は巻き込まれませんが、発動後は数秒動けなくなります。<br>
@@ -157,8 +155,22 @@ TOH4Eでは爆破するまでキルできない制限を解除できます。
 ラバーズの仕様は通常ラバーズと全く同じです。<br>
 但し恋人になる上限は設定値次第です。船の皆と恋人になることも夢じゃない。
 
-## クレジット
+## 参考
 - 自爆魔[SNR](https://github.com/ykundesu/SuperNewRoles)：当初実装しようとしたもの。この役職考えた人は天才。
+
+## クレジット
+
+[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)、[シーア](#Seer/シーア)、[ジャッカル](#jackalジャッカル) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
+[オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+[シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)、[イビルトラッカー](#EvilTracker/イビルトラッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[ドクター](#Doctor/ドクター)、[スナイパー](#Sniper/スナイパー)のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
+[ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>
+[テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
+[恋人](#lovers/恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
+中国語翻訳 : fivefirex、ZeMingOH233<br>
+オプションタブのアイコン製作者 : 花海<br>
+Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>
+Mersenne Twister: Copyright (c) 2015 vpmedia [MIT License](https://raw.githubusercontent.com//vpmedia/template-unity/master/LICENSE)<br>
 
 ## 開発者
 <!--
