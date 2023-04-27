@@ -59,7 +59,7 @@ namespace TownOfHost
                     exiled.Object?.ResetPlayerCam(1f);
 
                 exiled.IsDead = true;
-                Main.PlayerStates[exiled.PlayerId].DeathReason = CustomDeathReason.Vote;
+                PlayerState.GetByPlayerId(exiled.PlayerId).DeathReason = CustomDeathReason.Vote;
 
                 foreach (var roleClass in CustomRoleManager.AllActiveRoles.Values)
                 {
@@ -67,7 +67,7 @@ namespace TownOfHost
                 }
                 SchrodingerCat.ChangeTeam(exiled.Object);
 
-                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) Main.PlayerStates[exiled.PlayerId].SetDead();
+                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) PlayerState.GetByPlayerId(exiled.PlayerId).SetDead();
             }
 
             foreach (var pc in Main.AllPlayerControls)
@@ -123,9 +123,10 @@ namespace TownOfHost
                         var player = Utils.GetPlayerById(x.Key);
                         var roleClass = CustomRoleManager.GetByPlayerId(x.Key);
                         var requireResetCam = player?.GetCustomRole().GetRoleInfo()?.RequireResetCam;
+                        var state = PlayerState.GetByPlayerId(x.Key);
                         Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
-                        Main.PlayerStates[x.Key].DeathReason = x.Value;
-                        Main.PlayerStates[x.Key].SetDead();
+                        state.DeathReason = x.Value;
+                        state.SetDead();
                         player?.RpcExileV2();
                         if (x.Value == CustomDeathReason.Suicide)
                             player?.SetRealKiller(player, true);

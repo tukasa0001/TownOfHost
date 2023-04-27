@@ -60,7 +60,7 @@ namespace TownOfHost.Roles.Impostor
         public override float SetKillCooldown() => KillCooldown;
         public int CalculateMeetingTimeDelta()
         {
-            var sec = -(DecreaseMeetingTime * Main.PlayerStates[Player.PlayerId].GetKillCount(true));
+            var sec = -(DecreaseMeetingTime * PlayerState.GetByPlayerId(Player.PlayerId).GetKillCount(true));
             return sec;
         }
         public override string GetProgressText(bool comms = false)

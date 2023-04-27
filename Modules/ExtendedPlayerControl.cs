@@ -25,11 +25,11 @@ namespace TownOfHost
 
             if (role < CustomRoles.NotAssigned)
             {
-                Main.PlayerStates[player.PlayerId].SetMainRole(role);
+                PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(role);
             }
             else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
-                Main.PlayerStates[player.PlayerId].SetSubRole(role);
+                PlayerState.GetByPlayerId(player.PlayerId).SetSubRole(role);
             }
             if (AmongUsClient.Instance.AmHost)
             {
@@ -89,9 +89,9 @@ namespace TownOfHost
                 Logger.Warn(callerClassName + "." + callerMethodName + "がCustomRoleを取得しようとしましたが、対象がnullでした。", "GetCustomRole");
                 return CustomRoles.Crewmate;
             }
-            var GetValue = Main.PlayerStates.TryGetValue(player.PlayerId, out var State);
+            var state = PlayerState.GetByPlayerId(player.PlayerId);
 
-            return GetValue ? State.MainRole : CustomRoles.Crewmate;
+            return state?.MainRole ?? CustomRoles.Crewmate;
         }
 
         public static List<CustomRoles> GetCustomSubRoles(this PlayerControl player)
@@ -101,7 +101,7 @@ namespace TownOfHost
                 Logger.Warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。", "getCustomSubRole");
                 return new() { CustomRoles.NotAssigned };
             }
-            return Main.PlayerStates[player.PlayerId].SubRoles;
+            return PlayerState.GetByPlayerId(player.PlayerId).SubRoles;
         }
         public static CountTypes GetCountTypes(this PlayerControl player)
         {
@@ -115,7 +115,7 @@ namespace TownOfHost
                 return CountTypes.None;
             }
 
-            return Main.PlayerStates.TryGetValue(player.PlayerId, out var State) ? State.countTypes : CountTypes.None;
+            return PlayerState.GetByPlayerId(player.PlayerId)?.countTypes ?? CountTypes.None;
         }
         public static void RpcSetNameEx(this PlayerControl player, string name)
         {
@@ -295,7 +295,7 @@ namespace TownOfHost
         }
         public static TaskState GetPlayerTaskState(this PlayerControl player)
         {
-            return Main.PlayerStates[player.PlayerId].GetTaskState();
+            return PlayerState.GetByPlayerId(player.PlayerId).GetTaskState();
         }
 
         /*public static GameOptionsData DeepCopy(this GameOptionsData opt)
@@ -310,7 +310,7 @@ namespace TownOfHost
         }
         public static string GetSubRoleName(this PlayerControl player)
         {
-            var SubRoles = Main.PlayerStates[player.PlayerId].SubRoles;
+            var SubRoles = PlayerState.GetByPlayerId(player.PlayerId).SubRoles;
             if (SubRoles.Count == 0) return "";
             var sb = new StringBuilder();
             foreach (var role in SubRoles)
@@ -560,14 +560,14 @@ namespace TownOfHost
                 Logger.Info("target=null", "SetRealKiller");
                 return;
             }
-            var State = Main.PlayerStates[target.PlayerId];
+            var State = PlayerState.GetByPlayerId(target.PlayerId);
             if (State.RealKiller.Item1 != DateTime.MinValue && NotOverRide) return; //既に値がある場合上書きしない
             byte killerId = killer == null ? byte.MaxValue : killer.PlayerId;
             RPC.SetRealKiller(target.PlayerId, killerId);
         }
         public static PlayerControl GetRealKiller(this PlayerControl target)
         {
-            var killerId = Main.PlayerStates[target.PlayerId].GetRealKiller();
+            var killerId = PlayerState.GetByPlayerId(target.PlayerId).GetRealKiller();
             return killerId == byte.MaxValue ? null : Utils.GetPlayerById(killerId);
         }
         public static PlainShipRoom GetPlainShipRoom(this PlayerControl pc)
@@ -593,9 +593,21 @@ namespace TownOfHost
         public static bool IsAlive(this PlayerControl target)
         {
             //ロビーなら生きている
+            if (GameStates.IsLobby)
+            {
+                return true;
+            }
             //targetがnullならば切断者なので生きていない
+            if (target == null)
+            {
+                return false;
+            }
             //targetがnullでなく取得できない場合は登録前なので生きているとする
-            return GameStates.IsLobby || (target != null && (!Main.PlayerStates.TryGetValue(target.PlayerId, out var ps) || !ps.IsDead));
+            if (PlayerState.GetByPlayerId(target.PlayerId) is not PlayerState state)
+            {
+                return true;
+            }
+            return !state.IsDead;
         }
 
     }

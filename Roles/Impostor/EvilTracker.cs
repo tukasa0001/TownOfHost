@@ -100,7 +100,7 @@ namespace TownOfHost.Roles.Impostor
 
         // 値取得の関数
         private static bool CanTarget(byte playerId)
-            => !Main.PlayerStates[playerId].IsDead && CanSetTarget.TryGetValue(playerId, out var value) && value;
+            => !PlayerState.GetByPlayerId(playerId).IsDead && CanSetTarget.TryGetValue(playerId, out var value) && value;
         private static byte GetTargetId(byte playerId)
             => Target.TryGetValue(playerId, out var targetId) ? targetId : byte.MaxValue;
         public static bool IsTrackTarget(PlayerControl seer, PlayerControl target)
@@ -186,7 +186,7 @@ namespace TownOfHost.Roles.Impostor
             var trackerId = target.PlayerId;
             if (seer.PlayerId != trackerId) return "";
 
-            ImpostorsId[trackerId].RemoveWhere(id => Main.PlayerStates[id].IsDead);
+            ImpostorsId[trackerId].RemoveWhere(id => PlayerState.GetByPlayerId(id).IsDead);
 
             var sb = new StringBuilder(80);
             if (ImpostorsId[trackerId].Count > 0)
@@ -209,7 +209,7 @@ namespace TownOfHost.Roles.Impostor
         public static string GetArrowAndLastRoom(PlayerControl seer, PlayerControl target)
         {
             string text = Utils.ColorString(Palette.ImpostorRed, TargetArrow.GetArrows(seer, target.PlayerId));
-            var room = Main.PlayerStates[target.PlayerId].LastRoom;
+            var room = PlayerState.GetByPlayerId(target.PlayerId).LastRoom;
             if (room == null) text += Utils.ColorString(Color.gray, "@" + GetString("FailToTrack"));
             else text += Utils.ColorString(Palette.ImpostorRed, "@" + GetString(room.RoomId.ToString()));
             return text;

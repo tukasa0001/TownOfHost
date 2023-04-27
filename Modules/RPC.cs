@@ -208,8 +208,9 @@ namespace TownOfHost
         {
             var playerId = reader.ReadByte();
             var deathReason = (CustomDeathReason)reader.ReadInt32();
-            Main.PlayerStates[playerId].DeathReason = deathReason;
-            Main.PlayerStates[playerId].IsDead = true;
+            var state = PlayerState.GetByPlayerId(playerId);
+            state.DeathReason = deathReason;
+            state.IsDead = true;
         }
 
         public static void EndGame(MessageReader reader)
@@ -250,12 +251,12 @@ namespace TownOfHost
 
             if (role < CustomRoles.NotAssigned)
             {
-                Main.PlayerStates[targetId].SetMainRole(role);
+                PlayerState.GetByPlayerId(targetId).SetMainRole(role);
                 CustomRoleManager.CreateInstance(role, Utils.GetPlayerById(targetId));
             }
             else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
-                Main.PlayerStates[targetId].SetSubRole(role);
+                PlayerState.GetByPlayerId(targetId).SetSubRole(role);
             }
 
             HudManager.Instance.SetHudActive(true);
@@ -296,7 +297,7 @@ namespace TownOfHost
         }
         public static void SetRealKiller(byte targetId, byte killerId)
         {
-            var state = Main.PlayerStates[targetId];
+            var state = PlayerState.GetByPlayerId(targetId);
             state.RealKiller.Item1 = DateTime.Now;
             state.RealKiller.Item2 = killerId;
 

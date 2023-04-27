@@ -151,7 +151,8 @@ namespace TownOfHost
             if (ReactorCheck) Duration += 0.2f; //リアクター中はブラックアウトを長くする
 
             //実行
-            Main.PlayerStates[player.PlayerId].IsBlackOut = true; //ブラックアウト
+            var state = PlayerState.GetByPlayerId(player.PlayerId);
+            state.IsBlackOut = true; //ブラックアウト
             if (player.PlayerId == 0)
             {
                 FlashColor(new(1f, 0f, 0f, 0.5f));
@@ -161,7 +162,7 @@ namespace TownOfHost
             player.MarkDirtySettings();
             new LateTask(() =>
             {
-                Main.PlayerStates[player.PlayerId].IsBlackOut = false; //ブラックアウト解除
+                state.IsBlackOut = false; //ブラックアウト解除
                 player.MarkDirtySettings();
             }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
         }
@@ -205,11 +206,12 @@ namespace TownOfHost
             string RoleText = "Invalid Role";
             Color RoleColor = Color.red;
 
-            var mainRole = Main.PlayerStates[playerId].MainRole;
-            var SubRoles = Main.PlayerStates[playerId].SubRoles;
+            var state = PlayerState.GetByPlayerId(playerId);
+            var mainRole = state.MainRole;
+            var SubRoles = state.SubRoles;
             RoleText = GetRoleName(mainRole);
             RoleColor = GetRoleColor(mainRole);
-            foreach (var subRole in Main.PlayerStates[playerId].SubRoles)
+            foreach (var subRole in state.SubRoles)
             {
                 switch (subRole)
                 {
@@ -223,7 +225,7 @@ namespace TownOfHost
 
         public static string GetVitalText(byte playerId, bool RealKillerColor = false)
         {
-            var state = Main.PlayerStates[playerId];
+            var state = PlayerState.GetByPlayerId(playerId);
             string deathReason = state.IsDead ? GetString("DeathReason." + state.DeathReason) : GetString("Alive");
             if (RealKillerColor)
             {
@@ -273,7 +275,7 @@ namespace TownOfHost
             if (p.Role == null) return false;
 
             var hasTasks = true;
-            var States = Main.PlayerStates[p.PlayerId];
+            var States = PlayerState.GetByPlayerId(p.PlayerId);
             if (p.Disconnected) hasTasks = false;
             if (p.Role.IsImpostor)
                 hasTasks = false; //タスクはCustomRoleを元に判定する
@@ -345,7 +347,7 @@ namespace TownOfHost
         {
             if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す
             var ProgressText = new StringBuilder();
-            var State = Main.PlayerStates[playerId];
+            var State = PlayerState.GetByPlayerId(playerId);
             var role = State.MainRole;
             var roleClass = CustomRoleManager.GetByPlayerId(playerId);
             ProgressText.Append(roleClass?.GetProgressText(comms));
@@ -359,7 +361,7 @@ namespace TownOfHost
                         break;
                     default:
                         //タスクテキスト
-                        var taskState = Main.PlayerStates?[playerId].GetTaskState();
+                        var taskState = PlayerState.GetByPlayerId(playerId)?.GetTaskState();
                         if (taskState.hasTasks)
                         {
                             Color TextColor = Color.yellow;
@@ -529,7 +531,7 @@ namespace TownOfHost
             var sb = new StringBuilder();
 
             sb.Append(GetString("LastResult")).Append(":");
-            List<byte> cloneRoles = new(Main.PlayerStates.Keys);
+            List<byte> cloneRoles = new(PlayerState.AllPlayerStates.Keys);
             sb.Append($"\n{SetEverythingUpPatch.LastWinsText}\n");
             foreach (var id in Main.winnerList)
             {
@@ -553,7 +555,7 @@ namespace TownOfHost
         }
         public static string GetSubRolesText(byte id, bool disableColor = false)
         {
-            var SubRoles = Main.PlayerStates[id].SubRoles;
+            var SubRoles = PlayerState.GetByPlayerId(id).SubRoles;
             if (SubRoles.Count == 0) return "";
             var sb = new StringBuilder();
             foreach (var role in SubRoles)
@@ -723,7 +725,7 @@ namespace TownOfHost
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
                     || seer.GetCustomRole().IsImpostor() //seerがインポスター
-                    || Main.PlayerStates[seer.PlayerId].TargetColorData.Count > 0 //seer視点用の名前色データが一つ以上ある
+                    || PlayerState.GetByPlayerId(seer.PlayerId).TargetColorData.Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.Is(CustomRoles.Arsonist)
                     || seer.Is(CustomRoles.Lovers)
                     || Witch.IsSpelled()
@@ -983,10 +985,10 @@ namespace TownOfHost
             casted = obj.TryCast<T>();
             return casted != null;
         }
-        public static int AllPlayersCount => Main.PlayerStates.Values.Count(state => state.countTypes != CountTypes.OutOfGame);
+        public static int AllPlayersCount => PlayerState.AllPlayerStates.Values.Count(state => state.countTypes != CountTypes.OutOfGame);
         public static int AllAlivePlayersCount => Main.AllAlivePlayerControls.Count(pc => !pc.Is(CountTypes.OutOfGame));
-        public static bool IsAllAlive => Main.PlayerStates.Values.All(state => state.countTypes == CountTypes.OutOfGame || !state.IsDead);
-        public static int PlayersCount(CountTypes countTypes) => Main.PlayerStates.Values.Count(state => state.countTypes == countTypes);
+        public static bool IsAllAlive => PlayerState.AllPlayerStates.Values.All(state => state.countTypes == CountTypes.OutOfGame || !state.IsDead);
+        public static int PlayersCount(CountTypes countTypes) => PlayerState.AllPlayerStates.Values.Count(state => state.countTypes == countTypes);
         public static int AlivePlayersCount(CountTypes countTypes) => Main.AllAlivePlayerControls.Count(pc => pc.Is(countTypes));
     }
 }

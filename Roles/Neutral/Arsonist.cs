@@ -187,8 +187,9 @@ public sealed class Arsonist : RoleBase
                     //生存者は焼殺
                     pc.SetRealKiller(Player);
                     pc.RpcMurderPlayer(pc);
-                    Main.PlayerStates[pc.PlayerId].DeathReason = CustomDeathReason.Torched;
-                    Main.PlayerStates[pc.PlayerId].SetDead();
+                    var state = PlayerState.GetByPlayerId(pc.PlayerId);
+                    state.DeathReason = CustomDeathReason.Torched;
+                    state.SetDead();
                 }
                 else
                     RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
