@@ -1,10 +1,8 @@
-# Town Of Host
-
-[English](https://github.com/tukasa0001/TownOfHost/blob/main/README-EN.md)
+# Town Of Host For E
 
 [![TownOfHost-Title](./Images/TownOfHost-Title.png)](https://www.youtube.com/channel/UCJDcUf0KOwLFGwVmj1m6Fag)
 
-<p align="center"><a href="https://github.com/tukasa0001/TownOfHost/releases/"><img src="https://badgen.net/github/release/tukasa0001/TownOfHost"></a></p>
+<p align="center"><a href="https://github.com/AsumuAkaguma/TownOfHost_ForE/releases/"><img src="https://badgen.net/github/release/AsumuAkaguma/TownOfHost_ForE"></a></p>
 
 ## この Mod について
 
