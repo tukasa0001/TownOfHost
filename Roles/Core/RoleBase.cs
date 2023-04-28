@@ -262,27 +262,8 @@ public abstract class RoleBase : IDisposable
     /// 役職名の横に出るテキスト
     /// </summary>
     /// <param name="comms">コミュサボ中扱いするかどうか</param>
-    public virtual string GetProgressText(bool comms = false)
-    {
-        var playerId = Player.PlayerId;
-        //タスクテキスト
-        var taskState = PlayerState.GetByPlayerId(playerId).GetTaskState();
-        if (!taskState.hasTasks) return "";
-
-        Color TextColor = Color.yellow;
-        var info = Utils.GetPlayerInfoById(playerId);
-        var TaskCompleteColor = Utils.HasTasks(info) ? Color.green : Utils.GetRoleColor(info.GetCustomRole()).ShadeColor(0.5f); //タスク完了後の色
-        var NonCompleteColor = Utils.HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
-
-        if (Workhorse.IsThisRole(playerId))
-            NonCompleteColor = Workhorse.RoleColor;
-
-        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
-
-        TextColor = comms ? Color.gray : NormalColor;
-        string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-        return Utils.ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
-    }
+    public virtual string GetProgressText(bool comms = false) =>
+        Utils.GetTaskProgressText(Player.PlayerId, Player.GetCustomRole(), comms);
     /// <summary>
     /// seerが自分であるときのMark
     /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し
