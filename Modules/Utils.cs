@@ -373,7 +373,7 @@ namespace TownOfHost
         public static string GetTaskProgressText(byte playerId, CustomRoles role, bool comms = false)
         {
             var taskState = PlayerState.GetByPlayerId(playerId)?.GetTaskState();
-            if (!taskState.hasTasks)
+            if (taskState == null || !taskState.hasTasks)
             {
                 return "";
             }
