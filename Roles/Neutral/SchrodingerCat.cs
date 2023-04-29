@@ -80,7 +80,6 @@ public sealed class SchrodingerCat : RoleBase, IAdditionalWinner
                     target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
                     break;
                 case CustomRoles.Egoist:
-                    TeamEgoist.Add(target.PlayerId);
                     target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
                     break;
                 case CustomRoles.Jackal:
