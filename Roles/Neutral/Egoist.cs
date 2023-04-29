@@ -37,7 +37,6 @@ namespace TownOfHost.Roles.Neutral
         {
             IsEnable = true;
             playerIdList.Add(ego);
-            TeamEgoist.Add(ego);
             foreach (var impostor in Main.AllPlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
             {
                 NameColorManager.Add(impostor.PlayerId, ego);
@@ -45,11 +44,5 @@ namespace TownOfHost.Roles.Neutral
         }
         public static bool IsEnable = false;
         public static void ApplyKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown;
-        public static void OverrideCustomWinner()
-        {
-            foreach (var id in playerIdList)
-                if (TeamEgoist.CompleteWinCondition(id))
-                    CustomWinnerHolder.WinnerTeam = CustomWinner.Egoist;
-        }
     }
 }
