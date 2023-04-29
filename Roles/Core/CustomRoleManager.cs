@@ -7,8 +7,6 @@ using Il2CppSystem.Text;
 
 using AmongUs.GameOptions;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Neutral;
-using TownOfHost.Roles.Crewmate;
 
 namespace TownOfHost.Roles.Core;
 
@@ -218,11 +216,6 @@ public static class CustomRoleManager
     {
         switch (pc.GetCustomRole())
         {
-
-            case CustomRoles.Egoist:
-                Egoist.Add(pc.PlayerId);
-                break;
-
             case CustomRoles.EvilTracker:
                 EvilTracker.Add(pc.PlayerId);
                 break;

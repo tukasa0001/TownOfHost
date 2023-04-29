@@ -349,8 +349,6 @@ namespace TownOfHost
             });
             SetupLoversRoleOptionsToggle(50300);
 
-            Egoist.SetupCustomOption();
-
             // Add-Ons
             LastImpostor.SetupCustomOption();
             Workhorse.SetupCustomOption();

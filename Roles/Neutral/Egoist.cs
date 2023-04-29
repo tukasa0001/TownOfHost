@@ -1,48 +1,85 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
 using static TownOfHost.Options;
 
-namespace TownOfHost.Roles.Neutral
+namespace TownOfHost.Roles.Neutral;
+public sealed class Egoist : RoleBase
 {
-    public static class Egoist
+    public static readonly SimpleRoleInfo RoleInfo =
+        new(
+            typeof(Egoist),
+            player => new Egoist(player),
+            CustomRoles.Egoist,
+            () => RoleTypes.Shapeshifter,
+            CustomRoleTypes.Neutral,
+            50600,
+            SetupOptionItem,
+            "#5600ff"
+        );
+    public Egoist(PlayerControl player)
+    : base(
+        RoleInfo,
+        player,
+        countType: CountTypes.Impostor
+    )
     {
-        static readonly int Id = 50600;
-        static List<byte> playerIdList = new();
-        static Color RoleColor = Utils.GetRoleColor(CustomRoles.Egoist);
-        static string RoleColorCode = Utils.GetRoleColorCode(CustomRoles.Egoist);
+        KillCooldown = OptionKillCooldown.GetFloat();
+        CanCreateMadmate = OptionCanCreateMadmate.GetBool();
+    }
 
-        static OptionItem OptionKillCooldown;
-        static OptionItem OptionCanCreateMadmate;
+    static OptionItem OptionKillCooldown;
+    static OptionItem OptionCanCreateMadmate;
+    enum OptionName
+    {
+        KillCooldown,
+        CanCreateMadmate
+    }
 
-        private static float KillCooldown;
-        public static bool CanCreateMadmate;
-        public static void SetupCustomOption()
+    private static float KillCooldown;
+    public static bool CanCreateMadmate;
+
+    public static List<PlayerControl> Egoists = new(3);
+    private static void SetupOptionItem()
+    {
+        OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, OptionName.KillCooldown, new(2.5f, 180f, 2.5f), 20f, false)
+            .SetValueFormat(OptionFormat.Seconds);
+        OptionCanCreateMadmate = BooleanOptionItem.Create(RoleInfo, 11, OptionName.CanCreateMadmate, false, false);
+    }
+    public override void Add()
+    {
+        foreach (var impostor in Main.AllPlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
         {
-            SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Egoist);
-            OptionKillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(2.5f, 180f, 2.5f), 20f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Egoist])
-                .SetValueFormat(OptionFormat.Seconds);
-            OptionCanCreateMadmate = BooleanOptionItem.Create(Id + 11, "CanCreateMadmate", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Egoist]);
+            NameColorManager.Add(impostor.PlayerId, Player.PlayerId);
         }
-        public static void Init()
+        Egoists.Add(Player);
+    }
+    public override void OnDestroy()
+    {
+        Egoists.Clear();
+    }
+    public override float SetKillCooldown() => KillCooldown;
+
+    public static bool CheckWin()
+    {
+        var impostorsDead = !Main.AllAlivePlayerControls.Any(p => p.Is(RoleTypes.Impostor) && p.IsAlive());
+        var aliveAnyEgoists = Egoists.Any(p => p.IsAlive());
+
+        if (impostorsDead && aliveAnyEgoists) //インポスター全滅でエゴイストが生存
         {
-            IsEnable = false;
-            playerIdList = new();
-            KillCooldown = OptionKillCooldown.GetFloat();
-            CanCreateMadmate = OptionCanCreateMadmate.GetBool();
+            Win();
+            return true;
         }
-        public static void Add(byte ego)
-        {
-            IsEnable = true;
-            playerIdList.Add(ego);
-            foreach (var impostor in Main.AllPlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
-            {
-                NameColorManager.Add(impostor.PlayerId, ego);
-            }
-        }
-        public static bool IsEnable = false;
-        public static void ApplyKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown;
+
+        return false;
+    }
+    private static void Win()
+    {
+        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Egoist);
+        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Egoist);
+        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.EgoSchrodingerCat);
     }
 }

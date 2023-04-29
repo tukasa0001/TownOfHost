@@ -109,7 +109,6 @@ namespace TownOfHost
             }
             CustomRoleManager.Initialize();
             FallFromLadder.Reset();
-            Egoist.Init();
             EvilTracker.Init();
             LastImpostor.Init();
             TargetArrow.Init();
