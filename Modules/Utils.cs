@@ -360,24 +360,7 @@ namespace TownOfHost
                         ProgressText.Append(EvilTracker.GetMarker(playerId));
                         break;
                     default:
-                        //タスクテキスト
-                        var taskState = PlayerState.GetByPlayerId(playerId)?.GetTaskState();
-                        if (taskState.hasTasks)
-                        {
-                            Color TextColor = Color.yellow;
-                            var info = GetPlayerInfoById(playerId);
-                            var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
-                            var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
-
-                            if (Workhorse.IsThisRole(playerId))
-                                NonCompleteColor = Workhorse.RoleColor;
-
-                            var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
-
-                            TextColor = comms ? Color.gray : NormalColor;
-                            string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                            ProgressText.Append(ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})"));
-                        }
+                        ProgressText.Append(GetTaskProgressText(playerId, role, comms));
                         break;
                 }
                 if (ProgressText.Length != 0)
@@ -386,6 +369,29 @@ namespace TownOfHost
             }
 
             return ProgressText.ToString();
+        }
+        public static string GetTaskProgressText(byte playerId, CustomRoles role, bool comms = false)
+        {
+            var taskState = PlayerState.GetByPlayerId(playerId)?.GetTaskState();
+            if (taskState == null || !taskState.hasTasks)
+            {
+                return "";
+            }
+
+            Color TextColor = Color.yellow;
+            var info = GetPlayerInfoById(playerId);
+            var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
+            var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
+
+            if (Workhorse.IsThisRole(playerId))
+                NonCompleteColor = Workhorse.RoleColor;
+
+            var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
+
+            TextColor = comms ? Color.gray : NormalColor;
+            string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
+            return ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
+
         }
         public static void ShowActiveSettingsHelp(byte PlayerId = byte.MaxValue)
         {
