@@ -59,9 +59,10 @@ public abstract class RoleBase : IDisposable
         CanKill = canKill ?? roleInfo.BaseRoleType.Invoke() is RoleTypes.Impostor or RoleTypes.Shapeshifter;
         IsKiller = CanKill;
 
-
         MyState = PlayerState.GetByPlayerId(player.PlayerId);
         MyTaskState = MyState.GetTaskState();
+
+        MyState.countTypes = countType ?? (roleInfo.RoleName.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew);
 
         CustomRoleManager.AllActiveRoles.Add(Player.PlayerId, this);
     }
