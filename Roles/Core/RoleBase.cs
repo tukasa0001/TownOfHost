@@ -25,7 +25,7 @@ public abstract class RoleBase : IDisposable
     /// タスクを持っているか。
     /// 初期値はクルー役職のみ持つ
     /// </summary>
-    private Func<HasTask> hasTasks;
+    protected Func<HasTask> hasTasks;
     /// <summary>
     /// タスクを持っているか
     /// </summary>
