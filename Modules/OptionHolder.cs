@@ -87,7 +87,6 @@ namespace TownOfHost
         public static OptionItem MadmateVentCooldown;
         public static OptionItem MadmateVentMaxTime;
 
-        public static OptionItem EvilWatcherChance;
         public static OptionItem KillFlashDuration;
 
         // HideAndSeek
@@ -317,10 +316,6 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             MadmateVentMaxTime = FloatOptionItem.Create(15214, "MadmateVentMaxTime", new(0f, 180f, 5f), 0f, TabGroup.ImpostorRoles, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            // Both
-            SetupRoleOptions(30000, TabGroup.NeutralRoles, CustomRoles.Watcher);
-            EvilWatcherChance = IntegerOptionItem.Create(30010, "EvilWatcherChance", new(0, 100, 10), 0, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Watcher])
-                .SetValueFormat(OptionFormat.Percent);
             // Crewmate
             sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Crewmate).Do(info =>
             {

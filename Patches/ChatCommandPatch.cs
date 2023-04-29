@@ -275,25 +275,22 @@ namespace TownOfHost
                 ConcatCommands(CustomRoleTypes.Madmate);
                 roleCommands.Add(CustomRoles.SKMadmate, "sm");
 
-                // 両陣営役職
-                roleCommands.Add((CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==");  // 区切り用
-                roleCommands.Add(CustomRoles.Watcher, "wat");
-
                 // Crewmate役職
-                roleCommands.Add((CustomRoles)(-4), $"== {GetString("Crewmate")} ==");  // 区切り用
+                roleCommands.Add((CustomRoles)(-3), $"== {GetString("Crewmate")} ==");  // 区切り用
                 ConcatCommands(CustomRoleTypes.Crewmate);
 
                 // Neutral役職
-                roleCommands.Add((CustomRoles)(-5), $"== {GetString("Neutral")} ==");  // 区切り用
+                roleCommands.Add((CustomRoles)(-4), $"== {GetString("Neutral")} ==");  // 区切り用
                 ConcatCommands(CustomRoleTypes.Neutral);
 
                 // 属性
-                roleCommands.Add((CustomRoles)(-6), $"== {GetString("Addons")} ==");  // 区切り用
+                roleCommands.Add((CustomRoles)(-5), $"== {GetString("Addons")} ==");  // 区切り用
                 roleCommands.Add(CustomRoles.Lovers, "lo");
+                roleCommands.Add(CustomRoles.Watcher, "wat");
                 roleCommands.Add(CustomRoles.Workhorse, "wh");
 
                 // HAS
-                roleCommands.Add((CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==");  // 区切り用
+                roleCommands.Add((CustomRoles)(-6), $"== {GetString("HideAndSeek")} ==");  // 区切り用
                 roleCommands.Add(CustomRoles.HASFox, "hfo");
                 roleCommands.Add(CustomRoles.HASTroll, "htr");
 #pragma warning restore IDE0028

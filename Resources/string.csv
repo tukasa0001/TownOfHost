@@ -25,7 +25,6 @@
 "Warlock","Warlock","ウォーロック","术士","術士","Колдун","Mago"
 "Witch","Witch","ウィッチ","女巫","女巫","Ведьма","Bruxo"
 "Mafia","Mafia","マフィア","黑手党","黑手黨","Мафиози","Mafioso"
-"EvilWatcher","Evil Watcher","イビルウォッチャー","邪恶的窥视者","邪惡的觀察者","Злой Наблюдатель","Observador do Mal"
 "Puppeteer","Puppeteer","パペッティア","傀儡师","傀儡師","Кукловод","Marionetista"
 "TimeThief","Time Thief","タイムシーフ","蚀时者","時間小偷","Вор Времени","Ladrão de Tempo"
 "Sniper","Sniper","スナイパー","狙击手","狙擊手","Снайпер","Sniper"
@@ -37,11 +36,7 @@
 "MadSnitch","Mad Snitch","マッドスニッチ","背叛的告密者","背叛的告密者","Безумный Стукач","Dedo-Duro Louco"
 "SKMadmate","Sidekick Madmate","サイドキックマッドメイト","叛徒跟班","叛徒跟班","Союзник Безумца","Tripulante Louco Ajudante"
 
-"# 両陣営可能役職"
-"Watcher","Watcher","ウォッチャー","窥视者","觀察者","Наблюдатель","Observador"
-
 "# 特殊クルー役職"
-"NiceWatcher","Nice Watcher","ナイスウォッチャー","正义的窥视者","正義的觀察者","Добрый Наблюдатель","Observador do Bem"
 "Bait","Bait","ベイト","诱饵","誘餌","Приманка","Isca"
 "Lighter","Lighter","ライター","执灯人","小燈人","Фонарь","Lanterneiro"
 "Mayor","Mayor","メイヤー","市长","市長","Мэр","Prefeito"
@@ -79,6 +74,7 @@
 
 "# 属性"
 "LastImpostor","Last Impostor","ラストインポスター","绝境者","絕境者","Последний Предатель","Último Impostor"
+"Watcher","Watcher","ウォッチャー","窥视者","觀察者","Наблюдатель","Observador"
 "Workhorse","Workhorse","ワークホース","实干家","","Работник",""
 
 "# その他"
@@ -114,9 +110,6 @@
 "MadGuardianInfo","Finish your tasks and help the Impostors","タスクを済ませ、インポスターの援助をしよう","完成任务后来帮助内鬼","完成你的任務並幫助偽裝者","Завершите свои задания чтобы помочь Предателям","Termine as suas tarefas e ajude os Impostores"
 "MadSnitchInfo","Finish your tasks and help the Impostors","タスクを済ませ、インポスターの援助をしよう","完成任务后来帮助内鬼","完成你的任務並幫助偽裝者","Завершите свои задания чтобы помочь Предателям","Termine as suas tarefas e ajude os Impostores"
 "SKMadmateInfo","You are now on Team Impostors","サイドキックにされた","你是内鬼的好帮手","你現在是偽裝者的夥伴了，盡你所能幫助他們","Теперь вы в команде Предателя","Você agora está no Time Impostor"
-
-"# 両陣営可能役職"
-"WatcherInfo","Gaze upon all votes","みんなの投票に目を光らせよう","你可以看见所有人的投票，注意他们的选择","注意所有人的投票","Вы видите цвета голосов","Veja todos os votos"
 
 "# 特殊クルー役職"
 "BaitInfo","Bait your enemies","敵を罠にはめよう","诱骗敌人，让敌人落入你的陷阱","犧牲小我，完成大我","Убийца моментально зарепортит ваш труп","Engane os seus inimigos"
@@ -155,6 +148,7 @@
 "GMInfo","You are the Game Master","ゲームマスターだ","你是管理员，在旁边看戏吧","當吃瓜群眾在一旁看戲吧","Вы Мастер Игры","Você é o Mestre do Jogo (GM)"
 
 "# 属性"
+"WatcherInfo","Gaze upon all votes","みんなの投票に目を光らせよう","你可以看见所有人的投票，注意他们的选择","注意所有人的投票","Вы видите цвета голосов","Veja todos os votos"
 "WorkhorseInfo","You have Extra tasks","タスクはまだ終わらない","这活还得继续肝","","Теперь у вас дополнительные задания",""
 
 "## 役職説明ロング"
@@ -180,11 +174,6 @@
 "MadGuardianInfoLong","(Impostors):\nYou are a crewmate, but you act as the impostors' ally.\nYou and the impostors cannot recognize each other.\nOnce you finish your tasks, you will be shielded from impostor kills.","(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。","(内鬼阵营):\n背叛的守卫不可以击杀、破坏或使用管道。\n背叛的守卫完成任务之后，可以免疫所有击杀。","(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的天使完成所有任務時,他將有一個盾牌。","(Предатель):\nЧлен Экипажа, который на стороне Предателей. \nНо он не знает кто является Предателем в игре. \nЕсли он выполнит все задания, то он получит щит, с помощью которого он может предотвратить свое убийство.","(Impostores):\nVocê é um tripulante que se aliou ao impostor.\nOs Impostores não sabem quem você é e vice-versa.\nQuando terminar as suas tarefas, o Impostor não poderá te matar."
 "MadSnitchInfoLong","(Impostors):\nYou are a crewmate, but you act as the impostors' ally.\nYou and the impostors cannot recognize each other, but once you finish all tasks, you can see who the impostors are.","(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになる。","(内鬼阵营):\n背叛的告密者与内鬼不互认，不可以击杀、破坏或者使用管道。\n背叛的告密者完成所有任务之后，其与内鬼互认。","(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的告密者做完任務時,狼人和背叛的告密者將可以互相知道對方。","(Предатель):\nЧлен Экипажа, который на стороне Предателей. \nОн может увидеть, кто является Предателем, после того как выполнит все свои задания. \nВ зависимости от настроек он может использовать вентиляцию.","(Impostores):\nVocê é um tripulante que se aliou ao impostor.\nOs Impostores não sabem quem você é e vice-versa.\nQuando terminar as suas tarefas, você poderá ver quem é o Impostor."
 "SKMadmateInfoLong","(Impostors):\nThe player closest to a Shapeshifter when they shapeshift will become a Sidekick Madmate. You have no tasks.","(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。","(内鬼阵营):\n一些内鬼职业变形时，其附近的与其距离最近的玩家的职业有概率转化为该职业。\n叛徒跟班与内鬼不互认。","(狼人陣營):\n當狼人變形時\n離狼人變形最近的一個人將有機率轉化為叛徒跟班\n他沒有任務,且叛徒跟班與狼人無法互相知道。","(Предатель):\nРоль, которую может занять ближайший к вам игрок, когда вы используете Морф. Нет заданий.","(Impostores):\nO jogador mais próximo de um Metamorfo quando eles se transformam virará um Tripulante Louco Ajudante. Você não tem tarefas."
-
-"# 両陣営可能役職"
-"WatcherInfoLong","(Impostors or Crewmates):\nYou can see everyone's votes even if anonymous voting is on.","(インポスターorクルー陣営):\n全員の投票先を見ることができる。","(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。","(狼人或船員):\n會議時觀察者可以看到所有人的投票。","(Предатель или Член Экипажа):\nНаблюдатель может видеть все цвета голосов несмотря на анонимное голосование.","(Impostores ou Tripulantes):\nVocê consegue ver os votos de todos, mesmo que os votos anônimos estejam ligados."
-"EvilWatcherInfoLong","(Impostors):\nYou can see everyone's votes even if anonymous voting is on.","(インポスター陣営):\n全員の投票先を見ることができる。","(内鬼阵营:\n会议时窥视者可以看到所有人的投票。","(狼人):\n會議時觀察者可以看到所有人的投票。","(Предатель):\nЗлой Наблюдатель может видеть все цвета голосов несмотря на анонимное голосование.","(Impostores):\nVocê consegue ver os votos de todos, mesmo que os votos anônimos estejam ligados."
-"NiceWatcherInfoLong","(Crewmates):\nYou can see everyone's votes even if anonymous voting is on.","(クルー陣営):\n全員の投票先を見ることができる。","(船员阵营:\n会议时窥视者可以看到所有人的投票。","(船員):\n會議時觀察者可以看到所有人的投票。","(Член Экипажа):\nДобрый Наблюдатель может видеть все цвета голосов несмотря на анонимное голосование.","(Tripulantes):\nVocê consegue ver os votos de todos, mesmo que os votos anônimos estejam ligados."
 
 "# 特殊クルー役職"
 "BaitInfoLong","(Crewmates):\nWhen you are killed, you force your killer to immediately self-report.","(クルー陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。","(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。","(船員):\n當被殺時,兇手將強制自行舉報","(Член Экипажа):\nКогда Приманку убивают, он заставляет убившего игрока \nмоментально зарепортить ваш труп.","(Tripulantes):\nQuando morrer, você força o seu assassino a reportar o seu corpo imediatamente."
@@ -220,6 +209,7 @@
 
 "# 属性"
 "LastImpostorInfoLong","(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。","（效果）:\n这个效果在内鬼仅剩一人时赋予该内鬼。\n使其击杀冷却缩短。\n该效果对赏金猎人、嗜血杀手以及吸血鬼不适用。","(附加效果):\n該效果給予在場上的最後一位偽裝者，擁有該效果的偽裝者刀人冷卻時間會變短，該效果不會給予:\n賞金獵人, 連環殺手或吸血鬼 (可以設定冷卻)","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается Охотнику за головами, Серийному убийце или Вампиру.","(Atributos): \nUm Atributo dado ao último Impostor. \nO tempo de recarga (abate) é reduzido segundo a configuração. \nNão é dado para Caçadores de Recompensas, Serial Killers ou Vampiros."
+"WatcherInfoLong","(Add-ons):\nYou can see everyone's votes even if anonymous voting is on.","(属性):\n全員の投票先を見ることができる。","(效果):\n会议时窥视者可以看到所有人的投票。","(附加效果):\n會議時觀察者可以看到所有人的投票。","(Атрибут):\nНаблюдатель может видеть все цвета голосов несмотря на анонимное голосование.","(Atributos):\nVocê consegue ver os votos de todos, mesmo que os votos anônimos estejam ligados."
 "WorkhorseInfoLong","(Add-ons):\nAn Add-on granted to the first living Crewmate finishing all the tasks.\nYou are assigned additional tasks necessary for the tasks win.\nNot granted to roles with no tasks or with abilities triggered by finishing tasks.","(属性):\n最初に生きてタスクを終えたクルーに付与される属性。\n追加タスクが割り当てられる。\nクルーメイト以外にも割り当てる設定でもタスクが無い、タスク完了で能力が発動する役職には付与されない。","(附加效果):\n该附加效果赋予给第一个完成所有任务并存活的船员。\n你需要完成额外的任务来达成任务胜利。\n此效果不会赋予那些没有任务或者通过完成任务才能使用能力的诸多职业。","","(Атрибут):\nДополнительные задания присваиваются первому живому Члену Экипажа, который выполнит все задания. \nЕму назначаются дополнительные задания, необходимые для победы с помощью заданий. \nНе может присваиваться ролям которые не имеют заданий, или ролям со способностями которые активируются после выполнения заданий.",""
 
 "#モードオプション"
@@ -372,7 +362,6 @@
 "MadmateExileCrewmate","Madmates Revenge A Crewmate When Exiled","マッドメイト系役職が追放時クルーを道連れにする","叛徒系职业在被放逐时复仇, 带走一名船员垫背","叛徒被丟出時會隨機拖一個船員一起下水","Безумцы сохраняют команду при изгнании",""
 "MadmateVentCooldown","Mad Roles Vent Cooldown","マッドメイト系役職のベントクールダウン","叛徒系职业跳管道冷却时间","叛徒職業的玩家跳管道冷卻","Откат вентиляции Безумцев","Tempo de Recarga de Dutos dos Loucos"
 "MadmateVentMaxTime","Mad Roles Max Vent Duration","マッドメイト系役職のベント内での最大時間","叛徒系职业在管道中停留的最大时间","叛徒職業的玩家在管道中可以停留的最大時間","Время использования вентиляции Безумцев","Tempo Máximo de Loucos nos Dutos"
-"EvilWatcherChance","Evil Watcher Rate","イビルウォッチャーになる確率","窥视者成为内鬼阵营的概率","成為邪惡觀察者的機率","Шанс Злого Наблюдателя","Chance de Observador do Mal"
 "LighterTaskCompletedVision","Increased Vision","タスク完了時の視界","完成任务后的视野","做完任務的視野","Дальность обзора","Aumento de Visão"
 "LighterTaskCompletedDisableLightOut","Ignore Fix Lights Effect","タスク完了時に停電を無効にする","完成任务的执灯人不受熄灯影响","完成任務的小燈人視野不受關燈影響","Имеет дальность Обзора Предателя","Ignorar Efeitos do Apagão"
 "SabotageMasterFixesDoors","Can Open Multiple Doors","1度に複数のﾄﾞｱを開けられる","修理大师打开多扇关闭的门","破壞大師可以修理多扇門","Может открыть все двери","Pode Abrir Múltiplas Portas"

@@ -226,7 +226,6 @@ namespace TownOfHost.Roles
         private static CustomRoles[] GetAssignTargetRolesArray(this CustomRoles role)
             => role switch
             {
-                CustomRoles.Watcher => new CustomRoles[1] { IRandom.Instance.Next(100) < Options.EvilWatcherChance.GetInt() ? CustomRoles.EvilWatcher : CustomRoles.NiceWatcher },
                 CustomRoles.Lovers => new CustomRoles[2] { CustomRoles.Lovers, CustomRoles.Lovers },
                 _ => new CustomRoles[1] { role },
             };

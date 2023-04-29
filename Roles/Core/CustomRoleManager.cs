@@ -364,7 +364,6 @@ public enum CustomRoles
     Shapeshifter,
     //Impostor
     BountyHunter,
-    EvilWatcher,
     FireWorks,
     Mafia,
     SerialKiller,
@@ -383,8 +382,6 @@ public enum CustomRoles
     MadSnitch,
     SKMadmate,
     MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
-    //両陣営
-    Watcher,
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,
@@ -393,7 +390,6 @@ public enum CustomRoles
     Bait,
     Lighter,
     Mayor,
-    NiceWatcher,
     SabotageMaster,
     Sheriff,
     Snitch,
@@ -424,6 +420,7 @@ public enum CustomRoles
     NotAssigned = 500,
     LastImpostor,
     Lovers,
+    Watcher,
     Workhorse,
 }
 public enum CustomRoleTypes

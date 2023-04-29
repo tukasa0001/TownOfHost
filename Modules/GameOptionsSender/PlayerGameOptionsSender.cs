@@ -99,10 +99,6 @@ namespace TownOfHost.Modules
             roleClass?.ApplyGameOptions(opt);
             switch (role)
             {
-                case CustomRoles.EvilWatcher:
-                case CustomRoles.NiceWatcher:
-                    opt.SetBool(BoolOptionNames.AnonymousVotes, false);
-                    break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(true);
                     break;
