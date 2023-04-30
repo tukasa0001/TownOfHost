@@ -578,7 +578,6 @@ namespace TownOfHost
             var ret = true;
             if (roleClass != null)
             {
-                roleClass.IsTaskFinished = taskState.IsTaskFinished;
                 ret = roleClass.OnCompleteTask();
             }
             else

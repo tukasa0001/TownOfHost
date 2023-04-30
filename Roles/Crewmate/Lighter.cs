@@ -25,8 +25,6 @@ public sealed class Lighter : RoleBase
     {
         TaskCompletedVision = OptionTaskCompletedVision.GetFloat();
         TaskCompletedDisableLightOut = OptionTaskCompletedDisableLightOut.GetBool();
-
-        IsTaskFinished = false;
     }
 
     private static OptionItem OptionTaskCompletedVision;
@@ -63,7 +61,6 @@ public sealed class Lighter : RoleBase
     {
         if (Player.GetPlayerTaskState().IsTaskFinished)
         {
-            IsTaskFinished = true;
             Player.MarkDirtySettings();
         }
 

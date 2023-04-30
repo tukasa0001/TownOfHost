@@ -12,28 +12,40 @@ namespace TownOfHost.Roles.Core;
 
 public abstract class RoleBase : IDisposable
 {
-    public PlayerControl Player;
+    public PlayerControl Player { get; private set; }
     /// <summary>
-    /// タスクは持っているか。
+    /// プレイヤーの状態
+    /// </summary>
+    public readonly PlayerState MyState;
+    /// <summary>
+    /// プレイヤーのタスク状態
+    /// </summary>
+    public readonly TaskState MyTaskState;
+    /// <summary>
+    /// タスクを持っているか。
     /// 初期値はクルー役職のみ持つ
     /// </summary>
-    public Func<HasTask> HasTasks;
+    protected Func<HasTask> hasTasks;
+    /// <summary>
+    /// タスクを持っているか
+    /// </summary>
+    public HasTask HasTasks => hasTasks.Invoke();
     /// <summary>
     /// タスクが完了しているか
     /// </summary>
-    public bool IsTaskFinished;
+    public bool IsTaskFinished => MyTaskState.IsTaskFinished;
     /// <summary>
     /// キル能力を持っているか
     /// </summary>
-    public bool CanKill;
+    public bool CanKill { get; private set; }
     /// <summary>
     /// キル動作 == キルの役職か
     /// </summary>
-    public bool IsKiller;
+    public bool IsKiller { get; private set; }
     /// <summary>
     /// どの陣営にカウントされるか
     /// </summary>
-    public CountTypes CountType;
+    public CountTypes CountType => MyState.countTypes;
     public RoleBase(
         SimpleRoleInfo roleInfo,
         PlayerControl player,
@@ -43,11 +55,14 @@ public abstract class RoleBase : IDisposable
     )
     {
         Player = player;
-        HasTasks = hasTasks ?? (roleInfo.CustomRoleType == CustomRoleTypes.Crewmate ? () => HasTask.True : () => HasTask.False);
+        this.hasTasks = hasTasks ?? (roleInfo.CustomRoleType == CustomRoleTypes.Crewmate ? () => HasTask.True : () => HasTask.False);
         CanKill = canKill ?? roleInfo.BaseRoleType.Invoke() is RoleTypes.Impostor or RoleTypes.Shapeshifter;
         IsKiller = CanKill;
 
-        CountType = countType ?? (roleInfo.RoleName.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew);
+        MyState = PlayerState.GetByPlayerId(player.PlayerId);
+        MyTaskState = MyState.GetTaskState();
+
+        MyState.countTypes = countType ?? (roleInfo.RoleName.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew);
 
         CustomRoleManager.AllActiveRoles.Add(Player.PlayerId, this);
     }
