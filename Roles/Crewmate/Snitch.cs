@@ -169,8 +169,7 @@ public class Snitch : RoleBase
                 TargetColorlist.Add(targetId, target.GetRoleColor());
             }
         }
-        var snitchTask = Player.GetPlayerTaskState();
-        if (!IsExposed && snitchTask.RemainingTasksCount <= RemainingTasksToBeFound)
+        if (!IsExposed && MyTaskState.RemainingTasksCount <= RemainingTasksToBeFound)
         {
             IsExposed = true;
             ExposedList.Add(Player.PlayerId);
@@ -184,7 +183,7 @@ public class Snitch : RoleBase
             update = true;
         }
 
-        if (!IsComplete && snitchTask.IsTaskFinished)
+        if (!IsComplete && MyTaskState.IsTaskFinished)
         {
             IsComplete = true;
             foreach (var targetId in TargetList)

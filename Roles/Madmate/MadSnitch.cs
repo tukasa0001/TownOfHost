@@ -56,7 +56,7 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
         Tasks = Options.OverrideTasksData.Create(RoleInfo, 20);
     }
 
-    public bool KnowsImpostor() => Player.GetPlayerTaskState().IsTaskFinished;
+    public bool KnowsImpostor() => MyTaskState.IsTaskFinished;
 
     public override bool OnCompleteTask()
     {
