@@ -183,7 +183,7 @@ public class Snitch : RoleBase
             update = true;
         }
 
-        if (!IsComplete && MyTaskState.IsTaskFinished)
+        if (!IsComplete && IsTaskFinished)
         {
             IsComplete = true;
             foreach (var targetId in TargetList)

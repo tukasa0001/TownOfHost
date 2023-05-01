@@ -59,7 +59,7 @@ public sealed class Lighter : RoleBase
     }
     public override bool OnCompleteTask()
     {
-        if (MyTaskState.IsTaskFinished)
+        if (IsTaskFinished)
         {
             Player.MarkDirtySettings();
         }
