@@ -253,3 +253,4 @@ public sealed class EvilTracker : RoleBase
         return text;
     }
 }
+}

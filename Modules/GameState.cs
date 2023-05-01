@@ -55,16 +55,13 @@ namespace TownOfHost
         {
             MainRole = role;
 
-            var roleClass = CustomRoleManager.GetByPlayerId(PlayerId);
-            if (roleClass != null)
-                countTypes = roleClass.CountType;
-            else
+            // 役職クラスのコンストラクタでセット済なら不要
+            if (CustomRoleManager.GetByPlayerId(PlayerId) == null)
             {
                 countTypes = role switch
                 {
                     CustomRoles.GM => CountTypes.OutOfGame,
                     CustomRoles.Egoist => CountTypes.Impostor,
-                    CustomRoles.Jackal => CountTypes.Jackal,
                     CustomRoles.HASFox or
                     CustomRoles.HASTroll => CountTypes.None,
                     _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,
@@ -109,10 +106,25 @@ namespace TownOfHost
         public int GetKillCount(bool ExcludeSelfKill = false)
         {
             int count = 0;
-            foreach (var state in Main.PlayerStates.Values)
+            foreach (var state in AllPlayerStates.Values)
                 if (!(ExcludeSelfKill && state.PlayerId == PlayerId) && state.GetRealKiller() == PlayerId)
                     count++;
             return count;
+        }
+
+        private static Dictionary<byte, PlayerState> allPlayerStates = new(15);
+        public static IReadOnlyDictionary<byte, PlayerState> AllPlayerStates => allPlayerStates;
+
+        public static PlayerState GetByPlayerId(byte playerId) => AllPlayerStates.TryGetValue(playerId, out var state) ? state : null;
+        public static void Clear() => allPlayerStates.Clear();
+        public static void Create(byte playerId)
+        {
+            if (allPlayerStates.ContainsKey(playerId))
+            {
+                Logger.Warn($"重複したIDのPlayerStateが作成されました: {playerId}", nameof(PlayerState));
+                return;
+            }
+            allPlayerStates[playerId] = new(playerId);
         }
     }
     public class TaskState

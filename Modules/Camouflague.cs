@@ -67,7 +67,7 @@ namespace TownOfHost
                 //コミュサボ中
 
                 //死んでいたら処理しない
-                if (Main.PlayerStates[id].IsDead) return;
+                if (PlayerState.GetByPlayerId(id).IsDead) return;
             }
 
             var newOutfit = CamouflageOutfit;

@@ -126,7 +126,7 @@ public sealed class BountyHunter : RoleBase
                     ChangeTimer += Time.fixedDeltaTime;
 
                 //BountyHunterのターゲット更新
-                if (Main.PlayerStates[targetId].IsDead)
+                if (PlayerState.GetByPlayerId(targetId).IsDead)
                 {
                     ResetTarget();
                     Logger.Info($"{Player.GetNameWithRole()}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
@@ -178,7 +178,7 @@ public sealed class BountyHunter : RoleBase
     public override string GetAbilityButtonText() => GetString("BountyHunterChangeButtonText");
     public override void AfterMeetingTasks()
     {
-        if (!Main.PlayerStates[Player.PlayerId].IsDead)
+        if (Player.IsAlive())
         {
             Player.RpcResetAbilityCooldown();
             ChangeTimer = 0f;

@@ -79,7 +79,6 @@ namespace TownOfHost
         public static ConfigEntry<float> LastKillCooldown { get; private set; }
         public static ConfigEntry<float> LastShapeshifterCooldown { get; private set; }
         public static OptionBackupData RealOptionsData;
-        public static Dictionary<byte, PlayerState> PlayerStates = new();
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, Color32> PlayerColors = new();
@@ -110,6 +109,7 @@ namespace TownOfHost
         public static float DefaultImpostorVision;
         public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;
         public static bool IsInitialRelease = DateTime.Now.Month == 12 && DateTime.Now.Day is 4;
+        public const float RoleTextSize = 2f;
 
         public static IEnumerable<PlayerControl> AllPlayerControls => PlayerControl.AllPlayerControls.ToArray().Where(p => p != null);
         public static IEnumerable<PlayerControl> AllAlivePlayerControls => PlayerControl.AllPlayerControls.ToArray().Where(p => p != null && p.IsAlive());
@@ -184,19 +184,10 @@ namespace TownOfHost
                     {CustomRoles.Watcher, "#800080"},
                     //特殊クルー役職
                     {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
-                    {CustomRoles.SabotageMaster, "#0000ff"},
-                    {CustomRoles.Snitch, "#b8fb4f"},
-                    {CustomRoles.Dictator, "#df9b00"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
-                    {CustomRoles.TimeManager, "#6495ed"},
                     //ニュートラル役職
-                    {CustomRoles.Jester, "#ec62a5"},
-                    {CustomRoles.Terrorist, "#00ff00"},
-                    {CustomRoles.Executioner, "#611c3a"},
-                    {CustomRoles.SchrodingerCat, "#696969"},
                     {CustomRoles.Egoist, "#5600ff"},
                     {CustomRoles.EgoSchrodingerCat, "#5600ff"},
-                    {CustomRoles.Jackal, "#00b4eb"},
                     {CustomRoles.JSchrodingerCat, "#00b4eb"},
                     //HideAndSeek
                     {CustomRoles.HASFox, "#e478ff"},

@@ -27,7 +27,6 @@ namespace TownOfHost
             return
                 role is
                 CustomRoles.SKMadmate or
-                CustomRoles.MadGuardian or
                 CustomRoles.MSchrodingerCat;
         }
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
@@ -37,13 +36,10 @@ namespace TownOfHost
             if (roleInfo != null)
                 return roleInfo.CustomRoleType == CustomRoleTypes.Neutral;
             return
-                role is CustomRoles.Jester or
+                role is
                 CustomRoles.SchrodingerCat or
-                CustomRoles.Terrorist or
-                CustomRoles.Executioner or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
-                CustomRoles.Jackal or
                 CustomRoles.JSchrodingerCat or
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
@@ -137,19 +133,14 @@ namespace TownOfHost
                 return roleInfo.BaseRoleType.Invoke();
             return role switch
             {
-                CustomRoles.Jackal => RoleTypes.Impostor,
-
                 CustomRoles.Scientist => RoleTypes.Scientist,
 
-                CustomRoles.Engineer or
-                CustomRoles.Terrorist => RoleTypes.Engineer,
+                CustomRoles.Engineer => RoleTypes.Engineer,
 
                 CustomRoles.GuardianAngel or
                 CustomRoles.GM => RoleTypes.GuardianAngel,
 
                 CustomRoles.Shapeshifter or
-                CustomRoles.FireWorks or
-                CustomRoles.Sniper or
                 CustomRoles.Egoist => RoleTypes.Shapeshifter,
 
                 CustomRoles.EvilTracker => EvilTracker.RoleTypes,

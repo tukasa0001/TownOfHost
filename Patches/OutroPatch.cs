@@ -24,11 +24,11 @@ namespace TownOfHost
             Logger.Info("-----------ゲーム終了-----------", "Phase");
             if (!GameStates.IsModHost) return;
             SummaryText = new();
-            foreach (var id in Main.PlayerStates.Keys)
+            foreach (var id in PlayerState.AllPlayerStates.Keys)
                 SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
 
             var sb = new StringBuilder(GetString("KillLog") + ":");
-            foreach (var kvp in Main.PlayerStates.OrderBy(x => x.Value.RealKiller.Item1.Ticks))
+            foreach (var kvp in PlayerState.AllPlayerStates.OrderBy(x => x.Value.RealKiller.Item1.Ticks))
             {
                 var date = kvp.Value.RealKiller.Item1;
                 if (date == DateTime.MinValue) continue;
@@ -60,7 +60,7 @@ namespace TownOfHost
                 winner = new();
                 foreach (var pc in Main.AllPlayerControls)
                 {
-                    var role = Main.PlayerStates[pc.PlayerId].MainRole;
+                    var role = PlayerState.GetByPlayerId(pc.PlayerId).MainRole;
                     if (role.GetCustomRoleTypes() == CustomRoleTypes.Impostor)
                     {
                         if (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor)
@@ -142,7 +142,7 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(winnerRole);
                 }
             }
-            if (AmongUsClient.Instance.AmHost && Main.PlayerStates[0].MainRole == CustomRoles.GM)
+            if (AmongUsClient.Instance.AmHost && PlayerState.GetByPlayerId(0).MainRole == CustomRoles.GM)
             {
                 __instance.WinText.text = "Game Over";
                 __instance.WinText.color = Utils.GetRoleColor(CustomRoles.GM);
@@ -202,7 +202,7 @@ namespace TownOfHost
             RoleSummaryObject.transform.localScale = new Vector3(1f, 1f, 1f);
 
             StringBuilder sb = new($"{GetString("RoleSummaryText")}");
-            List<byte> cloneRoles = new(Main.PlayerStates.Keys);
+            List<byte> cloneRoles = new(PlayerState.AllPlayerStates.Keys);
             foreach (var id in Main.winnerList)
             {
                 sb.Append($"\n<color={CustomWinnerColor}>★</color> ").Append(EndGamePatch.SummaryText[id]);

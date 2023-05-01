@@ -9,15 +9,15 @@ namespace TownOfHost.Roles.Impostor
     public sealed class TimeThief : RoleBase, IMeetingTimeAlterable
     {
         public static readonly SimpleRoleInfo RoleInfo =
-        new(
-            typeof(TimeThief),
-            player => new TimeThief(player),
-            CustomRoles.TimeThief,
-            () => RoleTypes.Impostor,
-            CustomRoleTypes.Impostor,
-            2400,
-            SetupOptionItem
-        );
+            new(
+                typeof(TimeThief),
+                player => new TimeThief(player),
+                CustomRoles.TimeThief,
+                () => RoleTypes.Impostor,
+                CustomRoleTypes.Impostor,
+                2400,
+                SetupOptionItem
+            );
         public TimeThief(PlayerControl player)
         : base(
             RoleInfo,
@@ -60,7 +60,7 @@ namespace TownOfHost.Roles.Impostor
         public override float SetKillCooldown() => KillCooldown;
         public int CalculateMeetingTimeDelta()
         {
-            var sec = -(DecreaseMeetingTime * Main.PlayerStates[Player.PlayerId].GetKillCount(true));
+            var sec = -(DecreaseMeetingTime * MyState.GetKillCount(true));
             return sec;
         }
         public override string GetProgressText(bool comms = false)

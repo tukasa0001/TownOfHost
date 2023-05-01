@@ -9,7 +9,7 @@ namespace TownOfHost.Roles.Madmate;
 
 public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
 {
-    public static SimpleRoleInfo RoleInfo =
+    public static readonly SimpleRoleInfo RoleInfo =
         new(
             typeof(MadSnitch),
             player => new MadSnitch(player),
@@ -17,13 +17,14 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
             () => OptionCanVent.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
             CustomRoleTypes.Madmate,
             10200,
-            SetupOptionItem
+            SetupOptionItem,
+            introSound: () => GetIntroSound(RoleTypes.Impostor)
         );
     public MadSnitch(PlayerControl player)
     : base(
         RoleInfo,
         player,
-        HasTask.ForRecompute)
+        () => HasTask.ForRecompute)
     {
         canSeeKillFlash = Options.MadmateCanSeeKillFlash.GetBool();
         canSeeDeathReason = Options.MadmateCanSeeDeathReason.GetBool();
@@ -55,7 +56,7 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
         Tasks = Options.OverrideTasksData.Create(RoleInfo, 20);
     }
 
-    public bool KnowsImpostor() => Player.GetPlayerTaskState().IsTaskFinished;
+    public bool KnowsImpostor() => IsTaskFinished;
 
     public override bool OnCompleteTask()
     {
@@ -87,6 +88,6 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
         return Utils.ColorString(Utils.GetRoleColor(CustomRoles.MadSnitch), "★");
     }
 
-    public bool CanSeeKillFlash(MurderInfo info) => canSeeKillFlash;
-    public bool CanSeeDeathReason(PlayerControl seen) => canSeeDeathReason;
+    public bool CheckKillFlash(MurderInfo info) => canSeeKillFlash;
+    public bool CheckSeeDeathReason(PlayerControl seen) => canSeeDeathReason;
 }

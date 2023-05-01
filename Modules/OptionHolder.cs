@@ -79,7 +79,6 @@ namespace TownOfHost
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
         public static OptionItem DefaultShapeshiftCooldown;
         public static OptionItem CanMakeMadmateCount;
-        public static OptionItem MadGuardianCanSeeWhoTriedToKill;
         public static OptionItem MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static OptionItem MadmateCanFixComms;
         public static OptionItem MadmateHasImpostorVision;
@@ -202,7 +201,6 @@ namespace TownOfHost
         public static OptionItem DisableAirshipCargoLightsPanel;
 
         // タスク上書き
-        public static OverrideTasksData MadGuardianTasks;
         public static OverrideTasksData TerroristTasks;
         public static OverrideTasksData SnitchTasks;
 
@@ -311,10 +309,6 @@ namespace TownOfHost
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
                 info.OptionCreator?.Invoke();
             });
-            SetupRoleOptions(10100, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
-            MadGuardianCanSeeWhoTriedToKill = BooleanOptionItem.Create(10110, "MadGuardianCanSeeWhoTriedToKill", false, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.MadGuardian]);
-            //ID10120~10123を使用
-            MadGuardianTasks = OverrideTasksData.Create(10120, TabGroup.ImpostorRoles, CustomRoles.MadGuardian);
             // Madmate Common Options
             MadmateCanFixLightsOut = BooleanOptionItem.Create(15010, "MadmateCanFixLightsOut", false, TabGroup.ImpostorRoles, false)
                 .SetHeader(true);
@@ -338,26 +332,24 @@ namespace TownOfHost
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
                 info.OptionCreator?.Invoke();
             });
-            SetupRoleOptions(20900, TabGroup.CrewmateRoles, CustomRoles.Dictator);
-            TimeManager.SetupCustomOption();
 
             // Neutral
-            SetupRoleOptions(50000, TabGroup.NeutralRoles, CustomRoles.Jester);
-            SetupRoleOptions(50200, TabGroup.NeutralRoles, CustomRoles.Terrorist);
-            CanTerroristSuicideWin = BooleanOptionItem.Create(50210, "CanTerroristSuicideWin", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Terrorist])
-                .SetGameMode(CustomGameMode.Standard);
-            //50220~50223を使用
-            TerroristTasks = OverrideTasksData.Create(50220, TabGroup.NeutralRoles, CustomRoles.Terrorist);
             sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Neutral).Do(info =>
             {
-                SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
+                switch (info.RoleName)
+                {
+                    case CustomRoles.Jackal: //ジャッカルは1人固定
+                        SetupSingleRoleOptions(info.ConfigId, info.Tab, info.RoleName, 1);
+                        break;
+                    default:
+                        SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
+                        break;
+                }
                 info.OptionCreator?.Invoke();
             });
             SetupLoversRoleOptionsToggle(50300);
 
             Egoist.SetupCustomOption();
-            Executioner.SetupCustomOption();
-            Jackal.SetupCustomOption();
 
             // Add-Ons
             LastImpostor.SetupCustomOption();
@@ -632,6 +624,7 @@ namespace TownOfHost
                 .SetGameMode(customGameMode) as IntegerOptionItem;
             // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(count, count, count), count, tab, false).SetParent(spawnOption)
+                .SetHidden(true)
                 .SetGameMode(customGameMode);
 
             CustomRoleSpawnChances.Add(role, spawnOption);

@@ -29,7 +29,6 @@ namespace TownOfHost
         SniperSync,
         SetLoversPlayers,
         SetExecutionerTarget,
-        RemoveExecutionerTarget,
         SetCurrentDousingTarget,
         SetEvilTrackerTarget,
         SetRealKiller,
@@ -145,12 +144,6 @@ namespace TownOfHost
                     for (int i = 0; i < count; i++)
                         Main.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
                     break;
-                case CustomRPC.SetExecutionerTarget:
-                    Executioner.ReceiveRPC(reader, SetTarget: true);
-                    break;
-                case CustomRPC.RemoveExecutionerTarget:
-                    Executioner.ReceiveRPC(reader, SetTarget: false);
-                    break;
                 case CustomRPC.SetEvilTrackerTarget:
                     EvilTracker.ReceiveRPC(reader);
                     break;
@@ -215,8 +208,9 @@ namespace TownOfHost
         {
             var playerId = reader.ReadByte();
             var deathReason = (CustomDeathReason)reader.ReadInt32();
-            Main.PlayerStates[playerId].DeathReason = deathReason;
-            Main.PlayerStates[playerId].IsDead = true;
+            var state = PlayerState.GetByPlayerId(playerId);
+            state.DeathReason = deathReason;
+            state.IsDead = true;
         }
 
         public static void EndGame(MessageReader reader)
@@ -247,14 +241,22 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role)
         {
+            var roleClass = CustomRoleManager.GetByPlayerId(targetId);
+            if (roleClass != null)
+            {
+                var player = roleClass.Player;
+                roleClass.Dispose();
+                CustomRoleManager.CreateInstance(role, player);
+            }
+
             if (role < CustomRoles.NotAssigned)
             {
-                Main.PlayerStates[targetId].SetMainRole(role);
+                PlayerState.GetByPlayerId(targetId).SetMainRole(role);
                 CustomRoleManager.CreateInstance(role, Utils.GetPlayerById(targetId));
             }
             else if (role >= CustomRoles.NotAssigned)   //500:NoSubRole 501~:SubRole
             {
-                Main.PlayerStates[targetId].SetSubRole(role);
+                PlayerState.GetByPlayerId(targetId).SetSubRole(role);
             }
 
             HudManager.Instance.SetHudActive(true);
@@ -295,7 +297,7 @@ namespace TownOfHost
         }
         public static void SetRealKiller(byte targetId, byte killerId)
         {
-            var state = Main.PlayerStates[targetId];
+            var state = PlayerState.GetByPlayerId(targetId);
             state.RealKiller.Item1 = DateTime.Now;
             state.RealKiller.Item2 = killerId;
 

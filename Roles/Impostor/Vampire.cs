@@ -11,15 +11,16 @@ namespace TownOfHost.Roles.Impostor
     public sealed class Vampire : RoleBase
     {
         public static readonly SimpleRoleInfo RoleInfo =
-        new(
-            typeof(Vampire),
-            player => new Vampire(player),
-            CustomRoles.Vampire,
-            () => RoleTypes.Impostor,
-            CustomRoleTypes.Impostor,
-            1300,
-            SetupOptionItem
-        );
+            new(
+                typeof(Vampire),
+                player => new Vampire(player),
+                CustomRoles.Vampire,
+                () => RoleTypes.Impostor,
+                CustomRoleTypes.Impostor,
+                1300,
+                SetupOptionItem,
+                introSound: () => GetIntroSound(RoleTypes.Shapeshifter)
+            );
         public Vampire(PlayerControl player)
         : base(
             RoleInfo,
@@ -98,7 +99,7 @@ namespace TownOfHost.Roles.Impostor
             var vampire = Player;
             if (target.IsAlive())
             {
-                Main.PlayerStates[target.PlayerId].DeathReason = CustomDeathReason.Bite;
+                PlayerState.GetByPlayerId(target.PlayerId).DeathReason = CustomDeathReason.Bite;
                 target.SetRealKiller(vampire);
                 CustomRoleManager.OnCheckMurder(
                     vampire, target,

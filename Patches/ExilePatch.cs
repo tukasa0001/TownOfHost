@@ -2,8 +2,6 @@ using AmongUs.Data;
 using HarmonyLib;
 
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Crewmate;
 using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost
@@ -61,33 +59,15 @@ namespace TownOfHost
                     exiled.Object?.ResetPlayerCam(1f);
 
                 exiled.IsDead = true;
-                Main.PlayerStates[exiled.PlayerId].DeathReason = CustomDeathReason.Vote;
-                if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
+                PlayerState.GetByPlayerId(exiled.PlayerId).DeathReason = CustomDeathReason.Vote;
+
+                foreach (var roleClass in CustomRoleManager.AllActiveRoles.Values)
                 {
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jester);
-                    CustomWinnerHolder.WinnerIds.Add(exiled.PlayerId);
-                    //吊られたJesterをターゲットにしているExecutionerも追加勝利
-                    foreach (var executioner in Executioner.playerIdList)
-                    {
-                        var GetValue = Executioner.Target.TryGetValue(executioner, out var targetId);
-                        if (GetValue && exiled.PlayerId == targetId)
-                        {
-                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Executioner);
-                            CustomWinnerHolder.WinnerIds.Add(executioner);
-                        }
-                    }
-                    DecidedWinner = true;
+                    roleClass.OnExileWrapUp(exiled, ref DecidedWinner);
                 }
-                if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
-                {
-                    Utils.CheckTerroristWin(exiled);
-                    DecidedWinner = true;
-                }
-                Executioner.CheckExileTarget(exiled, DecidedWinner);
                 SchrodingerCat.ChangeTeam(exiled.Object);
 
-
-                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) Main.PlayerStates[exiled.PlayerId].SetDead();
+                if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) PlayerState.GetByPlayerId(exiled.PlayerId).SetDead();
             }
 
             foreach (var pc in Main.AllPlayerControls)
@@ -141,17 +121,19 @@ namespace TownOfHost
                     Main.AfterMeetingDeathPlayers.Do(x =>
                     {
                         var player = Utils.GetPlayerById(x.Key);
+                        var roleClass = CustomRoleManager.GetByPlayerId(x.Key);
                         var requireResetCam = player?.GetCustomRole().GetRoleInfo()?.RequireResetCam;
+                        var state = PlayerState.GetByPlayerId(x.Key);
                         Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
-                        Main.PlayerStates[x.Key].DeathReason = x.Value;
-                        Main.PlayerStates[x.Key].SetDead();
+                        state.DeathReason = x.Value;
+                        state.SetDead();
                         player?.RpcExileV2();
                         if (x.Value == CustomDeathReason.Suicide)
                             player?.SetRealKiller(player, true);
                         if (Main.ResetCamPlayerList.Contains(x.Key) || (requireResetCam.HasValue && requireResetCam.Value))
                             player?.ResetPlayerCam(1f);
-                        if (Executioner.Target.ContainsValue(x.Key))
-                            Executioner.ChangeRoleByTarget(player);
+                        if (roleClass is Executioner executioner && executioner.TargetId == x.Key)
+                            Executioner.ChangeRoleByTarget(x.Key);
                     });
                     Main.AfterMeetingDeathPlayers.Clear();
                 }, 0.5f, "AfterMeetingDeathPlayers Task");

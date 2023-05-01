@@ -18,13 +18,14 @@ public sealed class Arsonist : RoleBase
             CustomRoleTypes.Neutral,
             50500,
             SetupOptionItem,
-            "#ff6633"
+            "#ff6633",
+            introSound: () => GetIntroSound(RoleTypes.Crewmate)
         );
     public Arsonist(PlayerControl player)
     : base(
         RoleInfo,
         player,
-        HasTask.False,
+        () => HasTask.False,
         CountTypes.Crew,
         false
     )
@@ -73,6 +74,7 @@ public sealed class Arsonist : RoleBase
     }
     public override bool CanUseKillButton() => !IsDouseDone(Player);
     public override float SetKillCooldown() => DouseCooldown;
+    public override bool CanSabotage(SystemTypes systemType) => false;
     public override string GetProgressText(bool comms = false)
     {
         var doused = GetDousedPlayerCount();
@@ -185,8 +187,9 @@ public sealed class Arsonist : RoleBase
                     //生存者は焼殺
                     pc.SetRealKiller(Player);
                     pc.RpcMurderPlayer(pc);
-                    Main.PlayerStates[pc.PlayerId].DeathReason = CustomDeathReason.Torched;
-                    Main.PlayerStates[pc.PlayerId].SetDead();
+                    var state = PlayerState.GetByPlayerId(pc.PlayerId);
+                    state.DeathReason = CustomDeathReason.Torched;
+                    state.SetDead();
                 }
                 else
                     RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);

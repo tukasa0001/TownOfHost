@@ -76,7 +76,7 @@ namespace TownOfHost.Modules
 
             var opt = BasedGameOptions;
             AURoleOptions.SetOpt(opt);
-            var state = Main.PlayerStates[player.PlayerId];
+            var state = PlayerState.GetByPlayerId(player.PlayerId);
             opt.BlackOut(state.IsBlackOut);
 
             CustomRoles role = player.GetCustomRole();
@@ -95,26 +95,19 @@ namespace TownOfHost.Modules
                     break;
             }
 
-            player.GetRoleClass()?.ApplyGameOptions(opt);
+            var roleClass = player.GetRoleClass();
+            roleClass?.ApplyGameOptions(opt);
             switch (role)
             {
-                case CustomRoles.Terrorist:
-                    AURoleOptions.EngineerCooldown = 0;
-                    AURoleOptions.EngineerInVentMaxTime = 0;
-                    break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
                     opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                     break;
-                case CustomRoles.Sheriff:
-                    opt.SetVision(false);
-                    break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(true);
                     break;
-                case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
-                    Jackal.ApplyGameOptions(opt);
+                    ((Jackal)roleClass).ApplyGameOptions(opt);
                     break;
             }
             if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))

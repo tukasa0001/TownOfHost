@@ -31,36 +31,13 @@ namespace TownOfHost
                     PlayerControl pc = Utils.GetPlayerById(pva.TargetPlayerId);
                     if (pc == null) continue;
 
-                    pc.GetRoleClass()?.OnCheckForEndVoting(ref statesList, pva);
-                    //死んでいないディクテーターが投票済み
-                    if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
-                    {
-                        var voteTarget = Utils.GetPlayerById(pva.VotedFor);
-                        TryAddAfterMeetingDeathPlayers(CustomDeathReason.Suicide, pc.PlayerId);
-                        statesList.Add(new()
-                        {
-                            VoterId = pva.TargetPlayerId,
-                            VotedForId = pva.VotedFor
-                        });
-                        states = statesList.ToArray();
-                        if (AntiBlackout.OverrideExiledPlayer)
-                        {
-                            __instance.RpcVotingComplete(states, null, true);
-                            ExileControllerWrapUpPatch.AntiBlackout_LastExiled = voteTarget.Data;
-                        }
-                        else __instance.RpcVotingComplete(states, voteTarget.Data, false); //通常処理
-
-                        Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
-                        CheckForDeathOnExile(CustomDeathReason.Vote, pva.VotedFor);
-                        Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
-                        voteTarget.SetRealKiller(pc);
-                        return true;
-                    }
+                    if (pc.GetRoleClass()?.OnCheckForEndVoting(ref statesList, pva) == false)
+                        return false;
                 }
                 foreach (var ps in __instance.playerStates)
                 {
                     //死んでいないプレイヤーが投票していない
-                    if (!(Main.PlayerStates[ps.TargetPlayerId].IsDead || ps.DidVote)) return false;
+                    if (!(PlayerState.GetByPlayerId(ps.TargetPlayerId).IsDead || ps.DidVote)) return false;
                 }
 
                 GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
@@ -305,7 +282,7 @@ namespace TownOfHost
                     roleTextMeeting.enabled = true;
                 }
             }
-            CustomRoleManager.AllActiveRoles.Do(role => role.OnStartMeeting());
+            CustomRoleManager.AllActiveRoles.Values.Do(role => role.OnStartMeeting());
             if (Options.SyncButtonMode.GetBool())
             {
                 Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount));
@@ -356,9 +333,6 @@ namespace TownOfHost
                 sb.Append(CustomRoleManager.GetMarkOthers(seer, target, true));
                 switch (seer.GetCustomRole())
                 {
-                    case CustomRoles.Executioner:
-                        sb.Append(Executioner.TargetMark(seer, target));
-                        break;
                     case CustomRoles.EvilTracker:
                         sb.Append(EvilTracker.GetTargetMark(seer, target));
                         break;
@@ -393,8 +367,9 @@ namespace TownOfHost
                 {
                     var player = Utils.GetPlayerById(x.TargetPlayerId);
                     player.RpcExileV2();
-                    Main.PlayerStates[player.PlayerId].DeathReason = CustomDeathReason.Execution;
-                    Main.PlayerStates[player.PlayerId].SetDead();
+                    var state = PlayerState.GetByPlayerId(player.PlayerId);
+                    state.DeathReason = CustomDeathReason.Execution;
+                    state.SetDead();
                     Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                     __instance.CheckForEndVoting();

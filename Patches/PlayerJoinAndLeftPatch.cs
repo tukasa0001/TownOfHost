@@ -5,6 +5,7 @@ using HarmonyLib;
 using InnerNet;
 
 using TownOfHost.Modules;
+using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
@@ -74,6 +75,11 @@ namespace TownOfHost
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
     class OnPlayerLeftPatch
     {
+        static void Prefix([HarmonyArgument(0)] ClientData data)
+        {
+            if (CustomRoles.Executioner.IsPresent())
+                Executioner.ChangeRoleByTarget(data.Character.PlayerId);
+        }
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
         {
             //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
@@ -85,16 +91,13 @@ namespace TownOfHost
                     {
                         Main.isLoversDead = true;
                         Main.LoversPlayers.Remove(lovers);
-                        Main.PlayerStates[lovers.PlayerId].RemoveSubRole(CustomRoles.Lovers);
+                        PlayerState.GetByPlayerId(lovers.PlayerId).RemoveSubRole(CustomRoles.Lovers);
                     }
-                if (data.Character.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(data.Character.PlayerId))
-                    Executioner.ChangeRole(data.Character);
-                if (Executioner.Target.ContainsValue(data.Character.PlayerId))
-                    Executioner.ChangeRoleByTarget(data.Character);
-                if (Main.PlayerStates[data.Character.PlayerId].DeathReason == CustomDeathReason.etc) //死因が設定されていなかったら
+                var state = PlayerState.GetByPlayerId(data.Character.PlayerId);
+                if (state.DeathReason == CustomDeathReason.etc) //死因が設定されていなかったら
                 {
-                    Main.PlayerStates[data.Character.PlayerId].DeathReason = CustomDeathReason.Disconnected;
-                    Main.PlayerStates[data.Character.PlayerId].SetDead();
+                    state.DeathReason = CustomDeathReason.Disconnected;
+                    state.SetDead();
                 }
                 AntiBlackout.OnDisconnect(data.Character.Data);
                 PlayerGameOptionsSender.RemoveSender(data.Character);
@@ -115,7 +118,7 @@ namespace TownOfHost
                     if (client.Character == null) return;
                     TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
                 }, 3f, "Welcome Message");
-                if (Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
+                if (Options.AutoDisplayLastResult.GetBool() && PlayerState.AllPlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
                 {
                     new LateTask(() =>
                     {
@@ -126,7 +129,7 @@ namespace TownOfHost
                         }
                     }, 3f, "DisplayLastRoles");
                 }
-                if (Options.AutoDisplayKillLog.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
+                if (Options.AutoDisplayKillLog.GetBool() && PlayerState.AllPlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
                 {
                     new LateTask(() =>
                     {

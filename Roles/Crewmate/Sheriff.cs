@@ -21,13 +21,14 @@ public sealed class Sheriff : RoleBase
             20400,
             SetupOptionItem,
             "#f8cd46",
-            true
+            true,
+            introSound: () => GetIntroSound(RoleTypes.Crewmate)
         );
     public Sheriff(PlayerControl player)
     : base(
         RoleInfo,
         player,
-        HasTask.False
+        () => HasTask.False
     )
     {
         ShotLimit = ShotLimitOpt.GetInt();
@@ -116,10 +117,14 @@ public sealed class Sheriff : RoleBase
     }
     public override float SetKillCooldown() => CanUseKillButton() ? CurrentKillCooldown : 0f;
     public override bool CanUseKillButton()
-        => !Main.PlayerStates[Player.PlayerId].IsDead
+        => Player.IsAlive()
         && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
         && ShotLimit > 0;
     public override bool CanSabotage(SystemTypes systemType) => false;
+    public override void ApplyGameOptions(IGameOptions opt)
+    {
+        opt.SetVision(false);
+    }
     public override void OnCheckMurderAsKiller(MurderInfo info)
     {
         if (Is(info.AttemptKiller) && !info.IsSuicide)
@@ -137,7 +142,7 @@ public sealed class Sheriff : RoleBase
             if (!CanBeKilledBy(target))
             {
                 killer.RpcMurderPlayer(killer);
-                Main.PlayerStates[killer.PlayerId].DeathReason = CustomDeathReason.Misfire;
+                PlayerState.GetByPlayerId(killer.PlayerId).DeathReason = CustomDeathReason.Misfire;
                 if (!MisfireKillsTarget.GetBool())
                 {
                     info.DoKill = false;

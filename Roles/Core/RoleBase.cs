@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Hazel;
 using AmongUs.GameOptions;
@@ -11,46 +12,65 @@ namespace TownOfHost.Roles.Core;
 
 public abstract class RoleBase : IDisposable
 {
-    public PlayerControl Player;
+    public PlayerControl Player { get; private set; }
     /// <summary>
-    /// タスクは持っているか。
+    /// プレイヤーの状態
+    /// </summary>
+    public readonly PlayerState MyState;
+    /// <summary>
+    /// プレイヤーのタスク状態
+    /// </summary>
+    public readonly TaskState MyTaskState;
+    /// <summary>
+    /// タスクを持っているか。
     /// 初期値はクルー役職のみ持つ
     /// </summary>
-    public HasTask HasTasks;
+    protected Func<HasTask> hasTasks;
+    /// <summary>
+    /// タスクを持っているか
+    /// </summary>
+    public HasTask HasTasks => hasTasks.Invoke();
+    /// <summary>
+    /// タスクが完了しているか
+    /// </summary>
+    public bool IsTaskFinished => MyTaskState.IsTaskFinished;
     /// <summary>
     /// キル能力を持っているか
     /// </summary>
-    public bool CanKill;
+    public bool CanKill { get; private set; }
     /// <summary>
     /// キル動作 == キルの役職か
     /// </summary>
-    public bool IsKiller;
+    public bool IsKiller { get; private set; }
     /// <summary>
     /// どの陣営にカウントされるか
     /// </summary>
-    public CountTypes CountType;
+    public CountTypes CountType => MyState.countTypes;
     public RoleBase(
         SimpleRoleInfo roleInfo,
         PlayerControl player,
-        HasTask? hasTasks = null,
+        Func<HasTask> hasTasks = null,
         CountTypes? countType = null,
         bool? canKill = null
     )
     {
         Player = player;
-        HasTasks = hasTasks ?? (roleInfo.CustomRoleType == CustomRoleTypes.Crewmate ? HasTask.True : HasTask.False);
+        this.hasTasks = hasTasks ?? (roleInfo.CustomRoleType == CustomRoleTypes.Crewmate ? () => HasTask.True : () => HasTask.False);
         CanKill = canKill ?? roleInfo.BaseRoleType.Invoke() is RoleTypes.Impostor or RoleTypes.Shapeshifter;
         IsKiller = CanKill;
 
-        CountType = countType ?? (roleInfo.RoleName.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew);
+        MyState = PlayerState.GetByPlayerId(player.PlayerId);
+        MyTaskState = MyState.GetTaskState();
 
-        CustomRoleManager.AllActiveRoles.Add(this);
+        MyState.countTypes = countType ?? (roleInfo.RoleName.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew);
+
+        CustomRoleManager.AllActiveRoles.Add(Player.PlayerId, this);
     }
     public void Dispose()
     {
-        Player = null;
         OnDestroy();
-        CustomRoleManager.AllActiveRoles.Remove(this);
+        CustomRoleManager.AllActiveRoles.Remove(Player.PlayerId);
+        Player = null;
     }
     public bool Is(PlayerControl player)
     {
@@ -200,8 +220,16 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     /// <param name="statesList">投票情報を保存しておくリスト</param>
     /// <param name="pva">プレイヤー</param>
-    /// <returns>falseを返すと会議終了判定をキャンセルする</returns>
+    /// <returns>falseを返すと会議を強制終了する</returns>
     public virtual bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva) => true;
+
+    /// <summary>
+    /// 追放後に行われる処理
+    /// </summary>
+    /// <param name="exiled">追放されるプレイヤー</param>
+    /// <param name="DecidedWinner">勝者を確定させるか</param>
+    public virtual void OnExileWrapUp(GameData.PlayerInfo exiled, ref bool DecidedWinner)
+    { }
 
     /// <summary>
     /// タスクターンが始まる直前に毎回呼ばれる関数
@@ -249,27 +277,8 @@ public abstract class RoleBase : IDisposable
     /// 役職名の横に出るテキスト
     /// </summary>
     /// <param name="comms">コミュサボ中扱いするかどうか</param>
-    public virtual string GetProgressText(bool comms = false)
-    {
-        var playerId = Player.PlayerId;
-        //タスクテキスト
-        var taskState = Main.PlayerStates?[playerId].GetTaskState();
-        if (!taskState.hasTasks) return "";
-
-        Color TextColor = Color.yellow;
-        var info = Utils.GetPlayerInfoById(playerId);
-        var TaskCompleteColor = Utils.HasTasks(info) ? Color.green : Utils.GetRoleColor(info.GetCustomRole()).ShadeColor(0.5f); //タスク完了後の色
-        var NonCompleteColor = Utils.HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
-
-        if (Workhorse.IsThisRole(playerId))
-            NonCompleteColor = Workhorse.RoleColor;
-
-        var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
-
-        TextColor = comms ? Color.gray : NormalColor;
-        string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-        return Utils.ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
-    }
+    public virtual string GetProgressText(bool comms = false) =>
+        Utils.GetTaskProgressText(Player.PlayerId, Player.GetCustomRole(), comms);
     /// <summary>
     /// seerが自分であるときのMark
     /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し
@@ -322,4 +331,7 @@ public abstract class RoleBase : IDisposable
         };
         return GetString(str);
     }
+
+    protected static AudioClip GetIntroSound(RoleTypes roleType) =>
+        RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
 }

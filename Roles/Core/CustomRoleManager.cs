@@ -16,11 +16,11 @@ public static class CustomRoleManager
 {
     public static Type[] AllRolesClassType;
     public static Dictionary<CustomRoles, SimpleRoleInfo> AllRolesInfo = new(Enum.GetValues(typeof(CustomRoles)).Length);
-    public static List<RoleBase> AllActiveRoles = new(Enum.GetValues(typeof(CustomRoles)).Length);
+    public static Dictionary<byte, RoleBase> AllActiveRoles = new(15);
 
     public static SimpleRoleInfo GetRoleInfo(this CustomRoles role) => AllRolesInfo.ContainsKey(role) ? AllRolesInfo[role] : null;
     public static RoleBase GetRoleClass(this PlayerControl player) => GetByPlayerId(player.PlayerId);
-    public static RoleBase GetByPlayerId(byte playerId) => AllActiveRoles.ToArray().Where(roleClass => roleClass.Player.PlayerId == playerId).FirstOrDefault();
+    public static RoleBase GetByPlayerId(byte playerId) => AllActiveRoles.TryGetValue(playerId, out var roleBase) ? roleBase : null;
     public static void Do<T>(this List<T> list, Action<T> action) => list.ToArray().Do(action);
     // == CheckMurder関連処理 ==
     public static Dictionary<byte, MurderInfo> CheckMurderInfos = new();
@@ -60,11 +60,6 @@ public static class CustomRoleManager
             if (targetRole != null)
             {
                 if (!targetRole.OnCheckMurderAsTarget(info)) return;
-            }
-            else
-            {
-                //RoleBase化されていないターゲット処理
-                if (!CheckMurderPatch.OnCheckMurderAsTarget(info)) return;
             }
 
         }
@@ -117,11 +112,9 @@ public static class CustomRoleManager
         var targetRole = attemptTarget.GetRoleClass();
         if (targetRole != null)
             targetRole.OnMurderPlayerAsTarget(info);
-        else
-            OnMurderPlayerAsTarget(info);
 
         //その他視点の処理があれば実行
-        foreach (var onMurderPlayer in OnMurderPlayerOthers)
+        foreach (var onMurderPlayer in OnMurderPlayerOthers.ToArray())
         {
             onMurderPlayer(info);
         }
@@ -130,13 +123,14 @@ public static class CustomRoleManager
         FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
 
         //以降共通処理
-        if (Main.PlayerStates[attemptTarget.PlayerId].DeathReason == CustomDeathReason.etc)
+        var targetState = PlayerState.GetByPlayerId(attemptTarget.PlayerId);
+        if (targetState.DeathReason == CustomDeathReason.etc)
         {
             //死因が設定されていない場合は死亡判定
-            Main.PlayerStates[attemptTarget.PlayerId].DeathReason = CustomDeathReason.Kill;
+            targetState.DeathReason = CustomDeathReason.Kill;
         }
 
-        Main.PlayerStates[attemptTarget.PlayerId].SetDead();
+        targetState.SetDead();
         attemptTarget.SetRealKiller(attemptKiller, true);
 
         Utils.CountAlivePlayers(true);
@@ -152,28 +146,6 @@ public static class CustomRoleManager
     /// </summary>
     public static HashSet<Action<MurderInfo>> OnMurderPlayerOthers = new();
 
-    /// <summary>
-    /// RoleBase未実装のMurderPlayer処理
-    /// </summary>
-    /// <param name="info"></param>
-    public static void OnMurderPlayerAsTarget(MurderInfo info)
-    {
-        (var attemptKiller, var attemptTarget) = info.AttemptTuple;
-        var suicide = info.IsSuicide;
-        //RoleClass非対応の処理
-        if (attemptTarget.Is(CustomRoles.Terrorist))
-        {
-            Logger.Info(attemptTarget?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
-            Utils.CheckTerroristWin(attemptTarget.Data);
-        }
-        else if (Executioner.Target.ContainsValue(attemptTarget.PlayerId))
-            Executioner.ChangeRoleByTarget(attemptTarget);
-        else if (attemptTarget.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(attemptTarget.PlayerId))
-        {
-            Executioner.Target.Remove(attemptTarget.PlayerId);
-            Executioner.SendRPC(attemptTarget.PlayerId);
-        }
-    }
     public static void OnFixedUpdate(PlayerControl player)
     {
         if (GameStates.IsInTask)
@@ -197,7 +169,7 @@ public static class CustomRoleManager
     public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
     {
         bool cancel = false;
-        foreach (var roleClass in AllActiveRoles)
+        foreach (var roleClass in AllActiveRoles.Values)
         {
             if (!roleClass.OnSabotage(player, systemType, amount))
             {
@@ -247,17 +219,8 @@ public static class CustomRoleManager
         switch (pc.GetCustomRole())
         {
 
-            case CustomRoles.Executioner:
-                Executioner.Add(pc.PlayerId);
-                break;
             case CustomRoles.Egoist:
                 Egoist.Add(pc.PlayerId);
-                break;
-            case CustomRoles.Jackal:
-                Jackal.Add(pc.PlayerId);
-                break;
-            case CustomRoles.TimeManager:
-                TimeManager.Add(pc.PlayerId);
                 break;
         }
         foreach (var subRole in pc.GetCustomSubRoles())
@@ -278,7 +241,7 @@ public static class CustomRoleManager
     public static void DispatchRpc(MessageReader reader, CustomRPC rpcType)
     {
         var playerId = reader.ReadByte();
-        AllActiveRoles.FirstOrDefault(r => r.Player.PlayerId == playerId)?.ReceiveRPC(reader, rpcType);
+        GetByPlayerId(playerId)?.ReceiveRPC(reader, rpcType);
     }
     //NameSystem
     public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> MarkOthers = new();
@@ -349,7 +312,7 @@ public static class CustomRoleManager
         OnMurderPlayerOthers.Clear();
         OnFixedUpdateOthers.Clear();
 
-        AllActiveRoles.Do(roleClass => roleClass.Dispose());
+        AllActiveRoles.Values.ToArray().Do(roleClass => roleClass.Dispose());
     }
 }
 public class MurderInfo

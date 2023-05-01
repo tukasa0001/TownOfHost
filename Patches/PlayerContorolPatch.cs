@@ -124,35 +124,6 @@ namespace TownOfHost
             }
             return true;
         }
-        public static bool OnCheckMurderAsTarget(MurderInfo info)
-        {
-            (var killer, var target) = info.AttemptTuple;
-
-            //キルされた時の特殊判定
-            switch (target.GetCustomRole())
-            {
-                //==========マッドメイト系役職==========//
-                case CustomRoles.MadGuardian:
-                    //MadGuardianを切れるかの判定処理
-                    var taskState = target.GetPlayerTaskState();
-                    if (taskState.IsTaskFinished)
-                    {
-                        info.CanKill = false;
-                        var colorCode = Utils.GetRoleColorCode(CustomRoles.MadGuardian);
-                        if (!NameColorManager.TryGetData(killer, target, out var value) || value != colorCode)
-                        {
-                            NameColorManager.Add(killer.PlayerId, target.PlayerId);
-                            if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                                NameColorManager.Add(target.PlayerId, killer.PlayerId, colorCode);
-                            Utils.NotifyRoles();
-                        }
-                        return true;
-                    }
-                    break;
-            }
-            return true;
-
-        }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
     class MurderPlayerPatch
@@ -263,7 +234,7 @@ namespace TownOfHost
                 Logger.Warn($"{__instance.GetNameWithRole()}:通報禁止中のため可能になるまで待機します", "ReportDeadBody");
                 return false;
             }
-            foreach (var kvp in Main.PlayerStates)
+            foreach (var kvp in PlayerState.AllPlayerStates)
             {
                 var pc = Utils.GetPlayerById(kvp.Key);
                 kvp.Value.LastRoom = pc.GetPlainShipRoom();
@@ -294,7 +265,7 @@ namespace TownOfHost
 
 
 
-            foreach (var role in CustomRoleManager.AllActiveRoles)
+            foreach (var role in CustomRoleManager.AllActiveRoles.Values)
             {
                 role.OnReportDeadBody(__instance, target);
             }
@@ -356,7 +327,7 @@ namespace TownOfHost
 
                 if (GameStates.IsInGame) LoversSuicide();
 
-                if (GameStates.IsInTask && player == PlayerControl.LocalPlayer)
+                if (GameStates.IsInGame && player.AmOwner)
                     DisableDevice.FixedUpdate();
             }
             //LocalPlayer専用
@@ -437,7 +408,6 @@ namespace TownOfHost
                     //seerに関わらず発動するMark
                     Mark.Append(CustomRoleManager.GetMarkOthers(seer, target, false));
 
-                    Mark.Append(Executioner.TargetMark(seer, target));
                     if (seer.Is(CustomRoles.EvilTracker)) Mark.Append(EvilTracker.GetTargetMark(seer, target));
 
                     //ハートマークを付ける(会議中MOD視点)
@@ -511,7 +481,7 @@ namespace TownOfHost
                         //生きていて死ぬ予定もない場合は心中
                         if (partnerPlayer.PlayerId != deathId && !partnerPlayer.Data.IsDead)
                         {
-                            Main.PlayerStates[partnerPlayer.PlayerId].DeathReason = CustomDeathReason.FollowingSuicide;
+                            PlayerState.GetByPlayerId(partnerPlayer.PlayerId).DeathReason = CustomDeathReason.FollowingSuicide;
                             if (isExiled)
                                 CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.FollowingSuicide, partnerPlayer.PlayerId);
                             else
@@ -530,7 +500,8 @@ namespace TownOfHost
             var roleText = UnityEngine.Object.Instantiate(__instance.cosmetics.nameText);
             roleText.transform.SetParent(__instance.cosmetics.nameText.transform);
             roleText.transform.localPosition = new Vector3(0f, 0.2f, 0f);
-            roleText.fontSize -= 1.2f;
+            roleText.transform.localScale = new(1f, 1f, 1f);
+            roleText.fontSize = Main.RoleTextSize;
             roleText.text = "RoleText";
             roleText.gameObject.name = "RoleText";
             roleText.enabled = false;
