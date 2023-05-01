@@ -354,15 +354,7 @@ namespace TownOfHost
             // switch (role.RoleName)
             if (ProgressText.Length == 0)
             {
-                switch (role)
-                {
-                    case CustomRoles.EvilTracker:
-                        ProgressText.Append(EvilTracker.GetMarker(playerId));
-                        break;
-                    default:
-                        ProgressText.Append(GetTaskProgressText(playerId, role, comms));
-                        break;
-                }
+                ProgressText.Append(GetTaskProgressText(playerId, role, comms));
                 if (ProgressText.Length != 0)
                     ProgressText.Insert(0, " "); //空じゃなければ空白を追加
                 if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
@@ -832,7 +824,6 @@ namespace TownOfHost
         {
             foreach (var roleClass in CustomRoleManager.AllActiveRoles.Values)
                 roleClass.AfterMeetingTasks();
-            EvilTracker.AfterMeetingTasks();
             if (Options.AirShipVariableElectrical.GetBool())
                 AirShipElectricalDoors.Initialize();
         }

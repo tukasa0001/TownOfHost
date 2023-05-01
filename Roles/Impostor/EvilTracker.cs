@@ -224,7 +224,7 @@ public sealed class EvilTracker : RoleBase
         var trackerId = target.PlayerId;
         if (seer.PlayerId != trackerId) return "";
 
-        ImpostorsId[trackerId].RemoveWhere(id => Main.PlayerStates[id].IsDead);
+        ImpostorsId[trackerId].RemoveWhere(id => PlayerState.GetByPlayerId(id).IsDead);
 
         var sb = new StringBuilder(80);
         if (ImpostorsId[trackerId].Count > 0)
@@ -247,10 +247,9 @@ public sealed class EvilTracker : RoleBase
     public static string GetArrowAndLastRoom(PlayerControl seer, PlayerControl target)
     {
         string text = Utils.ColorString(Palette.ImpostorRed, TargetArrow.GetArrows(seer, target.PlayerId));
-        var room = Main.PlayerStates[target.PlayerId].LastRoom;
+        var room = PlayerState.GetByPlayerId(target.PlayerId).LastRoom;
         if (room == null) text += Utils.ColorString(Color.gray, "@" + GetString("FailToTrack"));
         else text += Utils.ColorString(Palette.ImpostorRed, "@" + GetString(room.RoomId.ToString()));
         return text;
     }
-}
 }

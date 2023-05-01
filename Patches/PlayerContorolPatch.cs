@@ -170,13 +170,6 @@ namespace TownOfHost
 
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
-            switch (shapeshifter.GetCustomRole())
-            {
-                case CustomRoles.EvilTracker:
-                    EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);
-                    break;
-            }
-
             // 変身したとき一番近い人をマッドメイトにする処理
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
             {
