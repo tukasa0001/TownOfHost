@@ -51,10 +51,9 @@ public sealed class Terrorist : RoleBase
     public override void OnMurderPlayerAsTarget(MurderInfo info)
     {
         Logger.Info($"{Player.GetRealName()}はTerroristだった", nameof(Terrorist));
-        var playerState = PlayerState.GetByPlayerId(Player.PlayerId);
         if (CanWin())
         {
-            playerState.DeathReason = CustomDeathReason.Suicide;
+            MyState.DeathReason = CustomDeathReason.Suicide;
             Win();
         }
     }
@@ -73,8 +72,7 @@ public sealed class Terrorist : RoleBase
     }
     public bool CanWin()
     {
-        var playerState = PlayerState.GetByPlayerId(Player.PlayerId);
-        if (!canSuicideWin && playerState.IsSuicide())
+        if (!canSuicideWin && MyState.IsSuicide())
         {
             return false;
         }

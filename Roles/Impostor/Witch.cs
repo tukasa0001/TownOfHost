@@ -164,7 +164,7 @@ namespace TownOfHost.Roles.Impostor
         }
         public override void AfterMeetingTasks()
         {
-            if (Player.IsAlive() || PlayerState.GetByPlayerId(Player.PlayerId).DeathReason != CustomDeathReason.Vote)
+            if (Player.IsAlive() || MyState.DeathReason != CustomDeathReason.Vote)
             {//吊られなかった時呪いキル発動
                 var spelledIdList = new List<byte>();
                 foreach (var pc in Main.AllAlivePlayerControls)

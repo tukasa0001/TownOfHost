@@ -49,7 +49,7 @@ namespace TownOfHost.Roles.Crewmate
 
         public int CalculateMeetingTimeDelta()
         {
-            var sec = IncreaseMeetingTime * Player.GetPlayerTaskState().CompletedTasksCount;
+            var sec = IncreaseMeetingTime * MyTaskState.CompletedTasksCount;
             return sec;
         }
         public override string GetProgressText(bool comms = false)

@@ -58,7 +58,7 @@ namespace TownOfHost.Roles.Impostor
         ///シリアルキラー＋生存＋一人以上キルしている
         ///</summary>
         public bool HasKilled()
-            => Player != null && Player.IsAlive() && PlayerState.GetByPlayerId(Player.PlayerId).GetKillCount(true) > 0;
+            => Player != null && Player.IsAlive() && MyState.GetKillCount(true) > 0;
         public override void OnCheckMurderAsKiller(MurderInfo info)
         {
             var killer = info.AttemptKiller;
@@ -86,7 +86,7 @@ namespace TownOfHost.Roles.Impostor
             else if (SuicideTimer >= TimeLimit)
             {
                 //自爆時間が来たとき
-                PlayerState.GetByPlayerId(Player.PlayerId).DeathReason = CustomDeathReason.Suicide;//死因：自殺
+                MyState.DeathReason = CustomDeathReason.Suicide;//死因：自殺
                 Player.RpcMurderPlayer(Player);//自殺させる
                 SuicideTimer = null;
             }
