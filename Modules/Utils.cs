@@ -291,7 +291,7 @@ namespace TownOfHost
                 var roleClass = CustomRoleManager.GetByPlayerId(p.PlayerId);
                 if (roleClass != null)
                 {
-                    switch (roleClass.HasTasks.Invoke())
+                    switch (roleClass.HasTasks)
                     {
                         case HasTask.True:
                             hasTasks = true;

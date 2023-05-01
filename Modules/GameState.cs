@@ -55,10 +55,8 @@ namespace TownOfHost
         {
             MainRole = role;
 
-            var roleClass = CustomRoleManager.GetByPlayerId(PlayerId);
-            if (roleClass != null)
-                countTypes = roleClass.CountType;
-            else
+            // 役職クラスのコンストラクタでセット済なら不要
+            if (CustomRoleManager.GetByPlayerId(PlayerId) == null)
             {
                 countTypes = role switch
                 {

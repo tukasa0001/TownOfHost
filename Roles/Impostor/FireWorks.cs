@@ -128,7 +128,7 @@ public sealed class FireWorks : RoleBase
                         //自分が最後の生き残りの場合は勝利のために死なない
                         if (totalAlive != 1)
                         {
-                            PlayerState.GetByPlayerId(Player.PlayerId).DeathReason = CustomDeathReason.Misfire;
+                            MyState.DeathReason = CustomDeathReason.Misfire;
                             Player.RpcMurderPlayer(Player);
                         }
                     }
