@@ -78,6 +78,7 @@
 "Workhorse","Workhorse","ワークホース","实干家","","Работник",""
 
 "# その他"
+"TeamCrewmate","Team Crewmates","クルー陣営"
 "TeamImpostor","Team Impostors","インポスター陣営","内鬼阵营","幫助偽裝者","Команда Предателей","Time Impostor"
 "TeamEgoist","Team Egoist","エゴイスト陣営","野心家阵营","利己主義者陣營","Команда Эгоистов","Time Egoísta"
 "TeamJackal","Team Jackal","ジャッカル陣営","豺狼阵营","豺狼陣營","Команда Шакалов","Time Chacal"
@@ -339,6 +340,9 @@
 "CrewmateRolesMax","Maximum Crewmate Roles","クルー役職の最大人数"
 "NeutralRolesMin","Minimum Neutral Roles","ニュートラル役職の最小人数"
 "NeutralRolesMax","Maximum Neutral Roles","ニュートラル役職の最大人数"
+"%roleTypes%Maximum","Muximum Assign To %roleTypes%","%roleTypes%の最大割り当て数"
+"FixedRole","Fixwd Role","役職を固定"
+"Role","Role","役職"
 
 "BountyTargetChangeTime","Time Until Target Swaps","ターゲット変更時間","赏金目标切换时间","賞金目標切換時間","Время смены цели","Tempo Para Troca de Alvos"
 "BountySuccessKillCooldown","Kill Cooldown After Killing Bounty","ターゲット殺害時のキルクール","赏金猎人击杀赏金目标的奖励冷却时间","賞金獵人殺死賞金目標冷卻","Перезарядка после убийства цели","Tempo de Recarga ao Matar Alvo"
