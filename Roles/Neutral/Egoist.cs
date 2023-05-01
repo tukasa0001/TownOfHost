@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
-using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.Neutral;
 public sealed class Egoist : RoleBase
