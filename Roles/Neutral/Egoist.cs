@@ -65,10 +65,10 @@ public sealed class Egoist : RoleBase
 
     public static bool CheckWin()
     {
-        var impostorsDead = !Main.AllAlivePlayerControls.Any(p => p.Is(RoleTypes.Impostor) && p.IsAlive());
-        var aliveAnyEgoists = Egoists.Any(p => p.IsAlive());
+        var impostorsDead = !Main.AllAlivePlayerControls.Any(p => p.Is(RoleTypes.Impostor));
+        var aliveEgoists = Egoists.Any(p => p.IsAlive());
 
-        if (impostorsDead && aliveAnyEgoists) //インポスター全滅でエゴイストが生存
+        if (impostorsDead && aliveEgoists) //インポスター全滅でエゴイストが生存
         {
             Win();
             return true;
