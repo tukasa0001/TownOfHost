@@ -112,9 +112,6 @@ namespace TownOfHost.Modules
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(true);
                     break;
-                case CustomRoles.EvilTracker:
-                    EvilTracker.ApplyGameOptions(player.PlayerId);
-                    break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
                     Jackal.ApplyGameOptions(opt);

@@ -256,10 +256,6 @@ public static class CustomRoleManager
             case CustomRoles.Jackal:
                 Jackal.Add(pc.PlayerId);
                 break;
-
-            case CustomRoles.EvilTracker:
-                EvilTracker.Add(pc.PlayerId);
-                break;
             case CustomRoles.TimeManager:
                 TimeManager.Add(pc.PlayerId);
                 break;
