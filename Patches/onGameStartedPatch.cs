@@ -112,6 +112,7 @@ namespace TownOfHost
             LastImpostor.Init();
             TargetArrow.Init();
             DoubleTrigger.Init();
+            Watcher.Init();
             Workhorse.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();

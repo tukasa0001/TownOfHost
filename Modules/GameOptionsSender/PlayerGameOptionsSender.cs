@@ -109,6 +109,15 @@ namespace TownOfHost.Modules
                     ((Jackal)roleClass).ApplyGameOptions(opt);
                     break;
             }
+            foreach (var subRole in player.GetCustomSubRoles())
+            {
+                switch (subRole)
+                {
+                    case CustomRoles.Watcher:
+                        opt.SetBool(BoolOptionNames.AnonymousVotes, false);
+                        break;
+                }
+            }
             if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))
             {
                 AURoleOptions.KillCooldown = Mathf.Max(0f, killCooldown);
