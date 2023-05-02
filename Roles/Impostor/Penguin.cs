@@ -65,9 +65,6 @@ class Penguin : RoleBase
         AbductVictim = null;
         AbductTimer = 255f;
     }
-    void AbductOrKill(PlayerControl target)
-    {
-    }
     public override void OnCheckMurderAsKiller(MurderInfo info)
     {
         var target = info.AttemptTarget;
@@ -95,45 +92,44 @@ class Penguin : RoleBase
     {
         stopCount = true;
     }
-    public void OnSpawn()
+    public override void AfterMeetingTasks()
     {
         if (Main.NormalOptions.MapId == 4) return;
 
         //マップがエアシップ以外
         RestartAbduct();
     }
-    public void OnSpawnAirship(byte penguinId)
+    public void OnSpawnAirship()
     {
         RestartAbduct();
     }
     public void RestartAbduct()
     {
-        foreach (var penguin in Penguins)
+        if (AbductVictim != null)
         {
-            if (penguin.AbductVictim != null)
-            {
-                penguin.Player.SyncSettings();
-                penguin.Player.RpcResetAbilityCooldown();
-                penguin.stopCount = false;
-            }
+            Player.SyncSettings();
+            Player.RpcResetAbilityCooldown();
+            stopCount = false;
         }
     }
     public override void OnFixedUpdate(PlayerControl player)
     {
         if (!GameStates.IsInTask) return;
 
-        if (!stopCount)
-            AbductTimer -= Time.fixedDeltaTime;
-
         if (AbductVictim != null)
         {
+            if (!stopCount)
+                AbductTimer -= Time.fixedDeltaTime;
             if (!Player.IsAlive())
             {
                 RemoveVictim();
                 return;
             }
             if (AbductTimer <= 0f)
-                AbductOrKill(AbductVictim);
+            {
+                Player.CheckMurder(AbductVictim);
+                RemoveVictim();
+            }
             else
             {
                 var position = Player.transform.position;
