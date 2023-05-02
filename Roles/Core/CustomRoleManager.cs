@@ -7,6 +7,7 @@ using Il2CppSystem.Text;
 
 using AmongUs.GameOptions;
 using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.AddOns.Common;
 
 namespace TownOfHost.Roles.Core;
 
@@ -223,8 +224,8 @@ public static class CustomRoleManager
         {
             switch (subRole)
             {
-                // ここに属性のAddを追加
-                default:
+                case CustomRoles.Watcher:
+                    Watcher.Add(pc.PlayerId);
                     break;
             }
         }
