@@ -3,9 +3,10 @@ using System.Linq;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Neutral;
-public sealed class Egoist : RoleBase
+public sealed class Egoist : RoleBase, ISidekickable
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -80,4 +81,5 @@ public sealed class Egoist : RoleBase
         CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Egoist);
         CustomWinnerHolder.WinnerRoles.Add(CustomRoles.EgoSchrodingerCat);
     }
+    public bool CanMakeSidekick() => CanCreateMadmate;
 }

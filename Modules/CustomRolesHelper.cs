@@ -122,7 +122,6 @@ namespace TownOfHost
             => role switch
             {
                 CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate,
-                CustomRoles.Egoist => Egoist.CanCreateMadmate,
                 _ => false,
             };
         public static RoleTypes GetRoleTypes(this CustomRoles role)
