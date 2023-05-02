@@ -181,8 +181,6 @@ namespace TownOfHost
         //転落死
         public static OptionItem LadderDeath;
         public static OptionItem LadderDeathChance;
-        //エレキ構造変化
-        public static OptionItem AirShipVariableElectrical;
 
         // 通常モードでかくれんぼ
         public static bool IsStandardHAS => StandardHAS.GetBool() && CurrentGameMode == CustomGameMode.Standard;
@@ -200,7 +198,9 @@ namespace TownOfHost
         public static OptionItem DisableAirshipGapRoomLightsPanel;
         public static OptionItem DisableAirshipCargoLightsPanel;
 
-        // ぬーん無効化
+        // マップ改造
+        public static OptionItem MapModification;
+        public static OptionItem AirShipVariableElectrical;
         public static OptionItem DisableAirshipMovingPlatform;
 
         // タスク上書き
@@ -399,9 +399,11 @@ namespace TownOfHost
             DisableAirshipCargoLightsPanel = BooleanOptionItem.Create(101513, "DisableAirshipCargoLightsPanel", false, TabGroup.MainSettings, false).SetParent(LightsOutSpecialSettings)
                 .SetGameMode(CustomGameMode.Standard);
 
-            // ぬーん無効化
-            DisableAirshipMovingPlatform = BooleanOptionItem.Create(101700, "DisableAirshipMovingPlatform", false, TabGroup.MainSettings, false)
-                .SetGameMode(CustomGameMode.Standard);
+            // マップ改造
+            MapModification = BooleanOptionItem.Create(102000, "MapModification", false, TabGroup.MainSettings, false)
+                .SetHeader(true);
+            AirShipVariableElectrical = BooleanOptionItem.Create(101600, "AirShipVariableElectrical", false, TabGroup.MainSettings, false).SetParent(MapModification);
+            DisableAirshipMovingPlatform = BooleanOptionItem.Create(101700, "DisableAirshipMovingPlatform", false, TabGroup.MainSettings, false).SetParent(MapModification);
 
             // タスク無効化
             DisableTasks = BooleanOptionItem.Create(100300, "DisableTasks", false, TabGroup.MainSettings, false)
@@ -530,10 +532,6 @@ namespace TownOfHost
             LadderDeath = BooleanOptionItem.Create(101100, "LadderDeath", false, TabGroup.MainSettings, false)
                 .SetHeader(true);
             LadderDeathChance = StringOptionItem.Create(101110, "LadderDeathChance", rates[1..], 0, TabGroup.MainSettings, false).SetParent(LadderDeath);
-
-            //エレキ構造変化
-            AirShipVariableElectrical = BooleanOptionItem.Create(101600, "AirShipVariableElectrical", false, TabGroup.MainSettings, false)
-                .SetHeader(true);
 
             // 通常モードでかくれんぼ用
             StandardHAS = BooleanOptionItem.Create(100700, "StandardHAS", false, TabGroup.MainSettings, false)
