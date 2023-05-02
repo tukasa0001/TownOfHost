@@ -7,7 +7,6 @@ public static class MovingPlatformBehaviourPatch
 {
     private static bool isDisabled = false;
 
-
     [HarmonyPatch(nameof(MovingPlatformBehaviour.Start)), HarmonyPrefix]
     public static void StartPrefix(MovingPlatformBehaviour __instance)
     {
