@@ -373,6 +373,7 @@ public enum CustomRoles
     Witch,
     Warlock,
     Mare,
+    Penguin,
     Puppeteer,
     TimeThief,
     EvilTracker,
