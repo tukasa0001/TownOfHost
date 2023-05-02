@@ -200,6 +200,9 @@ namespace TownOfHost
         public static OptionItem DisableAirshipGapRoomLightsPanel;
         public static OptionItem DisableAirshipCargoLightsPanel;
 
+        // ぬーん無効化
+        public static OptionItem DisableAirshipMovingPlatform;
+
         // タスク上書き
         public static OverrideTasksData TerroristTasks;
         public static OverrideTasksData SnitchTasks;
@@ -394,6 +397,10 @@ namespace TownOfHost
             DisableAirshipGapRoomLightsPanel = BooleanOptionItem.Create(101512, "DisableAirshipGapRoomLightsPanel", false, TabGroup.MainSettings, false).SetParent(LightsOutSpecialSettings)
                 .SetGameMode(CustomGameMode.Standard);
             DisableAirshipCargoLightsPanel = BooleanOptionItem.Create(101513, "DisableAirshipCargoLightsPanel", false, TabGroup.MainSettings, false).SetParent(LightsOutSpecialSettings)
+                .SetGameMode(CustomGameMode.Standard);
+
+            // ぬーん無効化
+            DisableAirshipMovingPlatform = BooleanOptionItem.Create(101700, "DisableAirshipMovingPlatform", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.Standard);
 
             // タスク無効化

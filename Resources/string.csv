@@ -305,6 +305,7 @@
 "DisableAirshipViewingDeckLightsPanel","Disable Viewing Deck Lights Panel(Airship)","展望の配電盤を無効化（エアシップ）","禁用瞭望台配电箱(飞艇地图)","關閉觀景台的配電箱 (Airship)","Отключить починку Света на Смотровой Палубе (Airship)","Desativar Painel de Luzes do Deck Panorâmico(Airship)"
 "DisableAirshipGapRoomLightsPanel","Disable Gap Room Lights Panel(Airship)","昇降機の配電盤を無効化（エアシップ）","禁用升降机配电箱(飞艇地图)","關閉間隙室右側的配電箱 (Airship)","Отключить починку Света в Комнате Пролета (Airship)","Desativar Painel de Luzes da Sala Suspensa(Airship)"
 "DisableAirshipCargoLightsPanel","Disable Cargo Lights Panel(Airship)","貨物室の配電盤を無効化（エアシップ）","禁用货舱配电箱(飞艇地图)","關閉貨艙的配電箱 (Airship)","Отключить починку Света в Грузовом Отсеке (Airship)","Desativar Painel de Luzes das Cargas(Airship)"
+"DisableAirshipMovingPlatform","Disable Moving Platform(Airship)","昇降機のプラットフォームを無効化(エアシップ)","","","",""
 "RandomSpawn","Random Spawn","ランダムスポーン","随机出生点","隨機出生點","Случайный спавн","Spawn Aleatório"
 "AirshipAdditionalSpawn","Additional Spawn(Airship)","追加スポーン位置(エアシップ)","额外出生点（飞艇地图）","額外出生點(The Airship地圖)","Дополнительный спавн(Airship)","Spawn Adicional(Airship)"
 "CommsCamouflage","Camouflage During Comms","コミュサボ時のカモフラージュ","通信破坏时伪装","通訊破壞時所有玩家變成小灰人","Камуфляж при Саботаже Связи","Camuflagem Durante Comunicação"
