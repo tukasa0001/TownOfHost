@@ -18,7 +18,7 @@ public sealed class Egoist : RoleBase, ISidekickable
             50600,
             SetupOptionItem,
             "#5600ff",
-            canMakeMadmate: () => CanCreateMadmate
+            canMakeMadmate: OptionCanCreateMadmate.GetBool
         );
     public Egoist(PlayerControl player)
     : base(
