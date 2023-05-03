@@ -15,7 +15,7 @@ public static class MovingPlatformBehaviourPatch
         if (isDisabled)
         {
             __instance.transform.localPosition = __instance.DisabledPosition;
-            var outOfOrder = __instance.gameObject.transform.Find("OutOfOrder");
+            var outOfOrder = __instance.transform.Find("OutOfOrder");
             if (outOfOrder != null)
             {
                 outOfOrder.gameObject.SetActive(true);
