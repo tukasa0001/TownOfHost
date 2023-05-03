@@ -90,13 +90,12 @@ namespace TownOfHost
         public static OptionItem MadmateVentMaxTime;
 
         public static OptionItem EvilWatcherChance;
-        public static OptionItem CanTerroristSuicideWin;
         public static OptionItem KillFlashDuration;
 
         // HideAndSeek
         public static OptionItem AllowCloseDoors;
         public static OptionItem KillDelay;
-        public static OptionItem IgnoreCosmetics;
+        // public static OptionItem IgnoreCosmetics;
         public static OptionItem IgnoreVent;
         public static float HideAndSeekKillDelayTimer = 0f;
 
@@ -139,7 +138,7 @@ namespace TownOfHost
         public static OptionItem AddedMiraHQ;
         public static OptionItem AddedPolus;
         public static OptionItem AddedTheAirShip;
-        public static OptionItem AddedDleks;
+        // public static OptionItem AddedDleks;
 
         // ランダムスポーン
         public static OptionItem RandomSpawn;
@@ -199,10 +198,6 @@ namespace TownOfHost
         public static OptionItem DisableAirshipViewingDeckLightsPanel;
         public static OptionItem DisableAirshipGapRoomLightsPanel;
         public static OptionItem DisableAirshipCargoLightsPanel;
-
-        // タスク上書き
-        public static OverrideTasksData TerroristTasks;
-        public static OverrideTasksData SnitchTasks;
 
         // その他
         public static OptionItem FixFirstKillCooldown;
