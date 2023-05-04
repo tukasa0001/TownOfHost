@@ -272,6 +272,24 @@ public abstract class RoleBase : IDisposable
     // Suffix:ターゲット矢印などの追加情報。
 
     /// <summary>
+    /// seenによるRoleNameの書き換え
+    /// </summary>
+    /// <param name="seer">見る側</param>
+    /// <param name="enabled">RoleNameを表示するかどうか</param>
+    /// <param name="roleColor">RoleNameの色</param>
+    /// <param name="roleText">RoleNameのテキスト</param>
+    public virtual void SetRoleNameDataAsSeen(PlayerControl seer, ref bool enabled, ref Color roleColor, ref string roleText)
+    { }
+    /// <summary>
+    /// seerによるRoleNameの書き換え
+    /// </summary>
+    /// <param name="seen">見られる側</param>
+    /// <param name="enabled">RoleNameを表示するかどうか</param>
+    /// <param name="roleColor">RoleNameの色</param>
+    /// <param name="roleText">RoleNameのテキスト</param>
+    public virtual void SetRoleNameDataAsSeer(PlayerControl seen, ref bool enabled, ref Color roleColor, ref string roleText)
+    { }
+    /// <summary>
     /// 役職名の横に出るテキスト
     /// </summary>
     /// <param name="comms">コミュサボ中扱いするかどうか</param>

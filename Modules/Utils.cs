@@ -192,6 +192,12 @@ namespace TownOfHost
                         || (Main.VisibleTasksCount && !seer.IsAlive() && Options.GhostCanSeeOtherRoles.GetBool());
             var (roleColor, roleText) = GetTrueRoleNameData(seen.PlayerId);
 
+            //seen側による変更
+            seen.GetRoleClass()?.SetRoleNameDataAsSeen(seer, ref enabled, ref roleColor, ref roleText);
+
+            //seer側による変更
+            seer.GetRoleClass()?.SetRoleNameDataAsSeer(seen, ref enabled, ref roleColor, ref roleText);
+
             return (enabled, roleColor, roleText);
         }
         /// <summary>
