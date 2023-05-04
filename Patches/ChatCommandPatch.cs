@@ -182,7 +182,6 @@ namespace TownOfHost
                                 }
                                 break;
 
-
                             case "n":
                             case "now":
                                 Utils.ShowActiveSettingsHelp();

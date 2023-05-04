@@ -245,8 +245,6 @@ namespace TownOfHost
             return (SuffixModes)SuffixMode.GetValue();
         }
 
-
-
         public static int SnitchExposeTaskLeft = 1;
 
         public static bool IsLoaded = false;

@@ -127,7 +127,6 @@ namespace TownOfHost
                 }
             }
 
-
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)
             {
                 __instance.ToggleMapVisible(new MapOptions()

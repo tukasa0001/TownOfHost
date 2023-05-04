@@ -769,7 +769,6 @@ namespace TownOfHost
                             TargetMark.Append($"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>");
                         }
 
-
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{target.GetDisplayRoleName()}{GetProgressText(target)}</size>\r\n" : "";
 
@@ -797,7 +796,6 @@ namespace TownOfHost
 
                         //ターゲットのプレイヤー名の色を書き換えます。
                         TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isForMeeting);
-
 
                         string TargetDeathReason = "";
                         if (seer.KnowDeathReason(target))

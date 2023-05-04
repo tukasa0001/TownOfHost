@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 namespace TownOfHost
 {
     public static class DebugModeManager

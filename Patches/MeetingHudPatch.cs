@@ -327,7 +327,6 @@ namespace TownOfHost
                 if (seer.KnowDeathReason(target))
                     sb.Append($"({Utils.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})");
 
-
                 sb.Append(seerRole?.GetMark(seer, target, true));
                 sb.Append(CustomRoleManager.GetMarkOthers(seer, target, true));
                 switch (seer.GetCustomRole())

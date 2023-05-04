@@ -1,7 +1,6 @@
 using System;
 using AmongUs.GameOptions;
 
-
 namespace TownOfHost
 {
     public abstract class OptionBackupValue

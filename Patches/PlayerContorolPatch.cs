@@ -262,8 +262,6 @@ namespace TownOfHost
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
 
-
-
             foreach (var role in CustomRoleManager.AllActiveRoles.Values)
             {
                 role.OnReportDeadBody(__instance, target);
@@ -378,7 +376,6 @@ namespace TownOfHost
                     }
                     if (Main.VisibleTasksCount) //他プレイヤーでVisibleTasksCountは有効なら
                         RoleText.text += Utils.GetProgressText(__instance); //ロールの横にタスクなど進行状況表示
-
 
                     //変数定義
                     var seer = PlayerControl.LocalPlayer;
