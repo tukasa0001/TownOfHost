@@ -47,10 +47,10 @@ namespace TownOfHost.Roles.AddOns.Crewmate
             if (!pc.IsAlive() || IsThisRole(pc.PlayerId)) return false;
             var taskState = pc.GetPlayerTaskState();
             if (taskState.CompletedTasksCount < taskState.AllTasksCount) return false;
+            if (!Utils.HasTasks(pc.Data)) return false;
             if (AssignOnlyToCrewmate) //クルーメイトのみ
                 return pc.Is(CustomRoles.Crewmate);
-            return Utils.HasTasks(pc.Data) //タスクがある
-                && !OverrideTasksData.AllData.ContainsKey(pc.GetCustomRole()); //タスク上書きオプションが無い
+            return !OverrideTasksData.AllData.ContainsKey(pc.GetCustomRole()); //タスク上書きオプションが無い
         }
         public static bool OnCompleteTask(PlayerControl pc)
         {
