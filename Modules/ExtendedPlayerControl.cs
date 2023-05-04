@@ -602,6 +602,5 @@ namespace TownOfHost
             }
             return !state.IsDead;
         }
-
     }
 }

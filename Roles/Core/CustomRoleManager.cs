@@ -59,7 +59,6 @@ public static class CustomRoleManager
             {
                 if (!targetRole.OnCheckMurderAsTarget(info)) return;
             }
-
         }
         //キラーのキルチェック処理実行
         if (killerRole != null)
