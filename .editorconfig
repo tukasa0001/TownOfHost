@@ -9,7 +9,6 @@ indent_size = 4
 end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
-insert_final_newline = false
 
 dotnet_diagnostic.IDE0051.severity = silent
 dotnet_diagnostic.IDE0052.severity = silent
