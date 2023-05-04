@@ -223,14 +223,17 @@ namespace TownOfHost
                 roleColor = GetRoleColor(mainRole);
             }
 
-            foreach (var subRole in subRolesList)
+            if (subRolesList != null)
             {
-                if (subRole <= CustomRoles.NotAssigned) continue;
-                switch (subRole)
+                foreach (var subRole in subRolesList)
                 {
-                    case CustomRoles.LastImpostor:
-                        roleText = GetRoleString("Last-") + roleText;
-                        break;
+                    if (subRole <= CustomRoles.NotAssigned) continue;
+                    switch (subRole)
+                    {
+                        case CustomRoles.LastImpostor:
+                            roleText = GetRoleString("Last-") + roleText;
+                            break;
+                    }
                 }
             }
 
