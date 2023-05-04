@@ -7,7 +7,6 @@ using Hazel;
 
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

@@ -1,5 +1,3 @@
-using System;
-
 namespace TownOfHost
 {
     public class HashRandomWrapper : IRandom
