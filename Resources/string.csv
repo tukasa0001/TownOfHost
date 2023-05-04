@@ -306,7 +306,7 @@
 "DisableAirshipGapRoomLightsPanel","Disable Gap Room Lights Panel(Airship)","昇降機の配電盤を無効化（エアシップ）","禁用升降机配电箱(飞艇地图)","關閉間隙室右側的配電箱 (Airship)","Отключить починку Света в Комнате Пролета (Airship)","Desativar Painel de Luzes da Sala Suspensa(Airship)"
 "DisableAirshipCargoLightsPanel","Disable Cargo Lights Panel(Airship)","貨物室の配電盤を無効化（エアシップ）","禁用货舱配电箱(飞艇地图)","關閉貨艙的配電箱 (Airship)","Отключить починку Света в Грузовом Отсеке (Airship)","Desativar Painel de Luzes das Cargas(Airship)"
 "MapModification","Map Modifications","マップ改造","","","",""
-"DisableAirshipMovingPlatform","Disable Moving Platform(Airship)","昇降機のプラットフォームを無効化(エアシップ)","","","",""
+"DisableAirshipMovingPlatform","Disable Moving Platform(Airship)","昇降機のリフトを無効化(エアシップ)","","","",""
 "AirShipVariableElectrical","Variable Electrical(AirShip)","電気室の構造変化（エアシップ）","改变配电室构造(飞艇地图)","電力室構造變化 (Airship)","Двери в Электрощитовой меняются случайно (Airship)",""
 "RandomSpawn","Random Spawn","ランダムスポーン","随机出生点","隨機出生點","Случайный спавн","Spawn Aleatório"
 "AirshipAdditionalSpawn","Additional Spawn(Airship)","追加スポーン位置(エアシップ)","额外出生点（飞艇地图）","額外出生點(The Airship地圖)","Дополнительный спавн(Airship)","Spawn Adicional(Airship)"
