@@ -340,8 +340,8 @@
 "CrewmateRolesMax","Maximum Crewmate Roles","クルー役職の最大人数"
 "NeutralRolesMin","Minimum Neutral Roles","ニュートラル役職の最小人数"
 "NeutralRolesMax","Maximum Neutral Roles","ニュートラル役職の最大人数"
-"%roleTypes%Maximum","Muximum Assign To %roleTypes%","%roleTypes%の最大割り当て数"
-"FixedRole","Fixwd Role","役職を固定"
+"%roleTypes%Maximum","Max Players In %roleTypes%","%roleTypes%の最大割り当て数"
+"FixedRole","Fixed Role","役職を固定"
 "Role","Role","役職"
 
 "BountyTargetChangeTime","Time Until Target Swaps","ターゲット変更時間","赏金目标切换时间","賞金目標切換時間","Время смены цели","Tempo Para Troca de Alvos"
