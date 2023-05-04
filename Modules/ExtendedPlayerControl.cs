@@ -397,7 +397,6 @@ namespace TownOfHost
             return pc.GetCustomRole() switch
             {
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
-                CustomRoles.Egoist => true,
                 _ => roleClassCanUse ?? pc.Is(CustomRoleTypes.Impostor)
             };
         }
@@ -417,12 +416,6 @@ namespace TownOfHost
         public static void ResetKillCooldown(this PlayerControl player)
         {
             Main.AllPlayerKillCooldown[player.PlayerId] = player.GetRoleClass()?.SetKillCooldown() ?? Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
-            switch (player.GetCustomRole())
-            {
-                case CustomRoles.Egoist:
-                    Egoist.ApplyKillCooldown(player.PlayerId);
-                    break;
-            }
             if (player.PlayerId == LastImpostor.currentId)
                 LastImpostor.SetKillCooldown();
         }

@@ -23,6 +23,8 @@ public class SimpleRoleInfo
     public bool RequireResetCam;
     private Func<AudioClip> introSound;
     public AudioClip IntroSound => introSound?.Invoke();
+    private Func<bool> canMakeMadmate;
+    public bool CanMakeMadmate => canMakeMadmate?.Invoke() == true;
 
     public SimpleRoleInfo(
         Type classType,
@@ -35,7 +37,8 @@ public class SimpleRoleInfo
         string colorCode = "",
         bool requireResetCam = false,
         TabGroup tab = TabGroup.MainSettings,
-        Func<AudioClip> introSound = null
+        Func<AudioClip> introSound = null,
+        Func<bool> canMakeMadmate = null
     )
     {
         ClassType = classType;
@@ -47,6 +50,7 @@ public class SimpleRoleInfo
         OptionCreator = optionCreator;
         RequireResetCam = requireResetCam;
         this.introSound = introSound;
+        this.canMakeMadmate = canMakeMadmate;
 
         if (colorCode == "")
             colorCode = customRoleType switch

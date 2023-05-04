@@ -8,8 +8,6 @@ using UnityEngine;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Crewmate;
-using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Impostor;
 using TownOfHost.Roles.AddOns.Crewmate;
 
@@ -346,8 +344,6 @@ namespace TownOfHost
                 info.OptionCreator?.Invoke();
             });
             SetupLoversRoleOptionsToggle(50300);
-
-            Egoist.SetupCustomOption();
 
             // Add-Ons
             LastImpostor.SetupCustomOption();
