@@ -38,7 +38,6 @@ namespace TownOfHost
             return
                 role is
                 CustomRoles.SchrodingerCat or
-                CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
                 CustomRoles.JSchrodingerCat or
                 CustomRoles.HASTroll or
@@ -129,7 +128,6 @@ namespace TownOfHost
             return role switch
             {
                 CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate,
-                CustomRoles.Egoist => Egoist.CanCreateMadmate,
                 _ => false,
             };
         }
@@ -147,8 +145,7 @@ namespace TownOfHost
                 CustomRoles.GuardianAngel or
                 CustomRoles.GM => RoleTypes.GuardianAngel,
 
-                CustomRoles.Shapeshifter or
-                CustomRoles.Egoist => RoleTypes.Shapeshifter,
+                CustomRoles.Shapeshifter => RoleTypes.Shapeshifter,
 
                 CustomRoles.EvilTracker => EvilTracker.RoleTypes,
 

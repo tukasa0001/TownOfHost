@@ -99,7 +99,7 @@ namespace TownOfHost
         private static bool CanSabotage(PlayerControl player, SystemTypes systemType)
         {
             //サボタージュ出来ないキラー役職はサボタージュ自体をキャンセル
-            if (!player.Is(CustomRoleTypes.Impostor) && !player.Is(CustomRoles.Egoist))
+            if (!player.Is(CustomRoleTypes.Impostor))
             {
                 return false;
             }
