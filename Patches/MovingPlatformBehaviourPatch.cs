@@ -15,11 +15,7 @@ public static class MovingPlatformBehaviourPatch
         if (isDisabled)
         {
             __instance.transform.localPosition = __instance.DisabledPosition;
-            var outOfOrder = __instance.transform.Find("OutOfOrder");
-            if (outOfOrder != null)
-            {
-                outOfOrder.gameObject.SetActive(true);
-            }
+            ShipStatus.Instance.Cast<AirshipStatus>().outOfOrderPlat.SetActive(true);
         }
     }
     [HarmonyPatch(nameof(MovingPlatformBehaviour.IsDirty), MethodType.Getter), HarmonyPrefix]
