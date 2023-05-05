@@ -172,7 +172,6 @@ public sealed class Arsonist : RoleBase
                         Logger.Info($"Canceled: {Player.GetNameWithRole()}", "Arsonist");
                     }
                 }
-
             }
         }
     }

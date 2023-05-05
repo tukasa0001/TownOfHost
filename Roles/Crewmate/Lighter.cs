@@ -1,6 +1,4 @@
 using AmongUs.GameOptions;
-
-using TownOfHost.Modules.Extensions;
 using TownOfHost.Roles.Core;
 
 namespace TownOfHost.Roles.Crewmate;

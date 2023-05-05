@@ -5,7 +5,6 @@ using System.Text;
 using Assets.CoreScripts;
 using HarmonyLib;
 using Hazel;
-using UnityEngine;
 
 using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
@@ -182,7 +181,6 @@ namespace TownOfHost
                                         break;
                                 }
                                 break;
-
 
                             case "n":
                             case "now":

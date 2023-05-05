@@ -4,8 +4,6 @@ using System.Linq;
 using UnityEngine;
 using Hazel;
 using AmongUs.GameOptions;
-
-using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Core;

@@ -5,8 +5,6 @@ using HarmonyLib;
 using UnityEngine;
 
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Crewmate;
-using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost
 {
