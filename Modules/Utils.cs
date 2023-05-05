@@ -404,6 +404,9 @@ namespace TownOfHost
                         || (Main.VisibleTasksCount && !seer.IsAlive() && Options.GhostCanSeeOtherTasks.GetBool());
             string text = GetProgressText(seen.PlayerId, Comms);
 
+            //seer側による変更
+            seer.GetRoleClass()?.OverrideProgressTextAsSeer(seen, ref enabled, ref text);
+
             return enabled ? text : "";
         }
         private static string GetProgressText(byte playerId, bool comms = false)
