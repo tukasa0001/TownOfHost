@@ -265,9 +265,8 @@ namespace TownOfHost
                 roleTextMeeting.transform.SetParent(pva.NameText.transform);
                 roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
                 roleTextMeeting.fontSize = 1.5f;
-                (roleTextMeeting.enabled, roleTextMeeting.color, roleTextMeeting.text)
-                    = Utils.GetDisplayRoleNameData(PlayerControl.LocalPlayer, pc);
-                if (Main.VisibleTasksCount) roleTextMeeting.text += Utils.GetProgressText(pc);
+                (roleTextMeeting.enabled, roleTextMeeting.text)
+                    = Utils.GetRoleNameAndProgressTextData(PlayerControl.LocalPlayer, pc);
                 roleTextMeeting.gameObject.name = "RoleTextMeeting";
                 roleTextMeeting.enableWordWrapping = false;
                 if (EvilTracker.IsTrackTarget(PlayerControl.LocalPlayer, pc) && EvilTracker.CanSeeLastRoomInMeeting)

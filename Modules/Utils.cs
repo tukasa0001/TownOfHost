@@ -179,12 +179,25 @@ namespace TownOfHost
             return;
         }
         /// <summary>
-        /// seerが自分であるときのseenのRoleName
+        /// seerが自分であるときのseenのRoleName + ProgressText
         /// </summary>
         /// <param name="seer">見る側</param>
         /// <param name="seen">見られる側</param>
-        /// <returns>RoleNameを表示するか、構築する色とテキスト(bool, Color, string)</returns>
-        public static (bool, Color, string) GetDisplayRoleNameData(PlayerControl seer, PlayerControl seen = null)
+        /// <returns>RoleName + ProgressTextを表示するか、構築する色とテキスト(bool, Color, string)</returns>
+        public static (bool, string) GetRoleNameAndProgressTextData(PlayerControl seer, PlayerControl seen = null)
+        {
+            var roleName = GetDisplayRoleName(seer, seen);
+            var progressText = GetProgressText(seer, seen);
+            var text = roleName + (roleName != "" ? " " : "") + progressText;
+            return (text != "", text);
+        }
+        /// <summary>
+        /// GetDisplayRoleNameDataからRoleNameを構築
+        /// </summary>
+        /// <param name="seer">見る側</param>
+        /// <param name="seen">見られる側</param>
+        /// <returns>構築されたRoleName</returns>
+        private static string GetDisplayRoleName(PlayerControl seer, PlayerControl seen = null)
         {
             seen ??= seer;
             //デフォルト値
@@ -199,19 +212,7 @@ namespace TownOfHost
             //seer側による変更
             seer.GetRoleClass()?.SetRoleNameDataAsSeer(seen, ref enabled, ref roleColor, ref roleText);
 
-            return (enabled, roleColor, roleText);
-        }
-        /// <summary>
-        /// GetDisplayRoleNameDataからRoleNameを構築
-        /// </summary>
-        /// <param name="seer">見る側</param>
-        /// <param name="seen">見られる側</param>
-        /// <returns>構築されたRoleName</returns>
-        public static string GetDisplayRoleName(PlayerControl seer, PlayerControl seen = null)
-        {
-            seen ??= seer;
-            var data = GetDisplayRoleNameData(seer, seen);
-            return data.Item1 ? ColorString(data.Item2, data.Item3) : "";
+            return enabled ? ColorString(roleColor, roleText) : "";
         }
         /// <summary>
         /// 引数の指定通りのRoleNameを表示
@@ -251,7 +252,7 @@ namespace TownOfHost
         /// </summary>
         /// <param name="playerId">見られる側のPlayerId</param>
         /// <returns>RoleNameを構築する色とテキスト(Color, string)</returns>
-        public static (Color, string) GetTrueRoleNameData(byte playerId)
+        private static (Color, string) GetTrueRoleNameData(byte playerId)
         {
             var state = PlayerState.GetByPlayerId(playerId);
             return GetRoleNameData(state.MainRole, state.SubRoles);
@@ -389,8 +390,9 @@ namespace TownOfHost
             }
             return hasTasks;
         }
-        public static string GetProgressText(PlayerControl pc)
+        private static string GetProgressText(PlayerControl seer, PlayerControl seen = null)
         {
+            seen ??= seer;
             var Comms = false;
             foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
                 if (task.TaskType == TaskTypes.FixComms)
@@ -398,9 +400,13 @@ namespace TownOfHost
                     Comms = true;
                     break;
                 }
-            return GetProgressText(pc.PlayerId, Comms);
+            bool enabled = seer == seen
+                        || (Main.VisibleTasksCount && !seer.IsAlive() && Options.GhostCanSeeOtherTasks.GetBool());
+            string text = GetProgressText(seen.PlayerId, Comms);
+
+            return enabled ? text : "";
         }
-        public static string GetProgressText(byte playerId, bool comms = false)
+        private static string GetProgressText(byte playerId, bool comms = false)
         {
             var ProgressText = new StringBuilder();
             var State = PlayerState.GetByPlayerId(playerId);
@@ -420,9 +426,7 @@ namespace TownOfHost
                         break;
                 }
             }
-            if (ProgressText.Length != 0)
-                ProgressText.Insert(0, " "); //空じゃなければ空白を追加
-            if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
+            if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $"[{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
 
             return ProgressText.ToString();
         }
@@ -734,9 +738,6 @@ namespace TownOfHost
                 if (isForMeeting && (seer.GetClient().PlatformData.Platform is Platforms.Playstation or Platforms.Switch)) fontSize = "70%";
                 logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START");
 
-                //タスクなど進行状況を含むテキスト
-                string SelfTaskText = GetProgressText(seer);
-
                 var seerRole = seer.GetRoleClass();
 
                 //名前の後ろに付けるマーカー
@@ -772,7 +773,8 @@ namespace TownOfHost
                     SeerRealName = seer.GetRoleInfo();
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfRoleName = $"<size={fontSize}>{GetDisplayRoleName(seer)}{SelfTaskText}</size>";
+                var roleNameData = GetRoleNameAndProgressTextData(seer);
+                string SelfRoleName = roleNameData.Item1 ? $"<size={fontSize}>{roleNameData.Item2}</size>" : "";
                 string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
                 string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
                 if (Arsonist.IsDouseDone(seer))
@@ -827,7 +829,8 @@ namespace TownOfHost
                         }
 
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetRoleText = GetDisplayRoleNameData(seer, target).Item1 ? $"<size={fontSize}>{GetDisplayRoleName(seer, target)}{GetProgressText(target)}</size>\r\n" : "";
+                        var targetRoleData = GetRoleNameAndProgressTextData(seer, target);
+                        var TargetRoleText = targetRoleData.Item1 ? $"<size={fontSize}>{targetRoleData.Item2}</size>\r\n" : "";
 
                         if (seer.Is(CustomRoles.EvilTracker))
                         {
