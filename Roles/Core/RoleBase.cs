@@ -278,7 +278,7 @@ public abstract class RoleBase : IDisposable
     /// <param name="enabled">RoleNameを表示するかどうか</param>
     /// <param name="roleColor">RoleNameの色</param>
     /// <param name="roleText">RoleNameのテキスト</param>
-    public virtual void SetRoleNameDataAsSeen(PlayerControl seer, ref bool enabled, ref Color roleColor, ref string roleText)
+    public virtual void OverrideRoleNameAsSeen(PlayerControl seer, ref bool enabled, ref Color roleColor, ref string roleText)
     { }
     /// <summary>
     /// seerによるRoleNameの書き換え
@@ -287,14 +287,13 @@ public abstract class RoleBase : IDisposable
     /// <param name="enabled">RoleNameを表示するかどうか</param>
     /// <param name="roleColor">RoleNameの色</param>
     /// <param name="roleText">RoleNameのテキスト</param>
-    public virtual void SetRoleNameDataAsSeer(PlayerControl seen, ref bool enabled, ref Color roleColor, ref string roleText)
+    public virtual void OverrideRoleNameAsSeer(PlayerControl seen, ref bool enabled, ref Color roleColor, ref string roleText)
     { }
     /// <summary>
     /// 役職名の横に出るテキスト
     /// </summary>
     /// <param name="comms">コミュサボ中扱いするかどうか</param>
-    public virtual string GetProgressText(bool comms = false) =>
-        Utils.GetTaskProgressText(Player.PlayerId, comms);
+    public virtual string GetProgressText(bool comms = false) => "";
     /// <summary>
     /// seerが自分であるときのMark
     /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し

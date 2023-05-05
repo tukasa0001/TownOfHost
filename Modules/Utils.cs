@@ -207,10 +207,10 @@ namespace TownOfHost
             var (roleColor, roleText) = GetTrueRoleNameData(seen.PlayerId);
 
             //seen側による変更
-            seen.GetRoleClass()?.SetRoleNameDataAsSeen(seer, ref enabled, ref roleColor, ref roleText);
+            seen.GetRoleClass()?.OverrideRoleNameAsSeen(seer, ref enabled, ref roleColor, ref roleText);
 
             //seer側による変更
-            seer.GetRoleClass()?.SetRoleNameDataAsSeer(seen, ref enabled, ref roleColor, ref roleText);
+            seer.GetRoleClass()?.OverrideRoleNameAsSeer(seen, ref enabled, ref roleColor, ref roleText);
 
             return enabled ? ColorString(roleColor, roleText) : "";
         }
