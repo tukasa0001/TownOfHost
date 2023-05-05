@@ -1,3 +1,4 @@
+using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -390,68 +391,62 @@ namespace TownOfHost
         }
         public static string GetProgressText(PlayerControl pc)
         {
-            if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す
-            var taskState = pc.GetPlayerTaskState();
             var Comms = false;
-            if (taskState.hasTasks)
-            {
-                foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
-                    if (task.TaskType == TaskTypes.FixComms)
-                    {
-                        Comms = true;
-                        break;
-                    }
-            }
+            foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
+                if (task.TaskType == TaskTypes.FixComms)
+                {
+                    Comms = true;
+                    break;
+                }
             return GetProgressText(pc.PlayerId, Comms);
         }
         public static string GetProgressText(byte playerId, bool comms = false)
         {
-            if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す
             var ProgressText = new StringBuilder();
             var State = PlayerState.GetByPlayerId(playerId);
             var role = State.MainRole;
             var roleClass = CustomRoleManager.GetByPlayerId(playerId);
-            ProgressText.Append(roleClass?.GetProgressText(comms));
-            // switch (role.RoleName)
-            if (ProgressText.Length == 0)
+            ProgressText.Append(GetTaskProgressText(playerId, comms));
+            if (roleClass != null)
+            {
+                ProgressText.Append(roleClass.GetProgressText(comms));
+            }
+            else
             {
                 switch (role)
                 {
                     case CustomRoles.EvilTracker:
                         ProgressText.Append(EvilTracker.GetMarker(playerId));
                         break;
-                    default:
-                        ProgressText.Append(GetTaskProgressText(playerId, role, comms));
-                        break;
                 }
-                if (ProgressText.Length != 0)
-                    ProgressText.Insert(0, " "); //空じゃなければ空白を追加
-                if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
             }
+            if (ProgressText.Length != 0)
+                ProgressText.Insert(0, " "); //空じゃなければ空白を追加
+            if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
 
             return ProgressText.ToString();
         }
-        public static string GetTaskProgressText(byte playerId, CustomRoles role, bool comms = false)
+        public static string GetTaskProgressText(byte playerId, bool comms = false)
         {
-            var taskState = PlayerState.GetByPlayerId(playerId)?.GetTaskState();
-            if (taskState == null || !taskState.hasTasks)
+            var state = PlayerState.GetByPlayerId(playerId);
+            if (state == null || state.taskState == null || !state.taskState.hasTasks)
             {
                 return "";
             }
 
             Color TextColor = Color.yellow;
             var info = GetPlayerInfoById(playerId);
-            var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
+            var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(state.MainRole).ShadeColor(0.5f); //タスク完了後の色
             var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
 
             if (Workhorse.IsThisRole(playerId))
                 NonCompleteColor = Workhorse.RoleColor;
 
-            var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
+            var NormalColor = state.taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
 
             TextColor = comms ? Color.gray : NormalColor;
-            string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-            return ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
+            string Completed = comms ? "?" : $"{state.taskState.CompletedTasksCount}";
+            return ColorString(TextColor, $"({Completed}/{state.taskState.AllTasksCount})");
 
         }
         public static void ShowActiveSettingsHelp(byte PlayerId = byte.MaxValue)

@@ -294,7 +294,7 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     /// <param name="comms">コミュサボ中扱いするかどうか</param>
     public virtual string GetProgressText(bool comms = false) =>
-        Utils.GetTaskProgressText(Player.PlayerId, Player.GetCustomRole(), comms);
+        Utils.GetTaskProgressText(Player.PlayerId, comms);
     /// <summary>
     /// seerが自分であるときのMark
     /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し
