@@ -267,14 +267,12 @@ namespace TownOfHost
 
                 // Impostor役職
                 roleCommands.Add((CustomRoles)(-1), $"== {GetString("Impostor")} ==");  // 区切り用
-                var allImpostors = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == CustomRoleTypes.Impostor);
-                ConcatCommands(allImpostors.ToDictionary(role => role.RoleName, role => role.ChatCommand));
+                ConcatCommands(CustomRoleTypes.Impostor);
                 roleCommands.Add(CustomRoles.EvilTracker, "et");
 
                 // Madmate役職
                 roleCommands.Add((CustomRoles)(-2), $"== {GetString("Madmate")} ==");  // 区切り用
-                var allMadmates = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == CustomRoleTypes.Madmate);
-                ConcatCommands(allMadmates.ToDictionary(role => role.RoleName, role => role.ChatCommand));
+                ConcatCommands(CustomRoleTypes.Madmate);
                 roleCommands.Add(CustomRoles.SKMadmate, "sm");
 
                 // 両陣営役職
@@ -283,13 +281,11 @@ namespace TownOfHost
 
                 // Crewmate役職
                 roleCommands.Add((CustomRoles)(-4), $"== {GetString("Crewmate")} ==");  // 区切り用
-                var allCrews = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == CustomRoleTypes.Crewmate);
-                ConcatCommands(allCrews.ToDictionary(role => role.RoleName, role => role.ChatCommand));
+                ConcatCommands(CustomRoleTypes.Crewmate);
 
                 // Neutral役職
                 roleCommands.Add((CustomRoles)(-5), $"== {GetString("Neutral")} ==");  // 区切り用
-                var allNeutrals = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == CustomRoleTypes.Neutral);
-                ConcatCommands(allNeutrals.ToDictionary(role => role.RoleName, role => role.ChatCommand));
+                ConcatCommands(CustomRoleTypes.Neutral);
 
                 // 属性
                 roleCommands.Add((CustomRoles)(-6), $"== {GetString("Addons")} ==");  // 区切り用
@@ -335,11 +331,12 @@ namespace TownOfHost
             msg += rolemsg;
             Utils.SendMessage(msg);
         }
-        private static void ConcatCommands(Dictionary<CustomRoles, string> toMerge)
+        private static void ConcatCommands(CustomRoleTypes roleType)
         {
-            foreach (var pair in toMerge)
+            var roles = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == roleType);
+            foreach (var role in roles)
             {
-                roleCommands[pair.Key] = pair.Value;
+                roleCommands[role.RoleName] = role.ChatCommand;
             }
         }
         public static void OnReceiveChat(PlayerControl player, string text)
