@@ -304,9 +304,9 @@ namespace TownOfHost
             return GameOptionsData.FromBytes(optByte);
         }*/
 
-        public static string GetDisplayRoleName(this PlayerControl player)
+        public static string GetTrueRoleName(this PlayerControl player)
         {
-            return Utils.GetDisplayRoleName(player.PlayerId);
+            return Utils.GetTrueRoleName(player.PlayerId);
         }
         public static string GetSubRoleName(this PlayerControl player)
         {

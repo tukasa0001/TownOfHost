@@ -204,6 +204,7 @@ namespace TownOfHost
         public static OptionItem FixFirstKillCooldown;
         public static OptionItem DisableTaskWin;
         public static OptionItem GhostCanSeeOtherRoles;
+        public static OptionItem GhostCanSeeOtherTasks;
         public static OptionItem GhostCanSeeOtherVotes;
         public static OptionItem GhostCanSeeDeathReason;
         public static OptionItem GhostIgnoreTasks;
@@ -539,6 +540,8 @@ namespace TownOfHost
             NoGameEnd = BooleanOptionItem.Create(900_002, "NoGameEnd", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherRoles = BooleanOptionItem.Create(900_010, "GhostCanSeeOtherRoles", true, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            GhostCanSeeOtherTasks = BooleanOptionItem.Create(900_015, "GhostCanSeeOtherTasks", true, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherVotes = BooleanOptionItem.Create(900_011, "GhostCanSeeOtherVotes", true, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
