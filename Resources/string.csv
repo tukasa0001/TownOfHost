@@ -256,6 +256,7 @@
 "ColorNameMode","Color Name Mode","色名前モード","显示颜色名称","名字將被顏色名稱替換","Режим: Никнейм соответствует цвету","Modo Nomes de Cores"
 "FixFirstKillCooldown","Normalize First Kill Cooldown","初期スポーン時のクールダウン修正","修正首刀冷却时间","修正開場時的殺人冷卻時間","Нормализовать откат убийства в начале Игры","Normalizar Tempo de Recarga do Primeiro Abate"
 "GhostCanSeeOtherRoles","Ghosts Can See Other Roles","幽霊が他人の役職を見ることができる","幽灵可见他人职业","幽靈可以看見所有玩家職業","Призраки могут видеть все Роли","Fantasmas Podem Ver Outros Papéis"
+"GhostCanSeeOtherTasks","Ghosts Can See Other Tasks","幽霊が他人のタスク進捗を見ることができる"
 "GhostCanSeeOtherVotes","Ghosts Can See Other Votes","幽霊が他人の投票先を見ることができる","幽灵可见投票情况","幽靈可以看見所有玩家的投票","Призраки могут видеть цвета Голосов","Fantasmas Podem Ver Outros Votos"
 "GhostCanSeeDeathReason","Ghost Can See Cause Of Death","幽霊が死因を見ることができる","幽灵可以看见死因","幽靈可以看見死因","Призраки могут видеть Причины Смерти","Fantasmas Podem Ver Causa da Morte"
 "GhostIgnoreTasks","Ghosts Exempt From Tasks","死人のタスクを免除する","幽灵无视任务","幽靈可以免除任務","Призраки игнорируют Задания","Fantasmas Isentos de Tarefas"

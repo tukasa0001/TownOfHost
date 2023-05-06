@@ -244,7 +244,7 @@ namespace TownOfHost
             // 役職説明表示
             if (!player.GetCustomRole().IsVanilla())
             {
-                var RoleWithInfo = $"{player.GetDisplayRoleName()}:\r\n";
+                var RoleWithInfo = $"{player.GetTrueRoleName()}:\r\n";
                 RoleWithInfo += player.GetRoleInfo();
                 __instance.taskText.text = Utils.ColorString(player.GetRoleColor(), RoleWithInfo) + "\n" + __instance.taskText.text;
             }

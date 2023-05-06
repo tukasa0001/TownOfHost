@@ -272,11 +272,36 @@ public abstract class RoleBase : IDisposable
     // Suffix:ターゲット矢印などの追加情報。
 
     /// <summary>
+    /// seenによるRoleNameの書き換え
+    /// </summary>
+    /// <param name="seer">見る側</param>
+    /// <param name="enabled">RoleNameを表示するかどうか</param>
+    /// <param name="roleColor">RoleNameの色</param>
+    /// <param name="roleText">RoleNameのテキスト</param>
+    public virtual void OverrideRoleNameAsSeen(PlayerControl seer, ref bool enabled, ref Color roleColor, ref string roleText)
+    { }
+    /// <summary>
+    /// seerによるRoleNameの書き換え
+    /// </summary>
+    /// <param name="seen">見られる側</param>
+    /// <param name="enabled">RoleNameを表示するかどうか</param>
+    /// <param name="roleColor">RoleNameの色</param>
+    /// <param name="roleText">RoleNameのテキスト</param>
+    public virtual void OverrideRoleNameAsSeer(PlayerControl seen, ref bool enabled, ref Color roleColor, ref string roleText)
+    { }
+    /// <summary>
+    /// seerによるProgressTextの書き換え
+    /// </summary>
+    /// <param name="seen">見られる側</param>
+    /// <param name="enabled">ProgressTextを表示するかどうか</param>
+    /// <param name="text">ProgressTextのテキスト</param>
+    public virtual void OverrideProgressTextAsSeer(PlayerControl seen, ref bool enabled, ref string text)
+    { }
+    /// <summary>
     /// 役職名の横に出るテキスト
     /// </summary>
     /// <param name="comms">コミュサボ中扱いするかどうか</param>
-    public virtual string GetProgressText(bool comms = false) =>
-        Utils.GetTaskProgressText(Player.PlayerId, Player.GetCustomRole(), comms);
+    public virtual string GetProgressText(bool comms = false) => "";
     /// <summary>
     /// seerが自分であるときのMark
     /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し
