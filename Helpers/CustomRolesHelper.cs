@@ -7,6 +7,9 @@ namespace TownOfHost
 {
     static class CustomRolesHelper
     {
+        public static readonly CustomRoles[] AllRoles = EnumHelper.GetAllValues<CustomRoles>();
+        public static readonly CustomRoleTypes[] AllRoleTypes = EnumHelper.GetAllValues<CustomRoleTypes>();
+
         public static bool IsImpostor(this CustomRoles role)
         {
             var roleInfo = role.GetRoleInfo();

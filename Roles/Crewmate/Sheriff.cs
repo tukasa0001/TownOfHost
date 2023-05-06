@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
@@ -70,7 +69,7 @@ public sealed class Sheriff : RoleBase
     }
     public static void SetUpNeutralOptions(int idOffset)
     {
-        foreach (var neutral in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x.IsNeutral()).ToArray())
+        foreach (var neutral in CustomRolesHelper.AllRoles.Where(x => x.IsNeutral()).ToArray())
         {
             if (neutral is CustomRoles.SchrodingerCat
                         or CustomRoles.HASFox

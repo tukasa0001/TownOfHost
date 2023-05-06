@@ -200,7 +200,7 @@ namespace TownOfHost
 
                     {CustomRoles.NotAssigned, "#ffffff"}
                 };
-                foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
+                foreach (var role in CustomRolesHelper.AllRoles)
                 {
                     switch (role.GetCustomRoleTypes())
                     {
