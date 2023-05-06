@@ -15,6 +15,8 @@ namespace TownOfHost
     class ChatCommands
     {
         public static List<string> ChatHistory = new();
+        private static Dictionary<CustomRoles, string> roleCommands;
+
         public static bool Prefix(ChatController __instance)
         {
             if (__instance.TextArea.text == "") return false;
@@ -254,71 +256,56 @@ namespace TownOfHost
 
         public static void GetRolesInfo(string role)
         {
-            var roleList = new Dictionary<CustomRoles, string>
+            // 初回のみ処理
+            if (roleCommands == null)
             {
-                //GM
-                { CustomRoles.GM, "gm" },
-                //Impostor役職
-                { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
-                { CustomRoles.BountyHunter, "bo" },
-                { CustomRoles.EvilTracker,"et" },
-                { CustomRoles.FireWorks, "fw" },
-                { CustomRoles.Mare, "ma" },
-                { CustomRoles.Mafia, "mf" },
-                { CustomRoles.SerialKiller, "sk" },
-                { CustomRoles.ShapeMaster, "sha" },
-                { CustomRoles.TimeThief, "tt"},
-                { CustomRoles.Sniper, "snp" },
-                { CustomRoles.Puppeteer, "pup" },
-                { CustomRoles.Vampire, "va" },
-                { CustomRoles.Warlock, "wa" },
-                { CustomRoles.Witch, "wi" },
-                //Madmate役職
-                { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
-                { CustomRoles.MadGuardian, "mg" },
-                { CustomRoles.Madmate, "mm" },
-                { CustomRoles.MadSnitch, "msn" },
-                { CustomRoles.SKMadmate, "sm" },
-                //両陣営役職
-                { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
-                { CustomRoles.Watcher, "wat" },
-                //Crewmate役職
-                { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
-                { CustomRoles.Bait, "ba" },
-                { CustomRoles.Dictator, "dic" },
-                { CustomRoles.Doctor, "doc" },
-                { CustomRoles.Lighter, "li" },
-                { CustomRoles.Mayor, "my" },
-                { CustomRoles.SabotageMaster, "sa" },
-                { CustomRoles.Seer,"se" },
-                { CustomRoles.Sheriff, "sh" },
-                { CustomRoles.Snitch, "sn" },
-                { CustomRoles.SpeedBooster, "sb" },
-                { CustomRoles.Trapper, "tra" },
-                { CustomRoles.TimeManager, "tm"},
-                //Neutral役職
-                { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
-                { CustomRoles.Arsonist, "ar" },
-                { CustomRoles.Egoist, "eg" },
-                { CustomRoles.Executioner, "exe" },
-                { CustomRoles.Jester, "je" },
-                { CustomRoles.Opportunist, "op" },
-                { CustomRoles.SchrodingerCat, "sc" },
-                { CustomRoles.Terrorist, "te" },
-                { CustomRoles.Jackal, "jac" },
-                //属性
-                { (CustomRoles)(-6), $"== {GetString("Addons")} ==" }, //区切り用
-                {CustomRoles.Lovers, "lo" },
-                {CustomRoles.Workhorse, "wh" },
-                //HAS
-                { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
-                { CustomRoles.HASFox, "hfo" },
-                { CustomRoles.HASTroll, "htr" },
+#pragma warning disable IDE0028  // Dictionary初期化の簡素化をしない
+                roleCommands = new Dictionary<CustomRoles, string>();
 
-            };
+                // GM
+                roleCommands.Add(CustomRoles.GM, "gm");
+
+                // Impostor役職
+                roleCommands.Add((CustomRoles)(-1), $"== {GetString("Impostor")} ==");  // 区切り用
+                var allImpostors = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == CustomRoleTypes.Impostor);
+                ConcatCommands(allImpostors.ToDictionary(role => role.RoleName, role => role.ChatCommand));
+                roleCommands.Add(CustomRoles.EvilTracker, "et");
+
+                // Madmate役職
+                roleCommands.Add((CustomRoles)(-2), $"== {GetString("Madmate")} ==");  // 区切り用
+                var allMadmates = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == CustomRoleTypes.Madmate);
+                ConcatCommands(allMadmates.ToDictionary(role => role.RoleName, role => role.ChatCommand));
+                roleCommands.Add(CustomRoles.SKMadmate, "sm");
+
+                // 両陣営役職
+                roleCommands.Add((CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==");  // 区切り用
+                roleCommands.Add(CustomRoles.Watcher, "wat");
+
+                // Crewmate役職
+                roleCommands.Add((CustomRoles)(-4), $"== {GetString("Crewmate")} ==");  // 区切り用
+                var allCrews = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == CustomRoleTypes.Crewmate);
+                ConcatCommands(allCrews.ToDictionary(role => role.RoleName, role => role.ChatCommand));
+
+                // Neutral役職
+                roleCommands.Add((CustomRoles)(-5), $"== {GetString("Neutral")} ==");  // 区切り用
+                var allNeutrals = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == CustomRoleTypes.Neutral);
+                ConcatCommands(allNeutrals.ToDictionary(role => role.RoleName, role => role.ChatCommand));
+
+                // 属性
+                roleCommands.Add((CustomRoles)(-6), $"== {GetString("Addons")} ==");  // 区切り用
+                roleCommands.Add(CustomRoles.Lovers, "lo");
+                roleCommands.Add(CustomRoles.Workhorse, "wh");
+
+                // HAS
+                roleCommands.Add((CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==");  // 区切り用
+                roleCommands.Add(CustomRoles.HASFox, "hfo");
+                roleCommands.Add(CustomRoles.HASTroll, "htr");
+#pragma warning restore IDE0028
+            }
+
             var msg = "";
             var rolemsg = $"{GetString("Command.h_args")}";
-            foreach (var r in roleList)
+            foreach (var r in roleCommands)
             {
                 var roleName = r.Key.ToString();
                 var roleShort = r.Value;
@@ -347,6 +334,13 @@ namespace TownOfHost
             }
             msg += rolemsg;
             Utils.SendMessage(msg);
+        }
+        private static void ConcatCommands(Dictionary<CustomRoles, string> toMerge)
+        {
+            foreach (var pair in toMerge)
+            {
+                roleCommands[pair.Key] = pair.Value;
+            }
         }
         public static void OnReceiveChat(PlayerControl player, string text)
         {
