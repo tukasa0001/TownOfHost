@@ -18,6 +18,7 @@ public sealed class SchrodingerCat : RoleBase, IAdditionalWinner
             CustomRoleTypes.Neutral,
             50400,
             SetupOptionItem,
+            "sc",
             "#696969",
             introSound: () => GetIntroSound(RoleTypes.Impostor)
         );

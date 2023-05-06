@@ -18,7 +18,8 @@ public sealed class Puppeteer : RoleBase
             () => RoleTypes.Impostor,
             CustomRoleTypes.Impostor,
             2000,
-            null
+            null,
+            "pup"
         );
     public Puppeteer(PlayerControl player)
     : base(

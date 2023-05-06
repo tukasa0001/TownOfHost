@@ -20,6 +20,7 @@ public sealed class Sheriff : RoleBase
             CustomRoleTypes.Crewmate,
             20400,
             SetupOptionItem,
+            "sh",
             "#f8cd46",
             true,
             introSound: () => GetIntroSound(RoleTypes.Crewmate)

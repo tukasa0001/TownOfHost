@@ -18,7 +18,8 @@ public sealed class BountyHunter : RoleBase
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
             1000,
-            SetupOptionItem
+            SetupOptionItem,
+            "bo"
         );
     public BountyHunter(PlayerControl player)
     : base(

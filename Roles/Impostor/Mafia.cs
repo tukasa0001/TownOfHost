@@ -13,7 +13,8 @@ public sealed class Mafia : RoleBase
             () => RoleTypes.Impostor,
             CustomRoleTypes.Impostor,
             1600,
-            null
+            null,
+            "mf"
         );
     public Mafia(PlayerControl player)
     : base(

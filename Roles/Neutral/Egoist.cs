@@ -17,6 +17,7 @@ public sealed class Egoist : RoleBase, ISidekickable
             CustomRoleTypes.Neutral,
             50600,
             SetupOptionItem,
+            "eg",
             "#5600ff",
             canMakeMadmate: () => OptionCanCreateMadmate.GetBool()
         );

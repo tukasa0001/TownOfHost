@@ -18,7 +18,8 @@ public sealed class Warlock : RoleBase
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
             1400,
-            null
+            null,
+            "wa"
         );
     public Warlock(PlayerControl player)
     : base(

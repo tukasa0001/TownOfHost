@@ -27,7 +27,8 @@ public sealed class FireWorks : RoleBase
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
             1700,
-            SetupCustomOption
+            SetupCustomOption,
+            "fw"
         );
     public FireWorks(PlayerControl player)
     : base(
