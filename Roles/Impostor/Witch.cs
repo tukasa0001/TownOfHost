@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Hazel;
@@ -55,7 +54,7 @@ namespace TownOfHost.Roles.Impostor
         public static List<Witch> Witches = new();
         public static void SetupOptionItem()
         {
-            OptionModeSwitchAction = StringOptionItem.Create(RoleInfo, 10, OptionName.WitchModeSwitchAction, Enum.GetNames(typeof(SwitchTrigger)), 0, false);
+            OptionModeSwitchAction = StringOptionItem.Create(RoleInfo, 10, OptionName.WitchModeSwitchAction, EnumHelper.GetAllNames<SwitchTrigger>(), 0, false);
         }
         public override void Add()
         {

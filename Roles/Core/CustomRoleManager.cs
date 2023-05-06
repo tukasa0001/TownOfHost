@@ -13,7 +13,7 @@ namespace TownOfHost.Roles.Core;
 public static class CustomRoleManager
 {
     public static Type[] AllRolesClassType;
-    public static Dictionary<CustomRoles, SimpleRoleInfo> AllRolesInfo = new(Enum.GetValues(typeof(CustomRoles)).Length);
+    public static Dictionary<CustomRoles, SimpleRoleInfo> AllRolesInfo = new(CustomRolesHelper.AllRoles.Length);
     public static Dictionary<byte, RoleBase> AllActiveRoles = new(15);
 
     public static SimpleRoleInfo GetRoleInfo(this CustomRoles role) => AllRolesInfo.ContainsKey(role) ? AllRolesInfo[role] : null;

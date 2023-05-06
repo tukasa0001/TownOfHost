@@ -256,7 +256,7 @@ namespace TownOfHost
             }
             else
             {
-                foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x < CustomRoles.NotAssigned))
+                foreach (var role in CustomRolesHelper.AllRoles.Where(x => x < CustomRoles.NotAssigned))
                 {
                     if (role.IsVanilla()) continue;
                     if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
@@ -480,7 +480,7 @@ namespace TownOfHost
         public static int GetRoleTypesCount(RoleTypes roleTypes)
         {
             int count = 0;
-            foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x < CustomRoles.NotAssigned))
+            foreach (var role in CustomRolesHelper.AllRoles.Where(x => x < CustomRoles.NotAssigned))
             {
                 if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
                 if (role == CustomRoles.Egoist && Main.NormalOptions.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;

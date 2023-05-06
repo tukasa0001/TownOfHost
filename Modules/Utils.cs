@@ -409,7 +409,7 @@ namespace TownOfHost
                 if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo"), PlayerId); }
                 if (Options.IsStandardHAS) { SendMessage(GetString("StandardHASInfo"), PlayerId); }
                 if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong"), PlayerId); }
-                foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
+                foreach (var role in CustomRolesHelper.AllRoles)
                 {
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
@@ -499,7 +499,7 @@ namespace TownOfHost
             }
             var sb = new StringBuilder(GetString("Roles")).Append(":");
             sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString().RemoveHtmlTags());
-            foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
+            foreach (CustomRoles role in CustomRolesHelper.AllRoles)
             {
                 if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                 if (role.IsEnable()) sb.AppendFormat("\n{0}:{1}x{2}", GetRoleName(role), $"{role.GetChance()}%", role.GetCount());
@@ -853,7 +853,7 @@ namespace TownOfHost
             if (sendLog)
             {
                 var sb = new StringBuilder(100);
-                foreach (var countTypes in Enum.GetValues(typeof(CountTypes)).Cast<CountTypes>())
+                foreach (var countTypes in EnumHelper.GetAllValues<CountTypes>())
                 {
                     var playersCount = PlayersCount(countTypes);
                     if (playersCount == 0) continue;
