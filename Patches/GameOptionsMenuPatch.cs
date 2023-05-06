@@ -59,7 +59,7 @@ namespace TownOfHost
             var gameTab = GameObject.Find("GameTab");
             List<GameObject> tabs = new() { gameTab, roleTab };
 
-            foreach (var tab in Enum.GetValues(typeof(TabGroup)))
+            foreach (var tab in EnumHelper.GetAllValues<TabGroup>())
             {
                 var obj = gameSettings.transform.parent.Find(tab + "Tab");
                 if (obj != null)
@@ -144,7 +144,7 @@ namespace TownOfHost
         public static void Postfix(GameOptionsMenu __instance)
         {
             if (__instance.transform.parent.parent.name == "Game Settings") return;
-            foreach (var tab in Enum.GetValues(typeof(TabGroup)))
+            foreach (var tab in EnumHelper.GetAllValues<TabGroup>())
             {
                 if (__instance.transform.parent.parent.name != tab + "Tab") continue;
                 __instance.transform.FindChild("../../GameGroup/Text").GetComponent<TMPro.TextMeshPro>().SetText(GetString("TabGroup." + tab));

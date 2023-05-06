@@ -21,9 +21,6 @@ namespace TownOfHost.Roles
         private static OptionItem NeutralMin;
         private static OptionItem NeutralMax;
 
-        private static CustomRoles[] RolesArray = Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().ToArray();
-        private static CustomRoleTypes[] RoleTypesArray = Enum.GetValues(typeof(CustomRoleTypes)).Cast<CustomRoleTypes>().ToArray();
-
         public static void SetupOptionItem()
         {
             ImpostorMin = IntegerOptionItem.Create(idStart, "ImpostorRolesMin", new(0, 3, 1), 0, TabGroup.ImpostorRoles, false)
@@ -131,7 +128,7 @@ namespace TownOfHost.Roles
             }
 
             //Dictionaryに変換
-            foreach (var roleTypes in RoleTypesArray)
+            foreach (var roleTypes in CustomRolesHelper.AllRoleTypes)
             {
                 if (roleTypes == CustomRoleTypes.Impostor)
                 {
@@ -154,7 +151,7 @@ namespace TownOfHost.Roles
             var rand = IRandom.Instance;
             var assignCount = new Dictionary<CustomRoleTypes, int>(AssignCount); //アサイン枠のDictionary
 
-            foreach (var role in RolesArray.Where(role => role < CustomRoles.NotAssigned).OrderBy(x => Guid.NewGuid())) //確定枠が偏らないようにシャッフル
+            foreach (var role in CustomRolesHelper.AllRoles.Where(role => role < CustomRoles.NotAssigned).OrderBy(x => Guid.NewGuid())) //確定枠が偏らないようにシャッフル
             {
                 if (role == CustomRoles.Crewmate) continue;
 
@@ -167,7 +164,7 @@ namespace TownOfHost.Roles
                 {
                     var targetRoles = role.GetAssignTargetRolesArray();
                     //アサイン枠が足りてない場合
-                    if (RoleTypesArray.Any(type => targetRoles.Count(role => role.GetCustomRoleTypes() == type) > assignCount[type])) continue;
+                    if (CustomRolesHelper.AllRoleTypes.Any(type => targetRoles.Count(role => role.GetCustomRoleTypes() == type) > assignCount[type])) continue;
 
                     if (chance == 100) //100%ならアサイン枠に直接追加
                     {
@@ -191,7 +188,7 @@ namespace TownOfHost.Roles
                 var selectedTicket = randomRoleTicketPool[rand.Next(randomRoleTicketPool.Count)];
                 var targetRoles = selectedTicket.Item1.GetAssignTargetRolesArray();
                 //アサイン枠が足りていれば追加
-                if (RoleTypesArray.All(type => targetRoles.Count(role => role.GetCustomRoleTypes() == type) <= assignCount[type]))
+                if (CustomRolesHelper.AllRoleTypes.All(type => targetRoles.Count(role => role.GetCustomRoleTypes() == type) <= assignCount[type]))
                 {
                     foreach (var targetRole in targetRoles)
                     {
@@ -209,7 +206,7 @@ namespace TownOfHost.Roles
         ///</summary>
         private static void SetAddOnsList()
         {
-            foreach (var subRole in RolesArray.Where(x => x > CustomRoles.NotAssigned))
+            foreach (var subRole in CustomRolesHelper.AllRoles.Where(x => x > CustomRoles.NotAssigned))
             {
                 var chance = subRole.GetChance();
                 var count = subRole.GetCount();
