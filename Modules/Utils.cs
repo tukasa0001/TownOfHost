@@ -392,18 +392,18 @@ namespace TownOfHost
         private static string GetProgressText(PlayerControl seer, PlayerControl seen = null)
         {
             seen ??= seer;
-            var Comms = false;
+            var comms = false;
             foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
             {
                 if (task.TaskType == TaskTypes.FixComms)
                 {
-                    Comms = true;
+                    comms = true;
                     break;
                 }
             }
             bool enabled = seer == seen
                         || (Main.VisibleTasksCount && !seer.IsAlive() && Options.GhostCanSeeOtherTasks.GetBool());
-            string text = GetProgressText(seen.PlayerId, Comms);
+            string text = GetProgressText(seen.PlayerId, comms);
 
             //seer側による変更
             seer.GetRoleClass()?.OverrideProgressTextAsSeer(seen, ref enabled, ref text);
