@@ -20,12 +20,12 @@ public class SimpleRoleInfo
     public OptionItem RoleOption => CustomRoleSpawnChances[RoleName];
     public bool IsEnable = false;
     public OptionCreatorDelegate OptionCreator;
+    public string ChatCommand;
     public bool RequireResetCam;
     private Func<AudioClip> introSound;
     public AudioClip IntroSound => introSound?.Invoke();
     private Func<bool> canMakeMadmate;
     public bool CanMakeMadmate => canMakeMadmate?.Invoke() == true;
-    public string ChatCommand;
 
     public SimpleRoleInfo(
         Type classType,
