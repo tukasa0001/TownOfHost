@@ -394,11 +394,13 @@ namespace TownOfHost
             seen ??= seer;
             var Comms = false;
             foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
+            {
                 if (task.TaskType == TaskTypes.FixComms)
                 {
                     Comms = true;
                     break;
                 }
+            }
             bool enabled = seer == seen
                         || (Main.VisibleTasksCount && !seer.IsAlive() && Options.GhostCanSeeOtherTasks.GetBool());
             string text = GetProgressText(seen.PlayerId, Comms);
