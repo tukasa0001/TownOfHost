@@ -183,7 +183,7 @@ namespace TownOfHost
         /// <param name="seer">見る側</param>
         /// <param name="seen">見られる側</param>
         /// <returns>RoleName + ProgressTextを表示するか、構築する色とテキスト(bool, Color, string)</returns>
-        public static (bool, string) GetRoleNameAndProgressTextData(PlayerControl seer, PlayerControl seen = null)
+        public static (bool enabled, string text) GetRoleNameAndProgressTextData(PlayerControl seer, PlayerControl seen = null)
         {
             var roleName = GetDisplayRoleName(seer, seen);
             var progressText = GetProgressText(seer, seen);
@@ -219,7 +219,7 @@ namespace TownOfHost
         /// <param name="mainRole">表示する役職</param>
         /// <param name="subRolesList">表示する属性のList</param>
         /// <returns>RoleNameを構築する色とテキスト(Color, string)</returns>
-        public static (Color, string) GetRoleNameData(CustomRoles mainRole, List<CustomRoles> subRolesList)
+        public static (Color color, string text) GetRoleNameData(CustomRoles mainRole, List<CustomRoles> subRolesList)
         {
             string roleText = "";
             Color roleColor = Color.white;
@@ -251,7 +251,7 @@ namespace TownOfHost
         /// </summary>
         /// <param name="playerId">見られる側のPlayerId</param>
         /// <returns>RoleNameを構築する色とテキスト(Color, string)</returns>
-        private static (Color, string) GetTrueRoleNameData(byte playerId)
+        private static (Color color, string text) GetTrueRoleNameData(byte playerId)
         {
             var state = PlayerState.GetByPlayerId(playerId);
             return GetRoleNameData(state.MainRole, state.SubRoles);
@@ -263,8 +263,8 @@ namespace TownOfHost
         /// <returns>構築したRoleName</returns>
         public static string GetTrueRoleName(byte playerId)
         {
-            var data = GetTrueRoleNameData(playerId);
-            return ColorString(data.Item1, data.Item2);
+            var (color, text) = GetTrueRoleNameData(playerId);
+            return ColorString(color, text);
         }
         public static string GetRoleName(CustomRoles role)
         {
@@ -777,8 +777,8 @@ namespace TownOfHost
                     SeerRealName = seer.GetRoleInfo();
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                var roleNameData = GetRoleNameAndProgressTextData(seer);
-                string SelfRoleName = roleNameData.Item1 ? $"<size={fontSize}>{roleNameData.Item2}</size>" : "";
+                var (enabled, text) = GetRoleNameAndProgressTextData(seer);
+                string SelfRoleName = enabled ? $"<size={fontSize}>{text}</size>" : "";
                 string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
                 string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
                 if (Arsonist.IsDouseDone(seer))
@@ -834,7 +834,7 @@ namespace TownOfHost
 
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         var targetRoleData = GetRoleNameAndProgressTextData(seer, target);
-                        var TargetRoleText = targetRoleData.Item1 ? $"<size={fontSize}>{targetRoleData.Item2}</size>\r\n" : "";
+                        var TargetRoleText = targetRoleData.enabled ? $"<size={fontSize}>{targetRoleData.text}</size>\r\n" : "";
 
                         if (seer.Is(CustomRoles.EvilTracker))
                         {
