@@ -125,6 +125,11 @@ public abstract class RoleBase : IDisposable
     /// <returns>trueを返した場合、キルボタンを使える</returns>
     public virtual bool CanUseKillButton() => CanKill;
     /// <summary>
+    /// 能力ボタンを使えるかどうか
+    /// </summary>
+    /// <returns>trueを返した場合、能力ボタンを使える</returns>
+    public virtual bool CanUseAbilityButton() => true;
+    /// <summary>
     /// キルクールダウンを設定する関数
     /// </summary>
     public virtual float SetKillCooldown() => Options.DefaultKillCooldown;
