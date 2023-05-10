@@ -93,11 +93,8 @@ namespace TownOfHost.Roles.Impostor
             else
                 SuicideTimer += Time.fixedDeltaTime;//時間をカウント
         }
-        public override string GetAbilityButtonText()
-        {
-            DestroyableSingleton<HudManager>.Instance.AbilityButton.ToggleVisible(Player.IsAlive() && HasKilled());
-            return GetString("SerialKillerSuicideButtonText");
-        }
+        public override bool CanUseAbilityButton() => HasKilled();
+        public override string GetAbilityButtonText() => GetString("SerialKillerSuicideButtonText");
         public override void AfterMeetingTasks()
         {
             if (Player.IsAlive())
