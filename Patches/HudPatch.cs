@@ -63,6 +63,7 @@ namespace TownOfHost
                     {
                         __instance.KillButton.OverrideText(roleClass.GetKillButtonText());
                         __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText());
+                        __instance.AbilityButton.ToggleVisible(roleClass.CanUseAbilityButton() && GameStates.IsInTask);
                     }
                     //MOD入り用のボタン下テキスト変更
                     switch (player.GetCustomRole())

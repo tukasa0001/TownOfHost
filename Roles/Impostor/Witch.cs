@@ -208,13 +208,13 @@ namespace TownOfHost.Roles.Impostor
             }
             return sb.ToString();
         }
-        public override string GetAbilityButtonText()
+        public override string GetKillButtonText()
         {
             if (NowSwitchTrigger != SwitchTrigger.TriggerDouble && IsSpellMode)
             {
                 return GetString("WitchSpellButtonText");
             }
-            return base.GetAbilityButtonText();
+            return base.GetKillButtonText();
         }
         public override bool OnEnterVent(PlayerPhysics physics, int ventId)
         {
