@@ -173,5 +173,5 @@ TOH4Eでは爆破するまでキルできない制限と、<br>
 - [何もなくていい場合は消してOK](https://github.com/)
 注：README-ENへの追記を忘れないでください。
 -->
-- [紅熊明日夢](https://github.com/AsumuAkaguma) ([Twitter](https://twitter.com/Akaguma_PG)) ([ようつべ](https://t.co/aTr8zfSaGW))
+- [紅熊明日夢](https://github.com/AsumuAkaguma) ([Twitter](https://twitter.com/Akaguma_PG))([TOH4E情報発信Twitter](https://twitter.com/TOH4E_AmongUs)) ([ようつべ](https://t.co/aTr8zfSaGW))
 - 他、TOH開発者、TOHYのyumeno様等に関しましては省略しますmm
