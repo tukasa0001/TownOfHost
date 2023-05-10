@@ -19,6 +19,7 @@ namespace TownOfHost.Roles.Impostor
                 CustomRoleTypes.Impostor,
                 1300,
                 SetupOptionItem,
+                "va",
                 introSound: () => GetIntroSound(RoleTypes.Shapeshifter)
             );
         public Vampire(PlayerControl player)

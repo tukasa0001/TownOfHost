@@ -18,7 +18,8 @@ public sealed class Sniper : RoleBase
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
             1800,
-            SetupOptionItem
+            SetupOptionItem,
+            "snp"
         );
     public Sniper(PlayerControl player)
     : base(

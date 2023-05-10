@@ -14,6 +14,7 @@ public sealed class Trapper : RoleBase
             CustomRoleTypes.Crewmate,
             20800,
             SetupOptionItem,
+            "tra",
             "#5a8fd0"
         );
     public Trapper(PlayerControl player)

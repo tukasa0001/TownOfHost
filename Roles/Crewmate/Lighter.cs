@@ -13,6 +13,7 @@ public sealed class Lighter : RoleBase
             CustomRoleTypes.Crewmate,
             20100,
             SetupOptionItem,
+            "li",
             "#eee5be"
         );
     public Lighter(PlayerControl player)

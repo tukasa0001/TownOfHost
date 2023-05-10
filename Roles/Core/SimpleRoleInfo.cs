@@ -20,6 +20,7 @@ public class SimpleRoleInfo
     public OptionItem RoleOption => CustomRoleSpawnChances[RoleName];
     public bool IsEnable = false;
     public OptionCreatorDelegate OptionCreator;
+    public string ChatCommand;
     public bool RequireResetCam;
     private Func<AudioClip> introSound;
     public AudioClip IntroSound => introSound?.Invoke();
@@ -34,6 +35,7 @@ public class SimpleRoleInfo
         CustomRoleTypes customRoleType,
         int configId,
         OptionCreatorDelegate optionCreator,
+        string chatCommand,
         string colorCode = "",
         bool requireResetCam = false,
         TabGroup tab = TabGroup.MainSettings,
@@ -51,6 +53,7 @@ public class SimpleRoleInfo
         RequireResetCam = requireResetCam;
         this.introSound = introSound;
         this.canMakeMadmate = canMakeMadmate;
+        ChatCommand = chatCommand;
 
         if (colorCode == "")
             colorCode = customRoleType switch
