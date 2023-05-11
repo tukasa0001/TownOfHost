@@ -16,6 +16,7 @@ using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
+using TownOfHost.Roles.AddOns.Common;
 using TownOfHost.Roles.AddOns.Impostor;
 using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
@@ -223,6 +224,7 @@ namespace TownOfHost
         {
             string roleText = "";
             Color roleColor = Color.white;
+            StringBuilder subRoleMark = new(100);
 
             if (mainRole < CustomRoles.NotAssigned)
             {
@@ -240,11 +242,16 @@ namespace TownOfHost
                         case CustomRoles.LastImpostor:
                             roleText = GetRoleString("Last-") + roleText;
                             break;
+                        case CustomRoles.Watcher:
+                            subRoleMark.Append(Watcher.SubRoleMark);
+                            break;
                     }
                 }
             }
+            if (roleText != "" && subRoleMark.Length > 0)
+                subRoleMark.Insert(0, " "); //空じゃなければ空白を追加
 
-            return (roleColor, roleText);
+            return (roleColor, roleText + subRoleMark.ToString());
         }
         /// <summary>
         /// 対象のRoleNameを全て正確に表示
