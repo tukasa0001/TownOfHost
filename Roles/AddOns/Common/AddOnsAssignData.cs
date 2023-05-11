@@ -33,7 +33,7 @@ namespace TownOfHost.Roles.AddOns.Common
             CustomRoles.HASTroll,
             CustomRoles.GM,
         };
-        static readonly IEnumerable<CustomRoles> ValidRoles = Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(role
+        static readonly IEnumerable<CustomRoles> ValidRoles = CustomRolesHelper.AllRoles.Where(role
             => role < CustomRoles.NotAssigned
             && !InvalidRoles.Contains(role)
             );
