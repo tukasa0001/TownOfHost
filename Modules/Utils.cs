@@ -220,11 +220,10 @@ namespace TownOfHost
         /// <param name="mainRole">表示する役職</param>
         /// <param name="subRolesList">表示する属性のList</param>
         /// <returns>RoleNameを構築する色とテキスト(Color, string)</returns>
-        public static (Color color, string text) GetRoleNameData(CustomRoles mainRole, List<CustomRoles> subRolesList)
+        public static (Color color, string text) GetRoleNameData(CustomRoles mainRole, List<CustomRoles> subRolesList, bool showSubRoleMarks = true)
         {
             string roleText = "";
             Color roleColor = Color.white;
-            StringBuilder subRoleMark = new(100);
 
             if (mainRole < CustomRoles.NotAssigned)
             {
@@ -242,35 +241,52 @@ namespace TownOfHost
                         case CustomRoles.LastImpostor:
                             roleText = GetRoleString("Last-") + roleText;
                             break;
+                    }
+                }
+            }
+
+            string subRoleMarks = showSubRoleMarks ? GetSubRoleMarks(subRolesList) : "";
+            if (roleText != "" && subRoleMarks != "")
+                subRoleMarks = " " + subRoleMarks; //空じゃなければ空白を追加
+
+            return (roleColor, roleText + subRoleMarks);
+        }
+        public static string GetSubRoleMarks(List<CustomRoles> subRolesList)
+        {
+            var sb = new StringBuilder(100);
+            if (subRolesList != null)
+            {
+                foreach (var subRole in subRolesList)
+                {
+                    if (subRole <= CustomRoles.NotAssigned) continue;
+                    switch (subRole)
+                    {
                         case CustomRoles.Watcher:
-                            subRoleMark.Append(Watcher.SubRoleMark);
+                            sb.Append(Watcher.SubRoleMark);
                             break;
                     }
                 }
             }
-            if (roleText != "" && subRoleMark.Length > 0)
-                subRoleMark.Insert(0, " "); //空じゃなければ空白を追加
-
-            return (roleColor, roleText + subRoleMark.ToString());
+            return sb.ToString();
         }
         /// <summary>
         /// 対象のRoleNameを全て正確に表示
         /// </summary>
         /// <param name="playerId">見られる側のPlayerId</param>
         /// <returns>RoleNameを構築する色とテキスト(Color, string)</returns>
-        private static (Color color, string text) GetTrueRoleNameData(byte playerId)
+        private static (Color color, string text) GetTrueRoleNameData(byte playerId, bool showSubRoleMarks = true)
         {
             var state = PlayerState.GetByPlayerId(playerId);
-            return GetRoleNameData(state.MainRole, state.SubRoles);
+            return GetRoleNameData(state.MainRole, state.SubRoles, showSubRoleMarks);
         }
         /// <summary>
         /// 対象のRoleNameを全て正確に表示
         /// </summary>
         /// <param name="playerId">見られる側のPlayerId</param>
         /// <returns>構築したRoleName</returns>
-        public static string GetTrueRoleName(byte playerId)
+        public static string GetTrueRoleName(byte playerId, bool showSubRoleMarks = true)
         {
-            var (color, text) = GetTrueRoleNameData(playerId);
+            var (color, text) = GetTrueRoleNameData(playerId, showSubRoleMarks);
             return ColorString(color, text);
         }
         public static string GetRoleName(CustomRoles role)
@@ -961,7 +977,7 @@ namespace TownOfHost
         public static string SummaryTexts(byte id, bool disableColor = true)
         {
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
-            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%>{GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {GetTrueRoleName(id)}{GetSubRolesText(id)}</pos>";
+            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%>{GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {GetTrueRoleName(id, false)}{GetSubRolesText(id)}</pos>";
             return disableColor ? summary.RemoveHtmlTags() : summary;
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
