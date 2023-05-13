@@ -69,6 +69,18 @@ namespace TownOfHost
                     return CanSabotage(player, nextSabotage);
                 }
             }
+            // カメラ無効時，バニラプレイヤーはカメラを開けるので点滅させない
+            else if (systemType == SystemTypes.Security && amount == 1)
+            {
+                var camerasDisabled = (MapNames)Main.NormalOptions.MapId switch
+                {
+                    MapNames.Skeld => Options.DisableSkeldCamera.GetBool(),
+                    MapNames.Polus => Options.DisablePolusCamera.GetBool(),
+                    MapNames.Airship => Options.DisableAirshipCamera.GetBool(),
+                    _ => false,
+                };
+                return !camerasDisabled;
+            }
             else
             {
                 return CustomRoleManager.OnSabotage(player, systemType, amount);
