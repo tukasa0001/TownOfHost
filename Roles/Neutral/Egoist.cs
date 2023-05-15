@@ -34,11 +34,6 @@ public sealed class Egoist : RoleBase, ISidekickable
 
     static OptionItem OptionKillCooldown;
     static OptionItem OptionCanCreateMadmate;
-    enum OptionName
-    {
-        KillCooldown,
-        CanCreateMadmate
-    }
 
     private static float KillCooldown;
     public static bool CanCreateMadmate;
@@ -46,9 +41,9 @@ public sealed class Egoist : RoleBase, ISidekickable
     public static List<PlayerControl> Egoists = new(3);
     private static void SetupOptionItem()
     {
-        OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, OptionName.KillCooldown, new(2.5f, 180f, 2.5f), 20f, false)
+        OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 20f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        OptionCanCreateMadmate = BooleanOptionItem.Create(RoleInfo, 11, OptionName.CanCreateMadmate, false, false);
+        OptionCanCreateMadmate = BooleanOptionItem.Create(RoleInfo, 11, GeneralOption.CanCreateMadmate, false, false);
     }
     public override void Add()
     {

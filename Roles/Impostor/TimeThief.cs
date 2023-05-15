@@ -35,7 +35,6 @@ namespace TownOfHost.Roles.Impostor
         private static OptionItem OptionReturnStolenTimeUponDeath;
         enum OptionName
         {
-            KillCooldown,
             TimeThiefDecreaseMeetingTime,
             TimeThiefLowerLimitVotingTime,
             TimeThiefReturnStolenTimeUponDeath
@@ -49,7 +48,7 @@ namespace TownOfHost.Roles.Impostor
 
         private static void SetupOptionItem()
         {
-            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, OptionName.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
+            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
                 .SetValueFormat(OptionFormat.Seconds);
             OptionDecreaseMeetingTime = IntegerOptionItem.Create(RoleInfo, 11, OptionName.TimeThiefDecreaseMeetingTime, new(0, 100, 1), 20, false)
                 .SetValueFormat(OptionFormat.Seconds);
