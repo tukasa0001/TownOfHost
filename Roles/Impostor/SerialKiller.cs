@@ -2,11 +2,12 @@ using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor
 {
-    public sealed class SerialKiller : RoleBase
+    public sealed class SerialKiller : RoleBase, IImpostor
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(
@@ -16,7 +17,8 @@ namespace TownOfHost.Roles.Impostor
                 () => RoleTypes.Shapeshifter,
                 CustomRoleTypes.Impostor,
                 1100,
-                SetUpOptionItem
+                SetUpOptionItem,
+                "sk"
             );
         public SerialKiller(PlayerControl player)
         : base(
@@ -33,22 +35,22 @@ namespace TownOfHost.Roles.Impostor
         private static OptionItem OptionTimeLimit;
         enum OptionName
         {
-            KillCooldown,
             SerialKillerLimit
         }
         private static float KillCooldown;
         private static float TimeLimit;
 
+        public bool CanBeLastImpostor { get; } = false;
         public float? SuicideTimer;
 
         private static void SetUpOptionItem()
         {
-            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, OptionName.KillCooldown, new(2.5f, 180f, 2.5f), 20f, false)
+            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 20f, false)
                 .SetValueFormat(OptionFormat.Seconds);
             OptionTimeLimit = FloatOptionItem.Create(RoleInfo, 11, OptionName.SerialKillerLimit, new(5f, 900f, 5f), 60f, false)
                 .SetValueFormat(OptionFormat.Seconds);
         }
-        public override float SetKillCooldown() => KillCooldown;
+        public float CalculateKillCooldown() => KillCooldown;
         public override void ApplyGameOptions(IGameOptions opt)
         {
             AURoleOptions.ShapeshifterCooldown = HasKilled() ? TimeLimit : 255f;
@@ -59,7 +61,7 @@ namespace TownOfHost.Roles.Impostor
         ///</summary>
         public bool HasKilled()
             => Player != null && Player.IsAlive() && MyState.GetKillCount(true) > 0;
-        public override void OnCheckMurderAsKiller(MurderInfo info)
+        public void OnCheckMurderAsKiller(MurderInfo info)
         {
             var killer = info.AttemptKiller;
             SuicideTimer = null;
@@ -93,11 +95,8 @@ namespace TownOfHost.Roles.Impostor
             else
                 SuicideTimer += Time.fixedDeltaTime;//時間をカウント
         }
-        public override string GetAbilityButtonText()
-        {
-            DestroyableSingleton<HudManager>.Instance.AbilityButton.ToggleVisible(Player.IsAlive() && HasKilled());
-            return GetString("SerialKillerSuicideButtonText");
-        }
+        public override bool CanUseAbilityButton() => HasKilled();
+        public override string GetAbilityButtonText() => GetString("SerialKillerSuicideButtonText");
         public override void AfterMeetingTasks()
         {
             if (Player.IsAlive())

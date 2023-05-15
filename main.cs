@@ -180,13 +180,9 @@ namespace TownOfHost
                     //特殊インポスター役職
                     //マッドメイト系役職
                         //後で追加
-                    //両陣営可能役職
-                    {CustomRoles.Watcher, "#800080"},
                     //特殊クルー役職
-                    {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     //ニュートラル役職
-                    {CustomRoles.Egoist, "#5600ff"},
                     {CustomRoles.EgoSchrodingerCat, "#5600ff"},
                     {CustomRoles.JSchrodingerCat, "#00b4eb"},
                     //HideAndSeek
@@ -197,11 +193,12 @@ namespace TownOfHost
                     //サブ役職
                     {CustomRoles.LastImpostor, "#ff1919"},
                     {CustomRoles.Lovers, "#ff6be4"},
+                    {CustomRoles.Watcher, "#800080"},
                     {CustomRoles.Workhorse, "#00ffff"},
 
                     {CustomRoles.NotAssigned, "#ffffff"}
                 };
-                foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
+                foreach (var role in CustomRolesHelper.AllRoles)
                 {
                     switch (role.GetCustomRoleTypes())
                     {

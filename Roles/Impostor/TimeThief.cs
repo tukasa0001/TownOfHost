@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
@@ -6,7 +5,7 @@ using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Impostor
 {
-    public sealed class TimeThief : RoleBase, IMeetingTimeAlterable
+    public sealed class TimeThief : RoleBase, IMeetingTimeAlterable, IImpostor
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(
@@ -16,7 +15,8 @@ namespace TownOfHost.Roles.Impostor
                 () => RoleTypes.Impostor,
                 CustomRoleTypes.Impostor,
                 2400,
-                SetupOptionItem
+                SetupOptionItem,
+                "tt"
             );
         public TimeThief(PlayerControl player)
         : base(
@@ -35,7 +35,6 @@ namespace TownOfHost.Roles.Impostor
         private static OptionItem OptionReturnStolenTimeUponDeath;
         enum OptionName
         {
-            KillCooldown,
             TimeThiefDecreaseMeetingTime,
             TimeThiefLowerLimitVotingTime,
             TimeThiefReturnStolenTimeUponDeath
@@ -49,7 +48,7 @@ namespace TownOfHost.Roles.Impostor
 
         private static void SetupOptionItem()
         {
-            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, OptionName.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
+            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
                 .SetValueFormat(OptionFormat.Seconds);
             OptionDecreaseMeetingTime = IntegerOptionItem.Create(RoleInfo, 11, OptionName.TimeThiefDecreaseMeetingTime, new(0, 100, 1), 20, false)
                 .SetValueFormat(OptionFormat.Seconds);
@@ -57,7 +56,7 @@ namespace TownOfHost.Roles.Impostor
                 .SetValueFormat(OptionFormat.Seconds);
             OptionReturnStolenTimeUponDeath = BooleanOptionItem.Create(RoleInfo, 13, OptionName.TimeThiefReturnStolenTimeUponDeath, true, false);
         }
-        public override float SetKillCooldown() => KillCooldown;
+        public float CalculateKillCooldown() => KillCooldown;
         public int CalculateMeetingTimeDelta()
         {
             var sec = -(DecreaseMeetingTime * MyState.GetKillCount(true));

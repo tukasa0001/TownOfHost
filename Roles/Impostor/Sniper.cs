@@ -5,10 +5,11 @@ using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor;
-public sealed class Sniper : RoleBase
+public sealed class Sniper : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -18,7 +19,8 @@ public sealed class Sniper : RoleBase
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
             1800,
-            SetupOptionItem
+            SetupOptionItem,
+            "snp"
         );
     public Sniper(PlayerControl player)
     : base(
@@ -111,7 +113,7 @@ public sealed class Sniper : RoleBase
         }
         Logger.Info($"{Player.GetNameWithRole()}:ReceiveRPC", "Sniper");
     }
-    public override bool CanUseKillButton()
+    public bool CanUseKillButton()
     {
         return Player.IsAlive() && BulletCount <= 0;
     }
@@ -119,7 +121,7 @@ public sealed class Sniper : RoleBase
     /// 狙撃の場合死因設定
     /// </summary>
     /// <param name="info"></param>
-    public override void OnMurderPlayerAsKiller(MurderInfo info)
+    public void OnMurderPlayerAsKiller(MurderInfo info)
     {
         //AttemptKillerは自分確定
         //スナイパーがAppearanceKillerだった場合は狙撃じゃない

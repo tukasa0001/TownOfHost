@@ -2,12 +2,14 @@ using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost
 {
     static class CustomRolesHelper
     {
+        public static readonly CustomRoles[] AllRoles = EnumHelper.GetAllValues<CustomRoles>();
+        public static readonly CustomRoleTypes[] AllRoleTypes = EnumHelper.GetAllValues<CustomRoleTypes>();
+
         public static bool IsImpostor(this CustomRoles role)
         {
             var roleInfo = role.GetRoleInfo();
@@ -16,7 +18,6 @@ namespace TownOfHost
             return
                 role is CustomRoles.Impostor or
                 CustomRoles.Shapeshifter or
-                CustomRoles.EvilWatcher or
                 CustomRoles.EvilTracker;
         }
         public static bool IsMadmate(this CustomRoles role)
@@ -38,7 +39,6 @@ namespace TownOfHost
             return
                 role is
                 CustomRoles.SchrodingerCat or
-                CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
                 CustomRoles.JSchrodingerCat or
                 CustomRoles.HASTroll or
@@ -120,12 +120,18 @@ namespace TownOfHost
         }
         public static bool IsEnable(this CustomRoles role) => role.GetCount() > 0;
         public static bool CanMakeMadmate(this CustomRoles role)
-            => role switch
+        {
+            if (role.GetRoleInfo() is SimpleRoleInfo info)
+            {
+                return info.CanMakeMadmate;
+            }
+
+            return role switch
             {
                 CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate,
-                CustomRoles.Egoist => Egoist.CanCreateMadmate,
                 _ => false,
             };
+        }
         public static RoleTypes GetRoleTypes(this CustomRoles role)
         {
             var roleInfo = role.GetRoleInfo();
@@ -140,8 +146,7 @@ namespace TownOfHost
                 CustomRoles.GuardianAngel or
                 CustomRoles.GM => RoleTypes.GuardianAngel,
 
-                CustomRoles.Shapeshifter or
-                CustomRoles.Egoist => RoleTypes.Shapeshifter,
+                CustomRoles.Shapeshifter => RoleTypes.Shapeshifter,
 
                 CustomRoles.EvilTracker => EvilTracker.RoleTypes,
 

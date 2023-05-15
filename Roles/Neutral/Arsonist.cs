@@ -3,11 +3,12 @@ using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 using Hazel;
 
 namespace TownOfHost.Roles.Neutral;
-public sealed class Arsonist : RoleBase
+public sealed class Arsonist : RoleBase, IKiller
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -18,6 +19,7 @@ public sealed class Arsonist : RoleBase
             CustomRoleTypes.Neutral,
             50500,
             SetupOptionItem,
+            "ar",
             "#ff6633",
             introSound: () => GetIntroSound(RoleTypes.Crewmate)
         );
@@ -26,8 +28,7 @@ public sealed class Arsonist : RoleBase
         RoleInfo,
         player,
         () => HasTask.False,
-        CountTypes.Crew,
-        false
+        CountTypes.Crew
     )
     {
         DouseTime = OptionDouseTime.GetFloat();
@@ -41,8 +42,7 @@ public sealed class Arsonist : RoleBase
 
     enum OptionName
     {
-        ArsonistDouseTime,
-        Cooldown
+        ArsonistDouseTime
     }
     private static float DouseTime;
     private static float DouseCooldown;
@@ -57,6 +57,7 @@ public sealed class Arsonist : RoleBase
             Timer = timer;
         }
     }
+    public bool CanKill { get; private set; } = false;
     private TimerInfo TargetInfo;
     public Dictionary<byte, bool> IsDoused;
 
@@ -64,7 +65,7 @@ public sealed class Arsonist : RoleBase
     {
         OptionDouseTime = FloatOptionItem.Create(RoleInfo, 10, OptionName.ArsonistDouseTime, new(1f, 10f, 1f), 3f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        OptionDouseCooldown = FloatOptionItem.Create(RoleInfo, 11, OptionName.Cooldown, new(5f, 100f, 1f), 10f, false)
+        OptionDouseCooldown = FloatOptionItem.Create(RoleInfo, 11, GeneralOption.Cooldown, new(5f, 100f, 1f), 10f, false)
             .SetValueFormat(OptionFormat.Seconds);
     }
     public override void Add()
@@ -72,8 +73,8 @@ public sealed class Arsonist : RoleBase
         foreach (var ar in Main.AllPlayerControls)
             IsDoused.Add(ar.PlayerId, false);
     }
-    public override bool CanUseKillButton() => !IsDouseDone(Player);
-    public override float SetKillCooldown() => DouseCooldown;
+    public bool CanUseKillButton() => !IsDouseDone(Player);
+    public float CalculateKillCooldown() => DouseCooldown;
     public override bool CanSabotage(SystemTypes systemType) => false;
     public override string GetProgressText(bool comms = false)
     {
@@ -106,7 +107,7 @@ public sealed class Arsonist : RoleBase
                 break;
         }
     }
-    public override void OnCheckMurderAsKiller(MurderInfo info)
+    public void OnCheckMurderAsKiller(MurderInfo info)
     {
         var (killer, target) = info.AttemptTuple;
 
@@ -172,7 +173,6 @@ public sealed class Arsonist : RoleBase
                         Logger.Info($"Canceled: {Player.GetNameWithRole()}", "Arsonist");
                     }
                 }
-
             }
         }
     }
@@ -200,7 +200,11 @@ public sealed class Arsonist : RoleBase
         }
         return false;
     }
-    public override string GetKillButtonText() => GetString("ArsonistDouseButtonText");
+    public bool OverrideKillButtonText(out string text)
+    {
+        text = GetString("ArsonistDouseButtonText");
+        return true;
+    }
 
     public override string GetMark(PlayerControl seer, PlayerControl seen, bool isForMeeting = false)
     {

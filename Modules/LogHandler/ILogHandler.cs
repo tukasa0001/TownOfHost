@@ -1,7 +1,4 @@
 using System;
-using System.Runtime.CompilerServices;
-using Hazel;
-using TownOfHost;
 
 namespace TownOfHost.Modules
 {

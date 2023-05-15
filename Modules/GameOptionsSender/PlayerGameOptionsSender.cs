@@ -99,16 +99,21 @@ namespace TownOfHost.Modules
             roleClass?.ApplyGameOptions(opt);
             switch (role)
             {
-                case CustomRoles.EvilWatcher:
-                case CustomRoles.NiceWatcher:
-                    opt.SetBool(BoolOptionNames.AnonymousVotes, false);
-                    break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(true);
                     break;
                 case CustomRoles.JSchrodingerCat:
                     ((Jackal)roleClass).ApplyGameOptions(opt);
                     break;
+            }
+            foreach (var subRole in player.GetCustomSubRoles())
+            {
+                switch (subRole)
+                {
+                    case CustomRoles.Watcher:
+                        opt.SetBool(BoolOptionNames.AnonymousVotes, false);
+                        break;
+                }
             }
             if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))
             {

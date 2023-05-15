@@ -1,10 +1,11 @@
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Impostor;
 
-public sealed class ShapeMaster : RoleBase
+public sealed class ShapeMaster : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -14,7 +15,8 @@ public sealed class ShapeMaster : RoleBase
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
             1200,
-            SetupOptionItem
+            SetupOptionItem,
+            "sha"
         );
     public ShapeMaster(PlayerControl player)
     : base(

@@ -9,8 +9,7 @@ using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Crewmate;
-using TownOfHost.Roles.Neutral;
+using TownOfHost.Roles.AddOns.Common;
 using TownOfHost.Roles.AddOns.Impostor;
 using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
@@ -109,10 +108,10 @@ namespace TownOfHost
             }
             CustomRoleManager.Initialize();
             FallFromLadder.Reset();
-            Egoist.Init();
             LastImpostor.Init();
             TargetArrow.Init();
             DoubleTrigger.Init();
+            Watcher.Init();
             Workhorse.Init();
             CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
@@ -258,7 +257,7 @@ namespace TownOfHost
             }
             else
             {
-                foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x < CustomRoles.NotAssigned))
+                foreach (var role in CustomRolesHelper.AllRoles.Where(x => x < CustomRoles.NotAssigned))
                 {
                     if (role.IsVanilla()) continue;
                     if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
@@ -274,6 +273,7 @@ namespace TownOfHost
                     AssignCustomRolesFromList(role, baseRoleTypes);
                 }
                 AssignLoversRoles();
+                AddOnsAssignData.AssignAddOnsFromList();
 
                 foreach (var pair in PlayerState.AllPlayerStates)
                 {
@@ -421,36 +421,6 @@ namespace TownOfHost
             return AssignedPlayers;
         }
 
-        private static void AssignCustomSubRolesFromList(CustomRoles role, int RawCount = -1)
-        {
-            if (!role.IsPresent()) return;
-            var allPlayers = new List<PlayerControl>();
-            foreach (var pc in Main.AllPlayerControls)
-                if (IsAssignTarget(pc, role))
-                    allPlayers.Add(pc);
-
-            if (RawCount == -1) RawCount = role.GetRealCount();
-            int count = Math.Clamp(RawCount, 0, allPlayers.Count);
-            if (count <= 0) return;
-
-            var rand = IRandom.Instance;
-            for (var i = 0; i < count; i++)
-            {
-                var player = allPlayers[rand.Next(allPlayers.Count)];
-                allPlayers.Remove(player);
-                PlayerState.GetByPlayerId(player.PlayerId).SetSubRole(role);
-                Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "AssignCustomSubRoles");
-            }
-        }
-        //属性ごとの割り当て条件
-        private static bool IsAssignTarget(PlayerControl player, CustomRoles subrole)
-        {
-            if (player.Is(CustomRoles.GM)) return false;
-            return subrole switch
-            {
-                _ => true,
-            };
-        }
         private static void AssignLoversRoles(int RawCount = -1)
         {
             if (!CustomRoles.Lovers.IsPresent()) return;
@@ -482,7 +452,7 @@ namespace TownOfHost
         public static int GetRoleTypesCount(RoleTypes roleTypes)
         {
             int count = 0;
-            foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x < CustomRoles.NotAssigned))
+            foreach (var role in CustomRolesHelper.AllRoles.Where(x => x < CustomRoles.NotAssigned))
             {
                 if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
                 if (role == CustomRoles.Egoist && Main.NormalOptions.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;

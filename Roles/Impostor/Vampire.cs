@@ -4,11 +4,12 @@ using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor
 {
-    public sealed class Vampire : RoleBase
+    public sealed class Vampire : RoleBase, IImpostor
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(
@@ -19,6 +20,7 @@ namespace TownOfHost.Roles.Impostor
                 CustomRoleTypes.Impostor,
                 1300,
                 SetupOptionItem,
+                "va",
                 introSound: () => GetIntroSound(RoleTypes.Shapeshifter)
             );
         public Vampire(PlayerControl player)
@@ -40,6 +42,7 @@ namespace TownOfHost.Roles.Impostor
 
         static float KillDelay;
 
+        public bool CanBeLastImpostor { get; } = false;
         Dictionary<byte, float> BittenPlayers = new(14);
 
         private static void SetupOptionItem()
@@ -47,7 +50,7 @@ namespace TownOfHost.Roles.Impostor
             OptionKillDelay = FloatOptionItem.Create(RoleInfo, 10, OptionName.VampireKillDelay, new(1f, 1000f, 1f), 10f, false)
                 .SetValueFormat(OptionFormat.Seconds);
         }
-        public override void OnCheckMurderAsKiller(MurderInfo info)
+        public void OnCheckMurderAsKiller(MurderInfo info)
         {
             if (!info.CanKill) return; //キル出来ない相手には無効
             var (killer, target) = info.AttemptTuple;
@@ -92,7 +95,11 @@ namespace TownOfHost.Roles.Impostor
 
             return true;
         }
-        public override string GetKillButtonText() => GetString("VampireBiteButtonText");
+        public bool OverrideKillButtonText(out string text)
+        {
+            text = GetString("VampireBiteButtonText");
+            return true;
+        }
 
         private void KillBitten(PlayerControl target, bool isButton = false)
         {

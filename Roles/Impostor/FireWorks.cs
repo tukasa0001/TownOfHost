@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
-using Hazel;
 using UnityEngine;
 
 using AmongUs.GameOptions;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor;
 
-public sealed class FireWorks : RoleBase
+public sealed class FireWorks : RoleBase, IImpostor
 {
     public enum FireWorksState
     {
@@ -28,7 +28,8 @@ public sealed class FireWorks : RoleBase
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
             1700,
-            SetupCustomOption
+            SetupCustomOption,
+            "fw"
         );
     public FireWorks(PlayerControl player)
     : base(
@@ -69,7 +70,7 @@ public sealed class FireWorks : RoleBase
         State = FireWorksState.Initial;
     }
 
-    public override bool CanUseKillButton()
+    public bool CanUseKillButton()
     {
         if (!Player.IsAlive()) return false;
         return (State & FireWorksState.CanUseKill) != 0;

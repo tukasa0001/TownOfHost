@@ -16,6 +16,7 @@ using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
+using TownOfHost.Roles.AddOns.Common;
 using TownOfHost.Roles.AddOns.Impostor;
 using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
@@ -177,10 +178,116 @@ namespace TownOfHost
             }
             return;
         }
-        public static string GetDisplayRoleName(byte playerId)
+        /// <summary>
+        /// seerが自分であるときのseenのRoleName + ProgressText
+        /// </summary>
+        /// <param name="seer">見る側</param>
+        /// <param name="seen">見られる側</param>
+        /// <returns>RoleName + ProgressTextを表示するか、構築する色とテキスト(bool, Color, string)</returns>
+        public static (bool enabled, string text) GetRoleNameAndProgressTextData(PlayerControl seer, PlayerControl seen = null)
         {
-            var TextData = GetRoleText(playerId);
-            return ColorString(TextData.Item2, TextData.Item1);
+            var roleName = GetDisplayRoleName(seer, seen);
+            var progressText = GetProgressText(seer, seen);
+            var text = roleName + (roleName != "" ? " " : "") + progressText;
+            return (text != "", text);
+        }
+        /// <summary>
+        /// GetDisplayRoleNameDataからRoleNameを構築
+        /// </summary>
+        /// <param name="seer">見る側</param>
+        /// <param name="seen">見られる側</param>
+        /// <returns>構築されたRoleName</returns>
+        private static string GetDisplayRoleName(PlayerControl seer, PlayerControl seen = null)
+        {
+            seen ??= seer;
+            //デフォルト値
+            bool enabled = seer == seen
+                        || seen.Is(CustomRoles.GM)
+                        || (Main.VisibleTasksCount && !seer.IsAlive() && Options.GhostCanSeeOtherRoles.GetBool());
+            var (roleColor, roleText) = GetTrueRoleNameData(seen.PlayerId);
+
+            //seen側による変更
+            seen.GetRoleClass()?.OverrideRoleNameAsSeen(seer, ref enabled, ref roleColor, ref roleText);
+
+            //seer側による変更
+            seer.GetRoleClass()?.OverrideRoleNameAsSeer(seen, ref enabled, ref roleColor, ref roleText);
+
+            return enabled ? ColorString(roleColor, roleText) : "";
+        }
+        /// <summary>
+        /// 引数の指定通りのRoleNameを表示
+        /// </summary>
+        /// <param name="mainRole">表示する役職</param>
+        /// <param name="subRolesList">表示する属性のList</param>
+        /// <returns>RoleNameを構築する色とテキスト(Color, string)</returns>
+        public static (Color color, string text) GetRoleNameData(CustomRoles mainRole, List<CustomRoles> subRolesList, bool showSubRoleMarks = true)
+        {
+            string roleText = "";
+            Color roleColor = Color.white;
+
+            if (mainRole < CustomRoles.NotAssigned)
+            {
+                roleText = GetRoleName(mainRole);
+                roleColor = GetRoleColor(mainRole);
+            }
+
+            if (subRolesList != null)
+            {
+                foreach (var subRole in subRolesList)
+                {
+                    if (subRole <= CustomRoles.NotAssigned) continue;
+                    switch (subRole)
+                    {
+                        case CustomRoles.LastImpostor:
+                            roleText = GetRoleString("Last-") + roleText;
+                            break;
+                    }
+                }
+            }
+
+            string subRoleMarks = showSubRoleMarks ? GetSubRoleMarks(subRolesList) : "";
+            if (roleText != "" && subRoleMarks != "")
+                subRoleMarks = " " + subRoleMarks; //空じゃなければ空白を追加
+
+            return (roleColor, roleText + subRoleMarks);
+        }
+        public static string GetSubRoleMarks(List<CustomRoles> subRolesList)
+        {
+            var sb = new StringBuilder(100);
+            if (subRolesList != null)
+            {
+                foreach (var subRole in subRolesList)
+                {
+                    if (subRole <= CustomRoles.NotAssigned) continue;
+                    switch (subRole)
+                    {
+                        case CustomRoles.Watcher:
+                            sb.Append(Watcher.SubRoleMark);
+                            break;
+                    }
+                }
+            }
+            return sb.ToString();
+        }
+        /// <summary>
+        /// 対象のRoleNameを全て正確に表示
+        /// </summary>
+        /// <param name="playerId">見られる側のPlayerId</param>
+        /// <returns>RoleNameを構築する色とテキスト(Color, string)</returns>
+        private static (Color color, string text) GetTrueRoleNameData(byte playerId, bool showSubRoleMarks = true)
+        {
+            var state = PlayerState.GetByPlayerId(playerId);
+            return GetRoleNameData(state.MainRole, state.SubRoles, showSubRoleMarks);
+        }
+        /// <summary>
+        /// 対象のRoleNameを全て正確に表示
+        /// </summary>
+        /// <param name="playerId">見られる側のPlayerId</param>
+        /// <returns>構築したRoleName</returns>
+        public static string GetTrueRoleName(byte playerId, bool showSubRoleMarks = true)
+        {
+            var (color, text) = GetTrueRoleNameData(playerId, showSubRoleMarks);
+            return ColorString(color, text);
         }
         public static string GetRoleName(CustomRoles role)
         {
@@ -200,27 +307,6 @@ namespace TownOfHost
         {
             if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = role.GetRoleInfo()?.RoleColorCode;
             return hexColor;
-        }
-        public static (string, Color) GetRoleText(byte playerId)
-        {
-            string RoleText = "Invalid Role";
-            Color RoleColor = Color.red;
-
-            var state = PlayerState.GetByPlayerId(playerId);
-            var mainRole = state.MainRole;
-            var SubRoles = state.SubRoles;
-            RoleText = GetRoleName(mainRole);
-            RoleColor = GetRoleColor(mainRole);
-            foreach (var subRole in state.SubRoles)
-            {
-                switch (subRole)
-                {
-                    case CustomRoles.LastImpostor:
-                        RoleText = GetRoleString("Last-") + RoleText;
-                        break;
-                }
-            }
-            return (RoleText, RoleColor);
         }
 
         public static string GetVitalText(byte playerId, bool RealKillerColor = false)
@@ -308,7 +394,6 @@ namespace TownOfHost
                 {
                     case CustomRoles.GM:
                     case CustomRoles.SKMadmate:
-                    case CustomRoles.Egoist:
                         hasTasks = false;
                         break;
                     default:
@@ -327,62 +412,63 @@ namespace TownOfHost
             }
             return hasTasks;
         }
-        public static string GetProgressText(PlayerControl pc)
+        private static string GetProgressText(PlayerControl seer, PlayerControl seen = null)
         {
-            if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す
-            var taskState = pc.GetPlayerTaskState();
-            var Comms = false;
-            if (taskState.hasTasks)
+            seen ??= seer;
+            var comms = false;
+            foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
             {
-                foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
-                    if (task.TaskType == TaskTypes.FixComms)
-                    {
-                        Comms = true;
-                        break;
-                    }
+                if (task.TaskType == TaskTypes.FixComms)
+                {
+                    comms = true;
+                    break;
+                }
             }
-            return GetProgressText(pc.PlayerId, Comms);
+            bool enabled = seer == seen
+                        || (Main.VisibleTasksCount && !seer.IsAlive() && Options.GhostCanSeeOtherTasks.GetBool());
+            string text = GetProgressText(seen.PlayerId, comms);
+
+            //seer側による変更
+            seer.GetRoleClass()?.OverrideProgressTextAsSeer(seen, ref enabled, ref text);
+
+            return enabled ? text : "";
         }
-        public static string GetProgressText(byte playerId, bool comms = false)
+        private static string GetProgressText(byte playerId, bool comms = false)
         {
-            if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す
             var ProgressText = new StringBuilder();
             var State = PlayerState.GetByPlayerId(playerId);
             var role = State.MainRole;
             var roleClass = CustomRoleManager.GetByPlayerId(playerId);
-            ProgressText.Append(roleClass?.GetProgressText(comms));
-            // switch (role.RoleName)
-            if (ProgressText.Length == 0)
+            ProgressText.Append(GetTaskProgressText(playerId, comms));
+            if (roleClass != null)
             {
-                ProgressText.Append(GetTaskProgressText(playerId, role, comms));
-                if (ProgressText.Length != 0)
-                    ProgressText.Insert(0, " "); //空じゃなければ空白を追加
-                if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
+                ProgressText.Append(roleClass.GetProgressText(comms));
             }
+            if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $"[{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
 
             return ProgressText.ToString();
         }
-        public static string GetTaskProgressText(byte playerId, CustomRoles role, bool comms = false)
+        public static string GetTaskProgressText(byte playerId, bool comms = false)
         {
-            var taskState = PlayerState.GetByPlayerId(playerId)?.GetTaskState();
-            if (taskState == null || !taskState.hasTasks)
+            var state = PlayerState.GetByPlayerId(playerId);
+            if (state == null || state.taskState == null || !state.taskState.hasTasks)
             {
                 return "";
             }
 
             Color TextColor = Color.yellow;
             var info = GetPlayerInfoById(playerId);
-            var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(role).ShadeColor(0.5f); //タスク完了後の色
+            var TaskCompleteColor = HasTasks(info) ? Color.green : GetRoleColor(state.MainRole).ShadeColor(0.5f); //タスク完了後の色
             var NonCompleteColor = HasTasks(info) ? Color.yellow : Color.white; //カウントされない人外は白色
 
             if (Workhorse.IsThisRole(playerId))
                 NonCompleteColor = Workhorse.RoleColor;
 
-            var NormalColor = taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
+            var NormalColor = state.taskState.IsTaskFinished ? TaskCompleteColor : NonCompleteColor;
 
             TextColor = comms ? Color.gray : NormalColor;
-            string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-            return ColorString(TextColor, $"({Completed}/{taskState.AllTasksCount})");
+            string Completed = comms ? "?" : $"{state.taskState.CompletedTasksCount}";
+            return ColorString(TextColor, $"({Completed}/{state.taskState.AllTasksCount})");
 
         }
         public static void ShowActiveSettingsHelp(byte PlayerId = byte.MaxValue)
@@ -402,7 +488,7 @@ namespace TownOfHost
                 if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo"), PlayerId); }
                 if (Options.IsStandardHAS) { SendMessage(GetString("StandardHASInfo"), PlayerId); }
                 if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong"), PlayerId); }
-                foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
+                foreach (var role in CustomRolesHelper.AllRoles)
                 {
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
@@ -492,7 +578,7 @@ namespace TownOfHost
             }
             var sb = new StringBuilder(GetString("Roles")).Append(":");
             sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString().RemoveHtmlTags());
-            foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
+            foreach (CustomRoles role in CustomRolesHelper.AllRoles)
             {
                 if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                 if (role.IsEnable()) sb.AppendFormat("\n{0}:{1}x{2}", GetRoleName(role), $"{role.GetChance()}%", role.GetCount());
@@ -670,9 +756,6 @@ namespace TownOfHost
                 if (isForMeeting && (seer.GetClient().PlatformData.Platform is Platforms.Playstation or Platforms.Switch)) fontSize = "70%";
                 logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START");
 
-                //タスクなど進行状況を含むテキスト
-                string SelfTaskText = GetProgressText(seer);
-
                 var seerRole = seer.GetRoleClass();
 
                 //名前の後ろに付けるマーカー
@@ -708,7 +791,8 @@ namespace TownOfHost
                     SeerRealName = seer.GetRoleInfo();
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfRoleName = $"<size={fontSize}>{seer.GetDisplayRoleName()}{SelfTaskText}</size>";
+                var (enabled, text) = GetRoleNameAndProgressTextData(seer);
+                string SelfRoleName = enabled ? $"<size={fontSize}>{text}</size>" : "";
                 string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
                 string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
                 if (Arsonist.IsDouseDone(seer))
@@ -762,12 +846,9 @@ namespace TownOfHost
                             TargetMark.Append($"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>");
                         }
 
-
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{target.GetDisplayRoleName()}{GetProgressText(target)}</size>\r\n" : "";
-
-                        if (target.Is(CustomRoles.GM))
-                            TargetRoleText = $"<size={fontSize}>{target.GetDisplayRoleName()}</size>\r\n";
+                        var targetRoleData = GetRoleNameAndProgressTextData(seer, target);
+                        var TargetRoleText = targetRoleData.enabled ? $"<size={fontSize}>{targetRoleData.text}</size>\r\n" : "";
 
                         if (seer.Is(CustomRoles.EvilTracker))
                         {
@@ -790,7 +871,6 @@ namespace TownOfHost
 
                         //ターゲットのプレイヤー名の色を書き換えます。
                         TargetPlayerName = TargetPlayerName.ApplyNameColorData(seer, target, isForMeeting);
-
 
                         string TargetDeathReason = "";
                         if (seer.KnowDeathReason(target))
@@ -847,7 +927,7 @@ namespace TownOfHost
             if (sendLog)
             {
                 var sb = new StringBuilder(100);
-                foreach (var countTypes in Enum.GetValues(typeof(CountTypes)).Cast<CountTypes>())
+                foreach (var countTypes in EnumHelper.GetAllValues<CountTypes>())
                 {
                     var playersCount = PlayersCount(countTypes);
                     if (playersCount == 0) continue;
@@ -887,7 +967,7 @@ namespace TownOfHost
         public static string SummaryTexts(byte id, bool disableColor = true)
         {
             var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
-            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%>{GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {GetDisplayRoleName(id)}{GetSubRolesText(id)}</pos>";
+            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%>{GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {GetTrueRoleName(id, false)}{GetSubRolesText(id)}</pos>";
             return disableColor ? summary.RemoveHtmlTags() : summary;
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");

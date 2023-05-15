@@ -5,8 +5,6 @@ using HarmonyLib;
 using UnityEngine;
 
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Crewmate;
-using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost
 {
@@ -71,6 +69,18 @@ namespace TownOfHost
                     return CanSabotage(player, nextSabotage);
                 }
             }
+            // カメラ無効時，バニラプレイヤーはカメラを開けるので点滅させない
+            else if (systemType == SystemTypes.Security && amount == 1)
+            {
+                var camerasDisabled = (MapNames)Main.NormalOptions.MapId switch
+                {
+                    MapNames.Skeld => Options.DisableSkeldCamera.GetBool(),
+                    MapNames.Polus => Options.DisablePolusCamera.GetBool(),
+                    MapNames.Airship => Options.DisableAirshipCamera.GetBool(),
+                    _ => false,
+                };
+                return !camerasDisabled;
+            }
             else
             {
                 return CustomRoleManager.OnSabotage(player, systemType, amount);
@@ -99,7 +109,7 @@ namespace TownOfHost
         private static bool CanSabotage(PlayerControl player, SystemTypes systemType)
         {
             //サボタージュ出来ないキラー役職はサボタージュ自体をキャンセル
-            if (!player.Is(CustomRoleTypes.Impostor) && !player.Is(CustomRoles.Egoist))
+            if (!player.Is(CustomRoleTypes.Impostor))
             {
                 return false;
             }

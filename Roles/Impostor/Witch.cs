@@ -1,15 +1,15 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Hazel;
 
 using AmongUs.GameOptions;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor
 {
-    public sealed class Witch : RoleBase
+    public sealed class Witch : RoleBase, IImpostor
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(
@@ -19,7 +19,8 @@ namespace TownOfHost.Roles.Impostor
                 () => RoleTypes.Impostor,
                 CustomRoleTypes.Impostor,
                 1500,
-                SetupOptionItem
+                SetupOptionItem,
+                "wi"
             );
         public Witch(PlayerControl player)
         : base(
@@ -54,7 +55,7 @@ namespace TownOfHost.Roles.Impostor
         public static List<Witch> Witches = new();
         public static void SetupOptionItem()
         {
-            OptionModeSwitchAction = StringOptionItem.Create(RoleInfo, 10, OptionName.WitchModeSwitchAction, Enum.GetNames(typeof(SwitchTrigger)), 0, false);
+            OptionModeSwitchAction = StringOptionItem.Create(RoleInfo, 10, OptionName.WitchModeSwitchAction, EnumHelper.GetAllNames<SwitchTrigger>(), 0, false);
         }
         public override void Add()
         {
@@ -143,7 +144,7 @@ namespace TownOfHost.Roles.Impostor
                 Player.SetKillCooldown();
             }
         }
-        public override void OnCheckMurderAsKiller(MurderInfo info)
+        public void OnCheckMurderAsKiller(MurderInfo info)
         {
             var (killer, target) = info.AttemptTuple;
             if (NowSwitchTrigger == SwitchTrigger.TriggerDouble)
@@ -208,13 +209,15 @@ namespace TownOfHost.Roles.Impostor
             }
             return sb.ToString();
         }
-        public override string GetAbilityButtonText()
+        public bool OverrideKillButtonText(out string text)
         {
             if (NowSwitchTrigger != SwitchTrigger.TriggerDouble && IsSpellMode)
             {
-                return GetString("WitchSpellButtonText");
+                text = GetString("WitchSpellButtonText");
+                return true;
             }
-            return base.GetAbilityButtonText();
+            text = default;
+            return false;
         }
         public override bool OnEnterVent(PlayerPhysics physics, int ventId)
         {

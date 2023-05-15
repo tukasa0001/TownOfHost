@@ -14,6 +14,7 @@ public sealed class Bait : RoleBase
             CustomRoleTypes.Crewmate,
             20000,
             null,
+            "ba",
             "#00f7ff"
         );
     public Bait(PlayerControl player)

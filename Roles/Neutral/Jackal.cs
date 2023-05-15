@@ -1,10 +1,11 @@
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Neutral
 {
-    public sealed class Jackal : RoleBase
+    public sealed class Jackal : RoleBase, IKiller
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(
@@ -15,6 +16,7 @@ namespace TownOfHost.Roles.Neutral
                 CustomRoleTypes.Neutral,
                 50900,
                 SetupOptionItem,
+                "jac",
                 "#00b4eb"
             );
         public Jackal(PlayerControl player)
@@ -35,26 +37,19 @@ namespace TownOfHost.Roles.Neutral
         public static OptionItem OptionCanVent;
         public static OptionItem OptionCanUseSabotage;
         private static OptionItem OptionHasImpostorVision;
-        enum OptionName
-        {
-            KillCooldown,
-            CanVent,
-            CanUseSabotage,
-            ImpostorVision
-        }
         private static float KillCooldown;
         public static bool CanVent;
         public static bool CanUseSabotage;
         private static bool HasImpostorVision;
         private static void SetupOptionItem()
         {
-            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, OptionName.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
+            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionCanVent = BooleanOptionItem.Create(RoleInfo, 11, OptionName.CanVent, true, false);
-            OptionCanUseSabotage = BooleanOptionItem.Create(RoleInfo, 12, OptionName.CanUseSabotage, false, false);
-            OptionHasImpostorVision = BooleanOptionItem.Create(RoleInfo, 13, OptionName.ImpostorVision, true, false);
+            OptionCanVent = BooleanOptionItem.Create(RoleInfo, 11, GeneralOption.CanVent, true, false);
+            OptionCanUseSabotage = BooleanOptionItem.Create(RoleInfo, 12, GeneralOption.CanUseSabotage, false, false);
+            OptionHasImpostorVision = BooleanOptionItem.Create(RoleInfo, 13, GeneralOption.ImpostorVision, true, false);
         }
-        public override float SetKillCooldown() => KillCooldown;
+        public float CalculateKillCooldown() => KillCooldown;
         public override void ApplyGameOptions(IGameOptions opt) => opt.SetVision(HasImpostorVision);
         public static void SetHudActive(HudManager __instance, bool isActive)
         {

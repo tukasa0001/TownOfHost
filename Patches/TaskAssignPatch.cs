@@ -130,7 +130,6 @@ namespace TownOfHost
             {
                 taskTypeIds[i] = TasksList[i];
             }
-
         }
         public static void Shuffle<T>(Il2CppSystem.Collections.Generic.List<T> list)
         {

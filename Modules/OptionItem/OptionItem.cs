@@ -55,7 +55,6 @@ namespace TownOfHost
         private ConfigEntry<int>[] AllConfigEntries;
         private ConfigEntry<int> singleEntry;
 
-
         public OptionBehaviour OptionBehaviour;
 
         // イベント
@@ -216,7 +215,6 @@ namespace TownOfHost
 
             RPC.SyncCustomSettingsRPC();
         }
-
 
         // EventArgs
         private void CallUpdateValueEvent(int beforeValue, int currentValue)

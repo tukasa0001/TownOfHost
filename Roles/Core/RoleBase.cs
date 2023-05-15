@@ -4,8 +4,6 @@ using System.Linq;
 using UnityEngine;
 using Hazel;
 using AmongUs.GameOptions;
-
-using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Core;
@@ -35,13 +33,9 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public bool IsTaskFinished => MyTaskState.IsTaskFinished;
     /// <summary>
-    /// キル能力を持っているか
+    /// アビリティボタンで発動する能力を持っているか
     /// </summary>
-    public bool CanKill { get; private set; }
-    /// <summary>
-    /// キル動作 == キルの役職か
-    /// </summary>
-    public bool IsKiller { get; private set; }
+    public bool HasAbility { get; private set; }
     /// <summary>
     /// どの陣営にカウントされるか
     /// </summary>
@@ -51,13 +45,18 @@ public abstract class RoleBase : IDisposable
         PlayerControl player,
         Func<HasTask> hasTasks = null,
         CountTypes? countType = null,
-        bool? canKill = null
+        bool? hasAbility = null
     )
     {
         Player = player;
         this.hasTasks = hasTasks ?? (roleInfo.CustomRoleType == CustomRoleTypes.Crewmate ? () => HasTask.True : () => HasTask.False);
-        CanKill = canKill ?? roleInfo.BaseRoleType.Invoke() is RoleTypes.Impostor or RoleTypes.Shapeshifter;
-        IsKiller = CanKill;
+        HasAbility = hasAbility ?? roleInfo.BaseRoleType.Invoke() is
+            RoleTypes.Shapeshifter or
+            RoleTypes.Engineer or
+            RoleTypes.Scientist or
+            RoleTypes.GuardianAngel or
+            RoleTypes.CrewmateGhost or
+            RoleTypes.ImpostorGhost;
 
         MyState = PlayerState.GetByPlayerId(player.PlayerId);
         MyTaskState = MyState.GetTaskState();
@@ -122,29 +121,15 @@ public abstract class RoleBase : IDisposable
     public virtual void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
     { }
     /// <summary>
-    /// キルボタンを使えるかどうか
+    /// 能力ボタンを使えるかどうか
     /// </summary>
-    /// <returns>trueを返した場合、キルボタンを使える</returns>
-    public virtual bool CanUseKillButton() => CanKill;
-    /// <summary>
-    /// キルクールダウンを設定する関数
-    /// </summary>
-    public virtual float SetKillCooldown() => Options.DefaultKillCooldown;
+    /// <returns>trueを返した場合、能力ボタンを使える</returns>
+    public virtual bool CanUseAbilityButton() => true;
     /// <summary>
     /// BuildGameOptionsで呼ばれる関数
     /// </summary>
     public virtual void ApplyGameOptions(IGameOptions opt)
     { }
-
-    // == CheckMurder関連処理 ==
-    /// <summary>
-    /// キラーとしてのCheckMurder処理
-    /// 通常キルはブロックされることを考慮しなくてもよい。
-    /// 通常キル以外の能力はinfo.CanKill=falseの場合は効果発揮しないよう実装する。
-    /// キルを行わない場合はinfo.DoKill=falseとする。
-    /// </summary>
-    /// <param name="info">キル関係者情報</param>
-    public virtual void OnCheckMurderAsKiller(MurderInfo info) { }
 
     /// <summary>
     /// ターゲットとしてのCheckMurder処理
@@ -155,14 +140,6 @@ public abstract class RoleBase : IDisposable
     /// <param name="info">キル関係者情報</param>
     /// <returns>false:キル行為を起こさせない</returns>
     public virtual bool OnCheckMurderAsTarget(MurderInfo info) => true;
-
-    // ==MurderPlayer関連処理 ==
-    /// <summary>
-    /// キラーとしてのMurderPlayer処理
-    /// </summary>
-    /// <param name="info">キル関係者情報</param>
-    public virtual void OnMurderPlayerAsKiller(MurderInfo info)
-    { }
 
     /// <summary>
     /// ターゲットとしてのMurderPlayer処理
@@ -274,11 +251,36 @@ public abstract class RoleBase : IDisposable
     // Suffix:ターゲット矢印などの追加情報。
 
     /// <summary>
+    /// seenによるRoleNameの書き換え
+    /// </summary>
+    /// <param name="seer">見る側</param>
+    /// <param name="enabled">RoleNameを表示するかどうか</param>
+    /// <param name="roleColor">RoleNameの色</param>
+    /// <param name="roleText">RoleNameのテキスト</param>
+    public virtual void OverrideRoleNameAsSeen(PlayerControl seer, ref bool enabled, ref Color roleColor, ref string roleText)
+    { }
+    /// <summary>
+    /// seerによるRoleNameの書き換え
+    /// </summary>
+    /// <param name="seen">見られる側</param>
+    /// <param name="enabled">RoleNameを表示するかどうか</param>
+    /// <param name="roleColor">RoleNameの色</param>
+    /// <param name="roleText">RoleNameのテキスト</param>
+    public virtual void OverrideRoleNameAsSeer(PlayerControl seen, ref bool enabled, ref Color roleColor, ref string roleText)
+    { }
+    /// <summary>
+    /// seerによるProgressTextの書き換え
+    /// </summary>
+    /// <param name="seen">見られる側</param>
+    /// <param name="enabled">ProgressTextを表示するかどうか</param>
+    /// <param name="text">ProgressTextのテキスト</param>
+    public virtual void OverrideProgressTextAsSeer(PlayerControl seen, ref bool enabled, ref string text)
+    { }
+    /// <summary>
     /// 役職名の横に出るテキスト
     /// </summary>
     /// <param name="comms">コミュサボ中扱いするかどうか</param>
-    public virtual string GetProgressText(bool comms = false) =>
-        Utils.GetTaskProgressText(Player.PlayerId, Player.GetCustomRole(), comms);
+    public virtual string GetProgressText(bool comms = false) => "";
     /// <summary>
     /// seerが自分であるときのMark
     /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し
@@ -312,26 +314,32 @@ public abstract class RoleBase : IDisposable
     public virtual string GetSuffix(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false) => "";
 
     /// <summary>
-    /// シェイプシフトボタンを変更します
-    /// </summary>
-    public virtual string GetKillButtonText() => GetString(StringNames.KillLabel);
-    /// <summary>
     /// シェイプシフトボタンのテキストを変更します
     /// </summary>
     public virtual string GetAbilityButtonText()
     {
-        StringNames str = Player.Data.Role.Role switch
+        StringNames? str = Player.Data.Role.Role switch
         {
             RoleTypes.Engineer => StringNames.VentAbility,
             RoleTypes.Scientist => StringNames.VitalsAbility,
             RoleTypes.Shapeshifter => StringNames.ShapeshiftAbility,
             RoleTypes.GuardianAngel => StringNames.ProtectAbility,
             RoleTypes.ImpostorGhost or RoleTypes.CrewmateGhost => StringNames.HauntAbilityName,
-            _ => StringNames.ErrorInvalidName
+            _ => null
         };
-        return GetString(str);
+        return str.HasValue ? GetString(str.Value) : "Invalid";
     }
 
     protected static AudioClip GetIntroSound(RoleTypes roleType) =>
         RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
+
+    protected enum GeneralOption
+    {
+        Cooldown,
+        KillCooldown,
+        CanVent,
+        ImpostorVision,
+        CanUseSabotage,
+        CanCreateMadmate,
+    }
 }

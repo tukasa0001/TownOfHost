@@ -16,6 +16,7 @@ namespace TownOfHost.Roles.Crewmate
                 CustomRoleTypes.Crewmate,
                 21500,
                 SetupOptionItem,
+                "tm",
                 "#6495ed"
             );
         public TimeManager(PlayerControl player)

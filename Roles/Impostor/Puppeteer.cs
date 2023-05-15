@@ -5,10 +5,11 @@ using Hazel;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor;
-public sealed class Puppeteer : RoleBase
+public sealed class Puppeteer : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -18,7 +19,8 @@ public sealed class Puppeteer : RoleBase
             () => RoleTypes.Impostor,
             CustomRoleTypes.Impostor,
             2000,
-            null
+            null,
+            "pup"
         );
     public Puppeteer(PlayerControl player)
     : base(
@@ -65,7 +67,7 @@ public sealed class Puppeteer : RoleBase
                 break;
         }
     }
-    public override void OnCheckMurderAsKiller(MurderInfo info)
+    public void OnCheckMurderAsKiller(MurderInfo info)
     {
         var (puppeteer, target) = info.AttemptTuple;
 
@@ -135,5 +137,9 @@ public sealed class Puppeteer : RoleBase
 
         return Utils.ColorString(RoleInfo.RoleColor, "◆");
     }
-    public override string GetKillButtonText() => GetString("PuppeteerOperateButtonText");
+    public bool OverrideKillButtonText(out string text)
+    {
+        text = GetString("PuppeteerOperateButtonText");
+        return true;
+    }
 }

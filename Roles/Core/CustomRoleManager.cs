@@ -6,16 +6,16 @@ using Hazel;
 using Il2CppSystem.Text;
 
 using AmongUs.GameOptions;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Neutral;
-using TownOfHost.Roles.Crewmate;
+using TownOfHost.Roles.AddOns.Common;
 
 namespace TownOfHost.Roles.Core;
 
 public static class CustomRoleManager
 {
     public static Type[] AllRolesClassType;
-    public static Dictionary<CustomRoles, SimpleRoleInfo> AllRolesInfo = new(Enum.GetValues(typeof(CustomRoles)).Length);
+    public static Dictionary<CustomRoles, SimpleRoleInfo> AllRolesInfo = new(CustomRolesHelper.AllRoles.Length);
     public static Dictionary<byte, RoleBase> AllActiveRoles = new(15);
 
     public static SimpleRoleInfo GetRoleInfo(this CustomRoles role) => AllRolesInfo.ContainsKey(role) ? AllRolesInfo[role] : null;
@@ -54,19 +54,19 @@ public static class CustomRoleManager
         var killerRole = attemptKiller.GetRoleClass();
         var targetRole = attemptTarget.GetRoleClass();
 
-        //キラーがキル能力持ちならターゲットのキルチェック処理実行
-        if (killerRole?.IsKiller != false)
+        // キラーがキル能力持ちなら
+        if (killerRole is IKiller killer)
         {
-            if (targetRole != null)
+            if (killer.IsKiller)
             {
-                if (!targetRole.OnCheckMurderAsTarget(info)) return;
+                // ターゲットのキルチェック処理実行
+                if (targetRole != null)
+                {
+                    if (!targetRole.OnCheckMurderAsTarget(info)) return;
+                }
             }
-
-        }
-        //キラーのキルチェック処理実行
-        if (killerRole != null)
-        {
-            killerRole.OnCheckMurderAsKiller(info);
+            // キラーのキルチェック処理実行
+            killer.OnCheckMurderAsKiller(info);
         }
 
         //キル可能だった場合のみMurderPlayerに進む
@@ -106,7 +106,7 @@ public static class CustomRoleManager
         Logger.Info($"Real Killer={attemptKiller.GetNameWithRole()}", "MurderPlayer");
 
         //キラーの処理
-        attemptKiller.GetRoleClass()?.OnMurderPlayerAsKiller(info);
+        (attemptKiller.GetRoleClass() as IKiller)?.OnMurderPlayerAsKiller(info);
 
         //ターゲットの処理
         var targetRole = attemptTarget.GetRoleClass();
@@ -216,19 +216,12 @@ public static class CustomRoleManager
     }
     public static void OtherRolesAdd(PlayerControl pc)
     {
-        switch (pc.GetCustomRole())
-        {
-
-            case CustomRoles.Egoist:
-                Egoist.Add(pc.PlayerId);
-                break;
-        }
         foreach (var subRole in pc.GetCustomSubRoles())
         {
             switch (subRole)
             {
-                // ここに属性のAddを追加
-                default:
+                case CustomRoles.Watcher:
+                    Watcher.Add(pc.PlayerId);
                     break;
             }
         }
@@ -368,7 +361,6 @@ public enum CustomRoles
     Shapeshifter,
     //Impostor
     BountyHunter,
-    EvilWatcher,
     FireWorks,
     Mafia,
     SerialKiller,
@@ -387,8 +379,6 @@ public enum CustomRoles
     MadSnitch,
     SKMadmate,
     MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
-    //両陣営
-    Watcher,
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,
@@ -397,7 +387,6 @@ public enum CustomRoles
     Bait,
     Lighter,
     Mayor,
-    NiceWatcher,
     SabotageMaster,
     Sheriff,
     Snitch,
@@ -428,6 +417,7 @@ public enum CustomRoles
     NotAssigned = 500,
     LastImpostor,
     Lovers,
+    Watcher,
     Workhorse,
 }
 public enum CustomRoleTypes

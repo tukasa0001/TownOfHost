@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
@@ -6,10 +5,11 @@ using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Crewmate;
-public sealed class Sheriff : RoleBase
+public sealed class Sheriff : RoleBase, IKiller
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -20,6 +20,7 @@ public sealed class Sheriff : RoleBase
             CustomRoleTypes.Crewmate,
             20400,
             SetupOptionItem,
+            "sh",
             "#f8cd46",
             true,
             introSound: () => GetIntroSound(RoleTypes.Crewmate)
@@ -42,7 +43,6 @@ public sealed class Sheriff : RoleBase
     public static OptionItem CanKillNeutrals;
     enum OptionName
     {
-        KillCooldown,
         SheriffMisfireKillsTarget,
         SheriffShotLimit,
         SheriffCanKillAllAlive,
@@ -58,7 +58,7 @@ public sealed class Sheriff : RoleBase
         };
     private static void SetupOptionItem()
     {
-        KillCooldown = FloatOptionItem.Create(RoleInfo, 10, OptionName.KillCooldown, new(0f, 990f, 1f), 30f, false)
+        KillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(0f, 990f, 1f), 30f, false)
             .SetValueFormat(OptionFormat.Seconds);
         MisfireKillsTarget = BooleanOptionItem.Create(RoleInfo, 11, OptionName.SheriffMisfireKillsTarget, false, false);
         ShotLimitOpt = IntegerOptionItem.Create(RoleInfo, 12, OptionName.SheriffShotLimit, new(1, 15, 1), 15, false)
@@ -70,7 +70,7 @@ public sealed class Sheriff : RoleBase
     }
     public static void SetUpNeutralOptions(int idOffset)
     {
-        foreach (var neutral in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>().Where(x => x.IsNeutral()).ToArray())
+        foreach (var neutral in CustomRolesHelper.AllRoles.Where(x => x.IsNeutral()).ToArray())
         {
             if (neutral is CustomRoles.SchrodingerCat
                         or CustomRoles.HASFox
@@ -115,8 +115,8 @@ public sealed class Sheriff : RoleBase
 
         ShotLimit = reader.ReadInt32();
     }
-    public override float SetKillCooldown() => CanUseKillButton() ? CurrentKillCooldown : 0f;
-    public override bool CanUseKillButton()
+    public float CalculateKillCooldown() => CanUseKillButton() ? CurrentKillCooldown : 0f;
+    public bool CanUseKillButton()
         => Player.IsAlive()
         && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
         && ShotLimit > 0;
@@ -125,7 +125,7 @@ public sealed class Sheriff : RoleBase
     {
         opt.SetVision(false);
     }
-    public override void OnCheckMurderAsKiller(MurderInfo info)
+    public void OnCheckMurderAsKiller(MurderInfo info)
     {
         if (Is(info.AttemptKiller) && !info.IsSuicide)
         {

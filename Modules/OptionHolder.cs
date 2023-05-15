@@ -8,8 +8,7 @@ using UnityEngine;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Crewmate;
-using TownOfHost.Roles.Neutral;
+using TownOfHost.Roles.AddOns.Common;
 using TownOfHost.Roles.AddOns.Impostor;
 using TownOfHost.Roles.AddOns.Crewmate;
 
@@ -89,14 +88,12 @@ namespace TownOfHost
         public static OptionItem MadmateVentCooldown;
         public static OptionItem MadmateVentMaxTime;
 
-        public static OptionItem EvilWatcherChance;
-        public static OptionItem CanTerroristSuicideWin;
         public static OptionItem KillFlashDuration;
 
         // HideAndSeek
         public static OptionItem AllowCloseDoors;
         public static OptionItem KillDelay;
-        public static OptionItem IgnoreCosmetics;
+        // public static OptionItem IgnoreCosmetics;
         public static OptionItem IgnoreVent;
         public static float HideAndSeekKillDelayTimer = 0f;
 
@@ -139,7 +136,7 @@ namespace TownOfHost
         public static OptionItem AddedMiraHQ;
         public static OptionItem AddedPolus;
         public static OptionItem AddedTheAirShip;
-        public static OptionItem AddedDleks;
+        // public static OptionItem AddedDleks;
 
         // ランダムスポーン
         public static OptionItem RandomSpawn;
@@ -181,8 +178,6 @@ namespace TownOfHost
         //転落死
         public static OptionItem LadderDeath;
         public static OptionItem LadderDeathChance;
-        //エレキ構造変化
-        public static OptionItem AirShipVariableElectrical;
 
         // 通常モードでかくれんぼ
         public static bool IsStandardHAS => StandardHAS.GetBool() && CurrentGameMode == CustomGameMode.Standard;
@@ -200,14 +195,16 @@ namespace TownOfHost
         public static OptionItem DisableAirshipGapRoomLightsPanel;
         public static OptionItem DisableAirshipCargoLightsPanel;
 
-        // タスク上書き
-        public static OverrideTasksData TerroristTasks;
-        public static OverrideTasksData SnitchTasks;
+        // マップ改造
+        public static OptionItem MapModification;
+        public static OptionItem AirShipVariableElectrical;
+        public static OptionItem DisableAirshipMovingPlatform;
 
         // その他
         public static OptionItem FixFirstKillCooldown;
         public static OptionItem DisableTaskWin;
         public static OptionItem GhostCanSeeOtherRoles;
+        public static OptionItem GhostCanSeeOtherTasks;
         public static OptionItem GhostCanSeeOtherVotes;
         public static OptionItem GhostCanSeeDeathReason;
         public static OptionItem GhostIgnoreTasks;
@@ -248,8 +245,6 @@ namespace TownOfHost
         {
             return (SuffixModes)SuffixMode.GetValue();
         }
-
-
 
         public static int SnitchExposeTaskLeft = 1;
 
@@ -321,10 +316,6 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             MadmateVentMaxTime = FloatOptionItem.Create(15214, "MadmateVentMaxTime", new(0f, 180f, 5f), 0f, TabGroup.ImpostorRoles, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            // Both
-            SetupRoleOptions(30000, TabGroup.NeutralRoles, CustomRoles.Watcher);
-            EvilWatcherChance = IntegerOptionItem.Create(30010, "EvilWatcherChance", new(0, 100, 10), 0, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Watcher])
-                .SetValueFormat(OptionFormat.Percent);
             // Crewmate
             sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Crewmate).Do(info =>
             {
@@ -348,10 +339,9 @@ namespace TownOfHost
             });
             SetupLoversRoleOptionsToggle(50300);
 
-            Egoist.SetupCustomOption();
-
             // Add-Ons
             LastImpostor.SetupCustomOption();
+            Watcher.SetupCustomOption();
             Workhorse.SetupCustomOption();
             #endregion
 
@@ -394,6 +384,12 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             DisableAirshipCargoLightsPanel = BooleanOptionItem.Create(101513, "DisableAirshipCargoLightsPanel", false, TabGroup.MainSettings, false).SetParent(LightsOutSpecialSettings)
                 .SetGameMode(CustomGameMode.Standard);
+
+            // マップ改造
+            MapModification = BooleanOptionItem.Create(102000, "MapModification", false, TabGroup.MainSettings, false)
+                .SetHeader(true);
+            AirShipVariableElectrical = BooleanOptionItem.Create(101600, "AirShipVariableElectrical", false, TabGroup.MainSettings, false).SetParent(MapModification);
+            DisableAirshipMovingPlatform = BooleanOptionItem.Create(101700, "DisableAirshipMovingPlatform", false, TabGroup.MainSettings, false).SetParent(MapModification);
 
             // タスク無効化
             DisableTasks = BooleanOptionItem.Create(100300, "DisableTasks", false, TabGroup.MainSettings, false)
@@ -523,10 +519,6 @@ namespace TownOfHost
                 .SetHeader(true);
             LadderDeathChance = StringOptionItem.Create(101110, "LadderDeathChance", rates[1..], 0, TabGroup.MainSettings, false).SetParent(LadderDeath);
 
-            //エレキ構造変化
-            AirShipVariableElectrical = BooleanOptionItem.Create(101600, "AirShipVariableElectrical", false, TabGroup.MainSettings, false)
-                .SetHeader(true);
-
             // 通常モードでかくれんぼ用
             StandardHAS = BooleanOptionItem.Create(100700, "StandardHAS", false, TabGroup.MainSettings, false)
                 .SetHeader(true)
@@ -544,6 +536,8 @@ namespace TownOfHost
             NoGameEnd = BooleanOptionItem.Create(900_002, "NoGameEnd", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherRoles = BooleanOptionItem.Create(900_010, "GhostCanSeeOtherRoles", true, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.All);
+            GhostCanSeeOtherTasks = BooleanOptionItem.Create(900_015, "GhostCanSeeOtherTasks", true, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherVotes = BooleanOptionItem.Create(900_011, "GhostCanSeeOtherVotes", true, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);

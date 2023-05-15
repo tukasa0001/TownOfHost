@@ -3,6 +3,7 @@ using HarmonyLib;
 using UnityEngine;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
@@ -61,8 +62,13 @@ namespace TownOfHost
                     var roleClass = player.GetRoleClass();
                     if (roleClass != null)
                     {
-                        __instance.KillButton.OverrideText(roleClass.GetKillButtonText());
-                        __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText());
+                        var killLabel = (roleClass as IKiller)?.OverrideKillButtonText(out string text) == true ? text : GetString(StringNames.KillLabel);
+                        __instance.KillButton.OverrideText(killLabel);
+                        if (roleClass.HasAbility)
+                        {
+                            __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText());
+                            __instance.AbilityButton.ToggleVisible(roleClass.CanUseAbilityButton() && GameStates.IsInTask);
+                        }
                     }
 
                     //バウンティハンターのターゲットテキスト
@@ -119,7 +125,6 @@ namespace TownOfHost
                     __instance.AbilityButton.OverrideText(GetString(StringNames.HauntAbilityName));
                 }
             }
-
 
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)
             {
@@ -238,7 +243,7 @@ namespace TownOfHost
             // 役職説明表示
             if (!player.GetCustomRole().IsVanilla())
             {
-                var RoleWithInfo = $"{player.GetDisplayRoleName()}:\r\n";
+                var RoleWithInfo = $"{player.GetTrueRoleName()}:\r\n";
                 RoleWithInfo += player.GetRoleInfo();
                 __instance.taskText.text = Utils.ColorString(player.GetRoleColor(), RoleWithInfo) + "\n" + __instance.taskText.text;
             }

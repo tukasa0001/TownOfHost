@@ -304,9 +304,9 @@ namespace TownOfHost
             return GameOptionsData.FromBytes(optByte);
         }*/
 
-        public static string GetDisplayRoleName(this PlayerControl player)
+        public static string GetTrueRoleName(this PlayerControl player)
         {
-            return Utils.GetDisplayRoleName(player.PlayerId);
+            return Utils.GetTrueRoleName(player.PlayerId);
         }
         public static string GetSubRoleName(this PlayerControl player)
         {
@@ -392,13 +392,12 @@ namespace TownOfHost
         {
             if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
 
-            var roleClassCanUse = pc.GetRoleClass()?.CanUseKillButton();
+            var roleCanUse = (pc.GetRoleClass() as IKiller)?.CanUseKillButton();
 
             return pc.GetCustomRole() switch
             {
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
-                CustomRoles.Egoist => true,
-                _ => roleClassCanUse ?? pc.Is(CustomRoleTypes.Impostor)
+                _ => roleCanUse ?? pc.Is(CustomRoleTypes.Impostor)
             };
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
@@ -416,13 +415,7 @@ namespace TownOfHost
         }
         public static void ResetKillCooldown(this PlayerControl player)
         {
-            Main.AllPlayerKillCooldown[player.PlayerId] = player.GetRoleClass()?.SetKillCooldown() ?? Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
-            switch (player.GetCustomRole())
-            {
-                case CustomRoles.Egoist:
-                    Egoist.ApplyKillCooldown(player.PlayerId);
-                    break;
-            }
+            Main.AllPlayerKillCooldown[player.PlayerId] = (player.GetRoleClass() as IKiller)?.CalculateKillCooldown() ?? Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
             if (player.PlayerId == LastImpostor.currentId)
                 LastImpostor.SetKillCooldown();
         }
@@ -540,10 +533,6 @@ namespace TownOfHost
 
                         Prefix = mafia.CanUseKillButton() ? "After" : "Before";
                         break;
-                    case CustomRoles.EvilWatcher:
-                    case CustomRoles.NiceWatcher:
-                        text = CustomRoles.Watcher.ToString();
-                        break;
                     case CustomRoles.MadSnitch:
                     case CustomRoles.MadGuardian:
                         text = CustomRoles.Madmate.ToString();
@@ -609,6 +598,5 @@ namespace TownOfHost
             }
             return !state.IsDead;
         }
-
     }
 }
