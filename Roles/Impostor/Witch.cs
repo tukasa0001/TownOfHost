@@ -214,6 +214,7 @@ namespace TownOfHost.Roles.Impostor
             if (NowSwitchTrigger != SwitchTrigger.TriggerDouble && IsSpellMode)
             {
                 text = GetString("WitchSpellButtonText");
+                return true;
             }
             text = default;
             return false;
