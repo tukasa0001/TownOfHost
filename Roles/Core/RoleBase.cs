@@ -360,16 +360,16 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public virtual string GetAbilityButtonText()
     {
-        StringNames str = Player.Data.Role.Role switch
+        StringNames? str = Player.Data.Role.Role switch
         {
             RoleTypes.Engineer => StringNames.VentAbility,
             RoleTypes.Scientist => StringNames.VitalsAbility,
             RoleTypes.Shapeshifter => StringNames.ShapeshiftAbility,
             RoleTypes.GuardianAngel => StringNames.ProtectAbility,
             RoleTypes.ImpostorGhost or RoleTypes.CrewmateGhost => StringNames.HauntAbilityName,
-            _ => StringNames.ErrorInvalidName
+            _ => null
         };
-        return GetString(str);
+        return str.HasValue ? GetString(str.Value) : "Invalid";
     }
 
     protected static AudioClip GetIntroSound(RoleTypes roleType) =>
