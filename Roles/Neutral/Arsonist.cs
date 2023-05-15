@@ -42,8 +42,7 @@ public sealed class Arsonist : RoleBase, IKiller
 
     enum OptionName
     {
-        ArsonistDouseTime,
-        Cooldown
+        ArsonistDouseTime
     }
     private static float DouseTime;
     private static float DouseCooldown;
@@ -66,7 +65,7 @@ public sealed class Arsonist : RoleBase, IKiller
     {
         OptionDouseTime = FloatOptionItem.Create(RoleInfo, 10, OptionName.ArsonistDouseTime, new(1f, 10f, 1f), 3f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        OptionDouseCooldown = FloatOptionItem.Create(RoleInfo, 11, OptionName.Cooldown, new(5f, 100f, 1f), 10f, false)
+        OptionDouseCooldown = FloatOptionItem.Create(RoleInfo, 11, GeneralOption.Cooldown, new(5f, 100f, 1f), 10f, false)
             .SetValueFormat(OptionFormat.Seconds);
     }
     public override void Add()

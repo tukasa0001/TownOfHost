@@ -64,8 +64,11 @@ namespace TownOfHost
                     {
                         var killLabel = (roleClass as IKiller)?.OverrideKillButtonText(out string text) == true ? text : GetString(StringNames.KillLabel);
                         __instance.KillButton.OverrideText(killLabel);
-                        __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText());
-                        __instance.AbilityButton.ToggleVisible(roleClass.CanUseAbilityButton() && GameStates.IsInTask);
+                        if (roleClass.HasAbility)
+                        {
+                            __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText());
+                            __instance.AbilityButton.ToggleVisible(roleClass.CanUseAbilityButton() && GameStates.IsInTask);
+                        }
                     }
                     //MOD入り用のボタン下テキスト変更
                     switch (player.GetCustomRole())

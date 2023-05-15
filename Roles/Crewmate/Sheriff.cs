@@ -43,7 +43,6 @@ public sealed class Sheriff : RoleBase, IKiller
     public static OptionItem CanKillNeutrals;
     enum OptionName
     {
-        KillCooldown,
         SheriffMisfireKillsTarget,
         SheriffShotLimit,
         SheriffCanKillAllAlive,
@@ -59,7 +58,7 @@ public sealed class Sheriff : RoleBase, IKiller
         };
     private static void SetupOptionItem()
     {
-        KillCooldown = FloatOptionItem.Create(RoleInfo, 10, OptionName.KillCooldown, new(0f, 990f, 1f), 30f, false)
+        KillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(0f, 990f, 1f), 30f, false)
             .SetValueFormat(OptionFormat.Seconds);
         MisfireKillsTarget = BooleanOptionItem.Create(RoleInfo, 11, OptionName.SheriffMisfireKillsTarget, false, false);
         ShotLimitOpt = IntegerOptionItem.Create(RoleInfo, 12, OptionName.SheriffShotLimit, new(1, 15, 1), 15, false)

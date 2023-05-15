@@ -33,6 +33,10 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public bool IsTaskFinished => MyTaskState.IsTaskFinished;
     /// <summary>
+    /// アビリティボタンで発動する能力を持っているか
+    /// </summary>
+    public bool HasAbility { get; private set; }
+    /// <summary>
     /// どの陣営にカウントされるか
     /// </summary>
     public CountTypes CountType => MyState.countTypes;
@@ -40,11 +44,19 @@ public abstract class RoleBase : IDisposable
         SimpleRoleInfo roleInfo,
         PlayerControl player,
         Func<HasTask> hasTasks = null,
-        CountTypes? countType = null
+        CountTypes? countType = null,
+        bool? hasAbility = null
     )
     {
         Player = player;
         this.hasTasks = hasTasks ?? (roleInfo.CustomRoleType == CustomRoleTypes.Crewmate ? () => HasTask.True : () => HasTask.False);
+        HasAbility = hasAbility ?? roleInfo.BaseRoleType.Invoke() is
+            RoleTypes.Shapeshifter or
+            RoleTypes.Engineer or
+            RoleTypes.Scientist or
+            RoleTypes.GuardianAngel or
+            RoleTypes.CrewmateGhost or
+            RoleTypes.ImpostorGhost;
 
         MyState = PlayerState.GetByPlayerId(player.PlayerId);
         MyTaskState = MyState.GetTaskState();
@@ -306,18 +318,28 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public virtual string GetAbilityButtonText()
     {
-        StringNames str = Player.Data.Role.Role switch
+        StringNames? str = Player.Data.Role.Role switch
         {
             RoleTypes.Engineer => StringNames.VentAbility,
             RoleTypes.Scientist => StringNames.VitalsAbility,
             RoleTypes.Shapeshifter => StringNames.ShapeshiftAbility,
             RoleTypes.GuardianAngel => StringNames.ProtectAbility,
             RoleTypes.ImpostorGhost or RoleTypes.CrewmateGhost => StringNames.HauntAbilityName,
-            _ => StringNames.ErrorInvalidName
+            _ => null
         };
-        return GetString(str);
+        return str.HasValue ? GetString(str.Value) : "Invalid";
     }
 
     protected static AudioClip GetIntroSound(RoleTypes roleType) =>
         RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
+
+    protected enum GeneralOption
+    {
+        Cooldown,
+        KillCooldown,
+        CanVent,
+        ImpostorVision,
+        CanUseSabotage,
+        CanCreateMadmate,
+    }
 }
