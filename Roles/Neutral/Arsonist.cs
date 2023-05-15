@@ -3,11 +3,12 @@ using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 using Hazel;
 
 namespace TownOfHost.Roles.Neutral;
-public sealed class Arsonist : RoleBase
+public sealed class Arsonist : RoleBase, IKiller
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -27,8 +28,7 @@ public sealed class Arsonist : RoleBase
         RoleInfo,
         player,
         () => HasTask.False,
-        CountTypes.Crew,
-        false
+        CountTypes.Crew
     )
     {
         DouseTime = OptionDouseTime.GetFloat();
@@ -58,6 +58,7 @@ public sealed class Arsonist : RoleBase
             Timer = timer;
         }
     }
+    public bool CanKill { get; private set; } = false;
     private TimerInfo TargetInfo;
     public Dictionary<byte, bool> IsDoused;
 
@@ -73,8 +74,8 @@ public sealed class Arsonist : RoleBase
         foreach (var ar in Main.AllPlayerControls)
             IsDoused.Add(ar.PlayerId, false);
     }
-    public override bool CanUseKillButton() => !IsDouseDone(Player);
-    public override float SetKillCooldown() => DouseCooldown;
+    public bool CanUseKillButton() => !IsDouseDone(Player);
+    public float CalculateKillCooldown() => DouseCooldown;
     public override bool CanSabotage(SystemTypes systemType) => false;
     public override string GetProgressText(bool comms = false)
     {
@@ -107,7 +108,7 @@ public sealed class Arsonist : RoleBase
                 break;
         }
     }
-    public override void OnCheckMurderAsKiller(MurderInfo info)
+    public void OnCheckMurderAsKiller(MurderInfo info)
     {
         var (killer, target) = info.AttemptTuple;
 
@@ -200,7 +201,11 @@ public sealed class Arsonist : RoleBase
         }
         return false;
     }
-    public override string GetKillButtonText() => GetString("ArsonistDouseButtonText");
+    public bool OverrideKillButtonText(out string text)
+    {
+        text = GetString("ArsonistDouseButtonText");
+        return true;
+    }
 
     public override string GetMark(PlayerControl seer, PlayerControl seen, bool isForMeeting = false)
     {

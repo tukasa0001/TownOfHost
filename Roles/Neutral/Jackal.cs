@@ -1,10 +1,11 @@
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Neutral
 {
-    public sealed class Jackal : RoleBase
+    public sealed class Jackal : RoleBase, IKiller
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(
@@ -55,7 +56,7 @@ namespace TownOfHost.Roles.Neutral
             OptionCanUseSabotage = BooleanOptionItem.Create(RoleInfo, 12, OptionName.CanUseSabotage, false, false);
             OptionHasImpostorVision = BooleanOptionItem.Create(RoleInfo, 13, OptionName.ImpostorVision, true, false);
         }
-        public override float SetKillCooldown() => KillCooldown;
+        public float CalculateKillCooldown() => KillCooldown;
         public override void ApplyGameOptions(IGameOptions opt) => opt.SetVision(HasImpostorVision);
         public static void SetHudActive(HudManager __instance, bool isActive)
         {

@@ -6,7 +6,7 @@ using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Neutral;
-public sealed class Egoist : RoleBase, ISidekickable
+public sealed class Egoist : RoleBase, ISidekickable, IKiller
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -62,7 +62,7 @@ public sealed class Egoist : RoleBase, ISidekickable
     {
         Egoists.Clear();
     }
-    public override float SetKillCooldown() => KillCooldown;
+    public float CalculateKillCooldown() => KillCooldown;
 
     public static bool CheckWin()
     {

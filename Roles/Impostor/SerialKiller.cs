@@ -2,11 +2,12 @@ using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor
 {
-    public sealed class SerialKiller : RoleBase
+    public sealed class SerialKiller : RoleBase, IImpostor
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(
@@ -40,6 +41,7 @@ namespace TownOfHost.Roles.Impostor
         private static float KillCooldown;
         private static float TimeLimit;
 
+        public bool CanBeLastImpostor { get; } = false;
         public float? SuicideTimer;
 
         private static void SetUpOptionItem()
@@ -49,7 +51,7 @@ namespace TownOfHost.Roles.Impostor
             OptionTimeLimit = FloatOptionItem.Create(RoleInfo, 11, OptionName.SerialKillerLimit, new(5f, 900f, 5f), 60f, false)
                 .SetValueFormat(OptionFormat.Seconds);
         }
-        public override float SetKillCooldown() => KillCooldown;
+        public float CalculateKillCooldown() => KillCooldown;
         public override void ApplyGameOptions(IGameOptions opt)
         {
             AURoleOptions.ShapeshifterCooldown = HasKilled() ? TimeLimit : 255f;
@@ -60,7 +62,7 @@ namespace TownOfHost.Roles.Impostor
         ///</summary>
         public bool HasKilled()
             => Player != null && Player.IsAlive() && MyState.GetKillCount(true) > 0;
-        public override void OnCheckMurderAsKiller(MurderInfo info)
+        public void OnCheckMurderAsKiller(MurderInfo info)
         {
             var killer = info.AttemptKiller;
             SuicideTimer = null;

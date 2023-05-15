@@ -5,10 +5,11 @@ using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Crewmate;
-public sealed class Sheriff : RoleBase
+public sealed class Sheriff : RoleBase, IKiller
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -115,8 +116,8 @@ public sealed class Sheriff : RoleBase
 
         ShotLimit = reader.ReadInt32();
     }
-    public override float SetKillCooldown() => CanUseKillButton() ? CurrentKillCooldown : 0f;
-    public override bool CanUseKillButton()
+    public float CalculateKillCooldown() => CanUseKillButton() ? CurrentKillCooldown : 0f;
+    public bool CanUseKillButton()
         => Player.IsAlive()
         && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
         && ShotLimit > 0;
@@ -125,7 +126,7 @@ public sealed class Sheriff : RoleBase
     {
         opt.SetVision(false);
     }
-    public override void OnCheckMurderAsKiller(MurderInfo info)
+    public void OnCheckMurderAsKiller(MurderInfo info)
     {
         if (Is(info.AttemptKiller) && !info.IsSuicide)
         {
