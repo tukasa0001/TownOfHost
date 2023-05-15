@@ -394,11 +394,7 @@ namespace TownOfHost
 
             var roleCanUse = (pc.GetRoleClass() as IKiller)?.CanUseKillButton();
 
-            return pc.GetCustomRole() switch
-            {
-                CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
-                _ => roleCanUse ?? pc.Is(CustomRoleTypes.Impostor)
-            };
+            return roleCanUse ?? pc.Is(CustomRoleTypes.Impostor);
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
         {
