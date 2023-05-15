@@ -5,7 +5,7 @@ using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Impostor
 {
-    public sealed class TimeThief : RoleBase, IMeetingTimeAlterable
+    public sealed class TimeThief : RoleBase, IMeetingTimeAlterable, IImpostor
     {
         public static readonly SimpleRoleInfo RoleInfo =
             new(
@@ -56,7 +56,7 @@ namespace TownOfHost.Roles.Impostor
                 .SetValueFormat(OptionFormat.Seconds);
             OptionReturnStolenTimeUponDeath = BooleanOptionItem.Create(RoleInfo, 13, OptionName.TimeThiefReturnStolenTimeUponDeath, true, false);
         }
-        public override float SetKillCooldown() => KillCooldown;
+        public float CalculateKillCooldown() => KillCooldown;
         public int CalculateMeetingTimeDelta()
         {
             var sec = -(DecreaseMeetingTime * MyState.GetKillCount(true));

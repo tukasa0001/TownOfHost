@@ -33,14 +33,6 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public bool IsTaskFinished => MyTaskState.IsTaskFinished;
     /// <summary>
-    /// キル能力を持っているか
-    /// </summary>
-    public bool CanKill { get; private set; }
-    /// <summary>
-    /// キル動作 == キルの役職か
-    /// </summary>
-    public bool IsKiller { get; private set; }
-    /// <summary>
     /// アビリティボタンで発動する能力を持っているか
     /// </summary>
     public bool HasAbility { get; private set; }
@@ -53,14 +45,11 @@ public abstract class RoleBase : IDisposable
         PlayerControl player,
         Func<HasTask> hasTasks = null,
         CountTypes? countType = null,
-        bool? canKill = null,
         bool? hasAbility = null
     )
     {
         Player = player;
         this.hasTasks = hasTasks ?? (roleInfo.CustomRoleType == CustomRoleTypes.Crewmate ? () => HasTask.True : () => HasTask.False);
-        CanKill = canKill ?? roleInfo.BaseRoleType.Invoke() is RoleTypes.Impostor or RoleTypes.Shapeshifter;
-        IsKiller = CanKill;
         HasAbility = hasAbility ?? roleInfo.BaseRoleType.Invoke() is
             RoleTypes.Shapeshifter or
             RoleTypes.Engineer or
@@ -132,34 +121,15 @@ public abstract class RoleBase : IDisposable
     public virtual void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
     { }
     /// <summary>
-    /// キルボタンを使えるかどうか
-    /// </summary>
-    /// <returns>trueを返した場合、キルボタンを使える</returns>
-    public virtual bool CanUseKillButton() => CanKill;
-    /// <summary>
     /// 能力ボタンを使えるかどうか
     /// </summary>
     /// <returns>trueを返した場合、能力ボタンを使える</returns>
     public virtual bool CanUseAbilityButton() => true;
     /// <summary>
-    /// キルクールダウンを設定する関数
-    /// </summary>
-    public virtual float SetKillCooldown() => Options.DefaultKillCooldown;
-    /// <summary>
     /// BuildGameOptionsで呼ばれる関数
     /// </summary>
     public virtual void ApplyGameOptions(IGameOptions opt)
     { }
-
-    // == CheckMurder関連処理 ==
-    /// <summary>
-    /// キラーとしてのCheckMurder処理
-    /// 通常キルはブロックされることを考慮しなくてもよい。
-    /// 通常キル以外の能力はinfo.CanKill=falseの場合は効果発揮しないよう実装する。
-    /// キルを行わない場合はinfo.DoKill=falseとする。
-    /// </summary>
-    /// <param name="info">キル関係者情報</param>
-    public virtual void OnCheckMurderAsKiller(MurderInfo info) { }
 
     /// <summary>
     /// ターゲットとしてのCheckMurder処理
@@ -170,14 +140,6 @@ public abstract class RoleBase : IDisposable
     /// <param name="info">キル関係者情報</param>
     /// <returns>false:キル行為を起こさせない</returns>
     public virtual bool OnCheckMurderAsTarget(MurderInfo info) => true;
-
-    // ==MurderPlayer関連処理 ==
-    /// <summary>
-    /// キラーとしてのMurderPlayer処理
-    /// </summary>
-    /// <param name="info">キル関係者情報</param>
-    public virtual void OnMurderPlayerAsKiller(MurderInfo info)
-    { }
 
     /// <summary>
     /// ターゲットとしてのMurderPlayer処理
@@ -351,10 +313,6 @@ public abstract class RoleBase : IDisposable
     /// <returns>構築したMark</returns>
     public virtual string GetSuffix(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false) => "";
 
-    /// <summary>
-    /// シェイプシフトボタンを変更します
-    /// </summary>
-    public virtual string GetKillButtonText() => GetString(StringNames.KillLabel);
     /// <summary>
     /// シェイプシフトボタンのテキストを変更します
     /// </summary>

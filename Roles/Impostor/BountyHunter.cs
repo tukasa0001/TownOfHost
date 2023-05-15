@@ -5,10 +5,11 @@ using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor;
-public sealed class BountyHunter : RoleBase
+public sealed class BountyHunter : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -52,6 +53,7 @@ public sealed class BountyHunter : RoleBase
     private static float FailureKillCooldown;
     private static bool ShowTargetArrow;
 
+    public bool CanBeLastImpostor { get; } = false;
     public PlayerControl Target;
     public float ChangeTimer;
 
@@ -89,7 +91,7 @@ public sealed class BountyHunter : RoleBase
     //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
     public override void ApplyGameOptions(IGameOptions opt) => AURoleOptions.ShapeshifterCooldown = TargetChangeTime;
 
-    public override void OnCheckMurderAsKiller(MurderInfo info)
+    public void OnCheckMurderAsKiller(MurderInfo info)
     {
         if (!info.IsSuicide)
         {

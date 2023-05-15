@@ -6,6 +6,7 @@ using Hazel;
 using Il2CppSystem.Text;
 
 using AmongUs.GameOptions;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.AddOns.Common;
 
@@ -53,18 +54,19 @@ public static class CustomRoleManager
         var killerRole = attemptKiller.GetRoleClass();
         var targetRole = attemptTarget.GetRoleClass();
 
-        //キラーがキル能力持ちならターゲットのキルチェック処理実行
-        if (killerRole?.IsKiller != false)
+        // キラーがキル能力持ちなら
+        if (killerRole is IKiller killer)
         {
-            if (targetRole != null)
+            if (killer.IsKiller)
             {
-                if (!targetRole.OnCheckMurderAsTarget(info)) return;
+                // ターゲットのキルチェック処理実行
+                if (targetRole != null)
+                {
+                    if (!targetRole.OnCheckMurderAsTarget(info)) return;
+                }
             }
-        }
-        //キラーのキルチェック処理実行
-        if (killerRole != null)
-        {
-            killerRole.OnCheckMurderAsKiller(info);
+            // キラーのキルチェック処理実行
+            killer.OnCheckMurderAsKiller(info);
         }
 
         //キル可能だった場合のみMurderPlayerに進む
@@ -104,7 +106,7 @@ public static class CustomRoleManager
         Logger.Info($"Real Killer={attemptKiller.GetNameWithRole()}", "MurderPlayer");
 
         //キラーの処理
-        attemptKiller.GetRoleClass()?.OnMurderPlayerAsKiller(info);
+        (attemptKiller.GetRoleClass() as IKiller)?.OnMurderPlayerAsKiller(info);
 
         //ターゲットの処理
         var targetRole = attemptTarget.GetRoleClass();
