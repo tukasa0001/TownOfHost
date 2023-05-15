@@ -3,6 +3,7 @@ using HarmonyLib;
 using UnityEngine;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
@@ -61,7 +62,10 @@ namespace TownOfHost
                     var roleClass = player.GetRoleClass();
                     if (roleClass != null)
                     {
-                        __instance.KillButton.OverrideText(roleClass.GetKillButtonText());
+                        if ((roleClass as IKiller)?.OverrideKillButtonText(out string text) == true)
+                        {
+                            __instance.KillButton.OverrideText(text);
+                        }
                         __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText());
                         __instance.AbilityButton.ToggleVisible(roleClass.CanUseAbilityButton() && GameStates.IsInTask);
                     }
