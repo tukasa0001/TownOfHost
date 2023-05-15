@@ -17,8 +17,7 @@ namespace TownOfHost
                 return roleInfo.CustomRoleType == CustomRoleTypes.Impostor;
             return
                 role is CustomRoles.Impostor or
-                CustomRoles.Shapeshifter or
-                CustomRoles.EvilTracker;
+                CustomRoles.Shapeshifter;
         }
         public static bool IsMadmate(this CustomRoles role)
         {
@@ -126,11 +125,7 @@ namespace TownOfHost
                 return info.CanMakeMadmate;
             }
 
-            return role switch
-            {
-                CustomRoles.EvilTracker => EvilTracker.CanCreateMadmate,
-                _ => false,
-            };
+            return false;
         }
         public static RoleTypes GetRoleTypes(this CustomRoles role)
         {
@@ -147,8 +142,6 @@ namespace TownOfHost
                 CustomRoles.GM => RoleTypes.GuardianAngel,
 
                 CustomRoles.Shapeshifter => RoleTypes.Shapeshifter,
-
-                CustomRoles.EvilTracker => EvilTracker.RoleTypes,
 
                 _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate,
             };

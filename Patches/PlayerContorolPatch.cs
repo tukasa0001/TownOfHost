@@ -390,8 +390,6 @@ namespace TownOfHost
                     //seerに関わらず発動するMark
                     Mark.Append(CustomRoleManager.GetMarkOthers(seer, target, false));
 
-                    if (seer.Is(CustomRoles.EvilTracker)) Mark.Append(EvilTracker.GetTargetMark(seer, target));
-
                     //ハートマークを付ける(会議中MOD視点)
                     if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Is(CustomRoles.Lovers))
                     {
@@ -410,8 +408,6 @@ namespace TownOfHost
 
                     //seerに関わらず発動するSuffix
                     Suffix.Append(CustomRoleManager.GetSuffixOthers(seer, target));
-
-                    Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
 
                     /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";

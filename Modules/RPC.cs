@@ -143,9 +143,6 @@ namespace TownOfHost
                     for (int i = 0; i < count; i++)
                         Main.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
                     break;
-                case CustomRPC.SetEvilTrackerTarget:
-                    EvilTracker.ReceiveRPC(reader);
-                    break;
                 case CustomRPC.SetRealKiller:
                     byte targetId = reader.ReadByte();
                     byte killerId = reader.ReadByte();

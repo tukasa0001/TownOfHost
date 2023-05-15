@@ -269,9 +269,9 @@ namespace TownOfHost
                     = Utils.GetRoleNameAndProgressTextData(PlayerControl.LocalPlayer, pc);
                 roleTextMeeting.gameObject.name = "RoleTextMeeting";
                 roleTextMeeting.enableWordWrapping = false;
-                if (EvilTracker.IsTrackTarget(PlayerControl.LocalPlayer, pc) && EvilTracker.CanSeeLastRoomInMeeting)
+                if (PlayerControl.LocalPlayer.GetRoleClass() is EvilTracker evilTracker)
                 {
-                    roleTextMeeting.text = EvilTracker.GetArrowAndLastRoom(PlayerControl.LocalPlayer, pc);
+                    roleTextMeeting.text = evilTracker.GetLastRoom(pc);
                     roleTextMeeting.enabled = true;
                 }
             }
@@ -323,12 +323,6 @@ namespace TownOfHost
 
                 sb.Append(seerRole?.GetMark(seer, target, true));
                 sb.Append(CustomRoleManager.GetMarkOthers(seer, target, true));
-                switch (seer.GetCustomRole())
-                {
-                    case CustomRoles.EvilTracker:
-                        sb.Append(EvilTracker.GetTargetMark(seer, target));
-                        break;
-                }
 
                 foreach (var subRole in target.GetCustomSubRoles())
                 {

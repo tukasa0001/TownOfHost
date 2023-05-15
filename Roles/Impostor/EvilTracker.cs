@@ -5,12 +5,12 @@ using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
-using static TownOfHost.Options;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor;
 
-public sealed class EvilTracker : RoleBase
+public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidekickable
 {
     public static readonly SimpleRoleInfo RoleInfo =
     new(
@@ -20,7 +20,9 @@ public sealed class EvilTracker : RoleBase
         () => RoleTypes.Shapeshifter,
         CustomRoleTypes.Impostor,
         2900,
-        SetupOptionItem
+        SetupOptionItem,
+        "et",
+        canMakeMadmate: () => CanCreateMadmate
     );
 
     public EvilTracker(PlayerControl player)
@@ -30,8 +32,6 @@ public sealed class EvilTracker : RoleBase
         )
     {
         playerIdList = new();
-        Target = new();
-        CanSetTarget = new();
         ImpostorsId = new();
 
         CanSeeKillFlash = OptionCanSeeKillFlash.GetBool();
@@ -39,34 +39,46 @@ public sealed class EvilTracker : RoleBase
         RoleTypes = CurrentTargetMode == TargetMode.Never ? RoleTypes.Impostor : RoleTypes.Shapeshifter;
         CanSeeLastRoomInMeeting = OptionCanSeeLastRoomInMeeting.GetBool();
         CanCreateMadmate = OptionCanCreateMadmate.GetBool() && CurrentTargetMode != TargetMode.Never;
+
+        var playerId = player.PlayerId;
+
+        playerIdList.Add(playerId);
+        TargetId = byte.MaxValue;
+        CanSetTarget = CurrentTargetMode != TargetMode.Never;
+        //ImpostorsIdはEvilTracker内で共有
+        ImpostorsId.Clear();
+        foreach (var target in Main.AllAlivePlayerControls)
+        {
+            var targetId = target.PlayerId;
+            if (targetId != playerId && target.Is(CustomRoleTypes.Impostor))
+            {
+                ImpostorsId.Add(targetId);
+                TargetArrow.Add(playerId, targetId);
+            }
+        }
     }
 
     private static List<byte> playerIdList = new();
-    private static OptionItem OptionCanSeeKillFlash;
-    private static OptionItem OptionTargetMode;
-    private static OptionItem OptionCanSeeLastRoomInMeeting;
-    private static OptionItem OptionCanCreateMadmate;
+    private static BooleanOptionItem OptionCanSeeKillFlash;
+    private static StringOptionItem OptionTargetMode;
+    private static BooleanOptionItem OptionCanSeeLastRoomInMeeting;
+    private static BooleanOptionItem OptionCanCreateMadmate;
 
     enum OptionName
     {
         EvilTrackerCanSeeKillFlash,
         EvilTrackerTargetMode,
         EvilTrackerCanSeeLastRoomInMeeting,
-        CanCreateMadmate,
     }
-    private static bool CanSeeKillFlash;
+    public static bool CanSeeKillFlash;
     private static TargetMode CurrentTargetMode;
     public static RoleTypes RoleTypes;
     public static bool CanSeeLastRoomInMeeting;
-    public static bool CanCreateMadmate;
-    public static Dictionary<byte, byte> Target = new();
-    public static Dictionary<byte, bool> CanSetTarget = new();
-    private static Dictionary<byte, HashSet<byte>> ImpostorsId = new();
+    private static bool CanCreateMadmate;
 
-    private static bool EvilTrackerCanSeeKillFlash;
-    private static int EvilTrackerTargetMode;
-    private static bool EvilTrackerCanSeeLastRoomInMeeting;
-    private static bool EvilTrackerCanCreateMadmate;
+    public byte TargetId;
+    public bool CanSetTarget;
+    private HashSet<byte> ImpostorsId = new(3);
 
     private enum TargetMode
     {
@@ -83,50 +95,38 @@ public sealed class EvilTracker : RoleBase
             "EvilTrackerTargetMode.Always",
     };
 
-    public static void SetupOptionItem()
+    private static void SetupOptionItem()
     {
-        OptionCanSeeKillFlash = BooleanOptionItem.Create(RoleInfo, 10, OptionName.EvilTrackerCanSeeKillFlash, true, false)
-            .SetParent(CustomRoleSpawnChances[CustomRoles.EvilTracker]);
-        OptionTargetMode = StringOptionItem.Create(RoleInfo, 11, OptionName.EvilTrackerTargetMode, TargetModeText, 2, false)
-            .SetParent(CustomRoleSpawnChances[CustomRoles.EvilTracker]);
-        OptionCanCreateMadmate = BooleanOptionItem.Create(RoleInfo, 12, OptionName.CanCreateMadmate, false, false)
-            .SetParent(OptionTargetMode);
-        OptionCanSeeLastRoomInMeeting = BooleanOptionItem.Create(RoleInfo, 13, OptionName.EvilTrackerCanSeeLastRoomInMeeting, false, false)
-            .SetParent(CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+        OptionCanSeeKillFlash = BooleanOptionItem.Create(RoleInfo, 10, OptionName.EvilTrackerCanSeeKillFlash, true, false);
+        OptionTargetMode = StringOptionItem.Create(RoleInfo, 11, OptionName.EvilTrackerTargetMode, TargetModeText, 2, false);
+        OptionCanCreateMadmate = BooleanOptionItem.Create(RoleInfo, 12, GeneralOption.CanCreateMadmate, false, false);
+        OptionCanCreateMadmate.SetParent(OptionTargetMode);
+        OptionCanSeeLastRoomInMeeting = BooleanOptionItem.Create(RoleInfo, 13, OptionName.EvilTrackerCanSeeLastRoomInMeeting, false, false);
     }
-
-    public override void Add()
+    public bool CheckKillFlash(MurderInfo info) // IKillFlashSeeable
     {
-        var playerId = Player.PlayerId;
+        if (!CanSeeKillFlash) return false;
 
-        playerIdList.Add(playerId);
-        Target.Add(playerId, byte.MaxValue);
-        CanSetTarget.Add(playerId, CurrentTargetMode != TargetMode.Never);
-        //ImpostorsIdはEvilTracker内で共有
-        ImpostorsId[playerId] = new();
-        foreach (var target in Main.AllAlivePlayerControls)
-        {
-            var targetId = target.PlayerId;
-            if (targetId != playerId && target.Is(CustomRoleTypes.Impostor))
-            {
-                ImpostorsId[playerId].Add(targetId);
-                TargetArrow.Add(playerId, targetId);
-            }
-        }
+        PlayerControl killer = info.AppearanceKiller, target = info.AttemptTarget;
+
+        //インポスターによるキルかどうかの判別
+        var realKiller = target.GetRealKiller() ?? killer;
+        return realKiller.Is(CustomRoleTypes.Impostor) && realKiller != target;
     }
+    public bool CanMakeSidekick() => CanCreateMadmate; // ISidekickable
 
-    private void SendRPC(byte trackerId, byte targetId)
+    private void SendRPC()
     {
         using var sender = CreateSender(CustomRPC.SetEvilTrackerTarget);
-        sender.Writer.Write(trackerId);
-        sender.Writer.Write(targetId);
+        sender.Writer.Write(TargetId);
     }
 
-    public static void ReceiveRPC(MessageReader reader)
+    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
     {
-        byte trackerId = reader.ReadByte();
+        if (rpcType != CustomRPC.SetEvilTrackerTarget) return;
+
         byte targetId = reader.ReadByte();
-        SetTarget(trackerId, targetId);
+        SetTarget(Player.PlayerId, targetId);
     }
 
     public override void ApplyGameOptions(IGameOptions opt)
@@ -141,21 +141,10 @@ public sealed class EvilTracker : RoleBase
     }
 
     // 値取得の関数
-    private bool CanTarget()
-        => Player.IsAlive() && CanSetTarget.TryGetValue(Player.PlayerId, out var value) && value;
-    private static byte GetTargetId(byte playerId)
-        => Target.TryGetValue(playerId, out var targetId) ? targetId : byte.MaxValue;
-    public static bool IsTrackTarget(PlayerControl seer, PlayerControl target)
-        => seer.IsAlive() && playerIdList.Contains(seer.PlayerId)
-        && target.IsAlive() && seer != target
-        && (target.Is(CustomRoleTypes.Impostor) || GetTargetId(seer.PlayerId) == target.PlayerId);
-    public static bool KillFlashCheck(PlayerControl killer, PlayerControl target)
-    {
-        if (!CanSeeKillFlash) return false;
-        //インポスターによるキルかどうかの判別
-        var realKiller = target.GetRealKiller() ?? killer;
-        return realKiller.Is(CustomRoleTypes.Impostor) && realKiller != target;
-    }
+    private bool CanTarget() => Player.IsAlive() && CanSetTarget;
+    private bool IsTrackTarget(PlayerControl target)
+        => Player.IsAlive() && target.IsAlive() && !Is(target)
+        && (target.Is(CustomRoleTypes.Impostor) || TargetId == target.PlayerId);
 
     // 各所で呼ばれる処理
     public override void OnShapeshift(PlayerControl target)
@@ -174,17 +163,13 @@ public sealed class EvilTracker : RoleBase
         if (CurrentTargetMode == TargetMode.EveryMeeting)
         {
             SetTarget();
-            Utils.MarkEveryoneDirtySettings();
+            Player.MarkDirtySettings();
         }
-        foreach (var playerId in playerIdList)
-        {
-            var pc = Utils.GetPlayerById(playerId);
-            var target = Utils.GetPlayerById(GetTargetId(playerId));
-            if (!pc.IsAlive() || !target.IsAlive())
-                SetTarget(playerId);
-            pc?.SyncSettings();
-            pc?.RpcResetAbilityCooldown();
-        }
+        var target = Utils.GetPlayerById(TargetId);
+        if (!Player.IsAlive() || !target.IsAlive())
+            SetTarget();
+        Player.SyncSettings();
+        Player.RpcResetAbilityCooldown();
     }
 
     ///<summary>
@@ -192,64 +177,73 @@ public sealed class EvilTracker : RoleBase
     ///trackerIdのみ：該当IDのターゲット削除,
     ///trackerIdとtargetId両方あり：該当IDのプレイヤーをターゲットに設定
     ///</summary>
-    public static void SetTarget(byte trackerId = byte.MaxValue, byte targetId = byte.MaxValue)
+    public void SetTarget(byte trackerId = byte.MaxValue, byte targetId = byte.MaxValue)
     {
         if (trackerId == byte.MaxValue) // ターゲット再設定可能に
-            foreach (var playerId in playerIdList)
-                CanSetTarget[playerId] = true;
+            CanSetTarget = true;
         else if (targetId == byte.MaxValue) // ターゲット削除
-            Target[trackerId] = byte.MaxValue;
+            TargetId = byte.MaxValue;
         else
         {
-            Target[trackerId] = targetId; // ターゲット設定
+            TargetId = targetId; // ターゲット設定
             if (CurrentTargetMode != TargetMode.Always)
-                CanSetTarget[trackerId] = false; // ターゲット再設定不可に
+                CanSetTarget = false; // ターゲット再設定不可に
             TargetArrow.Add(trackerId, targetId);
         }
 
         if (!AmongUsClient.Instance.AmHost) return;
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetEvilTrackerTarget, SendOption.Reliable, -1);
-        writer.Write(trackerId);
-        writer.Write(targetId);
-        AmongUsClient.Instance.FinishRpcImmediately(writer);
+        SendRPC();
     }
 
-    // 表示系の関数
-    public string GetMarker(byte playerId) => CanTarget() ? Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), "◁") : "";
-    public static string GetTargetMark(PlayerControl seer, PlayerControl target) => GetTargetId(seer.PlayerId) == target.PlayerId ? Utils.ColorString(Palette.ImpostorRed, "◀") : "";
-    public static string GetTargetArrow(PlayerControl seer, PlayerControl target)
+    // 表示系の関数群
+    public override string GetMark(PlayerControl seer, PlayerControl seen = null, bool _ = false)
     {
-        if (!GameStates.IsInTask || !target.Is(CustomRoles.EvilTracker)) return "";
+        seen ??= seer;
+        return TargetId == seen.PlayerId ? Utils.ColorString(Palette.ImpostorRed, "◀") : "";
+    }
+    public override string GetSuffix(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
+    {
+        seen ??= seer;
+        string fontSize = isForMeeting ? "1.5" : Main.RoleTextSize.ToString();
+        return isForMeeting ? $"<size={fontSize}>{GetLastRoom(seen)}</size>\r\n" : GetArrows(seen);
+    }
+    private string GetArrows(PlayerControl seen)
+    {
+        if (!Is(seen)) return "";
 
-        var trackerId = target.PlayerId;
-        if (seer.PlayerId != trackerId) return "";
+        var trackerId = Player.PlayerId;
 
-        ImpostorsId[trackerId].RemoveWhere(id => PlayerState.GetByPlayerId(id).IsDead);
+        ImpostorsId.RemoveWhere(id => PlayerState.GetByPlayerId(id).IsDead);
 
         var sb = new StringBuilder(80);
-        if (ImpostorsId[trackerId].Count > 0)
+        if (ImpostorsId.Count > 0)
         {
             sb.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>");
-            foreach (var impostorId in ImpostorsId[trackerId])
+            foreach (var impostorId in ImpostorsId)
             {
-                sb.Append(TargetArrow.GetArrows(target, impostorId));
+                sb.Append(TargetArrow.GetArrows(Player, impostorId));
             }
             sb.Append($"</color>");
         }
 
-        var targetId = Target[trackerId];
-        if (targetId != byte.MaxValue)
+        if (TargetId != byte.MaxValue)
         {
-            sb.Append(Utils.ColorString(Color.white, TargetArrow.GetArrows(target, targetId)));
+            sb.Append(Utils.ColorString(Color.white, TargetArrow.GetArrows(Player, TargetId)));
         }
         return sb.ToString();
     }
-    public static string GetArrowAndLastRoom(PlayerControl seer, PlayerControl target)
+    public string GetLastRoom(PlayerControl seen)
     {
-        string text = Utils.ColorString(Palette.ImpostorRed, TargetArrow.GetArrows(seer, target.PlayerId));
-        var room = PlayerState.GetByPlayerId(target.PlayerId).LastRoom;
+        if (!(CanSeeLastRoomInMeeting && IsTrackTarget(seen))) return "";
+
+        string text = "";
+        var room = seen.GetPlainShipRoom();
         if (room == null) text += Utils.ColorString(Color.gray, "@" + GetString("FailToTrack"));
-        else text += Utils.ColorString(Palette.ImpostorRed, "@" + GetString(room.RoomId.ToString()));
+        else
+        {
+            text += Utils.ColorString(Palette.ImpostorRed, "@" + GetString(room.RoomId.ToString()));
+        }
+
         return text;
     }
 }
