@@ -4,11 +4,12 @@ using UnityEngine;
 
 using AmongUs.GameOptions;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor;
 
-public sealed class Warlock : RoleBase
+public sealed class Warlock : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -42,22 +43,24 @@ public sealed class Warlock : RoleBase
         IsCursed = false;
         Shapeshifting = false;
     }
-    public override string GetKillButtonText()
+    public bool OverrideKillButtonText(out string text)
     {
         if (!Shapeshifting)
         {
-            return GetString("WarlockCurseButtonText");
+            text = GetString("WarlockCurseButtonText");
+            return true;
         }
         else
         {
-            return base.GetKillButtonText();
+            text = default;
+            return false;
         }
     }
     public override void ApplyGameOptions(IGameOptions opt)
     {
         AURoleOptions.ShapeshifterCooldown = IsCursed ? 1f : Options.DefaultKillCooldown;
     }
-    public override void OnCheckMurderAsKiller(MurderInfo info)
+    public void OnCheckMurderAsKiller(MurderInfo info)
     {
         //自殺なら関係ない
         if (info.IsSuicide) return;

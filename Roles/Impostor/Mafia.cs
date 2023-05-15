@@ -1,9 +1,10 @@
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Impostor;
-public sealed class Mafia : RoleBase
+public sealed class Mafia : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -22,7 +23,7 @@ public sealed class Mafia : RoleBase
         player
     )
     { }
-    public override bool CanUseKillButton()
+    public bool CanUseKillButton()
     {
         if (PlayerState.AllPlayerStates == null) return false;
         //マフィアを除いた生きているインポスターの人数  Number of Living Impostors excluding mafia

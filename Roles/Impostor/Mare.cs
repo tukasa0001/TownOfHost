@@ -1,11 +1,12 @@
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.Impostor;
 
-public sealed class Mare : RoleBase
+public sealed class Mare : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
         new(
@@ -50,8 +51,8 @@ public sealed class Mare : RoleBase
         OptionKillCooldownInLightsOut = FloatOptionItem.Create(RoleInfo, 11, OptionName.MareKillCooldownInLightsOut, new(2.5f, 180f, 2.5f), 15f, false)
             .SetValueFormat(OptionFormat.Seconds);
     }
-    public override bool CanUseKillButton() => IsActivateKill;
-    public override float SetKillCooldown() => IsActivateKill ? KillCooldownInLightsOut : DefaultKillCooldown;
+    public bool CanUseKillButton() => IsActivateKill;
+    public float CalculateKillCooldown() => IsActivateKill ? KillCooldownInLightsOut : DefaultKillCooldown;
     public override void ApplyGameOptions(IGameOptions opt)
     {
         if (IsActivateKill && !IsAccelerated)

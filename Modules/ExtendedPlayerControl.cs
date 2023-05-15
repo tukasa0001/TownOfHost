@@ -392,9 +392,9 @@ namespace TownOfHost
         {
             if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
 
-            var roleClassCanUse = pc.GetRoleClass()?.CanUseKillButton();
+            var roleCanUse = (pc.GetRoleClass() as IKiller)?.CanUseKillButton();
 
-            return roleClassCanUse ?? pc.Is(CustomRoleTypes.Impostor);
+            return roleCanUse ?? pc.Is(CustomRoleTypes.Impostor);
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
         {
@@ -411,7 +411,7 @@ namespace TownOfHost
         }
         public static void ResetKillCooldown(this PlayerControl player)
         {
-            Main.AllPlayerKillCooldown[player.PlayerId] = player.GetRoleClass()?.SetKillCooldown() ?? Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
+            Main.AllPlayerKillCooldown[player.PlayerId] = (player.GetRoleClass() as IKiller)?.CalculateKillCooldown() ?? Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
             if (player.PlayerId == LastImpostor.currentId)
                 LastImpostor.SetKillCooldown();
         }
