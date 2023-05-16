@@ -13,17 +13,17 @@ namespace TownOfHost.Roles.Impostor;
 public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidekickable
 {
     public static readonly SimpleRoleInfo RoleInfo =
-    new(
-        typeof(EvilTracker),
-        player => new EvilTracker(player),
-        CustomRoles.EvilTracker,
-        () => RoleTypes.Shapeshifter,
-        CustomRoleTypes.Impostor,
-        2900,
-        SetupOptionItem,
-        "et",
-        canMakeMadmate: () => OptionCanCreateMadmate.GetBool()
-    );
+        new(
+            typeof(EvilTracker),
+            player => new EvilTracker(player),
+            CustomRoles.EvilTracker,
+            () => RoleTypes.Shapeshifter,
+            CustomRoleTypes.Impostor,
+            2900,
+            SetupOptionItem,
+            "et",
+            canMakeMadmate: () => OptionCanCreateMadmate.GetBool()
+        );
 
     public EvilTracker(PlayerControl player)
     : base(
