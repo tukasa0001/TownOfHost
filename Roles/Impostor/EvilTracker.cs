@@ -31,7 +31,6 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         player
     )
     {
-        playerIdList = new();
         ImpostorsId = new();
 
         CanSeeKillFlash = OptionCanSeeKillFlash.GetBool();
@@ -40,13 +39,11 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         CanSeeLastRoomInMeeting = OptionCanSeeLastRoomInMeeting.GetBool();
         CanCreateMadmate = OptionCanCreateMadmate.GetBool() && CurrentTargetMode != TargetMode.Never;
 
-        var playerId = player.PlayerId;
-
-        playerIdList.Add(playerId);
         TargetId = byte.MaxValue;
         CanSetTarget = CurrentTargetMode != TargetMode.Never;
         //ImpostorsIdはEvilTracker内で共有
         ImpostorsId.Clear();
+        var playerId = player.PlayerId;
         foreach (var target in Main.AllAlivePlayerControls)
         {
             var targetId = target.PlayerId;
@@ -58,7 +55,6 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         }
     }
 
-    private static List<byte> playerIdList = new();
     private static BooleanOptionItem OptionCanSeeKillFlash;
     private static StringOptionItem OptionTargetMode;
     private static BooleanOptionItem OptionCanSeeLastRoomInMeeting;
