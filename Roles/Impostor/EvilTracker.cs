@@ -86,6 +86,21 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         "EvilTrackerTargetMode.EveryMeeting",
         "EvilTrackerTargetMode.Always",
     };
+    private enum TargetOperation : byte
+    {
+        /// <summary>
+        /// ターゲット再設定可能にする
+        /// </summary>
+        ReEnableTargeting,
+        /// <summary>
+        /// ターゲットを削除する
+        /// </summary>
+        RemoveTarget,
+        /// <summary>
+        /// ターゲットを設定する
+        /// </summary>
+        SetTarget,
+    }
 
     private static void SetupOptionItem()
     {
@@ -107,18 +122,52 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
     }
     public bool CanMakeSidekick() => CanCreateMadmate; // ISidekickable
 
-    private void SendRPC()
-    {
-        using var sender = CreateSender(CustomRPC.SetEvilTrackerTarget);
-        sender.Writer.Write(TargetId);
-    }
-
     public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
     {
         if (rpcType != CustomRPC.SetEvilTrackerTarget) return;
 
-        byte targetId = reader.ReadByte();
-        SetTarget(Player.PlayerId, targetId);
+        var operation = (TargetOperation)reader.ReadByte();
+
+        switch (operation)
+        {
+            case TargetOperation.ReEnableTargeting: ReEnableTargeting(); break;
+            case TargetOperation.RemoveTarget: RemoveTarget(); break;
+            case TargetOperation.SetTarget: SetTarget(reader.ReadByte()); break;
+            default: Logger.Warn($"不明なオペレーション: {operation}", nameof(EvilTracker)); break;
+        }
+    }
+    private void ReEnableTargeting()
+    {
+        CanSetTarget = true;
+        if (AmongUsClient.Instance.AmHost)
+        {
+            using var sender = CreateSender(CustomRPC.SetEvilTrackerTarget);
+            sender.Writer.Write((byte)TargetOperation.ReEnableTargeting);
+        }
+    }
+    private void RemoveTarget()
+    {
+        TargetId = byte.MaxValue;
+        if (AmongUsClient.Instance.AmHost)
+        {
+            using var sender = CreateSender(CustomRPC.SetEvilTrackerTarget);
+            sender.Writer.Write((byte)TargetOperation.RemoveTarget);
+        }
+    }
+    private void SetTarget(byte targetId)
+    {
+        TargetId = targetId;
+        if (CurrentTargetMode != TargetMode.Always)
+        {
+            CanSetTarget = false;
+        }
+        TargetArrow.Add(Player.PlayerId, targetId);
+        if (AmongUsClient.Instance.AmHost)
+        {
+            using var sender = CreateSender(CustomRPC.SetEvilTrackerTarget);
+            sender.Writer.Write((byte)TargetOperation.SetTarget);
+            sender.Writer.Write(targetId);
+        }
     }
 
     public override void ApplyGameOptions(IGameOptions opt)
@@ -142,7 +191,7 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         if (!CanTarget() || !shapeshifting) return;
         if (target == null || target.Is(CustomRoleTypes.Impostor)) return;
 
-        SetTarget(Player.PlayerId, target.PlayerId);
+        SetTarget(target.PlayerId);
         Logger.Info($"{Player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に設定", "EvilTrackerTarget");
         Player.MarkDirtySettings();
         Utils.NotifyRoles();
@@ -151,37 +200,14 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
     {
         if (CurrentTargetMode == TargetMode.EveryMeeting)
         {
-            SetTarget();
+            ReEnableTargeting();
             Player.MarkDirtySettings();
         }
         var target = Utils.GetPlayerById(TargetId);
         if (!Player.IsAlive() || !target.IsAlive())
-            SetTarget();
+            ReEnableTargeting();
         Player.SyncSettings();
         Player.RpcResetAbilityCooldown();
-    }
-
-    ///<summary>
-    ///引数が両方空：再設定可能に,
-    ///trackerIdのみ：該当IDのターゲット削除,
-    ///trackerIdとtargetId両方あり：該当IDのプレイヤーをターゲットに設定
-    ///</summary>
-    public void SetTarget(byte trackerId = byte.MaxValue, byte targetId = byte.MaxValue)
-    {
-        if (trackerId == byte.MaxValue) // ターゲット再設定可能に
-            CanSetTarget = true;
-        else if (targetId == byte.MaxValue) // ターゲット削除
-            TargetId = byte.MaxValue;
-        else
-        {
-            TargetId = targetId; // ターゲット設定
-            if (CurrentTargetMode != TargetMode.Always)
-                CanSetTarget = false; // ターゲット再設定不可に
-            TargetArrow.Add(trackerId, targetId);
-        }
-
-        if (!AmongUsClient.Instance.AmHost) return;
-        SendRPC();
     }
 
     // 表示系の関数群
