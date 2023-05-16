@@ -81,10 +81,10 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
     };
     private static readonly string[] TargetModeText =
     {
-            "EvilTrackerTargetMode.Never",
-            "EvilTrackerTargetMode.OnceInGame",
-            "EvilTrackerTargetMode.EveryMeeting",
-            "EvilTrackerTargetMode.Always",
+        "EvilTrackerTargetMode.Never",
+        "EvilTrackerTargetMode.OnceInGame",
+        "EvilTrackerTargetMode.EveryMeeting",
+        "EvilTrackerTargetMode.Always",
     };
 
     private static void SetupOptionItem()
