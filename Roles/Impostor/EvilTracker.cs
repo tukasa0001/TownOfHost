@@ -17,7 +17,7 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
             typeof(EvilTracker),
             player => new EvilTracker(player),
             CustomRoles.EvilTracker,
-            () => RoleTypes.Shapeshifter,
+            () => (TargetMode)OptionTargetMode.GetValue() == TargetMode.Never ? RoleTypes.Impostor : RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
             2900,
             SetupOptionItem,
@@ -35,7 +35,6 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
 
         CanSeeKillFlash = OptionCanSeeKillFlash.GetBool();
         CurrentTargetMode = (TargetMode)OptionTargetMode.GetValue();
-        RoleTypes = CurrentTargetMode == TargetMode.Never ? RoleTypes.Impostor : RoleTypes.Shapeshifter;
         CanSeeLastRoomInMeeting = OptionCanSeeLastRoomInMeeting.GetBool();
         CanCreateMadmate = OptionCanCreateMadmate.GetBool() && CurrentTargetMode != TargetMode.Never;
 
@@ -68,7 +67,6 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
     }
     public static bool CanSeeKillFlash;
     private static TargetMode CurrentTargetMode;
-    public static RoleTypes RoleTypes;
     public static bool CanSeeLastRoomInMeeting;
     private static bool CanCreateMadmate;
 
