@@ -22,7 +22,7 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         2900,
         SetupOptionItem,
         "et",
-        canMakeMadmate: () => CanCreateMadmate
+        canMakeMadmate: () => OptionCanCreateMadmate.GetBool()
     );
 
     public EvilTracker(PlayerControl player)
