@@ -29,7 +29,7 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
     : base(
         RoleInfo,
         player
-        )
+    )
     {
         playerIdList = new();
         ImpostorsId = new();
