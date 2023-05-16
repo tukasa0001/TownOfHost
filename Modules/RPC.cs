@@ -6,7 +6,6 @@ using HarmonyLib;
 using Hazel;
 
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Impostor;
 using static TownOfHost.Translator;
 
 namespace TownOfHost

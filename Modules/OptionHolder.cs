@@ -7,7 +7,6 @@ using UnityEngine;
 
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.AddOns.Common;
 using TownOfHost.Roles.AddOns.Impostor;
 using TownOfHost.Roles.AddOns.Crewmate;
