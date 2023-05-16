@@ -31,8 +31,6 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         player
     )
     {
-        ImpostorsId = new();
-
         CanSeeKillFlash = OptionCanSeeKillFlash.GetBool();
         CurrentTargetMode = (TargetMode)OptionTargetMode.GetValue();
         CanSeeLastRoomInMeeting = OptionCanSeeLastRoomInMeeting.GetBool();
