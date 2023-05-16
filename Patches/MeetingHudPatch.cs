@@ -269,9 +269,20 @@ namespace TownOfHost
                     = Utils.GetRoleNameAndProgressTextData(PlayerControl.LocalPlayer, pc);
                 roleTextMeeting.gameObject.name = "RoleTextMeeting";
                 roleTextMeeting.enableWordWrapping = false;
+
+                // 役職とサフィックスを同時に表示する必要が出たら要改修
+                string suffix = "";
+                if (pc.GetRoleClass() is RoleBase role)
+                {
+                    suffix = role.GetSuffix(PlayerControl.LocalPlayer, pc, isForMeeting: true);
+                }
                 if (EvilTracker.IsTrackTarget(PlayerControl.LocalPlayer, pc) && EvilTracker.CanSeeLastRoomInMeeting)
                 {
-                    roleTextMeeting.text = EvilTracker.GetArrowAndLastRoom(PlayerControl.LocalPlayer, pc);
+                    suffix = EvilTracker.GetArrowAndLastRoom(PlayerControl.LocalPlayer, pc);
+                }
+                if (suffix.Length > 0)
+                {
+                    roleTextMeeting.text = suffix;
                     roleTextMeeting.enabled = true;
                 }
             }
