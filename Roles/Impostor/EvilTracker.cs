@@ -204,8 +204,16 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
     public override string GetSuffix(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
     {
         seen ??= seer;
-        string fontSize = isForMeeting ? "1.5" : Main.RoleTextSize.ToString();
-        return isForMeeting ? $"<size={fontSize}>{GetLastRoom(seen)}</size>\r\n" : GetArrows(seen);
+        if (isForMeeting)
+        {
+            var roomName = GetLastRoom(seen);
+            // 空のときにタグを付けると，suffixが空ではない判定となりなにもない3行目が表示される
+            return roomName.Length == 0 ? "" : $"<size=1.5>{roomName}</size>";
+        }
+        else
+        {
+            return GetArrows(seen);
+        }
     }
     private string GetArrows(PlayerControl seen)
     {
