@@ -134,11 +134,8 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         AURoleOptions.ShapeshifterCooldown = CanTarget() ? 1f : 255f;
         AURoleOptions.ShapeshifterDuration = 1f;
     }
-    public override string GetAbilityButtonText()
-    {
-        DestroyableSingleton<HudManager>.Instance.AbilityButton.ToggleVisible(CanTarget());
-        return GetString("EvilTrackerChangeButtonText");
-    }
+    public override string GetAbilityButtonText() => GetString("EvilTrackerChangeButtonText");
+    public override bool CanUseAbilityButton() => CanTarget();
 
     // 値取得の関数
     private bool CanTarget() => Player.IsAlive() && CanSetTarget;
