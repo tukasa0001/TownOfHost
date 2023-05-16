@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using System.Text;
 using Hazel;
-using Il2CppSystem.Text;
 using UnityEngine;
 using AmongUs.GameOptions;
 
