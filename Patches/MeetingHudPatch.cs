@@ -257,6 +257,7 @@ namespace TownOfHost
         {
             SoundManager.Instance.ChangeAmbienceVolume(0f);
             if (!GameStates.IsModHost) return;
+            var myRole = PlayerControl.LocalPlayer.GetRoleClass();
             foreach (var pva in __instance.playerStates)
             {
                 var pc = Utils.GetPlayerById(pva.TargetPlayerId);
@@ -272,9 +273,9 @@ namespace TownOfHost
 
                 // 役職とサフィックスを同時に表示する必要が出たら要改修
                 var suffixBuilder = new StringBuilder(32);
-                if (pc.GetRoleClass() is RoleBase role)
+                if (myRole != null)
                 {
-                    suffixBuilder.Append(role.GetSuffix(PlayerControl.LocalPlayer, pc, isForMeeting: true));
+                    suffixBuilder.Append(myRole.GetSuffix(PlayerControl.LocalPlayer, pc, isForMeeting: true));
                 }
                 suffixBuilder.Append(CustomRoleManager.GetSuffixOthers(PlayerControl.LocalPlayer, pc, isForMeeting: true));
                 if (suffixBuilder.Length > 0)
