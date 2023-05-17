@@ -262,7 +262,7 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         if (!(CanSeeLastRoomInMeeting && IsTrackTarget(seen))) return "";
 
         string text = Utils.ColorString(Palette.ImpostorRed, TargetArrow.GetArrows(Player, seen.PlayerId));
-        var room = seen.GetPlainShipRoom();
+        var room = PlayerState.GetByPlayerId(seen.PlayerId).LastRoom;
         if (room == null) text += Utils.ColorString(Color.gray, "@" + GetString("FailToTrack"));
         else
         {
