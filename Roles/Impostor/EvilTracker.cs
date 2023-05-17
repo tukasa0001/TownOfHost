@@ -205,7 +205,9 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         }
         var target = Utils.GetPlayerById(TargetId);
         if (!Player.IsAlive() || !target.IsAlive())
-            ReEnableTargeting();
+        {
+            RemoveTarget();
+        }
         Player.SyncSettings();
         Player.RpcResetAbilityCooldown();
     }
