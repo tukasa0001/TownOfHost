@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text;
+using AmongUs.GameOptions;
 
 namespace TownOfHost.Modules;
 
@@ -30,6 +31,12 @@ public static class OptionSerializer
             builder.Append(option.Id.ToString("x")).Append(",").Append(option.GetValue().ToString("x")).Append("!");
         }
 
+        builder.Append("&");
+        var vanillaOptions = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
+        foreach (var option in vanillaOptions.AllValues)
+        {
+            builder.Write(option);
+        }
         return builder.ToString();
     }
     /// <summary>
@@ -62,8 +69,10 @@ public static class OptionSerializer
             }
 
             hex = hex.Replace(Header, "");
-            var hexOptions = hex.Split('!', StringSplitOptions.RemoveEmptyEntries);
-            foreach (var hexOption in hexOptions)
+            var entries = hex.Split('&');
+
+            var modOptions = entries[0].Split('!', StringSplitOptions.RemoveEmptyEntries);
+            foreach (var hexOption in modOptions)
             {
                 var split = hexOption.Split(',');
                 var id = Convert.ToInt32(split[0], 16);
@@ -74,6 +83,13 @@ public static class OptionSerializer
                 {
                     option.SetValue(value);
                 }
+            }
+
+            var vanillaOptions = entries[1].Split('!', StringSplitOptions.RemoveEmptyEntries);
+            foreach (var vanillaOption in vanillaOptions)
+            {
+                var split = vanillaOption.Split(',');
+                split.Read();
             }
         }
         catch (Exception ex)
@@ -86,4 +102,60 @@ public static class OptionSerializer
     Failed:
         Logger.SendInGame(Translator.GetString("Message.FailedToLoadOptions"));
     }
+    private static StringBuilder Write(this StringBuilder builder, OptionBackupValue option)
+    {
+        switch (option)
+        {
+            case ByteOptionBackupValue byteOption: builder.Write(byteOption); break;
+            case BoolOptionBackupValue boolOption: builder.Write(boolOption); break;
+            // floatは10進
+            case FloatOptionBackupValue floatOption: builder.Write(floatOption); break;
+            case IntOptionBackupValue intOption: builder.Write(intOption); break;
+            case UIntOptionBackupValue uIntOption: builder.Write(uIntOption); break;
+            case RoleRateBackupValue roleRate: builder.Write(roleRate); break;
+            default: logger.Warn("不明なオプションの書き込み"); break;
+        }
+        builder.Append("!");
+        return builder;
+    }
+    private static StringBuilder Write(this StringBuilder builder, ByteOptionBackupValue byteOption) =>
+        builder.Append((int)OptionType.Byte).Append(",").Append(((int)byteOption.OptionName).ToString("x")).Append(",").Append(byteOption.Value.ToString("x"));
+    private static StringBuilder Write(this StringBuilder builder, BoolOptionBackupValue boolOption) =>
+        builder.Append((int)OptionType.Bool).Append(",").Append(((int)boolOption.OptionName).ToString("x")).Append(",").Append(Convert.ToInt32(boolOption.Value));
+    private static StringBuilder Write(this StringBuilder builder, FloatOptionBackupValue floatOption) =>
+        builder.Append((int)OptionType.Float).Append(",").Append(((int)floatOption.OptionName).ToString("x")).Append(",").Append(floatOption.Value);
+    private static StringBuilder Write(this StringBuilder builder, IntOptionBackupValue intOption) =>
+        builder.Append((int)OptionType.Int).Append(",").Append(((int)intOption.OptionName).ToString("x")).Append(",").Append(intOption.Value.ToString("x"));
+    private static StringBuilder Write(this StringBuilder builder, UIntOptionBackupValue uIntOption) =>
+        builder.Append((int)OptionType.UInt).Append(",").Append(((int)uIntOption.OptionName).ToString("x")).Append(",").Append(uIntOption.Value.ToString("x"));
+    private static StringBuilder Write(this StringBuilder builder, RoleRateBackupValue roleRate) =>
+        builder.Append((int)OptionType.RoleRate).Append(",").Append((ushort)roleRate.roleType).Append(",").Append(roleRate.maxCount.ToString("x")).Append(",").Append(roleRate.chance.ToString("x"));
+    private static void Read(this string[] args)
+    {
+        var optionType = (OptionType)Convert.ToInt32(args[0]);
+        switch (optionType)
+        {
+            case OptionType.Byte: ReadByteOption(args); break;
+            case OptionType.Bool: ReadBoolOption(args); break;
+            case OptionType.Float: ReadFloatOption(args); break;
+            case OptionType.Int: ReadIntOption(args); break;
+            case OptionType.UInt: ReadUIntOption(args); break;
+            case OptionType.RoleRate: ReadRoleRate(args); break;
+            default: logger.Warn($"不明なオプションタイプの読み込み: {optionType}"); break;
+        }
+    }
+    private static void ReadByteOption(string[] args) =>
+        GameOptionsManager.Instance.CurrentGameOptions.SetByte((ByteOptionNames)Convert.ToInt32(args[1], 16), Convert.ToByte(args[2], 16));
+    private static void ReadBoolOption(string[] args) =>
+    GameOptionsManager.Instance.CurrentGameOptions.SetBool((BoolOptionNames)Convert.ToInt32(args[1], 16), Convert.ToInt32(args[2]) > 0);
+    private static void ReadFloatOption(string[] args) =>
+        GameOptionsManager.Instance.CurrentGameOptions.SetFloat((FloatOptionNames)Convert.ToInt32(args[1], 16), Convert.ToSingle(args[2]));
+    private static void ReadIntOption(string[] args) =>
+        GameOptionsManager.Instance.CurrentGameOptions.SetInt((Int32OptionNames)Convert.ToInt32(args[1], 16), Convert.ToInt32(args[2], 16));
+    private static void ReadUIntOption(string[] args) =>
+        GameOptionsManager.Instance.CurrentGameOptions.SetUInt((UInt32OptionNames)Convert.ToInt32(args[1], 16), Convert.ToUInt32(args[2], 16));
+    private static void ReadRoleRate(string[] args) =>
+        GameOptionsManager.Instance.CurrentGameOptions.RoleOptions.SetRoleRate((RoleTypes)Convert.ToUInt16(args[1]), Convert.ToInt32(args[2], 16), Convert.ToInt32(args[3], 16));
+
+    private enum OptionType { Byte, Bool, Float, Int, UInt, RoleRate, }
 }
