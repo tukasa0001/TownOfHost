@@ -11,9 +11,9 @@ namespace TownOfHost
         static int resolutionIndex = 0;
         public static void Postfix(ControllerManager __instance)
         {
-            //カスタム設定切り替え
             if (GameStates.IsLobby)
             {
+                //カスタム設定切り替え
                 if (Input.GetKeyDown(KeyCode.Tab))
                 {
                     OptionShower.Next();
@@ -22,6 +22,16 @@ namespace TownOfHost
                 {
                     if (ORGetKeysDown(KeyCode.Alpha1 + i, KeyCode.Keypad1 + i) && OptionShower.pages.Count >= i + 1)
                         OptionShower.currentPage = i;
+                }
+                // 現在の設定を16進形式に変換してコピー
+                if (GetKeysDown(KeyCode.Insert, KeyCode.LeftControl))
+                {
+                    GUIUtility.systemCopyBuffer = OptionItem.ToHex();
+                }
+                // クリップボードから16進形式の設定を読み込む
+                if (GetKeysDown(KeyCode.Insert, KeyCode.LeftShift))
+                {
+                    OptionItem.FromHex(GUIUtility.systemCopyBuffer);
                 }
             }
             //解像度変更
