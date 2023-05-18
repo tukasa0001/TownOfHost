@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace TownOfHost.Modules;
 
@@ -46,7 +45,7 @@ public static class OptionSerializer
         }
         // 規定された文字列から始まらなければTOHのオプションではない
         // "[16進数],[16進数]!"の1回以上の繰り返しじゃなければフォーマットが違う
-        if (!Regex.IsMatch(hex, $"^{Header}([0-9a-fA-F]+,[0-9a-fA-F]+!)+$"))
+        if (!hex.StartsWith(Header))
         {
             logger.Info("フォーマットに不適合");
             goto Failed;
