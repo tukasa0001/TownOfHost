@@ -710,9 +710,17 @@ namespace TownOfHost
             }
             if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
-        public static PlayerControl GetPlayerById(int PlayerId)
+        private static Dictionary<byte, PlayerControl> cachedPlayers = new(15);
+        public static PlayerControl GetPlayerById(int playerId) => GetPlayerById((byte)playerId);
+        public static PlayerControl GetPlayerById(byte playerId)
         {
-            return Main.AllPlayerControls.Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
+            if (cachedPlayers.TryGetValue(playerId, out var cachedPlayer) && cachedPlayer != null)
+            {
+                return cachedPlayer;
+            }
+            var player = Main.AllPlayerControls.Where(pc => pc.PlayerId == playerId).FirstOrDefault();
+            cachedPlayers[playerId] = player;
+            return player;
         }
         public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
             GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();

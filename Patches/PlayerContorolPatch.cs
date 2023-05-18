@@ -225,11 +225,6 @@ namespace TownOfHost
                 Logger.Warn($"{__instance.GetNameWithRole()}:通報禁止中のため可能になるまで待機します", "ReportDeadBody");
                 return false;
             }
-            foreach (var kvp in PlayerState.AllPlayerStates)
-            {
-                var pc = Utils.GetPlayerById(kvp.Key);
-                kvp.Value.LastRoom = pc.GetPlainShipRoom();
-            }
             if (!AmongUsClient.Instance.AmHost) return true;
 
             //通報者が死んでいる場合、本処理で会議がキャンセルされるのでここで止める
@@ -276,6 +271,18 @@ namespace TownOfHost
             PlayerControl.LocalPlayer.RpcSetNameEx(name);
             await Task.Delay(time);
             PlayerControl.LocalPlayer.RpcSetNameEx(revertName);
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.StartMeeting))]
+    public static class PlayerControlStartMeetingPatch
+    {
+        public static void Prefix()
+        {
+            foreach (var kvp in PlayerState.AllPlayerStates)
+            {
+                var pc = Utils.GetPlayerById(kvp.Key);
+                kvp.Value.LastRoom = pc.GetPlainShipRoom();
+            }
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
