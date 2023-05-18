@@ -137,7 +137,6 @@ namespace TownOfHost
             return seer.GetCustomRole() switch
             {
                 // IKillFlashSeeable未適用役職はここに書く
-                CustomRoles.EvilTracker => EvilTracker.KillFlashCheck(killer, target),
                 _ => seer.Is(CustomRoleTypes.Madmate) && Options.MadmateCanSeeKillFlash.GetBool(),
             };
         }
@@ -443,15 +442,6 @@ namespace TownOfHost
             if (roleClass != null)
             {
                 ProgressText.Append(roleClass.GetProgressText(comms));
-            }
-            else
-            {
-                switch (role)
-                {
-                    case CustomRoles.EvilTracker:
-                        ProgressText.Append(EvilTracker.GetMarker(playerId));
-                        break;
-                }
             }
             if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText.Append(ColorString(Palette.ImpostorRed.ShadeColor(0.5f), $"[{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]"));
 
@@ -799,8 +789,6 @@ namespace TownOfHost
                 //seerに関わらず発動するSuffix
                 SelfSuffix.Append(CustomRoleManager.GetSuffixOthers(seer, isForMeeting: isForMeeting));
 
-                SelfSuffix.Append(EvilTracker.GetTargetArrow(seer, seer));
-
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isForMeeting);
 
@@ -867,13 +855,6 @@ namespace TownOfHost
                         var targetRoleData = GetRoleNameAndProgressTextData(seer, target);
                         var TargetRoleText = targetRoleData.enabled ? $"<size={fontSize}>{targetRoleData.text}</size>\r\n" : "";
 
-                        if (seer.Is(CustomRoles.EvilTracker))
-                        {
-                            TargetMark.Append(EvilTracker.GetTargetMark(seer, target));
-                            if (isForMeeting && EvilTracker.IsTrackTarget(seer, target) && EvilTracker.CanSeeLastRoomInMeeting)
-                                TargetRoleText = $"<size={fontSize}>{EvilTracker.GetArrowAndLastRoom(seer, target)}</size>\r\n";
-                        }
-                        //
                         TargetSuffix.Clear();
                         //seerに関わらず発動するLowerText
                         TargetSuffix.Append(CustomRoleManager.GetLowerTextOthers(seer, target, isForMeeting: isForMeeting));
@@ -926,7 +907,6 @@ namespace TownOfHost
         {
             foreach (var roleClass in CustomRoleManager.AllActiveRoles.Values)
                 roleClass.AfterMeetingTasks();
-            EvilTracker.AfterMeetingTasks();
             if (Options.AirShipVariableElectrical.GetBool())
                 AirShipElectricalDoors.Initialize();
         }

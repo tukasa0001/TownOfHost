@@ -6,7 +6,6 @@ using InnerNet;
 using Mathf = UnityEngine.Mathf;
 
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost.Modules
@@ -101,9 +100,6 @@ namespace TownOfHost.Modules
             {
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(true);
-                    break;
-                case CustomRoles.EvilTracker:
-                    EvilTracker.ApplyGameOptions(player.PlayerId);
                     break;
                 case CustomRoles.JSchrodingerCat:
                     ((Jackal)roleClass).ApplyGameOptions(opt);

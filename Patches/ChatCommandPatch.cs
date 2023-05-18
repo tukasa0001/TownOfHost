@@ -268,7 +268,6 @@ namespace TownOfHost
                 // Impostor役職
                 roleCommands.Add((CustomRoles)(-1), $"== {GetString("Impostor")} ==");  // 区切り用
                 ConcatCommands(CustomRoleTypes.Impostor);
-                roleCommands.Add(CustomRoles.EvilTracker, "et");
 
                 // Madmate役職
                 roleCommands.Add((CustomRoles)(-2), $"== {GetString("Madmate")} ==");  // 区切り用

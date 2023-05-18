@@ -7,7 +7,6 @@ using UnityEngine;
 
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.AddOns.Common;
 using TownOfHost.Roles.AddOns.Impostor;
 using TownOfHost.Roles.AddOns.Crewmate;
@@ -290,7 +289,6 @@ namespace TownOfHost
                 SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
                 info.OptionCreator?.Invoke();
             });
-            EvilTracker.SetupCustomOption();
 
             DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
                 .SetHeader(true)
