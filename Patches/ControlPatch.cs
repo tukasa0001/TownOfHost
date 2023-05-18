@@ -24,15 +24,15 @@ namespace TownOfHost
                     if (ORGetKeysDown(KeyCode.Alpha1 + i, KeyCode.Keypad1 + i) && OptionShower.pages.Count >= i + 1)
                         OptionShower.currentPage = i;
                 }
-                // 現在の設定を16進形式に変換してコピー
+                // 現在の設定を文字列形式のデータに変換してコピー
                 if (GetKeysDown(KeyCode.Insert, KeyCode.LeftControl))
                 {
-                    GUIUtility.systemCopyBuffer = OptionSerializer.ToString();
+                    OptionSerializer.SaveToClipboard();
                 }
-                // クリップボードから16進形式の設定を読み込む
+                // クリップボードから文字列形式の設定データを読み込む
                 if (GetKeysDown(KeyCode.Insert, KeyCode.LeftShift))
                 {
-                    OptionSerializer.FromString(GUIUtility.systemCopyBuffer);
+                    OptionSerializer.LoadFromClipboard();
                 }
             }
             //解像度変更

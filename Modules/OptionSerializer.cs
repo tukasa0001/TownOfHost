@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using AmongUs.GameOptions;
 
 namespace TownOfHost.Modules;
@@ -9,6 +10,15 @@ public static class OptionSerializer
 {
     private static LogHandler logger = Logger.Handler(nameof(OptionSerializer));
     private const string Header = "%TOHOptions%";
+    public static void SaveToClipboard()
+    {
+        GUIUtility.systemCopyBuffer = ToString();
+        Logger.SendInGame(Utils.ColorString(Color.green, Translator.GetString("Message.CopiedOptions")));
+    }
+    public static void LoadFromClipboard()
+    {
+        FromString(GUIUtility.systemCopyBuffer);
+    }
     /// <summary>
     /// 現在のMod設定とバニラ設定を<see cref="FromString"/>で読み込める文字列に変換します<br/>
     /// enumは元の整数型に変換します<br/>
@@ -98,6 +108,8 @@ public static class OptionSerializer
                 var split = vanillaOption.Split(',');
                 split.Read();
             }
+
+            Logger.SendInGame(Utils.ColorString(Color.green, Translator.GetString("Message.LoadedOptions")));
         }
         catch (Exception ex)
         {
