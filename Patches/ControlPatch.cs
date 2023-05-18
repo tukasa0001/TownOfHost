@@ -27,12 +27,12 @@ namespace TownOfHost
                 // 現在の設定を16進形式に変換してコピー
                 if (GetKeysDown(KeyCode.Insert, KeyCode.LeftControl))
                 {
-                    GUIUtility.systemCopyBuffer = OptionSerializer.ToHex();
+                    GUIUtility.systemCopyBuffer = OptionSerializer.ToString();
                 }
                 // クリップボードから16進形式の設定を読み込む
                 if (GetKeysDown(KeyCode.Insert, KeyCode.LeftShift))
                 {
-                    OptionSerializer.FromHex(GUIUtility.systemCopyBuffer);
+                    OptionSerializer.FromString(GUIUtility.systemCopyBuffer);
                 }
             }
             //解像度変更
