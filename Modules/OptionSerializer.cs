@@ -154,7 +154,7 @@ public static class OptionSerializer
     private static void ReadByte(string[] args) =>
         GameOptionsManager.Instance.CurrentGameOptions.SetByte((ByteOptionNames)HexToInt32(args[1]), HexToByte(args[2]));
     private static void ReadBool(string[] args) =>
-    GameOptionsManager.Instance.CurrentGameOptions.SetBool((BoolOptionNames)HexToInt32(args[1]), Convert.ToInt32(args[2]) > 0);
+        GameOptionsManager.Instance.CurrentGameOptions.SetBool((BoolOptionNames)HexToInt32(args[1]), Convert.ToInt32(args[2]) > 0);
     private static void ReadFloat(string[] args) =>
         GameOptionsManager.Instance.CurrentGameOptions.SetFloat((FloatOptionNames)HexToInt32(args[1]), Convert.ToSingle(args[2]));
     private static void ReadInt(string[] args) =>
