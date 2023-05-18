@@ -1,6 +1,7 @@
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+using TownOfHost.Modules;
 
 namespace TownOfHost
 {
@@ -26,12 +27,12 @@ namespace TownOfHost
                 // 現在の設定を16進形式に変換してコピー
                 if (GetKeysDown(KeyCode.Insert, KeyCode.LeftControl))
                 {
-                    GUIUtility.systemCopyBuffer = OptionItem.ToHex();
+                    GUIUtility.systemCopyBuffer = OptionSerializer.ToHex();
                 }
                 // クリップボードから16進形式の設定を読み込む
                 if (GetKeysDown(KeyCode.Insert, KeyCode.LeftShift))
                 {
-                    OptionItem.FromHex(GUIUtility.systemCopyBuffer);
+                    OptionSerializer.FromHex(GUIUtility.systemCopyBuffer);
                 }
             }
             //解像度変更
