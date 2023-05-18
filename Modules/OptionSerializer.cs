@@ -82,8 +82,8 @@ public static class OptionSerializer
             foreach (var hexOption in modOptions)
             {
                 var split = hexOption.Split(',');
-                var id = Convert.ToInt32(split[0], 16);
-                var value = Convert.ToInt32(split[1], 16);
+                var id = HexToInt32(split[0]);
+                var value = HexToInt32(split[1]);
 
                 var option = OptionItem.AllOptions.FirstOrDefault(option => option.Id == id);
                 if (option != null)
@@ -152,17 +152,21 @@ public static class OptionSerializer
         }
     }
     private static void ReadByte(string[] args) =>
-        GameOptionsManager.Instance.CurrentGameOptions.SetByte((ByteOptionNames)Convert.ToInt32(args[1], 16), Convert.ToByte(args[2], 16));
+        GameOptionsManager.Instance.CurrentGameOptions.SetByte((ByteOptionNames)HexToInt32(args[1]), HexToByte(args[2]));
     private static void ReadBool(string[] args) =>
-    GameOptionsManager.Instance.CurrentGameOptions.SetBool((BoolOptionNames)Convert.ToInt32(args[1], 16), Convert.ToInt32(args[2]) > 0);
+    GameOptionsManager.Instance.CurrentGameOptions.SetBool((BoolOptionNames)HexToInt32(args[1]), Convert.ToInt32(args[2]) > 0);
     private static void ReadFloat(string[] args) =>
-        GameOptionsManager.Instance.CurrentGameOptions.SetFloat((FloatOptionNames)Convert.ToInt32(args[1], 16), Convert.ToSingle(args[2]));
+        GameOptionsManager.Instance.CurrentGameOptions.SetFloat((FloatOptionNames)HexToInt32(args[1]), Convert.ToSingle(args[2]));
     private static void ReadInt(string[] args) =>
-        GameOptionsManager.Instance.CurrentGameOptions.SetInt((Int32OptionNames)Convert.ToInt32(args[1], 16), Convert.ToInt32(args[2], 16));
+        GameOptionsManager.Instance.CurrentGameOptions.SetInt((Int32OptionNames)HexToInt32(args[1]), HexToInt32(args[2]));
     private static void ReadUInt(string[] args) =>
-        GameOptionsManager.Instance.CurrentGameOptions.SetUInt((UInt32OptionNames)Convert.ToInt32(args[1], 16), Convert.ToUInt32(args[2], 16));
+        GameOptionsManager.Instance.CurrentGameOptions.SetUInt((UInt32OptionNames)HexToInt32(args[1]), HexToUInt32(args[2]));
     private static void ReadRoleRate(string[] args) =>
-        GameOptionsManager.Instance.CurrentGameOptions.RoleOptions.SetRoleRate((RoleTypes)Convert.ToUInt16(args[1]), Convert.ToInt32(args[2], 16), Convert.ToInt32(args[3], 16));
+        GameOptionsManager.Instance.CurrentGameOptions.RoleOptions.SetRoleRate((RoleTypes)Convert.ToUInt16(args[1]), HexToInt32(args[2]), HexToInt32(args[3]));
+
+    private static int HexToInt32(string hex) => Convert.ToInt32(hex, 16);
+    private static uint HexToUInt32(string hex) => Convert.ToUInt32(hex, 16);
+    private static byte HexToByte(string hex) => Convert.ToByte(hex, 16);
 
     private enum OptionType { Byte, Bool, Float, Int, UInt, RoleRate, }
 }
