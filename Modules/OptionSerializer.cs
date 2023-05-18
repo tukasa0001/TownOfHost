@@ -10,10 +10,19 @@ public static class OptionSerializer
     private static LogHandler logger = Logger.Handler(nameof(OptionSerializer));
     private const string Header = "%TOHOptions%";
     /// <summary>
-    /// 現在の設定のうち，プリセットでなく，Valueが0でないものを<see cref="FromHex"/>で読み込める16進形式の文字列に変換します<br/>
-    /// <see cref="Header"/>から始まり，'!'が各オプションを区切り，','がオプションIDとオプションの値を区切ります
+    /// 現在のMod設定とバニラ設定を<see cref="FromHex"/>で読み込める文字列に変換します<br/>
+    /// enumは元の整数型に変換します<br/>
+    /// 10以上になる可能性のある整数型は，文字数削減のため16進数に変換します<br/>
+    /// Mod設定は，プリセットでなく，Valueが0でないものを書き込みます<br/>
+    /// <see cref="Header"/>から始まり，'&amp;'がMod設定とバニラ設定を区切ります<br/>
+    /// Mod設定は，'!'が各オプションを区切り，','がオプションIDとオプションの値を区切ります<br/>
+    /// [オプション1のID],[オプションの1の値]![オプション2のID],[オプション2の値]!...<br/>
+    /// バニラ設定は，'!'が各オプションを区切り，役職オプション以外のオプションは以下のフォーマットです<br/>
+    /// [<see cref="OptionType"/>],[オプション名=<see cref="BoolOptionNames"/>など],[オプション値]<br/>
+    /// バニラの役職オプションは以下のフォーマットです<br/>
+    /// [<see cref="OptionType.RoleRate"/>],[<see cref="RoleTypes"/>],[最大数],[確率]
     /// </summary>
-    /// <returns>変換された文字列 ([Header][オプション1のID],[オプションの1の値]![オプション2のID],[オプション2の値]!...)</returns>
+    /// <returns>変換された文字列</returns>
     public static string ToHex()
     {
         var builder = new StringBuilder(Header);
@@ -42,7 +51,7 @@ public static class OptionSerializer
     /// <summary>
     /// <see cref="ToHex"/>で変換された形式の文字列を読み込んで現在のプリセットを上書きします
     /// </summary>
-    /// <param name="hex">16進形式のオプション</param>
+    /// <param name="hex">オプション情報の文字列</param>
     public static void FromHex(string hex)
     {
         if (string.IsNullOrEmpty(hex))
@@ -50,8 +59,6 @@ public static class OptionSerializer
             logger.Info("文字列が空");
             goto Failed;
         }
-        // 規定された文字列から始まらなければTOHのオプションではない
-        // "[16進数],[16進数]!"の1回以上の繰り返しじゃなければフォーマットが違う
         if (!hex.StartsWith(Header))
         {
             logger.Info("フォーマットに不適合");
