@@ -11,7 +11,6 @@ using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
@@ -168,13 +167,6 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
 
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
-
-            switch (shapeshifter.GetCustomRole())
-            {
-                case CustomRoles.EvilTracker:
-                    EvilTracker.OnShapeshift(shapeshifter, target, shapeshifting);
-                    break;
-            }
 
             // 変身したとき一番近い人をマッドメイトにする処理
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
@@ -404,8 +396,6 @@ namespace TownOfHost
                     //seerに関わらず発動するMark
                     Mark.Append(CustomRoleManager.GetMarkOthers(seer, target, false));
 
-                    if (seer.Is(CustomRoles.EvilTracker)) Mark.Append(EvilTracker.GetTargetMark(seer, target));
-
                     //ハートマークを付ける(会議中MOD視点)
                     if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Is(CustomRoles.Lovers))
                     {
@@ -424,8 +414,6 @@ namespace TownOfHost
 
                     //seerに関わらず発動するSuffix
                     Suffix.Append(CustomRoleManager.GetSuffixOthers(seer, target));
-
-                    Suffix.Append(EvilTracker.GetTargetArrow(seer, target));
 
                     /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";

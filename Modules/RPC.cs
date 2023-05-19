@@ -6,7 +6,6 @@ using HarmonyLib;
 using Hazel;
 
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Impostor;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -142,9 +141,6 @@ namespace TownOfHost
                     int count = reader.ReadInt32();
                     for (int i = 0; i < count; i++)
                         Main.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
-                    break;
-                case CustomRPC.SetEvilTrackerTarget:
-                    EvilTracker.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetRealKiller:
                     byte targetId = reader.ReadByte();

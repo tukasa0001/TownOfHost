@@ -7,7 +7,6 @@ using UnityEngine;
 
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Crewmate;
 using static TownOfHost.Translator;
 
@@ -278,10 +277,6 @@ namespace TownOfHost
                     suffixBuilder.Append(myRole.GetSuffix(PlayerControl.LocalPlayer, pc, isForMeeting: true));
                 }
                 suffixBuilder.Append(CustomRoleManager.GetSuffixOthers(PlayerControl.LocalPlayer, pc, isForMeeting: true));
-                if (EvilTracker.IsTrackTarget(PlayerControl.LocalPlayer, pc) && EvilTracker.CanSeeLastRoomInMeeting)
-                {
-                    suffixBuilder.Append(EvilTracker.GetArrowAndLastRoom(PlayerControl.LocalPlayer, pc));
-                }
                 if (suffixBuilder.Length > 0)
                 {
                     roleTextMeeting.text = suffixBuilder.ToString();
@@ -336,12 +331,6 @@ namespace TownOfHost
 
                 sb.Append(seerRole?.GetMark(seer, target, true));
                 sb.Append(CustomRoleManager.GetMarkOthers(seer, target, true));
-                switch (seer.GetCustomRole())
-                {
-                    case CustomRoles.EvilTracker:
-                        sb.Append(EvilTracker.GetTargetMark(seer, target));
-                        break;
-                }
 
                 foreach (var subRole in target.GetCustomSubRoles())
                 {
