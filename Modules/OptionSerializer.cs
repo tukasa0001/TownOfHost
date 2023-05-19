@@ -70,21 +70,21 @@ public static class OptionSerializer
             logger.Info("文字列が空");
             goto Failed;
         }
-        if (!source.StartsWith(Header))
+
+        var headerAt = source.IndexOf(Header);
+        if (headerAt < 0)
         {
             logger.Info("ヘッダがありません");
             goto Failed;
         }
-        // ヘッダを削除
-        source = source.Replace(Header, "");
         var footerAt = source.IndexOf(Footer);
         if (footerAt < 0)
         {
             logger.Info("フッタがありません");
             goto Failed;
         }
-        // フッタ以降を削除
-        source = source[..footerAt];
+        // ヘッダ以前とフッタ以降を削除
+        source = source[(headerAt + Header.Length)..footerAt];
 
         foreach (var option in OptionItem.AllOptions)
         {
@@ -97,7 +97,6 @@ public static class OptionSerializer
 
         try
         {
-
             var entries = source.Split('&');
 
             var modOptions = entries[0].Split('!', StringSplitOptions.RemoveEmptyEntries);
