@@ -107,7 +107,7 @@ public static class OptionSerializer
             {
                 continue;
             }
-            option.SetValue(0);
+            option.SetValue(0, false);
         }
 
         try
@@ -124,7 +124,7 @@ public static class OptionSerializer
                 var optionItem = OptionItem.AllOptions.FirstOrDefault(option => option.Id == id);
                 if (optionItem != null)
                 {
-                    optionItem.SetValue(value);
+                    optionItem.SetValue(value, false);
                 }
             }
 
@@ -136,6 +136,7 @@ public static class OptionSerializer
             }
 
             GameManager.Instance.LogicOptions.SetDirty();
+            OptionItem.SyncAllOptions();
 
             Logger.SendInGame(Utils.ColorString(Color.green, Translator.GetString("Message.LoadedOptions")));
         }
