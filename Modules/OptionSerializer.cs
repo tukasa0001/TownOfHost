@@ -78,7 +78,7 @@ public static class OptionSerializer
             logger.Info("ヘッダがありません");
             goto Failed;
         }
-        var footerAt = source.IndexOf(Footer);
+        var footerAt = source.IndexOf(Footer, headerAt);
         if (footerAt < 0)
         {
             logger.Info("フッタがありません");
