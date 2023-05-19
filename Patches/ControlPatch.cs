@@ -25,12 +25,12 @@ namespace TownOfHost
                         OptionShower.currentPage = i;
                 }
                 // 現在の設定を文字列形式のデータに変換してコピー
-                if (GetKeysDown(KeyCode.Insert, KeyCode.LeftControl))
+                if (GetKeysDown(KeyCode.O, KeyCode.LeftAlt))
                 {
                     OptionSerializer.SaveToClipboard();
                 }
                 // クリップボードから文字列形式の設定データを読み込む
-                if (GetKeysDown(KeyCode.Insert, KeyCode.LeftShift))
+                if (GetKeysDown(KeyCode.P, KeyCode.LeftAlt))
                 {
                     OptionSerializer.LoadFromClipboard();
                 }
