@@ -36,7 +36,7 @@ public static class OptionSerializer
     /// <summary>
     /// 現在のMod設定とバニラ設定を<see cref="FromString"/>で読み込める文字列に変換します<br/>
     /// enumは元の整数型に変換します<br/>
-    /// 10以上になる可能性のある整数型は，文字数削減のため16進数に変換します<br/>
+    /// 10以上になる可能性のある整数型は，文字数削減のため62進数に変換します<br/>
     /// Mod設定は，プリセットでなく，Valueが0でないもの(データ量削減のため)を書き込みます<br/>
     /// <see cref="Header"/>から始まって<see cref="Footer"/>で終わります<br/>
     /// '&amp;'がMod設定とバニラ設定を区切ります<br/>
@@ -62,7 +62,7 @@ public static class OptionSerializer
             {
                 continue;
             }
-            builder.Append(option.Id.ToString("x")).Append(",").Append(option.GetValue().ToString("x")).Append("!");
+            builder.Append(Base62.ToBase62(option.Id)).Append(",").Append(Base62.ToBase62(option.GetValue())).Append("!");
         }
 
         builder.Append("&");
@@ -110,7 +110,7 @@ public static class OptionSerializer
             foreach (var modOption in modOptions)
             {
                 var split = modOption.Split(',');
-                parsedModOptions[HexToInt32(split[0])] = HexToInt32(split[1]);
+                parsedModOptions[Base62.ToInt(split[0])] = Base62.ToInt(split[1]);
             }
             foreach (var option in OptionItem.AllOptions)
             {
@@ -160,17 +160,17 @@ public static class OptionSerializer
         return builder;
     }
     private static StringBuilder WriteByte(this StringBuilder builder, ByteOptionBackupValue byteOption) =>
-        builder.Append((int)OptionType.Byte).Append(",").Append(((int)byteOption.OptionName).ToString("x")).Append(",").Append(byteOption.Value.ToString("x"));
+        builder.Append((int)OptionType.Byte).Append(",").Append(Base62.ToBase62((int)byteOption.OptionName)).Append(",").Append(Base62.ToBase62(byteOption.Value));
     private static StringBuilder WriteBool(this StringBuilder builder, BoolOptionBackupValue boolOption) =>
-        builder.Append((int)OptionType.Bool).Append(",").Append(((int)boolOption.OptionName).ToString("x")).Append(",").Append(Convert.ToInt32(boolOption.Value));
+        builder.Append((int)OptionType.Bool).Append(",").Append(Base62.ToBase62((int)boolOption.OptionName)).Append(",").Append(Convert.ToInt32(boolOption.Value));
     private static StringBuilder WriteFloat(this StringBuilder builder, FloatOptionBackupValue floatOption) =>
-        builder.Append((int)OptionType.Float).Append(",").Append(((int)floatOption.OptionName).ToString("x")).Append(",").Append(floatOption.Value);
+        builder.Append((int)OptionType.Float).Append(",").Append(Base62.ToBase62((int)floatOption.OptionName)).Append(",").Append(floatOption.Value);
     private static StringBuilder WriteInt(this StringBuilder builder, IntOptionBackupValue intOption) =>
-        builder.Append((int)OptionType.Int).Append(",").Append(((int)intOption.OptionName).ToString("x")).Append(",").Append(intOption.Value.ToString("x"));
+        builder.Append((int)OptionType.Int).Append(",").Append(Base62.ToBase62((int)intOption.OptionName)).Append(",").Append(Base62.ToBase62(intOption.Value));
     private static StringBuilder WriteUInt(this StringBuilder builder, UIntOptionBackupValue uIntOption) =>
-        builder.Append((int)OptionType.UInt).Append(",").Append(((int)uIntOption.OptionName).ToString("x")).Append(",").Append(uIntOption.Value.ToString("x"));
+        builder.Append((int)OptionType.UInt).Append(",").Append(Base62.ToBase62((int)uIntOption.OptionName)).Append(",").Append(Base62.ToBase62(uIntOption.Value));
     private static StringBuilder WriteRoleRate(this StringBuilder builder, RoleRateBackupValue roleRate) =>
-        builder.Append((int)OptionType.RoleRate).Append(",").Append((ushort)roleRate.roleType).Append(",").Append(roleRate.maxCount.ToString("x")).Append(",").Append(roleRate.chance.ToString("x"));
+        builder.Append((int)OptionType.RoleRate).Append(",").Append((ushort)roleRate.roleType).Append(",").Append(Base62.ToBase62(roleRate.maxCount)).Append(",").Append(Base62.ToBase62(roleRate.chance));
     private static void Read(this string[] args)
     {
         var optionType = (OptionType)Convert.ToInt32(args[0]);
@@ -186,21 +186,17 @@ public static class OptionSerializer
         }
     }
     private static void ReadByte(string[] args) =>
-        GameOptionsManager.Instance.CurrentGameOptions.SetByte((ByteOptionNames)HexToInt32(args[1]), HexToByte(args[2]));
+        GameOptionsManager.Instance.CurrentGameOptions.SetByte((ByteOptionNames)Base62.ToInt(args[1]), Base62.ToByte(args[2]));
     private static void ReadBool(string[] args) =>
-        GameOptionsManager.Instance.CurrentGameOptions.SetBool((BoolOptionNames)HexToInt32(args[1]), Convert.ToInt32(args[2]) > 0);
+        GameOptionsManager.Instance.CurrentGameOptions.SetBool((BoolOptionNames)Base62.ToInt(args[1]), Convert.ToInt32(args[2]) > 0);
     private static void ReadFloat(string[] args) =>
-        GameOptionsManager.Instance.CurrentGameOptions.SetFloat((FloatOptionNames)HexToInt32(args[1]), Convert.ToSingle(args[2]));
+        GameOptionsManager.Instance.CurrentGameOptions.SetFloat((FloatOptionNames)Base62.ToInt(args[1]), Convert.ToSingle(args[2]));
     private static void ReadInt(string[] args) =>
-        GameOptionsManager.Instance.CurrentGameOptions.SetInt((Int32OptionNames)HexToInt32(args[1]), HexToInt32(args[2]));
+        GameOptionsManager.Instance.CurrentGameOptions.SetInt((Int32OptionNames)Base62.ToInt(args[1]), Base62.ToInt(args[2]));
     private static void ReadUInt(string[] args) =>
-        GameOptionsManager.Instance.CurrentGameOptions.SetUInt((UInt32OptionNames)HexToInt32(args[1]), HexToUInt32(args[2]));
+        GameOptionsManager.Instance.CurrentGameOptions.SetUInt((UInt32OptionNames)Base62.ToInt(args[1]), Base62.ToUInt(args[2]));
     private static void ReadRoleRate(string[] args) =>
-        GameOptionsManager.Instance.CurrentGameOptions.RoleOptions.SetRoleRate((RoleTypes)Convert.ToUInt16(args[1]), HexToInt32(args[2]), HexToInt32(args[3]));
-
-    private static int HexToInt32(string hex) => Convert.ToInt32(hex, 16);
-    private static uint HexToUInt32(string hex) => Convert.ToUInt32(hex, 16);
-    private static byte HexToByte(string hex) => Convert.ToByte(hex, 16);
+        GameOptionsManager.Instance.CurrentGameOptions.RoleOptions.SetRoleRate((RoleTypes)Convert.ToUInt16(args[1]), Base62.ToInt(args[2]), Base62.ToInt(args[3]));
 
     private enum OptionType { Byte, Bool, Float, Int, UInt, RoleRate, }
 }
