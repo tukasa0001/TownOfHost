@@ -9,7 +9,7 @@ namespace TownOfHost.Modules;
 public static class OptionSerializer
 {
     private static LogHandler logger = Logger.Handler(nameof(OptionSerializer));
-    private const string Header = "%TOHOptions%";
+    private const string Header = "%TOHOptions%", Footer = "%End%";
     public static void SaveToClipboard()
     {
         GUIUtility.systemCopyBuffer = ToString();
@@ -56,6 +56,7 @@ public static class OptionSerializer
         {
             builder.Write(option);
         }
+        builder.Append(Footer);
         return builder.ToString();
     }
     /// <summary>
@@ -71,21 +72,32 @@ public static class OptionSerializer
         }
         if (!source.StartsWith(Header))
         {
-            logger.Info("フォーマットに不適合");
+            logger.Info("ヘッダがありません");
             goto Failed;
         }
+        // ヘッダを削除
+        source = source.Replace(Header, "");
+        var footerAt = source.IndexOf(Footer);
+        if (footerAt < 0)
+        {
+            logger.Info("フッタがありません");
+            goto Failed;
+        }
+        // フッタ以降を削除
+        source = source[..footerAt];
+
+        foreach (var option in OptionItem.AllOptions)
+        {
+            if (option is PresetOptionItem)
+            {
+                continue;
+            }
+            option.SetValue(0);
+        }
+
         try
         {
-            foreach (var option in OptionItem.AllOptions)
-            {
-                if (option is PresetOptionItem)
-                {
-                    continue;
-                }
-                option.SetValue(0);
-            }
 
-            source = source.Replace(Header, "");
             var entries = source.Split('&');
 
             var modOptions = entries[0].Split('!', StringSplitOptions.RemoveEmptyEntries);
