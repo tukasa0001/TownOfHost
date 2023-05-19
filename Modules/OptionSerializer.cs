@@ -80,6 +80,12 @@ public static class OptionSerializer
     /// <param name="source">オプション情報の文字列</param>
     public static void FromString(string source)
     {
+        if (!AmongUsClient.Instance.AmHost)
+        {
+            Logger.SendInGame(Translator.GetString("Message.OnlyHostCanLoadOptions"));
+            return;
+        }
+
         if (string.IsNullOrEmpty(source))
         {
             logger.Info("文字列が空");

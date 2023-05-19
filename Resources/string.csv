@@ -507,6 +507,7 @@
 "Message.CopiedOptions","Copied options","オプションデータをコピーしました","","","",""
 "Message.ExportedOptions","Exported options","オプションデータを出力しました","","","",""
 "Message.LoadedOptions","Loaded options","オプションデータを読み込みました","","","",""
+"Message.OnlyHostCanLoadOptions","Only the host can load options","ホストのみがオプションを読み込めます","","","",""
 
 "## 警告"
 "Warning.EgoistCannotWin","Egoist cannot win","エゴイストが勝利できません","野心家无法获胜","利己主義者無法獲勝","Эгоист не может победить!","Egoísta não pode vencer"
