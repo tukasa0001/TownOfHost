@@ -1,7 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using UnityEngine;
 using AmongUs.GameOptions;
@@ -101,31 +101,24 @@ public static class OptionSerializer
         // ヘッダ以前とフッタ以降を削除
         source = source[(headerAt + Header.Length)..footerAt];
 
-        foreach (var option in OptionItem.AllOptions)
-        {
-            if (option is PresetOptionItem)
-            {
-                continue;
-            }
-            option.SetValue(0, false);
-        }
-
         try
         {
             var entries = source.Split('&');
 
             var modOptions = entries[0].Split('!', StringSplitOptions.RemoveEmptyEntries);
+            var parsedModOptions = new Dictionary<int, int>(modOptions.Length);
             foreach (var modOption in modOptions)
             {
                 var split = modOption.Split(',');
-                var id = HexToInt32(split[0]);
-                var value = HexToInt32(split[1]);
-
-                var optionItem = OptionItem.AllOptions.FirstOrDefault(option => option.Id == id);
-                if (optionItem != null)
+                parsedModOptions[HexToInt32(split[0])] = HexToInt32(split[1]);
+            }
+            foreach (var option in OptionItem.AllOptions)
+            {
+                if (option is PresetOptionItem)
                 {
-                    optionItem.SetValue(value, false);
+                    continue;
                 }
+                option.SetValue(parsedModOptions.TryGetValue(option.Id, out var value) ? value : 0, false);
             }
 
             var vanillaOptions = entries[1].Split('!', StringSplitOptions.RemoveEmptyEntries);
