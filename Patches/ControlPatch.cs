@@ -29,6 +29,11 @@ namespace TownOfHost
                 {
                     OptionSerializer.SaveToClipboard();
                 }
+                // 現在の設定を文字列形式のデータに変換してファイルに出力
+                if (GetKeysDown(KeyCode.L, KeyCode.LeftAlt))
+                {
+                    OptionSerializer.SaveToFile();
+                }
                 // クリップボードから文字列形式の設定データを読み込む
                 if (GetKeysDown(KeyCode.P, KeyCode.LeftAlt))
                 {

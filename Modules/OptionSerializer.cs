@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -10,10 +12,22 @@ public static class OptionSerializer
 {
     private static LogHandler logger = Logger.Handler(nameof(OptionSerializer));
     private const string Header = "%TOHOptions%", Footer = "%End%";
+    private static readonly DirectoryInfo exportDir = new("./TOH_DATA/OptionOutputs");
     public static void SaveToClipboard()
     {
         GUIUtility.systemCopyBuffer = ToString();
         Logger.SendInGame(Utils.ColorString(Color.green, Translator.GetString("Message.CopiedOptions")));
+    }
+    public static void SaveToFile()
+    {
+        if (!exportDir.Exists)
+        {
+            exportDir.Create();
+        }
+        var output = $"{exportDir.FullName}/Preset{OptionItem.CurrentPreset}_{DateTime.Now.Ticks}.txt";
+        File.WriteAllText(output, ToString());
+        Process.Start(exportDir.FullName);
+        Logger.SendInGame(Utils.ColorString(Color.green, Translator.GetString("Message.ExportedOptions")));
     }
     public static void LoadFromClipboard()
     {

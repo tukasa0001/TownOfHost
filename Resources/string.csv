@@ -505,6 +505,7 @@
 "Message.AddedPlayerToBanList","Added {0} to the ban list.","{0}をBANリストに追記しました。","{0}已被添加到封禁名单","已將 {0} 加入到黑名單中，此玩家將無法再進入你的房間。(需安裝TOH模組)","{0} был добавлен в список забаненых игроков",""
 "Message.FailedToLoadOptions","Failed to load options","オプションの読み込みに失敗しました","","","",""
 "Message.CopiedOptions","Copied options","オプションデータをコピーしました","","","",""
+"Message.ExportedOptions","Exported options","オプションデータを出力しました","","","",""
 "Message.LoadedOptions","Loaded options","オプションデータを読み込みました","","","",""
 
 "## 警告"
