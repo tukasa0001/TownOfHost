@@ -135,6 +135,8 @@ public static class OptionSerializer
                 split.Read();
             }
 
+            GameManager.Instance.LogicOptions.SetDirty();
+
             Logger.SendInGame(Utils.ColorString(Color.green, Translator.GetString("Message.LoadedOptions")));
         }
         catch (Exception ex)
