@@ -100,16 +100,16 @@ public static class OptionSerializer
             var entries = source.Split('&');
 
             var modOptions = entries[0].Split('!', StringSplitOptions.RemoveEmptyEntries);
-            foreach (var hexOption in modOptions)
+            foreach (var modOption in modOptions)
             {
-                var split = hexOption.Split(',');
+                var split = modOption.Split(',');
                 var id = HexToInt32(split[0]);
                 var value = HexToInt32(split[1]);
 
-                var option = OptionItem.AllOptions.FirstOrDefault(option => option.Id == id);
-                if (option != null)
+                var optionItem = OptionItem.AllOptions.FirstOrDefault(option => option.Id == id);
+                if (optionItem != null)
                 {
-                    option.SetValue(value);
+                    optionItem.SetValue(value);
                 }
             }
 
