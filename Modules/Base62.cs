@@ -63,7 +63,7 @@ public static class Base62
         {
             base62 = base62[1..];
         }
-        // 下位ビットから処理したいので前後反転
+        // 下位桁から処理したいので前後反転
         base62 = new string(base62.Reverse().ToArray());
         var result = 0;
         for (var i = 0; i < base62.Length; i++)
