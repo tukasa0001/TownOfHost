@@ -38,11 +38,11 @@ public static class OptionSerializer
     /// 現在のMod設定とバニラ設定を<see cref="FromString"/>で読み込める文字列に変換します<br/>
     /// enumは元の整数型に変換します<br/>
     /// 整数型は文字数削減のため62進数に変換します<br/>
-    /// Mod設定は，プリセットでなく，Valueが0でないもの(データ量削減のため)を書き込みます<br/>
     /// <see cref="Header"/>から始まって<see cref="Footer"/>で終わります<br/>
     /// '&amp;'がMod設定とバニラ設定を区切ります<br/>
     /// Mod設定は，'!'が各オプションを区切り，','が前のオプションIDとの差とオプションの値を区切ります<br/>
     /// 前のオプションIDとの差が1の場合，空文字列で表現します<br/>
+    /// 文字数削減のため，オプション値 = 0はオプションデータ全体を記述しないこと，オプション値 = 1はオプション値のみを省略することで表現します<br/>
     /// [オプション1のID - 0],[オプションの1の値]![オプション2のID - オプション1のID],[オプション2の値]!...<br/>
     /// バニラ設定は，'!'が各オプションを区切り，役職オプション以外のオプションは以下のフォーマットです<br/>
     /// 整数型の0は空文字列で表現します<br/>
@@ -64,7 +64,7 @@ public static class OptionSerializer
                 continue;
             }
             var idDelta = option.Id - lastId;
-            builder.Append(idDelta == 1 ? "" : Base62.ToBase62(idDelta)).Append(",").Append(Base62.ToBase62(option.GetValue())).Append("!");
+            builder.Append(idDelta == 1 ? "" : Base62.ToBase62(idDelta)).Append(",").Append(value == 1 ? "" : Base62.ToBase62(value)).Append("!");
             lastId = option.Id;
         }
 
@@ -122,7 +122,8 @@ public static class OptionSerializer
                 var split = modOption.Split(',');
                 var idDelta = split[0] == "" ? 1 : Base62.ToInt(split[0]);
                 lastId += idDelta;
-                parsedModOptions[lastId] = Base62.ToInt(split[1]);
+                var value = split[1] == "" ? 1 : Base62.ToInt(split[1]);
+                parsedModOptions[lastId] = value;
             }
             foreach (var option in OptionItem.AllOptions)
             {
