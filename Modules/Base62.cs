@@ -51,12 +51,12 @@ public static class Base62
         return resultBuilder.ToString();
     }
     /// <summary>
-    /// 62進文字列を<see cref="int"/>に変換します
+    /// 62進文字列を<see cref="long"/>に変換します
     /// </summary>
     /// <param name="base62">変換したい62進文字列</param>
     /// <returns>変換された整数</returns>
     /// <exception cref="ArgumentException"/>
-    public static int ToInt(string base62)
+    public static long ToLong(string base62)
     {
         var isNegative = base62.StartsWith('-');
         if (isNegative)
@@ -65,7 +65,7 @@ public static class Base62
         }
         // 下位桁から処理したいので前後反転
         base62 = new string(base62.Reverse().ToArray());
-        var result = 0;
+        var result = 0L;
         for (var i = 0; i < base62.Length; i++)
         {
             var c = base62[i];
@@ -74,7 +74,7 @@ public static class Base62
             {
                 throw new ArgumentException($"{c}は62進の数字として適切ではありません");
             }
-            result += index * (int)Math.Pow(62, i);
+            result += index * (long)Math.Pow(62, i);
         }
         if (isNegative)
         {
@@ -83,15 +83,21 @@ public static class Base62
         return result;
     }
     /// <summary>
+    /// 62進文字列を<see cref="int"/>に変換します
+    /// </summary>
+    /// <param name="base62">変換したい62進文字列</param>
+    /// <returns>変換された整数</returns>
+    public static int ToInt(string base62) => (int)ToLong(base62);
+    /// <summary>
     /// 62進文字列を<see cref="byte"/>に変換します
     /// </summary>
     /// <param name="base62">変換したい62進文字列</param>
     /// <returns>変換された整数</returns>
-    public static byte ToByte(string base62) => (byte)ToInt(base62);
+    public static byte ToByte(string base62) => (byte)ToLong(base62);
     /// <summary>
     /// 62進文字列を<see cref="uint"/>に変換します
     /// </summary>
     /// <param name="base62">変換したい62進文字列</param>
     /// <returns>変換された整数</returns>
-    public static uint ToUInt(string base62) => (uint)ToInt(base62);
+    public static uint ToUInt(string base62) => (uint)ToLong(base62);
 }
