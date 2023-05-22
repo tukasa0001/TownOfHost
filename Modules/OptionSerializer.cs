@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using AmongUs.GameOptions;
@@ -40,8 +41,9 @@ public static class OptionSerializer
     /// Mod設定は，プリセットでなく，Valueが0でないもの(データ量削減のため)を書き込みます<br/>
     /// <see cref="Header"/>から始まって<see cref="Footer"/>で終わります<br/>
     /// '&amp;'がMod設定とバニラ設定を区切ります<br/>
-    /// Mod設定は，'!'が各オプションを区切り，','がオプションIDとオプションの値を区切ります<br/>
-    /// [オプション1のID],[オプションの1の値]![オプション2のID],[オプション2の値]!...<br/>
+    /// Mod設定は，'!'が各オプションを区切り，','が前のオプションIDとの差とオプションの値を区切ります<br/>
+    /// 前のオプションIDとの差が1の場合，空文字列で表現します<br/>
+    /// [オプション1のID - 0],[オプションの1の値]![オプション2のID - オプション1のID],[オプション2の値]!...<br/>
     /// バニラ設定は，'!'が各オプションを区切り，役職オプション以外のオプションは以下のフォーマットです<br/>
     /// [<see cref="OptionType"/>],[オプション名=<see cref="BoolOptionNames"/>など],[オプション値]<br/>
     /// バニラの役職オプションは以下のフォーマットです<br/>
@@ -51,18 +53,18 @@ public static class OptionSerializer
     public new static string ToString()
     {
         var builder = new StringBuilder(Header);
-        foreach (var option in OptionItem.AllOptions)
+        var options = OptionItem.AllOptions.Where(option => option is not PresetOptionItem).OrderBy(option => option.Id);
+        var lastId = 0;
+        foreach (var option in options)
         {
-            if (option is PresetOptionItem)
-            {
-                continue;
-            }
             var value = option.GetValue();
             if (value == 0)
             {
                 continue;
             }
-            builder.Append(Base62.ToBase62(option.Id)).Append(",").Append(Base62.ToBase62(option.GetValue())).Append("!");
+            var idDelta = option.Id - lastId;
+            builder.Append(idDelta == 1 ? "" : Base62.ToBase62(idDelta)).Append(",").Append(Base62.ToBase62(option.GetValue())).Append("!");
+            lastId = option.Id;
         }
 
         builder.Append("&");
@@ -113,10 +115,13 @@ public static class OptionSerializer
 
             var modOptions = entries[0].Split('!', StringSplitOptions.RemoveEmptyEntries);
             var parsedModOptions = new Dictionary<int, int>(modOptions.Length);
+            var lastId = 0;
             foreach (var modOption in modOptions)
             {
                 var split = modOption.Split(',');
-                parsedModOptions[Base62.ToInt(split[0])] = Base62.ToInt(split[1]);
+                var idDelta = split[0] == "" ? 1 : Base62.ToInt(split[0]);
+                lastId += idDelta;
+                parsedModOptions[lastId] = Base62.ToInt(split[1]);
             }
             foreach (var option in OptionItem.AllOptions)
             {
