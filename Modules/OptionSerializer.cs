@@ -16,7 +16,7 @@ public static class OptionSerializer
     private static readonly DirectoryInfo exportDir = new("./TOH_DATA/OptionOutputs");
     public static void SaveToClipboard()
     {
-        GUIUtility.systemCopyBuffer = ToString();
+        GUIUtility.systemCopyBuffer = GenerateOptionsString();
         Logger.SendInGame(Utils.ColorString(Color.green, Translator.GetString("Message.CopiedOptions")));
     }
     public static void SaveToFile()
@@ -26,34 +26,41 @@ public static class OptionSerializer
             exportDir.Create();
         }
         var output = $"{exportDir.FullName}/Preset{OptionItem.CurrentPreset}_{DateTime.Now.Ticks}.txt";
-        File.WriteAllText(output, ToString());
+        File.WriteAllText(output, GenerateOptionsString());
         Process.Start(exportDir.FullName);
         Logger.SendInGame(Utils.ColorString(Color.green, Translator.GetString("Message.ExportedOptions")));
     }
     public static void LoadFromClipboard()
     {
-        FromString(GUIUtility.systemCopyBuffer);
+        LoadOptionsString(GUIUtility.systemCopyBuffer);
     }
     /// <summary>
-    /// 現在のMod設定とバニラ設定を<see cref="FromString"/>で読み込める文字列に変換します<br/>
-    /// enumは元の整数型に変換します<br/>
-    /// 整数型は文字数削減のため62進数に変換します<br/>
+    /// <see cref="GenerateModOptionsString"/>と<see cref="GenerateVanillaOptionsString"/>を合成し，<see cref="LoadOptionsString"/>で読み込める文字列データを生成します<br/>
     /// <see cref="Header"/>から始まって<see cref="Footer"/>で終わります<br/>
-    /// '&amp;'がMod設定とバニラ設定を区切ります<br/>
-    /// Mod設定は，'!'が各オプションを区切り，','が前のオプションIDとの差とオプションの値を区切ります<br/>
+    /// '&amp;'がMod設定とバニラ設定を区切ります
+    /// </summary>
+    /// <returns>生成された文字列</returns>
+    public static string GenerateOptionsString()
+    {
+        var builder = new StringBuilder(Header, 2048);
+        builder.Append(GenerateModOptionsString());
+        builder.Append("&");
+        builder.Append(GenerateVanillaOptionsString());
+        builder.Append(Footer);
+        return builder.ToString();
+    }
+    /// <summary>
+    /// <see cref="LoadModOptionsString"/>で読み込める現在のプリセットのMod設定の文字列データを生成します<br/>
+    /// '!'が各オプションを区切り，','が前のオプションIDとの差とオプションの値を区切ります<br/>
     /// 前のオプションIDとの差が1の場合，空文字列で表現します<br/>
     /// 文字数削減のため，オプション値 = 0はオプションデータ全体を記述しないこと，オプション値 = 1はオプション値のみを省略することで表現します<br/>
     /// [オプション1のID - 0],[オプションの1の値]![オプション2のID - オプション1のID],[オプション2の値]!...<br/>
-    /// バニラ設定は，'!'が各オプションを区切り，役職オプション以外のオプションは以下のフォーマットです<br/>
-    /// 整数型の0は空文字列で表現します<br/>
-    /// [<see cref="OptionType"/>],[オプション名=<see cref="BoolOptionNames"/>など],[オプション値]<br/>
-    /// バニラの役職オプションは以下のフォーマットです<br/>
-    /// [<see cref="OptionType.RoleRate"/>],[<see cref="RoleTypes"/>],[最大数],[確率]
+    /// 整数型は文字数削減のため62進数に変換します
     /// </summary>
-    /// <returns>変換された文字列</returns>
-    public new static string ToString()
+    /// <returns>生成された文字列</returns>
+    public static string GenerateModOptionsString()
     {
-        var builder = new StringBuilder(Header);
+        var builder = new StringBuilder(1024);
         var options = OptionItem.AllOptions.Where(option => option is not PresetOptionItem).OrderBy(option => option.Id);
         var lastId = 0;
         foreach (var option in options)
@@ -67,21 +74,34 @@ public static class OptionSerializer
             builder.Append(idDelta == 1 ? "" : Base62.ToBase62(idDelta)).Append(",").Append(value == 1 ? "" : Base62.ToBase62(value)).Append("!");
             lastId = option.Id;
         }
-
-        builder.Append("&");
+        return builder.ToString();
+    }
+    /// <summary>
+    /// <see cref="LoadVanillaOptionsString"/>で読み込める現在のバニラ設定の文字列データを生成します<br/>
+    /// '!'が各オプションを区切り，役職オプション以外のオプションは以下のフォーマットです<br/>
+    /// 整数型の0は空文字列で表現します<br/>
+    /// [<see cref="OptionType"/>],[オプション名=<see cref="BoolOptionNames"/>など],[オプション値]<br/>
+    /// 役職オプションは以下のフォーマットです<br/>
+    /// [<see cref="OptionType.RoleRate"/>],[<see cref="RoleTypes"/>],[最大数],[確率]<br/>
+    /// enumは元の整数型に変換します<br/>
+    /// 整数型は文字数削減のため62進数に変換します
+    /// </summary>
+    /// <returns>生成された文字列</returns>
+    public static string GenerateVanillaOptionsString()
+    {
+        var builder = new StringBuilder(512);
         var vanillaOptions = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
         foreach (var option in vanillaOptions.AllValues)
         {
             builder.Write(option);
         }
-        builder.Append(Footer);
         return builder.ToString();
     }
     /// <summary>
-    /// <see cref="ToString"/>で変換された形式の文字列を読み込んで現在のプリセットを上書きします
+    /// <see cref="GenerateOptionsString"/>で生成された形式の文字列を読み込んで現在のプリセットを上書きします
     /// </summary>
     /// <param name="source">オプション情報の文字列</param>
-    public static void FromString(string source)
+    public static void LoadOptionsString(string source)
     {
         if (!AmongUsClient.Instance.AmHost)
         {
@@ -113,37 +133,8 @@ public static class OptionSerializer
         try
         {
             var entries = source.Split('&');
-
-            var modOptions = entries[0].Split('!', StringSplitOptions.RemoveEmptyEntries);
-            var parsedModOptions = new Dictionary<int, int>(modOptions.Length);
-            var lastId = 0;
-            foreach (var modOption in modOptions)
-            {
-                var split = modOption.Split(',');
-                var idDelta = split[0] == "" ? 1 : Base62.ToInt(split[0]);
-                lastId += idDelta;
-                var value = split[1] == "" ? 1 : Base62.ToInt(split[1]);
-                parsedModOptions[lastId] = value;
-            }
-            foreach (var option in OptionItem.AllOptions)
-            {
-                if (option is PresetOptionItem)
-                {
-                    continue;
-                }
-                option.SetValue(parsedModOptions.TryGetValue(option.Id, out var value) ? value : 0, false);
-            }
-
-            var vanillaOptions = entries[1].Split('!', StringSplitOptions.RemoveEmptyEntries);
-            foreach (var vanillaOption in vanillaOptions)
-            {
-                var split = vanillaOption.Split(',');
-                split.Read();
-            }
-
-            GameManager.Instance.LogicOptions.SetDirty();
-            OptionItem.SyncAllOptions();
-
+            LoadModOptionsString(entries[0]);
+            LoadVanillaOptionsString(entries[1]);
             Logger.SendInGame(Utils.ColorString(Color.green, Translator.GetString("Message.LoadedOptions")));
         }
         catch (Exception ex)
@@ -155,6 +146,47 @@ public static class OptionSerializer
 
     Failed:
         Logger.SendInGame(Translator.GetString("Message.FailedToLoadOptions"));
+    }
+    /// <summary>
+    /// <see cref="GenerateModOptionsString"/>で生成された形式の文字列を読み込んで現在のプリセットを上書きします
+    /// </summary>
+    /// <param name="source">オプション情報の文字列</param>
+    public static void LoadModOptionsString(string source)
+    {
+        var modOptions = source.Split('!', StringSplitOptions.RemoveEmptyEntries);
+        var parsedModOptions = new Dictionary<int, int>(modOptions.Length);
+        var lastId = 0;
+        foreach (var modOption in modOptions)
+        {
+            var split = modOption.Split(',');
+            var idDelta = split[0] == "" ? 1 : Base62.ToInt(split[0]);
+            lastId += idDelta;
+            var value = split[1] == "" ? 1 : Base62.ToInt(split[1]);
+            parsedModOptions[lastId] = value;
+        }
+        foreach (var option in OptionItem.AllOptions)
+        {
+            if (option is PresetOptionItem)
+            {
+                continue;
+            }
+            option.SetValue(parsedModOptions.TryGetValue(option.Id, out var value) ? value : 0, false);
+        }
+        OptionItem.SyncAllOptions();
+    }
+    /// <summary>
+    /// <see cref="GenerateVanillaOptionsString"/>で生成された形式の文字列を読み込んで適用します
+    /// </summary>
+    /// <param name="source">オプション情報の文字列</param>
+    public static void LoadVanillaOptionsString(string source)
+    {
+        var vanillaOptions = source.Split('!', StringSplitOptions.RemoveEmptyEntries);
+        foreach (var vanillaOption in vanillaOptions)
+        {
+            var split = vanillaOption.Split(',');
+            split.Read();
+        }
+        GameManager.Instance.LogicOptions.SetDirty();
     }
     private static StringBuilder Write(this StringBuilder builder, OptionBackupValue option)
     {
