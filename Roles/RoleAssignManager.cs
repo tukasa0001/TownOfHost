@@ -71,6 +71,7 @@ namespace TownOfHost.Roles
         }
         public static bool CheckRoleCount()
         {
+            if (AssignMode == AssignAlgorithm.Fixed) return true;
             var result = true;
             var opt = Main.NormalOptions.Cast<IGameOptions>();
 
