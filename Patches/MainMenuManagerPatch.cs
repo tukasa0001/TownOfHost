@@ -1,6 +1,7 @@
 using System;
 using HarmonyLib;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TownOfHost
 {
@@ -28,7 +29,8 @@ namespace TownOfHost
             discordPassiveButton.OnClick = new();
             discordPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(Main.DiscordInviteUrl)));
             discordPassiveButton.OnMouseOut.AddListener((Action)(() => discordButtonSprite.color = discordText.color = discordColor));
-            __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => discordText.SetText("Discord"))));
+            Object.Destroy(discordText.GetComponent<TextTranslatorTMP>());
+            discordText.SetText("Discord");
             discordButtonSprite.color = discordText.color = discordColor;
             discordButton.gameObject.SetActive(Main.ShowDiscordButton);
 
@@ -48,6 +50,7 @@ namespace TownOfHost
                 updateButton.SetActive(false);
                 ModUpdater.StartUpdate(ModUpdater.downloadUrl);
             }));
+            Object.Destroy(updateText.GetComponent<TextTranslatorTMP>());
             updatePassiveButton.OnMouseOut.AddListener((Action)(() => updateButtonSprite.color = updateText.color = updateColor));
             updateButtonSprite.color = updateText.color = updateColor;
             updateButtonSprite.size *= 1.5f;
@@ -58,9 +61,11 @@ namespace TownOfHost
             var freeplayButton = GameObject.Find("/MainUI/FreePlayButton");
             if (freeplayButton != null)
             {
+                var freeplayText = freeplayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
                 freeplayButton.GetComponent<PassiveButton>().OnClick = new();
                 freeplayButton.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.OpenURL("https://github.com/tukasa0001/TownOfHost")));
-                __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => freeplayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().SetText("GitHub"))));
+                Object.Destroy(freeplayText.GetComponent<TextTranslatorTMP>());
+                freeplayText.SetText("GitHub");
             }
 #endif
         }
