@@ -29,7 +29,7 @@ namespace TownOfHost
             discordPassiveButton.OnClick = new();
             discordPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(Main.DiscordInviteUrl)));
             discordPassiveButton.OnMouseOut.AddListener((Action)(() => discordButtonSprite.color = discordText.color = discordColor));
-            Object.Destroy(discordText.GetComponent<TextTranslatorTMP>());
+            discordText.DestroyTranslator();
             discordText.SetText("Discord");
             discordButtonSprite.color = discordText.color = discordColor;
             discordButton.gameObject.SetActive(Main.ShowDiscordButton);
@@ -50,7 +50,7 @@ namespace TownOfHost
                 updateButton.SetActive(false);
                 ModUpdater.StartUpdate(ModUpdater.downloadUrl);
             }));
-            Object.Destroy(updateText.GetComponent<TextTranslatorTMP>());
+            updateText.DestroyTranslator();
             updatePassiveButton.OnMouseOut.AddListener((Action)(() => updateButtonSprite.color = updateText.color = updateColor));
             updateButtonSprite.color = updateText.color = updateColor;
             updateButtonSprite.size *= 1.5f;
@@ -64,7 +64,7 @@ namespace TownOfHost
                 var freeplayText = freeplayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
                 freeplayButton.GetComponent<PassiveButton>().OnClick = new();
                 freeplayButton.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.OpenURL("https://github.com/tukasa0001/TownOfHost")));
-                Object.Destroy(freeplayText.GetComponent<TextTranslatorTMP>());
+                freeplayText.DestroyTranslator();
                 freeplayText.SetText("GitHub");
             }
 #endif
