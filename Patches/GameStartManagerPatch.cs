@@ -19,6 +19,7 @@ namespace TownOfHost
         private static TextMeshPro warningText;
         public static TextMeshPro HideName;
         private static TextMeshPro timerText;
+        private static SpriteRenderer cancelButton;
 
         [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
         public class GameStartManagerStartPatch
@@ -50,6 +51,19 @@ namespace TownOfHost
                 timerText.DestroyChildren();
                 timerText.transform.localPosition += Vector3.down * 0.2f;
                 timerText.gameObject.SetActive(AmongUsClient.Instance.NetworkMode == NetworkModes.OnlineGame && AmongUsClient.Instance.AmHost);
+
+                cancelButton = Object.Instantiate(__instance.StartButton, __instance.transform);
+                cancelButton.name = "CancelButton";
+                var cancelLabel = cancelButton.GetComponentInChildren<TextMeshPro>();
+                Object.Destroy(cancelLabel.GetComponent<TextTranslatorTMP>());
+                cancelLabel.text = GetString("Cancel");
+                cancelButton.transform.localScale = new(0.4f, 0.4f, 1f);
+                cancelButton.color = Color.red;
+                cancelButton.transform.localPosition = new(0f, -0.37f, 0f);
+                var buttonComponent = cancelButton.GetComponent<PassiveButton>();
+                buttonComponent.OnClick = new();
+                buttonComponent.OnClick.AddListener((Action)(() => __instance.ResetStartState()));
+                cancelButton.gameObject.SetActive(false);
 
                 if (!AmongUsClient.Instance.AmHost) return;
 
@@ -113,6 +127,7 @@ namespace TownOfHost
                         __instance.StartButton.gameObject.SetActive(false);
                         warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.MismatchedVersion"), String.Join(" ", mismatchedPlayerNameList), $"<color={Main.ModColor}>{Main.ModName}</color>"));
                     }
+                    cancelButton.gameObject.SetActive(__instance.startState == GameStartManager.StartingStates.Countdown);
                 }
                 else
                 {
