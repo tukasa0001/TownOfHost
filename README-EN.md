@@ -1010,6 +1010,24 @@ The time limit for some sabotage can be modified.
 | ┣ Polus Reactor TimeLimit   |
 | ┗ Airship Reactor TimeLimit |
 
+## Map Modifications
+
+### AirShip Variable Electrical
+
+The structure of the Electrical in AirShip changes after every meeting.<br>
+
+| Name                         |
+| ---------------------------- |
+| Variable Electrical(AirShip) |
+
+### Disable Moving Platform
+
+Disable the moving platform in Airship.  
+
+| Name                             |
+| -------------------------------- |
+| Disable Moving Platform(Airship) |
+
 ## Mode
 
 ### DisableTasks
@@ -1034,14 +1052,6 @@ There is a configurable probability of fall to death when you descend from the l
 | ---------------------- |
 | Fall From Ladders      |
 | ┗ Fall To Death Chance |
-
-### AirShip Variable Electrical
-
-The structure of the Electrical in AirShip changes after every meeting.<br>
-
-| Name                         |
-| ---------------------------- |
-| Variable Electrical(AirShip) |
 
 ### HideAndSeek
 
