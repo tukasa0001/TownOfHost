@@ -55,7 +55,7 @@ namespace TownOfHost
                 cancelButton = Object.Instantiate(__instance.StartButton, __instance.transform);
                 cancelButton.name = "CancelButton";
                 var cancelLabel = cancelButton.GetComponentInChildren<TextMeshPro>();
-                Object.Destroy(cancelLabel.GetComponent<TextTranslatorTMP>());
+                cancelLabel.DestroyTranslator();
                 cancelLabel.text = GetString("Cancel");
                 cancelButton.transform.localScale = new(0.4f, 0.4f, 1f);
                 cancelButton.color = Color.red;
