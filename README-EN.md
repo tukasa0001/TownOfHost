@@ -207,13 +207,12 @@ Example:
 | ----------------------------------- | --------------------------------- | --------------------------------- | ----------------------------- | --------- |
 | [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [LastImpostor](#LastImpostor) | [GM](#GM) |
 | [EvilTracker](#EvilTracker)         | [Dictator](#Dictator)             | [Egoist](#Egoist)                 | [Lovers](#Lovers)             |           |
-| [Evil Watcher](#Watcher)            | [Doctor](#Doctor)                 | [Executioner](#Executioner)       | [Workhorse](#Workhorse)       |           |
-| [FireWorks](#FireWorks)             | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |                               |           |
-| [Mare](#Mare)                       | [Mayor](#Mayor)                   | [Jester](#Jester)                 |                               |           |
-| [Puppeteer](#Puppeteer)             | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |                               |           |
-| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |                               |           |
-| [ShapeMaster](#ShapeMaster)         | [Seer](#Seer)                     | [SchrodingerCat](#SchrodingerCat) |                               |           |
-| [Sniper](#Sniper)                   | [Sheriff](#Sheriff)               |                                   |                               |           |
+| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       | [Watcher](#Watcher)           |           |
+| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jackal](#Jackal)                 | [Workhorse](#Workhorse)       |           |
+| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Jester](#Jester)                 |                               |           |
+| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |                               |           |
+| [ShapeMaster](#ShapeMaster)         | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |                               |           |
+| [Sniper](#Sniper)                   | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |                               |           |
 | [TimeThief](#TimeThief)             | [Snitch](#Snitch)                 |                                   |                               |           |
 | [Vampire](#Vampire)                 | [SpeedBooster](#SpeedBooster)     |                                   |                               |           |
 | [Warlock](#Warlock)                 | [Beartrap](#Beartrap)             |                                   |                               |           |
