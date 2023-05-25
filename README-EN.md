@@ -1212,9 +1212,9 @@ This mode limits the maximum number of meetings that can be called in total.<br>
 
 ## Hide Codes
 
-By activating, you can hide the lobby code.
+Turning on Streamer Mode enables this.
 
-You can rewrite the`Hide Game Code Name`in the config file (BepInEx\config\com.emptybottle.townofhost.cfg) to display any character you like when HideCodes are enabled.
+You can rewrite the`Hide Game Code Name`in the config file (BepInEx\config\com.emptybottle.townofhost.cfg) to display any character you like as code mask.
 You can also change the text color as you like by rewriting`Hide Game Code Color`.
 
 ## Force Japanese

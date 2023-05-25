@@ -1216,9 +1216,9 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## Hide Game Codes/コード隠し
 
-有効化することで、ロビーコードを非表示にすることができます。
+配信者モードをオンにすることで有効になります。
 
-コンフィグファイル(BepInEx\config\com.emptybottle.townofhost.cfg)の`Hide Game Code Name`を書き換えることによって、HideCodes を有効にしたときに好きな文字を表示させることができます。
+コンフィグファイル(BepInEx\config\com.emptybottle.townofhost.cfg)の`Hide Game Code Name`を書き換えることによって、コード隠しとして好きな文字を表示させることができます。
 また、`Hide Game Code Color`を書き換えることによって文字の色も好きなように変更できます。
 
 ## Force Japanese/強制日本語化
