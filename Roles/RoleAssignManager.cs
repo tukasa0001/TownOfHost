@@ -135,7 +135,6 @@ namespace TownOfHost.Roles
             //マッド、クルー、ニュートラル合計の限界値
             int numOthersLeft = GameData.Instance.PlayerCount - numImpostorsLeft;
 
-
             foreach (var role in GetCandidateRoleList(10).OrderBy(x => Guid.NewGuid()))
             {
                 if (numImpostorsLeft <= 0 && numOthersLeft <= 0) break;
