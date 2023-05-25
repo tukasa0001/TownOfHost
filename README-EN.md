@@ -1200,8 +1200,11 @@ This mode limits the maximum number of meetings that can be called in total.<br>
 | Color Name Mode                    |
 | Fix Kill Cooldown For First Spawn  |
 | Ghost Can See Other Roles          |
+| Ghosts Can See Other Tasks         |
 | Ghost Can See Other Votes          |
+| Ghost Can See Cause Of Death       |
 | Ghost Ignore Tasks                 |
+| Camouflage During Comms            |
 | Disable Task Win                   |
 | Hide Game Settings                 |
 
