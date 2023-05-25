@@ -279,7 +279,7 @@ namespace TownOfHost.Roles
         ///属性のアサイン抽選
         ///枠制限が無いので個別に抽選
         ///</summary>
-        private static void SetAddOnsList(bool isFixassign)
+        private static void SetAddOnsList(bool isFixedAssign)
         {
             foreach (var subRole in CustomRolesHelper.AllRoles.Where(x => x > CustomRoles.NotAssigned))
             {
@@ -291,7 +291,7 @@ namespace TownOfHost.Roles
                     numAssignUnit = 2;
                 var rnd = IRandom.Instance;
                 for (var i = 0; i < count / numAssignUnit; i++) //役職の単位数ごとに抽選
-                    if (isFixassign || rnd.Next(100) < chance)
+                    if (isFixedAssign || rnd.Next(100) < chance)
                         AssignRoleList.AddRange(subRole.GetAssignTargetRolesArray());
             }
         }
