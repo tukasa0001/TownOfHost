@@ -1,6 +1,7 @@
 using System;
 using HarmonyLib;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TownOfHost
 {
@@ -17,7 +18,7 @@ namespace TownOfHost
             if (template == null) template = GameObject.Find("/MainUI/ExitGameButton");
             if (template == null) return;
             //Discordボタンを生成
-            if (discordButton == null) discordButton = UnityEngine.Object.Instantiate(template, template.transform.parent);
+            if (discordButton == null) discordButton = Object.Instantiate(template, template.transform.parent);
             discordButton.name = "DiscordButton";
             discordButton.transform.position = Vector3.Reflect(template.transform.position, Vector3.left);
 
@@ -28,12 +29,13 @@ namespace TownOfHost
             discordPassiveButton.OnClick = new();
             discordPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(Main.DiscordInviteUrl)));
             discordPassiveButton.OnMouseOut.AddListener((Action)(() => discordButtonSprite.color = discordText.color = discordColor));
-            __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => discordText.SetText("Discord"))));
+            discordText.DestroyTranslator();
+            discordText.SetText("Discord");
             discordButtonSprite.color = discordText.color = discordColor;
             discordButton.gameObject.SetActive(Main.ShowDiscordButton);
 
             //Updateボタンを生成
-            if (updateButton == null) updateButton = UnityEngine.Object.Instantiate(template, template.transform.parent);
+            if (updateButton == null) updateButton = Object.Instantiate(template, template.transform.parent);
             updateButton.name = "UpdateButton";
             updateButton.transform.position = template.transform.position + new Vector3(0.25f, 0.75f);
             updateButton.transform.GetChild(0).GetComponent<RectTransform>().localScale *= 1.5f;
@@ -48,6 +50,7 @@ namespace TownOfHost
                 updateButton.SetActive(false);
                 ModUpdater.StartUpdate(ModUpdater.downloadUrl);
             }));
+            updateText.DestroyTranslator();
             updatePassiveButton.OnMouseOut.AddListener((Action)(() => updateButtonSprite.color = updateText.color = updateColor));
             updateButtonSprite.color = updateText.color = updateColor;
             updateButtonSprite.size *= 1.5f;
@@ -58,9 +61,11 @@ namespace TownOfHost
             var freeplayButton = GameObject.Find("/MainUI/FreePlayButton");
             if (freeplayButton != null)
             {
+                var freeplayText = freeplayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
                 freeplayButton.GetComponent<PassiveButton>().OnClick = new();
                 freeplayButton.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.OpenURL("https://github.com/tukasa0001/TownOfHost")));
-                __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => freeplayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().SetText("GitHub"))));
+                freeplayText.DestroyTranslator();
+                freeplayText.SetText("GitHub");
             }
 #endif
         }
