@@ -55,8 +55,8 @@ namespace TownOfHost.Roles
         };
         private static readonly CustomRoles[] AllMainRoles = CustomRolesHelper.AllRoles.Where(role => role < CustomRoles.NotAssigned).ToArray();
         private static Dictionary<CustomRoleTypes, RandomAssignOptions> RandomAssignOptionsCollection = new(CustomRolesHelper.AllRoleTypes.Length);
-        private static Dictionary<CustomRoleTypes, int> AssignCount;
-        private static List<CustomRoles> AssignRoleList;
+        private static Dictionary<CustomRoleTypes, int> AssignCount = new(CustomRolesHelper.AllRoleTypes.Length);
+        private static List<CustomRoles> AssignRoleList = new(CustomRolesHelper.AllRoles.Length);
         public static void SetupOptionItem()
         {
             var optionAssignMode = StringOptionItem.Create(idStart, "AssignMode", AssignModeSelections, 0, TabGroup.MainSettings, false)
@@ -104,8 +104,8 @@ namespace TownOfHost.Roles
         }
         public static void SelectAssignRoles()
         {
-            AssignCount = new();
-            AssignRoleList = new();
+            AssignCount.Clear();
+            AssignRoleList.Clear();
 
             switch (AssignMode)
             {
