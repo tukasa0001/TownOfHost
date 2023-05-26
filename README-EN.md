@@ -1270,6 +1270,7 @@ Translated with https://www.deepl.com<br>
 - [Ykundesu](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
 - [Yurino](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
 - [Masami](https://github.com/Masami4711) <!--([Twitter](https://twitter.com/))-->
+- [Juki](https://github.com/jukimaguro1) ([Twitter](https://twitter.com/jukimaguro_new))
 - [HYZE](https://github.com/Hyz-sui) ([Twitter](https://twitter.com/Hyze_suisui))
 
 Translated with https://www.deepl.com<br>

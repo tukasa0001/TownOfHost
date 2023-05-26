@@ -1278,4 +1278,5 @@ Mersenne Twister: Copyright (c) 2015 vpmedia [MIT License](https://raw.githubuse
 - [よっキング](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
 - [ゆりの](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
 - [Masami](https://github.com/Masami4711) <!--([Twitter](https://twitter.com/))-->
+- [じゅき](https://github.com/jukimaguro1) ([Twitter](https://twitter.com/jukimaguro_new))
 - [はいず](https://github.com/Hyz-sui) ([Twitter](https://twitter.com/Hyze_suisui))
