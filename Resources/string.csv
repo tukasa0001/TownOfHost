@@ -510,7 +510,7 @@
 "Warning.OverrideExiledPlayer","All ejects will be displayed as a tie since the total number of impostors is 1.","合計インポスター数が1のため、追放はすべて同数投票として表示されます。","由于场上仅剩一名内鬼，放逐投票将显示为平票","由於場上只剩一名偽裝者，所有逐出訊息都將顯示為平票","Все изгнания будут отображаться как ничья, потому что общее количество Предателей равно 1.","Todas as ejeções serão mostradas como empate, pois o total de Impostores é 1."
 "Warning.InvalidRpc","Kicked {0} because an invalid RPC was received.\nPlease check that no mods other than TOH installed.","不正なRPCを受信したため{0}をキックしました。\nTOH以外のMODが入っていないか確認してください。","{0} 被踢出，因其 RPC 无效。 \n请确保没有 TOH 以外的模组。","{0}因為收到無效的RPC,所以踢出了他,\n請確保遊戲除了TOH之外沒有其他模組系統被載入","{0} Был кикнут так как получен недопустимый RPC. \nУбедитесь что в системе нет других модов кроме TOH.","{0} Foi expulso, porque um RPC inválido foi recebido. \nPor favor verifique se nenhum outro mod além de TOH está instalado."
 "Warning.NoModHost","No mod installed on the host","ホストにMODが導入されていません","该房主并未安装mod","該房房主沒有安裝Town Of Host模組","У Хоста Лобби не установлен Town of Host",""
-"Warning.MismatchedVersion",""{0}\nhave a different version of {1}","{0} の\n{1} のバージョンがホストと合致しません。"
+"Warning.MismatchedVersion","{0}\nhave a different version of {1}","{0} の\n{1} のバージョンがホストと合致しません。"
 "Warning.AutoExitAtMismatchedVersion","The host has no or a different version of {0}\nYou will be kicked in {1}","{0} のバージョンがホストと合致しません。\nあと {1} 秒で切断されます。"
 "Warning.NotMatchImpostorCount","Max/min number of Impostor roles is greater than the number of Impostors.","インポスター役職の最小/最大割り当て人数がインポスターより多すぎます。"
 "Warning.NotMatchRoleCount","The role is not cast correctly because the minimum number of roles is greater than the number of players.","ロールの最少人数合計がプレイヤーより多いため正常に配役されません。"
