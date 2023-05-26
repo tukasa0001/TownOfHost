@@ -984,18 +984,18 @@ Some add-ons have restrictions on the teams that can be assigned.
 #### Assignment Algorithm
 
 1. Determine the total number to assign from probabilities and "Max" options
-2. Determine players in the target roles according to the maximum numbers for each team
-3. Determine the target player randomly according to the maximum number of total
+1. Determine players in the target roles according to the maximum numbers for each team
+1. Determine the target player randomly according to the maximum number of total
 
 #### Examples
 
 1. Assign to one player randomly from the crew team  
 Max: 1, Max Players: (1, 0, 0)
-2. Assign to all n impostors  
+1. Assign to all n impostors  
 Max: n, Max Players: (0, n, 0)
-3. Assign to a Jackal fixedly  
+1. Assign to a Jackal fixedly  
 Max: 1, Max Players: (0, 0, 1), Fixed Role(Neutral): ON, Role: Jackal
-4. Assign to n players from all players  
+1. Assign to n players from all players  
 Max: 1, Max Players: (15, 3, 15)
 
 ## Assign Algorithm Mode
