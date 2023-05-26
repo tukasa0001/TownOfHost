@@ -1000,7 +1000,7 @@ Some add-ons have restrictions on the teams that can be assigned.
 
 ## Assign Algorithm Mode
 
-It can set how role are assigned.<br>
+Sets how roles are assigned.<br>
 
 | Settings Name            |
 | ------------------------ |
