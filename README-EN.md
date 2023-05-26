@@ -972,6 +972,22 @@ Never granted to Sheriff or Snitch.<br>
 | Additional Long Tasks   |
 | Additional Short Tasks  |
 
+## Assign Algorithm Mode
+
+It can set how role are assigned.<br>
+
+| Settings Name            |
+| ------------------------ |
+| Assign Algorithm Mode    |
+| ┣ Minimum Impostor Roles |
+| ┣ Maximum Impostor Roles |
+| ┣ Minimum Mad Roles      |
+| ┣ Maximum Mad Roles      |
+| ┣ Minimum Crewmate Roles |
+| ┣ Maximum Crewmate Roles |
+| ┣ Minimum Neutral Roles  |
+| ┗  Maximum Neutral Roles |
+
 ## DisableDevices
 
 Various devices can be disabled.
@@ -1022,7 +1038,7 @@ The structure of the Electrical in AirShip changes after every meeting.<br>
 
 ### Disable Moving Platform
 
-Disable the moving platform in Airship.  
+Disable the moving platform in Airship.
 
 | Name                             |
 | -------------------------------- |
