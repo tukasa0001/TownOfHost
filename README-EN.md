@@ -1267,7 +1267,6 @@ Translated with https://www.deepl.com<br>
 - [Mii](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
 - [Tampopo](https://github.com/tampopo-dandelion) ([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
 - [Kou](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
-- [Ykundesu](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
 - [Yurino](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
 - [Masami](https://github.com/Masami4711) <!--([Twitter](https://twitter.com/))-->
 - [Juki](https://github.com/jukimaguro1) ([Twitter](https://twitter.com/jukimaguro_new))
