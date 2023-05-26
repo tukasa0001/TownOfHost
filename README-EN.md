@@ -525,23 +525,6 @@ Some kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshift
 **NOTE:**
 - The **"nearest"** Crewmate becomes SidekickMadmate no matter to whom the Impostors Shapeshift.
 
-
-## Impostor/Crewmate
-
-### Watcher
-
-Team : Impostors or Crewmates<br>
-Basis : Impostor or Crewmates<br>
-
-The watcher can see who each player has voted during every meeting. <br>
-
-#### Game Options
-
-| Name               |
-| ------------------ |
-| EvilWatcher Chance |
-
-
 ## Crewmate
 
 ### Bait
@@ -956,6 +939,12 @@ Example of overlapping Roles: <br>
 - [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
 - [Bait](#bait) Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
 
+### Watcher
+
+Target : Crewmates, Impostors, Neutrals[(*)](#add-ons-assignment-options)
+
+The watcher can see who each player has voted during every meeting.
+
 ### Workhorse
 
 Create and idea by Masami<br>
@@ -971,6 +960,43 @@ Never granted to Sheriff or Snitch.<br>
 | Assign Only To Crewmate |
 | Additional Long Tasks   |
 | Additional Short Tasks  |
+
+### Add-Ons Assignment Options
+
+Some add-ons have common assignment options.  
+Some add-ons have restrictions on the teams that can be assigned.  
+
+#### Options
+
+| Name                          |                                                               |
+| ----------------------------- | ------------------------------------------------------------- |
+| Max                           | Maximum number of total                                       |
+| Max Players In Team Crewmates | The portion of the Max to be assigned to the crewmates (0-15) |
+| ┣ Fixed Role                  | Limit the role to be assigned                                 |
+| ┃ ┗ Role                      | The role to be assigned                                       |
+| Max Players In Team Impostors | (0-3)                                                         |
+| ┣ Fixed Role                  |                                                               |
+| ┃ ┗ Role                      |                                                               |
+| Max Players In Neutral        | (0-15)                                                        |
+| ┣ Fixed Role                  |                                                               |
+| ┃ ┗ Role                      |                                                               |
+
+#### Assignment Algorithm
+
+1. Determine the total number to assign from probabilities and "Max" options
+2. Determine players in the target roles according to the maximum numbers for each team
+3. Determine the target player randomly according to the maximum number of total
+
+#### Examples
+
+1. Assign to one player randomly from the crew team  
+  Max: 1, Max Players: (1, 0, 0)
+2. Assign to all n impostors  
+  Max: n, Max Players: (0, n, 0)
+3. Assign to a Jackal fixedly  
+  Max: 1, Max Players: (0, 0, 1), Fixed Role(Neutral): ON, Role: Jackal
+4. Assign to n players from all players  
+  Max: 1, Max Players: (15, 3, 15)
 
 ## Assign Algorithm Mode
 
