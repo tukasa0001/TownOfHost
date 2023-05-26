@@ -990,13 +990,13 @@ Some add-ons have restrictions on the teams that can be assigned.
 #### Examples
 
 1. Assign to one player randomly from the crew team  
-  Max: 1, Max Players: (1, 0, 0)
+Max: 1, Max Players: (1, 0, 0)
 2. Assign to all n impostors  
-  Max: n, Max Players: (0, n, 0)
+Max: n, Max Players: (0, n, 0)
 3. Assign to a Jackal fixedly  
-  Max: 1, Max Players: (0, 0, 1), Fixed Role(Neutral): ON, Role: Jackal
+Max: 1, Max Players: (0, 0, 1), Fixed Role(Neutral): ON, Role: Jackal
 4. Assign to n players from all players  
-  Max: 1, Max Players: (15, 3, 15)
+Max: 1, Max Players: (15, 3, 15)
 
 ## Assign Algorithm Mode
 
