@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using TownOfHost.Roles.Core;
 using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.AddOns.Crewmate
@@ -45,21 +46,20 @@ namespace TownOfHost.Roles.AddOns.Crewmate
         {
             if (!pc.IsAlive() || IsThisRole(pc.PlayerId)) return false;
             var taskState = pc.GetPlayerTaskState();
-            if (taskState.CompletedTasksCount + 1 < taskState.AllTasksCount) return false;
+            if (taskState.CompletedTasksCount < taskState.AllTasksCount) return false;
+            if (!Utils.HasTasks(pc.Data)) return false;
             if (AssignOnlyToCrewmate) //クルーメイトのみ
                 return pc.Is(CustomRoles.Crewmate);
-            return Utils.HasTasks(pc.Data) //タスクがある
-                && !OverrideTasksData.AllData.ContainsKey(pc.GetCustomRole()); //タスク上書きオプションが無い
+            return !OverrideTasksData.AllData.ContainsKey(pc.GetCustomRole()); //タスク上書きオプションが無い
         }
         public static bool OnCompleteTask(PlayerControl pc)
         {
-            if (!CustomRoles.Workhorse.IsEnable() || playerIdList.Count >= CustomRoles.Workhorse.GetCount()) return false;
-            if (!IsAssignTarget(pc)) return false;
+            if (!CustomRoles.Workhorse.IsPresent() || playerIdList.Count >= CustomRoles.Workhorse.GetRealCount()) return true;
+            if (!IsAssignTarget(pc)) return true;
 
             pc.RpcSetCustomRole(CustomRoles.Workhorse);
             var taskState = pc.GetPlayerTaskState();
             taskState.AllTasksCount += NumLongTasks + NumShortTasks;
-            taskState.CompletedTasksCount++; //今回の完了分加算
 
             if (AmongUsClient.Instance.AmHost)
             {
@@ -69,7 +69,7 @@ namespace TownOfHost.Roles.AddOns.Crewmate
                 Utils.NotifyRoles();
             }
 
-            return true;
+            return false;
         }
     }
 }

@@ -1,3 +1,6 @@
+using System;
+using TownOfHost.Roles.Core;
+
 namespace TownOfHost
 {
     public class FloatOptionItem : OptionItem
@@ -18,6 +21,24 @@ namespace TownOfHost
             return new FloatOptionItem(
                 id, name, defaultValue, tab, isSingleValue, rule
             );
+        }
+        public static FloatOptionItem Create(
+            int id, Enum name, FloatValueRule rule, float defaultValue, TabGroup tab, bool isSingleValue
+        )
+        {
+            return new FloatOptionItem(
+                id, name.ToString(), defaultValue, tab, isSingleValue, rule
+            );
+        }
+        public static FloatOptionItem Create(
+            SimpleRoleInfo roleInfo, int idOffset, Enum name, FloatValueRule rule, float defaultValue, bool isSingleValue, OptionItem parent = null
+        )
+        {
+            var opt = new FloatOptionItem(
+                roleInfo.ConfigId + idOffset, name.ToString(), defaultValue, roleInfo.Tab, isSingleValue, rule
+            );
+            opt.SetParent(parent ?? roleInfo.RoleOption);
+            return opt;
         }
 
         // Getter

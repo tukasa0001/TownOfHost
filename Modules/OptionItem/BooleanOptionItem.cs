@@ -1,3 +1,6 @@
+using System;
+using TownOfHost.Roles.Core;
+
 namespace TownOfHost
 {
     public class BooleanOptionItem : OptionItem
@@ -17,6 +20,24 @@ namespace TownOfHost
             return new BooleanOptionItem(
                 id, name, defaultValue, tab, isSingleValue
             );
+        }
+        public static BooleanOptionItem Create(
+            int id, Enum name, bool defaultValue, TabGroup tab, bool isSingleValue
+        )
+        {
+            return new BooleanOptionItem(
+                id, name.ToString(), defaultValue, tab, isSingleValue
+            );
+        }
+        public static BooleanOptionItem Create(
+            SimpleRoleInfo roleInfo, int idOffset, Enum name, bool defaultValue, bool isSingleValue, OptionItem parent = null
+        )
+        {
+            var opt = new BooleanOptionItem(
+                roleInfo.ConfigId + idOffset, name.ToString(), defaultValue, roleInfo.Tab, isSingleValue
+            );
+            opt.SetParent(parent ?? roleInfo.RoleOption);
+            return opt;
         }
 
         // Getter

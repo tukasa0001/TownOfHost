@@ -1,3 +1,6 @@
+using System;
+using TownOfHost.Roles.Core;
+
 namespace TownOfHost
 {
     public class StringOptionItem : OptionItem
@@ -20,6 +23,24 @@ namespace TownOfHost
             return new StringOptionItem(
                 id, name, defaultIndex, tab, isSingleValue, selections
             );
+        }
+        public static StringOptionItem Create(
+            int id, Enum name, string[] selections, int defaultIndex, TabGroup tab, bool isSingleValue
+        )
+        {
+            return new StringOptionItem(
+                id, name.ToString(), defaultIndex, tab, isSingleValue, selections
+            );
+        }
+        public static StringOptionItem Create(
+             SimpleRoleInfo roleInfo, int idOffset, Enum name, string[] selections, int defaultIndex, bool isSingleValue, OptionItem parent = null
+        )
+        {
+            var opt = new StringOptionItem(
+                roleInfo.ConfigId + idOffset, name.ToString(), defaultIndex, roleInfo.Tab, isSingleValue, selections
+            );
+            opt.SetParent(parent ?? roleInfo.RoleOption);
+            return opt;
         }
 
         // Getter

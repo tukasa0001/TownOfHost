@@ -37,12 +37,7 @@ namespace TownOfHost
             }
             MainMenuManagerPatch.updateButton.SetActive(hasUpdate);
             MainMenuManagerPatch.updateButton.transform.position = MainMenuManagerPatch.template.transform.position + new Vector3(0.25f, 0.75f);
-            __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) =>
-            {
-                MainMenuManagerPatch.updateButton.transform
-                    .GetChild(0).GetComponent<TMPro.TMP_Text>()
-                    .SetText($"{GetString("updateButton")}\n{latestTitle}");
-            })));
+            MainMenuManagerPatch.updateButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().SetText($"{GetString("updateButton")}\n{latestTitle}");
         }
         public static async Task<bool> CheckRelease(bool beta = false)
         {

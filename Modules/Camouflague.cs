@@ -52,6 +52,7 @@ namespace TownOfHost
             if (oldIsCamouflage != IsCamouflage)
             {
                 Main.AllPlayerControls.Do(pc => Camouflage.RpcSetSkin(pc));
+                Utils.NotifyRoles(NoCache: true);
             }
         }
         public static void RpcSetSkin(PlayerControl target, bool ForceRevert = false, bool RevertToDefault = false)
@@ -66,7 +67,7 @@ namespace TownOfHost
                 //コミュサボ中
 
                 //死んでいたら処理しない
-                if (Main.PlayerStates[id].IsDead) return;
+                if (PlayerState.GetByPlayerId(id).IsDead) return;
             }
 
             var newOutfit = CamouflageOutfit;

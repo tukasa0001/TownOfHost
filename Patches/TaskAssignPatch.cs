@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using AmongUs.GameOptions;
 using HarmonyLib;
 
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.AddOns.Crewmate;
 
 namespace TownOfHost
@@ -129,7 +130,6 @@ namespace TownOfHost
             {
                 taskTypeIds[i] = TasksList[i];
             }
-
         }
         public static void Shuffle<T>(Il2CppSystem.Collections.Generic.List<T> list)
         {

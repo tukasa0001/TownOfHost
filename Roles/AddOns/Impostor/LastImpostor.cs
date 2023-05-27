@@ -1,3 +1,5 @@
+using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.AddOns.Impostor
@@ -21,19 +23,23 @@ namespace TownOfHost.Roles.AddOns.Impostor
             Main.AllPlayerKillCooldown[currentId] = KillCooldown.GetFloat();
         }
         public static bool CanBeLastImpostor(PlayerControl pc)
-            => pc.IsAlive()
-            && !pc.Is(CustomRoles.LastImpostor)
-            && pc.Is(CustomRoleTypes.Impostor)
-            && pc.GetCustomRole()
-            is not CustomRoles.Vampire
-                and not CustomRoles.BountyHunter
-                and not CustomRoles.SerialKiller;
+        {
+            if (!pc.IsAlive() || pc.Is(CustomRoles.LastImpostor) || !pc.Is(CustomRoleTypes.Impostor))
+            {
+                return false;
+            }
+            if (pc.GetRoleClass() is IImpostor impostor)
+            {
+                return impostor.CanBeLastImpostor;
+            }
+            return true;
+        }
         public static void SetSubRole()
         {
             //ラストインポスターがすでにいれば処理不要
             if (currentId != byte.MaxValue) return;
             if (CurrentGameMode == CustomGameMode.HideAndSeek
-            || !CustomRoles.LastImpostor.IsEnable() || Main.AliveImpostorCount != 1)
+            || !CustomRoles.LastImpostor.IsPresent() || Main.AliveImpostorCount != 1)
                 return;
             foreach (var pc in Main.AllAlivePlayerControls)
             {

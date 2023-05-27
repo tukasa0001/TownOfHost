@@ -1,10 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 
+using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost
@@ -43,16 +44,11 @@ namespace TownOfHost
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
                         break;
                     case CustomWinner.Impostor:
-                        if (Main.AllAlivePlayerControls.Count(p => p.Is(CustomRoleTypes.Impostor)) == 0 && Main.AllAlivePlayerControls.Count(p => p.Is(CustomRoles.Egoist)) > 0) //インポスター全滅でエゴイストが生存
-                            goto case CustomWinner.Egoist;
+                        if (Egoist.CheckWin()) break;
+
                         Main.AllPlayerControls
                             .Where(pc => (pc.Is(CustomRoleTypes.Impostor) || pc.Is(CustomRoleTypes.Madmate)) && !pc.Is(CustomRoles.Lovers))
                             .Do(pc => CustomWinnerHolder.WinnerIds.Add(pc.PlayerId));
-                        break;
-                    case CustomWinner.Egoist:
-                        CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Egoist);
-                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Egoist);
-                        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.EgoSchrodingerCat);
                         break;
                 }
                 if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
@@ -67,14 +63,14 @@ namespace TownOfHost
                     //追加勝利陣営
                     foreach (var pc in Main.AllPlayerControls)
                     {
-                        //Opportunist
-                        if (pc.Is(CustomRoles.Opportunist) && pc.IsAlive())
+                        if (pc.GetRoleClass() is IAdditionalWinner additionalWinner)
                         {
-                            CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                            CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.Opportunist);
+                            if (additionalWinner.CheckWin(out var winnerType))
+                            {
+                                CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                                CustomWinnerHolder.AdditionalWinnerTeams.Add(winnerType);
+                            }
                         }
-                        //SchrodingerCat
-                        SchrodingerCat.CheckAdditionalWin(pc);
                     }
                 }
                 ShipStatus.Instance.enabled = false;
@@ -242,7 +238,6 @@ namespace TownOfHost
 
                 int Imp = Utils.AlivePlayersCount(CountTypes.Impostor);
                 int Crew = Utils.AlivePlayersCount(CountTypes.Crew);
-
 
                 if (Imp == 0 && Crew == 0) //全滅
                 {
