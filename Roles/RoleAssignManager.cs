@@ -249,7 +249,8 @@ namespace TownOfHost.Roles
 
                 var chance = role.GetChance();
                 var count = role.GetCount();
-                if (chance == 0 || count == 0) continue;
+                if (chance is 0 or 100) continue;
+                if (count == 0) continue;
                 //確率がそのまま追加枚数に
                 for (var i = 0; i < count; i++)
                     randomRoleTicketPool.AddRange(Enumerable.Repeat((role, i), chance / 10).ToList());
