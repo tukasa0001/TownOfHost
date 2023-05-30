@@ -38,7 +38,7 @@ namespace TownOfHost
             Main.ShapeshiftTarget = new();
 
             ReportDeadBodyPatch.CanReport = new();
-
+            CheckForEndVotingPatch.RevengeTargetPlayer = new();
             Options.UsedButtonCount = 0;
             Main.RealOptionsData = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
 
