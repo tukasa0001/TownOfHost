@@ -289,6 +289,13 @@ namespace TownOfHost
                 Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount));
                 Logger.Info("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
             }
+            if (Options.ShowReportReason.GetBool())
+            {
+                if (ReportDeadBodyPatch.ReportTarget == null)
+                    Utils.SendMessage(GetString("Message.isButton"));
+                else
+                    Utils.SendMessage(string.Format(GetString("Message.isReport"), ReportDeadBodyPatch.ReportTarget.PlayerName));
+            }
             if (AntiBlackout.OverrideExiledPlayer)
             {
                 Utils.SendMessage(Translator.GetString("Warning.OverrideExiledPlayer"));
