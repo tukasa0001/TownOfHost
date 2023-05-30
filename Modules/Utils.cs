@@ -308,6 +308,26 @@ namespace TownOfHost
             return hexColor;
         }
 
+        public static string GetMyRoleInfo(PlayerControl player)
+        {
+            if (!GameStates.IsInGame) return null;
+
+            var sb = new StringBuilder();
+            var role = player.GetCustomRole();
+            sb.Append(GetString(role.ToString())).Append(player.GetRoleInfo(true));
+
+            foreach (var subRole in player.GetCustomSubRoles())
+            {
+                if (subRole != CustomRoles.NotAssigned)
+                {
+                    var RoleName = subRole.ToString();
+                    sb.Append("\n--------------------------------------------------------\n")
+                        .Append(GetString(RoleName)).Append(GetString($"{RoleName}InfoLong"));
+                }
+            }
+            return sb.ToString();
+        }
+
         public static string GetVitalText(byte playerId, bool RealKillerColor = false)
         {
             var state = PlayerState.GetByPlayerId(playerId);

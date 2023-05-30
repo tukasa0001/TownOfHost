@@ -317,6 +317,14 @@ namespace TownOfHost
                 var target = Utils.GetPlayerById(pva.TargetPlayerId);
                 if (target == null) continue;
 
+                // 初手会議での役職説明表示
+                if (Options.ShowRoleInfoAtFirstMeeting.GetBool() && MeetingStates.FirstMeeting)
+                {
+                    String RoleInfoTitleString = $"{GetString("RoleInfoTitle")}";
+                    String RoleInfoTitle = $"{Utils.ColorString(Utils.GetRoleColor(target.GetCustomRole()), RoleInfoTitleString)}";
+                    Utils.SendMessage(Utils.GetMyRoleInfo(target), sendTo: pva.TargetPlayerId, title: RoleInfoTitle);
+                }
+
                 var sb = new StringBuilder();
 
                 //会議画面での名前変更
