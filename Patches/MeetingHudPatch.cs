@@ -187,7 +187,7 @@ namespace TownOfHost
             }
         }
         //道連れ
-        public static List<(PlayerControl, PlayerControl)> RevengeTargetPlayer;
+        public static Dictionary<PlayerControl, PlayerControl> RevengeTargetPlayer;
         private static void RevengeOnExile(byte playerId, CustomDeathReason deathReason)
         {
             var player = Utils.GetPlayerById(playerId);
@@ -218,7 +218,7 @@ namespace TownOfHost
             var rand = IRandom.Instance;
             var target = TargetList[rand.Next(TargetList.Count)];
             // 道連れする側とされる側をセットでリストに追加
-            RevengeTargetPlayer.Add((exiledplayer, target));
+            RevengeTargetPlayer.Add(exiledplayer, target);
             return target;
         }
     }
@@ -297,7 +297,7 @@ namespace TownOfHost
             {
                 foreach (var Exiled_Target in CheckForEndVotingPatch.RevengeTargetPlayer)
                 {
-                    Utils.SendMessage(string.Format(GetString("RevengeText"), Exiled_Target.Item1.name, Exiled_Target.Item2.name));
+                    Utils.SendMessage(string.Format(GetString("RevengeText"), Exiled_Target.Key.name, Exiled_Target.Value.name));
                 }
                 CheckForEndVotingPatch.RevengeTargetPlayer.Clear();
             }
