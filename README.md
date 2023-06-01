@@ -4,6 +4,9 @@
 
 <p align="center"><a href="https://github.com/AsumuAkaguma/TownOfHost_ForE/releases/"><img src="https://badgen.net/github/release/AsumuAkaguma/TownOfHost_ForE"></a></p>
 
+[![TownOfHost-Discord](./Images/TownOfHost-Discord.png)](https://www.youtube.com/channel/UCJDcUf0KOwLFGwVmj1m6Fag)
+※Discordサーバーが出来ました。ジョイナス！
+
 ## この Mod について
 
 この Mod は非公式のものであり、この Mod の開発に関して Among Us の開発元である"Innersloth"は一切関与していません。<br>
@@ -23,10 +26,6 @@ TOH過去バージョンは[こちら](https://github.com/tukasa0001/TownOfHost/
 
 このModは本家**TownOfHost** Modから派生された**TownOfHost_Y**の仕様はそのままに追加のオリジナル役職を入れたものです。
 
-正直に申しますと他の制作者様のような目立った新機能は入れておらず、本当にオリジナル追加役職のみです。はい。
-何か思いついたら入れるかもですが、これを読まれているタイミングで編集されていないということはまだ追加役職のみです。
-
-ただ、ただね
 TownOfHost ForEでは個性豊かなオリジナル役職を実装していきます。
 それはきっとここだけでしか遊べない独特なAmongUs体験になることをお約束します。
 
@@ -56,7 +55,8 @@ TownOfHost ForEは本家同様ホストのクライアントに導入するだ�
 
 | チャットコマンド                         | 機能                                          |
 | ---------------------------------------- | --------------------------------------------- |
-| /Bet <陣営名><br>/b <陣営名>             | 勝利陣営を予想                                    |
+| /Bet <陣営名><br>/b <陣営名>             | 勝利陣営を予想                                |
+| /bp							           | 現在のポイント(当てた数)を表示                |
 
 
 ## ★役職
