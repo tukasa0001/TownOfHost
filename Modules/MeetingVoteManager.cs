@@ -40,6 +40,7 @@ public class MeetingVoteManager
     /// <param name="exiled">追放先</param>
     public void ClearAndExile(byte voter, byte exiled)
     {
+        logger.Info($"{Utils.GetPlayerById(voter).GetNameWithRole()} によって {GetVoteName(exiled)} が追放されます");
         ClearVotes();
         var vote = new VoteData(voter);
         vote.DoVote(exiled, 1);
