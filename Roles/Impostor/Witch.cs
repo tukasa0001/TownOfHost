@@ -176,7 +176,7 @@ namespace TownOfHost.Roles.Impostor
                         spelledIdList.Add(pc.PlayerId);
                     }
                 }
-                CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.Spell, spelledIdList.ToArray());
+                MeetingHudPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.Spell, spelledIdList.ToArray());
             }
             //実行してもしなくても呪いはすべて解除
             SpelledPlayer.Clear();
