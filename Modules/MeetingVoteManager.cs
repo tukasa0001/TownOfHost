@@ -26,6 +26,9 @@ public class MeetingVoteManager
         _instance = new();
     }
 
+    /// <summary>
+    /// 投票を初期状態にします
+    /// </summary>
     public void ClearVotes()
     {
         foreach (var voteArea in meetingHud.playerStates)
