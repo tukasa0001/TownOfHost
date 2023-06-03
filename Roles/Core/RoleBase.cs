@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Hazel;
@@ -193,12 +192,12 @@ public abstract class RoleBase : IDisposable
     { }
 
     /// <summary>
-    /// プレイヤーが投票した瞬間に呼ばれる関数
+    /// 誰かが投票したときに発火する
     /// </summary>
-    /// <param name="statesList">投票情報を保存しておくリスト</param>
-    /// <param name="pva">プレイヤー</param>
-    /// <returns>falseを返すと会議を強制終了する</returns>
-    public virtual bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva) => true;
+    /// <param name="voterId">投票した人のID</param>
+    /// <param name="sourceVotedForId">投票された人のID</param>
+    /// <returns>(変更後の投票先(変更しないならnull), 変更後の票数(変更しないならnull), 投票をカウントするか)</returns>
+    public virtual (byte? votedForId, int? numVotes, bool doVote) OnVote(byte voterId, byte sourceVotedForId) => (null, null, true);
 
     /// <summary>
     /// 追放後に行われる処理
