@@ -10,10 +10,10 @@ public class MeetingVoteManager
     public IReadOnlyDictionary<byte, VoteData> AllVotes => allVotes;
     private Dictionary<byte, VoteData> allVotes = new(15);
     private readonly MeetingHud meetingHud;
-    private static LogHandler logger = Logger.Handler(nameof(MeetingVoteManager));
 
     public static MeetingVoteManager Instance => _instance;
     private static MeetingVoteManager _instance;
+    private static LogHandler logger = Logger.Handler(nameof(MeetingVoteManager));
 
     private MeetingVoteManager()
     {
