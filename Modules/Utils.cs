@@ -940,16 +940,6 @@ namespace TownOfHost
                 Logger.Info(sb.ToString(), "CountAlivePlayers");
             }
         }
-        public static string GetVoteName(byte num)
-        {
-            string name = "invalid";
-            var player = GetPlayerById(num);
-            if (num < 15 && player != null) name = player?.GetNameWithRole();
-            if (num == 253) name = "Skip";
-            if (num == 254) name = "None";
-            if (num == 255) name = "Dead";
-            return name;
-        }
         public static string PadRightV2(this object text, int num)
         {
             int bc = 0;
