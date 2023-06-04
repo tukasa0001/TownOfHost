@@ -5,7 +5,7 @@ using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Vanilla;
 
-public sealed class Impostor : RoleBase, IImpostor, IKiller
+public sealed class Impostor : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
         SimpleRoleInfo.CreateForVanilla(
