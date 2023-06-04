@@ -27,7 +27,7 @@ public class SimpleRoleInfo
     private Func<bool> canMakeMadmate;
     public bool CanMakeMadmate => canMakeMadmate?.Invoke() == true;
 
-    public SimpleRoleInfo(
+    private SimpleRoleInfo(
         Type classType,
         Func<PlayerControl, RoleBase> createInstance,
         CustomRoles roleName,
@@ -36,11 +36,11 @@ public class SimpleRoleInfo
         int configId,
         OptionCreatorDelegate optionCreator,
         string chatCommand,
-        string colorCode = "",
-        bool requireResetCam = false,
-        TabGroup tab = TabGroup.MainSettings,
-        Func<AudioClip> introSound = null,
-        Func<bool> canMakeMadmate = null
+        string colorCode,
+        bool requireResetCam,
+        TabGroup tab,
+        Func<AudioClip> introSound,
+        Func<bool> canMakeMadmate
     )
     {
         ClassType = classType;
@@ -77,6 +77,39 @@ public class SimpleRoleInfo
         Tab = tab;
 
         CustomRoleManager.AllRolesInfo.Add(roleName, this);
+    }
+    public static SimpleRoleInfo Create(
+        Type classType,
+        Func<PlayerControl, RoleBase> createInstance,
+        CustomRoles roleName,
+        Func<RoleTypes> baseRoleType,
+        CustomRoleTypes customRoleType,
+        int configId,
+        OptionCreatorDelegate optionCreator,
+        string chatCommand,
+        string colorCode = "",
+        bool requireResetCam = false,
+        TabGroup tab = TabGroup.MainSettings,
+        Func<AudioClip> introSound = null,
+        Func<bool> canMakeMadmate = null
+    )
+    {
+        return
+            new(
+                classType,
+                createInstance,
+                roleName,
+                baseRoleType,
+                customRoleType,
+                configId,
+                optionCreator,
+                chatCommand,
+                colorCode,
+                requireResetCam,
+                tab,
+                introSound,
+                canMakeMadmate
+            );
     }
     public delegate void OptionCreatorDelegate();
 }
