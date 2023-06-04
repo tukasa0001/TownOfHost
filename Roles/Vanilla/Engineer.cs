@@ -7,15 +7,10 @@ namespace TownOfHost.Roles.Vanilla;
 public sealed class Engineer : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.CreateForVanilla(
             typeof(Engineer),
             player => new Engineer(player),
-            CustomRoles.Engineer,
-            () => RoleTypes.Engineer,
-            CustomRoleTypes.Crewmate,
-            -1,
-            null,
-            null,
+            RoleTypes.Engineer,
             "#8cffff"
         );
     public Engineer(PlayerControl player)

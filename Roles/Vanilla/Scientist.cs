@@ -6,15 +6,10 @@ namespace TownOfHost.Roles.Vanilla;
 public sealed class Scientist : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.CreateForVanilla(
             typeof(Scientist),
             player => new Scientist(player),
-            CustomRoles.Scientist,
-            () => RoleTypes.Scientist,
-            CustomRoleTypes.Crewmate,
-            -1,
-            null,
-            null,
+            RoleTypes.Scientist,
             "#8cffff"
         );
     public Scientist(PlayerControl player)

@@ -8,15 +8,10 @@ namespace TownOfHost.Roles.Vanilla;
 public sealed class Impostor : RoleBase, IImpostor, IKiller
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.CreateForVanilla(
             typeof(Impostor),
             player => new Impostor(player),
-            CustomRoles.Impostor,
-            () => RoleTypes.Impostor,
-            CustomRoleTypes.Impostor,
-            -1,
-            null,
-            null
+            RoleTypes.Impostor
         );
     public Impostor(PlayerControl player)
     : base(

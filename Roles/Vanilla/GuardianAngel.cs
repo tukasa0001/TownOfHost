@@ -7,15 +7,10 @@ namespace TownOfHost.Roles.Vanilla;
 public sealed class GuardianAngel : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.CreateForVanilla(
             typeof(GuardianAngel),
             player => new GuardianAngel(player),
-            CustomRoles.GuardianAngel,
-            () => RoleTypes.GuardianAngel,
-            CustomRoleTypes.Crewmate,
-            -1,
-            null,
-            null
+            RoleTypes.GuardianAngel
         );
     public GuardianAngel(PlayerControl player)
     : base(
