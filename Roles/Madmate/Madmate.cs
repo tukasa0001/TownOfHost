@@ -7,7 +7,7 @@ namespace TownOfHost.Roles.Madmate;
 public sealed class Madmate : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Madmate),
             player => new Madmate(player),
             CustomRoles.Madmate,

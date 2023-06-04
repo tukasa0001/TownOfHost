@@ -95,7 +95,7 @@ public class SimpleRoleInfo
     )
     {
         return
-            new(
+            SimpleRoleInfo.Create(
                 classType,
                 createInstance,
                 roleName,

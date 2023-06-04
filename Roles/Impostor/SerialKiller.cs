@@ -10,7 +10,7 @@ namespace TownOfHost.Roles.Impostor
     public sealed class SerialKiller : RoleBase, IImpostor
     {
         public static readonly SimpleRoleInfo RoleInfo =
-            new(
+            SimpleRoleInfo.Create(
                 typeof(SerialKiller),
                 player => new SerialKiller(player),
                 CustomRoles.SerialKiller,
