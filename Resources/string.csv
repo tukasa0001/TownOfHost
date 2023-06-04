@@ -29,6 +29,7 @@
 "TimeThief","Time Thief","タイムシーフ","蚀时者","時間小偷","Вор Времени","Ladrão de Tempo"
 "Sniper","Sniper","スナイパー","狙击手","狙擊手","Снайпер","Sniper"
 "EvilTracker","EvilTracker","イビルトラッカー","邪恶的追踪者","邪惡的追蹤者","Злой Следопыт","Rastreador do Mal"
+"AntiAdminer","Anti Adminer","アンチアドミナー","监管者",,
 
 "# マッドメイト系役職"
 "Madmate","Madmate","マッドメイト","叛徒","叛徒","Безумец","Tripulante Louco"
@@ -108,6 +109,7 @@
 "SniperInfo","Snipe","狙い撃つぜ","瞄准敌人，射击！","讓你的敵人在你的狙擊下死亡","Стреляйте в Членов Экипажа на расстоянии","Hora de atirar"
 "LastImpostorInfo","You are the last of us","残ったのはあなただけ","你是狼村最后的希望…","你是狼村最後的希望...","Ты последний предатель","Você é o último Impostor"
 "EvilTrackerInfo","Track others","プレイヤーを追跡しろ","让我看看，我的小目标在哪","你不要過來啊啊阿","Отслеживайте Игроков","Localize os outros"
+"AntiAdminerInfo","I wish Admin would just go away","アドミンなんて無くなればいい","我希望管理员能离开",,
 
 "# マッドメイト系役職"
 "MadmateInfo","Help the Impostors","インポスターの援助をしよう","帮助内鬼","幫助偽裝者","Помогите Предателям","Ajude os Impostores"
@@ -172,7 +174,7 @@
 "TimeThiefInfoLong","(Impostors):\nEvery kill reduces discussion and voting time in meeting.\nIf you are voted out or killed, the lost time returns to meetings.","(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。","(内鬼阵营):\n蚀时者每击杀一个人，会议时间就将减少一定时间。\n如果蚀时者死亡，被偷取的时间的会议时间将返还。","(狼人陣營):\n時間小偷每次殺人將會減少會議時間\n如果時間小偷被丟出或被殺死,減少的會議時間將會回來","(Предатель):\nКаждое убийство Вора Времени сокращает время обсуждения и голосования на собраниях. \nВ зависимости от настроек потерянное время возвращается после того, как он будет убит или изгнан.","(Impostores):\nCada morte reduz tempo de votação e discussão.\nSe você for exilado ou morto, o tempo perdido retorna para as reuniões."
 "SniperInfoLong","(Impostors):\nYou can shoot players from afar.\nYour line of fire continues as a straight line in the direction of the spot where you shapeshift to where you unshift.\nYou cannot perform normal kills until you use up all of your ammo.","(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。","(内鬼阵营):\n狙击手拥有远距离射杀的能力。\n方法为：变形的位置及解除变形位置的连线及其延长线上的一名玩家将被射杀。\n在狙击手的子弹耗尽前，狙击手无法进行常规击杀。","(狼人陣營):\n狙擊手\狙擊手可以進行遠程殺人\n他的子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人。\n在狙擊手用光子彈前,狙擊手無法正常殺人。","(Предатель):\nСнайпер может стрелять в игроков на расстоянии. \nОн убивает игрока который, находится с ним на одной линии, от точки Морфа до точки возвращения в свой облик. \nОн может совершать обычные убийства после того, как все его патроны закончатся.","(Impostor):\nVocê pode atirar em jogadores de longe.\nSua linha de fogo continua numa linha reta, do ponto que você se metamorfa ao ponto que você volta ao normal.\nVocê não pode fazer mortes normais até usar toda a sua munição."
 "EvilTrackerInfoLong","(Impostors):\nYou can see where others are.\nYou will see arrows pointing to the other impostors and anyone you shapeshift into.\nYou will see a ""kill flash"" when your fellow impostors kill.","(インポスター陣営):\n他人の位置が分かるインポスター。\n味方のインポスターとシェイプシフトで選んだ一人の位置が矢印で表示される。\n味方インポスターのキルによるキルフラッシュも見える。","(内鬼阵营):\n邪恶追踪者可以追踪其他内鬼以及其所变形的玩家。\n玩家名称下面的箭头代表着目标的方向。\n当内鬼队友杀人时，邪恶追踪者将会看到击杀闪烁提示。","(狼人陣營):\n邪惡的追蹤者:\他有一個箭頭指向他的隊友以及他變形的玩家,\n當他的隊友殺人時將出現閃光顯示。","(Предатель):\nЗлой Следопыт может отслеживать других игроков. \nОн может видеть стрелки, которые указывают на Предателей или на того, в кого он превратился. \nОн может видеть когда было совершено убийство с помощью вспышки убийства.","(Impostores):\nVocê consegue ver a posição de outros.\nÉ possível ver setas apontando para outros Impostores e qualquer um em que você se transforme.\nVocê também verá uma piscada de tela quando um aliado Impostor matar alguém."
-
+"AntiAdminerInfoLong","(Impostors)\nI can tell if someone is in front of the Admin，Door Log，or Vital equipment. It does not know if the person is actually using the equipment.","(インポスター陣営)\nアドミン・ドアログ・バイタル機器の前に人がいるか分かる。実際に機器を使用しているかは分からない。","(内鬼阵营)\n我可以告诉如果有人在管理地图，门日志，或重要设备的前面时。但它不知道这个人是否真的在使用设备。",,
 
 "# マッドメイト系役職"
 "MadmateInfoLong","(Impostors):\nYou are a crewmate, but you act as the impostors' ally.\nYou and the impostors cannot recognize each other.\nYou can vent, and you have no tasks.","(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。","(内鬼阵营):\n叛徒伪装成船员来帮助内鬼阵营，但是他们并不知道谁是内鬼。\n叛徒不可以进行击杀或者破坏，可以跳管道且没有任务。","(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。","(Предатель):\nЧлен Экипажа, который на стороне Предателей. \nНо он не знает кто является Предателем в игре. \nМожет использовать вентиляцию, но нет заданий.","(Impostores):\nVocê é um tripulante que se aliou ao impostor.\nOs Impostores não sabem quem você é e vice-versa.\nPode usar a ventilação, e não tem tarefas."
@@ -429,6 +431,7 @@
 "AssignOnlyTo%role%","Assign Only To %role%","%role%のみに割り当てる","只赋予%role%","","Назначить только для %role%",""
 "WorkhorseNumLongTasks","Additional Long Tasks","追加ロングタスクの個数","额外长任务数","","Дополнительные долгие задания",""
 "WorkhorseNumShortTasks","Additional Short Tasks","追加ショートタスクの個数","额外短任务数","","Дополнительные короткие задания",""
+"AntiAdminerCanCheckCamera","Can check camera","カメラの人も検知出来る","可以检查摄像头",,
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"
@@ -634,3 +637,7 @@
 "DisabledBySettings","Disabled by Settings","設定で無効化されています","已在设置被中禁用","在設定中被禁用","Отключено настройкой","Desativado Pelas Configurações"
 "Disabled","Disabled","無効","禁用","已被禁用","Отключено","Desativado"
 "FailToTrack","Failed To Track","追跡失敗","追踪失败","無法追蹤","Не удалось отследить",""
+"AntiAdminerAD","Warning Admin","アドミン注意！","管理室地图注意",,
+"AntiAdminerVI","Warning Vital","バイタル注意！","生命检测仪注意",,
+"AntiAdminerDL","Warning DoorLog","ドアログ注意！","日志注意",,
+"AntiAdminerCA","Warning Camera","カメラ注意！","摄像头注意",,

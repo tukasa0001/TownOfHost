@@ -372,6 +372,7 @@ public enum CustomRoles
     Puppeteer,
     TimeThief,
     EvilTracker,
+    AntiAdminer,
     //Madmate
     MadGuardian,
     Madmate,
