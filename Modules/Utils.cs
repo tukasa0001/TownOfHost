@@ -371,7 +371,11 @@ namespace TownOfHost
             }
             else
             {
-                if (p.IsDead && Options.GhostIgnoreTasks.GetBool()) hasTasks = false;
+                // 死んでいて，死人のタスク免除が有効なら確定でfalse
+                if (p.IsDead && Options.GhostIgnoreTasks.GetBool())
+                {
+                    return false;
+                }
                 var role = States.MainRole;
                 var roleClass = CustomRoleManager.GetByPlayerId(p.PlayerId);
                 if (roleClass != null)
