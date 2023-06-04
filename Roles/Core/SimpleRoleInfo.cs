@@ -111,5 +111,60 @@ public class SimpleRoleInfo
                 canMakeMadmate
             );
     }
+    public static SimpleRoleInfo CreateForVanilla(
+        Type classType,
+        Func<PlayerControl, RoleBase> createInstance,
+        RoleTypes baseRoleType,
+        string colorCode = "",
+        bool canMakeMadmate = false
+    )
+    {
+        CustomRoles roleName;
+        CustomRoleTypes customRoleType;
+
+        switch (baseRoleType)
+        {
+            case RoleTypes.Engineer:
+                roleName = CustomRoles.Engineer;
+                customRoleType = CustomRoleTypes.Crewmate;
+                break;
+            case RoleTypes.Scientist:
+                roleName = CustomRoles.Scientist;
+                customRoleType = CustomRoleTypes.Crewmate;
+                break;
+            case RoleTypes.GuardianAngel:
+                roleName = CustomRoles.GuardianAngel;
+                customRoleType = CustomRoleTypes.Crewmate;
+                break;
+            case RoleTypes.Impostor:
+                roleName = CustomRoles.Impostor;
+                customRoleType = CustomRoleTypes.Impostor;
+                break;
+            case RoleTypes.Shapeshifter:
+                roleName = CustomRoles.Shapeshifter;
+                customRoleType = CustomRoleTypes.Impostor;
+                break;
+            default:
+                roleName = CustomRoles.Crewmate;
+                customRoleType = CustomRoleTypes.Crewmate;
+                break;
+        }
+        return
+            new(
+                classType,
+                createInstance,
+                roleName,
+                () => baseRoleType,
+                customRoleType,
+                -1,
+                null,
+                null,
+                colorCode,
+                false,
+                TabGroup.MainSettings,
+                null,
+                null
+            );
+    }
     public delegate void OptionCreatorDelegate();
 }
