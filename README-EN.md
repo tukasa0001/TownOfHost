@@ -232,6 +232,22 @@ Always assigned to a host and is ghosted from the start.<br>
 
 ## Impostor
 
+### AntiAdminer
+
+Create by Yumeno<br>
+
+Team : Impostors<br>
+Basis : Impostor<br>
+
+AntiAdminer can tell if someone is in front of the Admin，Door Log，or Vital equipment. <br>
+It does not know if the person is actually using the equipment.<br>
+
+#### Game Options
+
+| Name                          |
+| ----------------------------- |
+| Can Check Camera              |
+
 ### BountyHunter
 
 Team : Impostors<br>
