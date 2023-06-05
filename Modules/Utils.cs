@@ -358,10 +358,10 @@ namespace TownOfHost
             //Tasksがnullの場合があるのでその場合タスク無しとする
             if (p.Tasks == null) return false;
             if (p.Role == null) return false;
+            if (p.Disconnected) return false;
 
             var hasTasks = true;
             var States = PlayerState.GetByPlayerId(p.PlayerId);
-            if (p.Disconnected) hasTasks = false;
             if (p.Role.IsImpostor)
                 hasTasks = false; //タスクはCustomRoleを元に判定する
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
