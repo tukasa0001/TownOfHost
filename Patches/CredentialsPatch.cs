@@ -3,6 +3,7 @@ using System.Text;
 using HarmonyLib;
 using UnityEngine;
 
+using TownOfHost.Modules;
 using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 
@@ -60,6 +61,8 @@ namespace TownOfHost
             {
                 ErrorText.Instance.AddError(ErrorCode.Main_DictionaryError);
             }
+
+            VersionChecker.Check();
 
             if (SpecialEventText == null)
             {
