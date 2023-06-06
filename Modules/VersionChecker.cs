@@ -5,13 +5,13 @@ namespace TownOfHost.Modules;
 
 public static class VersionChecker
 {
-    public static readonly Version LowestSupportedVersion = new("2023.3.28");
     public static bool IsSupported { get; private set; } = true;
 
     public static void Check()
     {
         var amongUsVersion = Version.Parse(Application.version);
-        IsSupported = amongUsVersion >= LowestSupportedVersion;
+        var lowestSupportedVersion = Version.Parse(Main.LowestSupportedVersion);
+        IsSupported = amongUsVersion >= lowestSupportedVersion;
         if (!IsSupported)
         {
             ErrorText.Instance.AddError(ErrorCode.UnsupportedVersion);
