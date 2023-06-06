@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using AmongUs.GameOptions;
 using Hazel;
-using InnerNet;
-// Il2CppStructArray<byte>とbyte[]との間での暗黙的な変換の際に発生する重い計算を抑制するため，意図的にこれらを使用します - Hyz-sui
-using UnhollowerBaseLib;
 using Il2CppSystem;
+using InnerNet;
+using UnhollowerBaseLib;
+// Il2CppStructArray<byte>とbyte[]との間での暗黙的な変換の際に発生する重い計算を抑制するため，意図的にIl2CppSystemとUnhollowerBaseLibを使用します - Hyz-sui
 
 namespace TownOfHost.Modules
 {
