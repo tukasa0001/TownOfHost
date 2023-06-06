@@ -152,7 +152,7 @@ namespace TownOfHost
         // 001 Main
         Main_DictionaryError = 0010003, // 001-000-3 Main Dictionary Error
         // 002 サポート関連
-        UnsupportedVersion = 002_000_1,  // 000-000-1 AmongUsのバージョンが古い
+        UnsupportedVersion = 002_000_1,  // 002-000-1 AmongUsのバージョンが古い
         // ==========
         // 000 Test
         NoError = 0000000, // 000-000-0 No Error
