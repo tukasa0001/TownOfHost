@@ -24,11 +24,7 @@ namespace TownOfHost.Roles.AddOns.Common
         static readonly CustomRoles[] InvalidRoles =
         {
             CustomRoles.GuardianAngel,
-            CustomRoles.CSchrodingerCat,
             CustomRoles.SKMadmate,
-            CustomRoles.MSchrodingerCat,
-            CustomRoles.EgoSchrodingerCat,
-            CustomRoles.JSchrodingerCat,
             CustomRoles.HASFox,
             CustomRoles.HASTroll,
             CustomRoles.GM,

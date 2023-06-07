@@ -181,10 +181,6 @@ namespace TownOfHost
                     //マッドメイト系役職
                         //後で追加
                     //特殊クルー役職
-                    {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
-                    //ニュートラル役職
-                    {CustomRoles.EgoSchrodingerCat, "#5600ff"},
-                    {CustomRoles.JSchrodingerCat, "#00b4eb"},
                     //HideAndSeek
                     {CustomRoles.HASFox, "#e478ff"},
                     {CustomRoles.HASTroll, "#00ff00"},
