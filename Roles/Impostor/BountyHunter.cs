@@ -6,6 +6,7 @@ using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
+using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor;
@@ -211,5 +212,12 @@ public sealed class BountyHunter : RoleBase, IImpostor
         //seerがtarget自身でBountyHunterのとき、
         //矢印オプションがありミーティング以外で矢印表示
         return TargetArrow.GetArrows(Player, target.PlayerId);
+    }
+    public void OnSchrodingerCatKill(SchrodingerCat schrodingerCat)
+    {
+        if (GetTarget() == schrodingerCat.Player)
+        {
+            ResetTarget();  // ターゲットの選びなおし
+        }
     }
 }
