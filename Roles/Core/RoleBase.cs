@@ -130,11 +130,6 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public virtual void ApplyGameOptions(IGameOptions opt)
     { }
-    public virtual bool OverrideCustomRoleType(out CustomRoleTypes customRoleType)
-    {
-        customRoleType = CustomRoleTypes.Crewmate;
-        return false;
-    }
 
     /// <summary>
     /// ターゲットとしてのCheckMurder処理
