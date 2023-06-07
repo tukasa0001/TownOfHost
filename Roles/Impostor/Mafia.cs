@@ -7,7 +7,7 @@ namespace TownOfHost.Roles.Impostor;
 public sealed class Mafia : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Mafia),
             player => new Mafia(player),
             CustomRoles.Mafia,

@@ -7,7 +7,7 @@ namespace TownOfHost.Roles.Crewmate;
 public sealed class Dictator : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Dictator),
             player => new Dictator(player),
             CustomRoles.Dictator,

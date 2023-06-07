@@ -7,7 +7,7 @@ namespace TownOfHost.Roles.Crewmate;
 public sealed class Doctor : RoleBase, IDeathReasonSeeable
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Doctor),
             player => new Doctor(player),
             CustomRoles.Doctor,

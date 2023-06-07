@@ -6,7 +6,7 @@ namespace TownOfHost.Roles.Crewmate;
 public sealed class Mayor : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Mayor),
             player => new Mayor(player),
             CustomRoles.Mayor,
