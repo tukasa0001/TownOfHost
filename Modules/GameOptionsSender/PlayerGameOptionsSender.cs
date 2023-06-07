@@ -4,6 +4,7 @@ using Hazel;
 using Il2CppSystem.Linq;
 using InnerNet;
 using Mathf = UnityEngine.Mathf;
+using UnhollowerBaseLib;
 
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Neutral;
@@ -48,7 +49,7 @@ namespace TownOfHost.Modules
             else base.SendGameOptions();
         }
 
-        public override void SendOptionsArray(byte[] optionArray)
+        public override void SendOptionsArray(Il2CppStructArray<byte> optionArray)
         {
             for (byte i = 0; i < GameManager.Instance.LogicComponents.Count; i++)
             {
