@@ -12,7 +12,7 @@ namespace TownOfHost.Roles.Crewmate;
 public sealed class Sheriff : RoleBase, IKiller
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Sheriff),
             player => new Sheriff(player),
             CustomRoles.Sheriff,

@@ -12,7 +12,7 @@ namespace TownOfHost.Roles.Impostor
     public sealed class Vampire : RoleBase, IImpostor
     {
         public static readonly SimpleRoleInfo RoleInfo =
-            new(
+            SimpleRoleInfo.Create(
                 typeof(Vampire),
                 player => new Vampire(player),
                 CustomRoles.Vampire,

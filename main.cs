@@ -173,15 +173,9 @@ namespace TownOfHost
 
                 roleColors = new Dictionary<CustomRoles, string>()
                 {
-                    //バニラ役職
-                    {CustomRoles.Crewmate, "#ffffff"},
-                    {CustomRoles.Engineer, "#8cffff"},
-                    {CustomRoles.Scientist, "#8cffff"},
-                    {CustomRoles.GuardianAngel, "#ffffff"},
-                    //インポスター、シェイプシフター
-                    //特殊インポスター役職
-                    //マッドメイト系役職
-                        //後で追加
+                    // マッドメイト役職
+                    {CustomRoles.MSchrodingerCat, "#ff1919"},
+                    {CustomRoles.SKMadmate, "#ff1919"},
                     //特殊クルー役職
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     //ニュートラル役職
@@ -200,18 +194,7 @@ namespace TownOfHost
 
                     {CustomRoles.NotAssigned, "#ffffff"}
                 };
-                foreach (var role in CustomRolesHelper.AllRoles)
-                {
-                    switch (role.GetCustomRoleTypes())
-                    {
-                        case CustomRoleTypes.Impostor:
-                        case CustomRoleTypes.Madmate:
-                            roleColors.TryAdd(role, "#ff1919");
-                            break;
-                        default:
-                            break;
-                    }
-                }
+
                 var type = typeof(RoleBase);
                 var roleClassArray =
                 CustomRoleManager.AllRolesClassType = Assembly.GetAssembly(type)

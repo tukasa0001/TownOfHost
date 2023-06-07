@@ -27,7 +27,7 @@ public class SimpleRoleInfo
     private Func<bool> canMakeMadmate;
     public bool CanMakeMadmate => canMakeMadmate?.Invoke() == true;
 
-    public SimpleRoleInfo(
+    private SimpleRoleInfo(
         Type classType,
         Func<PlayerControl, RoleBase> createInstance,
         CustomRoles roleName,
@@ -36,11 +36,11 @@ public class SimpleRoleInfo
         int configId,
         OptionCreatorDelegate optionCreator,
         string chatCommand,
-        string colorCode = "",
-        bool requireResetCam = false,
-        TabGroup tab = TabGroup.MainSettings,
-        Func<AudioClip> introSound = null,
-        Func<bool> canMakeMadmate = null
+        string colorCode,
+        bool requireResetCam,
+        TabGroup tab,
+        Func<AudioClip> introSound,
+        Func<bool> canMakeMadmate
     )
     {
         ClassType = classType;
@@ -77,6 +77,94 @@ public class SimpleRoleInfo
         Tab = tab;
 
         CustomRoleManager.AllRolesInfo.Add(roleName, this);
+    }
+    public static SimpleRoleInfo Create(
+        Type classType,
+        Func<PlayerControl, RoleBase> createInstance,
+        CustomRoles roleName,
+        Func<RoleTypes> baseRoleType,
+        CustomRoleTypes customRoleType,
+        int configId,
+        OptionCreatorDelegate optionCreator,
+        string chatCommand,
+        string colorCode = "",
+        bool requireResetCam = false,
+        TabGroup tab = TabGroup.MainSettings,
+        Func<AudioClip> introSound = null,
+        Func<bool> canMakeMadmate = null
+    )
+    {
+        return
+            new(
+                classType,
+                createInstance,
+                roleName,
+                baseRoleType,
+                customRoleType,
+                configId,
+                optionCreator,
+                chatCommand,
+                colorCode,
+                requireResetCam,
+                tab,
+                introSound,
+                canMakeMadmate
+            );
+    }
+    public static SimpleRoleInfo CreateForVanilla(
+        Type classType,
+        Func<PlayerControl, RoleBase> createInstance,
+        RoleTypes baseRoleType,
+        string colorCode = "",
+        bool canMakeMadmate = false
+    )
+    {
+        CustomRoles roleName;
+        CustomRoleTypes customRoleType;
+
+        switch (baseRoleType)
+        {
+            case RoleTypes.Engineer:
+                roleName = CustomRoles.Engineer;
+                customRoleType = CustomRoleTypes.Crewmate;
+                break;
+            case RoleTypes.Scientist:
+                roleName = CustomRoles.Scientist;
+                customRoleType = CustomRoleTypes.Crewmate;
+                break;
+            case RoleTypes.GuardianAngel:
+                roleName = CustomRoles.GuardianAngel;
+                customRoleType = CustomRoleTypes.Crewmate;
+                break;
+            case RoleTypes.Impostor:
+                roleName = CustomRoles.Impostor;
+                customRoleType = CustomRoleTypes.Impostor;
+                break;
+            case RoleTypes.Shapeshifter:
+                roleName = CustomRoles.Shapeshifter;
+                customRoleType = CustomRoleTypes.Impostor;
+                break;
+            default:
+                roleName = CustomRoles.Crewmate;
+                customRoleType = CustomRoleTypes.Crewmate;
+                break;
+        }
+        return
+            new(
+                classType,
+                createInstance,
+                roleName,
+                () => baseRoleType,
+                customRoleType,
+                -1,
+                null,
+                null,
+                colorCode,
+                false,
+                TabGroup.MainSettings,
+                null,
+                () => canMakeMadmate
+            );
     }
     public delegate void OptionCreatorDelegate();
 }

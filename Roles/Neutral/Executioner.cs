@@ -10,7 +10,7 @@ namespace TownOfHost.Roles.Neutral;
 public sealed class Executioner : RoleBase, IAdditionalWinner
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Executioner),
             player => new Executioner(player),
             CustomRoles.Executioner,

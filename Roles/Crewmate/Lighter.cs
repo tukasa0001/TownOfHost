@@ -5,7 +5,7 @@ namespace TownOfHost.Roles.Crewmate;
 public sealed class Lighter : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Lighter),
             player => new Lighter(player),
             CustomRoles.Lighter,
