@@ -5,6 +5,7 @@ using HarmonyLib;
 using UnityEngine;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost
 {
@@ -117,7 +118,11 @@ namespace TownOfHost
         }
         public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
         {
-            if (player.Is(CustomRoleTypes.Madmate))
+            var isMadmate =
+                player.Is(CustomRoleTypes.Madmate) ||
+                // マッド属性化時に削除
+                (player.GetRoleClass() is SchrodingerCat schrodingerCat && schrodingerCat.AmMadmate);
+            if (isMadmate)
             {
                 if (systemType == SystemTypes.Comms)
                 {

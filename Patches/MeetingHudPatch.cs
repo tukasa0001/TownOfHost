@@ -8,6 +8,7 @@ using UnityEngine;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Crewmate;
+using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -199,18 +200,17 @@ namespace TownOfHost
         private static PlayerControl PickRevengeTarget(PlayerControl exiledplayer, CustomDeathReason deathReason)//道連れ先選定
         {
             List<PlayerControl> TargetList = new();
+            var isMadmate =
+                exiledplayer.Is(CustomRoleTypes.Madmate) ||
+                // マッド属性化時に削除
+                (exiledplayer.GetRoleClass() is SchrodingerCat schrodingerCat && schrodingerCat.AmMadmate);
             foreach (var candidate in Main.AllAlivePlayerControls)
             {
                 if (candidate == exiledplayer || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
-                switch (exiledplayer.GetCustomRole())
-                {
-                    //ここに道連れ役職を追加
-                    default:
-                        if (exiledplayer.Is(CustomRoleTypes.Madmate) && deathReason == CustomDeathReason.Vote && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
-                        && !candidate.Is(CustomRoleTypes.Impostor))
-                            TargetList.Add(candidate);
-                        break;
-                }
+                if (isMadmate && deathReason == CustomDeathReason.Vote && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
+                && !candidate.Is(CustomRoleTypes.Impostor))
+                    TargetList.Add(candidate);
+                break;
             }
             if (TargetList == null || TargetList.Count == 0) return null;
             var rand = IRandom.Instance;

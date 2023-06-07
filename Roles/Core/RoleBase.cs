@@ -130,6 +130,11 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public virtual void ApplyGameOptions(IGameOptions opt)
     { }
+    public virtual bool OverrideCustomRoleType(out CustomRoleTypes customRoleType)
+    {
+        customRoleType = CustomRoleTypes.Crewmate;
+        return false;
+    }
 
     /// <summary>
     /// ターゲットとしてのCheckMurder処理
@@ -251,22 +256,29 @@ public abstract class RoleBase : IDisposable
     // Suffix:ターゲット矢印などの追加情報。
 
     /// <summary>
-    /// seenによるRoleNameの書き換え
+    /// seenによる表示上のRoleNameの書き換え
     /// </summary>
     /// <param name="seer">見る側</param>
     /// <param name="enabled">RoleNameを表示するかどうか</param>
     /// <param name="roleColor">RoleNameの色</param>
     /// <param name="roleText">RoleNameのテキスト</param>
-    public virtual void OverrideRoleNameAsSeen(PlayerControl seer, ref bool enabled, ref Color roleColor, ref string roleText)
+    public virtual void OverrideDisplayRoleNameAsSeen(PlayerControl seer, ref bool enabled, ref Color roleColor, ref string roleText)
     { }
     /// <summary>
-    /// seerによるRoleNameの書き換え
+    /// seerによる表示上のRoleNameの書き換え
     /// </summary>
     /// <param name="seen">見られる側</param>
     /// <param name="enabled">RoleNameを表示するかどうか</param>
     /// <param name="roleColor">RoleNameの色</param>
     /// <param name="roleText">RoleNameのテキスト</param>
-    public virtual void OverrideRoleNameAsSeer(PlayerControl seen, ref bool enabled, ref Color roleColor, ref string roleText)
+    public virtual void OverrideDisplayRoleNameAsSeer(PlayerControl seen, ref bool enabled, ref Color roleColor, ref string roleText)
+    { }
+    /// <summary>
+    /// 本来の役職名の書き換え
+    /// </summary>
+    /// <param name="roleColor">RoleNameの色</param>
+    /// <param name="roleText">RoleNameのテキスト</param>
+    public virtual void OverrideTrueRoleName(ref Color roleColor, ref string roleText)
     { }
     /// <summary>
     /// seerによるProgressTextの書き換え
