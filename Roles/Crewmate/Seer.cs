@@ -7,7 +7,7 @@ namespace TownOfHost.Roles.Crewmate;
 public sealed class Seer : RoleBase, IKillFlashSeeable
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Seer),
             player => new Seer(player),
             CustomRoles.Seer,

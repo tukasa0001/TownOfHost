@@ -13,7 +13,7 @@ namespace TownOfHost.Roles.Impostor;
 public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidekickable
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(EvilTracker),
             player => new EvilTracker(player),
             CustomRoles.EvilTracker,

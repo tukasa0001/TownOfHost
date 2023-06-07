@@ -8,7 +8,7 @@ namespace TownOfHost.Roles.Impostor;
 public sealed class ShapeMaster : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(ShapeMaster),
             player => new ShapeMaster(player),
             CustomRoles.ShapeMaster,

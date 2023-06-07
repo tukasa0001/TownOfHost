@@ -426,13 +426,9 @@ namespace TownOfHost
             }
 
             var isSidekickableCustomRole = player.GetRoleClass() is ISidekickable sidekickable && sidekickable.CanMakeSidekick();
-            if (player.Is(CustomRoles.Shapeshifter) || isSidekickableCustomRole)
-            {
-                return true;
-            }
 
-            // ISideKickable対応前の役職はこちら
-            return player.GetCustomRole().CanMakeMadmate();
+            return isSidekickableCustomRole ||
+                player.GetCustomRole().CanMakeMadmate(); // ISideKickable対応前の役職はこちら
         }
         public static void RpcExileV2(this PlayerControl player)
         {

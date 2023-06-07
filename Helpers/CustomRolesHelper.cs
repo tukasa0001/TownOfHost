@@ -14,9 +14,8 @@ namespace TownOfHost
             var roleInfo = role.GetRoleInfo();
             if (roleInfo != null)
                 return roleInfo.CustomRoleType == CustomRoleTypes.Impostor;
-            return
-                role is CustomRoles.Impostor or
-                CustomRoles.Shapeshifter;
+
+            return false;
         }
         public static bool IsMadmate(this CustomRoles role)
         {
@@ -133,14 +132,7 @@ namespace TownOfHost
                 return roleInfo.BaseRoleType.Invoke();
             return role switch
             {
-                CustomRoles.Scientist => RoleTypes.Scientist,
-
-                CustomRoles.Engineer => RoleTypes.Engineer,
-
-                CustomRoles.GuardianAngel or
                 CustomRoles.GM => RoleTypes.GuardianAngel,
-
-                CustomRoles.Shapeshifter => RoleTypes.Shapeshifter,
 
                 _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate,
             };

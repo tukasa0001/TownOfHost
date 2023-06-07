@@ -9,7 +9,7 @@ namespace TownOfHost.Roles.Impostor;
 public sealed class Mare : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Mare),
             player => new Mare(player),
             CustomRoles.Mare,
