@@ -179,7 +179,7 @@ public sealed class SchrodingerCat : RoleBase, IAdditionalWinner, IDeathReasonSe
     private void ChangeTeamRandomly()
     {
         var rand = IRandom.Instance;
-        List<TeamType> candidates = new()
+        List<TeamType> candidates = new(4)
         {
             TeamType.Crew,
             TeamType.Mad,
