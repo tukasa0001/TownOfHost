@@ -171,6 +171,9 @@ namespace TownOfHost
 
                 roleColors = new Dictionary<CustomRoles, string>()
                 {
+                    // マッドメイト役職
+                    {CustomRoles.MSchrodingerCat, "#ff1919"},
+                    {CustomRoles.SKMadmate, "#ff1919"},
                     //特殊クルー役職
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     //ニュートラル役職
