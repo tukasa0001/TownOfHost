@@ -163,7 +163,7 @@ public class SimpleRoleInfo
                 false,
                 TabGroup.MainSettings,
                 null,
-                null
+                () => canMakeMadmate
             );
     }
     public delegate void OptionCreatorDelegate();
