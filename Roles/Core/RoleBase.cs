@@ -332,10 +332,6 @@ public abstract class RoleBase : IDisposable
     {
         StringNames? str = Player.Data.Role.Role switch
         {
-            RoleTypes.Engineer => StringNames.VentAbility,
-            RoleTypes.Scientist => StringNames.VitalsAbility,
-            RoleTypes.Shapeshifter => StringNames.ShapeshiftAbility,
-            RoleTypes.GuardianAngel => StringNames.ProtectAbility,
             RoleTypes.ImpostorGhost or RoleTypes.CrewmateGhost => StringNames.HauntAbilityName,
             _ => null
         };

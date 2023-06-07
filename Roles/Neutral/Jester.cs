@@ -6,7 +6,7 @@ namespace TownOfHost.Roles.Neutral;
 public sealed class Jester : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Jester),
             player => new Jester(player),
             CustomRoles.Jester,

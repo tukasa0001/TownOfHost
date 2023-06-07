@@ -8,7 +8,7 @@ namespace TownOfHost.Roles.Neutral
     public sealed class Jackal : RoleBase, IKiller, ISchrodingerCatOwner
     {
         public static readonly SimpleRoleInfo RoleInfo =
-            new(
+            SimpleRoleInfo.Create(
                 typeof(Jackal),
                 player => new Jackal(player),
                 CustomRoles.Jackal,

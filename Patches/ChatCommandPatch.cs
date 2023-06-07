@@ -332,6 +332,8 @@ namespace TownOfHost
             var roles = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == roleType);
             foreach (var role in roles)
             {
+                if (role.ChatCommand is null) continue;
+
                 roleCommands[role.RoleName] = role.ChatCommand;
             }
         }

@@ -16,7 +16,7 @@ namespace TownOfHost.Roles.Neutral;
 public sealed class SchrodingerCat : RoleBase, IAdditionalWinner, IDeathReasonSeeable, IKillFlashSeeable
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(SchrodingerCat),
             player => new SchrodingerCat(player),
             CustomRoles.SchrodingerCat,

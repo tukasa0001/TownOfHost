@@ -360,10 +360,10 @@ namespace TownOfHost
             //Tasksがnullの場合があるのでその場合タスク無しとする
             if (p.Tasks == null) return false;
             if (p.Role == null) return false;
+            if (p.Disconnected) return false;
 
             var hasTasks = true;
             var States = PlayerState.GetByPlayerId(p.PlayerId);
-            if (p.Disconnected) hasTasks = false;
             if (p.Role.IsImpostor)
                 hasTasks = false; //タスクはCustomRoleを元に判定する
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -373,7 +373,11 @@ namespace TownOfHost
             }
             else
             {
-                if (p.IsDead && Options.GhostIgnoreTasks.GetBool()) hasTasks = false;
+                // 死んでいて，死人のタスク免除が有効なら確定でfalse
+                if (p.IsDead && Options.GhostIgnoreTasks.GetBool())
+                {
+                    return false;
+                }
                 var role = States.MainRole;
                 var roleClass = CustomRoleManager.GetByPlayerId(p.PlayerId);
                 if (roleClass != null)

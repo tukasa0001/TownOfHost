@@ -12,7 +12,7 @@ namespace TownOfHost.Roles.Impostor;
 public sealed class Puppeteer : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Puppeteer),
             player => new Puppeteer(player),
             CustomRoles.Puppeteer,

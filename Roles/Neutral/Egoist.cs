@@ -9,7 +9,7 @@ namespace TownOfHost.Roles.Neutral;
 public sealed class Egoist : RoleBase, ISidekickable, IKiller, ISchrodingerCatOwner
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Egoist),
             player => new Egoist(player),
             CustomRoles.Egoist,
