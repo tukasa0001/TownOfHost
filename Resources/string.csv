@@ -535,6 +535,8 @@
 "ERR-000-804-1","TownOfHost does not support the Vanilla HnS, so unloaded.","現在バニラのHide And Seekはサポートされていません。modを無効化しました。","TOH不支持原版躲猫猫, mod因此失效","Town Of Host模組尚未支援原版的Hide And Seek模式，所以模組將暫時卸載。","Мод не поддерживает обычные Прятки. Мод был отключён",""
 "#### 001 Main"
 "ERR-001-000-3","Main dictionary has duplicated keys.","MainのDictonaryでKeyの重複が発生しています。","在主目录出现重复密钥","在主目錄出現重複密鑰","Дублирование ключей происходит в основном словаре.","Dicionário principal tem chaves duplicadas."
+"#### 002 Support"
+"ERR-002-000-1","Unsupported AmongUs version. Please update.","サポートされていないAmongUsバージョンです。ゲームをアップデートしてください。","","","",""
 
 "## その他"
 "DefaultSystemMessageTitle","【===== System Message =====】","【===== システムメッセージ ======】","【===== 系统信息 ======】","【===== 系統訊息 ======】","【=== Системное сообщение ===】","【===== Mensagem do Sistema ======】"
@@ -561,6 +563,7 @@
 "onSetPublicNoLatest","Public rooms are only available in the latest version.\nPlease update.","最新版以外で公開ルームにはできません。\nアップデートをしてください。","不可以在未安装最新模组的前提下创建公开房间。\n请更新本模组。","無法建立一個公共房間，因為使用的不是最新版本的模組\n請更新本模組。","Публичные лобби запрещены за исключением последней версии.\nПожалуйста обновите.","Salas públicas estão disponíveis apenas na última versão.\nPor favor atualize."
 "CanNotJoinPublicRoomNoLatest","You can't join public rooms without the latest version.\nPlease update.","最新版以外で公開ルームには参加できません。\nアップデートをしてください。","不可以在未安装最新模组的前提下进入公开房间。\n请更新本模组。","無法在未安裝最新版本的前提下進入公開房間\n請更新本模組","Вы не можете присоединяться к публичным лобби за исключением последней версии.\nПожалуйста обновите.","Você não pode entrar em salas públicas sem a última versão.\nPor favor atualize."
 "ModBrokenMessage","The MOD file is damaged.\nPlease reinstall.","MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。","模组文件损坏。\n请重新安装本模组。","模組檔案損壞\n請重新安裝模組","Мод был поврежден.\nПожалуйста переустановите его снова.","Os arquivos do MOD estão danificados.\nPor favor reinstale."
+"UnsupportedVersion","Unsupported AmongUs version.\nPlease update.","サポートされていないAmongUsバージョンです。\nゲームをアップデートしてください。","","","",""
 "DisabledByProgram","Public rooms have been disabled by the program","公開ルームはプログラムによって無効化されています","公开房间的操作已被程序禁用","公開房間的操作已經被程式禁用","Создание публичного лобби отключена программой","Salas públicas foram desativadas pelo programa"
 "EnterVentToWin","Enter Vent to Win!!","ベントに入って勝利しろ!!","跳管道来获得胜利！","跳管道來獲得勝利!!","Запрыгните в вентиляцию чтобы победить!!","Entre no Duto Para Ganhar!!!"
 "FireworksPutPhase","{0} Fireworks Left","あと{0}個置け","还要安放{0}枚烟花","還需要安裝{0}枚煙火","Осталось {0} Фейерверков","Restam {0} Fogos de Artifício"
