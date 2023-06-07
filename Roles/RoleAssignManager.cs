@@ -245,11 +245,12 @@ namespace TownOfHost.Roles
 
             foreach (var role in AllMainRoles.OrderBy(x => Guid.NewGuid())) //確定枠が偏らないようにシャッフル
             {
-                if (!role.IsAvailable()) continue;
+                if (!role.IsAssignable()) continue;
 
                 var chance = role.GetChance();
                 var count = role.GetCount();
-                if (chance == 0 || count == 0) continue;
+                if (chance is 0 or 100) continue;
+                if (count == 0) continue;
                 //確率がそのまま追加枚数に
                 for (var i = 0; i < count; i++)
                     randomRoleTicketPool.AddRange(Enumerable.Repeat((role, i), chance / 10).ToList());
@@ -299,7 +300,7 @@ namespace TownOfHost.Roles
             var candidateRoleList = new List<CustomRoles>();
             foreach (var role in AllMainRoles)
             {
-                if (!role.IsAvailable()) continue;
+                if (!role.IsAssignable()) continue;
 
                 var chance = role.GetChance();
                 var count = role.GetCount();
@@ -308,7 +309,7 @@ namespace TownOfHost.Roles
             }
             return candidateRoleList;
         }
-        private static bool IsAvailable(this CustomRoles role)
+        private static bool IsAssignable(this CustomRoles role)
             => role switch
             {
                 CustomRoles.Crewmate => false,
