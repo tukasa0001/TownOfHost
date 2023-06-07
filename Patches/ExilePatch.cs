@@ -65,7 +65,6 @@ namespace TownOfHost
                 {
                     roleClass.OnExileWrapUp(exiled, ref DecidedWinner);
                 }
-                SchrodingerCat.ChangeTeam(exiled.Object);
 
                 if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) PlayerState.GetByPlayerId(exiled.PlayerId).SetDead();
             }
