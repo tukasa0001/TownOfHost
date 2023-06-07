@@ -259,7 +259,7 @@ public class MeetingVoteManager
                         break;
                 }
             }
-            if (!ignoreSkipMode && vote.IsSkip)
+            else if (!ignoreSkipMode && vote.IsSkip)
             {
                 var voterName = Utils.GetPlayerById(vote.Voter).GetNameWithRole();
                 switch (skipMode)
