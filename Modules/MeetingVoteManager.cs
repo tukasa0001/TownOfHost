@@ -270,22 +270,22 @@ public class MeetingVoteManager
         }
     }
 
-    public struct VoteResult
+    public readonly struct VoteResult
     {
         /// <summary>
         /// Key: 投票された人<br/>
         /// Value: 得票数
         /// </summary>
         public IReadOnlyDictionary<byte, int> VotedCounts => votedCounts;
-        private Dictionary<byte, int> votedCounts;
+        private readonly Dictionary<byte, int> votedCounts;
         /// <summary>
         /// 追放されるプレイヤー
         /// </summary>
-        public GameData.PlayerInfo Exiled { get; private set; }
+        public readonly GameData.PlayerInfo Exiled;
         /// <summary>
         /// 同数投票かどうか
         /// </summary>
-        public bool IsTie { get; private set; }
+        public readonly bool IsTie;
 
         public VoteResult(Dictionary<byte, int> votedCounts)
         {
