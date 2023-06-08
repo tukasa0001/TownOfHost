@@ -110,8 +110,8 @@ public class MeetingVoteManager
     /// <param name="applyVoteMode">スキップと同数投票の設定を適用するかどうか</param>
     public void EndMeeting(bool applyVoteMode = true)
     {
-        var (votes, exiled, isTie) = CountVotes(applyVoteMode);
-        var logName = exiled == null ? (isTie ? "同数" : "スキップ") : exiled.Object.GetNameWithRole();
+        var result = CountVotes(applyVoteMode);
+        var logName = result.Exiled == null ? (result.IsTie ? "同数" : "スキップ") : result.Exiled.Object.GetNameWithRole();
         logger.Info($"追放者: {logName} で会議を終了します");
 
         var states = new List<MeetingHud.VoterState>();
@@ -136,15 +136,15 @@ public class MeetingVoteManager
         if (AntiBlackout.OverrideExiledPlayer)
         {
             meetingHud.RpcVotingComplete(states.ToArray(), null, true);
-            ExileControllerWrapUpPatch.AntiBlackout_LastExiled = exiled;
+            ExileControllerWrapUpPatch.AntiBlackout_LastExiled = result.Exiled;
         }
         else
         {
-            meetingHud.RpcVotingComplete(states.ToArray(), exiled, isTie);
+            meetingHud.RpcVotingComplete(states.ToArray(), result.Exiled, result.IsTie);
         }
-        if (exiled != null)
+        if (result.Exiled != null)
         {
-            MeetingHudPatch.CheckForDeathOnExile(CustomDeathReason.Vote, exiled.PlayerId);
+            MeetingHudPatch.CheckForDeathOnExile(CustomDeathReason.Vote, result.Exiled.PlayerId);
         }
         Destroy();
     }
@@ -153,7 +153,7 @@ public class MeetingVoteManager
     /// </summary>
     /// <param name="applyVoteMode">スキップと同数投票の設定を適用するかどうか</param>
     /// <returns>([Key: 投票先,Value: 票数]の辞書, 追放される人, 同数投票かどうか)</returns>
-    public (Dictionary<byte, int> votes, GameData.PlayerInfo exiled, bool isTie) CountVotes(bool applyVoteMode)
+    public VoteResult CountVotes(bool applyVoteMode)
     {
         // 投票モードに従って投票を変更
         if (applyVoteMode && Options.VoteMode.GetBool())
@@ -177,53 +177,8 @@ public class MeetingVoteManager
             }
             votes[vote.VotedFor] += vote.NumVotes;
         }
-        // 票数順に整列された投票
-        var orderedVotes = votes.OrderByDescending(vote => vote.Value);
-        // 最も票を得た人の票数
-        var maxVoteNum = orderedVotes.FirstOrDefault().Value;
-        // 最多票数のプレイヤー全員
-        var mostVotedPlayers = votes.Where(vote => vote.Value == maxVoteNum).Select(vote => vote.Key).ToArray();
 
-        bool isTie;
-        GameData.PlayerInfo exiled;
-        // 最多票数のプレイヤーが複数人いる場合
-        if (mostVotedPlayers.Length > 1)
-        {
-            isTie = true;
-            exiled = null;
-            logger.Info($"{string.Join(',', mostVotedPlayers.Select(id => GetVoteName(id)))} が同数");
-        }
-        else
-        {
-            isTie = false;
-            exiled = GameData.Instance.GetPlayerById(mostVotedPlayers[0]);
-            logger.Info($"最多得票者: {GetVoteName(mostVotedPlayers[0])}");
-        }
-        // 同数投票時の特殊モード
-        if (isTie && Options.VoteMode.GetBool())
-        {
-            var tieMode = (TieMode)Options.WhenTie.GetValue();
-            switch (tieMode)
-            {
-                case TieMode.All:
-                    var toExile = mostVotedPlayers.Where(id => id != Skip).ToArray();
-                    foreach (var playerId in toExile)
-                    {
-                        Utils.GetPlayerById(playerId)?.SetRealKiller(null);
-                    }
-                    MeetingHudPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.Vote, toExile);
-                    exiled = null;
-                    logger.Info("全員追放します");
-                    break;
-                case TieMode.Random:
-                    var exileId = mostVotedPlayers.OrderBy(_ => Guid.NewGuid()).FirstOrDefault();
-                    exiled = GameData.Instance.GetPlayerById(exileId);
-                    isTie = false;
-                    logger.Info($"ランダム追放: {GetVoteName(exileId)}");
-                    break;
-            }
-        }
-        return (votes, exiled, isTie);
+        return new VoteResult(votes);
     }
     /// <summary>
     /// スキップモードと無投票モードに応じて，投票を変更したりプレイヤーを死亡させたりします
@@ -312,6 +267,75 @@ public class MeetingVoteManager
         {
             logger.Info($"{Utils.GetPlayerById(Voter).GetNameWithRole()}の投票を{GetVoteName(VotedFor)}から{GetVoteName(voteTarget)}に変更");
             VotedFor = voteTarget;
+        }
+    }
+
+    public struct VoteResult
+    {
+        /// <summary>
+        /// Key: 投票された人<br/>
+        /// Value: 得票数
+        /// </summary>
+        public IReadOnlyDictionary<byte, int> VotedCounts => votedCounts;
+        private Dictionary<byte, int> votedCounts;
+        /// <summary>
+        /// 追放されるプレイヤー
+        /// </summary>
+        public GameData.PlayerInfo Exiled { get; private set; }
+        /// <summary>
+        /// 同数投票かどうか
+        /// </summary>
+        public bool IsTie { get; private set; }
+
+        public VoteResult(Dictionary<byte, int> votedCounts)
+        {
+            this.votedCounts = votedCounts;
+
+            // 票数順に整列された投票
+            var orderedVotes = votedCounts.OrderByDescending(vote => vote.Value);
+            // 最も票を得た人の票数
+            var maxVoteNum = orderedVotes.FirstOrDefault().Value;
+            // 最多票数のプレイヤー全員
+            var mostVotedPlayers = votedCounts.Where(vote => vote.Value == maxVoteNum).Select(vote => vote.Key).ToArray();
+
+            // 最多票数のプレイヤーが複数人いる場合
+            if (mostVotedPlayers.Length > 1)
+            {
+                IsTie = true;
+                Exiled = null;
+                logger.Info($"{string.Join(',', mostVotedPlayers.Select(id => GetVoteName(id)))} が同数");
+            }
+            else
+            {
+                IsTie = false;
+                Exiled = GameData.Instance.GetPlayerById(mostVotedPlayers[0]);
+                logger.Info($"最多得票者: {GetVoteName(mostVotedPlayers[0])}");
+            }
+
+            // 同数投票時の特殊モード
+            if (IsTie && Options.VoteMode.GetBool())
+            {
+                var tieMode = (TieMode)Options.WhenTie.GetValue();
+                switch (tieMode)
+                {
+                    case TieMode.All:
+                        var toExile = mostVotedPlayers.Where(id => id != Skip).ToArray();
+                        foreach (var playerId in toExile)
+                        {
+                            Utils.GetPlayerById(playerId)?.SetRealKiller(null);
+                        }
+                        MeetingHudPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.Vote, toExile);
+                        Exiled = null;
+                        logger.Info("全員追放します");
+                        break;
+                    case TieMode.Random:
+                        var exileId = mostVotedPlayers.OrderBy(_ => Guid.NewGuid()).FirstOrDefault();
+                        Exiled = GameData.Instance.GetPlayerById(exileId);
+                        IsTie = false;
+                        logger.Info($"ランダム追放: {GetVoteName(exileId)}");
+                        break;
+                }
+            }
         }
     }
 
