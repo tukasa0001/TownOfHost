@@ -59,9 +59,6 @@ namespace TownOfHost.Roles.Neutral
             __instance.SabotageButton.ToggleVisible(isActive && CanUseSabotage);
         }
         public override bool CanSabotage(SystemTypes systemType) => CanUseSabotage;
-        public void ApplySchrodingerCatOptions(IGameOptions option)
-        {
-            option.SetVision(HasImpostorVision);
-        }
+        public void ApplySchrodingerCatOptions(IGameOptions option) => ApplyGameOptions(option);
     }
 }
