@@ -301,6 +301,7 @@
 "DisableAirshipViewingDeckLightsPanel","Disable Viewing Deck Lights Panel(Airship)","展望の配電盤を無効化（エアシップ）","禁用瞭望台配电箱(飞艇地图)","關閉觀景台的配電箱 (Airship)","Отключить починку Света на Смотровой Палубе (Airship)","Desativar Painel de Luzes do Deck Panorâmico(Airship)"
 "DisableAirshipGapRoomLightsPanel","Disable Gap Room Lights Panel(Airship)","昇降機の配電盤を無効化（エアシップ）","禁用升降机配电箱(飞艇地图)","關閉間隙室右側的配電箱 (Airship)","Отключить починку Света в Комнате Пролета (Airship)","Desativar Painel de Luzes da Sala Suspensa(Airship)"
 "DisableAirshipCargoLightsPanel","Disable Cargo Lights Panel(Airship)","貨物室の配電盤を無効化（エアシップ）","禁用货舱配电箱(飞艇地图)","關閉貨艙的配電箱 (Airship)","Отключить починку Света в Грузовом Отсеке (Airship)","Desativar Painel de Luzes das Cargas(Airship)"
+"BlockDisturbancesToSwitches","Block Disturbances To Switches","配電盤妨害を無効化","","","",""
 "MapModification","Map Modifications","マップ改造","","","",""
 "DisableAirshipMovingPlatform","Disable Moving Platform(Airship)","昇降機のリフトを無効化(エアシップ)","","","",""
 "AirShipVariableElectrical","Variable Electrical(AirShip)","電気室の構造変化（エアシップ）","改变配电室构造(飞艇地图)","電力室構造變化 (Airship)","Двери в Электрощитовой меняются случайно (Airship)",""

@@ -193,6 +193,7 @@ namespace TownOfHost
         public static OptionItem DisableAirshipViewingDeckLightsPanel;
         public static OptionItem DisableAirshipGapRoomLightsPanel;
         public static OptionItem DisableAirshipCargoLightsPanel;
+        public static OptionItem BlockDisturbancesToSwitches;
 
         // マップ改造
         public static OptionItem MapModification;
@@ -382,6 +383,8 @@ namespace TownOfHost
             DisableAirshipGapRoomLightsPanel = BooleanOptionItem.Create(101512, "DisableAirshipGapRoomLightsPanel", false, TabGroup.MainSettings, false).SetParent(LightsOutSpecialSettings)
                 .SetGameMode(CustomGameMode.Standard);
             DisableAirshipCargoLightsPanel = BooleanOptionItem.Create(101513, "DisableAirshipCargoLightsPanel", false, TabGroup.MainSettings, false).SetParent(LightsOutSpecialSettings)
+                .SetGameMode(CustomGameMode.Standard);
+            BlockDisturbancesToSwitches = BooleanOptionItem.Create(101514, "BlockDisturbancesToSwitches", false, TabGroup.MainSettings, false).SetParent(LightsOutSpecialSettings)
                 .SetGameMode(CustomGameMode.Standard);
 
             // マップ改造
