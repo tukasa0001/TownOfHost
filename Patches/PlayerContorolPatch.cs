@@ -472,7 +472,7 @@ namespace TownOfHost
                         {
                             PlayerState.GetByPlayerId(partnerPlayer.PlayerId).DeathReason = CustomDeathReason.FollowingSuicide;
                             if (isExiled)
-                                CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.FollowingSuicide, partnerPlayer.PlayerId);
+                                MeetingHudPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.FollowingSuicide, partnerPlayer.PlayerId);
                             else
                                 partnerPlayer.RpcMurderPlayer(partnerPlayer);
                         }
