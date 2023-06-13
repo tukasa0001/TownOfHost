@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
@@ -81,17 +80,15 @@ public sealed class Mayor : RoleBase
 
         return false;
     }
-    public override bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva)
+    public override (byte? votedForId, int? numVotes, bool doVote) OnVote(byte voterId, byte sourceVotedForId)
     {
-        for (var i = 0; i < AdditionalVote; i++)
+        // 既定値
+        var (votedForId, numVotes, doVote) = base.OnVote(voterId, sourceVotedForId);
+        if (voterId == Player.PlayerId)
         {
-            statesList.Add(new MeetingHud.VoterState()
-            {
-                VoterId = pva.TargetPlayerId,
-                VotedForId = pva.VotedFor
-            });
+            numVotes = AdditionalVote + 1;
         }
-        return true;
+        return (votedForId, numVotes, doVote);
     }
     public override void AfterMeetingTasks()
     {

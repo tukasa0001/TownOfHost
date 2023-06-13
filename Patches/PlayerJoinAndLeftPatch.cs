@@ -102,6 +102,7 @@ namespace TownOfHost
                 AntiBlackout.OnDisconnect(data.Character.Data);
                 PlayerGameOptionsSender.RemoveSender(data.Character);
             }
+            Main.playerVersion.Remove(data.Character.PlayerId);
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
         }
     }
