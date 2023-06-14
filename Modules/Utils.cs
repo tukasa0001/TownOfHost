@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
-using UnhollowerBaseLib;
+using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
 
 using TownOfHost.Modules;

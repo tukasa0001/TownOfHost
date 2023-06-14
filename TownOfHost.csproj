@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6</TargetFramework>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
     <Description>Town Of Host</Description>
@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
-    <Reference Include="$(AmongUs)\BepInEx\unhollowed\*.dll" />
+    <Reference Include="$(AmongUs)\BepInEx\interop\*.dll" />
     <EmbeddedResource Include=".\Resources\*.png" />
     <EmbeddedResource Include=".\Resources\string.csv" />
   </ItemGroup>
