@@ -6,6 +6,7 @@
     <Description>Town Of Host</Description>
     <Authors>tukasa0001(EmptyBottle), integral0131</Authors>
     <langVersion>preview</langVersion>
+    <NoWarn>MSB3246</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
