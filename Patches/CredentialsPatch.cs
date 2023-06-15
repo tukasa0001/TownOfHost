@@ -73,12 +73,12 @@ namespace TownOfHost
 
                 if (SpecialEventText == null)
                 {
-                    SpecialEventText = Object.Instantiate(__instance.text);
+                    SpecialEventText = Object.Instantiate(__instance.text, TohLogo.transform);
                     SpecialEventText.text = "";
                     SpecialEventText.color = Color.white;
-                    SpecialEventText.fontSize += 2.5f;
-                    SpecialEventText.alignment = TextAlignmentOptions.Top;
-                    SpecialEventText.transform.position = new Vector3(0, 0.5f, 0);
+                    SpecialEventText.fontSizeMin = 3f;
+                    SpecialEventText.alignment = TextAlignmentOptions.Center;
+                    SpecialEventText.transform.localPosition = new Vector3(0f, 0.8f, 0f);
                 }
                 SpecialEventText.enabled = TitleLogoPatch.amongUsLogo != null;
                 if (Main.IsInitialRelease)
