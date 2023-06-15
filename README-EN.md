@@ -536,6 +536,26 @@ Basis : Crewmate<br>
 When Bait is killed, the imposter will automatically self report.<br>
 This also applies to delayed kills- Once the kill button is pressed, the report will be immediate.<br>
 
+### CandleLighter
+
+Create by Yumeno<br>
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+His vision is gradually getting smaller and smaller like a candle.<br>
+However, unlike others, I am not affected by the blackout because I light my surroundings with a candle.<br>
+When all tasks are completed, a new candle is supplied and can be re-lit to its brightest state.<br>
+
+#### Game Options
+| Name                          |
+| ----------------------------- |
+| Start Vision(Widest Vision)   |
+| Time to Start Changing Vision |
+| Time to End Vision            |
+| End Vision(Narrowest Vision)  |
+| Time Move Even During Meeting |
+
 ### Dictator
 
 Create and idea by そうくん<br>
