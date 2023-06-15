@@ -118,18 +118,6 @@ namespace TownOfHost
             if (ban) BanManager.AddBanPlayer(AmongUsClient.Instance.GetRecentClient(clientId));
         }
     }
-    [HarmonyPatch(typeof(ResolutionManager), nameof(ResolutionManager.SetResolution))]
-    class SetResolutionManager
-    {
-        public static void Postfix()
-        {
-            if (MainMenuManagerPatch.discordButton != null)
-                MainMenuManagerPatch.discordButton.transform.position = Vector3.Reflect(MainMenuManagerPatch.template.transform.position, Vector3.left);
-            if (MainMenuManagerPatch.updateButton != null)
-                MainMenuManagerPatch.updateButton.transform.position = MainMenuManagerPatch.template.transform.position + new Vector3(0.25f, 0.75f);
-        }
-    }
-
     [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendAllStreamedObjects))]
     class InnerNetObjectSerializePatch
     {
