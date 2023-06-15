@@ -74,6 +74,7 @@ namespace TownOfHost
                 if (SpecialEventText == null)
                 {
                     SpecialEventText = Object.Instantiate(__instance.text, TohLogo.transform);
+                    SpecialEventText.name = "SpecialEventText";
                     SpecialEventText.text = "";
                     SpecialEventText.color = Color.white;
                     SpecialEventText.fontSizeMin = 3f;
