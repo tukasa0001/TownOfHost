@@ -395,6 +395,7 @@ public enum CustomRoles
     Doctor,
     Seer,
     TimeManager,
+    CandleLighter,
     CSchrodingerCat,//クルー陣営のシュレディンガーの猫
     //Neutral
     Arsonist,

@@ -50,6 +50,7 @@
 "Dictator","Dictator","ディクテーター","独裁者","獨裁主義者","Диктатор","Ditador"
 "Seer","Seer","シーア","灵媒","靈媒","Провидец","Vidente"
 "TimeManager","TimeManager","タイムマネージャー","时间管理者","時間大師","Мастер Времени",""
+"CandleLighter","Candle Lighter","キャンドルライター",
 
 "# ニュートラル役職"
 "Jester","Jester","ジェスター","小丑","小丑","Шут","Bobo"
@@ -129,6 +130,7 @@
 "DictatorInfo","Decide who to eject","独裁政治をしよう","让我统治世界，拥有无上的权利","讓所有人臣服於你","Повесьте своего врага на страх и риск","Escolha quem será exilado"
 "SeerInfo","You see the moment someone dies","他人の死んだ瞬間がわかる","你能感知死亡","你擁有陰陽眼","Вы видите когда умирают игроки","Veja o momento em que alguém morre"
 "TimeManagerInfo","Do the tasks and extend meeting time","タスクをして会議時間を延ばそう","完成任务并延长会议持续时间","完成你的任務來延長會議時間","Выполняйте задания чтобы увеличить время встречи",""
+"CandleLighterInfo","By the time the wax is gone...","ろうが無くなるまでには、、",
 
 "# ニュートラル役職"
 "ArsonistInfo","Burn them to crisps","燃やせ","火焰给我燃烧起来吧！","燒吧，燒吧，燃燒吧","Облейте и подожгите всех игроков","Queime tudo em pedacinhos"
@@ -194,6 +196,7 @@
 "DictatorInfoLong","(Crewmates):\nWhen you vote someone, the meeting will end on the spot and the player you voted will be ejected.\nThe moment you vote someone out, you will also die.\nWhen you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.\nAfter exercising the force, the Dictators die just after meeting.","(クルー陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。","(船员阵营):\n当独裁者在会议阶段投票给玩家后，会议会被强制结束并放逐其投票对象。\n该技能发动后独裁者将会死亡。","(船員):\n如果獨裁主義者在會議上投票給某位玩家,\n獨裁主義者將強制結束會議並無視場上票數將獨裁主義者投的那個人投出\n但是獨裁主義者將死於他投票的瞬間。","(Член Экипажа):\nЕсли Диктатор проголосует за любого игрока во время собрания, он сможет принудительно завершить собрание и кикнуть игрока за которого он отдал голос \nТак же Диктатор умрёт после собрания когда он отдаст голос.","(Tripulantes): \nQuando votar em alguém, durante uma reunião, a reunião será encerrada e a pessoa em que você votou, será exilada. \nAo exilar alguém, você morre-rá."
 "SeerInfoLong","(Crewmates):\nWhenever someone dies, you will see a ""kill flash"".","(クルー陣営):\nプレイヤーが死亡するごとに、シーアはキルフラッシュを見ることができる。","(船员阵营):\n每当玩家死亡时，灵媒将会看到击杀闪烁。","(船員):當有玩家死亡時,靈媒將看到閃光","(Член Экипажа):\nПровидец видит ''Вспышку Убийства'' каждый раз, когда игроки умирают.","(Tripulantes): \nQuando alguém morre, você vê um ""clarão de abate"" (a sua tela piscará brevemente)."
 "TimeManagerInfoLong","(Crewmates):The more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","(クルー陣営):\nタスクを終わらせるごとに会議時間が延びる。死亡すると会議時間は元に戻る。","(船员阵营):\n你做的任务越多，会议时间就会越长。在你死后，会议时间会复原。","","(Член Экипажа):\nМастер Времени может увеличить время встречи, увеличивается время по мере выполнения заданий. Но когда он умрет, время встречи будет сброшено по умолчанию.",""
+"CandleLighterInfoLong","(Crewmates):\nHis vision is gradually getting smaller and smaller like a candle. However, unlike others, I am not affected by the blackout because I light my surroundings with a candle.\nWhen all tasks are completed, a new candle is supplied and can be re-lit to its brightest state.","(クルー陣営):\n視界がろうそくのようにだんだんと小さく狭くなっていく。しかし他人と違いろうそくで周りを灯している為、停電の影響は受けない。\nタスクを全て完了させると新たに一本ろうそくが供給され、一番明るい状態に点け直すことができる。",
 
 "# ニュートラル役職"
 "ArsonistInfoLong","(Neutrals):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","(ニュートラル):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。","(独立阵营):\n纵火犯可以通过对玩家点击击杀按钮并在跟随其数秒来完成涂油行为。\n当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。","(中立):\n當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。","(Нейтрал):\nПоджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя.","(Neutros):\nAo apertar o botão de matar, você encharca o seu inimigo em óleo.\nApós ter encharcado todos os jogadores vivos, você coloca tudo em chamas e ganha entrando na ventilação."
@@ -429,6 +432,11 @@
 "AssignOnlyTo%role%","Assign Only To %role%","%role%のみに割り当てる","只赋予%role%","","Назначить только для %role%",""
 "WorkhorseNumLongTasks","Additional Long Tasks","追加ロングタスクの個数","额外长任务数","","Дополнительные долгие задания",""
 "WorkhorseNumShortTasks","Additional Short Tasks","追加ショートタスクの個数","额外短任务数","","Дополнительные короткие задания",""
+"CandleLighterStartVision","Start Vision(Widest Vision)","初めの視界(一番広い視界)",
+"CandleLighterCountStartTime","Time to Start Changing Vision","視界が変わり始めるまでの時間",
+"CandleLighterEndVisionTime","Time to End Vision","最後の視界になる時間",
+"CandleLighterEndVision","End Vision(Narrowest Vision)","最後の視界(一番狭い視界)",
+"CandleLighterTimeMoveMeeting","Time Move Even During Meeting","会議中もろうそくが消費される",
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"
