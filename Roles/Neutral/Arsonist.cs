@@ -27,8 +27,7 @@ public sealed class Arsonist : RoleBase, IKiller
     : base(
         RoleInfo,
         player,
-        () => HasTask.False,
-        CountTypes.Crew
+        () => HasTask.False
     )
     {
         DouseTime = OptionDouseTime.GetFloat();

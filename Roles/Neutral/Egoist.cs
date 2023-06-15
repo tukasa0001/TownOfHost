@@ -19,13 +19,13 @@ public sealed class Egoist : RoleBase, ISidekickable, IKiller
             SetupOptionItem,
             "eg",
             "#5600ff",
-            canMakeMadmate: () => OptionCanCreateMadmate.GetBool()
+            canMakeMadmate: () => OptionCanCreateMadmate.GetBool(),
+            countType: CountTypes.Impostor
         );
     public Egoist(PlayerControl player)
     : base(
         RoleInfo,
-        player,
-        countType: CountTypes.Impostor
+        player
     )
     {
         KillCooldown = OptionKillCooldown.GetFloat();
