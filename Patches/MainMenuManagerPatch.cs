@@ -1,5 +1,6 @@
 using System;
 using HarmonyLib;
+using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -8,66 +9,126 @@ namespace TownOfHost
     [HarmonyPatch]
     public class MainMenuManagerPatch
     {
-        public static GameObject template;
-        public static GameObject discordButton;
-        public static GameObject updateButton;
+        private static PassiveButton template;
+        private static PassiveButton discordButton;
+        public static PassiveButton UpdateButton { get; private set; }
+        private static PassiveButton gitHubButton;
 
-        [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPrefix]
-        public static void Start_Prefix(MainMenuManager __instance)
+        [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPostfix, HarmonyPriority(Priority.Normal)]
+        public static void StartPostfix(MainMenuManager __instance)
         {
-            if (template == null) template = GameObject.Find("/MainUI/ExitGameButton");
+            if (template == null) template = __instance.quitButton;
             if (template == null) return;
             //Discordボタンを生成
-            if (discordButton == null) discordButton = Object.Instantiate(template, template.transform.parent);
-            discordButton.name = "DiscordButton";
-            discordButton.transform.position = Vector3.Reflect(template.transform.position, Vector3.left);
-
-            var discordText = discordButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
-            Color discordColor = new Color32(88, 101, 242, byte.MaxValue);
-            PassiveButton discordPassiveButton = discordButton.GetComponent<PassiveButton>();
-            SpriteRenderer discordButtonSprite = discordButton.GetComponent<SpriteRenderer>();
-            discordPassiveButton.OnClick = new();
-            discordPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(Main.DiscordInviteUrl)));
-            discordPassiveButton.OnMouseOut.AddListener((Action)(() => discordButtonSprite.color = discordText.color = discordColor));
-            discordText.DestroyTranslator();
-            discordText.SetText("Discord");
-            discordButtonSprite.color = discordText.color = discordColor;
+            if (discordButton == null)
+            {
+                discordButton = CreateButton(
+                    __instance,
+                    "DiscordButton",
+                    new(-1f, -1f, 1f),
+                    new(88, 101, 242, byte.MaxValue),
+                    new(148, 161, byte.MaxValue, byte.MaxValue),
+                    () => Application.OpenURL(Main.DiscordInviteUrl),
+                    "Discord");
+            }
             discordButton.gameObject.SetActive(Main.ShowDiscordButton);
 
-            //Updateボタンを生成
-            if (updateButton == null) updateButton = Object.Instantiate(template, template.transform.parent);
-            updateButton.name = "UpdateButton";
-            updateButton.transform.position = template.transform.position + new Vector3(0.25f, 0.75f);
-            updateButton.transform.GetChild(0).GetComponent<RectTransform>().localScale *= 1.5f;
-
-            var updateText = updateButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
-            Color updateColor = new Color32(128, 255, 255, byte.MaxValue);
-            PassiveButton updatePassiveButton = updateButton.GetComponent<PassiveButton>();
-            SpriteRenderer updateButtonSprite = updateButton.GetComponent<SpriteRenderer>();
-            updatePassiveButton.OnClick = new();
-            updatePassiveButton.OnClick.AddListener((Action)(() =>
+            // GitHubボタンを生成
+            if (gitHubButton == null)
             {
-                updateButton.SetActive(false);
-                ModUpdater.StartUpdate(ModUpdater.downloadUrl);
-            }));
-            updateText.DestroyTranslator();
-            updatePassiveButton.OnMouseOut.AddListener((Action)(() => updateButtonSprite.color = updateText.color = updateColor));
-            updateButtonSprite.color = updateText.color = updateColor;
-            updateButtonSprite.size *= 1.5f;
-            updateButton.SetActive(false);
+                gitHubButton = CreateButton(
+                    __instance,
+                    "GitHubButton",
+                    new(1f, -1f, 1f),
+                    new(153, 153, 153, byte.MaxValue),
+                    new(209, 209, 209, byte.MaxValue),
+                    () => Application.OpenURL("https://github.com/tukasa0001/TownOfHost"),
+                    "GitHub");
+            }
+
+            //Updateボタンを生成
+            if (UpdateButton == null)
+            {
+                UpdateButton = CreateButton(
+                    __instance,
+                    "UpdateButton",
+                    new(0f, -1.7f, 1f),
+                    new(0, 202, 255, byte.MaxValue),
+                    new(60, 255, 255, byte.MaxValue),
+                    () =>
+                    {
+                        UpdateButton.gameObject.SetActive(false);
+                        ModUpdater.StartUpdate(ModUpdater.downloadUrl);
+                    },
+                    $"{Translator.GetString("updateButton")}\n{ModUpdater.latestTitle}",
+                    new(2.5f, 1f));
+            }
+            UpdateButton.gameObject.SetActive(false);
 
 #if RELEASE
-            //フリープレイの無効化
-            var freeplayButton = GameObject.Find("/MainUI/FreePlayButton");
+            // フリープレイの無効化
+            var howToPlayButton = __instance.howToPlayButton;
+            var freeplayButton = howToPlayButton.transform.parent.Find("FreePlayButton");
             if (freeplayButton != null)
             {
-                var freeplayText = freeplayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
-                freeplayButton.GetComponent<PassiveButton>().OnClick = new();
-                freeplayButton.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.OpenURL("https://github.com/tukasa0001/TownOfHost")));
-                freeplayText.DestroyTranslator();
-                freeplayText.SetText("GitHub");
+                freeplayButton.gameObject.SetActive(false);
             }
+            // フリープレイが消えるのでHowToPlayをセンタリング
+            howToPlayButton.transform.SetLocalX(0);
 #endif
+        }
+
+        /// <summary>TOHロゴの子としてボタンを生成</summary>
+        /// <param name="name">オブジェクト名</param>
+        /// <param name="normalColor">普段のボタンの色</param>
+        /// <param name="hoverColor">マウスが乗っているときのボタンの色</param>
+        /// <param name="action">押したときに発火するアクション</param>
+        /// <param name="label">ボタンのテキスト</param>
+        /// <param name="scale">ボタンのサイズ 変更しないなら不要</param>
+        private static PassiveButton CreateButton(MainMenuManager mainMenuManager, string name, Vector3 localPosition, Color32 normalColor, Color32 hoverColor, Action action, string label, Vector2? scale = null)
+        {
+            var button = Object.Instantiate(template, CredentialsPatch.TohLogo.transform);
+            button.name = name;
+            Object.Destroy(button.GetComponent<AspectPosition>());
+            button.transform.localPosition = localPosition;
+
+            button.OnClick = new();
+            button.OnClick.AddListener((Action)(() =>
+            {
+                // 前で何か開かれているときはクリックされても発火しない
+                if (!mainMenuManager.screenTint.enabled)
+                {
+                    action.Invoke();
+                }
+            }));
+
+            var buttonText = button.transform.Find("FontPlacer/Text_TMP").GetComponent<TMP_Text>();
+            buttonText.DestroyTranslator();
+            buttonText.fontSize = buttonText.fontSizeMax = buttonText.fontSizeMin = 3.5f;
+            buttonText.enableWordWrapping = false;
+            buttonText.text = label;
+            var normalSprite = button.inactiveSprites.GetComponent<SpriteRenderer>();
+            var hoverSprite = button.activeSprites.GetComponent<SpriteRenderer>();
+            normalSprite.color = normalColor;
+            hoverSprite.color = hoverColor;
+
+            // ラベルをセンタリング
+            var container = buttonText.transform.parent;
+            Object.Destroy(container.GetComponent<AspectPosition>());
+            Object.Destroy(buttonText.GetComponent<AspectPosition>());
+            container.SetLocalX(0f);
+            buttonText.transform.SetLocalX(0f);
+            buttonText.horizontalAlignment = HorizontalAlignmentOptions.Center;
+
+            var buttonCollider = button.GetComponent<BoxCollider2D>();
+            if (scale.HasValue)
+            {
+                normalSprite.size = hoverSprite.size = buttonCollider.size = scale.Value;
+            }
+            // 当たり判定のズレを直す
+            buttonCollider.offset = new(0f, 0f);
+
+            return button;
         }
     }
 }

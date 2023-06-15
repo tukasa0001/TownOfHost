@@ -23,9 +23,8 @@ namespace TownOfHost
         public static string downloadUrl = null;
         public static GenericPopup InfoPopup;
 
-        [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPrefix]
-        [HarmonyPriority(2)]
-        public static void Start_Prefix(MainMenuManager __instance)
+        [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPostfix, HarmonyPriority(Priority.LowerThanNormal)]
+        public static void StartPostfix()
         {
             DeleteOldDLL();
             InfoPopup = UnityEngine.Object.Instantiate(Twitch.TwitchManager.Instance.TwitchPopup);
@@ -35,9 +34,8 @@ namespace TownOfHost
             {
                 CheckRelease(Main.BetaBuildURL.Value != "").GetAwaiter().GetResult();
             }
-            MainMenuManagerPatch.updateButton.SetActive(hasUpdate);
-            MainMenuManagerPatch.updateButton.transform.position = MainMenuManagerPatch.template.transform.position + new Vector3(0.25f, 0.75f);
-            MainMenuManagerPatch.updateButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().SetText($"{GetString("updateButton")}\n{latestTitle}");
+            MainMenuManagerPatch.UpdateButton.gameObject.SetActive(hasUpdate);
+            MainMenuManagerPatch.UpdateButton.transform.Find("FontPlacer/Text_TMP").GetComponent<TMPro.TMP_Text>().SetText($"{GetString("updateButton")}\n{latestTitle}");
         }
         public static async Task<bool> CheckRelease(bool beta = false)
         {
@@ -172,7 +170,7 @@ namespace TownOfHost
                 if (button != null)
                 {
                     button.gameObject.SetActive(showButton);
-                    button.GetChild(0).GetComponent<TextTranslatorTMP>().TargetText = StringNames.QuitLabel;
+                    button.GetComponentInChildren<TextTranslatorTMP>().TargetText = StringNames.QuitLabel;
                     button.GetComponent<PassiveButton>().OnClick = new();
                     button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.Quit()));
                 }
