@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text;
 using HarmonyLib;
+using TMPro;
 using UnityEngine;
 
 using TownOfHost.Modules;
@@ -20,11 +21,11 @@ namespace TownOfHost
             static StringBuilder sb = new();
             static void Postfix(PingTracker __instance)
             {
-                __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
+                __instance.text.alignment = TextAlignmentOptions.TopRight;
 
                 sb.Clear();
 
-                sb.Append(Main.credentialsText);
+                sb.Append("\r\n").Append(Main.credentialsText);
 
                 if (Options.NoGameEnd.GetBool()) sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("NoGameEnd")));
                 if (Options.IsStandardHAS) sb.Append($"\r\n").Append(Utils.ColorString(Color.yellow, GetString("StandardHAS")));
@@ -49,17 +50,18 @@ namespace TownOfHost
         [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
         class VersionShowerStartPatch
         {
-            static TMPro.TextMeshPro SpecialEventText;
+            static TextMeshPro SpecialEventText;
             static void Postfix(VersionShower __instance)
             {
-                Main.credentialsText = $"\r\n<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
+                Main.credentialsText = $"<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
 #if DEBUG
                 Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
 #endif
                 var credentials = Object.Instantiate(__instance.text);
                 credentials.text = Main.credentialsText;
-                credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
-                credentials.transform.position = new Vector3(4.6f, 3.2f, 0);
+                credentials.alignment = TextAlignmentOptions.Right;
+                credentials.transform.position = new Vector3(1f, 2.65f, -2f);
+                credentials.fontSize = credentials.fontSizeMax = credentials.fontSizeMin = 2f;
 
                 ErrorText.Create(__instance.text);
                 if (Main.hasArgumentException && ErrorText.Instance != null)
@@ -75,7 +77,7 @@ namespace TownOfHost
                     SpecialEventText.text = "";
                     SpecialEventText.color = Color.white;
                     SpecialEventText.fontSize += 2.5f;
-                    SpecialEventText.alignment = TMPro.TextAlignmentOptions.Top;
+                    SpecialEventText.alignment = TextAlignmentOptions.Top;
                     SpecialEventText.transform.position = new Vector3(0, 0.5f, 0);
                 }
                 SpecialEventText.enabled = TitleLogoPatch.amongUsLogo != null;
