@@ -143,19 +143,24 @@ namespace TownOfHost
         {
             try
             {
-                using WebClient client = new();
-                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadCallBack);
-                client.DownloadFileAsync(new Uri(url), "BepInEx/plugins/TownOfHost.dll");
-                while (client.IsBusy) await Task.Delay(1);
-                ShowPopup(GetString("updateRestart"), true);
+                using HttpClient client = new();
+                using var response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    using var content = response.Content;
+                    using var stream = content.ReadAsStream();
+                    using var file = new FileStream("BepInEx/plugins/TownOfHost.dll", FileMode.Create, FileAccess.Write);
+                    stream.CopyTo(file);
+                    ShowPopup(GetString("updateRestart"), true);
+                    return true;
+                }
             }
             catch (Exception ex)
             {
                 Logger.Error($"ダウンロードに失敗しました。\n{ex}", "DownloadDLL", false);
-                ShowPopup(GetString("updateManually"), true);
-                return false;
             }
-            return true;
+            ShowPopup(GetString("updateManually"), true);
+            return false;
         }
         private static void DownloadCallBack(object sender, DownloadProgressChangedEventArgs e)
         {
