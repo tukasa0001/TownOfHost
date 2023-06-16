@@ -93,14 +93,7 @@ namespace TownOfHost
             button.transform.localPosition = localPosition;
 
             button.OnClick = new();
-            button.OnClick.AddListener((Action)(() =>
-            {
-                // 前で何か開かれているときはクリックされても発火しない
-                if (!mainMenuManager.screenTint.enabled)
-                {
-                    action.Invoke();
-                }
-            }));
+            button.OnClick.AddListener(action);
 
             var buttonText = button.transform.Find("FontPlacer/Text_TMP").GetComponent<TMP_Text>();
             buttonText.DestroyTranslator();
