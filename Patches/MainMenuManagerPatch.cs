@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfHost
 {
-    [HarmonyPatch]
+    [HarmonyPatch(typeof(MainMenuManager))]
     public class MainMenuManagerPatch
     {
         private static PassiveButton template;
@@ -14,7 +14,7 @@ namespace TownOfHost
         public static PassiveButton UpdateButton { get; private set; }
         private static PassiveButton gitHubButton;
 
-        [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPostfix, HarmonyPriority(Priority.Normal)]
+        [HarmonyPatch(nameof(MainMenuManager.Start)), HarmonyPostfix, HarmonyPriority(Priority.Normal)]
         public static void StartPostfix(MainMenuManager __instance)
         {
             if (template == null) template = __instance.quitButton;
@@ -129,6 +129,27 @@ namespace TownOfHost
             buttonCollider.offset = new(0f, 0f);
 
             return button;
+        }
+
+        // プレイメニュー，アカウントメニュー，クレジット画面が開かれたらロゴとボタンを消す
+        [HarmonyPatch(nameof(MainMenuManager.OpenGameModeMenu))]
+        [HarmonyPatch(nameof(MainMenuManager.OpenAccountMenu))]
+        [HarmonyPatch(nameof(MainMenuManager.OpenCredits))]
+        [HarmonyPostfix]
+        public static void OpenGameModeMenuPostfix()
+        {
+            if (CredentialsPatch.TohLogo != null)
+            {
+                CredentialsPatch.TohLogo.gameObject.SetActive(false);
+            }
+        }
+        [HarmonyPatch(nameof(MainMenuManager.ResetScreen)), HarmonyPostfix]
+        public static void ResetScreenPostfix()
+        {
+            if (CredentialsPatch.TohLogo != null)
+            {
+                CredentialsPatch.TohLogo.gameObject.SetActive(true);
+            }
         }
     }
 }
