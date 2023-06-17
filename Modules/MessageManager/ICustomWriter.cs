@@ -1,5 +1,5 @@
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using InnerNet;
-using UnhollowerBaseLib;
 
 namespace TownOfHost
 {
