@@ -23,7 +23,6 @@ namespace TownOfHost
             if (discordButton == null)
             {
                 discordButton = CreateButton(
-                    __instance,
                     "DiscordButton",
                     new(-1f, -1f, 1f),
                     new(88, 101, 242, byte.MaxValue),
@@ -37,7 +36,6 @@ namespace TownOfHost
             if (gitHubButton == null)
             {
                 gitHubButton = CreateButton(
-                    __instance,
                     "GitHubButton",
                     new(1f, -1f, 1f),
                     new(153, 153, 153, byte.MaxValue),
@@ -50,7 +48,6 @@ namespace TownOfHost
             if (UpdateButton == null)
             {
                 UpdateButton = CreateButton(
-                    __instance,
                     "UpdateButton",
                     new(0f, -1.7f, 1f),
                     new(0, 202, 255, byte.MaxValue),
@@ -85,7 +82,7 @@ namespace TownOfHost
         /// <param name="action">押したときに発火するアクション</param>
         /// <param name="label">ボタンのテキスト</param>
         /// <param name="scale">ボタンのサイズ 変更しないなら不要</param>
-        private static PassiveButton CreateButton(MainMenuManager mainMenuManager, string name, Vector3 localPosition, Color32 normalColor, Color32 hoverColor, Action action, string label, Vector2? scale = null)
+        private static PassiveButton CreateButton(string name, Vector3 localPosition, Color32 normalColor, Color32 hoverColor, Action action, string label, Vector2? scale = null)
         {
             var button = Object.Instantiate(template, CredentialsPatch.TohLogo.transform);
             button.name = name;
