@@ -51,12 +51,36 @@ TownOfHost ForEは本家同様ホストのクライアントに導入するだ�
 コマンドを入力することで勝利陣営を予想して投票することが出来ます。<br>
 投票後、一番投票数を集めた陣営はリザルトに表示されます。<br>
 
-今後アップデート予定です。<br>
+この機能を有効にすると以下の場合にポイントが取得できます。<br>
+1.自分の陣営が勝利した場合<br>
+2.霊界での予想先が勝利した場合<br>
+
+更に霊界での投票については以下のように入手出来るポイントが変化します。<br>
+
+1.自分の投票先と多くのプレイヤーが投票した先が一致している場合：1pt<br>
+2.自分の投票先と多くのプレイヤーが投票した先が一致していない場合：3pt<br>
+<br>
+
+また、ポイントは追加でベットすることが出来ます。<br>
+追加でベットを行った場合、上記の条件×追加でベットしたポイントを貰うことが出来ます。<br>
+但し予想が外れた場合は追加でベットしたポイントを失うので注意してください。<br>
+
+溜めたポイントはこのモードを有効時にのみ表示される称号と交換することが出来ます。<br>
+<br>
 
 | チャットコマンド                         | 機能                                          |
 | ---------------------------------------- | --------------------------------------------- |
+| /b 承認						           | ポイントを取得するために必要な同意            |
+| /b 非承認						           | 保持されているデータを消させるコマンド        |
+| /bp							           | 現在のポイントを表示			               |
+| /albp							           | 現在の部屋にいる全員のポイントを表示          |
 | /Bet <陣営名><br>/b <陣営名>             | 勝利陣営を予想                                |
-| /bp							           | 現在のポイント(当てた数)を表示                |
+| /Bet <陣営名> <追加ベットポイント><br>/b <陣営名> <追加ベットポイント>             | 追加ベットありで勝利陣営を予想。<br>当てた場合、倍のポイントが手に入りますが、外した場合賭けたポイントを失います。 |
+| /psl							           | 称号ショップを表示			                   |
+| /bs <欲しい称号名>					   | 称号を購入					                   |
+| /resetbp write      					   | DB上書き(ホストのみ)	    	               |
+| /resetbp read       					   | DB読み込み(ホストのみ)	    	               |
+| /resetbp init       					   | 初期化	(ホストのみ。ゲーム開始時に誰かがエラー落ちした場合、利用ください)|
 
 ### 部屋人数上限変更(ホストのみ)
 
@@ -65,7 +89,16 @@ TownOfHost ForEは本家同様ホストのクライアントに導入するだ�
 
 | チャットコマンド                         | 機能                                          |
 | ---------------------------------------- | --------------------------------------------- |
-| /mp <上限の人数>                         | 部屋の最大数を設定(上限15人)                    |
+| /mp <上限の人数>                         | 部屋の最大数を設定(上限15人)                  |
+
+### 他modが入ってきた時のリセット(ホストのみ)
+
+コマンド入力で部屋を解散せずにゲームを開始できます。<br>
+
+
+| チャットコマンド                         | 機能                                          |
+| ---------------------------------------- | --------------------------------------------- |
+| /rrs                                     | 部屋をリセット                                |
 
 ## ★役職
 
@@ -75,7 +108,7 @@ TownOfHost ForEは本家同様ホストのクライアントに導入するだ�
 | [イビルトラッカー](https://github.com/tukasa0001/TownOfHost#EvilTrackerイビルトラッカー)       |  [マッドガーディアン](https://github.com/tukasa0001/TownOfHost#MadGuardianマッドガーディアン)                   | [ディクテーター](https://github.com/tukasa0001/TownOfHost#Dictatorディクテーター)                   | [エゴイスト](https://github.com/tukasa0001/TownOfHost#Egoistエゴイスト)                             | [バルチャー](#バルチャー)															 |[ラストインポスター](https://github.com/Yumenopai/TownOfHost_Y#ラストインポスター)  |
 | [イビルウォッチャー](https://github.com/tukasa0001/TownOfHost#Watcherウォッチャー)             |  [マッドスニッチ](https://github.com/tukasa0001/TownOfHost#MadSnitchマッドスニッチ)                             | [ドクター](https://github.com/tukasa0001/TownOfHost#Doctorドクター)                                 | [エクスキューショナー](https://github.com/tukasa0001/TownOfHost#Executionerエクスキューショナー)    | [アナグマ](#アナグマ)													 			 |[ウォッチング](https://github.com/Yumenopai/TownOfHost_Y#ウォッチング) 			 |
 | [花火職人](#FireWorks花火職人)                                     						     |  [サイドキックマッドメイト](https://github.com/tukasa0001/TownOfHost#SidekickMadmateサイドキックマッドメイト)   | [ライター](https://github.com/tukasa0001/TownOfHost#Lighterライター)                                | [ジャッカル](https://github.com/tukasa0001/TownOfHost#Jackalジャッカル)                             | [ブラキディオス](#ブラキディオス)													 |[ライティング](https://github.com/Yumenopai/TownOfHost_Y#ライティング)				 |
-| [メアー](https://github.com/tukasa0001/TownOfHost#Mareメアー)                                  |  [マッドディクテーター](https://github.com/Yumenopai/TownOfHost_Y#マッドディクテーター)                         | [メイヤー](https://github.com/tukasa0001/TownOfHost#Mayorメイヤー)                                  | [ジェスター](https://github.com/tukasa0001/TownOfHost#Jesterジェスター)                             | 																					 |[サングラス](https://github.com/Yumenopai/TownOfHost_Y#サングラス)					 |
+| [メアー](https://github.com/tukasa0001/TownOfHost#Mareメアー)                                  |  [マッドディクテーター](https://github.com/Yumenopai/TownOfHost_Y#マッドディクテーター)                         | [メイヤー](https://github.com/tukasa0001/TownOfHost#Mayorメイヤー)                                  | [ジェスター](https://github.com/tukasa0001/TownOfHost#Jesterジェスター)                             | [ヒョウ](#ヒョウ)																	 |[サングラス](https://github.com/Yumenopai/TownOfHost_Y#サングラス)					 |
 | [パペッティア](https://github.com/tukasa0001/TownOfHost#Puppeteerパペッティア)                 |  [マッドネイチャコール](https://github.com/Yumenopai/TownOfHost_Y#マッドネイチャコール)                         | [ナイスウォッチャー](https://github.com/tukasa0001/TownOfHost#Watcherウォッチャー)                  | [ラバーズ](https://github.com/tukasa0001/TownOfHost#Lovers恋人)                                     | 																					 |[シーイング](https://github.com/Yumenopai/TownOfHost_Y#シーイング)					 |
 | [シリアルキラー](https://github.com/tukasa0001/TownOfHost#SerialKillerシリアルキラー)          |  [マッドブラックアウター](https://github.com/Yumenopai/TownOfHost_Y#マッドブラックアウター)                     | [サボタージュマスター](https://github.com/tukasa0001/TownOfHost#SabotageMasterサボタージュマスター) | [オポチュニスト](https://github.com/tukasa0001/TownOfHost#Opportunistオポチュニスト)                |																					 |[オートプシー](https://github.com/Yumenopai/TownOfHost_Y#オートプシー) 			 |
 | [スナイパー](https://github.com/tukasa0001/TownOfHost#Sniperスナイパー)                        |  [マッドシェリフ](https://github.com/Yumenopai/TownOfHost_Y#マッドシェリフ)                                     | [シーア](https://github.com/tukasa0001/TownOfHost#Seerシーア)                                       | [テロリスト](https://github.com/tukasa0001/TownOfHost#Terroristテロリスト)                          |																					 |[VIP](https://github.com/Yumenopai/TownOfHost_Y#VIP)  								 |
@@ -95,11 +128,13 @@ TownOfHost ForEは本家同様ホストのクライアントに導入するだ�
 | [シェイプキラー](https://github.com/Yumenopai/TownOfHost_Y#シェイプキラー)					 |																												   | [共鳴者](https://github.com/Yumenopai/TownOfHost_Y#共鳴者)                                          |                                                             										   |																					 |[コンプリートクルー](https://github.com/Yumenopai/TownOfHost_Y#コンプリートクルー)  |
 | [爆裂魔](#爆裂魔)	                                       			  							 |																												   | [ブラインダー](https://github.com/Yumenopai/TownOfHost_Y#ブラインダー)                              |                                                             										   |          																		     |[中二病](#中二病)																		     |
 | [シンデレラ](#シンデレラ)	                                                       	 			 |																												   | [メディック](https://github.com/Yumenopai/TownOfHost_Y#メディック)                                  |                                                             										   |           																		     |          																		     |
-|                                                       			  							 |																												   | [キャンドルライター](https://github.com/Yumenopai/TownOfHost_Y#キャンドルライター)       			 |                                                             										   |           																		     |          																		     |
+| [イビルゲッサー](#イビルゲッサー)                					  							 |																												   | [キャンドルライター](https://github.com/Yumenopai/TownOfHost_Y#キャンドルライター)       			 |                                                             										   |           																		     |          																		     |
 |                                       			  											 |																												   | [占い師](https://github.com/Yumenopai/TownOfHost_Y#占い師)                  				         |                                                             										   |          																		     |         																		     |
 |                                                       			  							 |																												   | [霊媒師](https://github.com/Yumenopai/TownOfHost_Y#霊媒師)            			                     |                                                             										   |           																		     |          																		     |
 |                                                       			  							 |																												   | [お嬢様](#お嬢様)                                  												 |                                                             										   |           																		     |          																		     |
 |                                                       			  							 |																												   | [ネゴシエーター](#ネゴシエーター)                                  								 |                                                             										   |           																		     |          																		     |
+|                                                       			  							 |																												   | [ちいかわ](#ちいかわ)                                  											 |                                                             										   |           																		     |          																		     |
+|                                                       			  							 |																												   | [ナイスゲッサー](#ナイスゲッサー)                                  								 |                                                             										   |           																		     |          																		     |
 
 
 
@@ -168,6 +203,28 @@ TOH4Eでは爆破するまでキルできない制限と、<br>
 | 変身時の移動速度  |
 | 変身時間 |
 
+
+### イビルゲッサー
+
+陣営 : インポスター<br>
+判定 : インポスター<br>
+
+議論中に本領を発揮するインポスター<br>
+キルしたいプレイヤーの役職を予想し、当てた場合相手をキルすることが出来る。<br>
+外れた場合は自身が死ぬので注意。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 推測できる最大人数  |
+| インポスターの役職を推測できる |
+| バニラ役職を推測できる |
+| すべてのタスクが完了した状態でスニッチを当てることが出来る |
+| ゲッサ―のコマンドを隠す |
+| ゲッサ―による死因を分ける |
+
+
 ### お嬢様
 
 発案者 : たけのこ部屋<br>
@@ -204,7 +261,46 @@ TOH4Eでは爆破するまでキルできない制限と、<br>
 
 | 設定名         |
 | -------------- |
+| クールダウン |
+
+
+### ちいかわ
+
+陣営 : クルーメイト<br>
+判定 : クルーメイト<br>
+
+会議のたびに役職が変わるクルーメイト。それぞれの役職で付与される効果が変わる。<br>
+ちいかわ：タスクを行うと設定秒間動けなくなる。<br>
+ハチワレ：普通のクルーメイト<br>
+うさぎ：キルクールが明けると近づいたプレイヤーを勝手にキルする。<br>
+うさぎ(M)：マッドメイトのうさぎ。キルクールが明けると近づいたプレイヤーを勝手にキルする。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| うさぎがインポスター陣営になる確率 |
 | キルクールダウン |
+| ちいかわがタスクの後動けなくなる時間 |
+
+### ナイスゲッサー
+
+陣営 : クルーメイト<br>
+判定 : クルーメイト<br>
+
+議論中に本領を発揮するクルーメイト<br>
+キルしたいプレイヤーの役職を予想し、当てた場合相手をキルすることが出来る。<br>
+外れた場合は自身が死ぬので注意。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 推測できる最大人数  |
+| クルーメイトの役職を推測できる |
+| バニラ役職を推測できる |
+| ゲッサ―のコマンドを隠す |
+| ゲッサ―による死因を分ける |
 
 ### 姫
 
@@ -315,6 +411,26 @@ TOH4Eでは爆破するまでキルできない制限と、<br>
 モンスターだからね。
 
 
+### ヒョウ
+
+陣営 : アニマルズ<br>
+判定 : インポスター<br>
+
+議論中に本領を発揮するアニマルズ。<br>
+キルしたいプレイヤーの役職を予想し、当てた場合相手をキルすることが出来る。<br>
+外れた場合は自身が死ぬので注意。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 推測できる最大人数  |
+| アニマルズの役職を推測できる |
+| バニラ役職を推測できる |
+| すべてのタスクが完了した状態でスニッチを当てることが出来る |
+| ゲッサ―のコマンドを隠す |
+| ゲッサ―による死因を分ける |
+
 ### 中二病
 
 ・属性<br>
@@ -325,7 +441,8 @@ TOH4Eでは爆破するまでキルできない制限と、<br>
 
 
 ## クレジット
-- SuperNewRoles[SNR](https://github.com/ykundesu/SuperNewRoles)：自爆魔と部屋人数コマンド
+- SuperNewRoles[SNR](https://github.com/ykundesu/SuperNewRoles)：自爆魔と部屋人数コマンドそのほか諸々スペシャルthx
+- TownOfHostEditer[TOHE](https://github.com/KARPED1EM/TownOfHostEdited)：ゲッサーの処理。
 ## 開発者
 <!--
 開発者用チャンネルでの一番最初の発言が早い順に記載する。
