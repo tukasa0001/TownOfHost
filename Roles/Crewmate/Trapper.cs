@@ -6,7 +6,7 @@ namespace TownOfHost.Roles.Crewmate;
 public sealed class Trapper : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Trapper),
             player => new Trapper(player),
             CustomRoles.Trapper,

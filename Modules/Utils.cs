@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
-using UnhollowerBaseLib;
+using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
 
 using TownOfHost.Modules;
@@ -358,10 +359,10 @@ namespace TownOfHost
             //Tasksがnullの場合があるのでその場合タスク無しとする
             if (p.Tasks == null) return false;
             if (p.Role == null) return false;
+            if (p.Disconnected) return false;
 
             var hasTasks = true;
             var States = PlayerState.GetByPlayerId(p.PlayerId);
-            if (p.Disconnected) hasTasks = false;
             if (p.Role.IsImpostor)
                 hasTasks = false; //タスクはCustomRoleを元に判定する
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -371,7 +372,11 @@ namespace TownOfHost
             }
             else
             {
-                if (p.IsDead && Options.GhostIgnoreTasks.GetBool()) hasTasks = false;
+                // 死んでいて，死人のタスク免除が有効なら確定でfalse
+                if (p.IsDead && Options.GhostIgnoreTasks.GetBool())
+                {
+                    return false;
+                }
                 var role = States.MainRole;
                 var roleClass = CustomRoleManager.GetByPlayerId(p.PlayerId);
                 if (roleClass != null)
@@ -736,7 +741,7 @@ namespace TownOfHost
             //ミーティング中の呼び出しは不正
             if (GameStates.IsMeeting) return;
 
-            var caller = new System.Diagnostics.StackFrame(1, false);
+            var caller = new StackFrame(1, false);
             var callerMethod = caller.GetMethod();
             string callerMethodName = callerMethod.Name;
             string callerClassName = callerMethod.DeclaringType.FullName;
@@ -940,16 +945,6 @@ namespace TownOfHost
                 Logger.Info(sb.ToString(), "CountAlivePlayers");
             }
         }
-        public static string GetVoteName(byte num)
-        {
-            string name = "invalid";
-            var player = GetPlayerById(num);
-            if (num < 15 && player != null) name = player?.GetNameWithRole();
-            if (num == 253) name = "Skip";
-            if (num == 254) name = "None";
-            if (num == 255) name = "Dead";
-            return name;
-        }
         public static string PadRightV2(this object text, int num)
         {
             int bc = 0;
@@ -960,12 +955,20 @@ namespace TownOfHost
         public static void DumpLog()
         {
             string t = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
-            string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/TownOfHost-v{Main.PluginVersion}-{t}.log";
-            FileInfo file = new(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
-            file.CopyTo(@filename);
-            System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
+            string fileName = $"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/TownOfHost-v{Main.PluginVersion}-{t}.log";
+            FileInfo file = new(@$"{Environment.CurrentDirectory}/BepInEx/LogOutput.log");
+            file.CopyTo(fileName);
+            OpenDirectory(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
             if (PlayerControl.LocalPlayer != null)
                 HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
+        }
+        public static void OpenDirectory(string path)
+        {
+            var startInfo = new ProcessStartInfo(path)
+            {
+                UseShellExecute = true,
+            };
+            Process.Start(startInfo);
         }
         public static string SummaryTexts(byte id, bool disableColor = true)
         {

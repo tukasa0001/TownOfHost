@@ -32,6 +32,7 @@ namespace TownOfHost
         public static void Create(TMPro.TextMeshPro baseText)
         {
             var Text = Instantiate(baseText);
+            Text.fontSizeMax = Text.fontSizeMin = 2f;
             var instance = Text.gameObject.AddComponent<ErrorText>();
             instance.Text = Text;
             instance.name = "ErrorText";
@@ -151,6 +152,8 @@ namespace TownOfHost
         // ==========
         // 001 Main
         Main_DictionaryError = 0010003, // 001-000-3 Main Dictionary Error
+        // 002 サポート関連
+        UnsupportedVersion = 002_000_1,  // 002-000-1 AmongUsのバージョンが古い
         // ==========
         // 000 Test
         NoError = 0000000, // 000-000-0 No Error
