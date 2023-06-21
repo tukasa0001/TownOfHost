@@ -30,6 +30,7 @@ namespace TownOfHost
         {
             return seer == target
                 || target.Is(CustomRoles.GM)
+                || (Main.PlayerStates[seer.Data.PlayerId].IsDead && Options.GhostCanSeeOtherRoles.GetBool()) //seer.Data.IsDead
                 || (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Impostor))
                 || Mare.KnowTargetRoleColor(target, isMeeting);
         }
