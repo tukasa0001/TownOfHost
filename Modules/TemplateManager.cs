@@ -69,7 +69,7 @@ namespace TownOfHost
             CreateIfNotExists();
             using StreamReader sr = new(TEMPLATE_FILE_PATH, Encoding.GetEncoding("UTF-8"));
             string text;
-            string[] tmp = { };
+            string[] tmp = Array.Empty<string>();
             List<string> sendList = new();
             HashSet<string> tags = new();
             while ((text = sr.ReadLine()) != null)
