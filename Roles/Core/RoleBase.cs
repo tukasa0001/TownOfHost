@@ -64,12 +64,14 @@ public abstract class RoleBase : IDisposable
 
         CustomRoleManager.AllActiveRoles.Add(Player.PlayerId, this);
     }
+#pragma warning disable CA1816
     public void Dispose()
     {
         OnDestroy();
         CustomRoleManager.AllActiveRoles.Remove(Player.PlayerId);
         Player = null;
     }
+#pragma warning restore CA1816
     public bool Is(PlayerControl player)
     {
         return player.PlayerId == Player.PlayerId;
