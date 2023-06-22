@@ -182,8 +182,6 @@ namespace TownOfHost
         public readonly Version version;
         public readonly string tag;
         public readonly string forkId;
-        [Obsolete] public PlayerVersion(string ver, string tag_str) : this(Version.Parse(ver), tag_str, "") { }
-        [Obsolete] public PlayerVersion(Version ver, string tag_str) : this(ver, tag_str, "") { }
         public PlayerVersion(string ver, string tag_str, string forkId) : this(Version.Parse(ver), tag_str, forkId) { }
         public PlayerVersion(Version ver, string tag_str, string forkId)
         {
