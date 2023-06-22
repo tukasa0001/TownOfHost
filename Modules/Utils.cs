@@ -161,7 +161,7 @@ namespace TownOfHost
             }
             else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
             player.MarkDirtySettings();
-            new LateTask(() =>
+            _ = new LateTask(() =>
             {
                 state.IsBlackOut = false; //ブラックアウト解除
                 player.MarkDirtySettings();
@@ -300,7 +300,7 @@ namespace TownOfHost
         public static Color GetRoleColor(CustomRoles role)
         {
             if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = role.GetRoleInfo()?.RoleColorCode;
-            ColorUtility.TryParseHtmlString(hexColor, out Color c);
+            _ = ColorUtility.TryParseHtmlString(hexColor, out Color c);
             return c;
         }
         public static string GetRoleColorCode(CustomRoles role)

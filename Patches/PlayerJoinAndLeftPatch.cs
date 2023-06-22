@@ -114,14 +114,14 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 OptionItem.SyncAllOptions();
-                new LateTask(() =>
+                _ = new LateTask(() =>
                 {
                     if (client.Character == null) return;
                     TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
                 }, 3f, "Welcome Message");
                 if (Options.AutoDisplayLastResult.GetBool() && PlayerState.AllPlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
                 {
-                    new LateTask(() =>
+                    _ = new LateTask(() =>
                     {
                         if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
                         {
@@ -132,7 +132,7 @@ namespace TownOfHost
                 }
                 if (Options.AutoDisplayKillLog.GetBool() && PlayerState.AllPlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
                 {
-                    new LateTask(() =>
+                    _ = new LateTask(() =>
                     {
                         if (!GameStates.IsInGame && client.Character != null)
                         {

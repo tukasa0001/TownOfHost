@@ -247,7 +247,7 @@ public sealed class Sniper : RoleBase, IImpostor
                 Utils.NotifyRoles(SpecifySeer: otherPc);
             }
             SendRPC();
-            new LateTask(
+            _ = new LateTask(
                 () =>
                 {
                     snList.Clear();
