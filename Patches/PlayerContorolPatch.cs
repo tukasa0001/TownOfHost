@@ -185,7 +185,7 @@ namespace TownOfHost
                         mpdistance.Add(p, dis);
                     }
                 }
-                if (mpdistance.Count() != 0)
+                if (mpdistance.Count != 0)
                 {
                     var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                     PlayerControl targetm = min.Key;
