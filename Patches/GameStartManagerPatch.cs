@@ -36,8 +36,9 @@ namespace TownOfHost
                 HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
                 HideName.gameObject.SetActive(true);
                 HideName.name = "HideName";
-                _ = ColorUtility.TryParseHtmlString(Main.ModColor, out var modColor);
-                HideName.color = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out var color) ? color : modColor;
+                HideName.color =
+                    ColorUtility.TryParseHtmlString(Main.HideColor.Value, out var color) ? color :
+                    ColorUtility.TryParseHtmlString(Main.ModColor, out var modColor) ? modColor : HideName.color;
                 HideName.text = Main.HideName.Value;
 
                 warningText = Object.Instantiate(__instance.GameStartText, __instance.transform);

@@ -85,8 +85,10 @@ namespace TownOfHost
                 if (Main.IsInitialRelease)
                 {
                     SpecialEventText.text = $"Happy Birthday to {Main.ModName}!";
-                    _ = ColorUtility.TryParseHtmlString(Main.ModColor, out var col);
-                    SpecialEventText.color = col;
+                    if (ColorUtility.TryParseHtmlString(Main.ModColor, out var col))
+                    {
+                        SpecialEventText.color = col;
+                    }
                 }
                 if (Main.IsChristmas && CultureInfo.CurrentCulture.Name == "ja-JP")
                 {
