@@ -1,250 +1,41 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+
 using HarmonyLib;
 using UnityEngine;
 
+using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Crewmate;
 using static TownOfHost.Translator;
 
-namespace TownOfHost
+namespace TownOfHost;
+
+[HarmonyPatch]
+public static class MeetingHudPatch
 {
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
     class CheckForEndVotingPatch
     {
-        public static bool Prefix(MeetingHud __instance)
+        public static bool Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return true;
-            var voteLog = Logger.Handler("Vote");
-            try
-            {
-                List<MeetingHud.VoterState> statesList = new();
-                MeetingHud.VoterState[] states;
-                foreach (var pva in __instance.playerStates)
-                {
-                    if (pva == null) continue;
-                    PlayerControl pc = Utils.GetPlayerById(pva.TargetPlayerId);
-                    if (pc == null) continue;
-
-                    if (pc.GetRoleClass()?.OnCheckForEndVoting(ref statesList, pva) == false)
-                        return false;
-                }
-                foreach (var ps in __instance.playerStates)
-                {
-                    //死んでいないプレイヤーが投票していない
-                    if (!(PlayerState.GetByPlayerId(ps.TargetPlayerId).IsDead || ps.DidVote)) return false;
-                }
-
-                GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
-                bool tie = false;
-
-                for (var i = 0; i < __instance.playerStates.Length; i++)
-                {
-                    PlayerVoteArea ps = __instance.playerStates[i];
-                    if (ps == null) continue;
-                    voteLog.Info(string.Format("{0,-2}{1}:{2,-3}{3}", ps.TargetPlayerId, Utils.PadRightV2($"({Utils.GetVoteName(ps.TargetPlayerId)})", 40), ps.VotedFor, $"({Utils.GetVoteName(ps.VotedFor)})"));
-                    var voter = Utils.GetPlayerById(ps.TargetPlayerId);
-                    if (voter == null || voter.Data == null || voter.Data.Disconnected) continue;
-                    if (Options.VoteMode.GetBool())
-                    {
-                        if (ps.VotedFor == 253 && !voter.Data.IsDead && //スキップ
-                            !(Options.WhenSkipVoteIgnoreFirstMeeting.GetBool() && MeetingStates.FirstMeeting) && //初手会議を除く
-                            !(Options.WhenSkipVoteIgnoreNoDeadBody.GetBool() && !MeetingStates.IsExistDeadBody) && //死体がない時を除く
-                            !(Options.WhenSkipVoteIgnoreEmergency.GetBool() && MeetingStates.IsEmergencyMeeting) //緊急ボタンを除く
-                            )
-                        {
-                            switch (Options.GetWhenSkipVote())
-                            {
-                                case VoteMode.Suicide:
-                                    TryAddAfterMeetingDeathPlayers(CustomDeathReason.Suicide, ps.TargetPlayerId);
-                                    voteLog.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました");
-                                    break;
-                                case VoteMode.SelfVote:
-                                    ps.VotedFor = ps.TargetPlayerId;
-                                    voteLog.Info($"スキップしたため{voter.GetNameWithRole()}に自投票させました");
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        if (ps.VotedFor == 254 && !voter.Data.IsDead)//無投票
-                        {
-                            switch (Options.GetWhenNonVote())
-                            {
-                                case VoteMode.Suicide:
-                                    TryAddAfterMeetingDeathPlayers(CustomDeathReason.Suicide, ps.TargetPlayerId);
-                                    voteLog.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました");
-                                    break;
-                                case VoteMode.SelfVote:
-                                    ps.VotedFor = ps.TargetPlayerId;
-                                    voteLog.Info($"無投票のため{voter.GetNameWithRole()}に自投票させました");
-                                    break;
-                                case VoteMode.Skip:
-                                    ps.VotedFor = 253;
-                                    voteLog.Info($"無投票のため{voter.GetNameWithRole()}にスキップさせました");
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    statesList.Add(new MeetingHud.VoterState()
-                    {
-                        VoterId = ps.TargetPlayerId,
-                        VotedForId = ps.VotedFor
-                    });
-                }
-                states = statesList.ToArray();
-
-                var VotingData = __instance.CustomCalculateVotes();
-                byte exileId = byte.MaxValue;
-                int max = 0;
-                voteLog.Info("===追放者確認処理開始===");
-                foreach (var data in VotingData)
-                {
-                    voteLog.Info($"{data.Key}({Utils.GetVoteName(data.Key)}):{data.Value}票");
-                    if (data.Value > max)
-                    {
-                        voteLog.Info(data.Key + "番が最高値を更新(" + data.Value + ")");
-                        exileId = data.Key;
-                        max = data.Value;
-                        tie = false;
-                    }
-                    else if (data.Value == max)
-                    {
-                        voteLog.Info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")");
-                        exileId = byte.MaxValue;
-                        tie = true;
-                    }
-                    voteLog.Info($"exileId: {exileId}, max: {max}票");
-                }
-
-                voteLog.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})");
-
-                if (Options.VoteMode.GetBool() && Options.WhenTie.GetBool() && tie)
-                {
-                    switch ((TieMode)Options.WhenTie.GetValue())
-                    {
-                        case TieMode.Default:
-                            exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => info.PlayerId == exileId);
-                            break;
-                        case TieMode.All:
-                            var exileIds = VotingData.Where(x => x.Key < 15 && x.Value == max).Select(kvp => kvp.Key).ToArray();
-                            foreach (var playerId in exileIds)
-                                Utils.GetPlayerById(playerId).SetRealKiller(null);
-                            TryAddAfterMeetingDeathPlayers(CustomDeathReason.Vote, exileIds);
-                            exiledPlayer = null;
-                            break;
-                        case TieMode.Random:
-                            exiledPlayer = GameData.Instance.AllPlayers.ToArray().OrderBy(_ => Guid.NewGuid()).FirstOrDefault(x => VotingData.TryGetValue(x.PlayerId, out int vote) && vote == max);
-                            tie = false;
-                            break;
-                    }
-                }
-                else
-                    exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
-                if (exiledPlayer != null)
-                    exiledPlayer.Object.SetRealKiller(null);
-
-                //RPC
-                if (AntiBlackout.OverrideExiledPlayer)
-                {
-                    __instance.RpcVotingComplete(states, null, true);
-                    ExileControllerWrapUpPatch.AntiBlackout_LastExiled = exiledPlayer;
-                }
-                else __instance.RpcVotingComplete(states, exiledPlayer, tie); //通常処理
-
-                CheckForDeathOnExile(CustomDeathReason.Vote, exileId);
-
-                return false;
-            }
-            catch (Exception ex)
-            {
-                Logger.SendInGame(string.Format(GetString("Error.MeetingException"), ex.Message), true);
-                throw;
-            }
-        }
-        public static void TryAddAfterMeetingDeathPlayers(CustomDeathReason deathReason, params byte[] playerIds)
-        {
-            var AddedIdList = new List<byte>();
-            foreach (var playerId in playerIds)
-                if (Main.AfterMeetingDeathPlayers.TryAdd(playerId, deathReason))
-                    AddedIdList.Add(playerId);
-            CheckForDeathOnExile(deathReason, AddedIdList.ToArray());
-        }
-        public static void CheckForDeathOnExile(CustomDeathReason deathReason, params byte[] playerIds)
-        {
-            foreach (var playerId in playerIds)
-            {
-                //Loversの後追い
-                if (CustomRoles.Lovers.IsPresent() && !Main.isLoversDead && Main.LoversPlayers.Find(lp => lp.PlayerId == playerId) != null)
-                    FixedUpdatePatch.LoversSuicide(playerId, true);
-                //道連れチェック
-                RevengeOnExile(playerId, deathReason);
-            }
-        }
-        private static void RevengeOnExile(byte playerId, CustomDeathReason deathReason)
-        {
-            var player = Utils.GetPlayerById(playerId);
-            if (player == null) return;
-            var target = PickRevengeTarget(player, deathReason);
-            if (target == null) return;
-            TryAddAfterMeetingDeathPlayers(CustomDeathReason.Revenge, target.PlayerId);
-            target.SetRealKiller(player);
-            Logger.Info($"{player.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "RevengeOnExile");
-        }
-        private static PlayerControl PickRevengeTarget(PlayerControl exiledplayer, CustomDeathReason deathReason)//道連れ先選定
-        {
-            List<PlayerControl> TargetList = new();
-            foreach (var candidate in Main.AllAlivePlayerControls)
-            {
-                if (candidate == exiledplayer || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
-                switch (exiledplayer.GetCustomRole())
-                {
-                    //ここに道連れ役職を追加
-                    default:
-                        if (exiledplayer.Is(CustomRoleTypes.Madmate) && deathReason == CustomDeathReason.Vote && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
-                        && !candidate.Is(CustomRoleTypes.Impostor))
-                            TargetList.Add(candidate);
-                        break;
-                }
-            }
-            if (TargetList == null || TargetList.Count == 0) return null;
-            var rand = IRandom.Instance;
-            var target = TargetList[rand.Next(TargetList.Count)];
-            return target;
+            MeetingVoteManager.Instance?.CheckAndEndMeeting();
+            return false;
         }
     }
-
-    static class ExtendedMeetingHud
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CastVote))]
+    public static class CastVotePatch
     {
-        public static Dictionary<byte, int> CustomCalculateVotes(this MeetingHud __instance)
+        public static void Prefix([HarmonyArgument(0)] byte srcPlayerId /* 投票した人 */ , [HarmonyArgument(1)] byte suspectPlayerId /* 投票された人 */ )
         {
-            Logger.Info("CustomCalculateVotes開始", "Vote");
-            Dictionary<byte, int> dic = new();
-            //| 投票された人 | 投票された回数 |
-            for (int i = 0; i < __instance.playerStates.Length; i++)
-            {
-                PlayerVoteArea ps = __instance.playerStates[i];
-                if (ps == null) continue;
-                if (ps.VotedFor is not ((byte)252) and not byte.MaxValue and not ((byte)254))
-                {
-                    int VoteNum = 1;
-                    if (CustomRoleManager.GetByPlayerId(ps.TargetPlayerId) is Mayor) VoteNum += Mayor.AdditionalVote;
-                    //投票を1追加 キーが定義されていない場合は1で上書きして定義
-                    dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
-                }
-            }
-            return dic;
+            MeetingVoteManager.Instance.AddVote(srcPlayerId, suspectPlayerId);
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
-    class MeetingHudStartPatch
+    class StartPatch
     {
-        public static void Prefix(MeetingHud __instance)
+        public static void Prefix()
         {
             Logger.Info("------------会議開始------------", "Phase");
             ChatUpdatePatch.DoBlockChat = true;
@@ -254,6 +45,8 @@ namespace TownOfHost
         }
         public static void Postfix(MeetingHud __instance)
         {
+            MeetingVoteManager.Start();
+
             SoundManager.Instance.ChangeAmbienceVolume(0f);
             if (!GameStates.IsModHost) return;
             var myRole = PlayerControl.LocalPlayer.GetRoleClass();
@@ -291,7 +84,7 @@ namespace TownOfHost
             }
             if (AntiBlackout.OverrideExiledPlayer)
             {
-                Utils.SendMessage(Translator.GetString("Warning.OverrideExiledPlayer"));
+                Utils.SendMessage(GetString("Warning.OverrideExiledPlayer"));
             }
             if (MeetingStates.FirstMeeting) TemplateManager.SendTemplate("OnFirstMeeting", noErr: true);
             TemplateManager.SendTemplate("OnMeeting", noErr: true);
@@ -300,9 +93,16 @@ namespace TownOfHost
             {
                 _ = new LateTask(() =>
                 {
-                    foreach (var pc in Main.AllPlayerControls)
+                    foreach (var seer in Main.AllPlayerControls)
                     {
-                        pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
+                        foreach (var target in Main.AllPlayerControls)
+                        {
+                            var seerName = seer.GetRealName(isMeeting: true);
+                            var coloredName = Utils.ColorString(seer.GetRoleColor(), seerName);
+                            seer.RpcSetNamePrivate(
+                                seer == target ? coloredName : seerName,
+                                true);
+                        }
                     }
                     ChatUpdatePatch.DoBlockChat = false;
                 }, 3f, "SetName To Chat");
@@ -350,7 +150,7 @@ namespace TownOfHost
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
-    class MeetingHudUpdatePatch
+    class UpdatePatch
     {
         public static void Postfix(MeetingHud __instance)
         {
@@ -371,19 +171,8 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(PlayerVoteArea), nameof(PlayerVoteArea.SetHighlighted))]
-    class SetHighlightedPatch
-    {
-        public static bool Prefix(PlayerVoteArea __instance, bool value)
-        {
-            if (!AmongUsClient.Instance.AmHost) return true;
-            if (!__instance.HighlightedFX) return false;
-            __instance.HighlightedFX.enabled = value;
-            return false;
-        }
-    }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.OnDestroy))]
-    class MeetingHudOnDestroyPatch
+    class OnDestroyPatch
     {
         public static void Postfix()
         {
@@ -394,6 +183,71 @@ namespace TownOfHost
                 AntiBlackout.SetIsDead();
                 Main.AllPlayerControls.Do(pc => RandomSpawn.CustomNetworkTransformPatch.NumOfTP[pc.PlayerId] = 0);
             }
+            // MeetingVoteManagerを通さずに会議が終了した場合の後処理
+            MeetingVoteManager.Instance?.Destroy();
         }
+    }
+
+    public static void TryAddAfterMeetingDeathPlayers(CustomDeathReason deathReason, params byte[] playerIds)
+    {
+        var AddedIdList = new List<byte>();
+        foreach (var playerId in playerIds)
+            if (Main.AfterMeetingDeathPlayers.TryAdd(playerId, deathReason))
+                AddedIdList.Add(playerId);
+        CheckForDeathOnExile(deathReason, AddedIdList.ToArray());
+    }
+    public static void CheckForDeathOnExile(CustomDeathReason deathReason, params byte[] playerIds)
+    {
+        foreach (var playerId in playerIds)
+        {
+            //Loversの後追い
+            if (CustomRoles.Lovers.IsPresent() && !Main.isLoversDead && Main.LoversPlayers.Find(lp => lp.PlayerId == playerId) != null)
+                FixedUpdatePatch.LoversSuicide(playerId, true);
+            //道連れチェック
+            RevengeOnExile(playerId, deathReason);
+        }
+    }
+    private static void RevengeOnExile(byte playerId, CustomDeathReason deathReason)
+    {
+        var player = Utils.GetPlayerById(playerId);
+        if (player == null) return;
+        var target = PickRevengeTarget(player, deathReason);
+        if (target == null) return;
+        TryAddAfterMeetingDeathPlayers(CustomDeathReason.Revenge, target.PlayerId);
+        target.SetRealKiller(player);
+        Logger.Info($"{player.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "RevengeOnExile");
+    }
+    private static PlayerControl PickRevengeTarget(PlayerControl exiledplayer, CustomDeathReason deathReason)//道連れ先選定
+    {
+        List<PlayerControl> TargetList = new();
+        foreach (var candidate in Main.AllAlivePlayerControls)
+        {
+            if (candidate == exiledplayer || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
+            switch (exiledplayer.GetCustomRole())
+            {
+                //ここに道連れ役職を追加
+                default:
+                    if (exiledplayer.Is(CustomRoleTypes.Madmate) && deathReason == CustomDeathReason.Vote && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
+                    && !candidate.Is(CustomRoleTypes.Impostor))
+                        TargetList.Add(candidate);
+                    break;
+            }
+        }
+        if (TargetList == null || TargetList.Count == 0) return null;
+        var rand = IRandom.Instance;
+        var target = TargetList[rand.Next(TargetList.Count)];
+        return target;
+    }
+}
+
+[HarmonyPatch(typeof(PlayerVoteArea), nameof(PlayerVoteArea.SetHighlighted))]
+class SetHighlightedPatch
+{
+    public static bool Prefix(PlayerVoteArea __instance, bool value)
+    {
+        if (!AmongUsClient.Instance.AmHost) return true;
+        if (!__instance.HighlightedFX) return false;
+        __instance.HighlightedFX.enabled = value;
+        return false;
     }
 }

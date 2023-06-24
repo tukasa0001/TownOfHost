@@ -12,7 +12,7 @@ namespace TownOfHost.Roles.Impostor;
 public sealed class Sniper : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Sniper),
             player => new Sniper(player),
             CustomRoles.Sniper,

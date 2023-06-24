@@ -15,7 +15,7 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 ## Releases
 
-AmongUs Version: **2022.12.14**
+AmongUs Version: **2023.6.13**
 
 **Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
@@ -40,6 +40,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 ## Announcements
 - Sheriff, Arsonist, Jackal, and other roles can close doors, but please don't use it because the system can't limit it.
 - The dead player chat can be seen when exile screen by anti blackout, but this is not a bug.
+- The "Confirm Ejects" option will not work if any of the following roles are enabled: Sheriff, Arsonist, Jackal.
 
 ## Features
 ### Hotkeys
@@ -206,13 +207,12 @@ Example:
 | ----------------------------------- | --------------------------------- | --------------------------------- | ----------------------------- | --------- |
 | [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [LastImpostor](#LastImpostor) | [GM](#GM) |
 | [EvilTracker](#EvilTracker)         | [Dictator](#Dictator)             | [Egoist](#Egoist)                 | [Lovers](#Lovers)             |           |
-| [Evil Watcher](#Watcher)            | [Doctor](#Doctor)                 | [Executioner](#Executioner)       | [Workhorse](#Workhorse)       |           |
-| [FireWorks](#FireWorks)             | [Lighter](#Lighter)               | [Jackal](#Jackal)                 |                               |           |
-| [Mare](#Mare)                       | [Mayor](#Mayor)                   | [Jester](#Jester)                 |                               |           |
-| [Puppeteer](#Puppeteer)             | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |                               |           |
-| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |                               |           |
-| [ShapeMaster](#ShapeMaster)         | [Seer](#Seer)                     | [SchrodingerCat](#SchrodingerCat) |                               |           |
-| [Sniper](#Sniper)                   | [Sheriff](#Sheriff)               |                                   |                               |           |
+| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       | [Watcher](#Watcher)           |           |
+| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jackal](#Jackal)                 | [Workhorse](#Workhorse)       |           |
+| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Jester](#Jester)                 |                               |           |
+| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |                               |           |
+| [ShapeMaster](#ShapeMaster)         | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |                               |           |
+| [Sniper](#Sniper)                   | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |                               |           |
 | [TimeThief](#TimeThief)             | [Snitch](#Snitch)                 |                                   |                               |           |
 | [Vampire](#Vampire)                 | [SpeedBooster](#SpeedBooster)     |                                   |                               |           |
 | [Warlock](#Warlock)                 | [Beartrap](#Beartrap)             |                                   |                               |           |
@@ -524,23 +524,6 @@ Some kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshift
 
 **NOTE:**
 - The **"nearest"** Crewmate becomes SidekickMadmate no matter to whom the Impostors Shapeshift.
-
-
-## Impostor/Crewmate
-
-### Watcher
-
-Team : Impostors or Crewmates<br>
-Basis : Impostor or Crewmates<br>
-
-The watcher can see who each player has voted during every meeting. <br>
-
-#### Game Options
-
-| Name               |
-| ------------------ |
-| EvilWatcher Chance |
-
 
 ## Crewmate
 
@@ -956,6 +939,12 @@ Example of overlapping Roles: <br>
 - [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
 - [Bait](#bait) Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
 
+### Watcher
+
+Target : Crewmates, Impostors, Neutrals[(*)](#add-ons-assignment-options)
+
+The watcher can see who each player has voted during every meeting.
+
 ### Workhorse
 
 Create and idea by Masami<br>
@@ -971,6 +960,59 @@ Never granted to Sheriff or Snitch.<br>
 | Assign Only To Crewmate |
 | Additional Long Tasks   |
 | Additional Short Tasks  |
+
+### Add-Ons Assignment Options
+
+Some add-ons have common assignment options.  
+Some add-ons have restrictions on the teams that can be assigned.  
+
+#### Options
+
+| Name                          |                                                               |
+| ----------------------------- | ------------------------------------------------------------- |
+| Max                           | Maximum number of total                                       |
+| Max Players In Team Crewmates | The portion of the Max to be assigned to the crewmates (0-15) |
+| ┣ Fixed Role                  | Limit the role to be assigned                                 |
+| ┃ ┗ Role                      | The role to be assigned                                       |
+| Max Players In Team Impostors | (0-3)                                                         |
+| ┣ Fixed Role                  |                                                               |
+| ┃ ┗ Role                      |                                                               |
+| Max Players In Neutral        | (0-15)                                                        |
+| ┣ Fixed Role                  |                                                               |
+| ┃ ┗ Role                      |                                                               |
+
+#### Assignment Algorithm
+
+1. Determine the total number to assign from probabilities and "Max" options
+1. Determine players in the target roles according to the maximum numbers for each team
+1. Determine the target player randomly according to the maximum number of total
+
+#### Examples
+
+1. Assign to one player randomly from the crew team  
+Max: 1, Max Players: (1, 0, 0)
+1. Assign to all n impostors  
+Max: n, Max Players: (0, n, 0)
+1. Assign to a Jackal fixedly  
+Max: 1, Max Players: (0, 0, 1), Fixed Role(Neutral): ON, Role: Jackal
+1. Assign to n players from all players  
+Max: 1, Max Players: (15, 3, 15)
+
+## Assign Algorithm Mode
+
+Sets how roles are assigned.<br>
+
+| Settings Name            |
+| ------------------------ |
+| Assign Algorithm Mode    |
+| ┣ Minimum Impostor Roles |
+| ┣ Maximum Impostor Roles |
+| ┣ Minimum Mad Roles      |
+| ┣ Maximum Mad Roles      |
+| ┣ Minimum Crewmate Roles |
+| ┣ Maximum Crewmate Roles |
+| ┣ Minimum Neutral Roles  |
+| ┗  Maximum Neutral Roles |
 
 ## DisableDevices
 
@@ -1010,6 +1052,24 @@ The time limit for some sabotage can be modified.
 | ┣ Polus Reactor TimeLimit   |
 | ┗ Airship Reactor TimeLimit |
 
+## Map Modifications
+
+### AirShip Variable Electrical
+
+The structure of the Electrical in AirShip changes after every meeting.<br>
+
+| Name                         |
+| ---------------------------- |
+| Variable Electrical(AirShip) |
+
+### Disable Moving Platform
+
+Disable the moving platform in Airship.
+
+| Name                             |
+| -------------------------------- |
+| Disable Moving Platform(Airship) |
+
 ## Mode
 
 ### DisableTasks
@@ -1034,14 +1094,6 @@ There is a configurable probability of fall to death when you descend from the l
 | ---------------------- |
 | Fall From Ladders      |
 | ┗ Fall To Death Chance |
-
-### AirShip Variable Electrical
-
-The structure of the Electrical in AirShip changes after every meeting.<br>
-
-| Name                         |
-| ---------------------------- |
-| Variable Electrical(AirShip) |
 
 ### HideAndSeek
 
@@ -1189,8 +1241,11 @@ This mode limits the maximum number of meetings that can be called in total.<br>
 | Color Name Mode                    |
 | Fix Kill Cooldown For First Spawn  |
 | Ghost Can See Other Roles          |
+| Ghosts Can See Other Tasks         |
 | Ghost Can See Other Votes          |
+| Ghost Can See Cause Of Death       |
 | Ghost Ignore Tasks                 |
+| Camouflage During Comms            |
 | Disable Task Win                   |
 | Hide Game Settings                 |
 
@@ -1198,9 +1253,9 @@ This mode limits the maximum number of meetings that can be called in total.<br>
 
 ## Hide Codes
 
-By activating, you can hide the lobby code.
+Turning on Streamer Mode enables this.
 
-You can rewrite the`Hide Game Code Name`in the config file (BepInEx\config\com.emptybottle.townofhost.cfg) to display any character you like when HideCodes are enabled.
+You can rewrite the`Hide Game Code Name`in the config file (BepInEx\config\com.emptybottle.townofhost.cfg) to display any character you like as code mask.
 You can also change the text color as you like by rewriting`Hide Game Code Color`.
 
 ## Force Japanese
@@ -1236,10 +1291,11 @@ Translated with https://www.deepl.com<br>
 - [TAKU_GG](https://github.com/TAKUGG) ([Twitter](https://twitter.com/TAKUGGYouTube1), [Youtube](https://www.youtube.com/c/TAKUGG))
 - [Soukun](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Dev), [Youtube](https://www.youtube.com/channel/UCsCOqxmXBVT-BD_UKaXpUPw))
 - [Mii](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
-- [Tampopo](https://github.com/tampopo-dandelion)([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
+- [Tampopo](https://github.com/tampopo-dandelion) ([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
 - [Kou](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
-- [Ykundesu](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
 - [Yurino](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
 - [Masami](https://github.com/Masami4711) <!--([Twitter](https://twitter.com/))-->
+- [Juki](https://github.com/jukimaguro1) ([Twitter](https://twitter.com/jukimaguro_new))
+- [HYZE](https://github.com/Hyz-sui) ([Twitter](https://twitter.com/Hyze_suisui))
 
 Translated with https://www.deepl.com<br>

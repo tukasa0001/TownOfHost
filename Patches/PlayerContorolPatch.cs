@@ -302,7 +302,7 @@ namespace TownOfHost
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
-                if (GameStates.IsLobby && (ModUpdater.hasUpdate || ModUpdater.isBroken || !Main.AllowPublicRoom) && AmongUsClient.Instance.IsGamePublic)
+                if (GameStates.IsLobby && (ModUpdater.hasUpdate || ModUpdater.isBroken || !Main.AllowPublicRoom || !VersionChecker.IsSupported) && AmongUsClient.Instance.IsGamePublic)
                     AmongUsClient.Instance.ChangeGamePublic(false);
 
                 if (GameStates.IsInTask && ReportDeadBodyPatch.CanReport[__instance.PlayerId] && ReportDeadBodyPatch.WaitReport[__instance.PlayerId].Count > 0)
@@ -325,6 +325,11 @@ namespace TownOfHost
 
                 if (GameStates.IsInGame && player.AmOwner)
                     DisableDevice.FixedUpdate();
+
+                if (__instance.AmOwner)
+                {
+                    Utils.ApplySuffix();
+                }
             }
             //LocalPlayer専用
             if (__instance.AmOwner)
@@ -467,7 +472,7 @@ namespace TownOfHost
                         {
                             PlayerState.GetByPlayerId(partnerPlayer.PlayerId).DeathReason = CustomDeathReason.FollowingSuicide;
                             if (isExiled)
-                                CheckForEndVotingPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.FollowingSuicide, partnerPlayer.PlayerId);
+                                MeetingHudPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.FollowingSuicide, partnerPlayer.PlayerId);
                             else
                                 partnerPlayer.RpcMurderPlayer(partnerPlayer);
                         }
@@ -571,6 +576,12 @@ namespace TownOfHost
             }
             Utils.NotifyRoles();
             return ret;
+        }
+        public static void Postfix()
+        {
+            //人外のタスクを排除して再計算
+            GameData.Instance.RecomputeTaskCounts();
+            Logger.Info($"TotalTaskCounts = {GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "TaskState.Update");
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ProtectPlayer))]

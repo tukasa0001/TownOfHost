@@ -21,7 +21,7 @@ public sealed class FireWorks : RoleBase, IImpostor
         CanUseKill = Initial | FireEnd
     }
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(FireWorks),
             player => new FireWorks(player),
             CustomRoles.FireWorks,

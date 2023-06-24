@@ -8,7 +8,7 @@ namespace TownOfHost.Roles.Impostor
     public sealed class TimeThief : RoleBase, IMeetingTimeAlterable, IImpostor
     {
         public static readonly SimpleRoleInfo RoleInfo =
-            new(
+            SimpleRoleInfo.Create(
                 typeof(TimeThief),
                 player => new TimeThief(player),
                 CustomRoles.TimeThief,

@@ -10,7 +10,7 @@ namespace TownOfHost.Roles.Impostor
     public sealed class SerialKiller : RoleBase, IImpostor
     {
         public static readonly SimpleRoleInfo RoleInfo =
-            new(
+            SimpleRoleInfo.Create(
                 typeof(SerialKiller),
                 player => new SerialKiller(player),
                 CustomRoles.SerialKiller,
@@ -75,25 +75,28 @@ namespace TownOfHost.Roles.Impostor
         }
         public override void OnFixedUpdate(PlayerControl player)
         {
-            if (!HasKilled())
+            if (AmongUsClient.Instance.AmHost)
             {
-                SuicideTimer = null;
-                return;
+                if (!HasKilled())
+                {
+                    SuicideTimer = null;
+                    return;
+                }
+                if (SuicideTimer == null) //タイマーがない
+                {
+                    SuicideTimer = 0f;
+                    Player.RpcResetAbilityCooldown();
+                }
+                else if (SuicideTimer >= TimeLimit)
+                {
+                    //自爆時間が来たとき
+                    MyState.DeathReason = CustomDeathReason.Suicide;//死因：自殺
+                    Player.RpcMurderPlayer(Player);//自殺させる
+                    SuicideTimer = null;
+                }
+                else
+                    SuicideTimer += Time.fixedDeltaTime;//時間をカウント
             }
-            if (SuicideTimer == null) //タイマーがない
-            {
-                SuicideTimer = 0f;
-                Player.RpcResetAbilityCooldown();
-            }
-            else if (SuicideTimer >= TimeLimit)
-            {
-                //自爆時間が来たとき
-                MyState.DeathReason = CustomDeathReason.Suicide;//死因：自殺
-                Player.RpcMurderPlayer(Player);//自殺させる
-                SuicideTimer = null;
-            }
-            else
-                SuicideTimer += Time.fixedDeltaTime;//時間をカウント
         }
         public override bool CanUseAbilityButton() => HasKilled();
         public override string GetAbilityButtonText() => GetString("SerialKillerSuicideButtonText");

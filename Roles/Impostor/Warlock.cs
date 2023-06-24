@@ -12,7 +12,7 @@ namespace TownOfHost.Roles.Impostor;
 public sealed class Warlock : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Warlock),
             player => new Warlock(player),
             CustomRoles.Warlock,

@@ -1,14 +1,13 @@
-using System.Collections.Generic;
 using AmongUs.GameOptions;
 
+using TownOfHost.Modules;
 using TownOfHost.Roles.Core;
-using static TownOfHost.CheckForEndVotingPatch;
 
 namespace TownOfHost.Roles.Crewmate;
 public sealed class Dictator : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
-        new(
+        SimpleRoleInfo.Create(
             typeof(Dictator),
             player => new Dictator(player),
             CustomRoles.Dictator,
@@ -25,33 +24,17 @@ public sealed class Dictator : RoleBase
         player
     )
     { }
-    public override bool OnCheckForEndVoting(ref List<MeetingHud.VoterState> statesList, PlayerVoteArea pva)
+    public override (byte? votedForId, int? numVotes, bool doVote) OnVote(byte voterId, byte sourceVotedForId)
     {
-        //死んでいないディクテーターが投票済み
-        if (pva.DidVote &&
-            pva.VotedFor != Player.PlayerId &&
-            pva.VotedFor < 253 &&
-            Player.IsAlive())
+        var (votedForId, numVotes, doVote) = base.OnVote(voterId, sourceVotedForId);
+        var baseVote = (votedForId, numVotes, doVote);
+        if (voterId != Player.PlayerId || sourceVotedForId == Player.PlayerId || sourceVotedForId >= 253 || !Player.IsAlive())
         {
-            var voteTarget = Utils.GetPlayerById(pva.VotedFor);
-            TryAddAfterMeetingDeathPlayers(CustomDeathReason.Suicide, Player.PlayerId);
-            statesList.Add(new()
-            {
-                VoterId = pva.TargetPlayerId,
-                VotedForId = pva.VotedFor
-            });
-            var states = statesList.ToArray();
-            if (AntiBlackout.OverrideExiledPlayer)
-            {
-                MeetingHud.Instance.RpcVotingComplete(states, null, true);
-                ExileControllerWrapUpPatch.AntiBlackout_LastExiled = voteTarget.Data;
-            }
-            else MeetingHud.Instance.RpcVotingComplete(states, voteTarget.Data, false); //通常処理
-
-            CheckForDeathOnExile(CustomDeathReason.Vote, pva.VotedFor);
-            Logger.Info($"ディクテーターによる強制会議終了(追放者:{voteTarget.GetNameWithRole()})", "Special Phase");
-            voteTarget.SetRealKiller(Player);
+            return baseVote;
         }
-        return false;
+        MeetingHudPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.Suicide, Player.PlayerId);
+        Utils.GetPlayerById(sourceVotedForId).SetRealKiller(Player);
+        MeetingVoteManager.Instance.ClearAndExile(Player.PlayerId, sourceVotedForId);
+        return (votedForId, numVotes, false);
     }
 }
