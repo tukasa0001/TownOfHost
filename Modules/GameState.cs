@@ -158,9 +158,6 @@ namespace TownOfHost
         public void Update(PlayerControl player)
         {
             Logger.Info($"{player.GetNameWithRole()}: UpdateTask", "TaskState.Update");
-            GameData.Instance.RecomputeTaskCounts();
-            //PlayerControl.CompleteTask Prefixから呼ばれるのでGameDataとは1ずれている
-            Logger.Info($"TotalTaskCounts = {GameData.Instance.CompletedTasks + 1}/{GameData.Instance.TotalTasks}", "TaskState.Update");
 
             //初期化出来ていなかったら初期化
             if (AllTasksCount == -1) Init(player);
