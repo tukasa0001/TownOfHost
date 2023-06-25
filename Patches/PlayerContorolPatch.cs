@@ -577,6 +577,12 @@ namespace TownOfHost
             Utils.NotifyRoles();
             return ret;
         }
+        public static void Postfix()
+        {
+            //人外のタスクを排除して再計算
+            GameData.Instance.RecomputeTaskCounts();
+            Logger.Info($"TotalTaskCounts = {GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "TaskState.Update");
+        }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ProtectPlayer))]
     class PlayerControlProtectPlayerPatch
