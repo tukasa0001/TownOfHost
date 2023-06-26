@@ -221,12 +221,12 @@ public abstract class RoleBase : IDisposable
 
     // == Sabotage関連処理 ==
     /// <summary>
-    /// サボタージュを起すことが出来るか判定する。
+    /// 自身がサボタージュを発生させたときに発火する
     /// ドア閉めには関与できない
     /// </summary>
     /// <param name="systemType">サボタージュの種類</param>
     /// <returns>falseでサボタージュをキャンセル</returns>
-    public virtual bool CanSabotage(SystemTypes systemType) => true;
+    public virtual bool OnInvokeSabotage(SystemTypes systemType) => true;
 
     /// <summary>
     /// 誰かがサボタージュが発生させたときに呼ばれる
