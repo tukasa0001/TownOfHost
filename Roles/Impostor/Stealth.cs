@@ -146,13 +146,13 @@ public sealed class Stealth : RoleBase, IImpostor
         Utils.NotifyRoles(SpecifySeer: Player);
     }
 
-    public override string GetLowerText(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false, bool isForHud = false)
+    public override string GetSuffix(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
     {
         seen ??= seer;
-        // 自分のLowerTextじゃない，もしくはどこも暗転させてなければ何も出さない
-        if (seer != Player || seen != Player || !darkenedRoom.HasValue)
+        // 会議中，自分のSuffixじゃない，どこも暗転させてなければ何も出さない
+        if (isForMeeting || seer != Player || seen != Player || !darkenedRoom.HasValue)
         {
-            return base.GetLowerText(seer, seen, isForMeeting, isForHud);
+            return base.GetSuffix(seer, seen, isForMeeting);
         }
         return string.Format(Translator.GetString("StealthDarkened"), DestroyableSingleton<TranslationController>.Instance.GetString(darkenedRoom.Value));
     }
