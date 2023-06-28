@@ -127,7 +127,7 @@ class Penguin : RoleBase
             }
             if (AbductTimer <= 0f)
             {
-                Player.CheckMurder(AbductVictim);
+                Player.RpcMurderPlayerV2(AbductVictim);
                 RemoveVictim();
             }
             else
