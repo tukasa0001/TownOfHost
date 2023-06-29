@@ -22,8 +22,7 @@ namespace TownOfHost
         // 単独勝利するニュートラルの処理に最適です。
         public static HashSet<byte> WinnerIds;
 
-        [GameModuleInitializer]
-        [PluginModuleInitializer]
+        [GameModuleInitializer, PluginModuleInitializer]
         public static void Reset()
         {
             WinnerTeam = CustomWinner.Default;
