@@ -160,7 +160,6 @@ namespace TownOfHost
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
             LastShapeshifterCooldown = Config.Bind("Other", "LastShapeshifterCooldown", (float)30);
 
-
             PluginModuleInitializerAttribute.InitializeAll();
 
             IRandom.SetInstance(new NetRandomWrapper());
