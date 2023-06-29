@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using HarmonyLib;
+using TownOfHost.Attributes;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -35,6 +36,7 @@ namespace TownOfHost
             ["Time"] = () => DateTime.Now.ToShortTimeString(),
         };
 
+        [PluginModuleInitializer]
         public static void Init()
         {
             CreateIfNotExists();

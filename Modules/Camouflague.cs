@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HarmonyLib;
+using TownOfHost.Attributes;
 
 namespace TownOfHost
 {
@@ -36,6 +37,7 @@ namespace TownOfHost
         public static bool IsCamouflage;
         public static Dictionary<byte, GameData.PlayerOutfit> PlayerSkins = new();
 
+        [GameModuleInitializer]
         public static void Init()
         {
             IsCamouflage = false;

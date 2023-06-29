@@ -1,6 +1,7 @@
 using System;
 using AmongUs.GameOptions;
 
+using TownOfHost.Attributes;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
@@ -15,6 +16,7 @@ namespace TownOfHost.Modules
         private static int DefaultDiscussionTime;
         private static int DefaultVotingTime;
 
+        [GameModuleInitializer]
         public static void Init()
         {
             DefaultDiscussionTime = Main.RealOptionsData.GetInt(Int32OptionNames.DiscussionTime);

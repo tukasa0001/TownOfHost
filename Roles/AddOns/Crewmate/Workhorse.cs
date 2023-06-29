@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using TownOfHost.Attributes;
 using TownOfHost.Roles.Core;
 using static TownOfHost.Options;
 
@@ -27,6 +28,7 @@ namespace TownOfHost.Roles.AddOns.Crewmate
             OptionNumShortTasks = IntegerOptionItem.Create(Id + 12, "WorkhorseNumShortTasks", new(0, 5, 1), 1, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workhorse])
                 .SetValueFormat(OptionFormat.Pieces);
         }
+        [GameModuleInitializer]
         public static void Init()
         {
             playerIdList = new();
