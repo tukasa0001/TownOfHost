@@ -10,6 +10,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 
+using TownOfHost.Attributes;
 using TownOfHost.Roles.Core;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -159,10 +160,8 @@ namespace TownOfHost
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
             LastShapeshifterCooldown = Config.Bind("Other", "LastShapeshifterCooldown", (float)30);
 
-            CustomWinnerHolder.Reset();
-            Translator.Init();
-            BanManager.Init();
-            TemplateManager.Init();
+
+            PluginModuleInitializerAttribute.InitializeAll();
 
             IRandom.SetInstance(new NetRandomWrapper());
 

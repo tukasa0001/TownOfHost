@@ -5,12 +5,11 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 
+using TownOfHost.Attributes;
 using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.AddOns.Common;
-using TownOfHost.Roles.AddOns.Impostor;
-using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -22,8 +21,6 @@ namespace TownOfHost
         {
             //注:この時点では役職は設定されていません。
             Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.GuardianAngel, 0, 0);
-
-            PlayerState.Clear();
 
             Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
             Main.AllPlayerSpeed = new Dictionary<byte, float>();
@@ -46,7 +43,6 @@ namespace TownOfHost
 
             RandomSpawn.CustomNetworkTransformPatch.NumOfTP = new();
 
-            MeetingTimeManager.Init();
             Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
             Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
 
@@ -56,7 +52,6 @@ namespace TownOfHost
             //名前の記録
             Main.AllPlayerNames = new();
 
-            Camouflage.Init();
             var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
             if (invalidColor.Count() != 0)
             {
@@ -66,6 +61,8 @@ namespace TownOfHost
                 Utils.SendMessage(msg);
                 Logger.Error(msg, "CoStartGame");
             }
+
+            GameModuleInitializerAttribute.InitializeAll();
 
             foreach (var target in Main.AllPlayerControls)
             {
@@ -105,15 +102,6 @@ namespace TownOfHost
                     Options.HideAndSeekKillDelayTimer = Options.StandardHASWaitingTime.GetFloat();
                 }
             }
-            CustomRoleManager.Initialize();
-            FallFromLadder.Reset();
-            LastImpostor.Init();
-            TargetArrow.Init();
-            DoubleTrigger.Init();
-            Watcher.Init();
-            Workhorse.Init();
-            CustomWinnerHolder.Reset();
-            AntiBlackout.Reset();
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
 
             MeetingStates.MeetingCalled = false;
