@@ -168,7 +168,7 @@ public abstract class RoleBase : IDisposable
     { }
 
     /// <summary>
-    /// 通報時に呼ばれる関数
+    /// 通報時，会議が呼ばれることが確定してから呼ばれる関数<br/>
     /// 通報に関係ないプレイヤーも呼ばれる
     /// </summary>
     /// <param name="reporter">通報したプレイヤー</param>
