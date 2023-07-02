@@ -431,7 +431,7 @@
 "AssignOnlyTo%role%","Assign Only To %role%","%role%のみに割り当てる","只赋予%role%","","Назначить только для %role%",""
 "WorkhorseNumLongTasks","Additional Long Tasks","追加ロングタスクの個数","额外长任务数","增加的長任務數量","Дополнительные долгие задания",""
 "WorkhorseNumShortTasks","Additional Short Tasks","追加ショートタスクの個数","额外短任务数","增加的短任務數量","Дополнительные короткие задания",""
-"StealthExcludeImpostors","Exclude Impostors From Blindness","インポスターは暗転の影響を受けない","","","",""
+"StealthExcludeImpostors","Exclude Impostors From Blindness","暗転効果の対象からインポスターを除外する","","","",""
 "StealthDarkenDuration","Blindness Duration","暗転の持続時間","","","",""
 
 "## かくれんぼ設定"
