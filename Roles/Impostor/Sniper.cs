@@ -292,10 +292,9 @@ public sealed class Sniper : RoleBase, IImpostor
             Utils.NotifyRoles(SpecifySeer: Player);
         }
     }
-    public override bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
     {
         MeetingReset = true;
-        return true;
     }
     public override string GetProgressText(bool comms = false)
     {

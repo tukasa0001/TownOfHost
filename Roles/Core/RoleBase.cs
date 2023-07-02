@@ -173,7 +173,8 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     /// <param name="reporter">通報したプレイヤー</param>
     /// <param name="target">通報されたプレイヤー</param>
-    public virtual bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target) => true;
+    public virtual void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    { }
 
     /// <summary>
     /// <para>ベントに入ったときに呼ばれる関数</para>
