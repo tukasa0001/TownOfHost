@@ -168,13 +168,13 @@ public abstract class RoleBase : IDisposable
     { }
 
     /// <summary>
-    /// 通報時に呼ばれる関数
+    /// 通報時，会議が呼ばれることが確定してから呼ばれる関数<br/>
     /// 通報に関係ないプレイヤーも呼ばれる
     /// </summary>
     /// <param name="reporter">通報したプレイヤー</param>
     /// <param name="target">通報されたプレイヤー</param>
-    /// <returns>falseを返すと通報がキャンセルされます</returns>
-    public virtual bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target) => true;
+    public virtual void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    { }
 
     /// <summary>
     /// <para>ベントに入ったときに呼ばれる関数</para>
