@@ -6,6 +6,7 @@ using System.Text;
 using Csv;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using TownOfHost.Attributes;
 
 namespace TownOfHost
 {
@@ -13,6 +14,8 @@ namespace TownOfHost
     {
         public static Dictionary<string, Dictionary<int, string>> translateMaps;
         public const string LANGUAGE_FOLDER_NAME = "Language";
+
+        [PluginModuleInitializer]
         public static void Init()
         {
             Logger.Info("Language Dictionary Initialize...", "Translator");

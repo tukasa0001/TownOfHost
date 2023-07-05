@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HarmonyLib;
+using TownOfHost.Attributes;
 using UnityEngine;
 
 namespace TownOfHost
@@ -8,6 +9,7 @@ namespace TownOfHost
     {
         public static Dictionary<byte, Vector3> TargetLadderData;
         private static int Chance => (Options.LadderDeathChance as StringOptionItem).GetChance();
+        [GameModuleInitializer]
         public static void Reset()
         {
             TargetLadderData = new();

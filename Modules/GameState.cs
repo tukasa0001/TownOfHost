@@ -4,6 +4,7 @@ using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 
+using TownOfHost.Attributes;
 using TownOfHost.Roles.Core;
 
 namespace TownOfHost
@@ -115,6 +116,7 @@ namespace TownOfHost
         public static IReadOnlyDictionary<byte, PlayerState> AllPlayerStates => allPlayerStates;
 
         public static PlayerState GetByPlayerId(byte playerId) => AllPlayerStates.TryGetValue(playerId, out var state) ? state : null;
+        [GameModuleInitializer]
         public static void Clear() => allPlayerStates.Clear();
         public static void Create(byte playerId)
         {
