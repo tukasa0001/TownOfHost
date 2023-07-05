@@ -71,7 +71,7 @@ namespace TownOfHost
 
                 VersionChecker.Check();
 
-                if (SpecialEventText == null)
+                if (SpecialEventText == null && TohLogo != null)
                 {
                     SpecialEventText = Object.Instantiate(__instance.text, TohLogo.transform);
                     SpecialEventText.name = "SpecialEventText";
@@ -81,7 +81,10 @@ namespace TownOfHost
                     SpecialEventText.alignment = TextAlignmentOptions.Center;
                     SpecialEventText.transform.localPosition = new Vector3(0f, 0.8f, 0f);
                 }
-                SpecialEventText.enabled = TitleLogoPatch.amongUsLogo != null;
+                if (SpecialEventText != null)
+                {
+                    SpecialEventText.enabled = TitleLogoPatch.amongUsLogo != null;
+                }
                 if (Main.IsInitialRelease)
                 {
                     SpecialEventText.text = $"Happy Birthday to {Main.ModName}!";
