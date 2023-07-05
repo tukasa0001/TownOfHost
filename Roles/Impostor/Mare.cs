@@ -85,7 +85,7 @@ public sealed class Mare : RoleBase, IImpostor
         {
             if (amount.HasAnyBit(128))
             {
-                new LateTask(() =>
+                _ = new LateTask(() =>
                 {
                     //まだ停電が直っていなければキル可能モードに
                     if (Utils.IsActive(SystemTypes.Electrical))

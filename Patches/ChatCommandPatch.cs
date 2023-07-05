@@ -464,7 +464,7 @@ namespace TownOfHost
             chatText = new StringBuilder(chatText).Insert(0, "\n", return_count).ToString();
             if (AmongUsClient.Instance.AmClient && DestroyableSingleton<HudManager>.Instance)
                 DestroyableSingleton<HudManager>.Instance.Chat.AddChat(__instance, chatText);
-            if (chatText.IndexOf("who", StringComparison.OrdinalIgnoreCase) >= 0)
+            if (chatText.Contains("who", StringComparison.OrdinalIgnoreCase))
                 DestroyableSingleton<Telemetry>.Instance.SendWho();
             MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(__instance.NetId, (byte)RpcCalls.SendChat, SendOption.None);
             messageWriter.Write(chatText);

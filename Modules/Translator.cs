@@ -99,7 +99,7 @@ namespace TownOfHost
             if (!translateMaps.ContainsKey(str)) //translateMapsにない場合、StringNamesにあれば取得する
             {
                 var stringNames = EnumHelper.GetAllValues<StringNames>().Where(x => x.ToString() == str);
-                if (stringNames != null && stringNames.Count() > 0)
+                if (stringNames != null && stringNames.Any())
                     res = GetString(stringNames.FirstOrDefault());
             }
             return res;
@@ -125,7 +125,7 @@ namespace TownOfHost
                 Logger.Info($"カスタム翻訳ファイル「{filename}」を読み込み", "LoadCustomTranslation");
                 using StreamReader sr = new(path, Encoding.GetEncoding("UTF-8"));
                 string text;
-                string[] tmp = { };
+                string[] tmp = Array.Empty<string>();
                 while ((text = sr.ReadLine()) != null)
                 {
                     tmp = text.Split(":");
