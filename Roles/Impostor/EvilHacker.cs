@@ -101,6 +101,8 @@ public sealed class EvilHacker : RoleBase, IImpostor, IKillFlashSeeable
 
         return;
     }
+    public bool CheckKillFlash(MurderInfo info) =>
+        canSeeKillFlash && !info.IsSuicide && !info.IsFakeSuicide && !info.IsAccident && info.AttemptKiller.Is(CustomRoleTypes.Impostor);
 
     private const char ImpostorMark = '★';
 }
