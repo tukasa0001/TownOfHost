@@ -1,6 +1,9 @@
+using System.Text;
 using AmongUs.GameOptions;
+using TownOfHost.Modules;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
+using UnityEngine;
 
 namespace TownOfHost.Roles.Impostor;
 
@@ -17,7 +20,11 @@ public sealed class EvilHacker : RoleBase, IImpostor, IKillFlashSeeable
             SetupOptionItems,
             "eh"
         );
-    public EvilHacker(PlayerControl player) : base(RoleInfo, player)
+    public EvilHacker(PlayerControl player)
+    : base(
+        RoleInfo,
+        player
+    )
     {
         canSeeDeadMark = OptionCanSeeDeadMark.GetBool();
         canSeeImpostorMark = OptionCanSeeImpostorMark.GetBool();
@@ -48,4 +55,52 @@ public sealed class EvilHacker : RoleBase, IImpostor, IKillFlashSeeable
         OptionCanSeeKillFlash = BooleanOptionItem.Create(RoleInfo, 12, OptionName.EvilHackerCanSeeKillFlash, true, false);
         OptionCanSeeMurderRoom = BooleanOptionItem.Create(RoleInfo, 13, OptionName.EvilHackerCanSeeMurderRoom, true, false, OptionCanSeeKillFlash);
     }
+
+    public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    {
+        if (!Player.IsAlive())
+        {
+            return;
+        }
+        var admins = AdminProvider.CalculateAdmin();
+        var builder = new StringBuilder(512);
+
+        // 送信するメッセージを生成
+        foreach (var admin in admins)
+        {
+            var entry = admin.Value;
+            // インポスターがいるなら星マークを付ける
+            if (canSeeImpostorMark && entry.NumImpostors > 0)
+            {
+                builder.Append(ImpostorMark);
+            }
+            // 部屋名と合計プレイヤー数を表記
+            builder.Append(DestroyableSingleton<TranslationController>.Instance.GetString(entry.Room));
+            builder.Append(": ");
+            builder.Append(entry.TotalPlayers);
+            // 死体があったら死体の数を書く
+            if (canSeeDeadMark && entry.NumDeadBodies > 0)
+            {
+                builder.Append('(').Append(Translator.GetString("Deadbody"));
+                builder.Append('×').Append(entry.NumDeadBodies).Append(')');
+            }
+            builder.Append('\n');
+        }
+
+        // 送信
+        var message = builder.ToString();
+        var title = Utils.ColorString(Color.green, Translator.GetString("Message.LastAdminInfo"));
+
+        _ = new LateTask(() =>
+        {
+            if (GameStates.IsInGame)
+            {
+                Utils.SendMessage(message, Player.PlayerId, title);
+            }
+        }, 4f, "EvilHacker Admin Message");
+
+        return;
+    }
+
+    private const char ImpostorMark = '★';
 }
