@@ -115,7 +115,7 @@ public sealed class EvilHacker : RoleBase, IImpostor, IKillFlashSeeable
 
         // 送信
         var message = builder.ToString();
-        var title = Utils.ColorString(Color.green, Translator.GetString("Message.LastAdminInfo"));
+        var title = Utils.ColorString(Color.green, Translator.GetString("LastAdminInfo"));
 
         _ = new LateTask(() =>
         {
@@ -202,7 +202,7 @@ public sealed class EvilHacker : RoleBase, IImpostor, IKillFlashSeeable
             return base.GetSuffix(seer, seen, isForMeeting);
         }
         var roomNames = activeNotifies.Select(notify => DestroyableSingleton<TranslationController>.Instance.GetString(notify.Room));
-        return Utils.ColorString(Color.green, $"{Translator.GetString("EvilHackerMurderNotify")}: {string.Join(", ", roomNames)}");
+        return Utils.ColorString(Color.green, $"{Translator.GetString("MurderNotify")}: {string.Join(", ", roomNames)}");
     }
     public bool CheckKillFlash(MurderInfo info) =>
         canSeeKillFlash && !info.IsSuicide && !info.IsAccident && info.AttemptKiller.Is(CustomRoleTypes.Impostor);
