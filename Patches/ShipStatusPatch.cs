@@ -132,23 +132,15 @@ namespace TownOfHost
                     //直せないならキャンセル
                     if (!Options.MadmateCanFixLightsOut.GetBool())
                         return false;
-
-                    //Airshipの特定の停電を直せないならキャンセル
-                    switch (Main.NormalOptions.MapId)
-                    {
-                        case 4:
-                            var console = player.closest.TryCast<Console>();
-                            if (console != null)
-                            {
-                                Logger.Info($"{console.GetType()}", "RepairSystemPatch.OnSabotage");
-                                Logger.Info($"{console.tag}", "RepairSystemPatch.OnSabotage");
-                            }
-                            if (Options.DisableAirshipViewingDeckLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(-12.93f, -11.28f)) <= 2f) return false;
-                            if (Options.DisableAirshipGapRoomLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(13.92f, 6.43f)) <= 2f) return false;
-                            if (Options.DisableAirshipCargoLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(30.56f, 2.12f)) <= 2f) return false;
-                            break;
-                    }
                 }
+            }
+
+            //Airshipの特定の停電を直せないならキャンセル
+            if (systemType == SystemTypes.Electrical && Main.NormalOptions.MapId == 4)
+            {
+                if (Options.DisableAirshipViewingDeckLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(-12.93f, -11.28f)) <= 2f) return false;
+                if (Options.DisableAirshipGapRoomLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(13.92f, 6.43f)) <= 2f) return false;
+                if (Options.DisableAirshipCargoLightsPanel.GetBool() && Vector2.Distance(player.transform.position, new(30.56f, 2.12f)) <= 2f) return false;
             }
             return true;
         }
