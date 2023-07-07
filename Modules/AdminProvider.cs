@@ -47,9 +47,9 @@ public static class AdminProvider
             var numImpostors = 0;
 
             // 検出された各当たり判定への処理
-            for (var j = 0; j < numColliders; j++)
+            for (var i = 0; i < numColliders; i++)
             {
-                var collider = colliders[j];
+                var collider = colliders[i];
                 // おにくの場合
                 if (collider.CompareTag("DeadBody"))
                 {
