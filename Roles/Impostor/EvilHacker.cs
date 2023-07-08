@@ -95,6 +95,10 @@ public sealed class EvilHacker : RoleBase, IImpostor, IKillFlashSeeable
         foreach (var admin in admins)
         {
             var entry = admin.Value;
+            if (entry.TotalPlayers <= 0)
+            {
+                continue;
+            }
             // インポスターがいるなら星マークを付ける
             if (canSeeImpostorMark && entry.NumImpostors > 0)
             {
