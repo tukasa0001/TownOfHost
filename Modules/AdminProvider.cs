@@ -69,7 +69,7 @@ public static class AdminProvider
                 else if (!collider.isTrigger)
                 {
                     var playerControl = collider.GetComponent<PlayerControl>();
-                    if (playerControl != null && playerControl.IsAlive() && countedPlayers.Add(playerControl.PlayerId))
+                    if (playerControl.IsAlive() && countedPlayers.Add(playerControl.PlayerId))
                     {
                         totalPlayers++;
                         // インポスターだった場合
