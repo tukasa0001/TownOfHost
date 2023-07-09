@@ -43,7 +43,7 @@ public static class OptionSerializer
     {
         var builder = new StringBuilder(Header, 1024);
         builder.Append(GenerateModOptionsString());
-        builder.Append("&");
+        builder.Append('&');
         builder.Append(GenerateVanillaOptionsString());
         builder.Append(Footer);
         return builder.ToString();
@@ -70,7 +70,7 @@ public static class OptionSerializer
                 continue;
             }
             var idDelta = option.Id - lastId;
-            builder.Append(idDelta == 1 ? "" : Base62.ToBase62(idDelta)).Append(",").Append(value == 1 ? "" : Base62.ToBase62(value)).Append("!");
+            builder.Append(idDelta == 1 ? "" : Base62.ToBase62(idDelta)).Append(',').Append(value == 1 ? "" : Base62.ToBase62(value)).Append('!');
             lastId = option.Id;
         }
         return builder.ToString();
