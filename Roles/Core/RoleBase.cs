@@ -35,15 +35,10 @@ public abstract class RoleBase : IDisposable
     /// アビリティボタンで発動する能力を持っているか
     /// </summary>
     public bool HasAbility { get; private set; }
-    /// <summary>
-    /// どの陣営にカウントされるか
-    /// </summary>
-    public CountTypes CountType => MyState.countTypes;
     public RoleBase(
         SimpleRoleInfo roleInfo,
         PlayerControl player,
         Func<HasTask> hasTasks = null,
-        CountTypes? countType = null,
         bool? hasAbility = null
     )
     {
@@ -59,8 +54,6 @@ public abstract class RoleBase : IDisposable
 
         MyState = PlayerState.GetByPlayerId(player.PlayerId);
         MyTaskState = MyState.GetTaskState();
-
-        MyState.countTypes = countType ?? (roleInfo.RoleName.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew);
 
         CustomRoleManager.AllActiveRoles.Add(Player.PlayerId, this);
     }
