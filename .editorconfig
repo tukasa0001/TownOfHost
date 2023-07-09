@@ -82,6 +82,9 @@ dotnet_diagnostic.IDE0200.severity = none
 # 未使用のusingを情報レベルでお知らせ
 dotnet_diagnostic.IDE0005.severity = suggestion
 
+# プライマリコンストラクタを使用しない
+dotnet_diagnostic.IDE0290.severity = none
+
 # publicでstaticで非readonlyなフィールドへの警告を行うか
 dotnet_diagnostic.CA2211.severity = none
 
