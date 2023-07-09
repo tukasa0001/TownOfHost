@@ -6,6 +6,7 @@ using Hazel;
 using Il2CppSystem.Text;
 
 using AmongUs.GameOptions;
+using TownOfHost.Attributes;
 using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.AddOns.Common;
 
@@ -182,6 +183,7 @@ public static class CustomRoleManager
         return !cancel;
     }
     // ==初期化関連処理 ==
+    [GameModuleInitializer]
     public static void Initialize()
     {
         AllRolesInfo.Do(kvp => kvp.Value.IsEnable = kvp.Key.IsEnable());

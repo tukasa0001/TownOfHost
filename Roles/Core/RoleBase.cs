@@ -64,12 +64,14 @@ public abstract class RoleBase : IDisposable
 
         CustomRoleManager.AllActiveRoles.Add(Player.PlayerId, this);
     }
+#pragma warning disable CA1816
     public void Dispose()
     {
         OnDestroy();
         CustomRoleManager.AllActiveRoles.Remove(Player.PlayerId);
         Player = null;
     }
+#pragma warning restore CA1816
     public bool Is(PlayerControl player)
     {
         return player.PlayerId == Player.PlayerId;
@@ -168,13 +170,13 @@ public abstract class RoleBase : IDisposable
     { }
 
     /// <summary>
-    /// 通報時に呼ばれる関数
+    /// 通報時，会議が呼ばれることが確定してから呼ばれる関数<br/>
     /// 通報に関係ないプレイヤーも呼ばれる
     /// </summary>
     /// <param name="reporter">通報したプレイヤー</param>
     /// <param name="target">通報されたプレイヤー</param>
-    /// <returns>falseを返すと通報がキャンセルされます</returns>
-    public virtual bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target) => true;
+    public virtual void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    { }
 
     /// <summary>
     /// <para>ベントに入ったときに呼ばれる関数</para>
@@ -221,12 +223,12 @@ public abstract class RoleBase : IDisposable
 
     // == Sabotage関連処理 ==
     /// <summary>
-    /// サボタージュを起すことが出来るか判定する。
+    /// 自身がサボタージュを発生させたときに発火する
     /// ドア閉めには関与できない
     /// </summary>
     /// <param name="systemType">サボタージュの種類</param>
     /// <returns>falseでサボタージュをキャンセル</returns>
-    public virtual bool CanSabotage(SystemTypes systemType) => true;
+    public virtual bool OnInvokeSabotage(SystemTypes systemType) => true;
 
     /// <summary>
     /// 誰かがサボタージュが発生させたときに呼ばれる
