@@ -15,7 +15,7 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 ## Releases
 
-AmongUs Version: **2023.6.13**
+AmongUs Version: **2023.7.11**
 
 **Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
@@ -200,6 +200,18 @@ Example:
 | ^Host               | `HostMOD` `HostTOH` `HostTEST`          | Match if prefixed with `Host`  |
 | Host$               | `MODHost` `TOHHost` `TESTHost`          | Match if postfixed with `Host` |
 | ^Host$              | `Host`                                  | Exact match to `Host`          |
+
+### Saving and Sharing Options Data
+
+Converts all mod and vanilla options to string and allows them to be saved and shared.  
+The following keystrokes in lobby execute each operation.  
+File outputs by `Alt`+`L` are stored in `./TOH_DATA/OptionOutputs` as `Preset{preset number}_{num}.txt`.
+
+| Keys      | Operation                                                                 |
+| --------- | ------------------------------------------------------------------------- |
+| `Alt`+`O` | Copy options data                                                         |
+| `Alt`+`P` | Load options data from the clipboard                                      |
+| `Alt`+`L` | Export options data to a text file and open the output folder in Explorer |
 
 ## Roles
 
