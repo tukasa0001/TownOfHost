@@ -203,14 +203,15 @@ Example:
 
 ### Saving and Sharing Options Data
 
-Converts all mod and vanilla options to string and allows them to be saved and shared.
-The following keystrokes in lobby execute each operation.
+Converts all mod and vanilla options to string and allows them to be saved and shared.  
+The following keystrokes in lobby execute each operation.  
+File outputs by `Alt`+`L` are stored in `./TOH_DATA/OptionOutputs` as `Preset{preset number}_{num}.txt`.
 
-| Keys      | Operation                            |
-| --------- | ------------------------------------ |
-| `Alt`+`O` | Copy options data                    |
-| `Alt`+`P` | Load options data from the clipboard |
-| `Alt`+`L` | Export options data to a text file   |
+| Keys      | Operation                                                                 |
+| --------- | ------------------------------------------------------------------------- |
+| `Alt`+`O` | Copy options data                                                         |
+| `Alt`+`P` | Load options data from the clipboard                                      |
+| `Alt`+`L` | Export options data to a text file and open the output folder in Explorer |
 
 ## Roles
 
