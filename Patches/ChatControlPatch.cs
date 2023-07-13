@@ -15,27 +15,27 @@ namespace TownOfHost
         }
         public static void Postfix(ChatController __instance)
         {
-            if (!__instance.TextArea.hasFocus) return;
+            if (!__instance.freeChatField.textArea.hasFocus) return;
             if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.C))
-                ClipboardHelper.PutClipboardString(__instance.TextArea.text);
+                ClipboardHelper.PutClipboardString(__instance.freeChatField.textArea.text);
             if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.V))
-                __instance.TextArea.SetText(__instance.TextArea.text + GUIUtility.systemCopyBuffer);
+                __instance.freeChatField.textArea.SetText(__instance.freeChatField.textArea.text + GUIUtility.systemCopyBuffer);
             if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.X))
             {
-                ClipboardHelper.PutClipboardString(__instance.TextArea.text);
-                __instance.TextArea.SetText("");
+                ClipboardHelper.PutClipboardString(__instance.freeChatField.textArea.text);
+                __instance.freeChatField.textArea.SetText("");
             }
             if (Input.GetKeyDown(KeyCode.UpArrow) && ChatCommands.ChatHistory.Count > 0)
             {
                 CurrentHistorySelection = Mathf.Clamp(--CurrentHistorySelection, 0, ChatCommands.ChatHistory.Count - 1);
-                __instance.TextArea.SetText(ChatCommands.ChatHistory[CurrentHistorySelection]);
+                __instance.freeChatField.textArea.SetText(ChatCommands.ChatHistory[CurrentHistorySelection]);
             }
             if (Input.GetKeyDown(KeyCode.DownArrow) && ChatCommands.ChatHistory.Count > 0)
             {
                 CurrentHistorySelection++;
                 if (CurrentHistorySelection < ChatCommands.ChatHistory.Count)
-                    __instance.TextArea.SetText(ChatCommands.ChatHistory[CurrentHistorySelection]);
-                else __instance.TextArea.SetText("");
+                    __instance.freeChatField.textArea.SetText(ChatCommands.ChatHistory[CurrentHistorySelection]);
+                else __instance.freeChatField.textArea.SetText("");
             }
         }
     }

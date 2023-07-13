@@ -161,7 +161,7 @@ namespace TownOfHost
             }
             else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
             player.MarkDirtySettings();
-            new LateTask(() =>
+            _ = new LateTask(() =>
             {
                 state.IsBlackOut = false; //ブラックアウト解除
                 player.MarkDirtySettings();
@@ -300,7 +300,7 @@ namespace TownOfHost
         public static Color GetRoleColor(CustomRoles role)
         {
             if (!Main.roleColors.TryGetValue(role, out var hexColor)) hexColor = role.GetRoleInfo()?.RoleColorCode;
-            ColorUtility.TryParseHtmlString(hexColor, out Color c);
+            _ = ColorUtility.TryParseHtmlString(hexColor, out Color c);
             return c;
         }
         public static string GetRoleColorCode(CustomRoles role)
@@ -511,16 +511,16 @@ namespace TownOfHost
             var sb = new StringBuilder();
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
-                sb.Append(GetString("Roles")).Append(":");
+                sb.Append(GetString("Roles")).Append(':');
                 if (CustomRoles.HASFox.IsEnable()) sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.HASFox), CustomRoles.HASFox.GetCount());
                 if (CustomRoles.HASTroll.IsEnable()) sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.HASTroll), CustomRoles.HASTroll.GetCount());
                 SendMessage(sb.ToString(), PlayerId);
-                sb.Clear().Append(GetString("Settings")).Append(":");
+                sb.Clear().Append(GetString("Settings")).Append(':');
                 sb.Append(GetString("HideAndSeek"));
             }
             else
             {
-                sb.Append(GetString("Settings")).Append(":");
+                sb.Append(GetString("Settings")).Append(':');
                 foreach (var role in Options.CustomRoleCounts)
                 {
                     if (!role.Key.IsEnable()) continue;
@@ -580,7 +580,7 @@ namespace TownOfHost
                 SendMessage(GetString("Message.HideGameSettings"), PlayerId);
                 return;
             }
-            var sb = new StringBuilder(GetString("Roles")).Append(":");
+            var sb = new StringBuilder(GetString("Roles")).Append(':');
             sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString().RemoveHtmlTags());
             foreach (CustomRoles role in CustomRolesHelper.AllRoles)
             {
@@ -618,7 +618,7 @@ namespace TownOfHost
             }
             var sb = new StringBuilder();
 
-            sb.Append(GetString("LastResult")).Append(":");
+            sb.Append(GetString("LastResult")).Append(':');
             List<byte> cloneRoles = new(PlayerState.AllPlayerStates.Keys);
             sb.Append($"\n{SetEverythingUpPatch.LastWinsText}\n");
             foreach (var id in Main.winnerList)
@@ -1068,10 +1068,10 @@ namespace TownOfHost
             casted = obj.TryCast<T>();
             return casted != null;
         }
-        public static int AllPlayersCount => PlayerState.AllPlayerStates.Values.Count(state => state.countTypes != CountTypes.OutOfGame);
+        public static int AllPlayersCount => PlayerState.AllPlayerStates.Values.Count(state => state.CountType != CountTypes.OutOfGame);
         public static int AllAlivePlayersCount => Main.AllAlivePlayerControls.Count(pc => !pc.Is(CountTypes.OutOfGame));
-        public static bool IsAllAlive => PlayerState.AllPlayerStates.Values.All(state => state.countTypes == CountTypes.OutOfGame || !state.IsDead);
-        public static int PlayersCount(CountTypes countTypes) => PlayerState.AllPlayerStates.Values.Count(state => state.countTypes == countTypes);
+        public static bool IsAllAlive => PlayerState.AllPlayerStates.Values.All(state => state.CountType == CountTypes.OutOfGame || !state.IsDead);
+        public static int PlayersCount(CountTypes countTypes) => PlayerState.AllPlayerStates.Values.Count(state => state.CountType == countTypes);
         public static int AlivePlayersCount(CountTypes countTypes) => Main.AllAlivePlayerControls.Count(pc => pc.Is(countTypes));
     }
 }

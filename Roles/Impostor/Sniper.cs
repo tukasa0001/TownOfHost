@@ -94,7 +94,7 @@ public sealed class Sniper : RoleBase, IImpostor
         using var sender = CreateSender(CustomRPC.SniperSync);
 
         var snList = ShotNotify;
-        sender.Writer.Write(snList.Count());
+        sender.Writer.Write(snList.Count);
         foreach (var sn in snList)
         {
             sender.Writer.Write(sn);
@@ -247,7 +247,7 @@ public sealed class Sniper : RoleBase, IImpostor
                 Utils.NotifyRoles(SpecifySeer: otherPc);
             }
             SendRPC();
-            new LateTask(
+            _ = new LateTask(
                 () =>
                 {
                     snList.Clear();
@@ -292,10 +292,9 @@ public sealed class Sniper : RoleBase, IImpostor
             Utils.NotifyRoles(SpecifySeer: Player);
         }
     }
-    public override bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
     {
         MeetingReset = true;
-        return true;
     }
     public override string GetProgressText(bool comms = false)
     {
@@ -326,7 +325,7 @@ public sealed class Sniper : RoleBase, IImpostor
         {
             //射撃音が聞こえるプレイヤー
             var snList = sniper.ShotNotify;
-            if (snList.Count() > 0 && snList.Contains(seer.PlayerId))
+            if (snList.Count > 0 && snList.Contains(seer.PlayerId))
             {
                 return $"<size=200%>{Utils.ColorString(Palette.ImpostorRed, "!")}</size>";
             }

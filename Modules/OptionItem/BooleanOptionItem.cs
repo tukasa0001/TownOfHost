@@ -47,9 +47,9 @@ namespace TownOfHost
         }
 
         // Setter
-        public override void SetValue(int value)
+        public override void SetValue(int value, bool doSync = true)
         {
-            base.SetValue(value % 2 == 0 ? 0 : 1);
+            base.SetValue(value % 2 == 0 ? 0 : 1, doSync);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+using TownOfHost.Modules;
 
 namespace TownOfHost
 {
@@ -11,9 +12,9 @@ namespace TownOfHost
         static int resolutionIndex = 0;
         public static void Postfix(ControllerManager __instance)
         {
-            //カスタム設定切り替え
             if (GameStates.IsLobby)
             {
+                //カスタム設定切り替え
                 if (Input.GetKeyDown(KeyCode.Tab))
                 {
                     OptionShower.Next();
@@ -22,6 +23,21 @@ namespace TownOfHost
                 {
                     if (ORGetKeysDown(KeyCode.Alpha1 + i, KeyCode.Keypad1 + i) && OptionShower.pages.Count >= i + 1)
                         OptionShower.currentPage = i;
+                }
+                // 現在の設定を文字列形式のデータに変換してコピー
+                if (GetKeysDown(KeyCode.O, KeyCode.LeftAlt))
+                {
+                    OptionSerializer.SaveToClipboard();
+                }
+                // 現在の設定を文字列形式のデータに変換してファイルに出力
+                if (GetKeysDown(KeyCode.L, KeyCode.LeftAlt))
+                {
+                    OptionSerializer.SaveToFile();
+                }
+                // クリップボードから文字列形式の設定データを読み込む
+                if (GetKeysDown(KeyCode.P, KeyCode.LeftAlt))
+                {
+                    OptionSerializer.LoadFromClipboard();
                 }
             }
             //解像度変更

@@ -62,12 +62,10 @@ public sealed class Mayor : RoleBase
             : opt.GetInt(Int32OptionNames.EmergencyCooldown);
         AURoleOptions.EngineerInVentMaxTime = 1;
     }
-    public override bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
     {
-        if (reporter.Is(CustomRoles.Mayor) && target == null) //ボタン
+        if (Is(reporter) && target == null) //ボタン
             LeftButtonCount--;
-
-        return true;
     }
     public override bool OnEnterVent(PlayerPhysics physics, int ventId)
     {

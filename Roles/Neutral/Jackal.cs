@@ -17,14 +17,14 @@ namespace TownOfHost.Roles.Neutral
                 50900,
                 SetupOptionItem,
                 "jac",
-                "#00b4eb"
+                "#00b4eb",
+                countType: CountTypes.Jackal
             );
         public Jackal(PlayerControl player)
         : base(
             RoleInfo,
             player,
-            () => HasTask.False,
-            CountTypes.Jackal
+            () => HasTask.False
         )
         {
             KillCooldown = OptionKillCooldown.GetFloat();
@@ -55,6 +55,6 @@ namespace TownOfHost.Roles.Neutral
         {
             __instance.SabotageButton.ToggleVisible(isActive && CanUseSabotage);
         }
-        public override bool CanSabotage(SystemTypes systemType) => CanUseSabotage;
+        public override bool OnInvokeSabotage(SystemTypes systemType) => CanUseSabotage;
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 
+using TownOfHost.Attributes;
 using TownOfHost.Roles.Core;
 
 namespace TownOfHost
@@ -13,7 +14,7 @@ namespace TownOfHost
         byte PlayerId;
         public CustomRoles MainRole;
         public List<CustomRoles> SubRoles;
-        public CountTypes countTypes;
+        public CountTypes CountType { get; private set; }
         public bool IsDead { get; set; }
         public CustomDeathReason DeathReason { get; set; }
         public TaskState taskState;
@@ -25,7 +26,7 @@ namespace TownOfHost
         {
             MainRole = CustomRoles.NotAssigned;
             SubRoles = new();
-            countTypes = CountTypes.OutOfGame;
+            CountType = CountTypes.OutOfGame;
             PlayerId = playerId;
             IsDead = false;
             DeathReason = CustomDeathReason.etc;
@@ -55,17 +56,15 @@ namespace TownOfHost
         {
             MainRole = role;
 
-            // 役職クラスのコンストラクタでセット済なら不要
-            if (CustomRoleManager.GetByPlayerId(PlayerId) == null)
-            {
-                countTypes = role switch
+            CountType = CustomRoleManager.GetRoleInfo(role) is SimpleRoleInfo roleInfo ?
+                roleInfo.CountType :
+                role switch
                 {
                     CustomRoles.GM => CountTypes.OutOfGame,
                     CustomRoles.HASFox or
                     CustomRoles.HASTroll => CountTypes.None,
                     _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,
                 };
-            }
         }
         public void SetSubRole(CustomRoles role, bool AllReplace = false)
         {
@@ -110,11 +109,13 @@ namespace TownOfHost
                     count++;
             return count;
         }
+        public void SetCountType(CountTypes countType) => CountType = countType;
 
         private static Dictionary<byte, PlayerState> allPlayerStates = new(15);
         public static IReadOnlyDictionary<byte, PlayerState> AllPlayerStates => allPlayerStates;
 
         public static PlayerState GetByPlayerId(byte playerId) => AllPlayerStates.TryGetValue(playerId, out var state) ? state : null;
+        [GameModuleInitializer]
         public static void Clear() => allPlayerStates.Clear();
         public static void Create(byte playerId)
         {
@@ -158,9 +159,6 @@ namespace TownOfHost
         public void Update(PlayerControl player)
         {
             Logger.Info($"{player.GetNameWithRole()}: UpdateTask", "TaskState.Update");
-            GameData.Instance.RecomputeTaskCounts();
-            //PlayerControl.CompleteTask Prefixから呼ばれるのでGameDataとは1ずれている
-            Logger.Info($"TotalTaskCounts = {GameData.Instance.CompletedTasks + 1}/{GameData.Instance.TotalTasks}", "TaskState.Update");
 
             //初期化出来ていなかったら初期化
             if (AllTasksCount == -1) Init(player);
@@ -182,8 +180,6 @@ namespace TownOfHost
         public readonly Version version;
         public readonly string tag;
         public readonly string forkId;
-        [Obsolete] public PlayerVersion(string ver, string tag_str) : this(Version.Parse(ver), tag_str, "") { }
-        [Obsolete] public PlayerVersion(Version ver, string tag_str) : this(ver, tag_str, "") { }
         public PlayerVersion(string ver, string tag_str, string forkId) : this(Version.Parse(ver), tag_str, forkId) { }
         public PlayerVersion(Version ver, string tag_str, string forkId)
         {

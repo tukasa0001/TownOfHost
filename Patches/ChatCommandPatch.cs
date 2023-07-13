@@ -19,9 +19,9 @@ namespace TownOfHost
 
         public static bool Prefix(ChatController __instance)
         {
-            if (__instance.TextArea.text == "") return false;
-            __instance.TimeSinceLastMessage = 3f;
-            var text = __instance.TextArea.text;
+            if (__instance.freeChatField.textArea.text == "") return false;
+            __instance.timeSinceLastMessage = 3f;
+            var text = __instance.freeChatField.textArea.text;
             if (ChatHistory.Count == 0 || ChatHistory[^1] != text) ChatHistory.Add(text);
             ChatControllerUpdatePatch.CurrentHistorySelection = ChatHistory.Count;
             string[] args = text.Split(' ');
@@ -247,9 +247,8 @@ namespace TownOfHost
             if (canceled)
             {
                 Logger.Info("Command Canceled", "ChatCommand");
-                __instance.TextArea.Clear();
-                __instance.TextArea.SetText(cancelVal);
-                __instance.quickChatMenu.ResetGlyphs();
+                __instance.freeChatField.textArea.Clear();
+                __instance.freeChatField.textArea.SetText(cancelVal);
             }
             return !canceled;
         }
@@ -406,7 +405,7 @@ namespace TownOfHost
         public static bool DoBlockChat = false;
         public static void Postfix(ChatController __instance)
         {
-            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || (Main.MessagesToSend[0].Item2 == byte.MaxValue && Main.MessageWait.Value > __instance.TimeSinceLastMessage)) return;
+            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || (Main.MessagesToSend[0].Item2 == byte.MaxValue && Main.MessageWait.Value > __instance.timeSinceLastMessage)) return;
             if (DoBlockChat) return;
             var player = Main.AllAlivePlayerControls.OrderBy(x => x.PlayerId).FirstOrDefault();
             if (player == null) return;
@@ -433,7 +432,7 @@ namespace TownOfHost
                 .EndRpc();
             writer.EndMessage();
             writer.SendMessage();
-            __instance.TimeSinceLastMessage = 0f;
+            __instance.timeSinceLastMessage = 0f;
         }
     }
 
@@ -464,7 +463,7 @@ namespace TownOfHost
             chatText = new StringBuilder(chatText).Insert(0, "\n", return_count).ToString();
             if (AmongUsClient.Instance.AmClient && DestroyableSingleton<HudManager>.Instance)
                 DestroyableSingleton<HudManager>.Instance.Chat.AddChat(__instance, chatText);
-            if (chatText.IndexOf("who", StringComparison.OrdinalIgnoreCase) >= 0)
+            if (chatText.Contains("who", StringComparison.OrdinalIgnoreCase))
                 DestroyableSingleton<Telemetry>.Instance.SendWho();
             MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(__instance.NetId, (byte)RpcCalls.SendChat, SendOption.None);
             messageWriter.Write(chatText);
