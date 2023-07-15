@@ -26,22 +26,27 @@ public sealed class NekoKabocha : RoleBase, IImpostor, INekomata
     )
     {
         impostorsGetRevenged = optionImpostorsGetRevenged.GetBool();
+        madmatesGetRevenged = optionMadmatesGetRevenged.GetBool();
         revengeOnExile = optionRevengeOnExile.GetBool();
     }
 
     #region カスタムオプション
     /// <summary>インポスターに仕返し/道連れするかどうか</summary>
     private static BooleanOptionItem optionImpostorsGetRevenged;
+    /// <summary>マッドに仕返し/道連れするかどうか</summary>
+    private static BooleanOptionItem optionMadmatesGetRevenged;
     private static BooleanOptionItem optionRevengeOnExile;
     private static void SetupOptionItems()
     {
         optionImpostorsGetRevenged = BooleanOptionItem.Create(RoleInfo, 10, OptionName.NekoKabochaImpostorsGetRevenged, false, false);
-        optionRevengeOnExile = BooleanOptionItem.Create(RoleInfo, 20, OptionName.NekoKabochaRevengeOnExile, false, false);
+        optionMadmatesGetRevenged = BooleanOptionItem.Create(RoleInfo, 20, OptionName.NekoKabochaMadmatesGetRevenged, false, false);
+        optionRevengeOnExile = BooleanOptionItem.Create(RoleInfo, 30, OptionName.NekoKabochaRevengeOnExile, false, false);
     }
-    private enum OptionName { NekoKabochaImpostorsGetRevenged, NekoKabochaRevengeOnExile, }
+    private enum OptionName { NekoKabochaImpostorsGetRevenged, NekoKabochaMadmatesGetRevenged, NekoKabochaRevengeOnExile, }
     #endregion
 
     private static bool impostorsGetRevenged;
+    private static bool madmatesGetRevenged;
     private static bool revengeOnExile;
     private static readonly LogHandler logger = Logger.Handler(nameof(NekoKabocha));
 
@@ -55,14 +60,22 @@ public sealed class NekoKabocha : RoleBase, IImpostor, INekomata
         // 殺してきた人を殺し返す
         logger.Info("ネコカボチャの仕返し");
         var killer = info.AttemptKiller;
-        if (!impostorsGetRevenged && killer.Is(CustomRoleTypes.Impostor))
+        if (!IsCandidate(killer))
         {
-            logger.Info("キラーがインポスターであるため仕返ししません");
+            logger.Info("キラーは仕返し対象ではないので仕返しされません");
             return;
         }
         killer.SetRealKiller(Player);
         Player.RpcMurderPlayer(killer);
     }
     public bool DoRevenge(CustomDeathReason deathReason) => revengeOnExile && deathReason == CustomDeathReason.Vote;
-    public bool IsCandidate(PlayerControl player) => !player.Is(CustomRoleTypes.Impostor) || impostorsGetRevenged;
+    public bool IsCandidate(PlayerControl player)
+    {
+        return player.GetCustomRole().GetCustomRoleTypes() switch
+        {
+            CustomRoleTypes.Impostor => impostorsGetRevenged,
+            CustomRoleTypes.Madmate => madmatesGetRevenged,
+            _ => true,
+        };
+    }
 }
