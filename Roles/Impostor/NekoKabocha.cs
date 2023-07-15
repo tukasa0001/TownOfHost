@@ -25,23 +25,28 @@ public sealed class NekoKabocha : RoleBase, IImpostor, INekomata
         player
     )
     {
+        impostorsGetRevengedOnKill = optionImpostorsGetRevengedOnKill.GetBool();
         revengeOnExile = optionRevengeOnExile.GetBool();
-        canImpostorsGetRevenged = optionCanImpostorsGetRevenged.GetBool();
+        canImpostorsGetRevengedOnExile = optionCanImpostorsGetRevengedOnExile.GetBool();
     }
 
     #region カスタムオプション
+    /// <summary>インポスターにキルされたときに仕返しするかどうか</summary>
+    private static BooleanOptionItem optionImpostorsGetRevengedOnKill;
     private static BooleanOptionItem optionRevengeOnExile;
-    private static BooleanOptionItem optionCanImpostorsGetRevenged;
+    private static BooleanOptionItem optionCanImpostorsGetRevengedOnExile;
     private static void SetupOptionItems()
     {
-        optionRevengeOnExile = BooleanOptionItem.Create(RoleInfo, 10, OptionName.NekoKabochaRevengeOnExile, false, false);
-        optionCanImpostorsGetRevenged = BooleanOptionItem.Create(RoleInfo, 11, OptionName.NekoKabochaCanImpostorsGetRevenged, false, false, optionRevengeOnExile);
+        optionImpostorsGetRevengedOnKill = BooleanOptionItem.Create(RoleInfo, 10, OptionName.NekoKabochaImpostorsGetRevengedOnKill, false, false);
+        optionRevengeOnExile = BooleanOptionItem.Create(RoleInfo, 20, OptionName.NekoKabochaRevengeOnExile, false, false);
+        optionCanImpostorsGetRevengedOnExile = BooleanOptionItem.Create(RoleInfo, 21, OptionName.NekoKabochaCanImpostorsGetRevengedOnExile, false, false, optionRevengeOnExile);
     }
-    private enum OptionName { NekoKabochaRevengeOnExile, NekoKabochaCanImpostorsGetRevenged, }
+    private enum OptionName { NekoKabochaImpostorsGetRevengedOnKill, NekoKabochaRevengeOnExile, NekoKabochaCanImpostorsGetRevengedOnExile, }
     #endregion
 
+    private static bool impostorsGetRevengedOnKill;
     private static bool revengeOnExile;
-    private static bool canImpostorsGetRevenged;
+    private static bool canImpostorsGetRevengedOnExile;
     private static readonly LogHandler logger = Logger.Handler(nameof(NekoKabocha));
 
     public override void OnMurderPlayerAsTarget(MurderInfo info)
@@ -54,9 +59,14 @@ public sealed class NekoKabocha : RoleBase, IImpostor, INekomata
         // 殺してきた人を殺し返す
         logger.Info("ネコカボチャの仕返し");
         var killer = info.AttemptKiller;
+        if (!impostorsGetRevengedOnKill && killer.Is(CustomRoleTypes.Impostor))
+        {
+            logger.Info("キラーがインポスターであるため仕返ししません");
+            return;
+        }
         killer.SetRealKiller(Player);
         Player.RpcMurderPlayer(killer);
     }
     public bool DoRevenge(CustomDeathReason deathReason) => revengeOnExile;
-    public bool IsCandidate(PlayerControl player) => !player.Is(CustomRoleTypes.Impostor) || canImpostorsGetRevenged;
+    public bool IsCandidate(PlayerControl player) => !player.Is(CustomRoleTypes.Impostor) || canImpostorsGetRevengedOnExile;
 }
