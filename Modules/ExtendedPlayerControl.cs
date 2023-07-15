@@ -115,7 +115,7 @@ namespace TownOfHost
                 return CountTypes.None;
             }
 
-            return PlayerState.GetByPlayerId(player.PlayerId)?.countTypes ?? CountTypes.None;
+            return PlayerState.GetByPlayerId(player.PlayerId)?.CountType ?? CountTypes.None;
         }
         public static void RpcSetNameEx(this PlayerControl player, string name)
         {
