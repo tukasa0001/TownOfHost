@@ -86,7 +86,7 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, CustomDeathReason> AfterMeetingDeathPlayers = new();
-        public static Dictionary<CustomRoles, String> roleColors;
+        public static Dictionary<CustomRoles, string> roleColors;
         public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
         public static List<int> clientIdList;
@@ -175,7 +175,7 @@ namespace TownOfHost
                     {CustomRoles.MSchrodingerCat, "#ff1919"},
                     {CustomRoles.SKMadmate, "#ff1919"},
                     //特殊クルー役職
-                    {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
+                    {CustomRoles.CSchrodingerCat, "#8cffff"}, //シュレディンガーの猫の派生
                     //ニュートラル役職
                     {CustomRoles.EgoSchrodingerCat, "#5600ff"},
                     {CustomRoles.JSchrodingerCat, "#00b4eb"},

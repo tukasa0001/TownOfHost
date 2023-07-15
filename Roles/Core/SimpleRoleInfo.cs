@@ -62,6 +62,7 @@ public class SimpleRoleInfo
             colorCode = customRoleType switch
             {
                 CustomRoleTypes.Impostor or CustomRoleTypes.Madmate => "#ff1919",
+                CustomRoleTypes.Crewmate => "#8cffff",
                 _ => "#ffffff"
             };
         RoleColorCode = colorCode;
