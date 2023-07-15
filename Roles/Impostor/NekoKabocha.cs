@@ -1,4 +1,5 @@
 using AmongUs.GameOptions;
+using TownOfHost.Modules;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
 
@@ -37,4 +38,19 @@ public sealed class NekoKabocha : RoleBase, IImpostor
     #endregion
 
     private static bool revengeOnExile;
+    private static readonly LogHandler logger = Logger.Handler(nameof(NekoKabocha));
+
+    public override void OnMurderPlayerAsTarget(MurderInfo info)
+    {
+        // 普通のキルじゃない．もしくはキルを行わない時はreturn
+        if (info.IsAccident || info.IsSuicide || !info.CanKill || !info.DoKill)
+        {
+            return;
+        }
+        // 殺してきた人を殺し返す
+        logger.Info("ネコカボチャの仕返し");
+        var killer = info.AttemptKiller;
+        killer.SetRealKiller(Player);
+        Player.RpcMurderPlayer(killer);
+    }
 }
