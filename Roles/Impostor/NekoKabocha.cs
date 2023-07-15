@@ -5,7 +5,7 @@ using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Impostor;
 
-public sealed class NekoKabocha : RoleBase, IImpostor
+public sealed class NekoKabocha : RoleBase, IImpostor, INekomata
 {
     public static readonly SimpleRoleInfo RoleInfo =
         SimpleRoleInfo.Create(
@@ -26,18 +26,22 @@ public sealed class NekoKabocha : RoleBase, IImpostor
     )
     {
         revengeOnExile = optionRevengeOnExile.GetBool();
+        canImpostorsGetRevenged = optionCanImpostorsGetRevenged.GetBool();
     }
 
     #region カスタムオプション
     private static BooleanOptionItem optionRevengeOnExile;
+    private static BooleanOptionItem optionCanImpostorsGetRevenged;
     private static void SetupOptionItems()
     {
         optionRevengeOnExile = BooleanOptionItem.Create(RoleInfo, 10, OptionName.NekoKabochaRevengeOnExile, false, false);
+        optionCanImpostorsGetRevenged = BooleanOptionItem.Create(RoleInfo, 11, OptionName.NekoKabochaCanImpostorsGetRevenged, false, false, optionRevengeOnExile);
     }
-    private enum OptionName { NekoKabochaRevengeOnExile, }
+    private enum OptionName { NekoKabochaRevengeOnExile, NekoKabochaCanImpostorsGetRevenged, }
     #endregion
 
     private static bool revengeOnExile;
+    private static bool canImpostorsGetRevenged;
     private static readonly LogHandler logger = Logger.Handler(nameof(NekoKabocha));
 
     public override void OnMurderPlayerAsTarget(MurderInfo info)
@@ -53,4 +57,6 @@ public sealed class NekoKabocha : RoleBase, IImpostor
         killer.SetRealKiller(Player);
         Player.RpcMurderPlayer(killer);
     }
+    public bool DoRevenge(CustomDeathReason deathReason) => revengeOnExile;
+    public bool IsCandidate(PlayerControl player) => !player.Is(CustomRoleTypes.Impostor) || canImpostorsGetRevenged;
 }
