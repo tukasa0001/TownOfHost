@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 using HarmonyLib;
@@ -7,6 +8,7 @@ using UnityEngine;
 using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost;
@@ -220,17 +222,29 @@ public static class MeetingHudPatch
     private static PlayerControl PickRevengeTarget(PlayerControl exiledplayer, CustomDeathReason deathReason)//道連れ先選定
     {
         List<PlayerControl> TargetList = new();
-        foreach (var candidate in Main.AllAlivePlayerControls)
+        if (exiledplayer.GetRoleClass() is INekomata nekomata)
         {
-            if (candidate == exiledplayer || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
-            switch (exiledplayer.GetCustomRole())
+            // 道連れしない状態ならnull
+            if (!nekomata.DoRevenge(deathReason))
             {
-                //ここに道連れ役職を追加
-                default:
-                    if (exiledplayer.Is(CustomRoleTypes.Madmate) && deathReason == CustomDeathReason.Vote && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
-                    && !candidate.Is(CustomRoleTypes.Impostor))
-                        TargetList.Add(candidate);
-                    break;
+                return null;
+            }
+            TargetList = Main.AllAlivePlayerControls.Where(candidate => candidate != exiledplayer && !Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId) && nekomata.IsCandidate(candidate)).ToList();
+        }
+        else
+        {
+            foreach (var candidate in Main.AllAlivePlayerControls)
+            {
+                if (candidate == exiledplayer || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
+                switch (exiledplayer.GetCustomRole())
+                {
+                    // ここにINekomata未適用の道連れ役職を追加
+                    default:
+                        if (exiledplayer.Is(CustomRoleTypes.Madmate) && deathReason == CustomDeathReason.Vote && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
+                        && !candidate.Is(CustomRoleTypes.Impostor))
+                            TargetList.Add(candidate);
+                        break;
+                }
             }
         }
         if (TargetList == null || TargetList.Count == 0) return null;
