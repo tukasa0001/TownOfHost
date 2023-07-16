@@ -55,5 +55,41 @@ namespace TownOfHost.Roles.Impostor
                 .SetParent(optionCanSeeMadmates)
                 .SetValueFormat(OptionFormat.Times);
         }
+
+        ///<summary>
+        ///役職を見る前提条件
+        ///</summary>
+        private bool IsAbilityAvailable(PlayerControl target)
+        {
+            if (Player == null || target == null) return false;
+            if (Player == target) return false;
+            if (target.Is(CustomRoles.GM)) return false;
+            if (!Player.IsAlive() && Options.GhostCanSeeOtherRoles.GetBool()) return false;
+            return true;
+        }
+        ///<summary>
+        ///Impostor, Madmateの内通能力
+        ///</summary>
+        private bool KnowAllyRole(PlayerControl target)
+            => IsAbilityAvailable(target)
+            && target.GetCustomRole().GetCustomRoleTypes() switch
+            {
+                CustomRoleTypes.Impostor => canSeeImpostorAbilities,
+                CustomRoleTypes.Madmate => canSeeMadmates && MyState.GetKillCount(true) >= killCountToSeeMadmates,
+                _ => false,
+            };
+        ///<summary>
+        ///幽霊の役職が見えるケース
+        ///</summary>
+        private bool KnowDeadRole(PlayerControl target)
+            => IsAbilityAvailable(target)
+            && !target.IsAlive()
+            && (canSeeAllGhostsRoles //全員見える
+            || target.GetRealKiller() == Player); //自分でキルした相手
+        ///<summary>
+        ///内通or幽霊
+        ///</summary>
+        private bool KnowTargetRole(PlayerControl target)
+            => KnowDeadRole(target) || KnowAllyRole(target);
     }
 }
