@@ -91,5 +91,14 @@ namespace TownOfHost.Roles.Impostor
         ///</summary>
         private bool KnowTargetRole(PlayerControl target)
             => KnowDeadRole(target) || KnowAllyRole(target);
+
+        public override void OverrideRoleNameAsSeer(PlayerControl seen, ref bool enabled, ref Color roleColor, ref string roleText)
+        {
+            enabled |= KnowTargetRole(seen);
+        }
+        public override void OverrideProgressTextAsSeer(PlayerControl seen, ref bool enabled, ref string text)
+        {
+            enabled |= KnowAllyRole(seen);
+        }
     }
 }
