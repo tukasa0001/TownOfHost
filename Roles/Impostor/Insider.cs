@@ -108,5 +108,25 @@ namespace TownOfHost.Roles.Impostor
             string mark = killCount >= killCountToSeeMadmates ? "★" : $"({killCount}/{killCountToSeeMadmates})";
             return Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), mark);
         }
+        public override string GetMark(PlayerControl seer, PlayerControl seen, bool _ = false)
+        {
+            //seenが省略の場合seer
+            seen ??= seer;
+            var mark = new StringBuilder(50);
+
+            // 死亡したLoversのマーク追加
+            if (seen.Is(CustomRoles.Lovers) && !seer.Is(CustomRoles.Lovers) && KnowDeadRole(seen))
+                mark.Append(Utils.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡"));
+
+            if (canSeeImpostorAbilities)
+            {
+                foreach (var impostor in Main.AllPlayerControls)
+                {
+                    if (seer == impostor || !impostor.Is(CustomRoleTypes.Impostor)) continue;
+                    mark.Append(impostor.GetRoleClass()?.GetMark(impostor, seen, true));
+                }
+            }
+            return mark.ToString();
+        }
     }
 }
