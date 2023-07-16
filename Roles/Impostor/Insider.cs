@@ -100,5 +100,13 @@ namespace TownOfHost.Roles.Impostor
         {
             enabled |= KnowAllyRole(seen);
         }
+        public override string GetProgressText(bool isComms = false)
+        {
+            if (!canSeeMadmates) return "";
+
+            int killCount = MyState.GetKillCount(true);
+            string mark = killCount >= killCountToSeeMadmates ? "★" : $"({killCount}/{killCountToSeeMadmates})";
+            return Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), mark);
+        }
     }
 }
