@@ -96,6 +96,11 @@ public sealed class PlagueDoctor : RoleBase, IKiller
             InfectInactiveTime += 5f;
     }
     public bool CanUseKillButton() => InfectCount != 0;
+    public bool OverrideKillButtonText(out string text)
+    {
+        text = GetString("Infected");
+        return true;
+    }
     public override bool OnInvokeSabotage(SystemTypes systemType) => false;
     public override string GetProgressText(bool comms = false)
     {
