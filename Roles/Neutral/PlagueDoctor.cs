@@ -2,18 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Core;
-using AmongUs.GameOptions;
-using TMPro;
-using Hazel;
-using Il2CppSystem.Runtime.Remoting.Messaging;
-using System.Numerics;
 using UnityEngine;
-using MS.Internal.Xml.XPath;
-using static UnityEngine.GraphicsBuffer;
-using System.Threading.Channels;
+using AmongUs.GameOptions;
+
+using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
+using static TownOfHost.Translator;
+using Hazel;
 
 namespace TownOfHost.Roles.Neutral;
 
