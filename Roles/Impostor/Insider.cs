@@ -1,12 +1,13 @@
 using System.Text;
+using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
-using UnityEngine;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Impostor
 {
-    public sealed class Insider : RoleBase
+    public sealed class Insider : RoleBase, IImpostor
     {
         public static readonly SimpleRoleInfo RoleInfo =
             SimpleRoleInfo.Create(
