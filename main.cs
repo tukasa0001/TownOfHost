@@ -240,6 +240,7 @@ namespace TownOfHost
         Sniped,
         Revenge,
         Execution,
+        Infected,
         Disconnected,
         Fall,
         etc = -1
@@ -259,6 +260,7 @@ namespace TownOfHost
         Arsonist = CustomRoles.Arsonist,
         Egoist = CustomRoles.Egoist,
         Jackal = CustomRoles.Jackal,
+        PlagueDoctor = CustomRoles.PlagueDoctor,
         HASTroll = CustomRoles.HASTroll,
     }
     public enum AdditionalWinners
