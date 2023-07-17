@@ -1,4 +1,3 @@
-using System.Linq;
 using AmongUs.GameOptions;
 using TownOfHost.Modules;
 using TownOfHost.Roles.Core;
@@ -56,11 +55,6 @@ public sealed class NekoKabocha : RoleBase, IImpostor, INekomata
         // 普通のキルじゃない．もしくはキルを行わない時はreturn
         if (info.IsAccident || info.IsSuicide || !info.CanKill || !info.DoKill)
         {
-            return;
-        }
-        if (Main.AllAlivePlayerControls.All(pc => pc == info.AttemptKiller || pc == info.AttemptTarget))
-        {
-            logger.Info("2人盤面なので仕返しされません");
             return;
         }
         // 殺してきた人を殺し返す
