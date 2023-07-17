@@ -47,6 +47,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
             CustomRoleManager.MarkOthers.Add(GetMarkOthers);
             CustomRoleManager.LowerOthers.Add(GetLowerTextOthers);
             CustomRoleManager.OnFixedUpdateOthers.Add(OnFixedUpdateOthers);
+            CustomRoleManager.OnMurderPlayerOthers.Add(OnMurderPlayerOthers);
         }
     }
     public override void OnDestroy()
@@ -86,6 +87,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     static Dictionary<byte, float> InfectInfos;
     static bool InfectActive;
     static PlagueDoctor FirstPlagueDoctor;
+    static bool LateCheckWin;
     public override void Add()
     {
         InfectCount = InfectLimit;
@@ -146,11 +148,22 @@ public sealed class PlagueDoctor : RoleBase, IKiller
             DirectInfect(killer);
         }
     }
+    public static void OnMurderPlayerOthers(MurderInfo info)
+    {
+        //非感染者が死んだ場合勝利するかもしれない
+        LateCheckWin = true;
+    }
     public static void OnFixedUpdateOthers(PlayerControl player)
     {
         if (!AmongUsClient.Instance.AmHost) return;
 
         if (!GameStates.IsInTask) return;
+        if (LateCheckWin)
+        {
+            //吊り/キルの後、念のため勝利条件チェック
+            LateCheckWin = false;
+            CheckWin();
+        }
         if (!player.IsAlive() || !InfectActive) return;
 
         if (InfectInfos.TryGetValue(player.PlayerId, out var rate) && rate >= 100)
@@ -159,11 +172,17 @@ public sealed class PlagueDoctor : RoleBase, IKiller
             var changed = false;
             foreach (var target in Main.AllAlivePlayerControls)
             {
+                //ペスト医師は除外
                 if (target.Is(CustomRoles.PlagueDoctor)) continue;
+
                 InfectInfos.TryGetValue(target.PlayerId, out var oldRate);
+                //感染者は除外
                 if (oldRate >= 100) continue;
+
+                //範囲外は除外
                 var distance = UnityEngine.Vector3.Distance(player.transform.position, target.transform.position);
                 if (distance > InfectDistance) continue;
+
                 var newRate = oldRate + Time.fixedDeltaTime / InfectTime * 100;
                 newRate = Math.Clamp(newRate, 0, 100);
                 InfectInfos[target.PlayerId] = newRate;
@@ -186,6 +205,8 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     {
         if (FirstPlagueDoctor == this)
         {
+            //非感染者が吊られた場合勝利するかもしれない
+            LateCheckWin = true;
             InfectActive = false;
             _ = new LateTask(() =>
             {
@@ -254,9 +275,6 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         {
             InfectActive = false;
 
-            CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.PlagueDoctor);
-            foreach (var plagueDoctor in Main.AllPlayerControls.Where(p => p.Is(CustomRoles.PlagueDoctor)))
-                CustomWinnerHolder.WinnerIds.Add(plagueDoctor.PlayerId);
             foreach (var player in Main.AllAlivePlayerControls)
             {
                 if (player.Is(CustomRoles.PlagueDoctor)) continue;
@@ -266,6 +284,9 @@ public sealed class PlagueDoctor : RoleBase, IKiller
                 state.DeathReason = CustomDeathReason.Infected;
                 state.SetDead();
             }
+            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.PlagueDoctor);
+            foreach (var plagueDoctor in Main.AllPlayerControls.Where(p => p.Is(CustomRoles.PlagueDoctor)))
+                CustomWinnerHolder.WinnerIds.Add(plagueDoctor.PlayerId);
         }
     }
 
