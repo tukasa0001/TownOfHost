@@ -230,9 +230,9 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         InfectInfos.TryGetValue(player.PlayerId, out var rate);
         return rate switch
         {
-            float x when x is < 50 => "\u2581",
-            float x when x is >= 50 and < 100 => "\u2584",
-            float x when x is >= 100 => "\u2588",
+            < 50 => "\u2581",
+            >= 50 and < 100 => "\u2584",
+            >= 100 => "\u2588",
             _ => ""
         };
     }
