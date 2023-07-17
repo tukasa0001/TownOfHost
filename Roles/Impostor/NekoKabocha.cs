@@ -66,8 +66,8 @@ public sealed class NekoKabocha : RoleBase, IImpostor, INekomata
             return;
         }
         killer.SetRealKiller(Player);
-        Player.RpcMurderPlayer(killer);
         PlayerState.GetByPlayerId(killer.PlayerId).DeathReason = CustomDeathReason.Revenge;
+        Player.RpcMurderPlayer(killer);
     }
     public bool DoRevenge(CustomDeathReason deathReason) => revengeOnExile && deathReason == CustomDeathReason.Vote;
     public bool IsCandidate(PlayerControl player)
