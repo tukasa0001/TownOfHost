@@ -19,7 +19,16 @@ namespace TownOfHost
 
         public static bool Prefix(ChatController __instance)
         {
-            if (__instance.freeChatField.textArea.text == "") return false;
+            // クイックチャットなら横流し
+            if (__instance.quickChatField.Visible)
+            {
+                return true;
+            }
+            // 入力欄に何も書かれてなければブロック
+            if (__instance.freeChatField.textArea.text == "")
+            {
+                return false;
+            }
             __instance.timeSinceLastMessage = 3f;
             var text = __instance.freeChatField.textArea.text;
             if (ChatHistory.Count == 0 || ChatHistory[^1] != text) ChatHistory.Add(text);
