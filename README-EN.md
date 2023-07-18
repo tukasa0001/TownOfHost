@@ -15,7 +15,7 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 ## Releases
 
-AmongUs Version: **2023.7.11**
+AmongUs Version: **2023.7.12**
 
 **Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
