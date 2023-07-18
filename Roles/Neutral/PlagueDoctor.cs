@@ -34,7 +34,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         () => HasTask.False
     )
     {
-        InfectLimit = OptinInfectLimit.GetInt();
+        InfectLimit = OptionInfectLimit.GetInt();
         InfectTime = OptionInfectTime.GetFloat();
         InfectDistance = OptionInfectDistance.GetFloat();
         InfectInactiveTime = OptionInfectInactiveTime.GetFloat();
@@ -56,7 +56,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     }
     public bool CanKill { get; private set; } = false;
 
-    private static OptionItem OptinInfectLimit;
+    private static OptionItem OptionInfectLimit;
     private static OptionItem OptionInfectTime;
     private static OptionItem OptionInfectDistance;
     private static OptionItem OptionInfectInactiveTime;
@@ -74,7 +74,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     }
     private static void SetupOptionItem()
     {
-        OptinInfectLimit = IntegerOptionItem.Create(RoleInfo, 10, OptionName.PlagueDoctorInfectLimit, new(1, 3, 1), 1, false)
+        OptionInfectLimit = IntegerOptionItem.Create(RoleInfo, 10, OptionName.PlagueDoctorInfectLimit, new(1, 3, 1), 1, false)
             .SetValueFormat(OptionFormat.Times);
         OptionInfectTime = FloatOptionItem.Create(RoleInfo, 11, OptionName.PlagueDoctorInfectTime, new(5f, 20f, 1f), 10f, false)
            .SetValueFormat(OptionFormat.Seconds);
