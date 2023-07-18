@@ -35,6 +35,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     )
     {
         InfectLimit = OptionInfectLimit.GetInt();
+        InfectWhenKilled = OptionInfectWhenKilled.GetBool();
         InfectTime = OptionInfectTime.GetFloat();
         InfectDistance = OptionInfectDistance.GetFloat();
         InfectInactiveTime = OptionInfectInactiveTime.GetFloat();
@@ -57,17 +58,20 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     public bool CanKill { get; private set; } = false;
 
     private static OptionItem OptionInfectLimit;
+    private static OptionItem OptionInfectWhenKilled;
     private static OptionItem OptionInfectTime;
     private static OptionItem OptionInfectDistance;
     private static OptionItem OptionInfectInactiveTime;
 
     private static int InfectLimit;
+    private static bool InfectWhenKilled;
     private static float InfectTime;
     private static float InfectDistance;
     private static float InfectInactiveTime;
     enum OptionName
     {
         PlagueDoctorInfectLimit,
+        PlagueDoctorInfectWhenKilled,
         PlagueDoctorInfectTime,
         PlagueDoctorInfectDistance,
         PlagueDoctorInfectInactiveTime
@@ -76,10 +80,10 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     {
         OptionInfectLimit = IntegerOptionItem.Create(RoleInfo, 10, OptionName.PlagueDoctorInfectLimit, new(1, 3, 1), 1, false)
             .SetValueFormat(OptionFormat.Times);
-        OptionInfectTime = FloatOptionItem.Create(RoleInfo, 11, OptionName.PlagueDoctorInfectTime, new(5f, 20f, 1f), 10f, false)
-           .SetValueFormat(OptionFormat.Seconds);
-        OptionInfectDistance = FloatOptionItem.Create(RoleInfo, 12, OptionName.PlagueDoctorInfectDistance, new(0.5f, 2f, 0.25f), 1.5f, false);
-        OptionInfectInactiveTime = FloatOptionItem.Create(RoleInfo, 13, OptionName.PlagueDoctorInfectInactiveTime, new(0.5f, 10f, 0.5f), 5f, false)
+        OptionInfectWhenKilled = BooleanOptionItem.Create(RoleInfo, 11, OptionName.PlagueDoctorInfectWhenKilled, false, true);
+        OptionInfectTime = FloatOptionItem.Create(RoleInfo, 12, OptionName.PlagueDoctorInfectTime, new(5f, 20f, 1f), 10f, false);
+        OptionInfectDistance = FloatOptionItem.Create(RoleInfo, 13, OptionName.PlagueDoctorInfectDistance, new(0.5f, 2f, 0.25f), 1.5f, false);
+        OptionInfectInactiveTime = FloatOptionItem.Create(RoleInfo, 14, OptionName.PlagueDoctorInfectInactiveTime, new(0.5f, 10f, 0.5f), 5f, false)
            .SetValueFormat(OptionFormat.Seconds);
     }
 
@@ -142,7 +146,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     public override void OnMurderPlayerAsTarget(MurderInfo info)
     {
         var (killer, target) = info.AttemptTuple;
-        if (InfectCount > 0)
+        if (InfectWhenKilled && InfectCount > 0)
         {
             InfectCount = 0;
             DirectInfect(killer);

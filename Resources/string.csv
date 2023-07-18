@@ -445,6 +445,7 @@
 "EvilHackerCanSeeKillFlash","Can See The Kill-flash for Impostor Kills","インポスターキル時にフラッシュが見える","","","",""
 "EvilHackerCanSeeMurderRoom","Can See The Murder Location","キルの発生場所がわかる","","","",""
 "PlagueDoctorInfectLimit","Infect Count","感染回数","","","",""
+"PlagueDoctorInfectWhenKilled","Infect When Killed","キルされた時に感染させる","","","",""
 "PlagueDoctorInfectTime","Infect Time","感染に必要な時間","","","",""
 "PlagueDoctorInfectDistance","Infect Distance","感染する距離","","","",""
 "PlagueDoctorInfectInactiveTime","Infect Invalid Time","行動開始から感染しない時間","","","",""
