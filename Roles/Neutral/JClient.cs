@@ -33,6 +33,7 @@ public sealed class JClient : RoleBase
     private static OptionItem OptionCanVent;
     private static OptionItem OptionVentCooldown;
     private static OptionItem OptionVentMaxTime;
+    private static Options.OverrideTasksData Tasks;
     enum OptionName
     {
         JClientCanVent,
@@ -50,6 +51,8 @@ public sealed class JClient : RoleBase
             .SetValueFormat(OptionFormat.Seconds);
         OptionVentMaxTime = FloatOptionItem.Create(RoleInfo, 12, OptionName.JClientVentMaxTime, new(0f, 180f, 5f), 0f, false)
             .SetValueFormat(OptionFormat.Seconds);
+        // 20-23を使用
+        Tasks = Options.OverrideTasksData.Create(RoleInfo, 20);
     }
 
     public override void ApplyGameOptions(IGameOptions opt)
