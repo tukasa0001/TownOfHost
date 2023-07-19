@@ -673,11 +673,11 @@ namespace TownOfHost
                 + $"\n/dump - {GetString("Command.dump")}"
                 );
         }
-        public static void SendMessage(string text, byte sendTo = byte.MaxValue, string title = "")
+        public static void SendMessage(string text, byte sendTo = byte.MaxValue, string title = "", bool removeTags = true)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (title == "") title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
-            Main.MessagesToSend.Add((text.RemoveHtmlTags(), sendTo, title));
+            Main.MessagesToSend.Add((removeTags ? text.RemoveHtmlTags() : text, sendTo, title));
         }
         public static void ApplySuffix()
         {
