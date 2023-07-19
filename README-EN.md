@@ -215,25 +215,77 @@ File outputs by `Alt`+`L` are stored in `./TOH_DATA/OptionOutputs` as `Preset{pr
 
 ## Roles
 
-| Impostors                           | Crewmates                         | Neutrals                          | Add-Ons                       | Others    |
-| ----------------------------------- | --------------------------------- | --------------------------------- | ----------------------------- | --------- |
-| [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [LastImpostor](#LastImpostor) | [GM](#GM) |
-| [EvilTracker](#EvilTracker)         | [Dictator](#Dictator)             | [Egoist](#Egoist)                 | [Lovers](#Lovers)             |           |
-| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       | [Watcher](#Watcher)           |           |
-| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jackal](#Jackal)                 | [Workhorse](#Workhorse)       |           |
-| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Jester](#Jester)                 |                               |           |
-| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |                               |           |
-| [ShapeMaster](#ShapeMaster)         | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |                               |           |
-| [Sniper](#Sniper)                   | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |                               |           |
-| [TimeThief](#TimeThief)             | [Snitch](#Snitch)                 |                                   |                               |           |
-| [Vampire](#Vampire)                 | [SpeedBooster](#SpeedBooster)     |                                   |                               |           |
-| [Warlock](#Warlock)                 | [Beartrap](#Beartrap)             |                                   |                               |           |
-| [Witch](#Witch)                     | [TimeManager](#TimeManager)       |                                   |                               |           |
-| [Mafia](#Mafia)                     |                                   |                                   |                               |           |
-| [Madmate](#Madmate)                 |                                   |                                   |                               |           |
-| [MadGuardian](#MadGuardian)         |                                   |                                   |                               |           |
-| [MadSnitch](#MadSnitch)             |                                   |                                   |                               |           |
-| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |                               |           |
+<details>
+<summary>Impostors</summary>
+
+- [BountyHunter](#bountyhunter)
+- [EvilTracker](#eviltracker)
+- [FireWorks](#fireworks)
+- [Mare](#mare)
+- [Puppeteer](#puppeteer)
+- [SerialKiller](#serialkiller)
+- [ShapeMaster](#shapemaster)
+- [Sniper](#sniper)
+- [TimeThief](#timethief)
+- [Vampire](#vampire)
+- [Warlock](#warlock)
+- [Witch](#witch)
+- [Mafia](#mafia)
+- [Madmate](#madmate-1)
+- [MadGuardian](#madguardian)
+- [MadSnitch](#madsnitch)
+- [SidekickMadmate](#sidekickmadmate)
+
+</details>
+
+<details>
+<summary>Crewmates</summary>
+
+- [Bait](#bait)
+- [Dictator](#dictator)
+- [Doctor](#doctor)
+- [Lighter](#lighter)
+- [Mayor](#mayor)
+- [SabotageMaster](#sabotagemaster)
+- [Seer](#seer)
+- [Sheriff](#sheriff)
+- [Snitch](#snitch)
+- [SpeedBooster](#speedbooster)
+- [Beartrap](#beartrap)
+- [TimeManager](#timemanager)
+
+</details>
+
+<details>
+<summary>Neutrals</summary>
+
+- [Arsonist](#arsonist)
+- [Egoist](#egoist)
+- [Executioner](#executioner)
+- [Jackal](#jackal)
+- [Jester](#jester)
+- [Opportunist](#opportunist)
+- [Terrorist](#terrorist)
+- [SchrodingerCat](#schrodingercat)
+
+</details>
+
+<details>
+<summary>Add-Ons</summary>
+
+- [LastImpostor](#lastimpostor)
+- [Lovers](#lovers)
+- [Watcher](#watcher)
+- [Workhorse](#workhorse)
+
+</details>
+
+<details>
+<summary>Others</summary>
+
+- [GM](#gm)
+
+</details>
 
 ### GM
 
