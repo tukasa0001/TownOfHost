@@ -30,6 +30,7 @@ public sealed class JClient : RoleBase
         VentMaxTime = OptionVentMaxTime.GetFloat();
         HasImpostorVision = OptionHasImpostorVision.GetBool();
         CanAlsoBeExposedToJackal = OptionCanAlsoBeExposedToJackal.GetBool();
+        AfterJackalDead = (AfterJackalDeadMode)OptionAfterJackalDead.GetValue();
 
         CustomRoleManager.MarkOthers.Add(GetMarkOthers);
     }
@@ -39,13 +40,15 @@ public sealed class JClient : RoleBase
     private static OptionItem OptionVentMaxTime;
     private static OptionItem OptionHasImpostorVision;
     private static OptionItem OptionCanAlsoBeExposedToJackal;
+    private static OptionItem OptionAfterJackalDead;
     private static Options.OverrideTasksData Tasks;
     enum OptionName
     {
         JClientCanVent,
         JClientVentCooldown,
         JClientVentMaxTime,
-        JClientCanAlsoBeExposedToJackal
+        JClientCanAlsoBeExposedToJackal,
+        JClientAfterJackalDead
     }
 
     private static bool CanVent;
@@ -53,6 +56,7 @@ public sealed class JClient : RoleBase
     private static float VentMaxTime;
     private static bool HasImpostorVision;
     private static bool CanAlsoBeExposedToJackal;
+    private static AfterJackalDeadMode AfterJackalDead;
     private static void SetupOptionItem()
     {
         OptionCanVent = BooleanOptionItem.Create(RoleInfo, 10, OptionName.JClientCanVent, false, false);
@@ -64,8 +68,19 @@ public sealed class JClient : RoleBase
         Tasks = Options.OverrideTasksData.Create(RoleInfo, 20);
         OptionHasImpostorVision = BooleanOptionItem.Create(RoleInfo, 30, GeneralOption.ImpostorVision, false, false);
         OptionCanAlsoBeExposedToJackal = BooleanOptionItem.Create(RoleInfo, 31, OptionName.JClientCanAlsoBeExposedToJackal, false, false);
+        OptionAfterJackalDead = StringOptionItem.Create(RoleInfo, 32, OptionName.JClientAfterJackalDead, AfterJackalDeadModeText, 0, false);
     }
 
+    private enum AfterJackalDeadMode
+    {
+        None,
+        Following
+    };
+    private static readonly string[] AfterJackalDeadModeText =
+    {
+    "JClientAfterJackalDeadMode.None",
+    "JClientAfterJackalDeadMode.Following"
+    };
     public override void ApplyGameOptions(IGameOptions opt)
     {
         AURoleOptions.EngineerCooldown = JClient.VentCooldown;
@@ -95,5 +110,24 @@ public sealed class JClient : RoleBase
         }
 
         return Utils.ColorString(Utils.GetRoleColor(CustomRoles.JClient), "★");
+    }
+    public override void AfterMeetingTasks()
+    {
+        //ジャッカル死亡時のクライアント状態変化
+        if (AfterJackalDead == AfterJackalDeadMode.None) return;
+
+        var jackal = Main.AllPlayerControls.ToArray().Where(pc => pc.Is(CustomRoles.Jackal)).FirstOrDefault();
+        if (jackal != null && !jackal.Data.IsDead &&
+            !Main.AfterMeetingDeathPlayers.ContainsKey(jackal.PlayerId)) return;
+
+        Logger.Info($"jackal:dead, mode:{AfterJackalDead}", "JClient.AfterMeetingTasks");
+
+        if (Player.Data.IsDead || !MyTaskState.IsTaskFinished) return;
+
+        if (AfterJackalDead == AfterJackalDeadMode.Following)
+        {
+            Main.AfterMeetingDeathPlayers.TryAdd(Player.PlayerId, CustomDeathReason.FollowingSuicide);
+            Logger.Info($"followingDead set:{Player.name}", "JClient.AfterMeetingTasks");
+        }
     }
 }
