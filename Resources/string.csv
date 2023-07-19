@@ -435,6 +435,7 @@
 "JClientCanVent","Client Can Vent","クライアントがベントを使える",,,,
 "JClientVentCooldown","Client Vent Cooldown","クライアントのベントクールダウン",,,,
 "JClientVentMaxTime","Client Max Time In Vents(s)","クライアントのベント内での最大時間",,,,
+"JClientCanAlsoBeExposedToJackal","Client Also Exposed To Jackal","クライアントがジャッカルからも視認できる",,,,
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"

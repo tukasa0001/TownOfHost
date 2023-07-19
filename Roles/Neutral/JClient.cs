@@ -29,24 +29,30 @@ public sealed class JClient : RoleBase
         VentCooldown = OptionVentCooldown.GetFloat();
         VentMaxTime = OptionVentMaxTime.GetFloat();
         HasImpostorVision = OptionHasImpostorVision.GetBool();
+        CanAlsoBeExposedToJackal = OptionCanAlsoBeExposedToJackal.GetBool();
+
+        CustomRoleManager.MarkOthers.Add(GetMarkOthers);
     }
 
     private static OptionItem OptionCanVent;
     private static OptionItem OptionVentCooldown;
     private static OptionItem OptionVentMaxTime;
     private static OptionItem OptionHasImpostorVision;
+    private static OptionItem OptionCanAlsoBeExposedToJackal;
     private static Options.OverrideTasksData Tasks;
     enum OptionName
     {
         JClientCanVent,
         JClientVentCooldown,
-        JClientVentMaxTime
+        JClientVentMaxTime,
+        JClientCanAlsoBeExposedToJackal
     }
 
     private static bool CanVent;
     private static float VentCooldown;
     private static float VentMaxTime;
     private static bool HasImpostorVision;
+    private static bool CanAlsoBeExposedToJackal;
     private static void SetupOptionItem()
     {
         OptionCanVent = BooleanOptionItem.Create(RoleInfo, 10, OptionName.JClientCanVent, false, false);
@@ -57,6 +63,7 @@ public sealed class JClient : RoleBase
         // 20-23を使用
         Tasks = Options.OverrideTasksData.Create(RoleInfo, 20);
         OptionHasImpostorVision = BooleanOptionItem.Create(RoleInfo, 30, GeneralOption.ImpostorVision, false, false);
+        OptionCanAlsoBeExposedToJackal = BooleanOptionItem.Create(RoleInfo, 31, OptionName.JClientCanAlsoBeExposedToJackal, false, false);
     }
 
     public override void ApplyGameOptions(IGameOptions opt)
@@ -76,5 +83,17 @@ public sealed class JClient : RoleBase
             }
         }
         return true;
+    }
+    private static string GetMarkOthers(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
+    {
+        seen ??= seer;
+        if (!CanAlsoBeExposedToJackal ||
+            !seer.Is(CustomRoles.Jackal) || seen.GetRoleClass() is not JClient jclient ||
+            !jclient.KnowsJackal())
+        {
+            return string.Empty;
+        }
+
+        return Utils.ColorString(Utils.GetRoleColor(CustomRoles.JClient), "★");
     }
 }
