@@ -411,6 +411,7 @@ public enum CustomRoles
     Executioner,
     Jackal,
     JSchrodingerCat,//ジャッカル陣営のシュレディンガーの猫
+    JClient,
     //HideAndSeek
     HASFox,
     HASTroll,
