@@ -433,6 +433,8 @@
 "WorkhorseNumLongTasks","Additional Long Tasks","追加ロングタスクの個数","额外长任务数","增加的長任務數量","Дополнительные долгие задания",""
 "WorkhorseNumShortTasks","Additional Short Tasks","追加ショートタスクの個数","额外短任务数","增加的短任務數量","Дополнительные короткие задания",""
 "JClientCanVent","Client Can Vent","クライアントがベントを使える",,,,
+"JClientVentCooldown","Client Vent Cooldown","クライアントのベントクールダウン",,,,
+"JClientVentMaxTime","Client Max Time In Vents(s)","クライアントのベント内での最大時間",,,,
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"

@@ -1,3 +1,4 @@
+using System.Linq;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
@@ -25,16 +26,47 @@ public sealed class JClient : RoleBase
         () => HasTask.ForRecompute)
     {
         CanVent = OptionCanVent.GetBool();
+        VentCooldown = OptionVentCooldown.GetFloat();
+        VentMaxTime = OptionVentMaxTime.GetFloat();
     }
 
     private static OptionItem OptionCanVent;
+    private static OptionItem OptionVentCooldown;
+    private static OptionItem OptionVentMaxTime;
     enum OptionName
     {
         JClientCanVent,
+        JClientVentCooldown,
+        JClientVentMaxTime
     }
+
     private static bool CanVent;
-    public static void SetupOptionItem()
+    private static float VentCooldown;
+    private static float VentMaxTime;
+    private static void SetupOptionItem()
     {
         OptionCanVent = BooleanOptionItem.Create(RoleInfo, 10, OptionName.JClientCanVent, false, false);
+        OptionVentCooldown = FloatOptionItem.Create(RoleInfo, 11, OptionName.JClientVentCooldown, new(0f, 180f, 5f), 0f, false)
+            .SetValueFormat(OptionFormat.Seconds);
+        OptionVentMaxTime = FloatOptionItem.Create(RoleInfo, 12, OptionName.JClientVentMaxTime, new(0f, 180f, 5f), 0f, false)
+            .SetValueFormat(OptionFormat.Seconds);
+    }
+
+    public override void ApplyGameOptions(IGameOptions opt)
+    {
+        AURoleOptions.EngineerCooldown = JClient.VentCooldown;
+        AURoleOptions.EngineerInVentMaxTime = JClient.VentMaxTime;
+    }
+    private bool KnowsJackal() => IsTaskFinished;
+    public override bool OnCompleteTask()
+    {
+        if (KnowsJackal())
+        {
+            foreach (var jackal in Main.AllPlayerControls.Where(player => player.Is(CustomRoles.Jackal)).ToArray())
+            {
+                NameColorManager.Add(Player.PlayerId, jackal.PlayerId, jackal.GetRoleColorCode());
+            }
+        }
+        return true;
     }
 }
