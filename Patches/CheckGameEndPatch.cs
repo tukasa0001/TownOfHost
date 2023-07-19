@@ -205,6 +205,7 @@ namespace TownOfHost
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
                     CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
+                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JClient);
                     CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);
                 }
                 else if (Jackal == 0 && Imp == 0) //クルー勝利
