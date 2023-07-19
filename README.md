@@ -328,7 +328,7 @@ GMはゲーム自体には何の影響も与えず、すべてのプレイヤー
 - 変身先がインポスターの場合は能力は消費されません。
 - 変身クールダウンはターゲット設定可能時は「1秒」、不可時は「255秒」で固定です。
 - 変身持続時間は「1秒」で固定されているので、変身能力自体は殆ど使えません。
-- オプション次第で[サイドキックマッドメイト](#SidekickMadmateサイドキックマッドメイト)を指名できます。
+- オプション次第で[サイドキックマッドメイト](#sidekickmadmateサイドキックマッドメイト)を指名できます。
 
 #### 設定
 
@@ -474,7 +474,7 @@ GMはゲーム自体には何の影響も与えず、すべてのプレイヤー
 キルボタンを押してから一定時間経って実際にキルが発生する役職です。<br>
 キルをしたときのテレポートは発生しません。<br>
 また、キルボタンを押してから設定された時間が経つまでに会議が始まるとその瞬間にキルが発生します。<br>
-しかし、[ベイト](#Baitベイト)をキルした場合のみ通常のキルとなり、強制的に通報させられます。<br>
+しかし、[ベイト](#baitベイト)をキルした場合のみ通常のキルとなり、強制的に通報させられます。<br>
 
 #### 設定
 
@@ -574,7 +574,7 @@ GMはゲーム自体には何の影響も与えず、すべてのプレイヤー
 カウント : クルー<br>
 
 この役職はシェイプシフター系の一部役職が変身した際に最も近いプレイヤー（インポスター陣営を除く）が指名されます。<br>
-指名できる役職はシェイプシフター、オプション有効時の[イビルトラッカー](#EvilTrackerイビルトラッカー)、[エゴイスト](#Egoistエゴイスト)です。<br>
+指名できる役職はシェイプシフター、オプション有効時の[イビルトラッカー](#eviltrackerイビルトラッカー)、[エゴイスト](#egoistエゴイスト)です。<br>
 インポスター陣営に属しますが、サイドキックマッドメイトからはインポスターが誰なのかはわかりません。<br>
 インポスターからもサイドキックマッドメイトが誰なのかはわかりません。<br>
 
@@ -712,17 +712,17 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | 誤爆時、ターゲットも死ぬ                                                                  |
 | キル可能回数                                                                              |
 | 全員生存時にキルできる                                                                    |
-| [マッドメイト](#Madmateマッドメイト)をキルできる                                          |
+| [マッドメイト](#madmateマッドメイト)をキルできる                                          |
 | ニュートラルをキルできる                                                                  |
-| ┣ [アーソニスト](#Arsonistアーソニスト)をキルできる                                       |
-| ┣ [エゴイスト](#Egoistエゴイスト)をキルできる                                             |
-| ┣ [シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫)(エゴイスト陣営)をキルできる |
-| ┣ [ジェスター](#Jesterジェスター)をキルできる                                             |
-| ┣ [オポチュニスト](#Opportunistオポチュニスト)をキルできる                                |
-| ┣ [テロリスト](#Terroristテロリスト)をキルできる                                          |
-| ┣ [エクスキューショナー](#Executionerエクスキューショナー)をキルできる                    |
-| ┣ [ジャッカル](#Jackalジャッカル)をキルできる                                             |
-| ┗ [シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫)(ジャッカル陣営)をキルできる |
+| ┣ [アーソニスト](#arsonistアーソニスト)をキルできる                                       |
+| ┣ [エゴイスト](#egoistエゴイスト)をキルできる                                             |
+| ┣ [シュレディンガーの猫](#schrodingercatシュレディンガーの猫)(エゴイスト陣営)をキルできる |
+| ┣ [ジェスター](#jesterジェスター)をキルできる                                             |
+| ┣ [オポチュニスト](#opportunistオポチュニスト)をキルできる                                |
+| ┣ [テロリスト](#terroristテロリスト)をキルできる                                          |
+| ┣ [エクスキューショナー](#executionerエクスキューショナー)をキルできる                    |
+| ┣ [ジャッカル](#jackalジャッカル)をキルできる                                             |
+| ┗ [シュレディンガーの猫](#schrodingercatシュレディンガーの猫)(ジャッカル陣営)をキルできる |
 
 ### Snitch/スニッチ
 
@@ -1307,12 +1307,12 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## クレジット
 
-[バウンティーハンター](#BountyHunterバウンティハンター)や[マフィア](#Mafiaマフィア)、[ヴァンパイア](#Vampireヴァンパイア)、[魔女](#Witch魔女)、[ベイト](#Baitベイト)、[メイヤー](#Mayorメイヤー)、[シェリフ](#Sheriffシェリフ)、[スニッチ](#Snitchスニッチ)、[ライター](#Lighterライター)、[シーア](#Seerシーア)、[ジャッカル](#jackalジャッカル) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
-[オポチュニスト](#Opportunistオポチュニスト)、[ウォッチャー](#Watcherウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-[シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫)、[イビルトラッカー](#EvilTrackerイビルトラッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
-[ドクター](#Doctorドクター)、[スナイパー](#Sniperスナイパー)のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
-[ジェスター](#Jesterジェスター)(てるてる)と[マッドメイト](#Madmateマッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>
-[テロリスト](#Terroristテロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
+[バウンティーハンター](#bountyhunterバウンティハンター)や[マフィア](#mafiaマフィア)、[ヴァンパイア](#vampireヴァンパイア)、[魔女](#witch魔女)、[ベイト](#baitベイト)、[メイヤー](#mayorメイヤー)、[シェリフ](#sheriffシェリフ)、[スニッチ](#snitchスニッチ)、[ライター](#lighterライター)、[シーア](#seerシーア)、[ジャッカル](#jackalジャッカル) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
+[オポチュニスト](#opportunistオポチュニスト)、[ウォッチャー](#watcherウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+[シュレディンガーの猫](#schrodingercatシュレディンガーの猫)、[イビルトラッカー](#eviltrackerイビルトラッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[ドクター](#doctorドクター)、[スナイパー](#sniperスナイパー)のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
+[ジェスター](#jesterジェスター)(てるてる)と[マッドメイト](#madmateマッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>
+[テロリスト](#terroristテロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [恋人](#lovers恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 中国語翻訳 : fivefirex、ZeMingOH233<br>
 オプションタブのアイコン製作者 : 花海<br>

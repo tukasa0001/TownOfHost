@@ -326,7 +326,7 @@ Depending on option, they can also see kill flash when other impostor kills.<br>
 - When they Shapeshift to impostor or dead player (unavailable for target), they stay able to select target.
 - Shapeshift cooldown is fixed to __"5s"__ (can select target) or to __"255s"__ (cannot).
 - Shapeshift duration is fixed to __"1s"__, which means EvilTrackers can hardly pretend to be someone else.
-- EvilTrackers can Assign [SidekickMadmate](#SidekickMadmate) by Shapeshift.
+- EvilTrackers can Assign [SidekickMadmate](#sidekickmadmate) by Shapeshift.
 
 #### Game Options
 
@@ -468,7 +468,7 @@ Team : Impostors<br>
 Basis : Impostor<br>
 
 When the vampire kills, the kill is delayed (the bitten player will die in a set time based on settings or when the next meeting is called).<br>
-If the vampire bites [Bait](#Bait), the player will die immediately and a self-report will be forced.<br>
+If the vampire bites [Bait](#bait), the player will die immediately and a self-report will be forced.<br>
 
 #### Game Options
 
@@ -713,15 +713,15 @@ Killing Crewmates will result in suicide. <br>
 | Sheriff Shot Limit                                                  |
 | Sheriff Can Kill Madmates                                           |
 | Sheriff Can Kill Neutrals                                           |
-| ┣ Sheriff Can Kill [Jester](#Jester)                                |
-| ┣ Sheriff Can Kill [Terrorist](#Terrorist)                          |
-| ┣ Sheriff Can Kill [Opportunist](#Opportunist)                      |
-| ┣ Sheriff Can Kill [Arsonist](#Arsonist)                            |
-| ┣ Sheriff Can Kill [Egoist](#Egoist)                                |
-| ┣ Sheriff Can Kill [SchrodingerCat](#SchrodingerCat) In Team Egoist |
-| ┣ Sheriff Can Kill [Executioner](#Executioner)                      |
-| ┣ Sheriff Can Kill [Jackal](#Jackal)                                |
-| ┗ Sheriff Can Kill [SchrodingerCat](#SchrodingerCat) In Team Jackal |
+| ┣ Sheriff Can Kill [Jester](#jester)                                |
+| ┣ Sheriff Can Kill [Terrorist](#terrorist)                          |
+| ┣ Sheriff Can Kill [Opportunist](#opportunist)                      |
+| ┣ Sheriff Can Kill [Arsonist](#arsonist)                            |
+| ┣ Sheriff Can Kill [Egoist](#egoist)                                |
+| ┣ Sheriff Can Kill [SchrodingerCat](#schrodingercat) In Team Egoist |
+| ┣ Sheriff Can Kill [Executioner](#executioner)                      |
+| ┣ Sheriff Can Kill [Jackal](#jackal)                                |
+| ┗ Sheriff Can Kill [SchrodingerCat](#schrodingercat) In Team Jackal |
 
 ### Snitch
 
@@ -1333,12 +1333,12 @@ If the client language is English, this option is meaningless unless `Force Japa
 
 ## Credits
 
-More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter),[Seer](#Seer),[Jackal](#jackal) idea by [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
-[Opportunist](#Opportunist),[Watcher](#Watcher) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-[SchrodingerCat](#SchrodingerCat),[EvilTracker](#EvilTracker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
-[Doctor](#Doctor) and [Sniper](#Sniper) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
-[Jester](#Jester) and [Madmate](#Madmate) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
-[Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
+More tips to modding and [BountyHunter](#bountyhunter),[Mafia](#mafia),[Vampire](#vampire),[Witch](#witch),[Bait](#bait),[Mayor](#mayor),[Sheriff](#sheriff),[Snitch](#snitch),[Lighter](#lighter),[Seer](#seer),[Jackal](#jackal) idea by [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
+[Opportunist](#opportunist),[Watcher](#watcher) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+[SchrodingerCat](#schrodingercat),[EvilTracker](#eviltracker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[Doctor](#doctor) and [Sniper](#sniper) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
+[Jester](#jester) and [Madmate](#madmate-1) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
+[Terrorist](#terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 Translate-Chinese : fivefirex, ZeMingOH233<br>
 OptionTab Icon Design by 花海.<br>
