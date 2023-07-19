@@ -219,6 +219,7 @@ File outputs by `Alt`+`L` are stored in `./TOH_DATA/OptionOutputs` as `Preset{pr
 <summary>Impostors</summary>
 
 - [BountyHunter](#bountyhunter)
+- [EvilHacker](#evilhacker)
 - [EvilTracker](#eviltracker)
 - [FireWorks](#fireworks)
 - [Mare](#mare)
@@ -312,6 +313,28 @@ The target swaps after a configurable amount of time.<br>
 | Kill Cooldown After Killing Bounty(s) |
 | Kill Cooldown After Killing Others(s) |
 | Show arrow pointing to target         |
+
+### EvilHacker
+
+Create by HYZE
+
+Team : Impostors  
+Basis : Impostor
+
+At every meeting beginning, the EvilHacker gets the admin information at the time in the chat.  
+Rooms with impostor(s) are marked with a `★`.  
+Rooms with dead-body(ies) are marked with the number of bodies.  
+They can see the kill-flash when other impostors killing.  
+If the option "Can See The Murder Location" is On, the room where the murder occurred is notified below their name for 10 sec.
+
+#### Game Options
+
+| Name                                      |
+| ----------------------------------------- |
+| Can See The Location of Dead-bodies       |
+| Can See The Location of Other Impostors   |
+| Can See The Kill-flash for Impostor Kills |
+| Can See The Murder Location               |
 
 ### EvilTracker
 
@@ -1335,11 +1358,12 @@ If the client language is English, this option is meaningless unless `Force Japa
 
 More tips to modding and [BountyHunter](#bountyhunter),[Mafia](#mafia),[Vampire](#vampire),[Witch](#witch),[Bait](#bait),[Mayor](#mayor),[Sheriff](#sheriff),[Snitch](#snitch),[Lighter](#lighter),[Seer](#seer),[Jackal](#jackal) idea by [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
 [Opportunist](#opportunist),[Watcher](#watcher) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-[SchrodingerCat](#schrodingercat),[EvilTracker](#eviltracker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[SchrodingerCat](#schrodingercat),[EvilTracker](#eviltracker),[EvilHacker](#evilhacker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [Doctor](#doctor) and [Sniper](#sniper) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
 [Jester](#jester) and [Madmate](#madmate-1) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
 [Terrorist](#terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
+[EvilHacker](#evilhacker) idea by [tomarai/TheOtherRoles](https://github.com/tomarai/TheOtherRoles/tree/dev-v3.4.x)  
 Translate-Chinese : fivefirex, ZeMingOH233<br>
 OptionTab Icon Design by 花海.<br>
 Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>

@@ -219,6 +219,7 @@ Modおよびバニラの全オプションを文字列形式に変換し、保�
 <summary>インポスター陣営</summary>
 
 - [バウンティハンター](#bountyhunterバウンティハンター)
+- [イビルハッカー](#evilhackerイビルハッカー)
 - [イビルトラッカー](#eviltrackerイビルトラッカー)
 - [花火職人](#fireworks花火職人)
 - [メアー](#mareメアー)
@@ -311,6 +312,27 @@ GMはゲーム自体には何の影響も与えず、すべてのプレイヤー
 | ターゲット殺害時のキルクール(s)     |
 | ターゲット以外殺害時のキルクール(s) |
 | ターゲットへの矢印を表示する        |
+
+### EvilHacker/イビルハッカー
+
+制作者 : はいず
+
+陣営 : インポスター  
+判定 : インポスター
+
+毎会議の開始時に、チャットに最終のアドミン情報が送られます。  
+インポスターのいる部屋には★印、死体のある部屋には死体の数が表記されます。  
+インポスターがキルを行った際にはキルフラッシュを見ることができます。  
+「キルの発生場所がわかる」オプションが有効な場合、キルが発生した部屋がイビルハッカーの名前の3行目に10秒間通知されます。
+
+#### 設定
+
+| 設定名                                 |
+| -------------------------------------- |
+| 死体位置がわかる                       |
+| 他のインポスターの位置がわかる         |
+| インポスターキル時にフラッシュが見える |
+| ┗ キルの発生場所がわかる               |
 
 ### EvilTracker/イビルトラッカー
 
@@ -1309,11 +1331,12 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 [バウンティーハンター](#bountyhunterバウンティハンター)や[マフィア](#mafiaマフィア)、[ヴァンパイア](#vampireヴァンパイア)、[魔女](#witch魔女)、[ベイト](#baitベイト)、[メイヤー](#mayorメイヤー)、[シェリフ](#sheriffシェリフ)、[スニッチ](#snitchスニッチ)、[ライター](#lighterライター)、[シーア](#seerシーア)、[ジャッカル](#jackalジャッカル) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
 [オポチュニスト](#opportunistオポチュニスト)、[ウォッチャー](#watcherウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-[シュレディンガーの猫](#schrodingercatシュレディンガーの猫)、[イビルトラッカー](#eviltrackerイビルトラッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[シュレディンガーの猫](#schrodingercatシュレディンガーの猫)、[イビルトラッカー](#eviltrackerイビルトラッカー)、[イビルハッカー](#evilhackerイビルハッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [ドクター](#doctorドクター)、[スナイパー](#sniperスナイパー)のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
 [ジェスター](#jesterジェスター)(てるてる)と[マッドメイト](#madmateマッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>
 [テロリスト](#terroristテロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [恋人](#lovers恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
+[イビルハッカー](#evilhackerイビルハッカー) のアイデア元 : [tomarai/TheOtherRoles](https://github.com/tomarai/TheOtherRoles/tree/dev-v3.4.x)  
 中国語翻訳 : fivefirex、ZeMingOH233<br>
 オプションタブのアイコン製作者 : 花海<br>
 Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>
