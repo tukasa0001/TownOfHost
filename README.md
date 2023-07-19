@@ -223,6 +223,7 @@ Modおよびバニラの全オプションを文字列形式に変換し、保�
 - [イビルトラッカー](#eviltrackerイビルトラッカー)
 - [花火職人](#fireworks花火職人)
 - [メアー](#mareメアー)
+- [ネコカボチャ](#neko-kabochaネコカボチャ)
 - [パペッティア](#puppeteerパペッティア)
 - [シリアルキラー](#serialkillerシリアルキラー)
 - [シェイプマスター](#shapemasterシェイプマスター)
@@ -398,6 +399,22 @@ GMはゲーム自体には何の影響も与えず、すべてのプレイヤー
 | -------------------------- |
 | 停電時のメアーの加速値     |
 | 停電時のメアーのキルクール |
+
+### Neko-Kabocha/ネコカボチャ
+
+制作者 : はいず
+
+陣営 : インポスター  
+判定 : インポスター
+
+キルされた際、自分を殺してきたプレイヤーを殺し返して道連れにします。  
+「追放された時に誰かを道連れにする」オプションが有効な場合、会議で追放された際に道連れを発生させます。
+
+| 設定名                           |
+| -------------------------------- |
+| インポスターを道連れにする       |
+| マッドメイトを道連れにする       |
+| 追放された時に誰かを道連れにする |
 
 ### Puppeteer/パペッティア
 
@@ -1330,7 +1347,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 ## クレジット
 
 [バウンティーハンター](#bountyhunterバウンティハンター)や[マフィア](#mafiaマフィア)、[ヴァンパイア](#vampireヴァンパイア)、[魔女](#witch魔女)、[ベイト](#baitベイト)、[メイヤー](#mayorメイヤー)、[シェリフ](#sheriffシェリフ)、[スニッチ](#snitchスニッチ)、[ライター](#lighterライター)、[シーア](#seerシーア)、[ジャッカル](#jackalジャッカル) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
-[オポチュニスト](#opportunistオポチュニスト)、[ウォッチャー](#watcherウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+[オポチュニスト](#opportunistオポチュニスト)、[ウォッチャー](#watcherウォッチャー)、[ネコカボチャ](#neko-kabochaネコカボチャ) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 [シュレディンガーの猫](#schrodingercatシュレディンガーの猫)、[イビルトラッカー](#eviltrackerイビルトラッカー)、[イビルハッカー](#evilhackerイビルハッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [ドクター](#doctorドクター)、[スナイパー](#sniperスナイパー)のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
 [ジェスター](#jesterジェスター)(てるてる)と[マッドメイト](#madmateマッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>

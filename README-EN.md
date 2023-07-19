@@ -223,6 +223,7 @@ File outputs by `Alt`+`L` are stored in `./TOH_DATA/OptionOutputs` as `Preset{pr
 - [EvilTracker](#eviltracker)
 - [FireWorks](#fireworks)
 - [Mare](#mare)
+- [Neko-Kabocha](#neko-kabocha)
 - [Puppeteer](#puppeteer)
 - [SerialKiller](#serialkiller)
 - [ShapeMaster](#shapemaster)
@@ -395,6 +396,24 @@ While lights are out they can move faster, but everyone sees their name in red.<
 | ----------------------------------- |
 | Mare Player Add Speed In Lights Out |
 | Mare Kill Cooldown In Lights Out    |
+
+### Neko-Kabocha
+
+Create by HYZE
+
+Team : Impostors  
+Basis : Impostor
+
+The Neko-Kabocha kills back their killer.  
+They make a revenge when exiled if the "Revenge When Exiled" option is on.
+
+#### Game Options
+
+| Name                   |
+| ---------------------- |
+| Impostors Get Revenged |
+| Madmates Get Revenged  |
+| Revenge When Exiled    |
 
 ### Puppeteer
 
@@ -1357,7 +1376,7 @@ If the client language is English, this option is meaningless unless `Force Japa
 ## Credits
 
 More tips to modding and [BountyHunter](#bountyhunter),[Mafia](#mafia),[Vampire](#vampire),[Witch](#witch),[Bait](#bait),[Mayor](#mayor),[Sheriff](#sheriff),[Snitch](#snitch),[Lighter](#lighter),[Seer](#seer),[Jackal](#jackal) idea by [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
-[Opportunist](#opportunist),[Watcher](#watcher) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+[Opportunist](#opportunist),[Watcher](#watcher),[Neko-Kabocha](#neko-kabocha) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 [SchrodingerCat](#schrodingercat),[EvilTracker](#eviltracker),[EvilHacker](#evilhacker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [Doctor](#doctor) and [Sniper](#sniper) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
 [Jester](#jester) and [Madmate](#madmate-1) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
