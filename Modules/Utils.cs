@@ -526,8 +526,6 @@ namespace TownOfHost
                     if (!role.Key.IsEnable()) continue;
                     sb.Append($"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n");
                     ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref sb);
-                    var text = sb.ToString();
-                    sb.Clear().Append(text.RemoveHtmlTags());
                 }
                 foreach (var opt in OptionItem.AllOptions.Where(x => x.GetBool() && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
                 {
@@ -536,11 +534,9 @@ namespace TownOfHost
                     else
                         sb.Append($"\n【{opt.GetName(true)}】\n");
                     ShowChildrenSettings(opt, ref sb);
-                    var text = sb.ToString();
-                    sb.Clear().Append(text.RemoveHtmlTags());
                 }
             }
-            SendMessage(sb.ToString(), PlayerId);
+            SendMessage(sb.ToString(), PlayerId, removeTags: false);
         }
         public static void CopyCurrentSettings()
         {
@@ -581,13 +577,13 @@ namespace TownOfHost
                 return;
             }
             var sb = new StringBuilder(GetString("Roles")).Append(':');
-            sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString().RemoveHtmlTags());
+            sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString());
             foreach (CustomRoles role in CustomRolesHelper.AllRoles)
             {
                 if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                 if (role.IsEnable()) sb.AppendFormat("\n{0}:{1}x{2}", GetRoleName(role), $"{role.GetChance()}%", role.GetCount());
             }
-            SendMessage(sb.ToString(), PlayerId);
+            SendMessage(sb.ToString(), PlayerId, removeTags: false);
         }
         public static void ShowChildrenSettings(OptionItem option, ref StringBuilder sb, int deep = 0)
         {
