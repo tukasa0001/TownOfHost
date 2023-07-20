@@ -211,7 +211,7 @@ public sealed class EvilHacker : RoleBase, IImpostor, IKillFlashSeeable
     public bool CheckKillFlash(MurderInfo info) =>
         canSeeKillFlash && !info.IsSuicide && !info.IsAccident && info.AttemptKiller.Is(CustomRoleTypes.Impostor);
 
-    private const char ImpostorMark = '★';
+    private static readonly string ImpostorMark = "★".Color(Palette.ImpostorRed);
     /// <summary>相方がキルしたときに名前の下に通知を表示する長さ</summary>
     private static readonly TimeSpan NotifyDuration = TimeSpan.FromSeconds(10);
 
