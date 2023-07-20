@@ -617,20 +617,24 @@ namespace TownOfHost
                 return;
             }
             var sb = new StringBuilder();
+            var winnerColor = ((CustomRoles)CustomWinnerHolder.WinnerTeam).GetRoleInfo()?.RoleColor ?? Palette.DisabledGrey;
 
-            sb.Append(GetString("LastResult")).Append(':');
+            sb.Append("""<align="center">""");
+            sb.Append("<size=150%>").Append(GetString("LastResult")).Append("</size>");
+            sb.Append('\n').Append(SetEverythingUpPatch.LastWinsText.Mark(winnerColor, false));
+            sb.Append("</align>");
+
             List<byte> cloneRoles = new(PlayerState.AllPlayerStates.Keys);
-            sb.Append($"\n{SetEverythingUpPatch.LastWinsText}\n");
             foreach (var id in Main.winnerList)
             {
-                sb.Append($"\n★ ").Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
+                sb.Append($"\n★ ".Color(winnerColor)).Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
                 cloneRoles.Remove(id);
             }
             foreach (var id in cloneRoles)
             {
                 sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
             }
-            SendMessage(sb.ToString(), PlayerId);
+            SendMessage(sb.ToString(), PlayerId, removeTags: false);
         }
         public static void ShowKillLog(byte PlayerId = byte.MaxValue)
         {
