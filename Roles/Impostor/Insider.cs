@@ -31,26 +31,26 @@ namespace TownOfHost.Roles.Impostor
             canSeeMadmates = optionCanSeeMadmates.GetBool();
             killCountToSeeMadmates = optionKillCountToSeeMadmates.GetInt();
         }
-        private static OptionItem optionCanSeeImpostorAbilities;
         private static OptionItem optionCanSeeAllGhostsRoles;
+        private static OptionItem optionCanSeeImpostorAbilities;
         private static OptionItem optionCanSeeMadmates;
         private static OptionItem optionKillCountToSeeMadmates;
         private enum OptionName
         {
-            InsiderCanSeeImpostorAbilities,
             InsiderCanSeeAllGhostsRoles,
+            InsiderCanSeeImpostorAbilities,
             InsiderCanSeeMadmates,
             InsiderKillCountToSeeMadmates,
         }
-        private static bool canSeeImpostorAbilities;
         private static bool canSeeAllGhostsRoles;
+        private static bool canSeeImpostorAbilities;
         private static bool canSeeMadmates;
         private static int killCountToSeeMadmates;
 
         private static void SetupOptionItem()
         {
-            optionCanSeeImpostorAbilities = BooleanOptionItem.Create(RoleInfo, 10, OptionName.InsiderCanSeeImpostorAbilities, true, false);
-            optionCanSeeAllGhostsRoles = BooleanOptionItem.Create(RoleInfo, 11, OptionName.InsiderCanSeeAllGhostsRoles, false, false);
+            optionCanSeeAllGhostsRoles = BooleanOptionItem.Create(RoleInfo, 10, OptionName.InsiderCanSeeAllGhostsRoles, false, false);
+            optionCanSeeImpostorAbilities = BooleanOptionItem.Create(RoleInfo, 11, OptionName.InsiderCanSeeImpostorAbilities, true, false);
             optionCanSeeMadmates = BooleanOptionItem.Create(RoleInfo, 12, OptionName.InsiderCanSeeMadmates, false, false);
             optionKillCountToSeeMadmates = IntegerOptionItem.Create(RoleInfo, 13, OptionName.InsiderKillCountToSeeMadmates, new(0, 15, 1), 2, false)
                 .SetParent(optionCanSeeMadmates)

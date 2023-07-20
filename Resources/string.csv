@@ -183,7 +183,7 @@
 "NekoKabochaInfoLong","(Impostors):\nThe Neko-Kabocha kills back their killer.","(インポスター陣営):\nキルされた際、自分を殺してきたプレイヤーを殺し返す。","","","",""
 "EvilHackerInfoLong","(Impostors):\nThe EvilHacker can get the last-minute admin information at the meeting beginning.\nUnoccupied rooms are not shown.\nA "★" marks rooms with impostors.\nRooms with dead-bodies are marked with the number of bodies.\ne.g.)★Cafeteria: 3(DEAD×1)","(インポスター陣営):\n会議直前のアドミン情報を見ることができる。\n誰もいない部屋は省略される。\nインポスターがいる部屋には★印が付く。\n死体がある部屋には死体数が表記される。\n例)★カフェテリア: 3(死体×1)","","","",""
 "PenguinInfoLong","(Impostors):\nPenguins can restrain target by pressing the kill button, and drag around.\While dragging, the target dies by pressing the kill button again or after a certain period of time.\nPress the kill button twice for a direct kill.","(インポスター陣営):\nキルボタン一回で相手を拘束して連れまわすことが出来る。\nもう一度キルボタンを押すか一定時間経過でキルする。\nキルボタン2回で直接キル可能。","","","",""
-"InsiderInfoLong","(Impostors):\nYou can see roles and abilities of all Impostors.\nYou can also see roles whose you killed,\nKIlling specified times tells you Madmate as well.","(インポスター陣営):\n味方インポスターの役職と能力が見える。\nまた、キルした相手の役職が分かり、\nさらに特定回数キルするとマッドメイトも分かる。"
+"InsiderInfoLong","(Impostors):\nYou can see roles whose you killed.\nYou can also see roles and abilities of all Impostors.\nKIlling specified times tells you Madmate as well.","(インポスター陣営):\nキルした相手の役職が分かる。\nまた、味方インポスターの役職と能力が見える。\nさらに、特定回数キルするとマッドメイトも分かる。","","","",""
 
 
 "# マッドメイト系役職"
