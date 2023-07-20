@@ -508,7 +508,7 @@ namespace TownOfHost
                 SendMessage(GetString("Message.HideGameSettings"), PlayerId);
                 return;
             }
-            var sb = new StringBuilder();
+            var sb = new StringBuilder().AppendFormat("<line-height={0}>", ActiveSettingsLineHeight);
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 sb.Append(GetString("Roles")).Append(':');
@@ -521,7 +521,7 @@ namespace TownOfHost
             else
             {
                 sb.AppendFormat("<size={0}>", ActiveSettingsSize);
-                sb.Append("<size=100%>").Append(GetString("Settings")).Append(':').Append("</size>");
+                sb.Append("<size=100%>").Append(GetString("Settings")).Append('\n').Append("</size>");
                 foreach (var role in Options.CustomRoleCounts)
                 {
                     if (!role.Key.IsEnable()) continue;
@@ -577,9 +577,9 @@ namespace TownOfHost
                 SendMessage(GetString("Message.HideGameSettings"), PlayerId);
                 return;
             }
-            var sb = new StringBuilder();
+            var sb = new StringBuilder().AppendFormat("<line-height={0}>", ActiveSettingsLineHeight);
             sb.AppendFormat("<size={0}>", ActiveSettingsSize);
-            sb.Append("<size=100%>").Append(GetString("Roles")).Append(':').Append("</size>");
+            sb.Append("<size=100%>").Append(GetString("Roles")).Append('\n').Append("</size>");
             sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString());
             foreach (CustomRoles role in CustomRolesHelper.AllRoles)
             {
@@ -1074,5 +1074,6 @@ namespace TownOfHost
         public static int AlivePlayersCount(CountTypes countTypes) => Main.AllAlivePlayerControls.Count(pc => pc.Is(countTypes));
 
         private const string ActiveSettingsSize = "70%";
+        private const string ActiveSettingsLineHeight = "55%";
     }
 }
