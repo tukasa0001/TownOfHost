@@ -624,15 +624,16 @@ namespace TownOfHost
             sb.Append('\n').Append(SetEverythingUpPatch.LastWinsText.Mark(winnerColor, false));
             sb.Append("</align>");
 
+            sb.Append("<size=70%>\n");
             List<byte> cloneRoles = new(PlayerState.AllPlayerStates.Keys);
             foreach (var id in Main.winnerList)
             {
-                sb.Append($"\n★ ".Color(winnerColor)).Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
+                sb.Append($"\n★ ".Color(winnerColor)).Append(Regex.Replace(SummaryTexts(id, true), "</?color(=#[0-9a-fA-F]*)?>", ""));
                 cloneRoles.Remove(id);
             }
             foreach (var id in cloneRoles)
             {
-                sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
+                sb.Append($"\n　 ").Append(Regex.Replace(SummaryTexts(id, true), "</?color(=#[0-9a-fA-F]*)?>", ""));
             }
             SendMessage(sb.ToString(), PlayerId, removeTags: false);
         }
