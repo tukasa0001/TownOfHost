@@ -974,11 +974,25 @@ namespace TownOfHost
             };
             Process.Start(startInfo);
         }
-        public static string SummaryTexts(byte id, bool disableColor = true)
+        public static string SummaryTexts(byte id, bool isForChat)
         {
-            var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
-            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%>{GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {GetTrueRoleName(id, false)}{GetSubRolesText(id)}</pos>";
-            return disableColor ? summary.RemoveHtmlTags() : summary;
+            var builder = new StringBuilder();
+            builder.Append(isForChat ? ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id]) : Main.AllPlayerNames[id]);
+            // 1em ≒ 全角1文字
+            // 終了画面で使われる英語フォントの半角1文字 ≒ 0.7em
+            // 空白は0.5emとする
+            // "★ " = 1.5em
+            // 1.5em + プレイヤー名最長全角10文字 + 空白 = 12em
+            builder.Append("<pos=12em>").Append(GetProgressText(id)).Append("</pos>");
+            // 12em + "(00/00) " = { 通常フォント: 16em, 英語フォント: 17.4em }
+            builder.Append(isForChat ? "<pos=16em>" : "<pos=17.6em>").Append(GetVitalText(id)).Append("</pos>");
+            // { 16em, 17.4em } + "Lover's Suicide " = { 24em , 28.4em }
+            // { 16em, 17.4em } + "回線切断 " = { 20.5em, 21.9em }
+            builder.Append(TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? (isForChat ? "<pos=24em>" : "<pos=28.4em>") : (isForChat ? "<pos=20.5em>" : "<pos=21.9em>"));
+            builder.Append(GetTrueRoleName(id, false));
+            builder.Append(GetSubRolesText(id));
+            builder.Append("</pos>");
+            return builder.ToString();
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
         public static void FlashColor(Color color, float duration = 1f)
