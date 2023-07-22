@@ -781,7 +781,7 @@ Create and idea by くろにゃんこ<br>
 Team : Neutral(Jackal)<br>
 Basis : Crewmate or Engineer<br>
 
-The Client belong to team Jackal, like Inposter's Madmates.<br>
+The Client belong to team Jackal, like Inpostor's Madmates.<br>
 They can see who is the Jackal after finishing all their tasks.<br>
 Depending on option, they can use vents.<br>
 
