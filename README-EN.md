@@ -774,6 +774,31 @@ To douse, you must stand next to a player after pressing kill until the orange t
 | Arsonist Douse Duration |
 | Arsonist Douse Cooldown |
 
+### Client
+
+Create and idea by くろにゃんこ<br>
+
+Team : Neutral(Jackal)<br>
+Basis : Crewmate or Engineer<br>
+Count : Crew<br>
+Victory Condition : Jackal to win<br>
+
+The client belongs to Team Jackal, like Madmates for Team Impostors.<br>
+Complete all tasks to know who the jackal are.<br>
+The treatment of after jackal dead is depends on the setting.<br>
+
+### Game Options
+
+| Name                                |
+| ----------------------------------- |
+| Can Vent                            |
+| Vent Cooldown                       |
+| Max Vent Duration                   |
+| Override Client's Tasks(At Least 1) |
+| Impostor Vision                     |
+| Client Also Exposed To Jackal       |
+| After After Jackal Dead             |
+
 ### Egoist
 
 Create by そうくん<br>
