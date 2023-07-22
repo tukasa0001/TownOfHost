@@ -91,7 +91,7 @@ public sealed class JClient : RoleBase
     {
         if (KnowsJackal())
         {
-            foreach (var jackal in Main.AllPlayerControls.Where(player => player.Is(CustomRoles.Jackal)).ToArray())
+            foreach (var jackal in Main.AllPlayerControls.Where(player => player.Is(CustomRoles.Jackal)))
             {
                 NameColorManager.Add(Player.PlayerId, jackal.PlayerId, jackal.GetRoleColorCode());
             }
@@ -115,7 +115,7 @@ public sealed class JClient : RoleBase
         //ジャッカル死亡時のクライアント状態変化
         if (AfterJackalDead == AfterJackalDeadMode.None) return;
 
-        var jackal = Main.AllPlayerControls.ToArray().Where(pc => pc.Is(CustomRoles.Jackal)).FirstOrDefault();
+        var jackal = Main.AllPlayerControls.Where(pc => pc.Is(CustomRoles.Jackal)).FirstOrDefault();
         if (jackal != null && !jackal.Data.IsDead &&
             !Main.AfterMeetingDeathPlayers.ContainsKey(jackal.PlayerId)) return;
 
