@@ -77,8 +77,8 @@ public sealed class JClient : RoleBase
     };
     private static readonly string[] AfterJackalDeadModeText =
     {
-    "JClientAfterJackalDeadMode.None",
-    "JClientAfterJackalDeadMode.Following"
+        "JClientAfterJackalDeadMode.None",
+        "JClientAfterJackalDeadMode.Following"
     };
     public override void ApplyGameOptions(IGameOptions opt)
     {
