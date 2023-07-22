@@ -116,12 +116,12 @@ public sealed class JClient : RoleBase
         if (AfterJackalDead == AfterJackalDeadMode.None) return;
 
         var jackal = Main.AllPlayerControls.Where(pc => pc.Is(CustomRoles.Jackal)).FirstOrDefault();
-        if (jackal != null && !jackal.Data.IsDead &&
+        if (jackal != null && jackal.IsAlive() &&
             !Main.AfterMeetingDeathPlayers.ContainsKey(jackal.PlayerId)) return;
 
         Logger.Info($"jackal:dead, mode:{AfterJackalDead}", "JClient.AfterMeetingTasks");
 
-        if (Player.Data.IsDead || !MyTaskState.IsTaskFinished) return;
+        if (!Player.IsAlive() || !MyTaskState.IsTaskFinished) return;
 
         if (AfterJackalDead == AfterJackalDeadMode.Following)
         {
