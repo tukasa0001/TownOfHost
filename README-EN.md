@@ -780,22 +780,24 @@ Create and idea by くろにゃんこ<br>
 
 Team : Neutral(Jackal)<br>
 Basis : Crewmate or Engineer<br>
+Count : Crew<br>
+Victory Condition : Jackal to win<br>
 
-The Client belong to team Jackal, like Inpostor's Madmates.<br>
-They can see who is the Jackal after finishing all their tasks.<br>
-Depending on option, they can use vents.<br>
+The client belongs to Team Jackal, like Madmates for Team Impostors.<br>
+Complete all tasks to know who the jackal are.<br>
+The treatment of after jackal dead is depends on the setting.<br>
 
 ### Game Options
 
-| Name                                     |
-| ---------------------------------------- |
-| Client Can Use Vent                      |
-| Client Vent Cooldown                     |
-| Client Max Time In Vents (s)             |
-| Client Tasks                             |
-| Client Have Impostor Vision              |
-| Can see task finished Client from Jackal |
-| After Jackal　Dead Mode                  |
+| Name                                |
+| ----------------------------------- |
+| Can Vent                            |
+| Vent Cooldown                       |
+| Max Vent Duration                   |
+| Override Client's Tasks(At Least 1) |
+| Impostor Vision                     |
+| Client Also Exposed To Jackal       |
+| After After Jackal Dead             |
 
 ### Egoist
 
