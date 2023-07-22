@@ -44,7 +44,6 @@ public sealed class JClient : RoleBase
     private static Options.OverrideTasksData Tasks;
     enum OptionName
     {
-        JClientCanVent,
         JClientVentCooldown,
         JClientVentMaxTime,
         JClientCanAlsoBeExposedToJackal,
@@ -59,7 +58,7 @@ public sealed class JClient : RoleBase
     private static AfterJackalDeadMode AfterJackalDead;
     private static void SetupOptionItem()
     {
-        OptionCanVent = BooleanOptionItem.Create(RoleInfo, 10, OptionName.JClientCanVent, false, false);
+        OptionCanVent = BooleanOptionItem.Create(RoleInfo, 10, GeneralOption.CanVent, false, false);
         OptionVentCooldown = FloatOptionItem.Create(RoleInfo, 11, OptionName.JClientVentCooldown, new(0f, 180f, 5f), 0f, false)
             .SetValueFormat(OptionFormat.Seconds);
         OptionVentMaxTime = FloatOptionItem.Create(RoleInfo, 12, OptionName.JClientVentMaxTime, new(0f, 180f, 5f), 0f, false)

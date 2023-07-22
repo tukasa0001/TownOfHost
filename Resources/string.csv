@@ -432,7 +432,6 @@
 "AssignOnlyTo%role%","Assign Only To %role%","%role%のみに割り当てる","只赋予%role%","","Назначить только для %role%",""
 "WorkhorseNumLongTasks","Additional Long Tasks","追加ロングタスクの個数","额外长任务数","增加的長任務數量","Дополнительные долгие задания",""
 "WorkhorseNumShortTasks","Additional Short Tasks","追加ショートタスクの個数","额外短任务数","增加的短任務數量","Дополнительные короткие задания",""
-"JClientCanVent","Client Can Vent","クライアントがベントを使える",,,,
 "JClientVentCooldown","Client Vent Cooldown","クライアントのベントクールダウン",,,,
 "JClientVentMaxTime","Client Max Time In Vents(s)","クライアントのベント内での最大時間",,,,
 "JClientCanAlsoBeExposedToJackal","Client Also Exposed To Jackal","クライアントがジャッカルからも視認できる",,,,
