@@ -102,8 +102,8 @@ public sealed class JClient : RoleBase
     {
         seen ??= seer;
         if (!CanAlsoBeExposedToJackal ||
-            !seer.Is(CustomRoles.Jackal) || seen.GetRoleClass() is not JClient jclient ||
-            !jclient.KnowsJackal())
+            !seer.Is(CustomRoles.Jackal) || seen.GetRoleClass() is not JClient client ||
+            !client.KnowsJackal())
         {
             return string.Empty;
         }
