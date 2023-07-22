@@ -64,7 +64,7 @@
 "Egoist","Egoist","エゴイスト","野心家","利己主義者","Эгоист","Egoísta"
 "Lovers","Lovers","恋人","恋人","戀人","Любовники","Amantes"
 "Jackal","Jackal","ジャッカル","豺狼","豺狼","Шакал","Chacal"
-"JClient","Client","クライアント",,,,
+"JClient","Client","クライアント","","","",""
 
 "# HideAndSeek"
 "HASFox","Fox","狐","狐狸","狐妖","Лис","Raposa"
@@ -145,7 +145,7 @@
 "EgoistInfo","Take over the Impostors' victory","インポスター勝利を独占しよう","夺走内鬼的胜利","讓我們來奪取偽裝者的勝利","Не дай Предателям победить","Ganhe no lugar do Impostor"
 "LoversInfo","Live happily ever after, together","恋人と生きて幸せを掴もう","你们坠入了爱河，成为了一对恋人，一起活到最后吧！","你墜入了愛河","Выживите со своим Любовником","Vivam felizes para sempre, juntos"
 "JackalInfo","Kill Everyone","すべてを殺せ","快去杀光所有人，一只苍蝇都不要剩下！","殺光所有人不留活口","Убей всех игроков","Mate todos"
-"JClientInfo","Finish your tasks to help the Jackal","タスクを済ませ、ジャッカルの援助をしよう",,,,
+"JClientInfo","Finish your tasks to help the Jackal","タスクを済ませ、ジャッカルの援助をしよう","","","",""
 
 "# HideAndSeek"
 "HASFoxInfo","Just stay alive","とにかく生き残りましょう","活下去吧！活到最后你就成为了赢家！","盡你所能地活下去吧!","Останьтесь в живых","Sobreviva a qualquer custo"
@@ -206,7 +206,7 @@
 "OpportunistInfoLong","(Neutrals):\nSo long as you are alive at the end of the game, you will win alongside whoever the victor is.","(ニュートラル):\n試合終了時に生存していれば追加勝利となる。","(独立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。","(中立):\n如果投機主義者活到最後,他將跟著遊戲結束獲勝的陣營一起獲勝。","(Нейтрал):\nВыживший выигрывает игру с любыми другими ролями, но только если он выжил.","(Neutros): \nContanto que você esteja vivo no final do jogo, você dividirá a vitória ao lado do vencedor."
 "EgoistInfoLong","(Neutrals):\nWhen all impostors are dead, you solo victory by fulfilling impostor victory conditions.\nYou and the impostors know who each other are.","(ニュートラル):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。","(独立阵营):\n原则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认但不可以击杀对方。\n当其他内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。","(中立陣營):\n如果所有的偽裝者都死亡，且利己主義者存活，利己主義者將獨自獲勝。\n(偽裝者和利己主義者互相知道對方但是不可以互刀對方)","(Нейтрал):\nПосле того, как все Предатели умрут то Эгоист побеждает вместо Предателей. \nПредатели и Эгоист видят друг друга.","(Neutros): \nQuando todos os Impostores morrerem, você ganha sozinho assumindo o papel de Impostor. \nVocê e os Impostores sabem quem são uns aos outros."
 "JackalInfoLong","(Neutrals):\nJackal can kill all Crewmates, Impostors and Neutrals.\nTeam Jackal wins when living Jackal outnumbers living Crewmates and when there are no Impostors alive.","(ニュートラル):\nジャッカルはすべてのプレイヤーを殺すことができる。\nインポスターが残っておらず、生き残っているジャッカルの人数がクルーと同じかそれ以上でジャッカルが勝利する。","(独立阵营):\n豺狼需要击杀所有人。\n存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。","(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。","(Нейтрал):\nШакал может убить всех Членов Экипажа, Нейтралов и Предателей тоже. \nШакал может победить, когда в живых остался только 1 Шакал и 1 Член Экипажа.","(Neutros): \nVocê pode matar todos os jogadores. \nGanhe quando não existirem mais Impostores, e o número de Chacais for maior que o de Tripulantes."
-"JClientInfoLong","(Neutrals):\nCrewmate, but they belong to team Jackal, like Madmates for Team Impostors.\nComplete all tasks to know who the jackal are.\nThe treatment of after jackal dead is depends on the setting.","(ジャッカル陣営):\nジャッカル陣営に属するクルー。\nジャッカルと互いに認識できないが、タスクを全て完了させるとジャッカルを認識できるようになる。\nジャッカル死亡後にどうなるかは設定による。",,,,
+"JClientInfoLong","(Neutrals):\nCrewmate, but they belong to team Jackal, like Madmates for Team Impostors.\nComplete all tasks to know who the jackal are.\nThe treatment of after jackal dead is depends on the setting.","(ジャッカル陣営):\nジャッカル陣営に属するクルー。\nジャッカルと互いに認識できないが、タスクを全て完了させるとジャッカルを認識できるようになる。\nジャッカル死亡後にどうなるかは設定による。","","","",""
 
 "# HideAndSeek"
 "HASFoxInfoLong","(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.","(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。","（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。","(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。","(Прятки):\nЕсли какая-либо роль, кроме Тролля побеждает и выживает, то победившая роль может одержать дополнительную победу.","(Esconde-Esconde): \nEles ganham adicionalmente com qualquer classe (exceto Troll), se estiverem vivos no final."
@@ -432,12 +432,12 @@
 "AssignOnlyTo%role%","Assign Only To %role%","%role%のみに割り当てる","只赋予%role%","","Назначить только для %role%",""
 "WorkhorseNumLongTasks","Additional Long Tasks","追加ロングタスクの個数","额外长任务数","增加的長任務數量","Дополнительные долгие задания",""
 "WorkhorseNumShortTasks","Additional Short Tasks","追加ショートタスクの個数","额外短任务数","增加的短任務數量","Дополнительные короткие задания",""
-"JClientVentCooldown","Vent Cooldown","ベントクールダウン",,,,
-"JClientVentMaxTime","Max Vent Duration","ベント内での最大時間",,,,
-"JClientCanAlsoBeExposedToJackal","Client Also Exposed To Jackal","クライアントがジャッカルからも視認できる",,,,
-"JClientAfterJackalDead","Mode After Jackal Dead","ジャッカル死亡後のモード",,,,
+"JClientVentCooldown","Vent Cooldown","ベントクールダウン","","","",""
+"JClientVentMaxTime","Max Vent Duration","ベント内での最大時間","","","",""
+"JClientCanAlsoBeExposedToJackal","Client Also Exposed To Jackal","クライアントがジャッカルからも視認できる","","","",""
+"JClientAfterJackalDead","Mode After Jackal Dead","ジャッカル死亡後のモード","","","",""
 "JClientAfterJackalDeadMode.None","None","なし","无","無","Ничего","Nenhum"
-"JClientAfterJackalDeadMode.Following","Following","後追い",,,,
+"JClientAfterJackalDeadMode.Following","Following","後追い","","","",""
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"
