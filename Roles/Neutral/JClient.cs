@@ -82,8 +82,8 @@ public sealed class JClient : RoleBase
     };
     public override void ApplyGameOptions(IGameOptions opt)
     {
-        AURoleOptions.EngineerCooldown = JClient.VentCooldown;
-        AURoleOptions.EngineerInVentMaxTime = JClient.VentMaxTime;
+        AURoleOptions.EngineerCooldown = VentCooldown;
+        AURoleOptions.EngineerInVentMaxTime = VentMaxTime;
         opt.SetVision(HasImpostorVision);
     }
     private bool KnowsJackal() => IsTaskFinished;
