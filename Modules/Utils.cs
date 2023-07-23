@@ -628,12 +628,12 @@ namespace TownOfHost
             List<byte> cloneRoles = new(PlayerState.AllPlayerStates.Keys);
             foreach (var id in Main.winnerList)
             {
-                sb.Append($"\n★ ".Color(winnerColor)).Append(Regex.Replace(SummaryTexts(id, true), "</?color(=#[0-9a-fA-F]*)?>", ""));
+                sb.Append($"\n★ ".Color(winnerColor)).Append(SummaryTexts(id, true));
                 cloneRoles.Remove(id);
             }
             foreach (var id in cloneRoles)
             {
-                sb.Append($"\n　 ").Append(Regex.Replace(SummaryTexts(id, true), "</?color(=#[0-9a-fA-F]*)?>", ""));
+                sb.Append($"\n　 ").Append(SummaryTexts(id, true));
             }
             SendMessage(sb.ToString(), PlayerId, removeTags: false);
         }
@@ -990,12 +990,13 @@ namespace TownOfHost
             // { 16em, 17.4em } + "Lover's Suicide " = { 24em , 28.4em }
             // { 16em, 17.4em } + "回線切断 " = { 20.5em, 21.9em }
             builder.Append(TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? (isForChat ? "<pos=24em>" : "<pos=28.4em>") : (isForChat ? "<pos=20.5em>" : "<pos=21.9em>"));
-            builder.Append(GetTrueRoleName(id, false));
-            builder.Append(GetSubRolesText(id));
+            builder.Append(isForChat ? GetTrueRoleName(id, false).RemoveColorTags() : GetTrueRoleName(id, false));
+            builder.Append(isForChat ? GetSubRolesText(id).RemoveColorTags() : GetSubRolesText(id));
             builder.Append("</pos>");
             return builder.ToString();
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
+        public static string RemoveColorTags(this string str) => Regex.Replace(str, "</?color(=#[0-9a-fA-F]*)?>", "");
         public static void FlashColor(Color color, float duration = 1f)
         {
             var hud = DestroyableSingleton<HudManager>.Instance;
