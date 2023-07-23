@@ -978,7 +978,7 @@ namespace TownOfHost
         public static string SummaryTexts(byte id, bool isForChat)
         {
             var builder = new StringBuilder();
-            builder.Append(isForChat ? ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id]) : Main.AllPlayerNames[id]);
+            builder.Append(isForChat ? Main.AllPlayerNames[id] : ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id]));
             // 1em ≒ 全角1文字
             // 終了画面で使われる英語フォントの半角1文字 ≒ 0.7em
             // 空白は0.5emとする
