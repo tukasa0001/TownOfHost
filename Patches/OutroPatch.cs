@@ -221,9 +221,6 @@ namespace TownOfHost
             RoleSummary.transform.localScale = new Vector3(1f, 1f, 1f);
             RoleSummary.outlineWidth *= 1.2f;
 
-            var RoleSummaryRectTransform = RoleSummary.GetComponent<RectTransform>();
-            RoleSummaryRectTransform.anchoredPosition = new Vector2(Pos.x + 3.5f, Pos.y - 0.1f);
-
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             //Utils.ApplySuffix();
