@@ -639,7 +639,7 @@ namespace TownOfHost
                 SendMessage(GetString("CantUse.killlog"), PlayerId);
                 return;
             }
-            SendMessage(EndGamePatch.KillLog, PlayerId);
+            SendMessage(EndGamePatch.KillLog, PlayerId, removeTags: false);
         }
         public static string GetSubRolesText(byte id, bool disableColor = false)
         {
