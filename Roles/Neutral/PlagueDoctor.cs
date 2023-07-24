@@ -87,11 +87,11 @@ public sealed class PlagueDoctor : RoleBase, IKiller
            .SetValueFormat(OptionFormat.Seconds);
     }
 
-    int InfectCount;
-    static Dictionary<byte, float> InfectInfos;
-    static bool InfectActive;
-    static PlagueDoctor FirstPlagueDoctor;
-    static bool LateCheckWin;
+    private int InfectCount;
+    private static Dictionary<byte, float> InfectInfos;
+    private static bool InfectActive;
+    private static PlagueDoctor FirstPlagueDoctor;
+    private static bool LateCheckWin;
     public override void Add()
     {
         InfectCount = InfectLimit;
