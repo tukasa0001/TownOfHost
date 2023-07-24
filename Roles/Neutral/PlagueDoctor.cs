@@ -25,6 +25,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
             SetupOptionItem,
             "pd",
             "#ff6633",
+            true,
             introSound: () => GetIntroSound(RoleTypes.Crewmate)
         );
     public PlagueDoctor(PlayerControl player)
@@ -293,5 +294,4 @@ public sealed class PlagueDoctor : RoleBase, IKiller
                 CustomWinnerHolder.WinnerIds.Add(plagueDoctor.PlayerId);
         }
     }
-
 }
