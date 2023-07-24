@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TownOfHost.Attributes;
 using TownOfHost.Roles.Core;
 using static TownOfHost.Options;
 
@@ -17,6 +18,7 @@ namespace TownOfHost.Roles.AddOns.Common
             SetupRoleOptions(Id, TabGroup.Addons, CustomRoles.Watcher);
             AddOnsAssignData.Create(Id + 10, CustomRoles.Watcher, true, true, true);
         }
+        [GameModuleInitializer]
         public static void Init()
         {
             playerIdList = new();

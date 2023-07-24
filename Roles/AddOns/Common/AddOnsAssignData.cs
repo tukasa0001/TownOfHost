@@ -47,7 +47,7 @@ namespace TownOfHost.Roles.AddOns.Common
             this.Role = role;
             if (assignCrewmate)
             {
-                CrewmateMaximum = IntegerOptionItem.Create(idStart++, "%roleTypes%Maximum", new(0, 15, 1), 1, TabGroup.Addons, false)
+                CrewmateMaximum = IntegerOptionItem.Create(idStart++, "%roleTypes%Maximum", new(0, 15, 1), 15, TabGroup.Addons, false)
                     .SetParent(CustomRoleSpawnChances[role])
                     .SetValueFormat(OptionFormat.Players);
                 CrewmateMaximum.ReplacementDictionary = new Dictionary<string, string> { { "%roleTypes%", Utils.ColorString(Palette.CrewmateBlue, GetString("TeamCrewmate")) } };
@@ -60,7 +60,7 @@ namespace TownOfHost.Roles.AddOns.Common
 
             if (assignImpostor)
             {
-                ImpostorMaximum = IntegerOptionItem.Create(idStart++, "%roleTypes%Maximum", new(0, 3, 1), 1, TabGroup.Addons, false)
+                ImpostorMaximum = IntegerOptionItem.Create(idStart++, "%roleTypes%Maximum", new(0, 3, 1), 3, TabGroup.Addons, false)
                     .SetParent(CustomRoleSpawnChances[role])
                     .SetValueFormat(OptionFormat.Players);
                 ImpostorMaximum.ReplacementDictionary = new Dictionary<string, string> { { "%roleTypes%", Utils.ColorString(Palette.ImpostorRed, GetString("TeamImpostor")) } };
@@ -73,7 +73,7 @@ namespace TownOfHost.Roles.AddOns.Common
 
             if (assignNeutral)
             {
-                NeutralMaximum = IntegerOptionItem.Create(idStart++, "%roleTypes%Maximum", new(0, 15, 1), 1, TabGroup.Addons, false)
+                NeutralMaximum = IntegerOptionItem.Create(idStart++, "%roleTypes%Maximum", new(0, 15, 1), 15, TabGroup.Addons, false)
                     .SetParent(CustomRoleSpawnChances[role])
                     .SetValueFormat(OptionFormat.Players);
                 NeutralMaximum.ReplacementDictionary = new Dictionary<string, string> { { "%roleTypes%", Utils.ColorString(Palette.AcceptedGreen, GetString("Neutral")) } };
@@ -125,8 +125,8 @@ namespace TownOfHost.Roles.AddOns.Common
                         => data.CrewmateFixedRole.GetBool() ? pc.Is(CrewmateRoles[data.CrewmateAssignTarget.GetValue()]) : pc.Is(CustomRoleTypes.Crewmate)).ToList();
                     for (var i = 0; i < crewmateMaximum; i++)
                     {
-                        if (crewmates.Count() == 0) break;
-                        var selectedCrewmate = crewmates[rnd.Next(crewmates.Count())];
+                        if (crewmates.Count == 0) break;
+                        var selectedCrewmate = crewmates[rnd.Next(crewmates.Count)];
                         candidates.Add(selectedCrewmate);
                         crewmates.Remove(selectedCrewmate);
                     }
@@ -142,8 +142,8 @@ namespace TownOfHost.Roles.AddOns.Common
                         => data.ImpostorFixedRole.GetBool() ? pc.Is(ImpostorRoles[data.ImpostorAssignTarget.GetValue()]) : pc.Is(CustomRoleTypes.Impostor)).ToList();
                     for (var i = 0; i < impostorMaximum; i++)
                     {
-                        if (impostors.Count() == 0) break;
-                        var selectedImpostor = impostors[rnd.Next(impostors.Count())];
+                        if (impostors.Count == 0) break;
+                        var selectedImpostor = impostors[rnd.Next(impostors.Count)];
                         candidates.Add(selectedImpostor);
                         impostors.Remove(selectedImpostor);
                     }
@@ -159,8 +159,8 @@ namespace TownOfHost.Roles.AddOns.Common
                         => data.NeutralFixedRole.GetBool() ? pc.Is(NeutralRoles[data.NeutralAssignTarget.GetValue()]) : pc.Is(CustomRoleTypes.Neutral)).ToList();
                     for (var i = 0; i < neutralMaximum; i++)
                     {
-                        if (neutrals.Count() == 0) break;
-                        var selectedNeutral = neutrals[rnd.Next(neutrals.Count())];
+                        if (neutrals.Count == 0) break;
+                        var selectedNeutral = neutrals[rnd.Next(neutrals.Count)];
                         candidates.Add(selectedNeutral);
                         neutrals.Remove(selectedNeutral);
                     }

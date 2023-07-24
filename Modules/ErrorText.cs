@@ -32,6 +32,7 @@ namespace TownOfHost
         public static void Create(TMPro.TextMeshPro baseText)
         {
             var Text = Instantiate(baseText);
+            Text.fontSizeMax = Text.fontSizeMin = 2f;
             var instance = Text.gameObject.AddComponent<ErrorText>();
             instance.Text = Text;
             instance.name = "ErrorText";
@@ -51,7 +52,7 @@ namespace TownOfHost
         {
             AllErrors.ForEach(err => err.IncreaseTimer());
             var ToRemove = AllErrors.Where(err => err.ErrorLevel <= 1 && 30f < err.Timer);
-            if (0 < ToRemove.Count())
+            if (ToRemove.Any())
             {
                 AllErrors.RemoveAll(err => ToRemove.Contains(err));
                 UpdateText();

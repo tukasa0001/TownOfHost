@@ -21,14 +21,14 @@ public sealed class Arsonist : RoleBase, IKiller
             SetupOptionItem,
             "ar",
             "#ff6633",
+            true,
             introSound: () => GetIntroSound(RoleTypes.Crewmate)
         );
     public Arsonist(PlayerControl player)
     : base(
         RoleInfo,
         player,
-        () => HasTask.False,
-        CountTypes.Crew
+        () => HasTask.False
     )
     {
         DouseTime = OptionDouseTime.GetFloat();
@@ -75,7 +75,7 @@ public sealed class Arsonist : RoleBase, IKiller
     }
     public bool CanUseKillButton() => !IsDouseDone(Player);
     public float CalculateKillCooldown() => DouseCooldown;
-    public override bool CanSabotage(SystemTypes systemType) => false;
+    public override bool OnInvokeSabotage(SystemTypes systemType) => false;
     public override string GetProgressText(bool comms = false)
     {
         var doused = GetDousedPlayerCount();
@@ -121,11 +121,9 @@ public sealed class Arsonist : RoleBase, IKiller
         }
         info.DoKill = false;
     }
-    public override bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
     {
         TargetInfo = null;
-
-        return true;
     }
     public override void OnFixedUpdate(PlayerControl player)
     {

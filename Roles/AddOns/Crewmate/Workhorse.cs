@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+using TownOfHost.Attributes;
 using TownOfHost.Roles.Core;
 using static TownOfHost.Options;
 
@@ -27,6 +29,7 @@ namespace TownOfHost.Roles.AddOns.Crewmate
             OptionNumShortTasks = IntegerOptionItem.Create(Id + 12, "WorkhorseNumShortTasks", new(0, 5, 1), 1, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workhorse])
                 .SetValueFormat(OptionFormat.Pieces);
         }
+        [GameModuleInitializer]
         public static void Init()
         {
             playerIdList = new();
@@ -64,7 +67,7 @@ namespace TownOfHost.Roles.AddOns.Crewmate
             if (AmongUsClient.Instance.AmHost)
             {
                 Add(pc.PlayerId);
-                GameData.Instance.RpcSetTasks(pc.PlayerId, new byte[0]); //タスクを再配布
+                GameData.Instance.RpcSetTasks(pc.PlayerId, Array.Empty<byte>()); //タスクを再配布
                 pc.SyncSettings();
                 Utils.NotifyRoles();
             }

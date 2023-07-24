@@ -27,6 +27,6 @@ public sealed class Bait : RoleBase
     {
         var (killer, target) = info.AttemptTuple;
         if (target.Is(CustomRoles.Bait) && !info.IsSuicide)
-            new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
+            _ = new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using HarmonyLib;
+using TownOfHost.Attributes;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -35,6 +36,7 @@ namespace TownOfHost
             ["Time"] = () => DateTime.Now.ToShortTimeString(),
         };
 
+        [PluginModuleInitializer]
         public static void Init()
         {
             CreateIfNotExists();
@@ -69,7 +71,7 @@ namespace TownOfHost
             CreateIfNotExists();
             using StreamReader sr = new(TEMPLATE_FILE_PATH, Encoding.GetEncoding("UTF-8"));
             string text;
-            string[] tmp = { };
+            string[] tmp = Array.Empty<string>();
             List<string> sendList = new();
             HashSet<string> tags = new();
             while ((text = sr.ReadLine()) != null)
