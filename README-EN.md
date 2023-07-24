@@ -880,7 +880,7 @@ Create by こう。<br>
 Team : Neutral(Solo)<br>
 Basis : Impostor<br>
 Count : Crew<br>
-Victory Conditions : Infect All the player.
+Victory Conditions : Infect All the living players.
 
 The PlagueDoctor can create the first infected player by using the kill button.<br>
 If PlagueDoctor has not created an infected player, make the killler an infected person.<br>
