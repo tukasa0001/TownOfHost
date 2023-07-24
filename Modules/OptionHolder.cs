@@ -190,6 +190,7 @@ namespace TownOfHost
 
         // 停電の特殊設定
         public static OptionItem LightsOutSpecialSettings;
+        public static OptionItem DisableInterferenceFixLights;
         public static OptionItem DisableAirshipViewingDeckLightsPanel;
         public static OptionItem DisableAirshipGapRoomLightsPanel;
         public static OptionItem DisableAirshipCargoLightsPanel;
@@ -376,6 +377,8 @@ namespace TownOfHost
 
             // 停電の特殊設定
             LightsOutSpecialSettings = BooleanOptionItem.Create(101500, "LightsOutSpecialSettings", false, TabGroup.MainSettings, false)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableInterferenceFixLights = BooleanOptionItem.Create(101514, "DisableInterferenceFixLights", false, TabGroup.MainSettings, false).SetParent(LightsOutSpecialSettings)
                 .SetGameMode(CustomGameMode.Standard);
             DisableAirshipViewingDeckLightsPanel = BooleanOptionItem.Create(101511, "DisableAirshipViewingDeckLightsPanel", false, TabGroup.MainSettings, false).SetParent(LightsOutSpecialSettings)
                 .SetGameMode(CustomGameMode.Standard);
