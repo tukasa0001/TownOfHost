@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TownOfHost.Attributes;
 using UnityEngine;
 
 namespace TownOfHost
@@ -39,6 +40,7 @@ namespace TownOfHost
             "・"
         };
 
+        [GameModuleInitializer]
         public static void Init()
         {
             TargetArrows.Clear();

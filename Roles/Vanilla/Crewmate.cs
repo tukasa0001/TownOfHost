@@ -10,7 +10,8 @@ public sealed class Crewmate : RoleBase
         SimpleRoleInfo.CreateForVanilla(
             typeof(Crewmate),
             player => new Crewmate(player),
-            RoleTypes.Crewmate
+            RoleTypes.Crewmate,
+            "#8cffff"
         );
     public Crewmate(PlayerControl player)
     : base(

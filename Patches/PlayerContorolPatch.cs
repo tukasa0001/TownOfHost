@@ -185,7 +185,7 @@ namespace TownOfHost
                         mpdistance.Add(p, dis);
                     }
                 }
-                if (mpdistance.Count() != 0)
+                if (mpdistance.Count != 0)
                 {
                     var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                     PlayerControl targetm = min.Key;
@@ -200,7 +200,7 @@ namespace TownOfHost
             //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
             if (!shapeshifting)
             {
-                new LateTask(() =>
+                _ = new LateTask(() =>
                 {
                     Utils.NotifyRoles(NoCache: true);
                 },
@@ -531,7 +531,7 @@ namespace TownOfHost
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
                     writer.WritePacked(127);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    new LateTask(() =>
+                    _ = new LateTask(() =>
                     {
                         int clientId = user.GetClientId();
                         MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, clientId);
@@ -569,11 +569,8 @@ namespace TownOfHost
             {
                 ret = roleClass.OnCompleteTask();
             }
-            else
-            {
-                ret = Workhorse.OnCompleteTask(pc);
-                var isTaskFinish = taskState.IsTaskFinished;
-            }
+            //属性クラスの扱いを決定するまで仮置き
+            ret &= Workhorse.OnCompleteTask(pc);
             Utils.NotifyRoles();
             return ret;
         }

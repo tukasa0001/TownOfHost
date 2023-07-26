@@ -36,8 +36,9 @@ namespace TownOfHost
                 HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
                 HideName.gameObject.SetActive(true);
                 HideName.name = "HideName";
-                ColorUtility.TryParseHtmlString(Main.ModColor, out var modColor);
-                HideName.color = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out var color) ? color : modColor;
+                HideName.color =
+                    ColorUtility.TryParseHtmlString(Main.HideColor.Value, out var color) ? color :
+                    ColorUtility.TryParseHtmlString(Main.ModColor, out var modColor) ? modColor : HideName.color;
                 HideName.text = Main.HideName.Value;
 
                 warningText = Object.Instantiate(__instance.GameStartText, __instance.transform);
@@ -190,7 +191,7 @@ namespace TownOfHost
                 SelectRandomMap();
 
                 var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
-                if (invalidColor.Count() != 0)
+                if (invalidColor.Any())
                 {
                     var msg = GetString("Error.InvalidColor");
                     Logger.SendInGame(msg);

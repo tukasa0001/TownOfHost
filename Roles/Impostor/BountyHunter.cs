@@ -158,7 +158,7 @@ public sealed class BountyHunter : RoleBase, IImpostor
 
         var cTargets = new List<PlayerControl>(Main.AllAlivePlayerControls.Where(pc => !pc.Is(CountTypes.Impostor)));
 
-        if (cTargets.Count() >= 2)
+        if (cTargets.Count >= 2)
             cTargets.RemoveAll(x => x == Target); //前回のターゲットは除外
 
         if (cTargets.Count <= 0)

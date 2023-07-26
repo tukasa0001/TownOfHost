@@ -34,7 +34,7 @@ namespace TownOfHost
                 if (DebugModeManager.IsDebugMode) sb.Append("\r\n").Append(Utils.ColorString(Color.green, "デバッグモード"));
 
                 var offset_x = 1.2f; //右端からのオフセット
-                if (HudManager.InstanceExists && HudManager._instance.Chat.ChatButton.active) offset_x += 0.8f; //チャットボタンがある場合の追加オフセット
+                if (HudManager.InstanceExists && HudManager._instance.Chat.chatButton.active) offset_x += 0.8f; //チャットボタンがある場合の追加オフセット
                 if (FriendsListManager.InstanceExists && FriendsListManager._instance.FriendsListButton.Button.active) offset_x += 0.8f; //フレンドリストボタンがある場合の追加オフセット
                 __instance.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(offset_x, 0f, 0f);
 
@@ -71,7 +71,7 @@ namespace TownOfHost
 
                 VersionChecker.Check();
 
-                if (SpecialEventText == null)
+                if (SpecialEventText == null && TohLogo != null)
                 {
                     SpecialEventText = Object.Instantiate(__instance.text, TohLogo.transform);
                     SpecialEventText.name = "SpecialEventText";
@@ -81,12 +81,17 @@ namespace TownOfHost
                     SpecialEventText.alignment = TextAlignmentOptions.Center;
                     SpecialEventText.transform.localPosition = new Vector3(0f, 0.8f, 0f);
                 }
-                SpecialEventText.enabled = TitleLogoPatch.amongUsLogo != null;
+                if (SpecialEventText != null)
+                {
+                    SpecialEventText.enabled = TitleLogoPatch.amongUsLogo != null;
+                }
                 if (Main.IsInitialRelease)
                 {
                     SpecialEventText.text = $"Happy Birthday to {Main.ModName}!";
-                    ColorUtility.TryParseHtmlString(Main.ModColor, out var col);
-                    SpecialEventText.color = col;
+                    if (ColorUtility.TryParseHtmlString(Main.ModColor, out var col))
+                    {
+                        SpecialEventText.color = col;
+                    }
                 }
                 if (Main.IsChristmas && CultureInfo.CurrentCulture.Name == "ja-JP")
                 {
