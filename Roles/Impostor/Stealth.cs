@@ -57,7 +57,7 @@ public sealed class Stealth : RoleBase, IImpostor
         {
             return;
         }
-        var playersToDarken = FindPlayersInSameRoom();
+        var playersToDarken = FindPlayersInSameRoom(info.AttemptTarget);
         if (playersToDarken == null)
         {
             logger.Info("部屋の当たり判定を取得できないため暗転を行いません");
@@ -70,9 +70,9 @@ public sealed class Stealth : RoleBase, IImpostor
         DarkenPlayers(playersToDarken);
     }
     /// <summary>自分と同じ部屋にいるプレイヤー全員を取得する</summary>
-    private IEnumerable<PlayerControl> FindPlayersInSameRoom()
+    private IEnumerable<PlayerControl> FindPlayersInSameRoom(PlayerControl killedPlayer)
     {
-        var room = Player.GetPlainShipRoom();
+        var room = killedPlayer.GetPlainShipRoom();
         if (room == null)
         {
             return null;
