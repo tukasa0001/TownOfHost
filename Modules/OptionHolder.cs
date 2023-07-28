@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
 
+using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.AddOns.Common;
@@ -199,6 +200,8 @@ namespace TownOfHost
         public static OptionItem MapModification;
         public static OptionItem AirShipVariableElectrical;
         public static OptionItem DisableAirshipMovingPlatform;
+        public static OptionItem ResetDoorsEveryTurns;
+        public static OptionItem DoorsResetMode;
 
         // その他
         public static OptionItem FixFirstKillCooldown;
@@ -392,6 +395,8 @@ namespace TownOfHost
                 .SetHeader(true);
             AirShipVariableElectrical = BooleanOptionItem.Create(101600, "AirShipVariableElectrical", false, TabGroup.MainSettings, false).SetParent(MapModification);
             DisableAirshipMovingPlatform = BooleanOptionItem.Create(101700, "DisableAirshipMovingPlatform", false, TabGroup.MainSettings, false).SetParent(MapModification);
+            ResetDoorsEveryTurns = BooleanOptionItem.Create(101800, "ResetDoorsEveryTurns", false, TabGroup.MainSettings, false).SetParent(MapModification);
+            DoorsResetMode = StringOptionItem.Create(101810, "DoorsResetMode", EnumHelper.GetAllNames<DoorsReset.ResetMode>(), 0, TabGroup.MainSettings, false).SetParent(ResetDoorsEveryTurns);
 
             // タスク無効化
             DisableTasks = BooleanOptionItem.Create(100300, "DisableTasks", false, TabGroup.MainSettings, false)
