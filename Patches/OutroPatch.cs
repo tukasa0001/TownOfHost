@@ -210,7 +210,6 @@ namespace TownOfHost
             {
                 sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id]);
             }
-            //var RoleSummary = RoleSummaryObject.GetComponent<TMPro.TextMeshPro>();
             var RoleSummary = TMPTemplate.Create(
                 sb.ToString(),
                 Color.white,
