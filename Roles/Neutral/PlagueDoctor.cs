@@ -158,6 +158,10 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         //非感染者が死んだ場合勝利するかもしれない
         LateCheckWin = true;
     }
+    public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    {
+        InfectActive = false;
+    }
     public static void OnFixedUpdateOthers(PlayerControl player)
     {
         if (!AmongUsClient.Instance.AmHost) return;
@@ -212,7 +216,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         {
             //非感染者が吊られた場合勝利するかもしれない
             LateCheckWin = true;
-            InfectActive = false;
+
             _ = new LateTask(() =>
             {
                 Logger.Info("InfectActive", "PlagueDoctor");
