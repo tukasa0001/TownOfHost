@@ -179,10 +179,13 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         {
             //感染者の場合
             var changed = false;
+            var inVent = player.inVent;
             foreach (var target in Main.AllAlivePlayerControls)
             {
                 //ペスト医師は除外
                 if (target.Is(CustomRoles.PlagueDoctor)) continue;
+                //ベント内外であれば除外
+                if (target.inVent != inVent) continue;
 
                 InfectInfos.TryGetValue(target.PlayerId, out var oldRate);
                 //感染者は除外
