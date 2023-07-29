@@ -476,6 +476,10 @@
 "PolusReactorTimeLimit","Polus Reactor Duration","ポーラスのリアクター制限時間","波鲁斯抗震稳定器修理时限","Polus地震抑制器破壞最大時間","Polus время саботажа Реактора","Duração do Reator em Polus"
 "AirshipReactorTimeLimit","Airship Reactor Duration","エアシップのリアクター制限時間","飞艇坠毁路线修理时限","Airship間隙室破壞最大時間","Airship время саботажа Реактора","Duração do Reator em Airship"
 
+"## サボタージュのクールダウン変更"
+"ModifySabotageCooldown","Sabotage Cooldown Control","サボタージュのクールダウン制御","","","",""
+"SabotageCooldown","Sabotage Cooldown","サボタージュのクールダウン","","","",""
+
 "## クライアント設定"
 "Close","Close","閉じる","关闭","","Закрыть",""
 "TOHOptions","<color=#00bfff>TOH</color> Options","<color=#00bfff>TOH</color>の設定","<color=#00bfff>TOH</color> 选项","","Настройки <color=#00bfff>TOH</color>",""
