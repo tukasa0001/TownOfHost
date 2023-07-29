@@ -1,4 +1,5 @@
 using HarmonyLib;
+using TownOfHost.Attributes;
 
 namespace TownOfHost
 {
@@ -81,6 +82,31 @@ namespace TownOfHost
             Utils.MarkEveryoneDirtySettings();
             if (!GameStates.IsMeeting)
                 Utils.NotifyRoles(ForceLoop: true);
+        }
+    }
+
+    // サボタージュを発生させたときに呼び出されるメソッド
+    [HarmonyPatch(typeof(SabotageSystemType), nameof(SabotageSystemType.RepairDamage))]
+    public static class SabotageSystemTypeRepairDamagePatch
+    {
+        private static bool isCooldownModificationEnabled;
+        private static float modifiedCooldownSec;
+
+        [GameModuleInitializer]
+        public static void Initialize()
+        {
+            isCooldownModificationEnabled = Options.ModifySabotageCooldown.GetBool();
+            modifiedCooldownSec = Options.SabotageCooldown.GetFloat();
+        }
+
+        public static void Postfix(SabotageSystemType __instance)
+        {
+            if (!isCooldownModificationEnabled || !AmongUsClient.Instance.AmHost)
+            {
+                return;
+            }
+            __instance.Timer = modifiedCooldownSec;
+            __instance.IsDirty = true;
         }
     }
 }
