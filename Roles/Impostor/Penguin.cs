@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using UnityEngine;
 using AmongUs.GameOptions;
+using Hazel;
 
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
@@ -53,13 +53,36 @@ class Penguin : RoleBase, IImpostor
         stopCount = false;
     }
     public override void ApplyGameOptions(IGameOptions opt) => AURoleOptions.ShapeshifterCooldown = AbductVictim != null ? AbductTimer : 255f;
+    private void SendRPC()
+    {
+        using var sender = CreateSender(CustomRPC.PenguinSync);
 
+        sender.Writer.Write(AbductVictim?.PlayerId ?? 255);
+    }
+
+    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    {
+        if (rpcType != CustomRPC.PenguinSync) return;
+
+        var victim = reader.ReadByte();
+        if (victim == 255)
+        {
+            AbductVictim = null;
+            AbductTimer = 255f;
+        }
+        else
+        {
+            AbductVictim = Utils.GetPlayerById(victim);
+            AbductTimer = AbductTimerLimit;
+        }
+    }
     void AddVictim(PlayerControl target)
     {
         AbductVictim = target;
         AbductTimer = AbductTimerLimit;
         Player.SyncSettings();
         Player.RpcResetAbilityCooldown();
+        SendRPC();
     }
     void RemoveVictim()
     {
@@ -67,6 +90,7 @@ class Penguin : RoleBase, IImpostor
         AbductTimer = 255f;
         Player.SyncSettings();
         Player.RpcResetAbilityCooldown();
+        SendRPC();
     }
     public void OnCheckMurderAsKiller(MurderInfo info)
     {
