@@ -4,6 +4,7 @@ using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
+using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor;
 
@@ -87,9 +88,25 @@ class Penguin : RoleBase, IImpostor
     {
         RemoveVictim();
     }
+    public bool OverrideKillButtonText(out string text)
+    {
+        if (AbductVictim != null)
+        {
+            text = GetString("KillButtonText");
+        }
+        else
+        {
+            text = GetString("PenguinKillButtonText");
+        }
+        return true;
+    }
     public override string GetAbilityButtonText()
     {
-        return base.GetAbilityButtonText();
+        return GetString("PenguinTimerText");
+    }
+    public override bool CanUseAbilityButton()
+    {
+        return AbductVictim != null;
     }
     public override void OnStartMeeting()
     {

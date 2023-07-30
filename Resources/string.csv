@@ -661,3 +661,5 @@
 "LastAdminInfo","Last-minute admin information","直前のアドミン情報","","","",""
 "MurderNotify","Murder","キル発生","","","",""
 "Deadbody","DEAD","死体","","","",""
+"PenguinKillButtonText","rag","拉致"
+"PenguinTimerText","Drag Timer","残り時間"
