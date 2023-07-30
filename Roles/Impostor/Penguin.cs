@@ -25,12 +25,10 @@ class Penguin : RoleBase, IImpostor
         : base(RoleInfo, player)
     {
         AbductTimerLimit = OptionAbductTimerLimit.GetFloat();
-        Penguins.Add(this);
     }
     public override void OnDestroy()
     {
         AbductVictim = null;
-        Penguins.Remove(this);
     }
 
     static OptionItem OptionAbductTimerLimit;
@@ -40,11 +38,10 @@ class Penguin : RoleBase, IImpostor
         PenguinAbductTimerLimit,
     }
 
-    PlayerControl AbductVictim;
-    float AbductTimer;
-    float AbductTimerLimit;
-    bool stopCount;
-    static List<Penguin> Penguins = new();
+    private PlayerControl AbductVictim;
+    private float AbductTimer;
+    private float AbductTimerLimit;
+    private bool stopCount;
     public static void SetupOptionItem()
     {
         OptionAbductTimerLimit = FloatOptionItem.Create(RoleInfo, 11, OptionName.PenguinAbductTimerLimit, new(5f, 20f, 1f), 10f, false)
