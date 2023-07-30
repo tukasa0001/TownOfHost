@@ -1302,7 +1302,7 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 [Jester](#Jester) and [Madmate](#Madmate) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
 [Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
-[Penguin](#penguin) : original idea by [Super New Roles](https://github.com/ykundesu/SuperNewRoles)
+[Penguin](#penguin) : original idea by [Super New Roles](https://github.com/ykundesu/SuperNewRoles)<br>
 Translate-Chinese : fivefirex, ZeMingOH233<br>
 OptionTab Icon Design by 花海.<br>
 Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>
