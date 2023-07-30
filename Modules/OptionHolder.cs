@@ -287,7 +287,7 @@ namespace TownOfHost
             // Impostor
             sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Impostor).Do(info =>
             {
-                SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
+                SetupRoleOptions(info);
                 info.OptionCreator?.Invoke();
             });
 
@@ -297,10 +297,18 @@ namespace TownOfHost
             CanMakeMadmateCount = IntegerOptionItem.Create(5012, "CanMakeMadmateCount", new(0, 15, 1), 0, TabGroup.ImpostorRoles, false)
                 .SetValueFormat(OptionFormat.Times);
 
-            // Madmate
-            sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Madmate).Do(info =>
+            // Madmate, Crewmate, Neutral
+            sortedRoleInfo.Where(role => role.CustomRoleType != CustomRoleTypes.Impostor).Do(info =>
             {
-                SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
+                switch (info.RoleName)
+                {
+                    case CustomRoles.Jackal: //ジャッカルは1人固定
+                        SetupSingleRoleOptions(info.ConfigId, info.Tab, info.RoleName, 1);
+                        break;
+                    default:
+                        SetupRoleOptions(info);
+                        break;
+                }
                 info.OptionCreator?.Invoke();
             });
             // Madmate Common Options
@@ -316,27 +324,6 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             MadmateVentMaxTime = FloatOptionItem.Create(15214, "MadmateVentMaxTime", new(0f, 180f, 5f), 0f, TabGroup.ImpostorRoles, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            // Crewmate
-            sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Crewmate).Do(info =>
-            {
-                SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
-                info.OptionCreator?.Invoke();
-            });
-
-            // Neutral
-            sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Neutral).Do(info =>
-            {
-                switch (info.RoleName)
-                {
-                    case CustomRoles.Jackal: //ジャッカルは1人固定
-                        SetupSingleRoleOptions(info.ConfigId, info.Tab, info.RoleName, 1);
-                        break;
-                    default:
-                        SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName);
-                        break;
-                }
-                info.OptionCreator?.Invoke();
-            });
             SetupLoversRoleOptionsToggle(50300);
 
             // Add-Ons
@@ -583,6 +570,8 @@ namespace TownOfHost
             IsLoaded = true;
         }
 
+        public static void SetupRoleOptions(SimpleRoleInfo info) =>
+            SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName, info.AssignCountRule);
         public static void SetupRoleOptions(int id, TabGroup tab, CustomRoles role, IntegerValueRule assignCountRule = null, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             if (role.IsVanilla()) return;
