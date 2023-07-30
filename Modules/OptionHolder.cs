@@ -300,15 +300,7 @@ namespace TownOfHost
             // Madmate, Crewmate, Neutral
             sortedRoleInfo.Where(role => role.CustomRoleType != CustomRoleTypes.Impostor).Do(info =>
             {
-                switch (info.RoleName)
-                {
-                    case CustomRoles.Jackal: //ジャッカルは1人固定
-                        SetupSingleRoleOptions(info.ConfigId, info.Tab, info.RoleName, 1);
-                        break;
-                    default:
-                        SetupRoleOptions(info);
-                        break;
-                }
+                SetupRoleOptions(info);
                 info.OptionCreator?.Invoke();
             });
             // Madmate Common Options
@@ -324,9 +316,9 @@ namespace TownOfHost
                 .SetValueFormat(OptionFormat.Seconds);
             MadmateVentMaxTime = FloatOptionItem.Create(15214, "MadmateVentMaxTime", new(0f, 180f, 5f), 0f, TabGroup.ImpostorRoles, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            SetupLoversRoleOptionsToggle(50300);
 
             // Add-Ons
+            SetupRoleOptions(50300, TabGroup.Addons, CustomRoles.Lovers, assignCountRule: new(2, 2, 2));
             LastImpostor.SetupCustomOption();
             Watcher.SetupCustomOption();
             Workhorse.SetupCustomOption();
@@ -585,35 +577,6 @@ namespace TownOfHost
             var countOption = IntegerOptionItem.Create(id + 1, "Maximum", assignCountRule, assignCountRule.Step, tab, false)
                 .SetParent(spawnOption)
                 .SetValueFormat(OptionFormat.Players)
-                .SetGameMode(customGameMode);
-
-            CustomRoleSpawnChances.Add(role, spawnOption);
-            CustomRoleCounts.Add(role, countOption);
-        }
-        private static void SetupLoversRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
-        {
-            var role = CustomRoles.Lovers;
-            var spawnOption = IntegerOptionItem.Create(id, role.ToString(), new(0, 100, 10), 0, TabGroup.Addons, false).SetColor(Utils.GetRoleColor(role))
-                .SetValueFormat(OptionFormat.Percent)
-                .SetHeader(true)
-                .SetGameMode(customGameMode) as IntegerOptionItem;
-
-            var countOption = IntegerOptionItem.Create(id + 1, "NumberOfLovers", new(2, 2, 1), 2, TabGroup.Addons, false).SetParent(spawnOption)
-                .SetHidden(true)
-                .SetGameMode(customGameMode);
-
-            CustomRoleSpawnChances.Add(role, spawnOption);
-            CustomRoleCounts.Add(role, countOption);
-        }
-        public static void SetupSingleRoleOptions(int id, TabGroup tab, CustomRoles role, int count, CustomGameMode customGameMode = CustomGameMode.Standard)
-        {
-            var spawnOption = IntegerOptionItem.Create(id, role.ToString(), new(0, 100, 10), 0, tab, false).SetColor(Utils.GetRoleColor(role))
-                .SetValueFormat(OptionFormat.Percent)
-                .SetHeader(true)
-                .SetGameMode(customGameMode) as IntegerOptionItem;
-            // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
-            var countOption = IntegerOptionItem.Create(id + 1, "Maximum", new(count, count, count), count, tab, false).SetParent(spawnOption)
-                .SetHidden(true)
                 .SetGameMode(customGameMode);
 
             CustomRoleSpawnChances.Add(role, spawnOption);
