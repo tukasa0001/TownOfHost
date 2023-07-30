@@ -11,15 +11,15 @@ class Penguin : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
         SimpleRoleInfo.Create(
-        typeof(Penguin),
-        player => new Penguin(player),
-        CustomRoles.Penguin,
-        () => RoleTypes.Shapeshifter,
-        CustomRoleTypes.Impostor,
+            typeof(Penguin),
+            player => new Penguin(player),
+            CustomRoles.Penguin,
+            () => RoleTypes.Shapeshifter,
+            CustomRoleTypes.Impostor,
             3400,
             SetupOptionItem,
             "pe"
-    );
+        );
     public Penguin(PlayerControl player)
         : base(RoleInfo, player)
     {
@@ -60,12 +60,15 @@ class Penguin : RoleBase, IImpostor
     {
         AbductVictim = target;
         AbductTimer = AbductTimerLimit;
-
+        Player.SyncSettings();
+        Player.RpcResetAbilityCooldown();
     }
     void RemoveVictim()
     {
         AbductVictim = null;
         AbductTimer = 255f;
+        Player.SyncSettings();
+        Player.RpcResetAbilityCooldown();
     }
     public void OnCheckMurderAsKiller(MurderInfo info)
     {
@@ -79,8 +82,6 @@ class Penguin : RoleBase, IImpostor
             info.DoKill = false;
             AddVictim(target);
         }
-        Player.SyncSettings();
-        Player.RpcResetAbilityCooldown();
     }
     public void OnMurderPlayerAsKiller(MurderInfo info)
     {
