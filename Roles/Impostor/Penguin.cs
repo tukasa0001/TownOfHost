@@ -131,6 +131,7 @@ class Penguin : RoleBase, IImpostor
     }
     public override void OnFixedUpdate(PlayerControl player)
     {
+        if (!AmongUsClient.Instance.AmHost) return;
         if (!GameStates.IsInTask) return;
 
         if (AbductVictim != null)
