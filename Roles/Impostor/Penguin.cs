@@ -134,11 +134,12 @@ class Penguin : RoleBase, IImpostor
         if (!AmongUsClient.Instance.AmHost) return;
         if (!GameStates.IsInTask) return;
 
+        if (!stopCount)
+            AbductTimer -= Time.fixedDeltaTime;
+
         if (AbductVictim != null)
         {
-            if (!stopCount)
-                AbductTimer -= Time.fixedDeltaTime;
-            if (!Player.IsAlive())
+            if (!Player.IsAlive() || !AbductVictim.IsAlive())
             {
                 RemoveVictim();
                 return;
@@ -152,11 +153,18 @@ class Penguin : RoleBase, IImpostor
             {
                 var position = Player.transform.position;
                 if (Player.PlayerId != 0)
+                {
                     RandomSpawn.TP(AbductVictim.NetTransform, position);
+                }
                 else
+                {
                     _ = new LateTask(() =>
-                    RandomSpawn.TP(AbductVictim.NetTransform, position)
+                    {
+                        if (AbductVictim != null)
+                            RandomSpawn.TP(AbductVictim.NetTransform, position);
+                    }
                     , 0.25f, "");
+                }
             }
         }
         else
