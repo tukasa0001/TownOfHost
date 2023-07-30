@@ -325,6 +325,20 @@ GMはゲーム自体には何の影響も与えず、すべてのプレイヤー
 | 停電時のメアーの加速値     |
 | 停電時のメアーのキルクール |
 
+### Penguin/ペンギン
+
+陣営 : インポスター<br>
+判定 : シェイプシフター<br>
+
+キルボタンで対象を引き摺りまわす。<br>
+タイマーが0になるかもう一度キルボタンを押すことで対象をキル可能。<br>
+
+#### 設定
+
+| 設定名            |
+| ----------------- |
+| 引き摺れる時間    |
+
 ### Puppeteer/パペッティア
 
 陣営 : インポスター<br>
@@ -1262,6 +1276,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 [ジェスター](#Jesterジェスター)(てるてる)と[マッドメイト](#Madmateマッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>
 [テロリスト](#Terroristテロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [恋人](#lovers恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
+[ペンギン](#Penguinペンギン)のアイデア元 : [Super New Roles](https://github.com/ykundesu/SuperNewRoles)
 中国語翻訳 : fivefirex、ZeMingOH233<br>
 オプションタブのアイコン製作者 : 花海<br>
 Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>
