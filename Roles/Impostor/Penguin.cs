@@ -144,7 +144,7 @@ class Penguin : RoleBase, IImpostor
             }
             if (AbductTimer <= 0f)
             {
-                Player.RpcMurderPlayerV2(AbductVictim);
+                Player.RpcMurderPlayer(AbductVictim);
                 RemoveVictim();
             }
             else
