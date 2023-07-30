@@ -3,20 +3,22 @@ using UnityEngine;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Impostor;
 
-class Penguin : RoleBase
+class Penguin : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
-    new(
+        SimpleRoleInfo.Create(
         typeof(Penguin),
         player => new Penguin(player),
         CustomRoles.Penguin,
         () => RoleTypes.Shapeshifter,
         CustomRoleTypes.Impostor,
-        3100,
-        SetupOptionItem
+            3400,
+            SetupOptionItem,
+            "pe"
     );
     public Penguin(PlayerControl player)
         : base(RoleInfo, player)
@@ -65,7 +67,7 @@ class Penguin : RoleBase
         AbductVictim = null;
         AbductTimer = 255f;
     }
-    public override void OnCheckMurderAsKiller(MurderInfo info)
+    public void OnCheckMurderAsKiller(MurderInfo info)
     {
         var target = info.AttemptTarget;
         if (AbductVictim != null)
@@ -80,7 +82,7 @@ class Penguin : RoleBase
         Player.SyncSettings();
         Player.RpcResetAbilityCooldown();
     }
-    public override void OnMurderPlayerAsKiller(MurderInfo info)
+    public void OnMurderPlayerAsKiller(MurderInfo info)
     {
         RemoveVictim();
     }
@@ -136,7 +138,7 @@ class Penguin : RoleBase
                 if (Player.PlayerId != 0)
                     RandomSpawn.TP(AbductVictim.NetTransform, position);
                 else
-                    new LateTask(() =>
+                    _ = new LateTask(() =>
                     RandomSpawn.TP(AbductVictim.NetTransform, position)
                     , 0.25f, "");
             }
