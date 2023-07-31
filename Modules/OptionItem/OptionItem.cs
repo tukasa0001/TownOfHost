@@ -179,7 +179,7 @@ namespace TownOfHost
                 opt.oldValue = opt.Value = CurrentValue;
             }
         }
-        public virtual void SetValue(int afterValue, bool doSync = true)
+        public void SetValue(int afterValue, bool doSave, bool doSync = true)
         {
             int beforeValue = CurrentValue;
             if (IsSingleValue)
@@ -197,7 +197,14 @@ namespace TownOfHost
             {
                 SyncAllOptions();
             }
+            if (doSave)
+            {
             OptionSaver.Save();
+        }
+        }
+        public virtual void SetValue(int afterValue, bool doSync = true)
+        {
+            SetValue(afterValue, true, doSync);
         }
         public void SetAllValues(int[] values)  // プリセット読み込み専用
         {

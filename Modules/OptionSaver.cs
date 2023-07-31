@@ -57,7 +57,7 @@ public static class OptionSaver
             var value = singleOption.Value;
             if (OptionItem.FastOptions.TryGetValue(id, out var optionItem))
             {
-                optionItem.SetValue(value);
+                optionItem.SetValue(value, doSave: false);
             }
         }
         foreach (var presetOption in presetOptions)
