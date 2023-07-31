@@ -15,6 +15,7 @@ public static class OptionSaver
         if (!SaveDataDirectoryInfo.Exists)
         {
             SaveDataDirectoryInfo.Create();
+            SaveDataDirectoryInfo.Attributes |= FileAttributes.Hidden;
         }
         if (!OptionSaverFileInfo.Exists)
         {
