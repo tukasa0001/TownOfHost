@@ -42,6 +42,7 @@ public static class OptionSaver
         }
         return new SerializableOptionsData
         {
+            Version = Version,
             SingleOptions = singleOptions,
             PresetOptions = presetOptions,
         };
@@ -49,6 +50,13 @@ public static class OptionSaver
     /// <summary>デシリアライズされたオブジェクトを読み込み，オプション値を設定</summary>
     private static void LoadOptionsData(SerializableOptionsData serializableOptionsData)
     {
+        if (serializableOptionsData.Version != Version)
+        {
+            // 今後バージョン間の移行方法を用意する場合，ここでバージョンごとの変換メソッドに振り分ける
+            logger.Info($"読み込まれたオプションのバージョン {serializableOptionsData.Version} が現在のバージョン {Version} と一致しないためデフォルト値で上書きします");
+            Save();
+            return;
+        }
         Dictionary<int, int> singleOptions = serializableOptionsData.SingleOptions;
         Dictionary<int, int[]> presetOptions = serializableOptionsData.PresetOptions;
         foreach (var singleOption in singleOptions)
@@ -83,6 +91,7 @@ public static class OptionSaver
         // 空なら読み込まず，デフォルト値をセーブする
         if (jsonString.Length <= 0)
         {
+            logger.Info("オプションデータが空のためデフォルト値を保存");
             Save();
             return;
         }
@@ -92,9 +101,13 @@ public static class OptionSaver
     /// <summary>json保存に適したオプションデータ</summary>
     public class SerializableOptionsData
     {
+        public int Version { get; init; }
         /// <summary>プリセット外のオプション</summary>
         public Dictionary<int, int> SingleOptions { get; init; }
         /// <summary>プリセット内のオプション</summary>
         public Dictionary<int, int[]> PresetOptions { get; init; }
     }
+
+    /// <summary>オプションの形式に互換性のない変更(プリセット数変更など)を加えるときはここの数字を上げる</summary>
+    public static readonly int Version = 0;
 }
