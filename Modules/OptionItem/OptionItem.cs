@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BepInEx.Configuration;
 using TownOfHost.Modules;
 using UnityEngine;
 
@@ -48,13 +47,11 @@ namespace TownOfHost
             get => GetValue();
             set => SetValue(value);
         }
+        public int SingleValue { get; private set; }
 
         // 親子情報
         public OptionItem Parent { get; private set; }
         public List<OptionItem> Children;
-
-        // 内部情報 (外部から参照することを想定していない情報)
-        private ConfigEntry<int> singleEntry;
 
         public OptionBehaviour OptionBehaviour;
 
@@ -84,17 +81,16 @@ namespace TownOfHost
             // オブジェクト初期化
             Children = new();
 
-            // ConfigEntry初期化
+            // デフォルト値に設定
             if (Id == 0)
             {
-                singleEntry = Main.Instance.Config.Bind("Current Preset", id.ToString(), DefaultValue);
-                CurrentPreset = singleEntry.Value;
+                SingleValue = DefaultValue;
+                CurrentPreset = SingleValue;
             }
             else if (IsSingleValue)
             {
-                singleEntry = Main.Instance.Config.Bind("SingleEntryOptions", id.ToString(), DefaultValue);
+                SingleValue = DefaultValue;
             }
-            // デフォルト値に設定
             else
             {
                 for (int i = 0; i < NumPresets; i++)
@@ -159,7 +155,7 @@ namespace TownOfHost
         {
             return ApplyFormat(CurrentValue.ToString());
         }
-        public virtual int GetValue() => IsSingleValue ? singleEntry.Value : AllValues[CurrentPreset];
+        public virtual int GetValue() => IsSingleValue ? SingleValue : AllValues[CurrentPreset];
 
         // 旧IsHidden関数
         public virtual bool IsHiddenOn(CustomGameMode mode)
@@ -188,7 +184,7 @@ namespace TownOfHost
             int beforeValue = CurrentValue;
             if (IsSingleValue)
             {
-                singleEntry.Value = afterValue;
+                SingleValue = afterValue;
             }
             else
             {
@@ -201,11 +197,7 @@ namespace TownOfHost
             {
                 SyncAllOptions();
             }
-            // OptionSaverはプリセット外未対応
-            if (!IsSingleValue)
-            {
-                OptionSaver.Save();
-            }
+            OptionSaver.Save();
         }
         public void SetAllValues(int[] values)  // プリセット読み込み専用
         {
