@@ -109,7 +109,7 @@ namespace TownOfHost.Roles.Impostor
             string mark = killCount >= killCountToSeeMadmates ? "★" : $"({killCount}/{killCountToSeeMadmates})";
             return Utils.ColorString(Palette.ImpostorRed.ShadeColor(0.5f), mark);
         }
-        public override string GetMark(PlayerControl seer, PlayerControl seen, bool _ = false)
+        public override string GetMark(PlayerControl seer, PlayerControl seen, bool isForMeeting = false)
         {
             //seenが省略の場合seer
             seen ??= seer;
@@ -124,7 +124,7 @@ namespace TownOfHost.Roles.Impostor
                 foreach (var impostor in Main.AllPlayerControls)
                 {
                     if (seer == impostor || !impostor.Is(CustomRoleTypes.Impostor)) continue;
-                    mark.Append(impostor.GetRoleClass()?.GetMark(impostor, seen, true));
+                    mark.Append(impostor.GetRoleClass()?.GetMark(impostor, seen, isForMeeting));
                 }
             }
             return mark.ToString();
