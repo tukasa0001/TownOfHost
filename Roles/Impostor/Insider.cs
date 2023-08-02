@@ -123,7 +123,7 @@ namespace TownOfHost.Roles.Impostor
             {
                 foreach (var impostor in Main.AllPlayerControls)
                 {
-                    if (seer == impostor || !impostor.Is(CustomRoleTypes.Impostor)) continue;
+                    if (seer == impostor || impostor.Is(CustomRoles.Insider) || !impostor.Is(CustomRoleTypes.Impostor)) continue;
                     mark.Append(impostor.GetRoleClass()?.GetMark(impostor, seen, isForMeeting));
                 }
             }
