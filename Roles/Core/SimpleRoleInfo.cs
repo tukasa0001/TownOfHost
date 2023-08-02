@@ -1,5 +1,5 @@
-using System.Linq;
 using System;
+using System.Linq;
 using UnityEngine;
 using AmongUs.GameOptions;
 
