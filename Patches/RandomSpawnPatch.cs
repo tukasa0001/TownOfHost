@@ -6,6 +6,7 @@ using Hazel;
 using UnityEngine;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Impostor;
 
 namespace TownOfHost
 {
@@ -34,6 +35,11 @@ namespace TownOfHost
                     if (NumOfTP[player.PlayerId] == 2)
                     {
                         if (Main.NormalOptions.MapId != 4) return; //マップがエアシップじゃなかったらreturn
+                        if (player.Is(CustomRoles.Penguin))
+                        {
+                            var penguin = player.GetRoleClass() as Penguin;
+                            penguin?.OnSpawnAirship();
+                        }
                         player.RpcResetAbilityCooldown();
                         if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
                         if (!Options.RandomSpawn.GetBool()) return; //ランダムスポーンが無効ならreturn

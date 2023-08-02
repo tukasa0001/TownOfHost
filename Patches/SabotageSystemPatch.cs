@@ -33,6 +33,36 @@ namespace TownOfHost
                     __instance.Countdown = Options.AirshipReactorTimeLimit.GetFloat();
         }
     }
+    [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
+    public static class SwitchSystemRepairDamagePatch
+    {
+        public static bool Prefix(SwitchSystem __instance, [HarmonyArgument(1)] byte amount)
+        {
+            if (!AmongUsClient.Instance.AmHost)
+            {
+                return true;
+            }
+
+            // サボタージュによる破壊ではない && 配電盤を下げられなくするオプションがオン
+            if (!amount.HasBit(SwitchSystem.DamageSystem) && Options.BlockDisturbancesToSwitches.GetBool())
+            {
+                // amount分だけ1を左にずらす
+                // 各桁が各ツマミに対応する
+                // 一番左のツマミが操作されたら(amount: 0) 00001
+                // 一番右のツマミが操作されたら(amount: 4) 10000
+                // ref: SwitchSystem.RepairDamage, SwitchMinigame.FixedUpdate
+                var switchedKnob = (byte)(0b_00001 << amount);
+                // ExpectedSwitches: すべてONになっているときのスイッチの上下状態
+                // ActualSwitches: 実際のスイッチの上下状態
+                // 操作されたツマミについて，ExpectedとActualで同じならそのツマミは既に直ってる
+                if ((__instance.ActualSwitches & switchedKnob) == (__instance.ExpectedSwitches & switchedKnob))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
     [HarmonyPatch(typeof(ElectricTask), nameof(ElectricTask.Initialize))]
     public static class ElectricTaskInitializePatch
     {
