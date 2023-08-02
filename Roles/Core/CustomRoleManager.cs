@@ -379,6 +379,7 @@ public enum CustomRoles
     EvilTracker,
     NekoKabocha,
     EvilHacker,
+    Insider,
     //Madmate
     MadGuardian,
     Madmate,
