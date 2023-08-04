@@ -78,6 +78,7 @@ class Penguin : RoleBase, IImpostor
     }
     void AddVictim(PlayerControl target)
     {
+        PlayerState.GetByPlayerId(target.PlayerId).CanUseMovingPlatform = MyState.CanUseMovingPlatform = false;
         AbductVictim = target;
         AbductTimer = AbductTimerLimit;
         Player.SyncSettings();
@@ -86,7 +87,12 @@ class Penguin : RoleBase, IImpostor
     }
     void RemoveVictim()
     {
-        AbductVictim = null;
+        if (AbductVictim != null)
+        {
+            PlayerState.GetByPlayerId(AbductVictim.PlayerId).CanUseMovingPlatform = true;
+            AbductVictim = null;
+        }
+        MyState.CanUseMovingPlatform = true;
         AbductTimer = 255f;
         Player.SyncSettings();
         Player.RpcResetAbilityCooldown();
