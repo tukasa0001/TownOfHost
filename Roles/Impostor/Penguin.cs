@@ -131,6 +131,14 @@ class Penguin : RoleBase, IImpostor
     {
         return AbductVictim != null;
     }
+    public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    {
+        // 時間切れ状態で会議を迎えたらはしご中でも構わずキルする
+        if (AbductVictim != null && AbductTimer <= 0f)
+        {
+            Player.RpcMurderPlayer(AbductVictim);
+        }
+    }
     public override void OnStartMeeting()
     {
         stopCount = true;
@@ -170,12 +178,43 @@ class Penguin : RoleBase, IImpostor
                 RemoveVictim();
                 return;
             }
-            if (AbductTimer <= 0f)
+            if (AbductTimer <= 0f && !Player.MyPhysics.Animations.IsPlayingAnyLadderAnimation())
             {
-                Player.RpcMurderPlayer(AbductVictim);
-                RemoveVictim();
+                // 先にIsDeadをtrueにする(はしごチェイス封じ)
+                AbductVictim.Data.IsDead = true;
+                GameData.Instance.SetDirty();
+                // ペンギン自身がはしご上にいる場合，はしごを降りてからキルする
+                if (!AbductVictim.MyPhysics.Animations.IsPlayingAnyLadderAnimation())
+                {
+                    var abductVictim = AbductVictim;
+                    _ = new LateTask(() =>
+                    {
+                        var sId = abductVictim.NetTransform.lastSequenceId + 5;
+                        abductVictim.NetTransform.SnapTo(Player.transform.position, (ushort)sId);
+                        Player.MurderPlayer(abductVictim);
+
+                        var sender = CustomRpcSender.Create("PenguinMurder");
+                        {
+                            sender.AutoStartRpc(abductVictim.NetTransform.NetId, (byte)RpcCalls.SnapTo);
+                            {
+                                NetHelpers.WriteVector2(Player.transform.position, sender.stream);
+                                sender.Write(abductVictim.NetTransform.lastSequenceId);
+                            }
+                            sender.EndRpc();
+                            sender.AutoStartRpc(Player.NetId, (byte)RpcCalls.MurderPlayer);
+                            {
+                                sender.WriteNetObject(abductVictim);
+                            }
+                            sender.EndRpc();
+                        }
+                        sender.SendMessage();
+                    }, 0.3f, "PenguinMurder");
+                    RemoveVictim();
+                }
             }
+            // はしごの上にいるプレイヤーにはSnapToRPCが効かずホストだけ挙動が変わるため，一律でテレポートを行わない
             else
+                if (!AbductVictim.MyPhysics.Animations.IsPlayingAnyLadderAnimation())
             {
                 var position = Player.transform.position;
                 if (Player.PlayerId != 0)
