@@ -111,10 +111,6 @@ class Penguin : RoleBase, IImpostor
             AddVictim(target);
         }
     }
-    public void OnMurderPlayerAsKiller(MurderInfo info)
-    {
-        RemoveVictim();
-    }
     public bool OverrideKillButtonText(out string text)
     {
         if (AbductVictim != null)
