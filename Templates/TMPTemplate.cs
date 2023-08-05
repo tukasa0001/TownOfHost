@@ -14,8 +14,10 @@ public sealed class TMPTemplate
         Object.Destroy(baseTMP.GetComponent<AspectPosition>());
         Object.DontDestroyOnLoad(baseTMP);
         baseTMP.gameObject.SetActive(false);
+        baseTMP.gameObject.name = "TMPTemplateBase";
     }
     public static TextMeshPro Create(
+        string name,
         string text = null,
         Color? color = null,
         float? fontSize = null,
@@ -35,6 +37,7 @@ public sealed class TMPTemplate
         replicatedObject.alignment = alignment ?? TextAlignmentOptions.Center;
 
         replicatedObject.gameObject.SetActive(setActive);
+        replicatedObject.gameObject.name = name;
 
         return replicatedObject;
     }
