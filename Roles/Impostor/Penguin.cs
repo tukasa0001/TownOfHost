@@ -213,8 +213,7 @@ class Penguin : RoleBase, IImpostor
                 }
             }
             // はしごの上にいるプレイヤーにはSnapToRPCが効かずホストだけ挙動が変わるため，一律でテレポートを行わない
-            else
-                if (!AbductVictim.MyPhysics.Animations.IsPlayingAnyLadderAnimation())
+            else if (!AbductVictim.MyPhysics.Animations.IsPlayingAnyLadderAnimation())
             {
                 var position = Player.transform.position;
                 if (Player.PlayerId != 0)
@@ -232,8 +231,7 @@ class Penguin : RoleBase, IImpostor
                 }
             }
         }
-        else
-            if (AbductTimer <= 100f)
+        else if (AbductTimer <= 100f)
         {
             AbductTimer = 255f;
             Player.RpcResetAbilityCooldown();
