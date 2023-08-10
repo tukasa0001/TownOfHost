@@ -42,6 +42,9 @@ class Penguin : RoleBase, IImpostor
     private float AbductTimer;
     private float AbductTimerLimit;
     private bool stopCount;
+
+    //拉致中にキルしそうになった相手の能力を使わせないための処置
+    public bool IsKiller => AbductVictim == null;
     public static void SetupOptionItem()
     {
         OptionAbductTimerLimit = FloatOptionItem.Create(RoleInfo, 11, OptionName.PenguinAbductTimerLimit, new(5f, 20f, 1f), 10f, false)
@@ -97,6 +100,13 @@ class Penguin : RoleBase, IImpostor
         var target = info.AttemptTarget;
         if (AbductVictim != null)
         {
+            if (target != AbductVictim)
+            {
+                //拉致中は拉致相手しか切れない
+                Player.RpcMurderPlayer(AbductVictim);
+                Player.ResetKillCooldown();
+                info.DoKill = false;
+            }
             RemoveVictim();
         }
         else
