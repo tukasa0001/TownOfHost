@@ -26,6 +26,7 @@ public sealed class Lighter : RoleBase
         TaskCompletedDisableLightOut = OptionTaskCompletedDisableLightOut.GetBool();
         TaskTrigger = OptionLighterTaskTrigger.GetInt();
         CurrentVision = Main.DefaultCrewmateVision;
+        GetTriggerType = (TriggerType)OptionLighterTriggerType.GetValue();
     }
     /// <summary>最大視野</summary>
     private static OptionItem OptionMaxVision;
@@ -49,10 +50,7 @@ public sealed class Lighter : RoleBase
         TaskCount//一定数のタスク達成
     }
 
-    public static TriggerType GetTriggerType()
-    {
-        return (TriggerType)OptionLighterTriggerType.GetValue();
-    }
+    public static TriggerType GetTriggerType;
 
     private static float MaxVision;
     private static bool TaskCompletedDisableLightOut;
@@ -76,7 +74,7 @@ public sealed class Lighter : RoleBase
         //割り当てタスク数よりタスクトリガー数が大きい場合
         if (MyTaskState.AllTasksCount < TaskTrigger) TaskTrigger = MyTaskState.AllTasksCount;
         //一定タスク数を下回っている or タスク完了していない
-        if (GetTriggerType() == TriggerType.TaskCount && (MyTaskState.CompletedTasksCount < TaskTrigger)) return;
+        if (GetTriggerType == TriggerType.TaskCount && (MyTaskState.CompletedTasksCount < TaskTrigger)) return;
         Logger.Info("ApplyGameOptions", "Lighter");
         var crewLightMod = FloatOptionNames.CrewLightMod;
         opt.SetFloat(crewLightMod, CurrentVision);
@@ -88,13 +86,13 @@ public sealed class Lighter : RoleBase
     public override bool OnCompleteTask()
     {
         if (Player.IsAlive() == false || MyTaskState.CompletedTasksCount == 0) return true;//死んでる or タスク数0
-        if (GetTriggerType() == TriggerType.TaskCount && MyTaskState.CompletedTasksCount != TaskTrigger) return true;
+        if (GetTriggerType == TriggerType.TaskCount && MyTaskState.CompletedTasksCount != TaskTrigger) return true;
         Logger.Info("Ability activation condition", "Lighter");
-        if (GetTriggerType() == TriggerType.TaskCount && MyTaskState.CompletedTasksCount == TaskTrigger)
+        if (GetTriggerType == TriggerType.TaskCount && MyTaskState.CompletedTasksCount == TaskTrigger)
         {
             CurrentVision = MaxVision;
         }
-        if (GetTriggerType() == TriggerType.TaskProgressRate)
+        if (GetTriggerType == TriggerType.TaskProgressRate)
         {
             //進捗率(%) = 完了タスク数 / 全タスク数   例:1/4 = 0.25=> 0.25*100 =>25%
             int progressRate = MyTaskState.CompletedTasksCount * 100 / MyTaskState.AllTasksCount;
