@@ -18,7 +18,9 @@ namespace TownOfHost.Roles.Neutral
                 SetupOptionItem,
                 "jac",
                 "#00b4eb",
-                countType: CountTypes.Jackal
+                true,
+                countType: CountTypes.Jackal,
+                assignCountRule: new(1, 1, 1)
             );
         public Jackal(PlayerControl player)
         : base(

@@ -373,9 +373,13 @@ public enum CustomRoles
     Witch,
     Warlock,
     Mare,
+    Penguin,
     Puppeteer,
     TimeThief,
     EvilTracker,
+    NekoKabocha,
+    EvilHacker,
+    Insider,
     //Madmate
     MadGuardian,
     Madmate,
