@@ -377,6 +377,7 @@ public enum CustomRoles
     Puppeteer,
     TimeThief,
     EvilTracker,
+    Stealth,
     NekoKabocha,
     EvilHacker,
     Insider,
