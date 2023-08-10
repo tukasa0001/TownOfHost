@@ -75,7 +75,7 @@ public sealed class Lighter : RoleBase
         Logger.Info("ApplyGameOptions Trigger", "Lighter");
         var crewLightMod = FloatOptionNames.CrewLightMod;
         opt.SetFloat(crewLightMod, CurrentVision);
-        if (TaskCompletedDisableLightOut && Utils.IsActive(SystemTypes.Electrical))
+        if (TaskCompletedDisableLightOut && Utils.IsActive(SystemTypes.Electrical) && MyTaskState.IsTaskFinished)
         {
             opt.SetFloat(crewLightMod, CurrentVision * 5);
         }
