@@ -55,7 +55,7 @@ public sealed class Lighter : RoleBase
     private static float MaxVision;
     private static bool TaskCompletedDisableLightOut;
     private static int TaskTrigger;
-    private static float CurrentVision;
+    private float CurrentVision;
 
     private static void SetupOptionItem()
     {
@@ -108,7 +108,7 @@ public sealed class Lighter : RoleBase
     }
 
     ///Lighter以外から視野を変更する場合は以下メソッドを使用すること
-    public static void AddCurrentVision(float addVision)
+    public void AddCurrentVision(float addVision)
     {
         CurrentVision += addVision;
     }
