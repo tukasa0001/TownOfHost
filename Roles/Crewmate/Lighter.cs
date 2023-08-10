@@ -69,7 +69,7 @@ public sealed class Lighter : RoleBase
 
     public override void ApplyGameOptions(IGameOptions opt)
     {
-        if (Player.IsAlive() == false || MyTaskState.CompletedTasksCount == 0) return;//死んでる or タスク数0
+        if (!Player.IsAlive() || MyTaskState.CompletedTasksCount == 0) return;//死んでる or タスク数0
 
         //割り当てタスク数よりタスクトリガー数が大きい場合
         if (MyTaskState.AllTasksCount < TaskTrigger) TaskTrigger = MyTaskState.AllTasksCount;
@@ -85,7 +85,7 @@ public sealed class Lighter : RoleBase
     }
     public override bool OnCompleteTask()
     {
-        if (Player.IsAlive() == false || MyTaskState.CompletedTasksCount == 0) return true;//死んでる or タスク数0
+        if (!Player.IsAlive() || MyTaskState.CompletedTasksCount == 0) return true;//死んでる or タスク数0
         if (GetTriggerType == TriggerType.TaskCount && MyTaskState.CompletedTasksCount != TaskTrigger) return true;
         Logger.Info("Ability activation condition", "Lighter");
         if (GetTriggerType == TriggerType.TaskCount && MyTaskState.CompletedTasksCount == TaskTrigger)
