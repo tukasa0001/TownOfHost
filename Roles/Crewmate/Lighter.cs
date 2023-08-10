@@ -27,13 +27,13 @@ public sealed class Lighter : RoleBase
         TaskTrigger = OptionLighterTaskTrigger.GetInt();
         CurrentVision = Main.DefaultCrewmateVision;
     }
-    //最大視野
+    /// <summary>最大視野</summary>
     private static OptionItem OptionMaxVision;
-    //タスク完了時に停電の影響を受けなくする
+    /// <summary>タスク完了時に停電の影響を受けなくする</summary>
     private static OptionItem OptionTaskCompletedDisableLightOut;
-    //効果発揮のタイプを変更する [タスク進捗率,一定数のタスク達成]
+    /// <summary>効果発揮のタイプを変更する [タスク進捗率,一定数のタスク達成]</summary>
     private static OptionItem OptionLighterTriggerType;
-    //能力発動タスク数  TriggerType[一定数のタスク達成]選択時のみ有効
+    /// <summary>能力発動タスク数  TriggerType[一定数のタスク達成]選択時のみ有効</summary>
     private static OptionItem OptionLighterTaskTrigger;
     enum OptionName
     {
