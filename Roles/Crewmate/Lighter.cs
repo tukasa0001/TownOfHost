@@ -70,12 +70,9 @@ public sealed class Lighter : RoleBase
     public override void ApplyGameOptions(IGameOptions opt)
     {
         if (!Player.IsAlive() || MyTaskState.CompletedTasksCount == 0) return;//死んでる or タスク数0
-
-        //割り当てタスク数よりタスクトリガー数が大きい場合
-        if (MyTaskState.AllTasksCount < TaskTrigger) TaskTrigger = MyTaskState.AllTasksCount;
-        //一定タスク数を下回っている or タスク完了していない
-        if (GetTriggerType == TriggerType.TaskCount && (MyTaskState.CompletedTasksCount < TaskTrigger)) return;
-        Logger.Info("ApplyGameOptions", "Lighter");
+        //タスクトリガーの場合 トリガータスク数を下回っている or タスク完了していない
+        if (GetTriggerType == TriggerType.TaskCount && !(MyTaskState.CompletedTasksCount >= TaskTrigger || MyTaskState.IsTaskFinished)) return;
+        Logger.Info("ApplyGameOptions Trigger", "Lighter");
         var crewLightMod = FloatOptionNames.CrewLightMod;
         opt.SetFloat(crewLightMod, CurrentVision);
         if (TaskCompletedDisableLightOut && Utils.IsActive(SystemTypes.Electrical))
