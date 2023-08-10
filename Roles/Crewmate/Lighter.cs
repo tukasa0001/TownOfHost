@@ -42,16 +42,12 @@ public sealed class Lighter : RoleBase
         LighterTriggerType,
         LighterTaskTrigger
     }
-
+    /// <summary>効果を発揮するタイプ</summary>
     public enum TriggerType
     {
         TaskProgressRate,//タスク進捗率
         TaskCount//一定数のタスク達成
     }
-    public static readonly string[] TriggerTypes =
-        {
-            "TaskProgressRate", "TaskCount",
-        };
 
     public static TriggerType GetTriggerType()
     {
@@ -68,7 +64,7 @@ public sealed class Lighter : RoleBase
         OptionMaxVision = FloatOptionItem.Create(RoleInfo, 10, OptionName.LighterMaxVision, new(0f, 3f, 0.1f), 1f, false)
             .SetValueFormat(OptionFormat.Multiplier);
         OptionTaskCompletedDisableLightOut = BooleanOptionItem.Create(RoleInfo, 11, OptionName.LighterTaskCompletedDisableLightOut, true, false);
-        OptionLighterTriggerType = StringOptionItem.Create(RoleInfo, 12, OptionName.LighterTriggerType, TriggerTypes, 0, false);
+        OptionLighterTriggerType = StringOptionItem.Create(RoleInfo, 12, OptionName.LighterTriggerType, EnumHelper.GetAllNames<TriggerType>(), 0, false);
         OptionLighterTaskTrigger = IntegerOptionItem.Create(RoleInfo, 13, OptionName.LighterTaskTrigger, new(1, 99, 1), 5, false)
             .SetParent(OptionLighterTriggerType);
     }
