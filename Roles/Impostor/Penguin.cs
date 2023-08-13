@@ -25,6 +25,7 @@ class Penguin : RoleBase, IImpostor
         : base(RoleInfo, player)
     {
         AbductTimerLimit = OptionAbductTimerLimit.GetFloat();
+        MeetingKill = OptionMeetingKill.GetBool();
     }
     public override void OnDestroy()
     {
@@ -32,16 +33,19 @@ class Penguin : RoleBase, IImpostor
     }
 
     static OptionItem OptionAbductTimerLimit;
+    static OptionItem OptionMeetingKill;
 
     enum OptionName
     {
         PenguinAbductTimerLimit,
+        PenguinMeetingKill,
     }
 
     private PlayerControl AbductVictim;
     private float AbductTimer;
     private float AbductTimerLimit;
     private bool stopCount;
+    private bool MeetingKill;
 
     //拉致中にキルしそうになった相手の能力を使わせないための処置
     public bool IsKiller => AbductVictim == null;
@@ -49,6 +53,7 @@ class Penguin : RoleBase, IImpostor
     {
         OptionAbductTimerLimit = FloatOptionItem.Create(RoleInfo, 11, OptionName.PenguinAbductTimerLimit, new(5f, 20f, 1f), 10f, false)
             .SetValueFormat(OptionFormat.Seconds);
+        OptionMeetingKill = BooleanOptionItem.Create(RoleInfo, 12, OptionName.PenguinMeetingKill, false, false);
     }
     public override void Add()
     {
@@ -142,6 +147,13 @@ class Penguin : RoleBase, IImpostor
     public override void OnStartMeeting()
     {
         stopCount = true;
+        if (MeetingKill)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (AbductVictim == null) return;
+            Player.RpcMurderPlayer(AbductVictim);
+            RemoveVictim();
+        }
     }
     public override void AfterMeetingTasks()
     {
