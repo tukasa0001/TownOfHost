@@ -280,6 +280,8 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     public static void CheckWin()
     {
         if (!AmongUsClient.Instance.AmHost) return;
+        //だれかの勝利処理中なら無効
+        if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return;
 
         bool comprete = Main.AllAlivePlayerControls.All(p => p.Is(CustomRoles.PlagueDoctor) || IsInfected(p.PlayerId));
 
