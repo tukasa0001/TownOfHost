@@ -34,6 +34,7 @@ namespace TownOfHost
         StealthDarken,
         EvilHackerCreateMurderNotify,
         PenguinSync,
+        MareSync,
     }
     public enum Sounds
     {
