@@ -81,6 +81,7 @@ class Penguin : RoleBase, IImpostor
     }
     void AddVictim(PlayerControl target)
     {
+        PlayerState.GetByPlayerId(target.PlayerId).CanUseMovingPlatform = MyState.CanUseMovingPlatform = false;
         AbductVictim = target;
         AbductTimer = AbductTimerLimit;
         Player.SyncSettings();
@@ -89,7 +90,12 @@ class Penguin : RoleBase, IImpostor
     }
     void RemoveVictim()
     {
-        AbductVictim = null;
+        if (AbductVictim != null)
+        {
+            PlayerState.GetByPlayerId(AbductVictim.PlayerId).CanUseMovingPlatform = true;
+            AbductVictim = null;
+        }
+        MyState.CanUseMovingPlatform = true;
         AbductTimer = 255f;
         Player.SyncSettings();
         Player.RpcResetAbilityCooldown();
@@ -115,10 +121,6 @@ class Penguin : RoleBase, IImpostor
             AddVictim(target);
         }
     }
-    public void OnMurderPlayerAsKiller(MurderInfo info)
-    {
-        RemoveVictim();
-    }
     public bool OverrideKillButtonText(out string text)
     {
         if (AbductVictim != null)
@@ -138,6 +140,14 @@ class Penguin : RoleBase, IImpostor
     public override bool CanUseAbilityButton()
     {
         return AbductVictim != null;
+    }
+    public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    {
+        // 時間切れ状態で会議を迎えたらはしご中でも構わずキルする
+        if (AbductVictim != null && AbductTimer <= 0f)
+        {
+            Player.RpcMurderPlayer(AbductVictim);
+        }
     }
     public override void OnStartMeeting()
     {
@@ -178,12 +188,42 @@ class Penguin : RoleBase, IImpostor
                 RemoveVictim();
                 return;
             }
-            if (AbductTimer <= 0f)
+            if (AbductTimer <= 0f && !Player.MyPhysics.Animations.IsPlayingAnyLadderAnimation())
             {
-                Player.RpcMurderPlayer(AbductVictim);
-                RemoveVictim();
+                // 先にIsDeadをtrueにする(はしごチェイス封じ)
+                AbductVictim.Data.IsDead = true;
+                GameData.Instance.SetDirty();
+                // ペンギン自身がはしご上にいる場合，はしごを降りてからキルする
+                if (!AbductVictim.MyPhysics.Animations.IsPlayingAnyLadderAnimation())
+                {
+                    var abductVictim = AbductVictim;
+                    _ = new LateTask(() =>
+                    {
+                        var sId = abductVictim.NetTransform.lastSequenceId + 5;
+                        abductVictim.NetTransform.SnapTo(Player.transform.position, (ushort)sId);
+                        Player.MurderPlayer(abductVictim);
+
+                        var sender = CustomRpcSender.Create("PenguinMurder");
+                        {
+                            sender.AutoStartRpc(abductVictim.NetTransform.NetId, (byte)RpcCalls.SnapTo);
+                            {
+                                NetHelpers.WriteVector2(Player.transform.position, sender.stream);
+                                sender.Write(abductVictim.NetTransform.lastSequenceId);
+                            }
+                            sender.EndRpc();
+                            sender.AutoStartRpc(Player.NetId, (byte)RpcCalls.MurderPlayer);
+                            {
+                                sender.WriteNetObject(abductVictim);
+                            }
+                            sender.EndRpc();
+                        }
+                        sender.SendMessage();
+                    }, 0.3f, "PenguinMurder");
+                    RemoveVictim();
+                }
             }
-            else
+            // はしごの上にいるプレイヤーにはSnapToRPCが効かずホストだけ挙動が変わるため，一律でテレポートを行わない
+            else if (!AbductVictim.MyPhysics.Animations.IsPlayingAnyLadderAnimation())
             {
                 var position = Player.transform.position;
                 if (Player.PlayerId != 0)
@@ -201,8 +241,7 @@ class Penguin : RoleBase, IImpostor
                 }
             }
         }
-        else
-            if (AbductTimer <= 100f)
+        else if (AbductTimer <= 100f)
         {
             AbductTimer = 255f;
             Player.RpcResetAbilityCooldown();
