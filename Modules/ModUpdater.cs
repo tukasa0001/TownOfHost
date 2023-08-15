@@ -177,7 +177,11 @@ namespace TownOfHost
                     button.gameObject.SetActive(showButton);
                     button.GetComponentInChildren<TextTranslatorTMP>().TargetText = StringNames.QuitLabel;
                     button.GetComponent<PassiveButton>().OnClick = new();
-                    button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.Quit()));
+                    button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() =>
+                    {
+                        Application.OpenURL("https://github.com/tukasa0001/TownOfHost/releases/latest");
+                        Application.Quit();
+                    }));
                 }
             }
         }

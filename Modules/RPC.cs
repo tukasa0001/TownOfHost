@@ -32,8 +32,10 @@ namespace TownOfHost
         SetRealKiller,
         SyncPuppet,
         SetSchrodingerCatTeam,
+        StealthDarken,
         EvilHackerCreateMurderNotify,
         PenguinSync,
+        MareSync,
     }
     public enum Sounds
     {
