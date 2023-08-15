@@ -190,7 +190,7 @@ public sealed class Sheriff : RoleBase, IKiller, ISchrodingerCatOwner
             {
                 SchrodingerCat.TeamType.Mad => KillTargetOptions.TryGetValue(CustomRoles.Madmate, out var option) && option.GetBool(),
                 SchrodingerCat.TeamType.Crew => false,
-                _ => SchrodingerCatKillTargetOptions.TryGetValue(schrodingerCat.Team, out var option) && option.GetBool(),
+                _ => CanKillNeutrals.GetValue() == 0 || (SchrodingerCatKillTargetOptions.TryGetValue(schrodingerCat.Team, out var option) && option.GetBool()),
             };
         }
 
