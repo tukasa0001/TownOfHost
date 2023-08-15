@@ -1172,6 +1172,17 @@ The time limit for some sabotage can be modified.
 | ┣ Polus Reactor TimeLimit   |
 | ┗ Airship Reactor TimeLimit |
 
+## Fix Lights Special Settings
+
+Additional options for lights outs.
+
+| Name                                       |                                       |
+| ------------------------------------------ | ------------------------------------- |
+| Disable Viewing Deck Lights Panel(Airship) |                                       |
+| Disable Gap Room Lights Panel(Airship)     |                                       |
+| Disable Cargo Lights Panel(Airship)        |                                       |
+| Block Disturbances To Switches             | Make switches unable to be turned off |
+
 ## Map Modifications
 
 ### AirShip Variable Electrical
