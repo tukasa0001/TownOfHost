@@ -569,11 +569,8 @@ namespace TownOfHost
             {
                 ret = roleClass.OnCompleteTask();
             }
-            else
-            {
-                ret = Workhorse.OnCompleteTask(pc);
-                var isTaskFinish = taskState.IsTaskFinished;
-            }
+            //属性クラスの扱いを決定するまで仮置き
+            ret &= Workhorse.OnCompleteTask(pc);
             Utils.NotifyRoles();
             return ret;
         }

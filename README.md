@@ -416,6 +416,20 @@ GMはゲーム自体には何の影響も与えず、すべてのプレイヤー
 | マッドメイトを道連れにする       |
 | 追放された時に誰かを道連れにする |
 
+### Penguin/ペンギン
+
+陣営 : インポスター<br>
+判定 : シェイプシフター<br>
+
+キルボタンで対象を引き摺りまわします。<br>
+タイマーが0になるかもう一度キルボタンを押すことで対象をキル可能です。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 引き摺れる時間 |
+
 ### Puppeteer/パペッティア
 
 陣営 : インポスター<br>
@@ -1354,6 +1368,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 [テロリスト](#terroristテロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [恋人](#lovers恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 [イビルハッカー](#evilhackerイビルハッカー) のアイデア元 : [tomarai/TheOtherRoles](https://github.com/tomarai/TheOtherRoles/tree/dev-v3.4.x)  
+[ペンギン](#penguinペンギン)のアイデア元 : [Super New Roles](https://github.com/ykundesu/SuperNewRoles)<br>
 中国語翻訳 : fivefirex、ZeMingOH233<br>
 オプションタブのアイコン製作者 : 花海<br>
 Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>

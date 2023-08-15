@@ -245,7 +245,7 @@ namespace TownOfHost
             var option = OptionItem.AllOptions.FirstOrDefault(opt => opt.OptionBehaviour == __instance);
             if (option == null) return true;
 
-            option.SetValue(option.CurrentValue + 1);
+            option.SetValue(option.CurrentValue + (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 5 : 1));
             return false;
         }
     }
@@ -258,7 +258,7 @@ namespace TownOfHost
             var option = OptionItem.AllOptions.FirstOrDefault(opt => opt.OptionBehaviour == __instance);
             if (option == null) return true;
 
-            option.SetValue(option.CurrentValue - 1);
+            option.SetValue(option.CurrentValue - (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 5 : 1));
             return false;
         }
     }
