@@ -46,15 +46,16 @@ Note that if a player other than the host plays with this mod installed, the fol
 ### Hotkeys
 
 #### Host Only
-| HotKey              | Function                         | Usable Scene  |
-| ------------------- | -------------------------------- | ------------- |
-| `Shift`+`L`+`Enter` | Force End Game                   | In Game       |
-| `Shift`+`M`+`Enter` | Skip meeting to end              | In Game       |
-| `Ctrl`+`N`          | Show active settings             | Lobby&In Game |
-| `Ctrl`+`Shift`+`N`  | Show active settings description | Lobby&In Game |
-| `C`                 | Cancel game start                | In Countdown  |
-| `Shift`             | Start the game immediately       | In Countdown  |
-| `Ctrl`+`RMB`        | Execute clicked player           | In Meeting    |
+| HotKey              | Function                                    | Usable Scene                       |
+| ------------------- | ------------------------------------------- | ---------------------------------- |
+| `Shift`+`L`+`Enter` | Force End Game                              | In Game                            |
+| `Shift`+`M`+`Enter` | Skip meeting to end                         | In Game                            |
+| `Ctrl`+`N`          | Show active settings                        | Lobby&In Game                      |
+| `Ctrl`+`Shift`+`N`  | Show active settings description            | Lobby&In Game                      |
+| `C`                 | Cancel game start                           | In Countdown                       |
+| `Shift`             | Start the game immediately                  | In Countdown                       |
+| `Shift`             | Increase the option value change step to 5x | During Setting Up Options In Lobby |
+| `Ctrl`+`RMB`        | Execute clicked player                      | In Meeting                         |
 
 #### MOD Client Only
 | HotKey      | Function                                                                           | Usable Scene  |
