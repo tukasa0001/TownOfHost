@@ -1172,6 +1172,15 @@ The time limit for some sabotage can be modified.
 | ┣ Polus Reactor TimeLimit   |
 | ┗ Airship Reactor TimeLimit |
 
+## Sabotage Cooldown Control
+
+Modifies cooldown time for sabotages.
+
+| Name                      |
+| ------------------------- |
+| Sabotage Cooldown Control |
+| ┗ Sabotage Cooldown         |
+
 ## Fix Lights Special Settings
 
 Additional options for lights outs.
