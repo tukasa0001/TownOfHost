@@ -913,6 +913,7 @@ namespace TownOfHost
                 roleClass.AfterMeetingTasks();
             if (Options.AirShipVariableElectrical.GetBool())
                 AirShipElectricalDoors.Initialize();
+            DoorsReset.ResetDoors();
         }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max)
