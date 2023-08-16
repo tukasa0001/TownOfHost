@@ -32,7 +32,7 @@ public static class MeetingHudPatch
     {
         public static void Prefix([HarmonyArgument(0)] byte srcPlayerId /* 投票した人 */ , [HarmonyArgument(1)] byte suspectPlayerId /* 投票された人 */ )
         {
-            MeetingVoteManager.Instance.AddVote(srcPlayerId, suspectPlayerId);
+            MeetingVoteManager.Instance?.AddVote(srcPlayerId, suspectPlayerId);
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
