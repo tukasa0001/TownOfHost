@@ -82,7 +82,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         OptionInfectLimit = IntegerOptionItem.Create(RoleInfo, 10, OptionName.PlagueDoctorInfectLimit, new(1, 3, 1), 1, false)
             .SetValueFormat(OptionFormat.Times);
         OptionInfectWhenKilled = BooleanOptionItem.Create(RoleInfo, 11, OptionName.PlagueDoctorInfectWhenKilled, false, true);
-        OptionInfectTime = FloatOptionItem.Create(RoleInfo, 12, OptionName.PlagueDoctorInfectTime, new(5f, 20f, 1f), 10f, false);
+        OptionInfectTime = FloatOptionItem.Create(RoleInfo, 12, OptionName.PlagueDoctorInfectTime, new(3f, 20f, 1f), 8f, false);
         OptionInfectDistance = FloatOptionItem.Create(RoleInfo, 13, OptionName.PlagueDoctorInfectDistance, new(0.5f, 2f, 0.25f), 1.5f, false);
         OptionInfectInactiveTime = FloatOptionItem.Create(RoleInfo, 14, OptionName.PlagueDoctorInfectInactiveTime, new(0.5f, 10f, 0.5f), 5f, false)
            .SetValueFormat(OptionFormat.Seconds);
