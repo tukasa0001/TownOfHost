@@ -8,6 +8,7 @@ using UnityEngine;
 using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
@@ -234,6 +235,10 @@ public static class MeetingHudPatch
         }
         else
         {
+            var isMadmate =
+    exiledplayer.Is(CustomRoleTypes.Madmate) ||
+    // マッド属性化時に削除
+    (exiledplayer.GetRoleClass() is SchrodingerCat schrodingerCat && schrodingerCat.AmMadmate);
             foreach (var candidate in Main.AllAlivePlayerControls)
             {
                 if (candidate == exiledplayer || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
@@ -241,7 +246,7 @@ public static class MeetingHudPatch
                 {
                     // ここにINekomata未適用の道連れ役職を追加
                     default:
-                        if (exiledplayer.Is(CustomRoleTypes.Madmate) && deathReason == CustomDeathReason.Vote && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
+                        if (isMadmate && deathReason == CustomDeathReason.Vote && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
                         && !candidate.Is(CustomRoleTypes.Impostor))
                             TargetList.Add(candidate);
                         break;
