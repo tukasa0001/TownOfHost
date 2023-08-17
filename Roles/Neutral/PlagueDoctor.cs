@@ -35,11 +35,15 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         () => HasTask.False
     )
     {
+        PlagueDoctors.Add(this);
+        if (PlagueDoctors.Count == 1)
+        {
         InfectLimit = OptionInfectLimit.GetInt();
         InfectWhenKilled = OptionInfectWhenKilled.GetBool();
         InfectTime = OptionInfectTime.GetFloat();
         InfectDistance = OptionInfectDistance.GetFloat();
         InfectInactiveTime = OptionInfectInactiveTime.GetFloat();
+            CanInfectSelf = OptionInfectCanInfectSelf.GetBool();
 
         InfectInfos = new(GameData.Instance.PlayerCount);
         if (FirstPlagueDoctor == null)
@@ -54,7 +58,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     }
     public override void OnDestroy()
     {
-        FirstPlagueDoctor = null;
+        PlagueDoctors.Clear();
     }
     public bool CanKill { get; private set; } = false;
 
@@ -63,19 +67,22 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     private static OptionItem OptionInfectTime;
     private static OptionItem OptionInfectDistance;
     private static OptionItem OptionInfectInactiveTime;
+    private static OptionItem OptionInfectCanInfectSelf;
 
     private static int InfectLimit;
     private static bool InfectWhenKilled;
     private static float InfectTime;
     private static float InfectDistance;
     private static float InfectInactiveTime;
+    private static bool CanInfectSelf;
     enum OptionName
     {
         PlagueDoctorInfectLimit,
         PlagueDoctorInfectWhenKilled,
         PlagueDoctorInfectTime,
         PlagueDoctorInfectDistance,
-        PlagueDoctorInfectInactiveTime
+        PlagueDoctorInfectInactiveTime,
+        PlagueDoctorCanInfectSelf,
     }
     private static void SetupOptionItem()
     {
@@ -86,6 +93,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         OptionInfectDistance = FloatOptionItem.Create(RoleInfo, 13, OptionName.PlagueDoctorInfectDistance, new(0.5f, 2f, 0.25f), 1.5f, false);
         OptionInfectInactiveTime = FloatOptionItem.Create(RoleInfo, 14, OptionName.PlagueDoctorInfectInactiveTime, new(0.5f, 10f, 0.5f), 5f, false)
            .SetValueFormat(OptionFormat.Seconds);
+        OptionInfectCanInfectSelf = BooleanOptionItem.Create(RoleInfo, 15, OptionName.PlagueDoctorCanInfectSelf, false, true);
     }
 
     private int InfectCount;
@@ -93,6 +101,8 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     private static bool InfectActive;
     private static PlagueDoctor FirstPlagueDoctor;
     private static bool LateCheckWin;
+    private static List<PlagueDoctor> PlagueDoctors = new();
+
     public override void Add()
     {
         InfectCount = InfectLimit;
@@ -117,7 +127,12 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     {
         opt.SetVision(false);
     }
-
+    public static bool CanInfect(PlayerControl player)
+    {
+        var pd = PlagueDoctors.FirstOrDefault(x => x.Player == player);
+        //ペスト医師でないか、自己感染可能かつ感染者作成済み
+        return pd == null || (CanInfectSelf && pd.InfectCount == 0);
+    }
     public void SendRPC(byte targetId, float rate)
     {
         using var sender = CreateSender(CustomRPC.SyncPlagueDoctor);
@@ -182,8 +197,8 @@ public sealed class PlagueDoctor : RoleBase, IKiller
             var inVent = player.inVent;
             foreach (var target in Main.AllAlivePlayerControls)
             {
-                //ペスト医師は除外
-                if (target.Is(CustomRoles.PlagueDoctor)) continue;
+                //ペスト医師は自身が感染できない場合は除外
+                if (!CanInfect(target)) continue;
                 //ベント内外であれば除外
                 if (target.inVent != inVent) continue;
 
@@ -202,7 +217,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
                 {
                     changed = true;
                     Logger.Info($"InfectRate[{target.GetNameWithRole()}]:{newRate}%", "OnCheckMurderAsKiller");
-                    FirstPlagueDoctor.SendRPC(target.PlayerId, newRate);
+                    PlagueDoctors[0].SendRPC(target.PlayerId, newRate);
                 }
             }
             if (changed)
@@ -215,7 +230,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     }
     public override void AfterMeetingTasks()
     {
-        if (FirstPlagueDoctor == this)
+        if (PlagueDoctors[0] == this)
         {
             //非感染者が吊られた場合勝利するかもしれない
             LateCheckWin = true;
@@ -232,7 +247,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     public static string GetMarkOthers(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
     {
         seen ??= seer;
-        if (seen.Is(CustomRoles.PlagueDoctor)) return "";
+        if (!CanInfect(seen)) return "";
         if (!seer.Is(CustomRoles.PlagueDoctor) && seer.IsAlive()) return "";
         var str = new StringBuilder(40);
         str.Append($"<color={RoleInfo.RoleColorCode}>");
@@ -248,7 +263,10 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         var str = new StringBuilder(40);
         str.Append($"<color={RoleInfo.RoleColorCode}>");
         foreach (var player in Main.AllAlivePlayerControls)
+        {
+            if (!player.Is(CustomRoles.PlagueDoctor))
             str.Append(GetInfectRateCharactor(player));
+        }
         str.Append("</color>");
         return str.ToString();
     }
@@ -259,7 +277,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     }
     public static string GetInfectRateCharactor(PlayerControl player)
     {
-        if (player.Is(CustomRoles.PlagueDoctor) || !player.IsAlive()) return "";
+        if (!CanInfect(player) || !player.IsAlive()) return "";
         InfectInfos.TryGetValue(player.PlayerId, out var rate);
         return rate switch
         {
