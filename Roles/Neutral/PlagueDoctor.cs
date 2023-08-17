@@ -38,17 +38,15 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         PlagueDoctors.Add(this);
         if (PlagueDoctors.Count == 1)
         {
-        InfectLimit = OptionInfectLimit.GetInt();
-        InfectWhenKilled = OptionInfectWhenKilled.GetBool();
-        InfectTime = OptionInfectTime.GetFloat();
-        InfectDistance = OptionInfectDistance.GetFloat();
-        InfectInactiveTime = OptionInfectInactiveTime.GetFloat();
+            InfectLimit = OptionInfectLimit.GetInt();
+            InfectWhenKilled = OptionInfectWhenKilled.GetBool();
+            InfectTime = OptionInfectTime.GetFloat();
+            InfectDistance = OptionInfectDistance.GetFloat();
+            InfectInactiveTime = OptionInfectInactiveTime.GetFloat();
             CanInfectSelf = OptionInfectCanInfectSelf.GetBool();
+            CanInfectVent = OptionInfectCanInfectVent.GetBool();
 
-        InfectInfos = new(GameData.Instance.PlayerCount);
-        if (FirstPlagueDoctor == null)
-        {
-            FirstPlagueDoctor = this;
+            InfectInfos = new(GameData.Instance.PlayerCount);
             //他視点用のMarkメソッド登録
             CustomRoleManager.MarkOthers.Add(GetMarkOthers);
             CustomRoleManager.LowerOthers.Add(GetLowerTextOthers);
@@ -68,6 +66,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     private static OptionItem OptionInfectDistance;
     private static OptionItem OptionInfectInactiveTime;
     private static OptionItem OptionInfectCanInfectSelf;
+    private static OptionItem OptionInfectCanInfectVent;
 
     private static int InfectLimit;
     private static bool InfectWhenKilled;
@@ -75,6 +74,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     private static float InfectDistance;
     private static float InfectInactiveTime;
     private static bool CanInfectSelf;
+    private static bool CanInfectVent;
     enum OptionName
     {
         PlagueDoctorInfectLimit,
@@ -83,6 +83,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         PlagueDoctorInfectDistance,
         PlagueDoctorInfectInactiveTime,
         PlagueDoctorCanInfectSelf,
+        PlagueDoctorCanInfectVent,
     }
     private static void SetupOptionItem()
     {
@@ -94,12 +95,12 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         OptionInfectInactiveTime = FloatOptionItem.Create(RoleInfo, 14, OptionName.PlagueDoctorInfectInactiveTime, new(0.5f, 10f, 0.5f), 5f, false)
            .SetValueFormat(OptionFormat.Seconds);
         OptionInfectCanInfectSelf = BooleanOptionItem.Create(RoleInfo, 15, OptionName.PlagueDoctorCanInfectSelf, false, true);
+        OptionInfectCanInfectVent = BooleanOptionItem.Create(RoleInfo, 16, OptionName.PlagueDoctorCanInfectVent, false, true);
     }
 
     private int InfectCount;
     private static Dictionary<byte, float> InfectInfos;
     private static bool InfectActive;
-    private static PlagueDoctor FirstPlagueDoctor;
     private static bool LateCheckWin;
     private static List<PlagueDoctor> PlagueDoctors = new();
 
@@ -138,7 +139,6 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         using var sender = CreateSender(CustomRPC.SyncPlagueDoctor);
         sender.Writer.Write(targetId);
         sender.Writer.Write(rate);
-
     }
     public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
     {
@@ -200,7 +200,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
                 //ペスト医師は自身が感染できない場合は除外
                 if (!CanInfect(target)) continue;
                 //ベント内外であれば除外
-                if (target.inVent != inVent) continue;
+                if (!CanInfectVent && target.inVent != inVent) continue;
 
                 InfectInfos.TryGetValue(target.PlayerId, out var oldRate);
                 //感染者は除外
@@ -265,7 +265,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         foreach (var player in Main.AllAlivePlayerControls)
         {
             if (!player.Is(CustomRoles.PlagueDoctor))
-            str.Append(GetInfectRateCharactor(player));
+                str.Append(GetInfectRateCharactor(player));
         }
         str.Append("</color>");
         return str.ToString();

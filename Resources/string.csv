@@ -469,6 +469,7 @@
 "PlagueDoctorInfectDistance","Infect Distance","感染する距離","","","",""
 "PlagueDoctorInfectInactiveTime","Infect Invalid Time","行動開始から感染しない時間","","","",""
 "PlagueDoctorCanInfectSelf","Can Infect Self","自身も感染する","","","",""
+"PlagueDoctorCanInfectVent","Can Infect in Vent","ベント内外でも感染する","","","",""
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"
