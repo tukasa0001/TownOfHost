@@ -15,7 +15,7 @@
 
 ## リリース
 
-AmongUsバージョン : **2022.12.14**
+AmongUsバージョン : **2023.07.12**
 
 **本家最新版は[こちら](https://github.com/tukasa0001/TownOfHost/releases/latest)**<br>
 **そこから派生され、TOH4Eの元となったTOHYの最新版は[こちら](https://github.com/Yumenopai/TownOfHost_Y/releases/latest)**<br>
@@ -24,7 +24,7 @@ TOH過去バージョンは[こちら](https://github.com/tukasa0001/TownOfHost/
 
 ## TOH4Eの特徴('ω')ノ
 
-このModは本家**TownOfHost** Modから派生された**TownOfHost_Y**の仕様はそのままに追加のオリジナル役職を入れたものです。
+このModは本家**TownOfHost** Modから派生された**TownOfHost_Y**に追加のオリジナル役職を入れたものです。
 
 TownOfHost ForEでは個性豊かなオリジナル役職を実装していきます。
 それはきっとここだけでしか遊べない独特なAmongUs体験になることをお約束します。
@@ -42,7 +42,8 @@ TownOfHost ForEは本家同様ホストのクライアントに導入するだ�
 - 本家TOH及び、TOHYなど、他MODを入れた方と遊ぶ場合の動作は保証しません。てかやめてください。お願いします。
 - TOH4Eの追加役職は一応英語、中国語に対応しておりますが、外部翻訳サイトに頼ってます。色々翻訳間違ってたらごめんなさい。
 - 役職の説明はTOH4Eで追加したもの、もしくは設定を更新したもののみ記載します。他は恐らくリンクとか貼ってるかもなので該当ページで確認してください。
-- その他、注意事項はTOH,TOHYに則ります。
+- 本Modでは試合結果の情報をデータベースで取得しています。
+- その他、注意事項はTOHに則ります。
 
 ## ★新設定
 ### 勝利陣営予想投票モード
@@ -85,7 +86,7 @@ TownOfHost ForEは本家同様ホストのクライアントに導入するだ�
 ### 部屋人数上限変更(ホストのみ)
 
 コマンド入力で部屋を解散せずに人数を変更できます。<br>
-
+※vAMONGUSではサポート外です。<br>
 
 | チャットコマンド                         | 機能                                          |
 | ---------------------------------------- | --------------------------------------------- |
@@ -100,67 +101,70 @@ TownOfHost ForEは本家同様ホストのクライアントに導入するだ�
 | ---------------------------------------- | --------------------------------------------- |
 | /rrs                                     | 部屋をリセット                                |
 
+### BGM機能
+BGM機能はAmongUsのメインメニュー画面以外に任意のBGMを設定できる機能です。<br>
+この機能はMOD導入者のみ有効であり、ゲームの雰囲気を自分好みにすることが出来ます。<br>
+<br>
+【利用するための準備手順】<br>
+1.拡張子が「.wav」のファイルを5つ用意します。<br>
+　場合によっては5つ以下でも構いませんが、5つがお勧めです。<br>
+2.用意したファイルの最大音量をフリーソフトなどで変更します。<br>
+　普通だと大き目だと思うので、ゲームと同じくらいの音量にするのがお勧めです。<br>
+3.それぞれのファイル名をリネームする。<br>
+　変更する名前については下記参照。<br>
+4.「TOH_DATA」フォルダ直下に「BGM」フォルダを作成する。<br>
+5.手順4のフォルダに手順3でリネームしたファイルを格納します。<br>
+6.AmongUsを起動します。<br>
+7.ロビーを作成し、BGMモードを有効にします。<br>
+8.Enjoy!<br>
+<br>
+【ファイルが対応する場面について】<br>
+・「lobby.wav」：ロビーで再生されるBGMです。部屋立てた時の宇宙船内ですね。<br>
+・「intask.wav」：タスクなりキルなりをしてるゲームのメイン部分で流れます。<br>
+・「climax.wav」：生存者が一定人数以下になったとき、タスクなりなんなりのメイン部分で流れます。<br>
+・「meeting.wav」：議論中に再生されます。<br>
+・「result.wav」：ゲームが終わったときのリザルト画面で再生されます。<br>
+
+
 ## ★役職
 
 | インポスター陣営                                                    							 | マッドメイト                                                            										   | クルーメイト陣営                                          											 | 第三陣営                                                   										   | アニマルズ  						  												 |その他属性等  						  												 |
-| -----------------------------------------------------------------------------------------------| --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |----------------------------------------------------------------------------------- |
-| [バウンティハンター](https://github.com/tukasa0001/TownOfHost#BountyHunterバウンティハンター)  |  [マッドメイト](https://github.com/tukasa0001/TownOfHost#Madmateマッドメイト)                                   | [ベイト](https://github.com/tukasa0001/TownOfHost#Baitベイト)                                       | [アーソニスト](https://github.com/tukasa0001/TownOfHost#Arsonistアーソニスト)                       | [コヨーテ](#コヨーテ)																 |[GM](https://github.com/tukasa0001/TownOfHost#GM)									 |
-| [イビルトラッカー](https://github.com/tukasa0001/TownOfHost#EvilTrackerイビルトラッカー)       |  [マッドガーディアン](https://github.com/tukasa0001/TownOfHost#MadGuardianマッドガーディアン)                   | [ディクテーター](https://github.com/tukasa0001/TownOfHost#Dictatorディクテーター)                   | [エゴイスト](https://github.com/tukasa0001/TownOfHost#Egoistエゴイスト)                             | [バルチャー](#バルチャー)															 |[ラストインポスター](https://github.com/Yumenopai/TownOfHost_Y#ラストインポスター)  |
-| [イビルウォッチャー](https://github.com/tukasa0001/TownOfHost#Watcherウォッチャー)             |  [マッドスニッチ](https://github.com/tukasa0001/TownOfHost#MadSnitchマッドスニッチ)                             | [ドクター](https://github.com/tukasa0001/TownOfHost#Doctorドクター)                                 | [エクスキューショナー](https://github.com/tukasa0001/TownOfHost#Executionerエクスキューショナー)    | [アナグマ](#アナグマ)													 			 |[ウォッチング](https://github.com/Yumenopai/TownOfHost_Y#ウォッチング) 			 |
-| [花火職人](#FireWorks花火職人)                                     						     |  [サイドキックマッドメイト](https://github.com/tukasa0001/TownOfHost#SidekickMadmateサイドキックマッドメイト)   | [ライター](https://github.com/tukasa0001/TownOfHost#Lighterライター)                                | [ジャッカル](https://github.com/tukasa0001/TownOfHost#Jackalジャッカル)                             | [ブラキディオス](#ブラキディオス)													 |[ライティング](https://github.com/Yumenopai/TownOfHost_Y#ライティング)				 |
-| [メアー](https://github.com/tukasa0001/TownOfHost#Mareメアー)                                  |  [マッドディクテーター](https://github.com/Yumenopai/TownOfHost_Y#マッドディクテーター)                         | [メイヤー](https://github.com/tukasa0001/TownOfHost#Mayorメイヤー)                                  | [ジェスター](https://github.com/tukasa0001/TownOfHost#Jesterジェスター)                             | [ヒョウ](#ヒョウ)																	 |[サングラス](https://github.com/Yumenopai/TownOfHost_Y#サングラス)					 |
-| [パペッティア](https://github.com/tukasa0001/TownOfHost#Puppeteerパペッティア)                 |  [マッドネイチャコール](https://github.com/Yumenopai/TownOfHost_Y#マッドネイチャコール)                         | [ナイスウォッチャー](https://github.com/tukasa0001/TownOfHost#Watcherウォッチャー)                  | [ラバーズ](https://github.com/tukasa0001/TownOfHost#Lovers恋人)                                     | 																					 |[シーイング](https://github.com/Yumenopai/TownOfHost_Y#シーイング)					 |
-| [シリアルキラー](https://github.com/tukasa0001/TownOfHost#SerialKillerシリアルキラー)          |  [マッドブラックアウター](https://github.com/Yumenopai/TownOfHost_Y#マッドブラックアウター)                     | [サボタージュマスター](https://github.com/tukasa0001/TownOfHost#SabotageMasterサボタージュマスター) | [オポチュニスト](https://github.com/tukasa0001/TownOfHost#Opportunistオポチュニスト)                |																					 |[オートプシー](https://github.com/Yumenopai/TownOfHost_Y#オートプシー) 			 |
-| [スナイパー](https://github.com/tukasa0001/TownOfHost#Sniperスナイパー)                        |  [マッドシェリフ](https://github.com/Yumenopai/TownOfHost_Y#マッドシェリフ)                                     | [シーア](https://github.com/tukasa0001/TownOfHost#Seerシーア)                                       | [テロリスト](https://github.com/tukasa0001/TownOfHost#Terroristテロリスト)                          |																					 |[VIP](https://github.com/Yumenopai/TownOfHost_Y#VIP)  								 |
-| [タイムシーフ](https://github.com/tukasa0001/TownOfHost#TimeThiefタイムシーフ)                 |                                                                     										       | [シェリフ](https://github.com/tukasa0001/TownOfHost#Sheriffシェリフ)                                | [シュレディンガーの猫](https://github.com/tukasa0001/TownOfHost#SchrodingerCatシュレディンガーの猫) |																					 |[クラムシー](https://github.com/Yumenopai/TownOfHost_Y#クラムシー)					 |
-| [ヴァンパイア](https://github.com/tukasa0001/TownOfHost#Vampireヴァンパイア)                   |  																											   | [スニッチ](https://github.com/tukasa0001/TownOfHost#Snitchスニッチ)                                 | [アンチコンプリート](https://github.com/Yumenopai/TownOfHost_Y#アンチコンプリート)                  |																					 |[リベンジャー](https://github.com/Yumenopai/TownOfHost_Y#リベンジャー)				 |
-| [ウォーロック](https://github.com/tukasa0001/TownOfHost#Warlockウォーロック)                   |  																											   | [スピードブースター](https://github.com/tukasa0001/TownOfHost#SpeedBoosterスピードブースター)       | [ワーカホリック](https://github.com/Yumenopai/TownOfHost_Y#ワーカホリック)　                        |																					 |[マネジメント](https://github.com/Yumenopai/TownOfHost_Y#マネジメント)				 |
-| [魔女](https://github.com/tukasa0001/TownOfHost#Witch魔女)                                     | 																	    										   | [トラッパー](https://github.com/tukasa0001/TownOfHost#Trapperトラッパー)                            | [ダークハイド](https://github.com/Yumenopai/TownOfHost_Y#ダークハイド)                              |																					 |[ワークホース](https://github.com/Yumenopai/TownOfHost_Y#ワークホース)	          	 |
-| [マフィア](https://github.com/tukasa0001/TownOfHost#Mafiaマフィア)                             |   																											   | [ハンター](https://github.com/tukasa0001/TownOfHost#ハンター)                                       | [ラブカッター](https://github.com/Yumenopai/TownOfHost_Y#ラブカッター)                              |																					 |[インフォプアー](https://github.com/Yumenopai/TownOfHost_Y#インフォプアー)	         |
-| [アンチアドミナー](https://github.com/Yumenopai/TownOfHost_Y#アンチアドミナー)                 |    																											   | [タスクマネージャー](https://github.com/tukasa0001/TownOfHost#タスマネ)                        	 | [純愛者](https://github.com/Yumenopai/TownOfHost_Y#純愛者)                                          |																					 |[タイブレーカー](https://github.com/Yumenopai/TownOfHost_Y#タイブレーカー)	         |
-| [イビル猫又](https://github.com/Yumenopai/TownOfHost_Y#イビル猫又)                             |   																											   | [パン屋](https://github.com/Yumenopai/TownOfHost_Y#パン屋)                                        	 | [弁護士](https://github.com/Yumenopai/TownOfHost_Y#弁護士)                                          |																					 |[ノンレポート](https://github.com/Yumenopai/TownOfHost_Y#ノンレポート)	          	 |
-| [呪狼](https://github.com/Yumenopai/TownOfHost_Y#呪狼)                                         |    																											   | [エクスプレス](https://github.com/Yumenopai/TownOfHost_Y#エクスプレス)                              | [クライアント](https://github.com/Yumenopai/TownOfHost_Y#クライアント)                              |																					 |[センディング](https://github.com/Yumenopai/TownOfHost_Y#センディング)	          	 |
-| [グリーディア](https://github.com/Yumenopai/TownOfHost_Y#グリーディア)                         |    																											   | [チェアマン](https://github.com/Yumenopai/TownOfHost_Y#チェアマン)                                  | [トトカルチョ](#トトカルチョ)   			                   										   |																					 |[ロイヤルティ](https://github.com/Yumenopai/TownOfHost_Y#ロイヤルティ)	         	 |
-| [アンビショナー](https://github.com/Yumenopai/TownOfHost_Y#アンビショナー)                     |																												   | [★にじいろスター★](https://github.com/Yumenopai/TownOfHost_Y#にじいろスター)                      | [姫](#姫)                                                   										   |																					 |[プラスポート](https://github.com/Yumenopai/TownOfHost_Y#プラスポート)	         	 |
-| [スカベンジャー](https://github.com/Yumenopai/TownOfHost_Y#スカベンジャー)                     |																												   | [猫又](https://github.com/Yumenopai/TownOfHost_Y#猫又)                                              | [義賊](#義賊)																					   |																					 |[ガーディング](https://github.com/Yumenopai/TownOfHost_Y#ガーディング)	         	 |
-| [イビルディバイナー](https://github.com/Yumenopai/TownOfHost_Y#イビルディバイナー)             |																												   | [見送り人](https://github.com/Yumenopai/TownOfHost_Y#見送り人)                            			 |                                                             										   |																					 |[ベイティング](https://github.com/Yumenopai/TownOfHost_Y#ベイティング)	         	 |
-| [テレパシスターズ](https://github.com/Yumenopai/TownOfHost_Y#テレパシスターズ)                 |																												   | [バカシェリフ](https://github.com/Yumenopai/TownOfHost_Y#バカシェリフ)                              |                                                             										   |																					 |[リフュージング](https://github.com/Yumenopai/TownOfHost_Y#リフュージング)	         |
-| [シェイプキラー](https://github.com/Yumenopai/TownOfHost_Y#シェイプキラー)					 |																												   | [共鳴者](https://github.com/Yumenopai/TownOfHost_Y#共鳴者)                                          |                                                             										   |																					 |[コンプリートクルー](https://github.com/Yumenopai/TownOfHost_Y#コンプリートクルー)  |
-| [爆裂魔](#爆裂魔)	                                       			  							 |																												   | [ブラインダー](https://github.com/Yumenopai/TownOfHost_Y#ブラインダー)                              |                                                             										   |          																		     |[中二病](#中二病)																		     |
-| [シンデレラ](#シンデレラ)	                                                       	 			 |																												   | [メディック](https://github.com/Yumenopai/TownOfHost_Y#メディック)                                  |                                                             										   |           																		     |          																		     |
-| [イビルゲッサー](#イビルゲッサー)                					  							 |																												   | [キャンドルライター](https://github.com/Yumenopai/TownOfHost_Y#キャンドルライター)       			 |                                                             										   |           																		     |          																		     |
-|                                       			  											 |																												   | [占い師](https://github.com/Yumenopai/TownOfHost_Y#占い師)                  				         |                                                             										   |          																		     |         																		     |
-|                                                       			  							 |																												   | [霊媒師](https://github.com/Yumenopai/TownOfHost_Y#霊媒師)            			                     |                                                             										   |           																		     |          																		     |
-|                                                       			  							 |																												   | [お嬢様](#お嬢様)                                  												 |                                                             										   |           																		     |          																		     |
-|                                                       			  							 |																												   | [ネゴシエーター](#ネゴシエーター)                                  								 |                                                             										   |           																		     |          																		     |
-|                                                       			  							 |																												   | [ちいかわ](#ちいかわ)                                  											 |                                                             										   |           																		     |          																		     |
-|                                                       			  							 |																												   | [ナイスゲッサー](#ナイスゲッサー)                                  								 |                                                             										   |           																		     |          																		     |
+| ----------------------------------------------------------------------------------------------------------------------------------------| ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |----------------------------------------------------------------------------------- |
+| [バウンティハンター](https://github.com/tukasa0001/TownOfHost#BountyHunterバウンティハンター) 										  |  [マッドメイト](https://github.com/tukasa0001/TownOfHost#Madmateマッドメイト)                                     | [ベイト](https://github.com/tukasa0001/TownOfHost#Baitベイト)                                       		 | [アーソニスト](https://github.com/tukasa0001/TownOfHost#Arsonistアーソニスト)                       | [コヨーテ](#コヨーテ)																 |[GM](https://github.com/tukasa0001/TownOfHost#GM)									 |
+| [イビルトラッカー](https://github.com/tukasa0001/TownOfHost#EvilTrackerイビルトラッカー)    											  |  [マッドガーディアン](https://github.com/tukasa0001/TownOfHost#MadGuardianマッドガーディアン)                     | [ディクテーター](https://github.com/tukasa0001/TownOfHost#Dictatorディクテーター)                   		 | [エゴイスト](https://github.com/tukasa0001/TownOfHost#Egoistエゴイスト)                             | [バルチャー](#バルチャー)															 |[ラストインポスター](https://wikiwiki.jp/tohy_amongus/%E6%9C%AC%E5%AE%B6TOH%E5%BD%B9%E8%81%B7%E5%A4%89%E6%9B%B4#g330a063)  |
+| [イビルウォッチャー](https://github.com/tukasa0001/TownOfHost#Watcherウォッチャー)													  |  [マッドスニッチ](https://github.com/tukasa0001/TownOfHost#MadSnitchマッドスニッチ)                               | [ドクター](https://github.com/tukasa0001/TownOfHost#Doctorドクター)                                 		 | [エクスキューショナー](https://github.com/tukasa0001/TownOfHost#Executionerエクスキューショナー)    | [アナグマ](#アナグマ)													 			 |[ウォッチング](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#y541a98d) 			 |
+| [花火職人](#FireWorks花火職人)                                     																      |  [サイドキックマッドメイト](https://github.com/tukasa0001/TownOfHost#SidekickMadmateサイドキックマッドメイト)     | [ライター](https://github.com/tukasa0001/TownOfHost#Lighterライター)                                		 | [ジャッカル](https://github.com/tukasa0001/TownOfHost#Jackalジャッカル)                             | [ブラキディオス](#ブラキディオス)													 |[ライティング](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#x1c528ac)				 |
+| [メアー](https://github.com/tukasa0001/TownOfHost#Mareメアー)                                  										  |  [マッドディクテーター](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#n4bf3323)  | [メイヤー](https://github.com/tukasa0001/TownOfHost#Mayorメイヤー)                                  		 | [ジェスター](https://github.com/tukasa0001/TownOfHost#Jesterジェスター)                             | [ヒョウ](#ヒョウ)																	 |[サングラス](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#f3497d33)					 |
+| [パペッティア](https://github.com/tukasa0001/TownOfHost#Puppeteerパペッティア)                 										  |  [マッドネイチャコール](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#rca696b4)  | [ナイスウォッチャー](https://github.com/tukasa0001/TownOfHost#Watcherウォッチャー)                  		 | [ラバーズ](https://github.com/tukasa0001/TownOfHost#Lovers恋人)                                     | 																					 |[シーイング](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#qd5258ff)					 |
+| [シリアルキラー](https://github.com/tukasa0001/TownOfHost#SerialKillerシリアルキラー)         										  |  [マッドブラックアウター](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#w655a7de)| [サボタージュマスター](https://github.com/tukasa0001/TownOfHost#SabotageMasterサボタージュマスター) 		 | [オポチュニスト](https://github.com/tukasa0001/TownOfHost#Opportunistオポチュニスト)                |																					 |[オートプシー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#g06da7ee) 			 |
+| [スナイパー](https://github.com/tukasa0001/TownOfHost#Sniperスナイパー)                       										  |  [マッドシェリフ](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#w25d7302)        | [シーア](https://github.com/tukasa0001/TownOfHost#Seerシーア)                                       		 | [テロリスト](https://github.com/tukasa0001/TownOfHost#Terroristテロリスト)                          |																					 |[VIP](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#u300fea1)  								 |
+| [タイムシーフ](https://github.com/tukasa0001/TownOfHost#TimeThiefタイムシーフ)               											  |  [マッドニムロッド](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#w0330508)      | [シェリフ](https://github.com/tukasa0001/TownOfHost#Sheriffシェリフ)                                		 | [シュレディンガーの猫](https://github.com/tukasa0001/TownOfHost#SchrodingerCatシュレディンガーの猫) |																					 |[クラムシー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#q9b16991)					 |
+| [ヴァンパイア](https://github.com/tukasa0001/TownOfHost#Vampireヴァンパイア)                  										  |  [クモマッドメイト](#クモマッドメイト) 																		      | [スニッチ](https://github.com/tukasa0001/TownOfHost#Snitchスニッチ)                                 		 | [アンチコンプリート](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#w9104b1e)|																					 |[リベンジャー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#ifcdc37f)				 |
+| [ウォーロック](https://github.com/tukasa0001/TownOfHost#Warlockウォーロック)                 											  |  [マッドトリッカー](#マッドトリッカー) 																		      | [スピードブースター](https://github.com/tukasa0001/TownOfHost#SpeedBoosterスピードブースター)       		 | [ワーカホリック](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#gc9e692d)    |																					 |[マネジメント](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#bf04ff4c)				 |
+| [魔女](https://github.com/tukasa0001/TownOfHost#Witch魔女)                                    										  | 																	    										  | [トラッパー](https://github.com/tukasa0001/TownOfHost#Trapperトラッパー)                            		 | [ダークハイド]https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#zebf393f)       |																					 |[ワークホース](https://github.com/tukasa0001/TownOfHost#ワークホース)	          	 |
+| [マフィア](https://github.com/tukasa0001/TownOfHost#Mafiaマフィア)                            										  |   																											      | [ハンター](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#s9662b39)          | [ラブカッター](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#w7a644b0)      |																					 |[インフォプアー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#e518d95e)	         |
+| [アンチアドミナー](https://wikiwiki.jp/tohy_amongus/%E3%82%A4%E3%83%B3%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E5%BD%B9%E8%81%B7#kab62fbb)  |    																											      | [タスクマネージャー](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#fd7f7dd4)| [純愛者](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#y6b427d2)            |																					 |[タイブレーカー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#x6fc1adb)	         |
+| [イビル猫又](https://wikiwiki.jp/tohy_amongus/%E3%82%A4%E3%83%B3%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E5%BD%B9%E8%81%B7#q2382c69)        |   																											      | [パン屋](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#vbbdbd01)            | [弁護士](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#t9edc400)            |																					 |[ノンレポート](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#nf495f11)	          	 |
+| [呪狼](https://wikiwiki.jp/tohy_amongus/%E3%82%A4%E3%83%B3%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E5%BD%B9%E8%81%B7#aa7926f1)              |    																											      | [エクスプレス](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#w7555c7f)      | [クライアント]https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#h5a1f2cf)       |																					 |[センディング](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#i6ef9d7b)	          	 |
+| [グリーディア](https://wikiwiki.jp/tohy_amongus/%E3%82%A4%E3%83%B3%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E5%BD%B9%E8%81%B7#qc99b09e)      |    																											      | [チェアマン](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#m6b2e17e)        | [トトカルチョ](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#k21fc384)      |																					 |[ロイヤルティ](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#nf495f11)	         	 |
+| [アンビショナー](https://wikiwiki.jp/tohy_amongus/%E3%82%A4%E3%83%B3%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E5%BD%B9%E8%81%B7#e4526ae1)    |																												      | [★にじいろスター★](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#t616ad7f)| [姫](#姫)                                                   										   |																					 |[プラスポート](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#u92745a1)	         	 |
+| [スカベンジャー](https://wikiwiki.jp/tohy_amongus/%E3%82%A4%E3%83%B3%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E5%BD%B9%E8%81%B7#e4526ae1)    |																												      | [猫又](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6)                       | [義賊](#義賊)																					   |																					 |[ガーディング](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#i722cf2b)	         	 |
+| [イビルディバイナー](https://wikiwiki.jp/tohy_amongus/%E3%82%A4%E3%83%B3%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E5%BD%B9%E8%81%B7#k56dd09f)|																												      | [見送り人](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#k71c8da5)          | [決闘者]()																						   |																					 |[ベイティング](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#q4442d0a)	         	 |
+| [テレパシスターズ](https://wikiwiki.jp/tohy_amongus/%E3%82%A4%E3%83%B3%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E5%BD%B9%E8%81%B7#r5027f96)  |																												      | [バカシェリフ](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#df970198)      | [ヤンデレ](#ヤンデレ)																			   |																					 |[リフュージング](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#c264cc48)	         |
+| [シェイプキラー](https://wikiwiki.jp/tohy_amongus/%E3%82%A4%E3%83%B3%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E5%BD%B9%E8%81%B7#qde80b78)	  |																												      | [共鳴者](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#q7a11499)            |                                                             										   |																					 |[コンプリートクルー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#c761d7a5)  |
+| [はぐれ狼](#はぐれ狼)	                                       			  																  |																												      | [ブラインダー](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#m14f3d7b)      |                                                             										   |          																		     |[中二病](#中二病)																		     |
+| [爆裂魔](#爆裂魔)                                                       	 															  |																												      | [メディック](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#k2c704f9)        |                                                             										   |           																		     |          																		     |
+| [シンデレラ](#シンデレラ)	              					  									 										  |																												      | [キャンドルライター](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#vb854377)|                                                             										   |           																		     |          																		     |
+| [イビルゲッサー](#イビルゲッサー) 																									  |																												      | [占い師](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#ia71342f)            |                                                             										   |          																		     |         																		     |
+| [トークティブ](#トークティブ)                    				  								 										  |																												      | [霊媒師](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#r0c605a4)            |                                                             										   |           																		     |          																		     |
+| [テレポーター](#テレポーター)                      			  								 										  |																												      | [グラージシェリフ](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#jab68459)  |                                                             										   |           																		     |          																		     |
+| [人形術師](#人形術師)                          			  									 										  |																												      | [お嬢様](#お嬢様)                                    														 |                                                             										   |           																		     |          																		     |
+|                                                       			  							 										  |																												      | [ネゴシエーター](#ネゴシエーター)                                 											 |                                                             										   |           																		     |          																		     |
+|                                                       			  							 										  |																												      | [ちいかわ](#ちいかわ)                                  														 |                                                             										   |           																		     |          																		     |
+|                                                       			  							 										  |																												      | [ナイスゲッサー](#ナイスゲッサー)                                  											 |                                                             										   |           																		     |          																		     |
+|                                                       			  							 										  |																												      | [ニムロッド](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#x2e6844e)        |                                                             										   |           																		     |          																		     |
+|                                                       			  							 										  |																												      | [名探偵](#名探偵)                                  															 |                                                             										   |           																		     |          																		     |
 
-
-
-### FireWorks/花火職人
-
-制作・考案者 : こう。<br>
-
-陣営 : インポスター<br>
-判定 : シェイプシフター<br>
-
-花火の爆破によって大量キル出来る役職です。<br>
-最大3個の花火をシェイプシフトのタイミングで設置出来ます。<br>
-すべての花火を設置したら、最後のインポスターとなった時にシェイプシフトのタイミングで一斉起爆します。<br>
-花火を設置し始めてから爆破するまでキル出来ません。<br>
-自身が爆破に巻き込まれても全滅させることが出来た場合は勝利となります。<br>
-TOH4Eでは爆破するまでキルできない制限と、<br>
-生きているインポスターがいると花火を打ち上げられない制限をを解除できます。
-
-#### 設定
-
-| 設定名         |
-| -------------- |
-| 花火の所持数   |
-| 花火の爆発半径 |
-| 花火を打ち上げなくてもキルが出来る |
-| 他にインポスターが生きている場合でも花火を打ち上げられる |
 
 ### 爆裂魔
 
@@ -223,6 +227,103 @@ TOH4Eでは爆破するまでキルできない制限と、<br>
 | すべてのタスクが完了した状態でスニッチを当てることが出来る |
 | ゲッサ―のコマンドを隠す |
 | ゲッサ―による死因を分ける |
+
+
+### トークティブ
+
+考案者 : ミラボマン<br>
+
+陣営 : インポスター<br>
+判定 : インポスター<br>
+
+会議の最初にお題のキーワードが表示されます。<br>
+その会議中にキーワードをは発言できた場合、キルクールが指定の秒数に変化します。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| キルクール  |
+| 単語を発現した際のキルクール |
+
+
+### テレポーター
+
+陣営 : インポスター<br>
+判定 : シェイプシフター<br>
+
+変身することでその場所にゲートを設置します。<br>
+2つ設置することでその2か所を繋ぎ、ワープを行うことが出来ます。<br>
+このゲートはインポスターであれば誰でも利用可能です。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 変身のクールタイム  |
+| ゲートの範囲 |
+| 再度ゲートを利用できるまでの時間 |
+
+
+### 人形術師
+
+陣営 : インポスター<br>
+判定 : シェイプシフター<br>
+
+変身してキルを行うことで、キル相手に変身した対象がいる方向の矢印が表示されます。(以降この行為を人形化と呼称します。)<br>
+人形化されたプレイヤーは設定秒数以内に対象に近づくことが出来ればその対象をキルします。<br>
+設定秒数までにキルが出来なかった場合、人形化したプレイヤーが自爆します。<br>
+尚人形術師は変身中に変身した対象をキルする場合と、変身しないでのキルの場合は通常のキルを行います。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 人形が自爆するまでの猶予  |
+
+
+### マッドトリッカー
+
+発案者 : うさぎさん<br>
+※TOH4E夏の役職コンテスト入賞役職<br>
+
+陣営 : インポスター<br>
+判定 : エンジニア<br>
+
+ベントに入ることで自分以外の全員の居場所をランダムで入れ替えます。<br>
+ランダムで入れ替えるため変わらない場合もあります。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| ベントが利用可能になるまでの時間 |
+| シャッフルの上限回数 |
+| バフ属性を付与する |
+| デバフ属性を付与する |
+
+
+### クモマッドメイト
+
+発案者 : ミラボマン<br>
+※TOH4E夏の役職コンテスト入賞役職<br>
+
+陣営 : インポスター<br>
+判定 : クルーメイト<br>
+
+ペットを撫でることで蜘蛛の巣を設置し、その上を通ったプレイヤーの動きを遅くします。<br>
+蜘蛛の巣は1回の設置で1回有効です。<br>
+また、蜘蛛の巣にインポスター陣営は引っかかりません。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 蜘蛛の巣の半径 |
+| 移動が遅くなる時間 |
+| 移動速度 |
+| バフ属性を付与する |
+| デバフ属性を付与する |
 
 
 ### お嬢様
@@ -302,6 +403,25 @@ TOH4Eでは爆破するまでキルできない制限と、<br>
 | ゲッサ―のコマンドを隠す |
 | ゲッサ―による死因を分ける |
 
+### 名探偵
+
+発案者 : 双葉、依存症<br>
+※TOH4E夏の役職コンテスト入賞役職<br>
+
+陣営 : クルーメイト<br>
+判定 : クルーメイト<br>
+
+任意の相手に投票することで次のターン中に対象がキル、変身、ペット撫で(能力の発動)を行うと次の議論の最初に通知が入ります。<br>
+また、死体を早期発見するとその死体に関する議論で有利になる情報が得られます。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 投票相手を調査出来る回数 |
+| 死体の発生から通報までの有効時間 |
+| 調査されていることが相手に伝わる |
+
 ### 姫
 
 陣営 : 第三（単独）<br>
@@ -340,6 +460,27 @@ TOH4Eでは爆破するまでキルできない制限と、<br>
 | -------------- |
 | 罠の半径 |
 | キルしなきゃいけないキル役職の人数 |
+
+
+### ヤンデレ
+
+陣営 : 第三（単独）<br>
+判定 : インポスター<br>
+カウント : クルー<br>
+勝利条件 : お兄ちゃん、あいつをキルした後に自身がキルもしくは吊られる。<br>
+
+ゲーム開始時に「お兄ちゃん(ゲーム内で名前の後ろに♡♡がつく)」プレイヤーと「あいつ(名前の後ろにXX)がつく」プレイヤーがランダムで選出されます。 <br>
+ヤンデレの勝利条件はこの2人をキルした上で自分が吊られる、もしくはキルされることです。 <br>
+ただしキルするためには順番があり、それ以外のキルは全て防がれます。 <br>
+1.まず最初に「あいつ」をキルする。但しここでは確定で防がれます。 <br>
+2.次に「お兄ちゃん」をキルする。 <br>
+3.最後に「あいつ」をキルする。 <br>
+上記以外のキルは一切できないのでご注意ください。 <br>
+
+#### 設定
+| 設定名         |
+| -------------- |
+| キルクール |
 
 
 ### コヨーテ
@@ -415,6 +556,7 @@ TOH4Eでは爆破するまでキルできない制限と、<br>
 
 陣営 : アニマルズ<br>
 判定 : インポスター<br>
+勝利条件 :インポスター、ジャッカルを全滅させ、アニマルズの人数がクルーの人数と同数か上回ること<br>
 
 議論中に本領を発揮するアニマルズ。<br>
 キルしたいプレイヤーの役職を予想し、当てた場合相手をキルすることが出来る。<br>
@@ -439,10 +581,45 @@ TOH4Eでは爆破するまでキルできない制限と、<br>
 全てのワードを入力後、なんか英語っぽい文字が出たら準備完了。<br>
 [ディクテーター](https://github.com/tukasa0001/TownOfHost#Dictatorディクテーター)の能力が顕現し、投票すると確実に相手を吊ることが出来る。<br>
 
+## TOH4Eで仕様に変更がある役職
+
+### シェリフなど陣営に影響する役職
+シェリフなど陣営に影響がある役職はアニマルズ陣営にも対応しています。
+
+### ハンター
+アニマルズをキルした場合、◆が表示されます。
+
+### FireWorks/花火職人
+
+制作・考案者 : こう。<br>
+
+陣営 : インポスター<br>
+判定 : シェイプシフター<br>
+
+花火の爆破によって大量キル出来る役職です。<br>
+最大3個の花火をシェイプシフトのタイミングで設置出来ます。<br>
+すべての花火を設置したら、最後のインポスターとなった時にシェイプシフトのタイミングで一斉起爆します。<br>
+花火を設置し始めてから爆破するまでキル出来ません。<br>
+自身が爆破に巻き込まれても全滅させることが出来た場合は勝利となります。<br>
+TOH4Eでは爆破するまでキルできない制限と、<br>
+生きているインポスターがいると花火を打ち上げられない制限をを解除できます。
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 花火の所持数   |
+| 花火の爆発半径 |
+| 花火を打ち上げなくてもキルが出来る |
+| 他にインポスターが生きている場合でも花火を打ち上げられる |
+
+
+
 
 ## クレジット
 - SuperNewRoles[SNR](https://github.com/ykundesu/SuperNewRoles)：自爆魔と部屋人数コマンドそのほか諸々スペシャルthx
 - TownOfHostEditer[TOHE](https://github.com/KARPED1EM/TownOfHostEdited)：ゲッサーの処理。
+- TownOfHostY[TOHY](https://github.com/Yumenopai/TownOfHost_Y)：様々な設定、役職など。
 ## 開発者
 <!--
 開発者用チャンネルでの一番最初の発言が早い順に記載する。
