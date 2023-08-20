@@ -144,7 +144,7 @@ class Penguin : RoleBase, IImpostor
     {
         return AbductVictim != null;
     }
-    public override void OnStartMeeting()
+    public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
     {
         stopCount = true;
         if (MeetingKill)
