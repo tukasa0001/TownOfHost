@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using Csv;
 using HarmonyLib;
-using UnhollowerBaseLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using TownOfHost.Attributes;
 
 namespace TownOfHost
 {
@@ -13,6 +14,8 @@ namespace TownOfHost
     {
         public static Dictionary<string, Dictionary<int, string>> translateMaps;
         public const string LANGUAGE_FOLDER_NAME = "Language";
+
+        [PluginModuleInitializer]
         public static void Init()
         {
             Logger.Info("Language Dictionary Initialize...", "Translator");
@@ -55,10 +58,10 @@ namespace TownOfHost
 
             // 翻訳テンプレートの作成
             CreateTemplateFile();
-            foreach (var lang in Enum.GetValues(typeof(SupportedLangs)))
+            foreach (var lang in EnumHelper.GetAllValues<SupportedLangs>())
             {
                 if (File.Exists(@$"./{LANGUAGE_FOLDER_NAME}/{lang}.dat"))
-                    LoadCustomTranslation($"{lang}.dat", (SupportedLangs)lang);
+                    LoadCustomTranslation($"{lang}.dat", lang);
             }
         }
 
@@ -98,8 +101,8 @@ namespace TownOfHost
             }
             if (!translateMaps.ContainsKey(str)) //translateMapsにない場合、StringNamesにあれば取得する
             {
-                var stringNames = Enum.GetValues(typeof(StringNames)).Cast<StringNames>().Where(x => x.ToString() == str);
-                if (stringNames != null && stringNames.Count() > 0)
+                var stringNames = EnumHelper.GetAllValues<StringNames>().Where(x => x.ToString() == str);
+                if (stringNames != null && stringNames.Any())
                     res = GetString(stringNames.FirstOrDefault());
             }
             return res;
@@ -125,7 +128,7 @@ namespace TownOfHost
                 Logger.Info($"カスタム翻訳ファイル「{filename}」を読み込み", "LoadCustomTranslation");
                 using StreamReader sr = new(path, Encoding.GetEncoding("UTF-8"));
                 string text;
-                string[] tmp = { };
+                string[] tmp = Array.Empty<string>();
                 while ((text = sr.ReadLine()) != null)
                 {
                     tmp = text.Split(":");

@@ -2,6 +2,8 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
 
+using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Neutral;
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(Console), nameof(Console.CanUse))]
@@ -48,7 +50,7 @@ namespace TownOfHost
             switch (pc.GetCustomRole())
             {
                 case CustomRoles.Arsonist:
-                    if (pc.Object.IsDouseDone())
+                    if (Arsonist.IsDouseDone(pc.Object))
                         VentForTrigger = true;
                     break;
                 default:

@@ -1,62 +1,60 @@
-using System.Collections.Generic;
 using AmongUs.GameOptions;
-using Hazel;
 
-using static TownOfHost.Options;
+using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Neutral
 {
-    public static class Jackal
+    public sealed class Jackal : RoleBase, IKiller
     {
-        private static readonly int Id = 50900;
-        public static List<byte> playerIdList = new();
-
-        private static OptionItem KillCooldown;
-        public static OptionItem CanVent;
-        public static OptionItem CanUseSabotage;
-        private static OptionItem HasImpostorVision;
-
-        public static void SetupCustomOption()
+        public static readonly SimpleRoleInfo RoleInfo =
+            SimpleRoleInfo.Create(
+                typeof(Jackal),
+                player => new Jackal(player),
+                CustomRoles.Jackal,
+                () => RoleTypes.Impostor,
+                CustomRoleTypes.Neutral,
+                50900,
+                SetupOptionItem,
+                "jac",
+                "#00b4eb",
+                countType: CountTypes.Jackal
+            );
+        public Jackal(PlayerControl player)
+        : base(
+            RoleInfo,
+            player,
+            () => HasTask.False
+        )
         {
-            //Jackalは1人固定
-            SetupSingleRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Jackal, 1);
-            KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(2.5f, 180f, 2.5f), 30f, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Jackal])
+            KillCooldown = OptionKillCooldown.GetFloat();
+            CanVent = OptionCanVent.GetBool();
+            CanUseSabotage = OptionCanUseSabotage.GetBool();
+            HasImpostorVision = OptionHasImpostorVision.GetBool();
+        }
+
+        private static OptionItem OptionKillCooldown;
+        public static OptionItem OptionCanVent;
+        public static OptionItem OptionCanUseSabotage;
+        private static OptionItem OptionHasImpostorVision;
+        private static float KillCooldown;
+        public static bool CanVent;
+        public static bool CanUseSabotage;
+        private static bool HasImpostorVision;
+        private static void SetupOptionItem()
+        {
+            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            CanVent = BooleanOptionItem.Create(Id + 11, "CanVent", true, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Jackal]);
-            CanUseSabotage = BooleanOptionItem.Create(Id + 12, "CanUseSabotage", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Jackal]);
-            HasImpostorVision = BooleanOptionItem.Create(Id + 13, "ImpostorVision", true, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Jackal]);
+            OptionCanVent = BooleanOptionItem.Create(RoleInfo, 11, GeneralOption.CanVent, true, false);
+            OptionCanUseSabotage = BooleanOptionItem.Create(RoleInfo, 12, GeneralOption.CanUseSabotage, false, false);
+            OptionHasImpostorVision = BooleanOptionItem.Create(RoleInfo, 13, GeneralOption.ImpostorVision, true, false);
         }
-        public static void Init()
-        {
-            playerIdList = new();
-        }
-        public static void Add(byte playerId)
-        {
-            playerIdList.Add(playerId);
-
-            if (!AmongUsClient.Instance.AmHost) return;
-
-            if (!Main.ResetCamPlayerList.Contains(playerId))
-                Main.ResetCamPlayerList.Add(playerId);
-        }
-        public static bool IsEnable => playerIdList.Count > 0;
-        private static void SendRPC(byte playerId)
-        {
-        }
-        public static void ReceiveRPC(MessageReader reader)
-        {
-        }
-        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
-        public static void ApplyGameOptions(IGameOptions opt) => opt.SetVision(HasImpostorVision.GetBool());
-        public static void CanUseVent(PlayerControl player)
-        {
-            bool jackal_canUse = CanVent.GetBool();
-            DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
-            player.Data.Role.CanVent = jackal_canUse;
-        }
+        public float CalculateKillCooldown() => KillCooldown;
+        public override void ApplyGameOptions(IGameOptions opt) => opt.SetVision(HasImpostorVision);
         public static void SetHudActive(HudManager __instance, bool isActive)
         {
-            __instance.SabotageButton.ToggleVisible(isActive && CanUseSabotage.GetBool());
+            __instance.SabotageButton.ToggleVisible(isActive && CanUseSabotage);
         }
+        public override bool OnInvokeSabotage(SystemTypes systemType) => CanUseSabotage;
     }
 }

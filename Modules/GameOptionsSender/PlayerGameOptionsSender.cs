@@ -1,11 +1,12 @@
 using System.Linq;
 using AmongUs.GameOptions;
 using Hazel;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Linq;
 using InnerNet;
 using Mathf = UnityEngine.Mathf;
 
-using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost.Modules
@@ -48,7 +49,7 @@ namespace TownOfHost.Modules
             else base.SendGameOptions();
         }
 
-        public override void SendOptionsArray(byte[] optionArray)
+        public override void SendOptionsArray(Il2CppStructArray<byte> optionArray)
         {
             for (byte i = 0; i < GameManager.Instance.LogicComponents.Count; i++)
             {
@@ -75,7 +76,7 @@ namespace TownOfHost.Modules
 
             var opt = BasedGameOptions;
             AURoleOptions.SetOpt(opt);
-            var state = Main.PlayerStates[player.PlayerId];
+            var state = PlayerState.GetByPlayerId(player.PlayerId);
             opt.BlackOut(state.IsBlackOut);
 
             CustomRoles role = player.GetCustomRole();
@@ -94,72 +95,25 @@ namespace TownOfHost.Modules
                     break;
             }
 
+            var roleClass = player.GetRoleClass();
+            roleClass?.ApplyGameOptions(opt);
             switch (role)
             {
-                case CustomRoles.Terrorist:
-                    AURoleOptions.EngineerCooldown = 0;
-                    AURoleOptions.EngineerInVentMaxTime = 0;
-                    break;
-                case CustomRoles.ShapeMaster:
-                    AURoleOptions.ShapeshifterCooldown = 0f;
-                    AURoleOptions.ShapeshifterLeaveSkin = false;
-                    AURoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
-                    break;
-                case CustomRoles.Warlock:
-                    AURoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
-                    break;
-                case CustomRoles.SerialKiller:
-                    SerialKiller.ApplyGameOptions(player);
-                    break;
-                case CustomRoles.BountyHunter:
-                    BountyHunter.ApplyGameOptions();
-                    break;
-                case CustomRoles.EvilWatcher:
-                case CustomRoles.NiceWatcher:
-                    opt.SetBool(BoolOptionNames.AnonymousVotes, false);
-                    break;
-                case CustomRoles.Sheriff:
-                case CustomRoles.Arsonist:
-                    opt.SetVision(false);
-                    break;
-                case CustomRoles.Lighter:
-                    if (player.GetPlayerTaskState().IsTaskFinished)
-                    {
-                        opt.SetFloat(
-                            FloatOptionNames.CrewLightMod,
-                            Options.LighterTaskCompletedVision.GetFloat());
-                        if (Utils.IsActive(SystemTypes.Electrical) && Options.LighterTaskCompletedDisableLightOut.GetBool())
-                        {
-                            opt.SetFloat(
-                            FloatOptionNames.CrewLightMod,
-                            opt.GetFloat(FloatOptionNames.CrewLightMod) * 5);
-                        }
-                    }
-                    break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(true);
                     break;
-                case CustomRoles.Doctor:
-                    AURoleOptions.ScientistCooldown = 0f;
-                    AURoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
-                    break;
-                case CustomRoles.Mayor:
-                    AURoleOptions.EngineerCooldown =
-                        Main.MayorUsedButtonCount.TryGetValue(player.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt()
-                        ? opt.GetInt(Int32OptionNames.EmergencyCooldown)
-                        : 300f;
-                    AURoleOptions.EngineerInVentMaxTime = 1;
-                    break;
-                case CustomRoles.Mare:
-                    Mare.ApplyGameOptions(player.PlayerId);
-                    break;
-                case CustomRoles.EvilTracker:
-                    EvilTracker.ApplyGameOptions(player.PlayerId);
-                    break;
-                case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
-                    Jackal.ApplyGameOptions(opt);
+                    ((Jackal)roleClass).ApplyGameOptions(opt);
                     break;
+            }
+            foreach (var subRole in player.GetCustomSubRoles())
+            {
+                switch (subRole)
+                {
+                    case CustomRoles.Watcher:
+                        opt.SetBool(BoolOptionNames.AnonymousVotes, false);
+                        break;
+                }
             }
             if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))
             {

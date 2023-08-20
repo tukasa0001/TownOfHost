@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HarmonyLib;
+using TownOfHost.Attributes;
 using UnityEngine;
 
 namespace TownOfHost
@@ -8,6 +9,7 @@ namespace TownOfHost
     {
         public static Dictionary<byte, Vector3> TargetLadderData;
         private static int Chance => (Options.LadderDeathChance as StringOptionItem).GetChance();
+        [GameModuleInitializer]
         public static void Reset()
         {
             TargetLadderData = new();
@@ -37,7 +39,7 @@ namespace TownOfHost
                     if (player.Data.IsDead) return;
                     //LateTaskを入れるため、先に死亡判定を入れておく
                     player.Data.IsDead = true;
-                    new LateTask(() =>
+                    _ = new LateTask(() =>
                     {
                         Vector2 targetPos = (Vector2)TargetLadderData[player.PlayerId] + new Vector2(0.1f, 0f);
                         ushort num = (ushort)(NetHelpers.XRange.ReverseLerp(targetPos.x) * 65535f);
@@ -53,8 +55,9 @@ namespace TownOfHost
                         sender.SendMessage();
                         player.NetTransform.SnapTo(targetPos);
                         player.MurderPlayer(player);
-                        Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Fall;
-                        Main.PlayerStates[player.PlayerId].SetDead();
+                        var state = PlayerState.GetByPlayerId(player.PlayerId);
+                        state.DeathReason = CustomDeathReason.Fall;
+                        state.SetDead();
                     }, 0.05f, "LadderFallTask");
                 }
             }

@@ -1,8 +1,10 @@
 using System;
 using HarmonyLib;
-using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Neutral;
 using UnityEngine;
+
+using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
+using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -56,49 +58,16 @@ namespace TownOfHost
             {
                 if (player.IsAlive())
                 {
-                    //MOD入り用のボタン下テキスト変更
-                    switch (player.GetCustomRole())
+                    var roleClass = player.GetRoleClass();
+                    if (roleClass != null)
                     {
-                        case CustomRoles.Sniper:
-                            Sniper.OverrideShapeText(player.PlayerId);
-                            break;
-                        case CustomRoles.FireWorks:
-                            if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
-                                __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
-                            else
-                                __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
-                            break;
-                        case CustomRoles.SerialKiller:
-                            SerialKiller.GetAbilityButtonText(__instance, player);
-                            break;
-                        case CustomRoles.Warlock:
-                            if (!(Main.CheckShapeshift.TryGetValue(player.PlayerId, out bool shapeshifting) && shapeshifting) && !(Main.isCurseAndKill.TryGetValue(player.PlayerId, out bool curse) && curse))
-                            {
-                                __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
-                            }
-                            else
-                            {
-                                __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
-                            }
-                            break;
-                        case CustomRoles.Witch:
-                            Witch.GetAbilityButtonText(__instance);
-                            break;
-                        case CustomRoles.Vampire:
-                            Vampire.SetKillButtonText();
-                            break;
-                        case CustomRoles.Arsonist:
-                            __instance.KillButton.OverrideText($"{GetString("ArsonistDouseButtonText")}");
-                            break;
-                        case CustomRoles.Puppeteer:
-                            __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
-                            break;
-                        case CustomRoles.BountyHunter:
-                            BountyHunter.SetAbilityButtonText(__instance);
-                            break;
-                        case CustomRoles.EvilTracker:
-                            EvilTracker.GetAbilityButtonText(__instance, player.PlayerId);
-                            break;
+                        var killLabel = (roleClass as IKiller)?.OverrideKillButtonText(out string text) == true ? text : GetString(StringNames.KillLabel);
+                        __instance.KillButton.OverrideText(killLabel);
+                        if (roleClass.HasAbility)
+                        {
+                            __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText());
+                            __instance.AbilityButton.ToggleVisible(roleClass.CanUseAbilityButton() && GameStates.IsInTask);
+                        }
                     }
 
                     //バウンティハンターのターゲットテキスト
@@ -115,23 +84,7 @@ namespace TownOfHost
                         LowerInfoText.fontSizeMax = 2.0f;
                     }
 
-                    if (player.Is(CustomRoles.BountyHunter))
-                    {
-                        LowerInfoText.text = BountyHunter.GetTargetText(player, true);
-                    }
-                    else if (player.Is(CustomRoles.Witch))
-                    {
-                        LowerInfoText.text = Witch.GetSpellModeText(player, true);
-                    }
-                    else if (player.Is(CustomRoles.FireWorks))
-                    {
-                        var stateText = FireWorks.GetStateText(player);
-                        LowerInfoText.text = stateText;
-                    }
-                    else
-                    {
-                        LowerInfoText.text = "";
-                    }
+                    LowerInfoText.text = roleClass?.GetLowerText(player, isForHud: true) ?? "";
                     LowerInfoText.enabled = LowerInfoText.text != "";
 
                     if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)
@@ -171,7 +124,6 @@ namespace TownOfHost
                     __instance.AbilityButton.OverrideText(GetString(StringNames.HauntAbilityName));
                 }
             }
-
 
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)
             {
@@ -271,7 +223,7 @@ namespace TownOfHost
             if (opts.Mode is MapOptions.Modes.Normal or MapOptions.Modes.Sabotage)
             {
                 var player = PlayerControl.LocalPlayer;
-                if (player.Is(CustomRoleTypes.Impostor) || (player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage.GetBool()))
+                if (player.Is(CustomRoleTypes.Impostor) || (player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage) || player.Is(CustomRoles.Egoist))
                     opts.Mode = MapOptions.Modes.Sabotage;
                 else
                     opts.Mode = MapOptions.Modes.Normal;
@@ -290,7 +242,7 @@ namespace TownOfHost
             // 役職説明表示
             if (!player.GetCustomRole().IsVanilla())
             {
-                var RoleWithInfo = $"{player.GetDisplayRoleName()}:\r\n";
+                var RoleWithInfo = $"{player.GetTrueRoleName()}:\r\n";
                 RoleWithInfo += player.GetRoleInfo();
                 __instance.taskText.text = Utils.ColorString(player.GetRoleColor(), RoleWithInfo) + "\n" + __instance.taskText.text;
             }

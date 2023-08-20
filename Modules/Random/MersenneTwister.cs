@@ -121,7 +121,8 @@ public class MersenneTwister : IRandom
 
     public int Next(int minValue, int maxValue)
     {
-        if (minValue < 0 || maxValue < 0) throw new ArgumentOutOfRangeException("minValue and maxValue must be bigger than 0.");
+        if (minValue < 0) throw new ArgumentOutOfRangeException(nameof(minValue), "minValue must be bigger than 0.");
+        else if (maxValue < 0) throw new ArgumentOutOfRangeException(nameof(maxValue), "maxValue must be bigger than 0.");
         else if (minValue > maxValue) throw new ArgumentException("maxValue must be bigger than minValue.");
         else if (minValue == maxValue) return minValue;
 

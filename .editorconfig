@@ -9,7 +9,6 @@ indent_size = 4
 end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
-insert_final_newline = false
 
 dotnet_diagnostic.IDE0051.severity = silent
 dotnet_diagnostic.IDE0052.severity = silent
@@ -73,6 +72,25 @@ dotnet_style_readonly_field = true:silent
 
 # 使用されていないパラメーターを削除する
 dotnet_code_quality_unused_parameters = all:silent
+
+# 複数の空行の連続を許可するか
+dotnet_style_allow_multiple_blank_lines_experimental = false:suggestion
+
+# ラムダ式の省略を強制するか
+dotnet_diagnostic.IDE0200.severity = none
+
+# 未使用のusingを情報レベルでお知らせ
+dotnet_diagnostic.IDE0005.severity = suggestion
+
+# プライマリコンストラクタを使用しない
+dotnet_diagnostic.IDE0290.severity = none
+
+# publicでstaticで非readonlyなフィールドへの警告を行うか
+dotnet_diagnostic.CA2211.severity = none
+
+# thisにアクセスしないメソッドがstaticじゃないときに警告するか
+dotnet_diagnostic.CA1822.severity = silent
+
 # 不要な値の代入を削除する
 csharp_style_unused_value_assignment_preference = true:silent
 
@@ -119,3 +137,6 @@ csharp_style_prefer_index_operator = true:suggestion
 csharp_style_prefer_range_operator = true:suggestion
 # throw ステートメントの代わりに throw 式を使用します
 csharp_style_throw_expression = true:suggestion
+
+# 連続する中括弧の間の空行を許可するか
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false:suggestion

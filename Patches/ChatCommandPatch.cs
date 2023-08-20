@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using Assets.CoreScripts;
 using HarmonyLib;
 using Hazel;
-using UnityEngine;
+
+using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -15,11 +15,13 @@ namespace TownOfHost
     class ChatCommands
     {
         public static List<string> ChatHistory = new();
+        private static Dictionary<CustomRoles, string> roleCommands;
+
         public static bool Prefix(ChatController __instance)
         {
-            if (__instance.TextArea.text == "") return false;
-            __instance.TimeSinceLastMessage = 3f;
-            var text = __instance.TextArea.text;
+            if (__instance.freeChatField.textArea.text == "") return false;
+            __instance.timeSinceLastMessage = 3f;
+            var text = __instance.freeChatField.textArea.text;
             if (ChatHistory.Count == 0 || ChatHistory[^1] != text) ChatHistory.Add(text);
             ChatControllerUpdatePatch.CurrentHistorySelection = ChatHistory.Count;
             string[] args = text.Split(' ');
@@ -81,10 +83,7 @@ namespace TownOfHost
                     case "/hidename":
                         canceled = true;
                         Main.HideName.Value = args.Length > 1 ? args.Skip(1).Join(delimiter: " ") : Main.HideName.DefaultValue.ToString();
-                        GameStartManagerPatch.GameStartManagerStartPatch.HideName.text =
-                            ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
-                                ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
-                                : $"<color={Main.ModColor}>{Main.HideName.Value}</color>";
+                        GameStartManagerPatch.HideName.text = Main.HideName.Value;
                         break;
 
                     case "/n":
@@ -185,7 +184,6 @@ namespace TownOfHost
                                 }
                                 break;
 
-
                             case "n":
                             case "now":
                                 Utils.ShowActiveSettingsHelp();
@@ -249,80 +247,56 @@ namespace TownOfHost
             if (canceled)
             {
                 Logger.Info("Command Canceled", "ChatCommand");
-                __instance.TextArea.Clear();
-                __instance.TextArea.SetText(cancelVal);
-                __instance.quickChatMenu.ResetGlyphs();
+                __instance.freeChatField.textArea.Clear();
+                __instance.freeChatField.textArea.SetText(cancelVal);
             }
             return !canceled;
         }
 
         public static void GetRolesInfo(string role)
         {
-            var roleList = new Dictionary<CustomRoles, string>
+            // 初回のみ処理
+            if (roleCommands == null)
             {
-                //GM
-                { CustomRoles.GM, "gm" },
-                //Impostor役職
-                { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
-                { CustomRoles.BountyHunter, "bo" },
-                { CustomRoles.EvilTracker,"et" },
-                { CustomRoles.FireWorks, "fw" },
-                { CustomRoles.Mare, "ma" },
-                { CustomRoles.Mafia, "mf" },
-                { CustomRoles.SerialKiller, "sk" },
-                { CustomRoles.ShapeMaster, "sha" },
-                { CustomRoles.TimeThief, "tt"},
-                { CustomRoles.Sniper, "snp" },
-                { CustomRoles.Puppeteer, "pup" },
-                { CustomRoles.Vampire, "va" },
-                { CustomRoles.Warlock, "wa" },
-                { CustomRoles.Witch, "wi" },
-                //Madmate役職
-                { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
-                { CustomRoles.MadGuardian, "mg" },
-                { CustomRoles.Madmate, "mm" },
-                { CustomRoles.MadSnitch, "msn" },
-                { CustomRoles.SKMadmate, "sm" },
-                //両陣営役職
-                { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
-                { CustomRoles.Watcher, "wat" },
-                //Crewmate役職
-                { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
-                { CustomRoles.Bait, "ba" },
-                { CustomRoles.Dictator, "dic" },
-                { CustomRoles.Doctor, "doc" },
-                { CustomRoles.Lighter, "li" },
-                { CustomRoles.Mayor, "my" },
-                { CustomRoles.SabotageMaster, "sa" },
-                { CustomRoles.Seer,"se" },
-                { CustomRoles.Sheriff, "sh" },
-                { CustomRoles.Snitch, "sn" },
-                { CustomRoles.SpeedBooster, "sb" },
-                { CustomRoles.Trapper, "tra" },
-                { CustomRoles.TimeManager, "tm"},
-                //Neutral役職
-                { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
-                { CustomRoles.Arsonist, "ar" },
-                { CustomRoles.Egoist, "eg" },
-                { CustomRoles.Executioner, "exe" },
-                { CustomRoles.Jester, "je" },
-                { CustomRoles.Opportunist, "op" },
-                { CustomRoles.SchrodingerCat, "sc" },
-                { CustomRoles.Terrorist, "te" },
-                { CustomRoles.Jackal, "jac" },
-                //属性
-                { (CustomRoles)(-6), $"== {GetString("Addons")} ==" }, //区切り用
-                {CustomRoles.Lovers, "lo" },
-                {CustomRoles.Workhorse, "wh" },
-                //HAS
-                { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
-                { CustomRoles.HASFox, "hfo" },
-                { CustomRoles.HASTroll, "htr" },
+#pragma warning disable IDE0028  // Dictionary初期化の簡素化をしない
+                roleCommands = new Dictionary<CustomRoles, string>();
 
-            };
+                // GM
+                roleCommands.Add(CustomRoles.GM, "gm");
+
+                // Impostor役職
+                roleCommands.Add((CustomRoles)(-1), $"== {GetString("Impostor")} ==");  // 区切り用
+                ConcatCommands(CustomRoleTypes.Impostor);
+
+                // Madmate役職
+                roleCommands.Add((CustomRoles)(-2), $"== {GetString("Madmate")} ==");  // 区切り用
+                ConcatCommands(CustomRoleTypes.Madmate);
+                roleCommands.Add(CustomRoles.SKMadmate, "sm");
+
+                // Crewmate役職
+                roleCommands.Add((CustomRoles)(-3), $"== {GetString("Crewmate")} ==");  // 区切り用
+                ConcatCommands(CustomRoleTypes.Crewmate);
+
+                // Neutral役職
+                roleCommands.Add((CustomRoles)(-4), $"== {GetString("Neutral")} ==");  // 区切り用
+                ConcatCommands(CustomRoleTypes.Neutral);
+
+                // 属性
+                roleCommands.Add((CustomRoles)(-5), $"== {GetString("Addons")} ==");  // 区切り用
+                roleCommands.Add(CustomRoles.Lovers, "lo");
+                roleCommands.Add(CustomRoles.Watcher, "wat");
+                roleCommands.Add(CustomRoles.Workhorse, "wh");
+
+                // HAS
+                roleCommands.Add((CustomRoles)(-6), $"== {GetString("HideAndSeek")} ==");  // 区切り用
+                roleCommands.Add(CustomRoles.HASFox, "hfo");
+                roleCommands.Add(CustomRoles.HASTroll, "htr");
+#pragma warning restore IDE0028
+            }
+
             var msg = "";
             var rolemsg = $"{GetString("Command.h_args")}";
-            foreach (var r in roleList)
+            foreach (var r in roleCommands)
             {
                 var roleName = r.Key.ToString();
                 var roleShort = r.Value;
@@ -351,6 +325,16 @@ namespace TownOfHost
             }
             msg += rolemsg;
             Utils.SendMessage(msg);
+        }
+        private static void ConcatCommands(CustomRoleTypes roleType)
+        {
+            var roles = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == roleType);
+            foreach (var role in roles)
+            {
+                if (role.ChatCommand is null) continue;
+
+                roleCommands[role.RoleName] = role.ChatCommand;
+            }
         }
         public static void OnReceiveChat(PlayerControl player, string text)
         {
@@ -421,7 +405,7 @@ namespace TownOfHost
         public static bool DoBlockChat = false;
         public static void Postfix(ChatController __instance)
         {
-            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || (Main.MessagesToSend[0].Item2 == byte.MaxValue && Main.MessageWait.Value > __instance.TimeSinceLastMessage)) return;
+            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || (Main.MessagesToSend[0].Item2 == byte.MaxValue && Main.MessageWait.Value > __instance.timeSinceLastMessage)) return;
             if (DoBlockChat) return;
             var player = Main.AllAlivePlayerControls.OrderBy(x => x.PlayerId).FirstOrDefault();
             if (player == null) return;
@@ -448,7 +432,7 @@ namespace TownOfHost
                 .EndRpc();
             writer.EndMessage();
             writer.SendMessage();
-            __instance.TimeSinceLastMessage = 0f;
+            __instance.timeSinceLastMessage = 0f;
         }
     }
 
@@ -479,7 +463,7 @@ namespace TownOfHost
             chatText = new StringBuilder(chatText).Insert(0, "\n", return_count).ToString();
             if (AmongUsClient.Instance.AmClient && DestroyableSingleton<HudManager>.Instance)
                 DestroyableSingleton<HudManager>.Instance.Chat.AddChat(__instance, chatText);
-            if (chatText.IndexOf("who", StringComparison.OrdinalIgnoreCase) >= 0)
+            if (chatText.Contains("who", StringComparison.OrdinalIgnoreCase))
                 DestroyableSingleton<Telemetry>.Instance.SendWho();
             MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(__instance.NetId, (byte)RpcCalls.SendChat, SendOption.None);
             messageWriter.Write(chatText);

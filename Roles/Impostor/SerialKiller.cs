@@ -1,99 +1,110 @@
-using System.Collections.Generic;
 using UnityEngine;
+using AmongUs.GameOptions;
 
+using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
-using static TownOfHost.Options;
 
 namespace TownOfHost.Roles.Impostor
 {
-    public static class SerialKiller
+    public sealed class SerialKiller : RoleBase, IImpostor
     {
-        private static readonly int Id = 1100;
-        public static List<byte> playerIdList = new();
-
-        private static OptionItem KillCooldown;
-        private static OptionItem TimeLimit;
-
-        private static Dictionary<byte, float> SuicideTimer = new();
-
-        public static void SetupCustomOption()
+        public static readonly SimpleRoleInfo RoleInfo =
+            SimpleRoleInfo.Create(
+                typeof(SerialKiller),
+                player => new SerialKiller(player),
+                CustomRoles.SerialKiller,
+                () => RoleTypes.Shapeshifter,
+                CustomRoleTypes.Impostor,
+                1100,
+                SetUpOptionItem,
+                "sk"
+            );
+        public SerialKiller(PlayerControl player)
+        : base(
+            RoleInfo,
+            player
+        )
         {
-            SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.SerialKiller);
-            KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(2.5f, 180f, 2.5f), 20f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SerialKiller])
+            KillCooldown = OptionKillCooldown.GetFloat();
+            TimeLimit = OptionTimeLimit.GetFloat();
+
+            SuicideTimer = null;
+        }
+        private static OptionItem OptionKillCooldown;
+        private static OptionItem OptionTimeLimit;
+        enum OptionName
+        {
+            SerialKillerLimit
+        }
+        private static float KillCooldown;
+        private static float TimeLimit;
+
+        public bool CanBeLastImpostor { get; } = false;
+        public float? SuicideTimer;
+
+        private static void SetUpOptionItem()
+        {
+            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 20f, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            TimeLimit = FloatOptionItem.Create(Id + 11, "SerialKillerLimit", new(5f, 900f, 5f), 60f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.SerialKiller])
+            OptionTimeLimit = FloatOptionItem.Create(RoleInfo, 11, OptionName.SerialKillerLimit, new(5f, 900f, 5f), 60f, false)
                 .SetValueFormat(OptionFormat.Seconds);
         }
-        public static void Init()
+        public float CalculateKillCooldown() => KillCooldown;
+        public override void ApplyGameOptions(IGameOptions opt)
         {
-            playerIdList = new();
-            SuicideTimer = new();
-        }
-        public static void Add(byte serial)
-        {
-            playerIdList.Add(serial);
-        }
-        public static bool IsEnable() => playerIdList.Count > 0;
-        public static void ApplyKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
-        public static void ApplyGameOptions(PlayerControl pc)
-        {
-            AURoleOptions.ShapeshifterCooldown = HasKilled(pc) ? TimeLimit.GetFloat() : 255f;
+            AURoleOptions.ShapeshifterCooldown = HasKilled() ? TimeLimit : 255f;
             AURoleOptions.ShapeshifterDuration = 1f;
         }
         ///<summary>
         ///シリアルキラー＋生存＋一人以上キルしている
         ///</summary>
-        public static bool HasKilled(PlayerControl pc)
-            => pc != null && pc.Is(CustomRoles.SerialKiller) && pc.IsAlive() && Main.PlayerStates[pc.PlayerId].GetKillCount(true) > 0;
-        public static void OnCheckMurder(PlayerControl killer, bool CanMurder = true)
+        public bool HasKilled()
+            => Player != null && Player.IsAlive() && MyState.GetKillCount(true) > 0;
+        public void OnCheckMurderAsKiller(MurderInfo info)
         {
-            if (!killer.Is(CustomRoles.SerialKiller)) return;
-            SuicideTimer.Remove(killer.PlayerId);
-            if (CanMurder)
-                killer.MarkDirtySettings();
+            var killer = info.AttemptKiller;
+            SuicideTimer = null;
+            killer.MarkDirtySettings();
         }
-        public static void OnReportDeadBody()
+        public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
         {
-            SuicideTimer.Clear();
+            SuicideTimer = null;
         }
-        public static void FixedUpdate(PlayerControl player)
+        public override void OnFixedUpdate(PlayerControl player)
         {
-            if (!HasKilled(player))
+            if (AmongUsClient.Instance.AmHost)
             {
-                SuicideTimer.Remove(player.PlayerId);
-                return;
-            }
-            if (!SuicideTimer.ContainsKey(player.PlayerId)) //タイマーがない
-            {
-                SuicideTimer[player.PlayerId] = 0f;
-                player.RpcResetAbilityCooldown();
-            }
-            else if (SuicideTimer[player.PlayerId] >= TimeLimit.GetFloat())
-            {
-                //自爆時間が来たとき
-                Main.PlayerStates[player.PlayerId].deathReason = PlayerState.DeathReason.Suicide;//死因：自殺
-                player.RpcMurderPlayerV2(player);//自殺させる
-                SuicideTimer.Remove(player.PlayerId);
-            }
-            else
-                SuicideTimer[player.PlayerId] += Time.fixedDeltaTime;//時間をカウント
-        }
-        public static void GetAbilityButtonText(HudManager __instance, PlayerControl pc)
-        {
-            __instance.AbilityButton.ToggleVisible(pc.IsAlive() && HasKilled(pc));
-            __instance.AbilityButton.OverrideText($"{GetString("SerialKillerSuicideButtonText")}");
-        }
-        public static void AfterMeetingTasks()
-        {
-            foreach (var id in playerIdList)
-            {
-                if (!Main.PlayerStates[id].IsDead)
+                if (!HasKilled())
                 {
-                    var pc = Utils.GetPlayerById(id);
-                    pc?.RpcResetAbilityCooldown();
-                    if (HasKilled(pc))
-                        SuicideTimer[id] = 0f;
+                    SuicideTimer = null;
+                    return;
                 }
+                if (SuicideTimer == null) //タイマーがない
+                {
+                    SuicideTimer = 0f;
+                    Player.RpcResetAbilityCooldown();
+                }
+                else if (SuicideTimer >= TimeLimit)
+                {
+                    //自爆時間が来たとき
+                    MyState.DeathReason = CustomDeathReason.Suicide;//死因：自殺
+                    Player.RpcMurderPlayer(Player);//自殺させる
+                    SuicideTimer = null;
+                }
+                else
+                    SuicideTimer += Time.fixedDeltaTime;//時間をカウント
+            }
+        }
+        public override bool CanUseAbilityButton() => HasKilled();
+        public override string GetAbilityButtonText() => GetString("SerialKillerSuicideButtonText");
+        public override void AfterMeetingTasks()
+        {
+            if (Player.IsAlive())
+            {
+                Player.RpcResetAbilityCooldown();
+                if (HasKilled())
+                    SuicideTimer = 0f;
             }
         }
     }

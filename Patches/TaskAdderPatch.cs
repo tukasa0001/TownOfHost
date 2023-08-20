@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
+
+using TownOfHost.Roles.Core;
 
 namespace TownOfHost
 {
@@ -34,9 +34,8 @@ namespace TownOfHost
             if (CustomRolesFolder != null && CustomRolesFolder.FolderName == taskFolder.FolderName)
             {
                 var crewBehaviour = DestroyableSingleton<RoleManager>.Instance.AllRoles.Where(role => role.Role == RoleTypes.Crewmate).FirstOrDefault();
-                foreach (var cRoleID in Enum.GetValues(typeof(CustomRoles)))
+                foreach (var cRole in CustomRolesHelper.AllRoles)
                 {
-                    CustomRoles cRole = (CustomRoles)cRoleID;
                     /*if(cRole == CustomRoles.Crewmate ||
                     cRole == CustomRoles.Impostor ||
                     cRole == CustomRoles.Scientist ||

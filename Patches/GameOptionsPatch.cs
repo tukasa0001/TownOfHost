@@ -1,5 +1,7 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
+
+using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -9,17 +11,14 @@ namespace TownOfHost
     {
         public static void Postfix(RoleOptionSetting __instance)
         {
-            bool forced = false;
             string DisableText = $" ({GetString("Disabled")})";
             if (__instance.Role.Role == RoleTypes.Scientist)
             {
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Scientist);
-                forced = SelectRolesPatch.GetAdditionalRoleTypesCount(RoleTypes.Scientist) > 0;
             }
             if (__instance.Role.Role == RoleTypes.Engineer)
             {
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Engineer);
-                forced = SelectRolesPatch.GetAdditionalRoleTypesCount(RoleTypes.Engineer) > 0;
             }
             if (__instance.Role.Role == RoleTypes.GuardianAngel)
             {
@@ -39,12 +38,6 @@ namespace TownOfHost
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
             {
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Shapeshifter);
-                forced = SelectRolesPatch.GetAdditionalRoleTypesCount(RoleTypes.Shapeshifter) > 0;
-            }
-
-            if (forced)
-            {
-                ((TMPro.TMP_Text)__instance.ChanceText).text = "Always";
             }
         }
     }

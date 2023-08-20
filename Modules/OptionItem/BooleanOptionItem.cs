@@ -1,3 +1,6 @@
+using System;
+using TownOfHost.Roles.Core;
+
 namespace TownOfHost
 {
     public class BooleanOptionItem : OptionItem
@@ -18,6 +21,24 @@ namespace TownOfHost
                 id, name, defaultValue, tab, isSingleValue
             );
         }
+        public static BooleanOptionItem Create(
+            int id, Enum name, bool defaultValue, TabGroup tab, bool isSingleValue
+        )
+        {
+            return new BooleanOptionItem(
+                id, name.ToString(), defaultValue, tab, isSingleValue
+            );
+        }
+        public static BooleanOptionItem Create(
+            SimpleRoleInfo roleInfo, int idOffset, Enum name, bool defaultValue, bool isSingleValue, OptionItem parent = null
+        )
+        {
+            var opt = new BooleanOptionItem(
+                roleInfo.ConfigId + idOffset, name.ToString(), defaultValue, roleInfo.Tab, isSingleValue
+            );
+            opt.SetParent(parent ?? roleInfo.RoleOption);
+            return opt;
+        }
 
         // Getter
         public override string GetString()
@@ -26,9 +47,9 @@ namespace TownOfHost
         }
 
         // Setter
-        public override void SetValue(int value)
+        public override void SetValue(int value, bool doSync = true)
         {
-            base.SetValue(value % 2 == 0 ? 0 : 1);
+            base.SetValue(value % 2 == 0 ? 0 : 1, doSync);
         }
     }
 }

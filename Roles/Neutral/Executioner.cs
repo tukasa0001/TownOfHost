@@ -1,146 +1,177 @@
 using System.Collections.Generic;
-using HarmonyLib;
+using System.Linq;
 using Hazel;
+using AmongUs.GameOptions;
 
-using static TownOfHost.Options;
+using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
-namespace TownOfHost.Roles.Neutral
+namespace TownOfHost.Roles.Neutral;
+public sealed class Executioner : RoleBase, IAdditionalWinner
 {
-    public static class Executioner
+    public static readonly SimpleRoleInfo RoleInfo =
+        SimpleRoleInfo.Create(
+            typeof(Executioner),
+            player => new Executioner(player),
+            CustomRoles.Executioner,
+            () => RoleTypes.Crewmate,
+            CustomRoleTypes.Neutral,
+            50700,
+            SetupOptionItem,
+            "exe",
+            "#611c3a",
+            introSound: () => GetIntroSound(RoleTypes.Shapeshifter)
+        );
+    public Executioner(PlayerControl player)
+    : base(
+        RoleInfo,
+        player,
+        () => ChangeRolesAfterTargetKilled == CustomRoles.Crewmate ? HasTask.ForRecompute : HasTask.False
+    )
     {
-        private static readonly int Id = 50700;
-        public static List<byte> playerIdList = new();
-        public static byte WinnerID;
+        CanTargetImpostor = OptionCanTargetImpostor.GetBool();
+        CanTargetNeutralKiller = OptionCanTargetNeutralKiller.GetBool();
+        ChangeRolesAfterTargetKilled = ChangeRoles[OptionChangeRolesAfterTargetKilled.GetValue()];
 
-        private static OptionItem CanTargetImpostor;
-        private static OptionItem CanTargetNeutralKiller;
-        public static OptionItem ChangeRolesAfterTargetKilled;
+        Executioners.Add(this);
+        CustomRoleManager.OnMurderPlayerOthers.Add(OnMurderPlayerOthers);
 
+        TargetExiled = false;
+    }
+    public static byte WinnerID;
 
-        /// <summary>
-        /// Key: エクスキューショナーのPlayerId, Value: ターゲットのPlayerId
-        /// </summary>
-        public static Dictionary<byte, byte> Target = new();
-        public static readonly string[] ChangeRoles =
-        {
-            CustomRoles.Crewmate.ToString(), CustomRoles.Jester.ToString(), CustomRoles.Opportunist.ToString(),
-        };
-        public static readonly CustomRoles[] CRoleChangeRoles =
-        {
+    private static OptionItem OptionCanTargetImpostor;
+    private static OptionItem OptionCanTargetNeutralKiller;
+    public static OptionItem OptionChangeRolesAfterTargetKilled;
+    enum OptionName
+    {
+        ExecutionerCanTargetImpostor,
+        ExecutionerCanTargetNeutralKiller,
+        ExecutionerChangeRolesAfterTargetKilled
+    }
+
+    private static bool CanTargetImpostor;
+    private static bool CanTargetNeutralKiller;
+    public static CustomRoles ChangeRolesAfterTargetKilled;
+
+    public static HashSet<Executioner> Executioners = new(15);
+    public byte TargetId;
+    private bool TargetExiled;
+    public static readonly CustomRoles[] ChangeRoles =
+    {
             CustomRoles.Crewmate, CustomRoles.Jester, CustomRoles.Opportunist,
-        };
+    };
 
-        public static void SetupCustomOption()
-        {
-            SetupRoleOptions(Id, TabGroup.NeutralRoles, CustomRoles.Executioner);
-            CanTargetImpostor = BooleanOptionItem.Create(Id + 10, "ExecutionerCanTargetImpostor", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Executioner]);
-            CanTargetNeutralKiller = BooleanOptionItem.Create(Id + 12, "ExecutionerCanTargetNeutralKiller", false, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Executioner]);
-            ChangeRolesAfterTargetKilled = StringOptionItem.Create(Id + 11, "ExecutionerChangeRolesAfterTargetKilled", ChangeRoles, 1, TabGroup.NeutralRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Executioner]);
-        }
-        public static void Init()
-        {
-            playerIdList = new();
-            Target = new();
-        }
-        public static void Add(byte playerId)
-        {
-            playerIdList.Add(playerId);
+    private static void SetupOptionItem()
+    {
+        var cRolesString = ChangeRoles.Select(x => x.ToString()).ToArray();
+        OptionCanTargetImpostor = BooleanOptionItem.Create(RoleInfo, 10, OptionName.ExecutionerCanTargetImpostor, false, false);
+        OptionCanTargetNeutralKiller = BooleanOptionItem.Create(RoleInfo, 12, OptionName.ExecutionerCanTargetNeutralKiller, false, false);
+        OptionChangeRolesAfterTargetKilled = StringOptionItem.Create(RoleInfo, 11, OptionName.ExecutionerChangeRolesAfterTargetKilled, cRolesString, 1, false);
+    }
+    public override void Add()
+    {
+        //ターゲット割り当て
+        if (!AmongUsClient.Instance.AmHost) return;
 
-            //ターゲット割り当て
-            if (AmongUsClient.Instance.AmHost)
+        var playerId = Player.PlayerId;
+        List<PlayerControl> targetList = new();
+        var rand = IRandom.Instance;
+        foreach (var target in Main.AllPlayerControls)
+        {
+            if (playerId == target.PlayerId) continue;
+            else if (!CanTargetImpostor && target.Is(CustomRoleTypes.Impostor)) continue;
+            else if (!CanTargetNeutralKiller && target.IsNeutralKiller()) continue;
+            if (target.Is(CustomRoles.GM)) continue;
+
+            targetList.Add(target);
+        }
+        var SelectedTarget = targetList[rand.Next(targetList.Count)];
+        TargetId = SelectedTarget.PlayerId;
+        SendRPC();
+        Logger.Info($"{Player.GetNameWithRole()}:{SelectedTarget.GetNameWithRole()}", "Executioner");
+    }
+    public override void OnDestroy()
+    {
+        Executioners.Remove(this);
+
+        if (Executioners.Count <= 0)
+        {
+            CustomRoleManager.OnMurderPlayerOthers.Remove(OnMurderPlayerOthers);
+        }
+    }
+    public void SendRPC()
+    {
+        if (!AmongUsClient.Instance.AmHost) return;
+
+        using var sender = CreateSender(CustomRPC.SetExecutionerTarget);
+        sender.Writer.Write(TargetId);
+    }
+    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    {
+        byte targetId = reader.ReadByte();
+        TargetId = targetId;
+    }
+    public override void OnMurderPlayerAsTarget(MurderInfo _)
+    {
+        TargetId = byte.MaxValue;
+        SendRPC();
+    }
+    public static void OnMurderPlayerOthers(MurderInfo info)
+    {
+        var target = info.AttemptTarget;
+
+        foreach (var executioner in Executioners.ToArray())
+        {
+            if (executioner.TargetId == target.PlayerId)
             {
-                List<PlayerControl> targetList = new();
-                var rand = IRandom.Instance;
-                foreach (var target in Main.AllPlayerControls)
-                {
-                    if (playerId == target.PlayerId) continue;
-                    else if (!CanTargetImpostor.GetBool() && target.Is(CustomRoleTypes.Impostor)) continue;
-                    else if (!CanTargetNeutralKiller.GetBool() && target.IsNeutralKiller()) continue;
-                    if (target.Is(CustomRoles.GM)) continue;
-
-                    targetList.Add(target);
-                }
-                var SelectedTarget = targetList[rand.Next(targetList.Count)];
-                Target.Add(playerId, SelectedTarget.PlayerId);
-                SendRPC(playerId, SelectedTarget.PlayerId, "SetTarget");
-                Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()}:{SelectedTarget.GetNameWithRole()}", "Executioner");
+                executioner.ChangeRole();
+                break;
             }
         }
-        public static bool IsEnable() => playerIdList.Count > 0;
-        public static void SendRPC(byte executionerId, byte targetId = 0x73, string Progress = "")
-        {
-            MessageWriter writer;
-            switch (Progress)
-            {
-                case "SetTarget":
-                    writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetExecutionerTarget, SendOption.Reliable);
-                    writer.Write(executionerId);
-                    writer.Write(targetId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    break;
-                case "":
-                    if (!AmongUsClient.Instance.AmHost) return;
-                    writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, SendOption.Reliable);
-                    writer.Write(executionerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    break;
-                case "WinCheck":
-                    if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) break; //まだ勝者が設定されていない場合
-                    CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Executioner);
-                    CustomWinnerHolder.WinnerIds.Add(executionerId);
-                    break;
-            }
-        }
-        public static void ReceiveRPC(MessageReader reader, bool SetTarget)
-        {
-            if (SetTarget)
-            {
-                byte ExecutionerId = reader.ReadByte();
-                byte TargetId = reader.ReadByte();
-                Target[ExecutionerId] = TargetId;
-            }
-            else
-                Target.Remove(reader.ReadByte());
-        }
-        public static void ChangeRoleByTarget(PlayerControl target)
-        {
-            byte Executioner = 0x73;
-            Target.Do(x =>
-            {
-                if (x.Value == target.PlayerId)
-                    Executioner = x.Key;
-            });
-            Utils.GetPlayerById(Executioner).RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetValue()]);
-            Target.Remove(Executioner);
-            SendRPC(Executioner);
-            Utils.NotifyRoles();
-        }
-        public static void ChangeRole(PlayerControl executioner)
-        {
-            executioner.RpcSetCustomRole(CRoleChangeRoles[ChangeRolesAfterTargetKilled.GetValue()]);
-            Target.Remove(executioner.PlayerId);
-            SendRPC(executioner.PlayerId);
-        }
-        public static string TargetMark(PlayerControl seer, PlayerControl target)
-        {
-            if (!seer.Is(CustomRoles.Executioner)) return ""; //エクスキューショナー以外処理しない
+    }
+    public override string GetMark(PlayerControl seer, PlayerControl seen, bool _ = false)
+    {
+        //seenが省略の場合seer
+        seen ??= seer;
 
-            var GetValue = Target.TryGetValue(seer.PlayerId, out var targetId);
-            return GetValue && targetId == target.PlayerId ? Utils.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦") : "";
-        }
-        public static void CheckExileTarget(GameData.PlayerInfo exiled, bool DecidedWinner)
+        return TargetId == seen.PlayerId ? Utils.ColorString(RoleInfo.RoleColor, "♦") : "";
+    }
+    public override void OnExileWrapUp(GameData.PlayerInfo exiled, ref bool DecidedWinner)
+    {
+        if (!AmongUsClient.Instance.AmHost) return;
+        if (Player?.IsAlive() != true) return;
+        if (exiled.PlayerId != TargetId) return;
+
+        TargetExiled = true;
+
+        if (!DecidedWinner)
         {
-            foreach (var kvp in Target)
-            {
-                var executioner = Utils.GetPlayerById(kvp.Key);
-                if (executioner == null) continue;
-                if (executioner.Data.IsDead || executioner.Data.Disconnected) continue; //Keyが死んでいたらor切断していたらこのforeach内の処理を全部スキップ
-                if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
-                {
-                    SendRPC(kvp.Key, Progress: "WinCheck");
-                    break; //脱ループ
-                }
-            }
+            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default) return; //勝者がいるなら処理をスキップ
+
+            CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Executioner);
+        }
+        CustomWinnerHolder.WinnerIds.Add(Player.PlayerId);
+    }
+    public bool CheckWin(out AdditionalWinners winnerType)
+    {
+        winnerType = AdditionalWinners.Executioner;
+        return TargetExiled && CustomWinnerHolder.WinnerTeam != CustomWinner.Default;
+    }
+    public void ChangeRole()
+    {
+        Player.RpcSetCustomRole(ChangeRolesAfterTargetKilled);
+        Utils.NotifyRoles();
+    }
+
+    public static void ChangeRoleByTarget(byte targetId)
+    {
+        foreach (var executioner in Executioners)
+        {
+            if (executioner.TargetId != targetId) continue;
+
+            executioner.ChangeRole();
+            break;
         }
     }
 }

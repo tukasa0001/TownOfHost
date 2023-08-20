@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 
-
 namespace TownOfHost
 {
     public class OptionBackupData
@@ -13,22 +12,22 @@ namespace TownOfHost
         {
             AllValues = new(32);
 
-            foreach (ByteOptionNames name in Enum.GetValues(typeof(ByteOptionNames)))
+            foreach (ByteOptionNames name in EnumHelper.GetAllValues<ByteOptionNames>())
             {
                 if (option.TryGetByte(name, out var value))
                     AllValues.Add(new ByteOptionBackupValue(name, value));
             }
-            foreach (BoolOptionNames name in Enum.GetValues(typeof(BoolOptionNames)))
+            foreach (BoolOptionNames name in EnumHelper.GetAllValues<BoolOptionNames>())
             {
                 if (option.TryGetBool(name, out var value))
                     AllValues.Add(new BoolOptionBackupValue(name, value));
             }
-            foreach (FloatOptionNames name in Enum.GetValues(typeof(FloatOptionNames)))
+            foreach (FloatOptionNames name in EnumHelper.GetAllValues<FloatOptionNames>())
             {
                 if (option.TryGetFloat(name, out var value))
                     AllValues.Add(new FloatOptionBackupValue(name, value));
             }
-            foreach (Int32OptionNames name in Enum.GetValues(typeof(Int32OptionNames)))
+            foreach (Int32OptionNames name in EnumHelper.GetAllValues<Int32OptionNames>())
             {
                 if (option.TryGetInt(name, out var value))
                     AllValues.Add(new IntOptionBackupValue(name, value));

@@ -1,3 +1,6 @@
+using System;
+using TownOfHost.Roles.Core;
+
 namespace TownOfHost
 {
     public class IntegerOptionItem : OptionItem
@@ -19,6 +22,24 @@ namespace TownOfHost
                 id, name, defaultValue, tab, isSingleValue, rule
             );
         }
+        public static IntegerOptionItem Create(
+            int id, Enum name, IntegerValueRule rule, int defaultValue, TabGroup tab, bool isSingleValue
+        )
+        {
+            return new IntegerOptionItem(
+                id, name.ToString(), defaultValue, tab, isSingleValue, rule
+            );
+        }
+        public static IntegerOptionItem Create(
+            SimpleRoleInfo roleInfo, int idOffset, Enum name, IntegerValueRule rule, int defaultValue, bool isSingleValue, OptionItem parent = null
+        )
+        {
+            var opt = new IntegerOptionItem(
+                roleInfo.ConfigId + idOffset, name.ToString(), defaultValue, roleInfo.Tab, isSingleValue, rule
+            );
+            opt.SetParent(parent ?? roleInfo.RoleOption);
+            return opt;
+        }
 
         // Getter
         public override int GetInt() => Rule.GetValueByIndex(CurrentValue);
@@ -31,9 +52,9 @@ namespace TownOfHost
             => Rule.RepeatIndex(base.GetValue());
 
         // Setter
-        public override void SetValue(int value)
+        public override void SetValue(int value, bool doSync = true)
         {
-            base.SetValue(Rule.RepeatIndex(value));
+            base.SetValue(Rule.RepeatIndex(value), doSync);
         }
     }
 }

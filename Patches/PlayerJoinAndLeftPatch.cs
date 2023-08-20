@@ -5,6 +5,8 @@ using HarmonyLib;
 using InnerNet;
 
 using TownOfHost.Modules;
+using TownOfHost.Roles;
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
 
@@ -41,6 +43,11 @@ namespace TownOfHost
         public static void Prefix(InnerNetClient __instance, DisconnectReasons reason, string stringReason)
         {
             Logger.Info($"切断(理由:{reason}:{stringReason}, ping:{__instance.Ping})", "Session");
+
+            if (AmongUsClient.Instance.AmHost && GameStates.InGame)
+                GameManager.Instance.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
+
+            CustomRoleManager.Dispose();
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
@@ -68,6 +75,11 @@ namespace TownOfHost
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
     class OnPlayerLeftPatch
     {
+        static void Prefix([HarmonyArgument(0)] ClientData data)
+        {
+            if (CustomRoles.Executioner.IsPresent())
+                Executioner.ChangeRoleByTarget(data.Character.PlayerId);
+        }
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
         {
             //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
@@ -79,20 +91,18 @@ namespace TownOfHost
                     {
                         Main.isLoversDead = true;
                         Main.LoversPlayers.Remove(lovers);
-                        Main.PlayerStates[lovers.PlayerId].RemoveSubRole(CustomRoles.Lovers);
+                        PlayerState.GetByPlayerId(lovers.PlayerId).RemoveSubRole(CustomRoles.Lovers);
                     }
-                if (data.Character.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(data.Character.PlayerId))
-                    Executioner.ChangeRole(data.Character);
-                if (Executioner.Target.ContainsValue(data.Character.PlayerId))
-                    Executioner.ChangeRoleByTarget(data.Character);
-                if (Main.PlayerStates[data.Character.PlayerId].deathReason == PlayerState.DeathReason.etc) //死因が設定されていなかったら
+                var state = PlayerState.GetByPlayerId(data.Character.PlayerId);
+                if (state.DeathReason == CustomDeathReason.etc) //死因が設定されていなかったら
                 {
-                    Main.PlayerStates[data.Character.PlayerId].deathReason = PlayerState.DeathReason.Disconnected;
-                    Main.PlayerStates[data.Character.PlayerId].SetDead();
+                    state.DeathReason = CustomDeathReason.Disconnected;
+                    state.SetDead();
                 }
                 AntiBlackout.OnDisconnect(data.Character.Data);
                 PlayerGameOptionsSender.RemoveSender(data.Character);
             }
+            Main.playerVersion.Remove(data.Character.PlayerId);
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
         }
     }
@@ -104,14 +114,14 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 OptionItem.SyncAllOptions();
-                new LateTask(() =>
+                _ = new LateTask(() =>
                 {
                     if (client.Character == null) return;
                     TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
                 }, 3f, "Welcome Message");
-                if (Options.AutoDisplayLastResult.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
+                if (Options.AutoDisplayLastResult.GetBool() && PlayerState.AllPlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
                 {
-                    new LateTask(() =>
+                    _ = new LateTask(() =>
                     {
                         if (!AmongUsClient.Instance.IsGameStarted && client.Character != null)
                         {
@@ -120,9 +130,9 @@ namespace TownOfHost
                         }
                     }, 3f, "DisplayLastRoles");
                 }
-                if (Options.AutoDisplayKillLog.GetBool() && Main.PlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
+                if (Options.AutoDisplayKillLog.GetBool() && PlayerState.AllPlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))
                 {
-                    new LateTask(() =>
+                    _ = new LateTask(() =>
                     {
                         if (!GameStates.IsInGame && client.Character != null)
                         {

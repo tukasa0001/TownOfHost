@@ -1,8 +1,10 @@
-using System;
 using System.Collections.Generic;
 using AmongUs.GameOptions;
 using Hazel;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Il2CppSystem;
 using InnerNet;
+// Il2CppStructArray<byte>とbyte[]との間での暗黙的な変換の際に発生する重い計算を抑制するため，意図的にIl2CppSystemとIl2CppInterop.Runtime.InteropTypes.Arraysを使用します - Hyz-sui
 
 namespace TownOfHost.Modules
 {
@@ -24,8 +26,6 @@ namespace TownOfHost.Modules
 
         public abstract IGameOptions BasedGameOptions { get; }
         public abstract bool IsDirty { get; protected set; }
-        public byte[] ByteArray = new byte[0]; // 送信時に使い回す配列
-
 
         public virtual void SendGameOptions()
         {
@@ -48,15 +48,14 @@ namespace TownOfHost.Modules
             writer.EndMessage();
 
             // 配列化&送信
-            Span<byte> writerSpan = new(writer.Buffer, 1, writer.Length - 1);
-            if (ByteArray == null || ByteArray.Length != writerSpan.Length) ByteArray = new byte[writerSpan.Length];
-            for (int i = 0; i < ByteArray.Length; i++)
-                ByteArray[i] = writerSpan[i];
+            var byteArray = new Il2CppStructArray<byte>(writer.Length - 1);
+            // MessageWriter.ToByteArray
+            Buffer.BlockCopy(writer.Buffer.Cast<Array>(), 1, byteArray.Cast<Array>(), 0, writer.Length - 1);
 
-            SendOptionsArray(ByteArray);
+            SendOptionsArray(byteArray);
             writer.Recycle();
         }
-        public virtual void SendOptionsArray(byte[] optionArray)
+        public virtual void SendOptionsArray(Il2CppStructArray<byte> optionArray)
         {
             for (byte i = 0; i < GameManager.Instance.LogicComponents.Count; i++)
             {
@@ -66,7 +65,7 @@ namespace TownOfHost.Modules
                 }
             }
         }
-        protected virtual void SendOptionsArray(byte[] optionArray, byte LogicOptionsIndex, int targetClientId)
+        protected virtual void SendOptionsArray(Il2CppStructArray<byte> optionArray, byte LogicOptionsIndex, int targetClientId)
         {
             var writer = MessageWriter.Get(SendOption.Reliable);
 

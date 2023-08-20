@@ -6,7 +6,7 @@ using HarmonyLib;
 using UnityEngine;
 
 using TownOfHost.Modules;
-using TownOfHost.Roles.Impostor;
+using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -24,19 +24,19 @@ namespace TownOfHost
             Logger.Info("-----------ゲーム終了-----------", "Phase");
             if (!GameStates.IsModHost) return;
             SummaryText = new();
-            foreach (var id in Main.PlayerStates.Keys)
+            foreach (var id in PlayerState.AllPlayerStates.Keys)
                 SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
 
             var sb = new StringBuilder(GetString("KillLog") + ":");
-            foreach (var kvp in Main.PlayerStates.OrderBy(x => x.Value.RealKiller.Item1.Ticks))
+            foreach (var kvp in PlayerState.AllPlayerStates.OrderBy(x => x.Value.RealKiller.Item1.Ticks))
             {
                 var date = kvp.Value.RealKiller.Item1;
                 if (date == DateTime.MinValue) continue;
                 var killerId = kvp.Value.GetRealKiller();
                 var targetId = kvp.Key;
-                sb.Append($"\n{date:T} {Main.AllPlayerNames[targetId]}({Utils.GetDisplayRoleName(targetId)}{Utils.GetSubRolesText(targetId)}) [{Utils.GetVitalText(kvp.Key)}]");
+                sb.Append($"\n{date:T} {Main.AllPlayerNames[targetId]}({Utils.GetTrueRoleName(targetId, false)}{Utils.GetSubRolesText(targetId)}) [{Utils.GetVitalText(kvp.Key)}]");
                 if (killerId != byte.MaxValue && killerId != targetId)
-                    sb.Append($"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetDisplayRoleName(killerId)}{Utils.GetSubRolesText(killerId)})");
+                    sb.Append($"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetTrueRoleName(killerId, false)}{Utils.GetSubRolesText(killerId)})");
             }
             KillLog = sb.ToString();
 
@@ -60,7 +60,7 @@ namespace TownOfHost
                 winner = new();
                 foreach (var pc in Main.AllPlayerControls)
                 {
-                    var role = Main.PlayerStates[pc.PlayerId].MainRole;
+                    var role = PlayerState.GetByPlayerId(pc.PlayerId).MainRole;
                     if (role.GetCustomRoleTypes() == CustomRoleTypes.Impostor)
                     {
                         if (CustomWinnerHolder.WinnerTeam == CustomWinner.Impostor)
@@ -96,9 +96,6 @@ namespace TownOfHost
                 Main.winnerList.Add(pc.PlayerId);
             }
 
-            BountyHunter.ChangeTimer = new();
-            Main.isDoused = new Dictionary<(byte, byte), bool>();
-
             Main.VisibleTasksCount = false;
             if (AmongUsClient.Instance.AmHost)
             {
@@ -107,6 +104,8 @@ namespace TownOfHost
                 GameOptionsSender.AllSenders.Add(new NormalGameOptionsSender());
                 /* Send SyncSettings RPC */
             }
+            //オブジェクト破棄
+            CustomRoleManager.Dispose();
         }
     }
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]
@@ -143,7 +142,7 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(winnerRole);
                 }
             }
-            if (AmongUsClient.Instance.AmHost && Main.PlayerStates[0].MainRole == CustomRoles.GM)
+            if (AmongUsClient.Instance.AmHost && PlayerState.GetByPlayerId(0).MainRole == CustomRoles.GM)
             {
                 __instance.WinText.text = "Game Over";
                 __instance.WinText.color = Utils.GetRoleColor(CustomRoles.GM);
@@ -203,7 +202,7 @@ namespace TownOfHost
             RoleSummaryObject.transform.localScale = new Vector3(1f, 1f, 1f);
 
             StringBuilder sb = new($"{GetString("RoleSummaryText")}");
-            List<byte> cloneRoles = new(Main.PlayerStates.Keys);
+            List<byte> cloneRoles = new(PlayerState.AllPlayerStates.Keys);
             foreach (var id in Main.winnerList)
             {
                 sb.Append($"\n<color={CustomWinnerColor}>★</color> ").Append(EndGamePatch.SummaryText[id]);

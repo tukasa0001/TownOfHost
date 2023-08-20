@@ -1,4 +1,6 @@
 using Hazel;
+
+using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Impostor;
 
 namespace TownOfHost
@@ -34,7 +36,7 @@ namespace TownOfHost
         public static bool TryGetData(PlayerControl seer, PlayerControl target, out string colorCode)
         {
             colorCode = "";
-            var state = Main.PlayerStates[seer.PlayerId];
+            var state = PlayerState.GetByPlayerId(seer.PlayerId);
             if (!state.TargetColorData.TryGetValue(target.PlayerId, out var value)) return false;
             colorCode = value;
             return true;
@@ -49,7 +51,7 @@ namespace TownOfHost
                 colorCode = target.GetRoleColorCode();
             }
 
-            var state = Main.PlayerStates[seerId];
+            var state = PlayerState.GetByPlayerId(seerId);
             if (state.TargetColorData.TryGetValue(targetId, out var value) && colorCode == value) return;
             state.TargetColorData.Add(targetId, colorCode);
 
@@ -57,7 +59,7 @@ namespace TownOfHost
         }
         public static void Remove(byte seerId, byte targetId)
         {
-            var state = Main.PlayerStates[seerId];
+            var state = PlayerState.GetByPlayerId(seerId);
             if (!state.TargetColorData.ContainsKey(targetId)) return;
             state.TargetColorData.Remove(targetId);
 
@@ -65,7 +67,7 @@ namespace TownOfHost
         }
         public static void RemoveAll(byte seerId)
         {
-            Main.PlayerStates[seerId].TargetColorData.Clear();
+            PlayerState.GetByPlayerId(seerId).TargetColorData.Clear();
 
             SendRPC(seerId);
         }

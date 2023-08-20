@@ -1,53 +1,105 @@
-using System.Collections.Generic;
+using AmongUs.GameOptions;
 
+using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Options;
 
-namespace TownOfHost.Roles.Impostor
+namespace TownOfHost.Roles.Impostor;
+
+public sealed class Mare : RoleBase, IImpostor
 {
-    public static class Mare
+    public static readonly SimpleRoleInfo RoleInfo =
+        SimpleRoleInfo.Create(
+            typeof(Mare),
+            player => new Mare(player),
+            CustomRoles.Mare,
+            () => RoleTypes.Impostor,
+            CustomRoleTypes.Impostor,
+            2300,
+            SetupCustomOption,
+            "ma"
+        );
+    public Mare(PlayerControl player)
+    : base(
+        RoleInfo,
+        player
+    )
     {
-        private static readonly int Id = 2300;
-        public static List<byte> playerIdList = new();
+        KillCooldownInLightsOut = OptionKillCooldownInLightsOut.GetFloat();
+        SpeedInLightsOut = OptionSpeedInLightsOut.GetFloat();
 
-        private static OptionItem KillCooldownInLightsOut;
-        private static OptionItem SpeedInLightsOut;
-        private static bool idAccelerated = false;  //加速済みかフラグ
+        IsActivateKill = false;
+        IsAccelerated = false;
 
-
-        public static void SetupCustomOption()
-        {
-            SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.Mare);
-            SpeedInLightsOut = FloatOptionItem.Create(Id + 10, "MareAddSpeedInLightsOut", new(0.1f, 0.5f, 0.1f), 0.3f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mare])
-                .SetValueFormat(OptionFormat.Multiplier);
-            KillCooldownInLightsOut = FloatOptionItem.Create(Id + 11, "MareKillCooldownInLightsOut", new(2.5f, 180f, 2.5f), 15f, TabGroup.ImpostorRoles, false).SetParent(CustomRoleSpawnChances[CustomRoles.Mare])
-                .SetValueFormat(OptionFormat.Seconds);
-        }
-        public static void Init()
-        {
-            playerIdList = new();
-        }
-        public static void Add(byte mare)
-        {
-            playerIdList.Add(mare);
-        }
-        public static bool IsEnable => playerIdList.Count > 0;
-        public static float GetKillCooldown => Utils.IsActive(SystemTypes.Electrical) ? KillCooldownInLightsOut.GetFloat() : DefaultKillCooldown;
-        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = GetKillCooldown;
-        public static void ApplyGameOptions(byte playerId)
-        {
-            if (Utils.IsActive(SystemTypes.Electrical) && !idAccelerated)
-            { //停電中で加速済みでない場合
-                idAccelerated = true;
-                Main.AllPlayerSpeed[playerId] += SpeedInLightsOut.GetFloat();//Mareの速度を加算
-            }
-            else if (!Utils.IsActive(SystemTypes.Electrical) && idAccelerated)
-            { //停電中ではなく加速済みになっている場合
-                idAccelerated = false;
-                Main.AllPlayerSpeed[playerId] -= SpeedInLightsOut.GetFloat();//Mareの速度を減算
-            }
-        }
-
-        public static bool KnowTargetRoleColor(PlayerControl target, bool isMeeting)
-            => !isMeeting && playerIdList.Contains(target.PlayerId) && Utils.IsActive(SystemTypes.Electrical);
     }
+
+    private static OptionItem OptionKillCooldownInLightsOut;
+    private static OptionItem OptionSpeedInLightsOut;
+    enum OptionName
+    {
+        MareAddSpeedInLightsOut,
+        MareKillCooldownInLightsOut,
+    }
+    private float KillCooldownInLightsOut;
+    private float SpeedInLightsOut;
+    private static bool IsActivateKill;
+    private bool IsAccelerated;  //加速済みかフラグ
+
+    public static void SetupCustomOption()
+    {
+        OptionSpeedInLightsOut = FloatOptionItem.Create(RoleInfo, 10, OptionName.MareAddSpeedInLightsOut, new(0.1f, 0.5f, 0.1f), 0.3f, false);
+        OptionKillCooldownInLightsOut = FloatOptionItem.Create(RoleInfo, 11, OptionName.MareKillCooldownInLightsOut, new(2.5f, 180f, 2.5f), 15f, false)
+            .SetValueFormat(OptionFormat.Seconds);
+    }
+    public bool CanUseKillButton() => IsActivateKill;
+    public float CalculateKillCooldown() => IsActivateKill ? KillCooldownInLightsOut : DefaultKillCooldown;
+    public override void ApplyGameOptions(IGameOptions opt)
+    {
+        if (IsActivateKill && !IsAccelerated)
+        { //停電中で加速済みでない場合
+            IsAccelerated = true;
+            Main.AllPlayerSpeed[Player.PlayerId] += SpeedInLightsOut;//Mareの速度を加算
+        }
+        else if (!IsActivateKill && IsAccelerated)
+        { //停電中ではなく加速済みになっている場合
+            IsAccelerated = false;
+            Main.AllPlayerSpeed[Player.PlayerId] -= SpeedInLightsOut;//Mareの速度を減算
+        }
+    }
+    public override void OnFixedUpdate(PlayerControl player)
+    {
+        if (GameStates.IsInTask && IsActivateKill)
+        {
+            if (!Utils.IsActive(SystemTypes.Electrical))
+            {
+                //停電解除されたらキルモード解除
+                IsActivateKill = false;
+                Player.MarkDirtySettings();
+                Utils.NotifyRoles();
+            }
+        }
+    }
+    public override bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
+    {
+        if (systemType == SystemTypes.Electrical)
+        {
+            if (amount.HasAnyBit(128))
+            {
+                _ = new LateTask(() =>
+                {
+                    //まだ停電が直っていなければキル可能モードに
+                    if (Utils.IsActive(SystemTypes.Electrical))
+                    {
+                        IsActivateKill = true;
+                        Player.MarkDirtySettings();
+                        Utils.NotifyRoles();
+                    }
+                }, 4.0f, "Mare Activate Kill");
+            }
+        }
+        return true;
+    }
+    public static bool KnowTargetRoleColor(PlayerControl target, bool isMeeting)
+        => !isMeeting && IsActivateKill && target.Is(CustomRoles.Mare);
+
 }
