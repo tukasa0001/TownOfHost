@@ -193,7 +193,7 @@
 
 "# 特殊クルー役職"
 "BaitInfoLong","(Crewmates):\nWhen you are killed, you force your killer to immediately self-report.","(クルー陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。","(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。","(船員):\n當被殺時,兇手將強制自行舉報","(Член Экипажа):\nКогда Приманку убивают, он заставляет убившего игрока \nмоментально зарепортить ваш труп.","(Tripulantes):\nQuando morrer, você força o seu assassino a reportar o seu corpo imediatamente."
-"LighterInfoLong","(Crewmates):\nOnce you finish all your tasks, your vision will increase.","(クルー陣営):\nタスクを終わらせると、自分の視界を広げることができる。","(船员阵营):\n执灯人完成任务后，视野会扩大，且不受照明破坏影响。","(船員):\n當做完所有任務時可以增大視野且不受關燈影響","(Член Экипажа):\nПосле выполнения всех заданий Фонарик сможет увеличить свое поле зрения.","(Tripulantes):\nQuando você terminar todas as suas tarefas, sua visão irá aumentar."
+"LighterInfoLong","(Crewmates):\nYour vision will increase.","(クルー陣営):\n条件を満たすと、自分の視界を広げることができる。","(船员阵营):\n执灯人完成任务后，视野会扩大，且不受照明破坏影响。","(船員):\n當做完所有任務時可以增大視野且不受關燈影響","(Член Экипажа):\nПосле выполнения всех заданий Фонарик сможет увеличить свое поле зрения.","(Tripulantes):\nQuando você terminar todas as suas tarefas, sua visão irá aumentar."
 "MayorInfoLong","(Crewmates):\nYou have multiple votes, which will all go towards the one person you vote or skip.","(クルー陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有)","(船员阵营):\n市长在投票时可投下多票 (票数多寡根据设置)，市长还拥有以跳通风管来召开紧急会议的能力。","(船員):\n可以一次投很多票並可以將它灌到一個人身上或跳過 (可以設定票數)","(Член Экипажа):\nМэр можете иметь несколько голосов на собрании, и проголосовать за любого игрока этими доп. голосами или \nпросто отдать все голоса в скип.","(Tripulantes):\nVocê tem votos adicionais, todo eles vão para a pessoa em que você votar ou pular."
 "SabotageMasterInfoLong","(Crewmates):\nYou can Fix Reactors, O2, Communications by yourself.\nLights can be fixed with the flick of one switch.\nOpening a door will open all doors to that room.","(クルー陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。","(船员阵营):\n氧气泄露、核反应堆熔毁以及米拉总部的通讯破坏维修大师只需要修复一边则另一边即可同时被修复。\n维修大师只需要按一个开关便可以修复照明破坏。\n维修大师打开波鲁斯与飞艇地图的门时维修大师所在房间的所有门同时打开。","(船員):\n反應堆, 氧氣, 通訊以及其他破壞可以修理工獨自修復。","(Член Экипажа):\nМастер Саботажа может в одиночку починить саботажи такие, как: Саботаж Реактора, Саботаж O2 и Саботаж Связи. \nТак же он может починить Саботаж Света коснувшись лишь одного рычага. \nОткрытие одной двери позволяет открыть все двери в этой комнате.","(Tripulantes):\nVocê pode consertar Reatores, O2, Comunicações sozinho.\nAs luzes podem ser reparadas apertando apenas um botão.\nAbrir uma porta, abre todas as outras daquela mesma sala."
 "SheriffInfoLong","(Crewmates):\nYou can kill anyone on Team Impostors.\nThe ability to kill Neutrals is a configurable setting.\nIf you try to kill a crew, you will kill yourself instead. You have no tasks.","(クルー陣営):\nインポスター陣営をキルすることができる。\n※ニュートラルをキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。","(船员阵营):\n警长可以击杀内鬼（根据房间设置，警长也可以击杀独立阵营玩家）。\n警长若尝试击杀船员阵营的玩家，警长将会走火自杀。\n警长没有任务。","(船員):\n警長可以殺死狼人陣營的人,\n*可以設定中立陣營是否可以被殺\n警長若槍到好人陣營將會自殺,警長沒有任務。","(Член Экипажа):\nШериф может убивать Предателей. \nЕсть настройка, позволяющая убить даже Нейтралов. \nОднако если Шериф попытается убить Члена Экипажа, то это приведёт к его смерти. У него нет заданий.","(Tripulantes):\nVocê pode matar qualquer um, no Time Impostor.\nA habilidade de matar neutros é configurável.\nSe você tentar matar um Tripulante, irá morrer no lugar dele. Você não tem tarefas."
@@ -384,8 +384,10 @@
 "MadmateExileCrewmate","Madmates Revenge A Crewmate When Exiled","マッドメイト系役職が追放時クルーを道連れにする","叛徒系职业在被放逐时复仇, 带走一名船员垫背","叛徒被丟出時會隨機拖一個船員一起下水","Безумцы сохраняют команду при изгнании",""
 "MadmateVentCooldown","Mad Roles Vent Cooldown","マッドメイト系役職のベントクールダウン","叛徒系职业跳管道冷却时间","叛徒職業的玩家跳管道冷卻","Откат вентиляции Безумцев","Tempo de Recarga de Dutos dos Loucos"
 "MadmateVentMaxTime","Mad Roles Max Vent Duration","マッドメイト系役職のベント内での最大時間","叛徒系职业在管道中停留的最大时间","叛徒職業的玩家在管道中可以停留的最大時間","Время использования вентиляции Безумцев","Tempo Máximo de Loucos nos Dutos"
-"LighterTaskCompletedVision","Increased Vision","タスク完了時の視界","完成任务后的视野","做完任務的視野","Дальность обзора","Aumento de Visão"
+"LighterMaxVision","Max Vision","最大視界","完成任务后的视野","做完任務的視野","Дальность обзора","Aumento de Visão"
 "LighterTaskCompletedDisableLightOut","Ignore Fix Lights Effect","タスク完了時に停電を無効にする","完成任务的执灯人不受熄灯影响","完成任務的小燈人視野不受關燈影響","Имеет дальность Обзора Предателя","Ignorar Efeitos do Apagão"
+"LighterTriggerType","Ability Activation Condition","能力発動条件","","","",""
+"LighterTaskTrigger","Tasks Until Boost Activated","効果を発動するタスク数","","","",""
 "SabotageMasterFixesDoors","Can Open Multiple Doors","1度に複数のﾄﾞｱを開けられる","修理大师打开多扇关闭的门","修理工可以一次性修理多扇門","Может открыть все двери","Pode Abrir Múltiplas Portas"
 "SabotageMasterFixesReactors","Can Fix Both Reactors","リアクターに対して能力を使える","修理大师可以一人修理核反应堆","修理工可以獨自修理兩邊的反應堆","Может починить саботаж Реактора","Pode Consertar Reatores"
 "SabotageMasterFixesOxygens","Can Fix Both O2","酸素妨害に対して能力を使える","修理大师修理氧气破坏时另一边的氧气设备将会被同时修理","修理工可以獨自修理兩邊的氧氣","Может починить саботаж O2","Pode Consertar Ambos O2"
@@ -460,6 +462,10 @@
 "InsiderCanSeeAllGhostsRoles","Can See All Ghost's Roles","幽霊全員の役職が分かる"
 "InsiderCanSeeMadmates","Can See Madmates","マッドメイトが分かる"
 "InsiderKillCountToSeeMadmates","Kill Count To See Madmates","必要なキル数"
+
+"## 能力発動条件"
+"TaskProgressRate","Task Progress","タスク進捗率","","",""
+"TaskCount","Task Count","タスク数","","",""
 
 "## かくれんぼ設定"
 "HideAndSeekOptions","Hide and Seek Settings","かくれんぼの設定","躲猫猫设置","躲貓貓設定","Настройки Пряток","Configurações do Esconde-Esconde"
