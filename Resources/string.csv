@@ -458,6 +458,7 @@
 "EvilHackerCanSeeKillFlash","Can See The Kill-flash for Impostor Kills","インポスターキル時にフラッシュが見える","","","",""
 "EvilHackerCanSeeMurderRoom","Can See The Murder Location","キルの発生場所がわかる","","","",""
 "PenguinAbductTimerLimit","Dragging Time","引き摺れる時間"
+"PenguinMeetingKill","Kill if meeting starts during dragging.","会議開始時に引き摺り中ならキルする"
 "InsiderCanSeeImpostorAbilities","Can See Impostor Abilities","味方インポスターの能力が分かる"
 "InsiderCanSeeAllGhostsRoles","Can See All Ghost's Roles","幽霊全員の役職が分かる"
 "InsiderCanSeeMadmates","Can See Madmates","マッドメイトが分かる"
