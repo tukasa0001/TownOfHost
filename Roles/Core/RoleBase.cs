@@ -192,7 +192,7 @@ public abstract class RoleBase : IDisposable
     /// <param name="voterId">投票した人のID</param>
     /// <param name="sourceVotedForId">投票された人のID</param>
     /// <returns>(変更後の投票先(変更しないならnull), 変更後の票数(変更しないならnull), 投票をカウントするか)</returns>
-    public virtual (byte? votedForId, int? numVotes, bool doVote) OnVote(byte voterId, byte sourceVotedForId) => (null, null, true);
+    public virtual (byte? votedForId, int? numVotes, bool doVote) ModifyVote(byte voterId, byte sourceVotedForId) => (null, null, true);
 
     /// <summary>
     /// 追放後に行われる処理
