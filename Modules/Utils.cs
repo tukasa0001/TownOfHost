@@ -979,19 +979,24 @@ namespace TownOfHost
         }
         public static string SummaryTexts(byte id, bool isForChat)
         {
+            // 全プレイヤー中最長の名前の長さからプレイヤー名の後の水平位置を計算する
+            // 1em ≒ 半角2文字
+            // 空白は0.5emとする
+            // SJISではアルファベットは1バイト，日本語は基本的に2バイト
+            var longestNameByteCount = Main.AllPlayerNames.Values.Select(name => name.GetByteCount()).OrderByDescending(byteCount => byteCount).FirstOrDefault();
+            //最大11.5emとする(★+日本語10文字分+半角空白)
+            var pos = Math.Min(((float)longestNameByteCount / 2) + 1.5f /* ★+末尾の半角空白 */ , 11.5f);
+
             var builder = new StringBuilder();
             builder.Append(isForChat ? Main.AllPlayerNames[id] : ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id]));
-            // 1em ≒ 全角1文字
-            // 終了画面で使われる英語フォントの半角1文字 ≒ 0.7em
-            // 空白は0.5emとする
-            // "★ " = 1.5em
-            // 1.5em + プレイヤー名最長全角10文字 + 空白 = 12em
-            builder.Append("<pos=12em>").Append(GetProgressText(id)).Append("</pos>");
-            // 12em + "(00/00) " = { 通常フォント: 16em, 英語フォント: 17.4em }
-            builder.Append(isForChat ? "<pos=16em>" : "<pos=17.6em>").Append(GetVitalText(id)).Append("</pos>");
-            // { 16em, 17.4em } + "Lover's Suicide " = { 24em , 28.4em }
-            // { 16em, 17.4em } + "回線切断 " = { 20.5em, 21.9em }
-            builder.Append(TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? (isForChat ? "<pos=24em>" : "<pos=28.4em>") : (isForChat ? "<pos=20.5em>" : "<pos=21.9em>"));
+            builder.AppendFormat("<pos={0}em>", pos).Append(isForChat ? GetProgressText(id).RemoveColorTags() : GetProgressText(id)).Append("</pos>");
+            // "(00/00) " = 4em
+            pos += 4f;
+            builder.AppendFormat("<pos={0}em>", pos).Append(GetVitalText(id)).Append("</pos>");
+            // "Lover's Suicide " = 8em
+            // "回線切断 " = 4.5em
+            pos += DestroyableSingleton<TranslationController>.Instance.currentLanguage.languageID == SupportedLangs.English ? 8f : 4.5f;
+            builder.AppendFormat("<pos={0}em>", pos);
             builder.Append(isForChat ? GetTrueRoleName(id, false).RemoveColorTags() : GetTrueRoleName(id, false));
             builder.Append(isForChat ? GetSubRolesText(id).RemoveColorTags() : GetSubRolesText(id));
             builder.Append("</pos>");
