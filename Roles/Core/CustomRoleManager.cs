@@ -373,17 +373,19 @@ public enum CustomRoles
     Witch,
     Warlock,
     Mare,
+    Penguin,
     Puppeteer,
     TimeThief,
     EvilTracker,
+    Stealth,
     NekoKabocha,
     EvilHacker,
+    Insider,
     //Madmate
     MadGuardian,
     Madmate,
     MadSnitch,
     SKMadmate,
-    MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,
@@ -401,18 +403,15 @@ public enum CustomRoles
     Doctor,
     Seer,
     TimeManager,
-    CSchrodingerCat,//クルー陣営のシュレディンガーの猫
     //Neutral
     Arsonist,
     Egoist,
-    EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
     Jester,
     Opportunist,
-    SchrodingerCat,//無所属のシュレディンガーの猫
+    SchrodingerCat,
     Terrorist,
     Executioner,
     Jackal,
-    JSchrodingerCat,//ジャッカル陣営のシュレディンガーの猫
     //HideAndSeek
     HASFox,
     HASTroll,

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using AmongUs.GameOptions;
 
@@ -27,6 +28,19 @@ public class SimpleRoleInfo
     public AudioClip IntroSound => introSound?.Invoke();
     private Func<bool> canMakeMadmate;
     public bool CanMakeMadmate => canMakeMadmate?.Invoke() == true;
+    /// <summary>
+    /// 人数設定の最小人数, 最大人数, 一単位数
+    /// </summary>
+    public IntegerValueRule AssignCountRule;
+    /// <summary>
+    /// 人数設定に対し何人単位でアサインするか
+    /// 役職の抽選回数 = 設定人数 / AssignUnitCount
+    /// </summary>
+    public int AssignUnitCount => AssignCountRule?.Step ?? 1;
+    /// <summary>
+    /// 実際にアサインされる役職の内訳
+    /// </summary>
+    public CustomRoles[] AssignUnitRoles;
 
     private SimpleRoleInfo(
         Type classType,
@@ -42,7 +56,9 @@ public class SimpleRoleInfo
         bool requireResetCam,
         TabGroup tab,
         Func<AudioClip> introSound,
-        Func<bool> canMakeMadmate
+        Func<bool> canMakeMadmate,
+        IntegerValueRule assignCountRule,
+        CustomRoles[] assignUnitRoles
     )
     {
         ClassType = classType;
@@ -57,6 +73,8 @@ public class SimpleRoleInfo
         this.introSound = introSound;
         this.canMakeMadmate = canMakeMadmate;
         ChatCommand = chatCommand;
+        AssignCountRule = assignCountRule;
+        AssignUnitRoles = assignUnitRoles;
 
         if (colorCode == "")
             colorCode = customRoleType switch
@@ -96,12 +114,18 @@ public class SimpleRoleInfo
         TabGroup tab = TabGroup.MainSettings,
         Func<AudioClip> introSound = null,
         Func<bool> canMakeMadmate = null,
-        CountTypes? countType = null
+        CountTypes? countType = null,
+        IntegerValueRule assignCountRule = null,
+        CustomRoles[] assignUnitRoles = null
     )
     {
         countType ??= customRoleType == CustomRoleTypes.Impostor ?
             CountTypes.Impostor :
             CountTypes.Crew;
+        assignCountRule ??= customRoleType == CustomRoleTypes.Impostor ?
+            new(1, 3, 1) :
+            new(1, 15, 1);
+        assignUnitRoles ??= Enumerable.Repeat(roleName, assignCountRule.Step).ToArray();
 
         return
             new(
@@ -118,7 +142,9 @@ public class SimpleRoleInfo
                 requireResetCam,
                 tab,
                 introSound,
-                canMakeMadmate
+                canMakeMadmate,
+                assignCountRule,
+                assignUnitRoles
             );
     }
     public static SimpleRoleInfo CreateForVanilla(
@@ -177,7 +203,9 @@ public class SimpleRoleInfo
                 false,
                 TabGroup.MainSettings,
                 null,
-                () => canMakeMadmate
+                () => canMakeMadmate,
+                new(1, 15, 1),
+                new CustomRoles[1] { roleName }
             );
     }
     public delegate void OptionCreatorDelegate();

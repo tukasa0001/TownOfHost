@@ -7,6 +7,7 @@ using UnityEngine;
 
 using TownOfHost.Modules;
 using TownOfHost.Roles.Core;
+using TownOfHost.Templates;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -27,16 +28,17 @@ namespace TownOfHost
             foreach (var id in PlayerState.AllPlayerStates.Keys)
                 SummaryText[id] = Utils.SummaryTexts(id, false);
 
-            var sb = new StringBuilder(GetString("KillLog") + ":");
+            var sb = new StringBuilder(GetString("KillLog"));
+            sb.Append("<size=70%>");
             foreach (var kvp in PlayerState.AllPlayerStates.OrderBy(x => x.Value.RealKiller.Item1.Ticks))
             {
                 var date = kvp.Value.RealKiller.Item1;
                 if (date == DateTime.MinValue) continue;
                 var killerId = kvp.Value.GetRealKiller();
                 var targetId = kvp.Key;
-                sb.Append($"\n{date:T} {Main.AllPlayerNames[targetId]}({Utils.GetTrueRoleName(targetId, false)}{Utils.GetSubRolesText(targetId)}) [{Utils.GetVitalText(kvp.Key)}]");
+                sb.Append($"\n{date:T} {Main.AllPlayerNames[targetId]}({Utils.GetTrueRoleName(targetId, false)}{Utils.GetSubRolesText(targetId)}) [{Utils.GetVitalText(kvp.Key)}]".RemoveHtmlTags());
                 if (killerId != byte.MaxValue && killerId != targetId)
-                    sb.Append($"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetTrueRoleName(killerId, false)}{Utils.GetSubRolesText(killerId)})");
+                    sb.Append($"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetTrueRoleName(killerId, false)}{Utils.GetSubRolesText(killerId)})".RemoveHtmlTags());
             }
             KillLog = sb.ToString();
 
@@ -197,9 +199,6 @@ namespace TownOfHost
             //#######################################
 
             var Pos = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
-            var RoleSummaryObject = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
-            RoleSummaryObject.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, Pos.y - 0.1f, -15f);
-            RoleSummaryObject.transform.localScale = new Vector3(1f, 1f, 1f);
 
             StringBuilder sb = new($"{GetString("RoleSummaryText")}");
             List<byte> cloneRoles = new(PlayerState.AllPlayerStates.Keys);
@@ -212,15 +211,15 @@ namespace TownOfHost
             {
                 sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id]);
             }
-            var RoleSummary = RoleSummaryObject.GetComponent<TMPro.TextMeshPro>();
-            RoleSummary.alignment = TMPro.TextAlignmentOptions.TopLeft;
-            RoleSummary.color = Color.white;
-            RoleSummary.outlineWidth *= 1.2f;
-            RoleSummary.fontSizeMin = RoleSummary.fontSizeMax = RoleSummary.fontSize = 1.25f;
-
-            var RoleSummaryRectTransform = RoleSummary.GetComponent<RectTransform>();
-            RoleSummaryRectTransform.anchoredPosition = new Vector2(Pos.x + 3.5f, Pos.y - 0.1f);
-            RoleSummary.text = sb.ToString();
+            var RoleSummary = TMPTemplate.Create(
+                "RoleSummaryText",
+                sb.ToString(),
+                Color.white,
+                1.25f,
+                TMPro.TextAlignmentOptions.TopLeft,
+                setActive: true);
+            RoleSummary.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + -0.05f, Pos.y - 0.13f, -15f);
+            RoleSummary.transform.localScale = new Vector3(1f, 1f, 1f);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

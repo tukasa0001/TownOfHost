@@ -5,7 +5,7 @@ using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Neutral
 {
-    public sealed class Jackal : RoleBase, IKiller
+    public sealed class Jackal : RoleBase, IKiller, ISchrodingerCatOwner
     {
         public static readonly SimpleRoleInfo RoleInfo =
             SimpleRoleInfo.Create(
@@ -18,7 +18,9 @@ namespace TownOfHost.Roles.Neutral
                 SetupOptionItem,
                 "jac",
                 "#00b4eb",
-                countType: CountTypes.Jackal
+                true,
+                countType: CountTypes.Jackal,
+                assignCountRule: new(1, 1, 1)
             );
         public Jackal(PlayerControl player)
         : base(
@@ -41,6 +43,9 @@ namespace TownOfHost.Roles.Neutral
         public static bool CanVent;
         public static bool CanUseSabotage;
         private static bool HasImpostorVision;
+
+        public SchrodingerCat.TeamType SchrodingerCatChangeTo => SchrodingerCat.TeamType.Jackal;
+
         private static void SetupOptionItem()
         {
             OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
@@ -56,5 +61,6 @@ namespace TownOfHost.Roles.Neutral
             __instance.SabotageButton.ToggleVisible(isActive && CanUseSabotage);
         }
         public override bool OnInvokeSabotage(SystemTypes systemType) => CanUseSabotage;
+        public void ApplySchrodingerCatOptions(IGameOptions option) => ApplyGameOptions(option);
     }
 }
