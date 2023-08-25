@@ -39,6 +39,12 @@ namespace TownOfHost
                     case StringNames.GameKillCooldown:
                         ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
                         break;
+                    case StringNames.GameNumImpostors:
+                        if (DebugModeManager.IsDebugMode)
+                        {
+                            ob.Cast<NumberOption>().ValidRange.min = 0;
+                        }
+                        break;
                     default:
                         break;
                 }
