@@ -187,12 +187,22 @@ public abstract class RoleBase : IDisposable
     { }
 
     /// <summary>
-    /// 誰かが投票したときに発火する
+    /// 自分が投票した瞬間，票がカウントされる前に呼ばれる<br/>
+    /// falseを返すと投票行動自体をなかったことにし，再度投票できるようになる<br/>
+    /// 投票行動自体は取り消さず，票だけカウントさせない場合は<see cref="ModifyVote"/>を使用し，doVoteをfalseにする
+    /// </summary>
+    /// <param name="votedForId">投票先</param>
+    /// <returns>falseを返すと投票自体がなかったことになり，投票者自身以外には投票したことがバレません</returns>
+    public virtual bool CheckVoteAsVoter(PlayerControl votedFor) => true;
+
+    /// <summary>
+    /// 誰かが投票した瞬間に呼ばれ，票を書き換えることができる<br/>
+    /// 投票行動自体をなかったことにしたい場合は<see cref="CheckVoteAsVoter"/>を使用する
     /// </summary>
     /// <param name="voterId">投票した人のID</param>
     /// <param name="sourceVotedForId">投票された人のID</param>
     /// <returns>(変更後の投票先(変更しないならnull), 変更後の票数(変更しないならnull), 投票をカウントするか)</returns>
-    public virtual (byte? votedForId, int? numVotes, bool doVote) OnVote(byte voterId, byte sourceVotedForId) => (null, null, true);
+    public virtual (byte? votedForId, int? numVotes, bool doVote) ModifyVote(byte voterId, byte sourceVotedForId) => (null, null, true);
 
     /// <summary>
     /// 追放後に行われる処理
