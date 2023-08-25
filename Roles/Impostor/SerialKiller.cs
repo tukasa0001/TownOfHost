@@ -74,7 +74,7 @@ namespace TownOfHost.Roles.Impostor
         }
         public override void OnFixedUpdate(PlayerControl player)
         {
-            if (AmongUsClient.Instance.AmHost)
+            if (AmongUsClient.Instance.AmHost && !ExileController.Instance)
             {
                 if (!HasKilled())
                 {
