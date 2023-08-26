@@ -225,6 +225,7 @@ File outputs by `Alt`+`L` are stored in `./TOH_DATA/OptionOutputs` as `Preset{pr
 - [FireWorks](#fireworks)
 - [Mare](#mare)
 - [Neko-Kabocha](#neko-kabocha)
+- [Penguin](#penguin)
 - [Puppeteer](#puppeteer)
 - [SerialKiller](#serialkiller)
 - [ShapeMaster](#shapemaster)
@@ -427,9 +428,10 @@ The target can be killed when the timer reaches zero or by kill button again.<br
 
 #### Game Options
 
-| Name          |
-| ------------- |
-| Dragging Time |
+| Name                                   |
+| -------------------------------------- |
+| Dragging Time                          |
+| Kill if meeting starts during dragging |
 
 ### Puppeteer
 
