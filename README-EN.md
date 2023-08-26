@@ -1229,6 +1229,15 @@ Disable the moving platform in Airship.
 | -------------------------------- |
 | Disable Moving Platform(Airship) |
 
+### Reset Doors After Meeting(Airship/Polus)
+
+After meetings, all door openings are reset to the specified state.
+
+| Name                                     |                                                |
+| ---------------------------------------- | ---------------------------------------------- |
+| Reset Doors After Meeting(Airship/Polus) |                                                |
+| ┗ Reset Mode                             | Select from All Open/All Closed/Random By Door |
+
 ## Mode
 
 ### DisableTasks
