@@ -55,7 +55,6 @@ public sealed class Mayor : RoleBase
     }
     public override void ApplyGameOptions(IGameOptions opt)
     {
-        Logger.Warn($"{LeftButtonCount} <= 0", "Mayor.ApplyGameOptions");
         AURoleOptions.EngineerCooldown =
             LeftButtonCount <= 0
             ? 255f
