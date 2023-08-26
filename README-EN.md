@@ -229,6 +229,7 @@ File outputs by `Alt`+`L` are stored in `./TOH_DATA/OptionOutputs` as `Preset{pr
 - [SerialKiller](#serialkiller)
 - [ShapeMaster](#shapemaster)
 - [Sniper](#sniper)
+- [Stealth](#stealth)
 - [TimeThief](#timethief)
 - [Vampire](#vampire)
 - [Warlock](#warlock)
@@ -499,6 +500,23 @@ If it is a one shot assist, it will disappear immediately.<br>
 | Sniper Precise Shooting |
 | Sniper Aim Assist       |
 | Sniper One shot Assist  |
+
+### Stealth
+
+Create by HYZE  
+Idea by Supeeee
+
+Team : Impostors  
+Basis : Impostor
+
+When the Stealth kills, players in the same room are blinded for a short while.
+
+#### Game Options
+
+| Name                             |
+| -------------------------------- |
+| Exclude Impostors From Blindness |
+| Blindness Duration               |
 
 ### TimeThief
 
