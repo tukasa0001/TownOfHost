@@ -26,7 +26,7 @@ namespace TownOfHost
             if (!GameStates.IsModHost) return;
             SummaryText = new();
             foreach (var id in PlayerState.AllPlayerStates.Keys)
-                SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
+                SummaryText[id] = Utils.SummaryTexts(id, false);
 
             var sb = new StringBuilder(GetString("KillLog"));
             sb.Append("<size=70%>");

@@ -5,10 +5,11 @@ namespace TownOfHost;
 public static class ColorHelper
 {
     /// <summary>蛍光マーカーのような色合いの透過色に変換する</summary>
-    public static Color ToMarkingColor(this Color color)
+    /// <param name="bright">最大明度にするかどうか．黒っぽい色を黒っぽいままにしたい場合はfalse</param>
+    public static Color ToMarkingColor(this Color color, bool bright = true)
     {
-        Color.RGBToHSV(color, out var h, out _, out _);
-        var markingColor = Color.HSVToRGB(h, MarkerSat, MarkerVal).SetAlpha(MarkerAlpha);
+        Color.RGBToHSV(color, out var h, out _, out var v);
+        var markingColor = Color.HSVToRGB(h, MarkerSat, bright ? MarkerVal : v).SetAlpha(MarkerAlpha);
         return markingColor;
     }
 
