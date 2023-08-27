@@ -270,6 +270,7 @@ File outputs by `Alt`+`L` are stored in `./TOH_DATA/OptionOutputs` as `Preset{pr
 - [Jackal](#jackal)
 - [Jester](#jester)
 - [Opportunist](#opportunist)
+- [PlagueDoctor](#plaguedoctor)
 - [Terrorist](#terrorist)
 - [SchrodingerCat](#schrodingercat)
 
@@ -1026,6 +1027,8 @@ The PlagueDoctor win when all survivors become infected.  Do not care dead or al
 | Infect Time         |
 | Infect Distance     |
 | Infect Invalid Time |
+| Can Infect Self     |
+| Can Infect in Vent  |
 
 ### SchrodingerCat
 
