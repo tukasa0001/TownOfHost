@@ -8,6 +8,7 @@ using UnityEngine;
 using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
@@ -29,9 +30,19 @@ public static class MeetingHudPatch
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CastVote))]
     public static class CastVotePatch
     {
-        public static void Prefix([HarmonyArgument(0)] byte srcPlayerId /* 投票した人 */ , [HarmonyArgument(1)] byte suspectPlayerId /* 投票された人 */ )
+        public static bool Prefix(MeetingHud __instance, [HarmonyArgument(0)] byte srcPlayerId /* 投票した人 */ , [HarmonyArgument(1)] byte suspectPlayerId /* 投票された人 */ )
         {
-            MeetingVoteManager.Instance.AddVote(srcPlayerId, suspectPlayerId);
+            var voter = Utils.GetPlayerById(srcPlayerId);
+            var voted = Utils.GetPlayerById(suspectPlayerId);
+            if (voter.GetRoleClass()?.CheckVoteAsVoter(voted) == false)
+            {
+                __instance.RpcClearVote(voter.GetClientId());
+                Logger.Info($"{voter.GetNameWithRole()} は投票しない", nameof(CastVotePatch));
+                return false;
+            }
+
+            MeetingVoteManager.Instance?.AddVote(srcPlayerId, suspectPlayerId);
+            return true;
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
@@ -234,6 +245,10 @@ public static class MeetingHudPatch
         }
         else
         {
+            var isMadmate =
+    exiledplayer.Is(CustomRoleTypes.Madmate) ||
+    // マッド属性化時に削除
+    (exiledplayer.GetRoleClass() is SchrodingerCat schrodingerCat && schrodingerCat.AmMadmate);
             foreach (var candidate in Main.AllAlivePlayerControls)
             {
                 if (candidate == exiledplayer || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
@@ -241,7 +256,7 @@ public static class MeetingHudPatch
                 {
                     // ここにINekomata未適用の道連れ役職を追加
                     default:
-                        if (exiledplayer.Is(CustomRoleTypes.Madmate) && deathReason == CustomDeathReason.Vote && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
+                        if (isMadmate && deathReason == CustomDeathReason.Vote && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
                         && !candidate.Is(CustomRoleTypes.Impostor))
                             TargetList.Add(candidate);
                         break;

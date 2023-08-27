@@ -1,4 +1,5 @@
 using AmongUs.GameOptions;
+using Hazel;
 
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
@@ -66,6 +67,28 @@ public sealed class Mare : RoleBase, IImpostor
             Main.AllPlayerSpeed[Player.PlayerId] -= SpeedInLightsOut;//Mareの速度を減算
         }
     }
+    private void ActivateKill(bool activate)
+    {
+        IsActivateKill = activate;
+        if (AmongUsClient.Instance.AmHost)
+        {
+            SendRPC();
+            Player.MarkDirtySettings();
+            Utils.NotifyRoles();
+        }
+    }
+    public void SendRPC()
+    {
+        using var sender = CreateSender(CustomRPC.MareSync);
+        sender.Writer.Write(IsActivateKill);
+    }
+    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    {
+        if (rpcType != CustomRPC.MareSync) return;
+
+        IsActivateKill = reader.ReadBoolean();
+    }
+
     public override void OnFixedUpdate(PlayerControl player)
     {
         if (GameStates.IsInTask && IsActivateKill)
@@ -73,9 +96,7 @@ public sealed class Mare : RoleBase, IImpostor
             if (!Utils.IsActive(SystemTypes.Electrical))
             {
                 //停電解除されたらキルモード解除
-                IsActivateKill = false;
-                Player.MarkDirtySettings();
-                Utils.NotifyRoles();
+                ActivateKill(false);
             }
         }
     }
@@ -90,9 +111,7 @@ public sealed class Mare : RoleBase, IImpostor
                     //まだ停電が直っていなければキル可能モードに
                     if (Utils.IsActive(SystemTypes.Electrical))
                     {
-                        IsActivateKill = true;
-                        Player.MarkDirtySettings();
-                        Utils.NotifyRoles();
+                        ActivateKill(true);
                     }
                 }, 4.0f, "Mare Activate Kill");
             }

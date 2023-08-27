@@ -7,7 +7,6 @@ using InnerNet;
 using Mathf = UnityEngine.Mathf;
 
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost.Modules
 {
@@ -97,15 +96,6 @@ namespace TownOfHost.Modules
 
             var roleClass = player.GetRoleClass();
             roleClass?.ApplyGameOptions(opt);
-            switch (role)
-            {
-                case CustomRoles.EgoSchrodingerCat:
-                    opt.SetVision(true);
-                    break;
-                case CustomRoles.JSchrodingerCat:
-                    ((Jackal)roleClass).ApplyGameOptions(opt);
-                    break;
-            }
             foreach (var subRole in player.GetCustomSubRoles())
             {
                 switch (subRole)

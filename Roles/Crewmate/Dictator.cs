@@ -24,9 +24,9 @@ public sealed class Dictator : RoleBase
         player
     )
     { }
-    public override (byte? votedForId, int? numVotes, bool doVote) OnVote(byte voterId, byte sourceVotedForId)
+    public override (byte? votedForId, int? numVotes, bool doVote) ModifyVote(byte voterId, byte sourceVotedForId)
     {
-        var (votedForId, numVotes, doVote) = base.OnVote(voterId, sourceVotedForId);
+        var (votedForId, numVotes, doVote) = base.ModifyVote(voterId, sourceVotedForId);
         var baseVote = (votedForId, numVotes, doVote);
         if (voterId != Player.PlayerId || sourceVotedForId == Player.PlayerId || sourceVotedForId >= 253 || !Player.IsAlive())
         {

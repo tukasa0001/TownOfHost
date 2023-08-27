@@ -321,6 +321,20 @@ While lights are out they can move faster, but everyone sees their name in red.<
 | Mare Player Add Speed In Lights Out |
 | Mare Kill Cooldown In Lights Out    |
 
+### Penguin
+
+Team : Impostors<br>
+Basis : Shapeshifter<br>
+
+Penguin can drag target to anywhere by kill button.<br>
+The target can be killed when the timer reaches zero or by kill button again.<br>
+
+#### Game Options
+
+| Name          |
+| ------------- |
+| Dragging Time |
+
 ### Puppeteer
 
 Team : Impostors<br>
@@ -1288,6 +1302,7 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 [Jester](#Jester) and [Madmate](#Madmate) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
 [Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
+[Penguin](#penguin) : original idea by [Super New Roles](https://github.com/ykundesu/SuperNewRoles)<br>
 Translate-Chinese : fivefirex, ZeMingOH233<br>
 OptionTab Icon Design by 花海.<br>
 Csv: Copyright (c) 2015 Steve Hansen [MIT License](https://raw.githubusercontent.com/stevehansen/csv/master/LICENSE)<br>
