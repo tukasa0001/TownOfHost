@@ -709,12 +709,12 @@ After finishing all the task, The lighters have their vision expanded and ignore
 
 #### Game Options
 
-| Name                         |
-| ---------------------------- |
-| Max Vision                   |
-| Ignore Fix Lights Effect     |
-| Ability Activation Condition |
-| ┗ Tasks Until Boost Activated  |
+| Name                          |
+| ----------------------------- |
+| Max Vision                    |
+| Ignore Fix Lights Effect      |
+| Ability Activation Condition  |
+| ┗ Tasks Until Boost Activated |
 
 ### Mayor
 
@@ -1230,7 +1230,7 @@ Modifies cooldown time for sabotages.
 | Name                      |
 | ------------------------- |
 | Sabotage Cooldown Control |
-| ┗ Sabotage Cooldown         |
+| ┗ Sabotage Cooldown       |
 
 ## Fix Lights Special Settings
 
