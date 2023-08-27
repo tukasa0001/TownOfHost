@@ -63,21 +63,27 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
         Tasks = Options.OverrideTasksData.Create(RoleInfo, 20);
     }
 
-    public bool KnowsImpostor()
+    private bool KnowsImpostor()
     {
         return IsTaskFinished || MyTaskState.CompletedTasksCount >= TaskTrigger;
     }
+    private void CheckAndAddNameColorToImpostors()
+    {
+        if (!KnowsImpostor()) return;
 
+        foreach (var impostor in Main.AllPlayerControls.Where(player => player.Is(CustomRoleTypes.Impostor)))
+        {
+            NameColorManager.Add(Player.PlayerId, impostor.PlayerId, impostor.GetRoleColorCode());
+        }
+    }
+
+    public override void Add()
+    {
+        CheckAndAddNameColorToImpostors();
+    }
     public override bool OnCompleteTask()
     {
-        if (KnowsImpostor())
-        {
-            foreach (var impostor in Main.AllPlayerControls.Where(player => player.Is(CustomRoleTypes.Impostor)).ToArray())
-            {
-                NameColorManager.Add(Player.PlayerId, impostor.PlayerId, impostor.GetRoleColorCode());
-            }
-        }
-
+        CheckAndAddNameColorToImpostors();
         return true;
     }
     public static string GetMarkOthers(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
