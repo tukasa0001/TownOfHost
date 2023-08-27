@@ -65,7 +65,7 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
 
     private bool KnowsImpostor()
     {
-        return IsTaskFinished || MyTaskState.CompletedTasksCount >= TaskTrigger;
+        return MyTaskState.CheckTaskProgress(TaskTrigger);
     }
     private void CheckAndAddNameColorToImpostors()
     {
