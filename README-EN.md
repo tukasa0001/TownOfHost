@@ -1002,6 +1002,31 @@ Victory Conditions : Remain alive until the game end<br>
 
 Regardless of the games outcome, Opportunist wins an additional victory if they survive to the end of the match.<br>
 
+### PlagueDoctor
+
+Create by こう。<br>
+
+Team : Neutral(Solo)<br>
+Basis : Impostor<br>
+Count : Crew<br>
+Victory Conditions : Infect All the living players.
+
+The PlagueDoctor can create the first infected player by using the kill button.<br>
+If PlagueDoctor has not created an infected player, make the killler an infected person.<br>
+Any player in close to an infected player becomes the next infected player with accumulated time. <br>
+Infection status is not reset.<br>
+The PlagueDoctor win when all survivors become infected.  Do not care dead or alive.<br>
+
+### Game Options
+
+| Name                |
+| ------------------- |
+| Infect Count        |
+| Infect When Killed  |
+| Infect Time         |
+| Infect Distance     |
+| Infect Invalid Time |
+
 ### SchrodingerCat
 
 Team : Neutral(Other)<br>
@@ -1440,7 +1465,7 @@ If the client language is English, this option is meaningless unless `Force Japa
 ## Credits
 
 More tips to modding and [BountyHunter](#bountyhunter),[Mafia](#mafia),[Vampire](#vampire),[Witch](#witch),[Bait](#bait),[Mayor](#mayor),[Sheriff](#sheriff),[Snitch](#snitch),[Lighter](#lighter),[Seer](#seer),[Jackal](#jackal) idea by [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
-[Opportunist](#opportunist),[Watcher](#watcher),[Neko-Kabocha](#neko-kabocha) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+[Opportunist](#opportunist),[Watcher](#watcher),[Neko-Kabocha](#neko-kabocha),[PlagueDoctor](#plaguedoctor) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 [SchrodingerCat](#schrodingercat),[EvilTracker](#eviltracker),[EvilHacker](#evilhacker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [Doctor](#doctor) and [Sniper](#sniper) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
 [Jester](#jester) and [Madmate](#madmate-1) original idea by [au.libhalt.net](https://au.libhalt.net)<br>

@@ -31,10 +31,12 @@ namespace TownOfHost
         SetEvilTrackerTarget,
         SetRealKiller,
         SyncPuppet,
+        SetSchrodingerCatTeam,
         StealthDarken,
         EvilHackerCreateMurderNotify,
         PenguinSync,
         MareSync,
+        SyncPlagueDoctor,
     }
     public enum Sounds
     {

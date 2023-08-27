@@ -38,8 +38,6 @@ namespace TownOfHost
             taskOptionsLoad.Wait();
             Logger.Info("Options.Load End", "Options");
         }
-        // オプションId
-        public const int PresetId = 0;
 
         // プリセット
         private static readonly string[] presets =
@@ -268,6 +266,8 @@ namespace TownOfHost
         public static void Load()
         {
             if (IsLoaded) return;
+            OptionSaver.Initialize();
+
             // プリセット
             _ = PresetOptionItem.Create(0, TabGroup.MainSettings)
                 .SetColor(new Color32(204, 204, 0, 255))
@@ -574,6 +574,8 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
 
             DebugModeManager.SetupCustomOption();
+
+            OptionSaver.Load();
 
             IsLoaded = true;
         }

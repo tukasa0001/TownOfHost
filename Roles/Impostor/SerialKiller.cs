@@ -3,6 +3,7 @@ using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
+using TownOfHost.Roles.Neutral;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Impostor
@@ -73,7 +74,7 @@ namespace TownOfHost.Roles.Impostor
         }
         public override void OnFixedUpdate(PlayerControl player)
         {
-            if (AmongUsClient.Instance.AmHost)
+            if (AmongUsClient.Instance.AmHost && !ExileController.Instance)
             {
                 if (!HasKilled())
                 {
@@ -106,6 +107,10 @@ namespace TownOfHost.Roles.Impostor
                 if (HasKilled())
                     SuicideTimer = 0f;
             }
+        }
+        public void OnSchrodingerCatKill(SchrodingerCat schrodingerCat)
+        {
+            SuicideTimer = null;
         }
     }
 }

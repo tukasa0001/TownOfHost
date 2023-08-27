@@ -172,13 +172,8 @@ namespace TownOfHost
                 roleColors = new Dictionary<CustomRoles, string>()
                 {
                     // マッドメイト役職
-                    {CustomRoles.MSchrodingerCat, "#ff1919"},
                     {CustomRoles.SKMadmate, "#ff1919"},
                     //特殊クルー役職
-                    {CustomRoles.CSchrodingerCat, "#8cffff"}, //シュレディンガーの猫の派生
-                    //ニュートラル役職
-                    {CustomRoles.EgoSchrodingerCat, "#5600ff"},
-                    {CustomRoles.JSchrodingerCat, "#00b4eb"},
                     //HideAndSeek
                     {CustomRoles.HASFox, "#e478ff"},
                     {CustomRoles.HASTroll, "#00ff00"},
@@ -240,6 +235,7 @@ namespace TownOfHost
         Sniped,
         Revenge,
         Execution,
+        Infected,
         Disconnected,
         Fall,
         etc = -1
@@ -259,6 +255,7 @@ namespace TownOfHost
         Arsonist = CustomRoles.Arsonist,
         Egoist = CustomRoles.Egoist,
         Jackal = CustomRoles.Jackal,
+        PlagueDoctor = CustomRoles.PlagueDoctor,
         HASTroll = CustomRoles.HASTroll,
     }
     public enum AdditionalWinners

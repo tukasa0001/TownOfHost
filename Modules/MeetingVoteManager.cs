@@ -71,7 +71,7 @@ public class MeetingVoteManager
         bool doVote = true;
         foreach (var role in CustomRoleManager.AllActiveRoles.Values)
         {
-            var (roleVoteFor, roleNumVotes, roleDoVote) = role.OnVote(voter, voteFor);
+            var (roleVoteFor, roleNumVotes, roleDoVote) = role.ModifyVote(voter, voteFor);
             if (roleVoteFor.HasValue)
             {
                 logger.Info($"{role.Player.GetNameWithRole()} が {Utils.GetPlayerById(voter).GetNameWithRole()} の投票先を {GetVoteName(roleVoteFor.Value)} に変更します");
