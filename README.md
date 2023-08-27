@@ -865,6 +865,31 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 ゲーム終了時に生き残っていれば追加勝利となるその他陣営の役職です。<br>
 タスクはありません。<br>
 
+### PlagueDoctor/ペスト医師
+
+制作者 :  こう。<br>
+
+陣営 : ニュートラル（単独）<br>
+判定 : インポスター<br>
+カウント : クルー<br>
+勝利条件 : すべての生存者が感染者になる<br>
+
+キル動作で最初の感染者を作れます。<br>
+感染者を作っていない場合、キルされた相手を感染者にします。<br>
+感染者に近接したプレイヤーは時間累計で次の感染者になります。<br>
+感染状況はリセットされません。<br>
+すべての生存者が感染者になると勝利します。自身の生死は不問です。<br>
+
+#### 設定
+
+| 設定名                     |
+| -------------------------- |
+| 初期感染者の作成回数       |
+| キルされた時に感染させる   |
+| 感染に必要な累計時間       |
+| 感染する距離               |
+| 行動開始から感染しない時間 |
+
 ### SchrodingerCat/シュレディンガーの猫
 
 陣営 : ニュートラル（その他）<br>
@@ -1270,7 +1295,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 ## クレジット
 
 [バウンティーハンター](#BountyHunterバウンティハンター)や[マフィア](#Mafiaマフィア)、[ヴァンパイア](#Vampireヴァンパイア)、[魔女](#Witch魔女)、[ベイト](#Baitベイト)、[メイヤー](#Mayorメイヤー)、[シェリフ](#Sheriffシェリフ)、[スニッチ](#Snitchスニッチ)、[ライター](#Lighterライター)、[シーア](#Seerシーア)、[ジャッカル](#jackalジャッカル) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
-[オポチュニスト](#Opportunistオポチュニスト)、[ウォッチャー](#Watcherウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+[オポチュニスト](#Opportunistオポチュニスト)、[ウォッチャー](#Watcherウォッチャー)、[ペスト医師](#PlagueDoctor/ペスト医師) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
 [シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫)、[イビルトラッカー](#EvilTrackerイビルトラッカー) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
 [ドクター](#Doctorドクター)、[スナイパー](#Sniperスナイパー)のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
 [ジェスター](#Jesterジェスター)(てるてる)と[マッドメイト](#Madmateマッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>

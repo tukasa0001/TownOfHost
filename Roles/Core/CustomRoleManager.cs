@@ -408,6 +408,7 @@ public enum CustomRoles
     Egoist,
     Jester,
     Opportunist,
+    PlagueDoctor,
     SchrodingerCat,
     Terrorist,
     Executioner,
