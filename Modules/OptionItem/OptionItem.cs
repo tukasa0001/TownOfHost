@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BepInEx.Configuration;
+using TownOfHost.Modules;
 using UnityEngine;
 
 namespace TownOfHost
@@ -10,7 +10,9 @@ namespace TownOfHost
     {
         #region static
         public static IReadOnlyList<OptionItem> AllOptions => _allOptions;
-        private static List<OptionItem> _allOptions = new();
+        private static List<OptionItem> _allOptions = new(1024);
+        public static IReadOnlyDictionary<int, OptionItem> FastOptions => _fastOptions;
+        private static Dictionary<int, OptionItem> _fastOptions = new(1024);
         public static int CurrentPreset { get; set; }
         #endregion
 
@@ -39,21 +41,17 @@ namespace TownOfHost
         private Dictionary<string, string> _replacementDictionary;
 
         // 設定値情報 (オプションの値に関わる情報)
+        public int[] AllValues { get; private set; } = new int[NumPresets];
         public int CurrentValue
         {
             get => GetValue();
             set => SetValue(value);
         }
+        public int SingleValue { get; private set; }
 
         // 親子情報
         public OptionItem Parent { get; private set; }
         public List<OptionItem> Children;
-
-        // 内部情報 (外部から参照することを想定していない情報)
-        public ConfigEntry<int> CurrentEntry =>
-            IsSingleValue ? singleEntry : AllConfigEntries[CurrentPreset];
-        private ConfigEntry<int>[] AllConfigEntries;
-        private ConfigEntry<int> singleEntry;
 
         public OptionBehaviour OptionBehaviour;
 
@@ -83,30 +81,32 @@ namespace TownOfHost
             // オブジェクト初期化
             Children = new();
 
-            // ConfigEntry初期化
-            AllConfigEntries = new ConfigEntry<int>[5];
-            if (Id == 0)
+            // デフォルト値に設定
+            if (Id == PresetId)
             {
-                singleEntry = Main.Instance.Config.Bind("Current Preset", id.ToString(), DefaultValue);
-                CurrentPreset = singleEntry.Value;
+                SingleValue = DefaultValue;
+                CurrentPreset = SingleValue;
             }
             else if (IsSingleValue)
             {
-                singleEntry = Main.Instance.Config.Bind("SingleEntryOptions", id.ToString(), DefaultValue);
+                SingleValue = DefaultValue;
             }
             else
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < NumPresets; i++)
                 {
-                    AllConfigEntries[i] = Main.Instance.Config.Bind($"Preset{i + 1}", id.ToString(), DefaultValue);
+                    AllValues[i] = DefaultValue;
                 }
             }
 
-            if (AllOptions.Any(op => op.Id == id))
+            if (_fastOptions.TryAdd(id, this))
+            {
+                _allOptions.Add(this);
+            }
+            else
             {
                 Logger.Error($"ID:{id}が重複しています", "OptionItem");
             }
-            _allOptions.Add(this);
         }
 
         // Setter
@@ -155,7 +155,7 @@ namespace TownOfHost
         {
             return ApplyFormat(CurrentValue.ToString());
         }
-        public virtual int GetValue() => CurrentEntry.Value;
+        public virtual int GetValue() => IsSingleValue ? SingleValue : AllValues[CurrentPreset];
 
         // 旧IsHidden関数
         public virtual bool IsHiddenOn(CustomGameMode mode)
@@ -179,10 +179,17 @@ namespace TownOfHost
                 opt.oldValue = opt.Value = CurrentValue;
             }
         }
-        public virtual void SetValue(int value, bool doSync = true)
+        public void SetValue(int afterValue, bool doSave, bool doSync = true)
         {
-            int beforeValue = CurrentEntry.Value;
-            int afterValue = CurrentEntry.Value = value;
+            int beforeValue = CurrentValue;
+            if (IsSingleValue)
+            {
+                SingleValue = afterValue;
+            }
+            else
+            {
+                AllValues[CurrentPreset] = afterValue;
+            }
 
             CallUpdateValueEvent(beforeValue, afterValue);
             Refresh();
@@ -190,6 +197,18 @@ namespace TownOfHost
             {
                 SyncAllOptions();
             }
+            if (doSave)
+            {
+                OptionSaver.Save();
+            }
+        }
+        public virtual void SetValue(int afterValue, bool doSync = true)
+        {
+            SetValue(afterValue, true, doSync);
+        }
+        public void SetAllValues(int[] values)  // プリセット読み込み専用
+        {
+            AllValues = values;
         }
 
         // 演算子オーバーロード
@@ -201,7 +220,7 @@ namespace TownOfHost
         // 全体操作用
         public static void SwitchPreset(int newPreset)
         {
-            CurrentPreset = Math.Clamp(newPreset, 0, 4);
+            CurrentPreset = Math.Clamp(newPreset, 0, NumPresets - 1);
 
             foreach (var op in AllOptions)
                 op.Refresh();
@@ -244,6 +263,9 @@ namespace TownOfHost
                 BeforeValue = beforeValue;
             }
         }
+
+        public const int NumPresets = 5;
+        public const int PresetId = 0;
     }
 
     public enum TabGroup
