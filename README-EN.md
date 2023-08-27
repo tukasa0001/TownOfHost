@@ -709,10 +709,12 @@ After finishing all the task, The lighters have their vision expanded and ignore
 
 #### Game Options
 
-| Name                          |
-| ----------------------------- |
-| Lighter Expanded Vision       |
-| Lighter Gains Impostor Vision |
+| Name                         |
+| ---------------------------- |
+| Max Vision                   |
+| Ignore Fix Lights Effect     |
+| Ability Activation Condition |
+| ┗ Tasks Until Boost Activated  |
 
 ### Mayor
 
