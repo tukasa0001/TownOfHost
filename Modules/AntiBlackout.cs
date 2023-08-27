@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using AmongUs.GameOptions;
 using Hazel;
 
 using TownOfHost.Attributes;
@@ -15,32 +14,8 @@ namespace TownOfHost
         ///<summary>
         ///追放処理を上書きするかどうか
         ///</summary>
-        public static bool OverrideExiledPlayer => IsRequired && (IsSingleImpostor || Diff_CrewImp == 1);
-        ///<summary>
-        ///インポスターが一人しか存在しない設定かどうか
-        ///</summary>
-        public static bool IsSingleImpostor => Main.RealOptionsData != null ? Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) == 1 : Main.NormalOptions.NumImpostors == 1;
-        ///<summary>
-        ///AntiBlackout内の処理が必要であるかどうか
-        ///</summary>
-        public static bool IsRequired => Options.NoGameEnd.GetBool() || Jackal.RoleInfo.IsEnable;
-        ///<summary>
-        ///インポスター以外の人数とインポスターの人数の差
-        ///</summary>
-        public static int Diff_CrewImp
-        {
-            get
-            {
-                int numImpostors = 0;
-                int numCrewmates = 0;
-                foreach (var pc in Main.AllPlayerControls)
-                {
-                    if (pc.Data.Role.IsImpostor) numImpostors++;
-                    else numCrewmates++;
-                }
-                return numCrewmates - numImpostors;
-            }
-        }
+        public static bool OverrideExiledPlayer => Options.NoGameEnd.GetBool() || Jackal.RoleInfo.IsEnable;
+
         public static bool IsCached { get; private set; } = false;
         private static Dictionary<byte, (bool isDead, bool Disconnected)> isDeadCache = new();
         private readonly static LogHandler logger = Logger.Handler("AntiBlackout");
