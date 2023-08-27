@@ -223,6 +223,7 @@ File outputs by `Alt`+`L` are stored in `./TOH_DATA/OptionOutputs` as `Preset{pr
 - [EvilHacker](#evilhacker)
 - [EvilTracker](#eviltracker)
 - [FireWorks](#fireworks)
+- [Insider](#insider)
 - [Mare](#mare)
 - [Neko-Kabocha](#neko-kabocha)
 - [Penguin](#penguin)
@@ -382,6 +383,27 @@ Even if they mistakenly bomb themselves, killing everyone results in Impostor wi
 | ------------------- |
 | FireWorks Max Count |
 | FireWorks Radius    |
+
+### Insider
+
+Create and idea by Masami<br>
+
+Team : Impostors<br>
+Basis : Impostor<br>
+
+The Insider can see . <br>
+They can see roles whose they killed.<br>
+They can also see roles and abilities of all Impostors.<br>
+KIlling specified times tells them Madmates as well.<br>
+
+#### Game Options
+
+| Name                       |
+| -------------------------- |
+| Can See Impostor Abilities |
+| Can See All Ghost's Roles  |
+| Can See Madmates           |
+| Kill Count To See Madmates |
 
 ### Mare
 
