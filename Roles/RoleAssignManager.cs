@@ -54,20 +54,21 @@ namespace TownOfHost.Roles
             "AssignAlgorithm.Random"
         };
         private static readonly CustomRoles[] AllMainRoles = CustomRolesHelper.AllRoles.Where(role => role < CustomRoles.NotAssigned).ToArray();
+        public static OptionItem OptionAssignMode;
         private static Dictionary<CustomRoleTypes, RandomAssignOptions> RandomAssignOptionsCollection = new(CustomRolesHelper.AllRoleTypes.Length);
         private static Dictionary<CustomRoleTypes, int> AssignCount = new(CustomRolesHelper.AllRoleTypes.Length);
         private static List<CustomRoles> AssignRoleList = new(CustomRolesHelper.AllRoles.Length);
         public static void SetupOptionItem()
         {
-            var optionAssignMode = StringOptionItem.Create(idStart, "AssignMode", AssignModeSelections, 0, TabGroup.MainSettings, false)
+            OptionAssignMode = StringOptionItem.Create(idStart, "AssignMode", AssignModeSelections, 0, TabGroup.MainSettings, false)
                 .SetHeader(true);
 
-            assignMode = () => (AssignAlgorithm)optionAssignMode.GetInt();
+            assignMode = () => (AssignAlgorithm)OptionAssignMode.GetInt();
             RandomAssignOptionsCollection.Clear();
-            RandomAssignOptions.Create(10, optionAssignMode, CustomRoleTypes.Impostor, 3);
-            RandomAssignOptions.Create(20, optionAssignMode, CustomRoleTypes.Madmate);
-            RandomAssignOptions.Create(30, optionAssignMode, CustomRoleTypes.Crewmate);
-            RandomAssignOptions.Create(40, optionAssignMode, CustomRoleTypes.Neutral);
+            RandomAssignOptions.Create(10, OptionAssignMode, CustomRoleTypes.Impostor, 3);
+            RandomAssignOptions.Create(20, OptionAssignMode, CustomRoleTypes.Madmate);
+            RandomAssignOptions.Create(30, OptionAssignMode, CustomRoleTypes.Crewmate);
+            RandomAssignOptions.Create(40, OptionAssignMode, CustomRoleTypes.Neutral);
         }
         public static bool CheckRoleCount()
         {
