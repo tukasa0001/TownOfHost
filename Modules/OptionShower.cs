@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using static TownOfHost.Translator;
 
@@ -27,6 +28,7 @@ namespace TownOfHost
             };
             //ゲームモードの表示
             sb.Append($"{Options.GameMode.GetName()}: {Options.GameMode.GetString()}\n\n");
+            sb.AppendFormat("{0}: {1}\n\n", RoleAssignManager.OptionAssignMode.GetName(), RoleAssignManager.OptionAssignMode.GetString());
             if (Options.HideGameSettings.GetBool() && !AmongUsClient.Instance.AmHost)
             {
                 sb.Append($"<color=#ff0000>{GetString("Message.HideGameSettings")}</color>");
@@ -47,6 +49,11 @@ namespace TownOfHost
                 }
                 //有効な役職と詳細設定一覧
                 pages.Add("");
+                if (RoleAssignManager.OptionAssignMode.GetBool())
+                {
+                    ShowChildren(RoleAssignManager.OptionAssignMode, ref sb, Color.white);
+                    sb.Append('\n');
+                }
                 nameAndValue(Options.EnableGM);
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                 {
