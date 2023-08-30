@@ -264,11 +264,6 @@ public class MeetingVoteManager
             VotedFor = voteTo;
             NumVotes = numVotes;
         }
-        public void ChangeVoteTarget(byte voteTarget)
-        {
-            logger.Info($"{Utils.GetPlayerById(Voter).GetNameWithRole()}の投票を{GetVoteName(VotedFor)}から{GetVoteName(voteTarget)}に変更");
-            VotedFor = voteTarget;
-        }
     }
 
     public readonly struct VoteResult
