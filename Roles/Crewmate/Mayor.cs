@@ -77,10 +77,10 @@ public sealed class Mayor : RoleBase
 
         return false;
     }
-    public override (byte? votedForId, int? numVotes, bool doVote) ModifyVote(byte voterId, byte sourceVotedForId)
+    public override (byte? votedForId, int? numVotes, bool doVote) ModifyVote(byte voterId, byte sourceVotedForId, bool isIntentional)
     {
         // 既定値
-        var (votedForId, numVotes, doVote) = base.ModifyVote(voterId, sourceVotedForId);
+        var (votedForId, numVotes, doVote) = base.ModifyVote(voterId, sourceVotedForId, isIntentional);
         if (voterId == Player.PlayerId)
         {
             numVotes = AdditionalVote + 1;
