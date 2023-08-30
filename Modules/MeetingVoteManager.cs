@@ -56,7 +56,8 @@ public class MeetingVoteManager
     /// <param name="voter">投票者</param>
     /// <param name="voteFor">投票先</param>
     /// <param name="numVotes">票数</param>
-    public void AddVote(byte voter, byte voteFor, int numVotes = 1)
+    /// <param name="isIntentional">投票者自身の投票操作による自発的な投票かどうか</param>
+    public void AddVote(byte voter, byte voteFor, int numVotes = 1, bool isIntentional = true)
     {
         if (!allVotes.TryGetValue(voter, out var vote))
         {
@@ -71,7 +72,7 @@ public class MeetingVoteManager
         bool doVote = true;
         foreach (var role in CustomRoleManager.AllActiveRoles.Values)
         {
-            var (roleVoteFor, roleNumVotes, roleDoVote) = role.ModifyVote(voter, voteFor);
+            var (roleVoteFor, roleNumVotes, roleDoVote) = role.ModifyVote(voter, voteFor, isIntentional);
             if (roleVoteFor.HasValue)
             {
                 logger.Info($"{role.Player.GetNameWithRole()} が {Utils.GetPlayerById(voter).GetNameWithRole()} の投票先を {GetVoteName(roleVoteFor.Value)} に変更します");
