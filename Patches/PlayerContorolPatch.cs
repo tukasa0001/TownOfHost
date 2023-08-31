@@ -11,9 +11,7 @@ using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Crewmate;
-using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
