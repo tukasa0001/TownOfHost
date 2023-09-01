@@ -184,6 +184,8 @@ namespace TownOfHost
             CompletedTasksCount = Math.Min(AllTasksCount, CompletedTasksCount);
             Logger.Info($"{player.GetNameWithRole()}: TaskCounts = {CompletedTasksCount}/{AllTasksCount}", "TaskState.Update");
         }
+        public bool HasCompletedEnoughCountOfTasks(int count) =>
+            IsTaskFinished || CompletedTasksCount >= count;
     }
     public class PlayerVersion
     {
