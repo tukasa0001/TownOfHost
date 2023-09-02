@@ -664,16 +664,17 @@ Basis : Crewmate or Engineer<br>
 Count : Crew<br>
 
 The MadSnitches belong to team Impostors, one type of Madmates.<br>
-They can see who is the Impostor after finishing all their tasks.<br>
+They can see who is the Impostor after finishing specified count of tasks.<br>
 Depending on option, they can use vents.<br>
 
 #### Game Options
 
-| Name                     |
-| ------------------------ |
-| MadSnitch Can Use Vent   |
-| Also Exposed To Impostor |
-| MadSnitch Tasks          |
+| Name                        |
+| --------------------------- |
+| MadSnitch Can Use Vent      |
+| Also Exposed To Impostor    |
+| Tasks Until Boost Activated |
+| MadSnitch Tasks             |
 
 ### SidekickMadmate
 
