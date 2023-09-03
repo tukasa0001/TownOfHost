@@ -29,7 +29,7 @@
 "TimeThief","Time Thief","タイムシーフ","蚀时者","時間竊賊","Вор Времени","Ladrão de Tempo"
 "Sniper","Sniper","スナイパー","狙击手","狙擊手","Снайпер","Sniper"
 "EvilTracker","EvilTracker","イビルトラッカー","邪恶的追踪者","邪惡的追蹤者","Злой Следопыт","Rastreador do Mal"
-"Stealth","Stealth","ステルス","",","",""
+"Stealth","Stealth","ステルス","","","",""
 "NekoKabocha","Neko-Kabocha","ネコカボチャ","","","",""
 "EvilHacker","EvilHacker","イビルハッカー","","","",""
 "Penguin","Penguin","ペンギン","","","",""
@@ -65,7 +65,7 @@
 "Egoist","Egoist","エゴイスト","野心家","利己主義者","Эгоист","Egoísta"
 "Lovers","Lovers","恋人","恋人","戀人","Любовники","Amantes"
 "Jackal","Jackal","ジャッカル","豺狼","豺狼","Шакал","Chacal"
-"PlagueDoctor","Plague Doctor","ペスト医師","",","",""
+"PlagueDoctor","Plague Doctor","ペスト医師","","","",""
 
 "# HideAndSeek"
 "HASFox","Fox","狐","狐狸","狐妖","Лис","Raposa"
@@ -151,7 +151,7 @@
 "EgoistInfo","Take over the Impostors' victory","インポスター勝利を独占しよう","夺走内鬼的胜利","讓我們來奪取偽裝者的勝利","Не дай Предателям победить","Ganhe no lugar do Impostor"
 "LoversInfo","Live happily ever after, together","恋人と生きて幸せを掴もう","你们坠入了爱河，成为了一对恋人，一起活到最后吧！","你墜入了愛河","Выживите со своим Любовником","Vivam felizes para sempre, juntos"
 "JackalInfo","Kill Everyone","すべてを殺せ","快去杀光所有人，一只苍蝇都不要剩下！","殺光所有人不留活口","Убей всех игроков","Mate todos"
-"PlagueDoctorInfo","Spread disease to wipe out the crew","ペストをばらまけ","",","",""
+"PlagueDoctorInfo","Spread disease to wipe out the crew","ペストをばらまけ","","","",""
 
 "# HideAndSeek"
 "HASFoxInfo","Just stay alive","とにかく生き残りましょう","活下去吧！活到最后你就成为了赢家！","盡你所能地活下去吧!","Останьтесь в живых","Sobreviva a qualquer custo"
