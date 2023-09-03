@@ -391,7 +391,7 @@ Create and idea by Masami<br>
 Team : Impostors<br>
 Basis : Impostor<br>
 
-The Insider can see . <br>
+The Insider can get information about roles of other players. <br>
 They can see roles whose they killed.<br>
 They can also see roles and abilities of all Impostors.<br>
 Killing specified times tells them Madmates as well.<br>
