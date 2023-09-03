@@ -728,7 +728,9 @@ By closing the chat, the doctor can see the dead players cause of death next to 
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-After finishing all the task, The lighters have their vision expanded and ignore lights out.<br>
+After finishing all the task or progress task, <br>
+The lighters have their vision.<br> 
+expanded and After finishing all the task, ignore lights out.<br>
 
 #### Game Options
 
