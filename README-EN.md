@@ -15,7 +15,7 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 ## Releases
 
-AmongUs Version: **2023.7.11**
+AmongUs Version: **2023.7.12**
 
 **Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
@@ -46,15 +46,16 @@ Note that if a player other than the host plays with this mod installed, the fol
 ### Hotkeys
 
 #### Host Only
-| HotKey              | Function                         | Usable Scene  |
-| ------------------- | -------------------------------- | ------------- |
-| `Shift`+`L`+`Enter` | Force End Game                   | In Game       |
-| `Shift`+`M`+`Enter` | Skip meeting to end              | In Game       |
-| `Ctrl`+`N`          | Show active settings             | Lobby&In Game |
-| `Ctrl`+`Shift`+`N`  | Show active settings description | Lobby&In Game |
-| `C`                 | Cancel game start                | In Countdown  |
-| `Shift`             | Start the game immediately       | In Countdown  |
-| `Ctrl`+`RMB`        | Execute clicked player           | In Meeting    |
+| HotKey              | Function                                    | Usable Scene                       |
+| ------------------- | ------------------------------------------- | ---------------------------------- |
+| `Shift`+`L`+`Enter` | Force End Game                              | In Game                            |
+| `Shift`+`M`+`Enter` | Skip meeting to end                         | In Game                            |
+| `Ctrl`+`N`          | Show active settings                        | Lobby&In Game                      |
+| `Ctrl`+`Shift`+`N`  | Show active settings description            | Lobby&In Game                      |
+| `C`                 | Cancel game start                           | In Countdown                       |
+| `Shift`             | Start the game immediately                  | In Countdown                       |
+| `Shift`             | Increase the option value change step to 5x | During Setting Up Options In Lobby |
+| `Ctrl`+`RMB`        | Execute clicked player                      | In Meeting                         |
 
 #### MOD Client Only
 | HotKey      | Function                                                                           | Usable Scene  |
@@ -215,25 +216,83 @@ File outputs by `Alt`+`L` are stored in `./TOH_DATA/OptionOutputs` as `Preset{pr
 
 ## Roles
 
-| Impostors                           | Crewmates                         | Neutrals                          | Add-Ons                       | Others    |
-| ----------------------------------- | --------------------------------- | --------------------------------- | ----------------------------- | --------- |
-| [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             | [LastImpostor](#LastImpostor) | [GM](#GM) |
-| [EvilTracker](#EvilTracker)         | [Dictator](#Dictator)             | [Egoist](#Egoist)                 | [Lovers](#Lovers)             |           |
-| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       | [Watcher](#Watcher)           |           |
-| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jackal](#Jackal)                 | [Workhorse](#Workhorse)       |           |
-| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Jester](#Jester)                 |                               |           |
-| [SerialKiller](#SerialKiller)       | [SabotageMaster](#SabotageMaster) | [Opportunist](#Opportunist)       |                               |           |
-| [ShapeMaster](#ShapeMaster)         | [Seer](#Seer)                     | [Terrorist](#Terrorist)           |                               |           |
-| [Sniper](#Sniper)                   | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |                               |           |
-| [TimeThief](#TimeThief)             | [Snitch](#Snitch)                 |                                   |                               |           |
-| [Vampire](#Vampire)                 | [SpeedBooster](#SpeedBooster)     |                                   |                               |           |
-| [Warlock](#Warlock)                 | [Beartrap](#Beartrap)             |                                   |                               |           |
-| [Witch](#Witch)                     | [TimeManager](#TimeManager)       |                                   |                               |           |
-| [Mafia](#Mafia)                     |                                   |                                   |                               |           |
-| [Madmate](#Madmate)                 |                                   |                                   |                               |           |
-| [MadGuardian](#MadGuardian)         |                                   |                                   |                               |           |
-| [MadSnitch](#MadSnitch)             |                                   |                                   |                               |           |
-| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |                               |           |
+<details>
+<summary>Impostors</summary>
+
+- [BountyHunter](#bountyhunter)
+- [EvilHacker](#evilhacker)
+- [EvilTracker](#eviltracker)
+- [FireWorks](#fireworks)
+- [Insider](#insider)
+- [Mare](#mare)
+- [Neko-Kabocha](#neko-kabocha)
+- [Penguin](#penguin)
+- [Puppeteer](#puppeteer)
+- [SerialKiller](#serialkiller)
+- [ShapeMaster](#shapemaster)
+- [Sniper](#sniper)
+- [Stealth](#stealth)
+- [TimeThief](#timethief)
+- [Vampire](#vampire)
+- [Warlock](#warlock)
+- [Witch](#witch)
+- [Mafia](#mafia)
+- [Madmate](#madmate-1)
+- [MadGuardian](#madguardian)
+- [MadSnitch](#madsnitch)
+- [SidekickMadmate](#sidekickmadmate)
+
+</details>
+
+<details>
+<summary>Crewmates</summary>
+
+- [Bait](#bait)
+- [Dictator](#dictator)
+- [Doctor](#doctor)
+- [Lighter](#lighter)
+- [Mayor](#mayor)
+- [SabotageMaster](#sabotagemaster)
+- [Seer](#seer)
+- [Sheriff](#sheriff)
+- [Snitch](#snitch)
+- [SpeedBooster](#speedbooster)
+- [Beartrap](#beartrap)
+- [TimeManager](#timemanager)
+
+</details>
+
+<details>
+<summary>Neutrals</summary>
+
+- [Arsonist](#arsonist)
+- [Egoist](#egoist)
+- [Executioner](#executioner)
+- [Jackal](#jackal)
+- [Jester](#jester)
+- [Opportunist](#opportunist)
+- [PlagueDoctor](#plaguedoctor)
+- [Terrorist](#terrorist)
+- [SchrodingerCat](#schrodingercat)
+
+</details>
+
+<details>
+<summary>Add-Ons</summary>
+
+- [LastImpostor](#lastimpostor)
+- [Lovers](#lovers)
+- [Watcher](#watcher)
+- [Workhorse](#workhorse)
+
+</details>
+
+<details>
+<summary>Others</summary>
+
+- [GM](#gm)
+
+</details>
 
 ### GM
 
@@ -261,6 +320,28 @@ The target swaps after a configurable amount of time.<br>
 | Kill Cooldown After Killing Others(s) |
 | Show arrow pointing to target         |
 
+### EvilHacker
+
+Create by HYZE
+
+Team : Impostors  
+Basis : Impostor
+
+At every meeting beginning, the EvilHacker gets the admin information at the time in the chat.  
+Rooms with impostor(s) are marked with a `★`.  
+Rooms with dead-body(ies) are marked with the number of bodies.  
+They can see the kill-flash when other impostors killing.  
+If the option "Can See The Murder Location" is On, the room where the murder occurred is notified below their name for 10 sec.
+
+#### Game Options
+
+| Name                                      |
+| ----------------------------------------- |
+| Can See The Location of Dead-bodies       |
+| Can See The Location of Other Impostors   |
+| Can See The Kill-flash for Impostor Kills |
+| Can See The Murder Location               |
+
 ### EvilTracker
 
 Team : Impostors<br>
@@ -274,7 +355,7 @@ Depending on option, they can also see kill flash when other impostor kills.<br>
 - When they Shapeshift to impostor or dead player (unavailable for target), they stay able to select target.
 - Shapeshift cooldown is fixed to __"5s"__ (can select target) or to __"255s"__ (cannot).
 - Shapeshift duration is fixed to __"1s"__, which means EvilTrackers can hardly pretend to be someone else.
-- EvilTrackers can Assign [SidekickMadmate](#SidekickMadmate) by Shapeshift.
+- EvilTrackers can Assign [SidekickMadmate](#sidekickmadmate) by Shapeshift.
 
 #### Game Options
 
@@ -303,6 +384,27 @@ Even if they mistakenly bomb themselves, killing everyone results in Impostor wi
 | FireWorks Max Count |
 | FireWorks Radius    |
 
+### Insider
+
+Create and idea by Masami<br>
+
+Team : Impostors<br>
+Basis : Impostor<br>
+
+The Insider can get information about roles of other players. <br>
+They can see roles whose they killed.<br>
+They can also see roles and abilities of all Impostors.<br>
+Killing specified times tells them Madmates as well.<br>
+
+#### Game Options
+
+| Name                         |
+| ---------------------------- |
+| Can See Impostor Abilities   |
+| Can See All Ghost's Roles    |
+| Can See Madmates             |
+| ┗ Kill Count To See Madmates |
+
 ### Mare
 
 Create by Kihi, しゅー, そうくん, ゆりの<br>
@@ -321,6 +423,24 @@ While lights are out they can move faster, but everyone sees their name in red.<
 | Mare Player Add Speed In Lights Out |
 | Mare Kill Cooldown In Lights Out    |
 
+### Neko-Kabocha
+
+Create by HYZE
+
+Team : Impostors  
+Basis : Impostor
+
+The Neko-Kabocha kills back their killer.  
+They make a revenge when exiled if the "Revenge When Exiled" option is on.
+
+#### Game Options
+
+| Name                   |
+| ---------------------- |
+| Impostors Get Revenged |
+| Madmates Get Revenged  |
+| Revenge When Exiled    |
+
 ### Penguin
 
 Team : Impostors<br>
@@ -331,9 +451,10 @@ The target can be killed when the timer reaches zero or by kill button again.<br
 
 #### Game Options
 
-| Name          |
-| ------------- |
-| Dragging Time |
+| Name                                   |
+| -------------------------------------- |
+| Dragging Time                          |
+| Kill if meeting starts during dragging |
 
 ### Puppeteer
 
@@ -405,6 +526,23 @@ If it is a one shot assist, it will disappear immediately.<br>
 | Sniper Aim Assist       |
 | Sniper One shot Assist  |
 
+### Stealth
+
+Create by HYZE  
+Idea by Supeeee
+
+Team : Impostors  
+Basis : Impostor
+
+When the Stealth kills, players in the same room are blinded for a short while.
+
+#### Game Options
+
+| Name                             |
+| -------------------------------- |
+| Exclude Impostors From Blindness |
+| Blindness Duration               |
+
 ### TimeThief
 
 Created by integral, しゅー, そうくん, ゆりの<br>
@@ -430,7 +568,7 @@ Team : Impostors<br>
 Basis : Impostor<br>
 
 When the vampire kills, the kill is delayed (the bitten player will die in a set time based on settings or when the next meeting is called).<br>
-If the vampire bites [Bait](#Bait), the player will die immediately and a self-report will be forced.<br>
+If the vampire bites [Bait](#bait), the player will die immediately and a self-report will be forced.<br>
 
 #### Game Options
 
@@ -526,16 +664,17 @@ Basis : Crewmate or Engineer<br>
 Count : Crew<br>
 
 The MadSnitches belong to team Impostors, one type of Madmates.<br>
-They can see who is the Impostor after finishing all their tasks.<br>
+They can see who is the Impostor after finishing specified count of tasks.<br>
 Depending on option, they can use vents.<br>
 
 #### Game Options
 
-| Name                     |
-| ------------------------ |
-| MadSnitch Can Use Vent   |
-| Also Exposed To Impostor |
-| MadSnitch Tasks          |
+| Name                        |
+| --------------------------- |
+| MadSnitch Can Use Vent      |
+| Also Exposed To Impostor    |
+| Tasks Until Boost Activated |
+| MadSnitch Tasks             |
 
 ### SidekickMadmate
 
@@ -589,14 +728,17 @@ By closing the chat, the doctor can see the dead players cause of death next to 
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-After finishing all the task, The lighters have their vision expanded and ignore lights out.<br>
+By completing a certain number of tasks, or by the progress of your tasks, their vision increases.  
+After finishing all their tasks, they are no longer affected by the reduction in vision of lights outs.
 
 #### Game Options
 
 | Name                          |
 | ----------------------------- |
-| Lighter Expanded Vision       |
-| Lighter Gains Impostor Vision |
+| Max Vision                    |
+| Ignore Fix Lights Effect      |
+| Ability Activation Condition  |
+| ┗ Tasks Until Boost Activated |
 
 ### Mayor
 
@@ -675,15 +817,15 @@ Killing Crewmates will result in suicide. <br>
 | Sheriff Shot Limit                                                  |
 | Sheriff Can Kill Madmates                                           |
 | Sheriff Can Kill Neutrals                                           |
-| ┣ Sheriff Can Kill [Jester](#Jester)                                |
-| ┣ Sheriff Can Kill [Terrorist](#Terrorist)                          |
-| ┣ Sheriff Can Kill [Opportunist](#Opportunist)                      |
-| ┣ Sheriff Can Kill [Arsonist](#Arsonist)                            |
-| ┣ Sheriff Can Kill [Egoist](#Egoist)                                |
-| ┣ Sheriff Can Kill [SchrodingerCat](#SchrodingerCat) In Team Egoist |
-| ┣ Sheriff Can Kill [Executioner](#Executioner)                      |
-| ┣ Sheriff Can Kill [Jackal](#Jackal)                                |
-| ┗ Sheriff Can Kill [SchrodingerCat](#SchrodingerCat) In Team Jackal |
+| ┣ Sheriff Can Kill [Jester](#jester)                                |
+| ┣ Sheriff Can Kill [Terrorist](#terrorist)                          |
+| ┣ Sheriff Can Kill [Opportunist](#opportunist)                      |
+| ┣ Sheriff Can Kill [Arsonist](#arsonist)                            |
+| ┣ Sheriff Can Kill [Egoist](#egoist)                                |
+| ┣ Sheriff Can Kill [SchrodingerCat](#schrodingercat) In Team Egoist |
+| ┣ Sheriff Can Kill [Executioner](#executioner)                      |
+| ┣ Sheriff Can Kill [Jackal](#jackal)                                |
+| ┗ Sheriff Can Kill [SchrodingerCat](#schrodingercat) In Team Jackal |
 
 ### Snitch
 
@@ -911,6 +1053,8 @@ The PlagueDoctor win when all survivors become infected.  Do not care dead or al
 | Infect Time         |
 | Infect Distance     |
 | Infect Invalid Time |
+| Can Infect Self     |
+| Can Infect in Vent  |
 
 ### SchrodingerCat
 
@@ -1103,6 +1247,26 @@ The time limit for some sabotage can be modified.
 | ┣ Polus Reactor TimeLimit   |
 | ┗ Airship Reactor TimeLimit |
 
+## Sabotage Cooldown Control
+
+Modifies cooldown time for sabotages.
+
+| Name                      |
+| ------------------------- |
+| Sabotage Cooldown Control |
+| ┗ Sabotage Cooldown       |
+
+## Fix Lights Special Settings
+
+Additional options for lights outs.
+
+| Name                                       |                                       |
+| ------------------------------------------ | ------------------------------------- |
+| Disable Viewing Deck Lights Panel(Airship) |                                       |
+| Disable Gap Room Lights Panel(Airship)     |                                       |
+| Disable Cargo Lights Panel(Airship)        |                                       |
+| Block Disturbances To Switches             | Make switches unable to be turned off |
+
 ## Map Modifications
 
 ### AirShip Variable Electrical
@@ -1120,6 +1284,15 @@ Disable the moving platform in Airship.
 | Name                             |
 | -------------------------------- |
 | Disable Moving Platform(Airship) |
+
+### Reset Doors After Meeting(Airship/Polus)
+
+After meetings, all door openings are reset to the specified state.
+
+| Name                                     |                                                |
+| ---------------------------------------- | ---------------------------------------------- |
+| Reset Doors After Meeting(Airship/Polus) |                                                |
+| ┗ Reset Mode                             | Select from All Open/All Closed/Random By Door |
 
 ## Mode
 
@@ -1320,13 +1493,14 @@ If the client language is English, this option is meaningless unless `Force Japa
 
 ## Credits
 
-More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter),[Seer](#Seer),[Jackal](#jackal) idea by [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
-[Opportunist](#Opportunist),[Watcher](#Watcher),[PlagueDoctor](#PlagueDoctor) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-[SchrodingerCat](#SchrodingerCat),[EvilTracker](#EvilTracker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
-[Doctor](#Doctor) and [Sniper](#Sniper) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
-[Jester](#Jester) and [Madmate](#Madmate) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
-[Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
+More tips to modding and [BountyHunter](#bountyhunter),[Mafia](#mafia),[Vampire](#vampire),[Witch](#witch),[Bait](#bait),[Mayor](#mayor),[Sheriff](#sheriff),[Snitch](#snitch),[Lighter](#lighter),[Seer](#seer),[Jackal](#jackal) idea by [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)<br>
+[Opportunist](#opportunist),[Watcher](#watcher),[Neko-Kabocha](#neko-kabocha),[PlagueDoctor](#plaguedoctor) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+[SchrodingerCat](#schrodingercat),[EvilTracker](#eviltracker),[EvilHacker](#evilhacker) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[Doctor](#doctor) and [Sniper](#sniper) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
+[Jester](#jester) and [Madmate](#madmate-1) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
+[Terrorist](#terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
+[EvilHacker](#evilhacker) idea by [tomarai/TheOtherRoles](https://github.com/tomarai/TheOtherRoles/tree/dev-v3.4.x)  
 [Penguin](#penguin) : original idea by [Super New Roles](https://github.com/ykundesu/SuperNewRoles)<br>
 Translate-Chinese : fivefirex, ZeMingOH233<br>
 OptionTab Icon Design by 花海.<br>
