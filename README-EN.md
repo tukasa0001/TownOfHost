@@ -394,16 +394,16 @@ Basis : Impostor<br>
 The Insider can see . <br>
 They can see roles whose they killed.<br>
 They can also see roles and abilities of all Impostors.<br>
-KIlling specified times tells them Madmates as well.<br>
+Killing specified times tells them Madmates as well.<br>
 
 #### Game Options
 
-| Name                       |
-| -------------------------- |
-| Can See Impostor Abilities |
-| Can See All Ghost's Roles  |
-| Can See Madmates           |
-| Kill Count To See Madmates |
+| Name                         |
+| ---------------------------- |
+| Can See Impostor Abilities   |
+| Can See All Ghost's Roles    |
+| Can See Madmates             |
+| ┗ Kill Count To See Madmates |
 
 ### Mare
 
@@ -728,9 +728,8 @@ By closing the chat, the doctor can see the dead players cause of death next to 
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-After finishing all the task or progress task, <br>
-The lighters have their vision.<br> 
-expanded and After finishing all the task, ignore lights out.<br>
+By completing a certain number of tasks, or by the progress of your tasks, their vision increases.  
+After finishing all their tasks, they are no longer affected by the reduction in vision of lights outs.
 
 #### Game Options
 
