@@ -82,6 +82,11 @@ public static class OptionSaver
     /// <summary>現在のオプションをjsonファイルに保存</summary>
     public static void Save()
     {
+        // 接続済みで，ホストじゃなければ保存しない
+        if (AmongUsClient.Instance != null && !AmongUsClient.Instance.AmHost)
+        {
+            return;
+        }
         var jsonString = JsonSerializer.Serialize(GenerateOptionsData(), new JsonSerializerOptions { WriteIndented = true, });
         File.WriteAllText(OptionSaverFileInfo.FullName, jsonString);
     }
