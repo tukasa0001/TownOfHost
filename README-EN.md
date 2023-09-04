@@ -40,7 +40,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 ## Announcements
 - Sheriff, Arsonist, Jackal, and other roles can close doors, but please don't use it because the system can't limit it.
 - The dead player chat can be seen when exile screen by anti blackout, but this is not a bug.
-- The "Confirm Ejects" option will not work if any of the following roles are enabled: Sheriff, Arsonist, Jackal.
+- The "Confirm Ejects" option will not work if any of the following roles are enabled: Sheriff, Arsonist, Jackal, PlagueDoctor.
 
 ## Features
 ### Hotkeys
