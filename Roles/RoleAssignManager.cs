@@ -54,20 +54,21 @@ namespace TownOfHost.Roles
             "AssignAlgorithm.Random"
         };
         private static readonly CustomRoles[] AllMainRoles = CustomRolesHelper.AllRoles.Where(role => role < CustomRoles.NotAssigned).ToArray();
+        public static OptionItem OptionAssignMode;
         private static Dictionary<CustomRoleTypes, RandomAssignOptions> RandomAssignOptionsCollection = new(CustomRolesHelper.AllRoleTypes.Length);
         private static Dictionary<CustomRoleTypes, int> AssignCount = new(CustomRolesHelper.AllRoleTypes.Length);
         private static List<CustomRoles> AssignRoleList = new(CustomRolesHelper.AllRoles.Length);
         public static void SetupOptionItem()
         {
-            var optionAssignMode = StringOptionItem.Create(idStart, "AssignMode", AssignModeSelections, 0, TabGroup.MainSettings, false)
+            OptionAssignMode = StringOptionItem.Create(idStart, "AssignMode", AssignModeSelections, 0, TabGroup.MainSettings, false)
                 .SetHeader(true);
 
-            assignMode = () => (AssignAlgorithm)optionAssignMode.GetInt();
+            assignMode = () => (AssignAlgorithm)OptionAssignMode.GetInt();
             RandomAssignOptionsCollection.Clear();
-            RandomAssignOptions.Create(10, optionAssignMode, CustomRoleTypes.Impostor, 3);
-            RandomAssignOptions.Create(20, optionAssignMode, CustomRoleTypes.Madmate);
-            RandomAssignOptions.Create(30, optionAssignMode, CustomRoleTypes.Crewmate);
-            RandomAssignOptions.Create(40, optionAssignMode, CustomRoleTypes.Neutral);
+            RandomAssignOptions.Create(10, OptionAssignMode, CustomRoleTypes.Impostor, 3);
+            RandomAssignOptions.Create(20, OptionAssignMode, CustomRoleTypes.Madmate);
+            RandomAssignOptions.Create(30, OptionAssignMode, CustomRoleTypes.Crewmate);
+            RandomAssignOptions.Create(40, OptionAssignMode, CustomRoleTypes.Neutral);
         }
         public static bool CheckRoleCount()
         {
@@ -139,7 +140,7 @@ namespace TownOfHost.Roles
             {
                 if (numImpostorsLeft <= 0 && numOthersLeft <= 0) break;
 
-                var targetRoles = role.GetAssignTargetRolesArray();
+                var targetRoles = role.GetAssignUnitRolesArray();
                 var numImpostorAssign = targetRoles.Count(role => role.IsImpostor());
                 var numOthersAssign = targetRoles.Length - numImpostorAssign;
                 //アサイン枠が足りてない場合
@@ -225,7 +226,7 @@ namespace TownOfHost.Roles
 
             foreach (var role in GetCandidateRoleList(100).OrderBy(x => Guid.NewGuid()))
             {
-                var targetRoles = role.GetAssignTargetRolesArray();
+                var targetRoles = role.GetAssignUnitRolesArray();
                 //アサイン枠が足りてない場合
                 if (CustomRolesHelper.AllRoleTypes.Any(
                     type => assignCount.TryGetValue(type, out var count) &&
@@ -261,7 +262,7 @@ namespace TownOfHost.Roles
             while (assignCount.Any(kvp => kvp.Value > 0) && randomRoleTicketPool.Count > 0)
             {
                 var selectedTicket = randomRoleTicketPool[rand.Next(randomRoleTicketPool.Count)];
-                var targetRoles = selectedTicket.Item1.GetAssignTargetRolesArray();
+                var targetRoles = selectedTicket.Item1.GetAssignUnitRolesArray();
                 //アサイン枠が足りていれば追加
                 if (CustomRolesHelper.AllRoleTypes.All(type => targetRoles.Count(role => role.GetCustomRoleTypes() == type) <= assignCount[type]))
                 {
@@ -284,15 +285,12 @@ namespace TownOfHost.Roles
             foreach (var subRole in CustomRolesHelper.AllRoles.Where(x => x > CustomRoles.NotAssigned))
             {
                 var chance = subRole.GetChance();
-                var count = subRole.GetCount();
+                var count = subRole.GetAssignCount();
                 if (chance == 0 || count == 0) continue;
-                var numAssignUnit = 1; //アサインの最小単位
-                if (subRole == CustomRoles.Lovers)
-                    numAssignUnit = 2;
                 var rnd = IRandom.Instance;
-                for (var i = 0; i < count / numAssignUnit; i++) //役職の単位数ごとに抽選
+                for (var i = 0; i < count; i++) //役職の単位数ごとに抽選
                     if (isFixedAssign || rnd.Next(100) < chance)
-                        AssignRoleList.AddRange(subRole.GetAssignTargetRolesArray());
+                        AssignRoleList.AddRange(subRole.GetAssignUnitRolesArray());
             }
         }
         private static List<CustomRoles> GetCandidateRoleList(int availableRate)
@@ -303,7 +301,7 @@ namespace TownOfHost.Roles
                 if (!role.IsAssignable()) continue;
 
                 var chance = role.GetChance();
-                var count = role.GetCount();
+                var count = role.GetAssignCount();
                 if (chance < availableRate || count == 0) continue;
                 candidateRoleList.AddRange(Enumerable.Repeat(role, count).ToList());
             }
@@ -316,12 +314,27 @@ namespace TownOfHost.Roles
                 CustomRoles.Egoist => Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1,
                 _ => true,
             };
+        /// <summary>
+        /// アサインの抽選回数
+        /// </summary>
+        private static int GetAssignCount(this CustomRoles role)
+        {
+            int maximumCount = role.GetCount();
+            int assignUnitCount = CustomRoleManager.GetRoleInfo(role)?.AssignUnitCount ??
+                role switch
+                {
+                    CustomRoles.Lovers => 2,
+                    _ => 1,
+                };
+            return maximumCount / assignUnitCount;
+        }
         ///<summary>
         ///RoleOptionのKey => 実際にアサインされる役職の配列
         ///両陣営役職、コンビ役職向け
         ///</summary>
-        private static CustomRoles[] GetAssignTargetRolesArray(this CustomRoles role)
-            => role switch
+        private static CustomRoles[] GetAssignUnitRolesArray(this CustomRoles role)
+            => CustomRoleManager.GetRoleInfo(role)?.AssignUnitRoles ??
+            role switch
             {
                 CustomRoles.Lovers => new CustomRoles[2] { CustomRoles.Lovers, CustomRoles.Lovers },
                 _ => new CustomRoles[1] { role },

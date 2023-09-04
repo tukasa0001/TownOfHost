@@ -9,7 +9,7 @@ namespace TownOfHost
         public PresetOptionItem(int defaultValue, TabGroup tab)
         : base(0, "Preset", defaultValue, tab, true)
         {
-            Rule = (0, 4, 1);
+            Rule = (0, NumPresets - 1, 1);
         }
         public static PresetOptionItem Create(int defaultValue, TabGroup tab)
         {

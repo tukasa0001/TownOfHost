@@ -187,12 +187,22 @@ public abstract class RoleBase : IDisposable
     { }
 
     /// <summary>
-    /// 誰かが投票したときに発火する
+    /// 自分が投票した瞬間，票がカウントされる前に呼ばれる<br/>
+    /// falseを返すと投票行動自体をなかったことにし，再度投票できるようになる<br/>
+    /// 投票行動自体は取り消さず，票だけカウントさせない場合は<see cref="ModifyVote"/>を使用し，doVoteをfalseにする
+    /// </summary>
+    /// <param name="votedForId">投票先</param>
+    /// <returns>falseを返すと投票自体がなかったことになり，投票者自身以外には投票したことがバレません</returns>
+    public virtual bool CheckVoteAsVoter(PlayerControl votedFor) => true;
+
+    /// <summary>
+    /// 誰かが投票した瞬間に呼ばれ，票を書き換えることができる<br/>
+    /// 投票行動自体をなかったことにしたい場合は<see cref="CheckVoteAsVoter"/>を使用する
     /// </summary>
     /// <param name="voterId">投票した人のID</param>
     /// <param name="sourceVotedForId">投票された人のID</param>
     /// <returns>(変更後の投票先(変更しないならnull), 変更後の票数(変更しないならnull), 投票をカウントするか)</returns>
-    public virtual (byte? votedForId, int? numVotes, bool doVote) OnVote(byte voterId, byte sourceVotedForId) => (null, null, true);
+    public virtual (byte? votedForId, int? numVotes, bool doVote) ModifyVote(byte voterId, byte sourceVotedForId, bool isIntentional) => (null, null, true);
 
     /// <summary>
     /// 追放後に行われる処理
@@ -245,22 +255,29 @@ public abstract class RoleBase : IDisposable
     // Suffix:ターゲット矢印などの追加情報。
 
     /// <summary>
-    /// seenによるRoleNameの書き換え
+    /// seenによる表示上のRoleNameの書き換え
     /// </summary>
     /// <param name="seer">見る側</param>
     /// <param name="enabled">RoleNameを表示するかどうか</param>
     /// <param name="roleColor">RoleNameの色</param>
     /// <param name="roleText">RoleNameのテキスト</param>
-    public virtual void OverrideRoleNameAsSeen(PlayerControl seer, ref bool enabled, ref Color roleColor, ref string roleText)
+    public virtual void OverrideDisplayRoleNameAsSeen(PlayerControl seer, ref bool enabled, ref Color roleColor, ref string roleText)
     { }
     /// <summary>
-    /// seerによるRoleNameの書き換え
+    /// seerによる表示上のRoleNameの書き換え
     /// </summary>
     /// <param name="seen">見られる側</param>
     /// <param name="enabled">RoleNameを表示するかどうか</param>
     /// <param name="roleColor">RoleNameの色</param>
     /// <param name="roleText">RoleNameのテキスト</param>
-    public virtual void OverrideRoleNameAsSeer(PlayerControl seen, ref bool enabled, ref Color roleColor, ref string roleText)
+    public virtual void OverrideDisplayRoleNameAsSeer(PlayerControl seen, ref bool enabled, ref Color roleColor, ref string roleText)
+    { }
+    /// <summary>
+    /// 本来の役職名の書き換え
+    /// </summary>
+    /// <param name="roleColor">RoleNameの色</param>
+    /// <param name="roleText">RoleNameのテキスト</param>
+    public virtual void OverrideTrueRoleName(ref Color roleColor, ref string roleText)
     { }
     /// <summary>
     /// seerによるProgressTextの書き換え

@@ -13,10 +13,10 @@ using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
 
 using TownOfHost.Modules;
+using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Common;
 using TownOfHost.Roles.AddOns.Impostor;
 using TownOfHost.Roles.AddOns.Crewmate;
@@ -207,10 +207,10 @@ namespace TownOfHost
             var (roleColor, roleText) = GetTrueRoleNameData(seen.PlayerId);
 
             //seen側による変更
-            seen.GetRoleClass()?.OverrideRoleNameAsSeen(seer, ref enabled, ref roleColor, ref roleText);
+            seen.GetRoleClass()?.OverrideDisplayRoleNameAsSeen(seer, ref enabled, ref roleColor, ref roleText);
 
             //seer側による変更
-            seer.GetRoleClass()?.OverrideRoleNameAsSeer(seen, ref enabled, ref roleColor, ref roleText);
+            seer.GetRoleClass()?.OverrideDisplayRoleNameAsSeer(seen, ref enabled, ref roleColor, ref roleText);
 
             return enabled ? ColorString(roleColor, roleText) : "";
         }
@@ -277,7 +277,9 @@ namespace TownOfHost
         private static (Color color, string text) GetTrueRoleNameData(byte playerId, bool showSubRoleMarks = true)
         {
             var state = PlayerState.GetByPlayerId(playerId);
-            return GetRoleNameData(state.MainRole, state.SubRoles, showSubRoleMarks);
+            var (color, text) = GetRoleNameData(state.MainRole, state.SubRoles, showSubRoleMarks);
+            CustomRoleManager.GetByPlayerId(playerId)?.OverrideTrueRoleName(ref color, ref text);
+            return (color, text);
         }
         /// <summary>
         /// 対象のRoleNameを全て正確に表示
@@ -401,7 +403,7 @@ namespace TownOfHost
                         hasTasks = false;
                         break;
                     default:
-                        if (role.IsImpostor() || role.IsKilledSchrodingerCat()) hasTasks = false;
+                        if (role.IsImpostor()) hasTasks = false;
                         break;
                 }
 
@@ -508,7 +510,7 @@ namespace TownOfHost
                 SendMessage(GetString("Message.HideGameSettings"), PlayerId);
                 return;
             }
-            var sb = new StringBuilder();
+            var sb = new StringBuilder().AppendFormat("<line-height={0}>", ActiveSettingsLineHeight);
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 sb.Append(GetString("Roles")).Append(':');
@@ -520,14 +522,18 @@ namespace TownOfHost
             }
             else
             {
-                sb.Append(GetString("Settings")).Append(':');
+                sb.AppendFormat("<size={0}>", ActiveSettingsSize);
+                sb.Append("<size=100%>").Append(GetString("Settings")).Append('\n').Append("</size>");
+                sb.AppendFormat("\n【{0}: {1}】\n", RoleAssignManager.OptionAssignMode.GetName(true), RoleAssignManager.OptionAssignMode.GetString());
+                if (RoleAssignManager.OptionAssignMode.GetBool())
+                {
+                    ShowChildrenSettings(RoleAssignManager.OptionAssignMode, ref sb);
+                }
                 foreach (var role in Options.CustomRoleCounts)
                 {
                     if (!role.Key.IsEnable()) continue;
                     sb.Append($"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n");
                     ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref sb);
-                    var text = sb.ToString();
-                    sb.Clear().Append(text.RemoveHtmlTags());
                 }
                 foreach (var opt in OptionItem.AllOptions.Where(x => x.GetBool() && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
                 {
@@ -536,11 +542,9 @@ namespace TownOfHost
                     else
                         sb.Append($"\n【{opt.GetName(true)}】\n");
                     ShowChildrenSettings(opt, ref sb);
-                    var text = sb.ToString();
-                    sb.Clear().Append(text.RemoveHtmlTags());
                 }
             }
-            SendMessage(sb.ToString(), PlayerId);
+            SendMessage(sb.ToString(), PlayerId, removeTags: false);
         }
         public static void CopyCurrentSettings()
         {
@@ -580,14 +584,16 @@ namespace TownOfHost
                 SendMessage(GetString("Message.HideGameSettings"), PlayerId);
                 return;
             }
-            var sb = new StringBuilder(GetString("Roles")).Append(':');
-            sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString().RemoveHtmlTags());
+            var sb = new StringBuilder().AppendFormat("<line-height={0}>", ActiveSettingsLineHeight);
+            sb.AppendFormat("<size={0}>", ActiveSettingsSize);
+            sb.Append("<size=100%>").Append(GetString("Roles")).Append('\n').Append("</size>");
+            sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString());
             foreach (CustomRoles role in CustomRolesHelper.AllRoles)
             {
                 if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                 if (role.IsEnable()) sb.AppendFormat("\n{0}:{1}x{2}", GetRoleName(role), $"{role.GetChance()}%", role.GetCount());
             }
-            SendMessage(sb.ToString(), PlayerId);
+            SendMessage(sb.ToString(), PlayerId, removeTags: false);
         }
         public static void ShowChildrenSettings(OptionItem option, ref StringBuilder sb, int deep = 0)
         {
@@ -605,7 +611,7 @@ namespace TownOfHost
                     sb.Append(string.Concat(Enumerable.Repeat("┃", Mathf.Max(deep - 1, 0))));
                     sb.Append(opt.Index == option.Children.Count ? "┗ " : "┣ ");
                 }
-                sb.Append($"{opt.Value.GetName(true)}: {opt.Value.GetString()}\n");
+                sb.Append($"{opt.Value.GetName(true).RemoveHtmlTags()}: {opt.Value.GetString()}\n");
                 if (opt.Value.GetBool()) ShowChildrenSettings(opt.Value, ref sb, deep + 1);
             }
         }
@@ -617,20 +623,25 @@ namespace TownOfHost
                 return;
             }
             var sb = new StringBuilder();
+            var winnerColor = ((CustomRoles)CustomWinnerHolder.WinnerTeam).GetRoleInfo()?.RoleColor ?? Palette.DisabledGrey;
 
-            sb.Append(GetString("LastResult")).Append(':');
+            sb.Append("""<align="center">""");
+            sb.Append("<size=150%>").Append(GetString("LastResult")).Append("</size>");
+            sb.Append('\n').Append(SetEverythingUpPatch.LastWinsText.Mark(winnerColor, false));
+            sb.Append("</align>");
+
+            sb.Append("<size=70%>\n");
             List<byte> cloneRoles = new(PlayerState.AllPlayerStates.Keys);
-            sb.Append($"\n{SetEverythingUpPatch.LastWinsText}\n");
             foreach (var id in Main.winnerList)
             {
-                sb.Append($"\n★ ").Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
+                sb.Append($"\n★ ".Color(winnerColor)).Append(SummaryTexts(id, true));
                 cloneRoles.Remove(id);
             }
             foreach (var id in cloneRoles)
             {
-                sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id].RemoveHtmlTags());
+                sb.Append($"\n　 ").Append(SummaryTexts(id, true));
             }
-            SendMessage(sb.ToString(), PlayerId);
+            SendMessage(sb.ToString(), PlayerId, removeTags: false);
         }
         public static void ShowKillLog(byte PlayerId = byte.MaxValue)
         {
@@ -639,7 +650,7 @@ namespace TownOfHost
                 SendMessage(GetString("CantUse.killlog"), PlayerId);
                 return;
             }
-            SendMessage(EndGamePatch.KillLog, PlayerId);
+            SendMessage(EndGamePatch.KillLog, PlayerId, removeTags: false);
         }
         public static string GetSubRolesText(byte id, bool disableColor = false)
         {
@@ -673,11 +684,11 @@ namespace TownOfHost
                 + $"\n/dump - {GetString("Command.dump")}"
                 );
         }
-        public static void SendMessage(string text, byte sendTo = byte.MaxValue, string title = "")
+        public static void SendMessage(string text, byte sendTo = byte.MaxValue, string title = "", bool removeTags = true)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (title == "") title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
-            Main.MessagesToSend.Add((text.RemoveHtmlTags(), sendTo, title));
+            Main.MessagesToSend.Add((removeTags ? text.RemoveHtmlTags() : text, sendTo, title));
         }
         public static void ApplySuffix()
         {
@@ -805,8 +816,6 @@ namespace TownOfHost
                 string SelfRoleName = enabled ? $"<size={fontSize}>{text}</size>" : "";
                 string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
                 string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
-                if (Arsonist.IsDouseDone(seer))
-                    SelfName = $"</size>\r\n{ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
                 SelfName = SelfRoleName + "\r\n" + SelfName;
                 SelfName += SelfSuffix.ToString() == "" ? "" : "\r\n " + SelfSuffix.ToString();
                 if (!isForMeeting) SelfName += "\r\n";
@@ -914,6 +923,7 @@ namespace TownOfHost
                 roleClass.AfterMeetingTasks();
             if (Options.AirShipVariableElectrical.GetBool())
                 AirShipElectricalDoors.Initialize();
+            DoorsReset.ResetDoors();
         }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max)
@@ -970,13 +980,33 @@ namespace TownOfHost
             };
             Process.Start(startInfo);
         }
-        public static string SummaryTexts(byte id, bool disableColor = true)
+        public static string SummaryTexts(byte id, bool isForChat)
         {
-            var RolePos = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.English ? 47 : 37;
-            string summary = $"{ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=22%>{GetProgressText(id)}</pos><pos=29%> {GetVitalText(id)}</pos><pos={RolePos}%> {GetTrueRoleName(id, false)}{GetSubRolesText(id)}</pos>";
-            return disableColor ? summary.RemoveHtmlTags() : summary;
+            // 全プレイヤー中最長の名前の長さからプレイヤー名の後の水平位置を計算する
+            // 1em ≒ 半角2文字
+            // 空白は0.5emとする
+            // SJISではアルファベットは1バイト，日本語は基本的に2バイト
+            var longestNameByteCount = Main.AllPlayerNames.Values.Select(name => name.GetByteCount()).OrderByDescending(byteCount => byteCount).FirstOrDefault();
+            //最大11.5emとする(★+日本語10文字分+半角空白)
+            var pos = Math.Min(((float)longestNameByteCount / 2) + 1.5f /* ★+末尾の半角空白 */ , 11.5f);
+
+            var builder = new StringBuilder();
+            builder.Append(isForChat ? Main.AllPlayerNames[id] : ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id]));
+            builder.AppendFormat("<pos={0}em>", pos).Append(isForChat ? GetProgressText(id).RemoveColorTags() : GetProgressText(id)).Append("</pos>");
+            // "(00/00) " = 4em
+            pos += 4f;
+            builder.AppendFormat("<pos={0}em>", pos).Append(GetVitalText(id)).Append("</pos>");
+            // "Lover's Suicide " = 8em
+            // "回線切断 " = 4.5em
+            pos += DestroyableSingleton<TranslationController>.Instance.currentLanguage.languageID == SupportedLangs.English ? 8f : 4.5f;
+            builder.AppendFormat("<pos={0}em>", pos);
+            builder.Append(isForChat ? GetTrueRoleName(id, false).RemoveColorTags() : GetTrueRoleName(id, false));
+            builder.Append(isForChat ? GetSubRolesText(id).RemoveColorTags() : GetSubRolesText(id));
+            builder.Append("</pos>");
+            return builder.ToString();
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
+        public static string RemoveColorTags(this string str) => Regex.Replace(str, "</?color(=#[0-9a-fA-F]*)?>", "");
         public static void FlashColor(Color color, float duration = 1f)
         {
             var hud = DestroyableSingleton<HudManager>.Instance;
@@ -1073,5 +1103,8 @@ namespace TownOfHost
         public static bool IsAllAlive => PlayerState.AllPlayerStates.Values.All(state => state.CountType == CountTypes.OutOfGame || !state.IsDead);
         public static int PlayersCount(CountTypes countTypes) => PlayerState.AllPlayerStates.Values.Count(state => state.CountType == countTypes);
         public static int AlivePlayersCount(CountTypes countTypes) => Main.AllAlivePlayerControls.Count(pc => pc.Is(countTypes));
+
+        private const string ActiveSettingsSize = "70%";
+        private const string ActiveSettingsLineHeight = "55%";
     }
 }

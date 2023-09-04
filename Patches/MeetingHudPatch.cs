@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 using HarmonyLib;
@@ -7,6 +8,8 @@ using UnityEngine;
 using TownOfHost.Modules;
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Neutral;
+using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost;
@@ -27,9 +30,19 @@ public static class MeetingHudPatch
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CastVote))]
     public static class CastVotePatch
     {
-        public static void Prefix([HarmonyArgument(0)] byte srcPlayerId /* 投票した人 */ , [HarmonyArgument(1)] byte suspectPlayerId /* 投票された人 */ )
+        public static bool Prefix(MeetingHud __instance, [HarmonyArgument(0)] byte srcPlayerId /* 投票した人 */ , [HarmonyArgument(1)] byte suspectPlayerId /* 投票された人 */ )
         {
-            MeetingVoteManager.Instance.AddVote(srcPlayerId, suspectPlayerId);
+            var voter = Utils.GetPlayerById(srcPlayerId);
+            var voted = Utils.GetPlayerById(suspectPlayerId);
+            if (voter.GetRoleClass()?.CheckVoteAsVoter(voted) == false)
+            {
+                __instance.RpcClearVote(voter.GetClientId());
+                Logger.Info($"{voter.GetNameWithRole()} は投票しない", nameof(CastVotePatch));
+                return false;
+            }
+
+            MeetingVoteManager.Instance?.SetVote(srcPlayerId, suspectPlayerId);
+            return true;
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
@@ -93,15 +106,16 @@ public static class MeetingHudPatch
             {
                 _ = new LateTask(() =>
                 {
-                    foreach (var seer in Main.AllPlayerControls)
+                    foreach (var seen in Main.AllPlayerControls)
                     {
-                        foreach (var target in Main.AllPlayerControls)
+                        var seenName = seen.GetRealName(isMeeting: true);
+                        var coloredName = Utils.ColorString(seen.GetRoleColor(), seenName);
+                        foreach (var seer in Main.AllPlayerControls)
                         {
-                            var seerName = seer.GetRealName(isMeeting: true);
-                            var coloredName = Utils.ColorString(seer.GetRoleColor(), seerName);
-                            seer.RpcSetNamePrivate(
-                                seer == target ? coloredName : seerName,
-                                true);
+                            seen.RpcSetNamePrivate(
+                                seer == seen ? coloredName : seenName,
+                                true,
+                                seer);
                         }
                     }
                     ChatUpdatePatch.DoBlockChat = false;
@@ -220,17 +234,33 @@ public static class MeetingHudPatch
     private static PlayerControl PickRevengeTarget(PlayerControl exiledplayer, CustomDeathReason deathReason)//道連れ先選定
     {
         List<PlayerControl> TargetList = new();
-        foreach (var candidate in Main.AllAlivePlayerControls)
+        if (exiledplayer.GetRoleClass() is INekomata nekomata)
         {
-            if (candidate == exiledplayer || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
-            switch (exiledplayer.GetCustomRole())
+            // 道連れしない状態ならnull
+            if (!nekomata.DoRevenge(deathReason))
             {
-                //ここに道連れ役職を追加
-                default:
-                    if (exiledplayer.Is(CustomRoleTypes.Madmate) && deathReason == CustomDeathReason.Vote && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
-                    && !candidate.Is(CustomRoleTypes.Impostor))
-                        TargetList.Add(candidate);
-                    break;
+                return null;
+            }
+            TargetList = Main.AllAlivePlayerControls.Where(candidate => candidate != exiledplayer && !Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId) && nekomata.IsCandidate(candidate)).ToList();
+        }
+        else
+        {
+            var isMadmate =
+    exiledplayer.Is(CustomRoleTypes.Madmate) ||
+    // マッド属性化時に削除
+    (exiledplayer.GetRoleClass() is SchrodingerCat schrodingerCat && schrodingerCat.AmMadmate);
+            foreach (var candidate in Main.AllAlivePlayerControls)
+            {
+                if (candidate == exiledplayer || Main.AfterMeetingDeathPlayers.ContainsKey(candidate.PlayerId)) continue;
+                switch (exiledplayer.GetCustomRole())
+                {
+                    // ここにINekomata未適用の道連れ役職を追加
+                    default:
+                        if (isMadmate && deathReason == CustomDeathReason.Vote && Options.MadmateRevengeCrewmate.GetBool() //黒猫オプション
+                        && !candidate.Is(CustomRoleTypes.Impostor))
+                            TargetList.Add(candidate);
+                        break;
+                }
             }
         }
         if (TargetList == null || TargetList.Count == 0) return null;

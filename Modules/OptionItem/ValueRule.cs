@@ -69,7 +69,11 @@ namespace TownOfHost
         }
 
         public override float GetValueByIndex(int index)
-            => RepeatIndex(index) * Step + MinValue;
+        {
+            //丸め誤差対策でdecimal型にして計算し、float型にして返す
+            decimal ss = RepeatIndex(index) * (decimal)Step + (decimal)MinValue;
+            return (float)ss;
+        }
 
         public override int GetNearestIndex(float num)
         {

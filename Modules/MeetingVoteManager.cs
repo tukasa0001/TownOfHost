@@ -51,12 +51,13 @@ public class MeetingVoteManager
         EndMeeting(false);
     }
     /// <summary>
-    /// 投票を追加します
+    /// 投票を行います．投票者が既に投票している場合は票を上書きします
     /// </summary>
     /// <param name="voter">投票者</param>
     /// <param name="voteFor">投票先</param>
     /// <param name="numVotes">票数</param>
-    public void AddVote(byte voter, byte voteFor, int numVotes = 1)
+    /// <param name="isIntentional">投票者自身の投票操作による自発的な投票かどうか</param>
+    public void SetVote(byte voter, byte voteFor, int numVotes = 1, bool isIntentional = true)
     {
         if (!allVotes.TryGetValue(voter, out var vote))
         {
@@ -71,7 +72,7 @@ public class MeetingVoteManager
         bool doVote = true;
         foreach (var role in CustomRoleManager.AllActiveRoles.Values)
         {
-            var (roleVoteFor, roleNumVotes, roleDoVote) = role.OnVote(voter, voteFor);
+            var (roleVoteFor, roleNumVotes, roleDoVote) = role.ModifyVote(voter, voteFor, isIntentional);
             if (roleVoteFor.HasValue)
             {
                 logger.Info($"{role.Player.GetNameWithRole()} が {Utils.GetPlayerById(voter).GetNameWithRole()} の投票先を {GetVoteName(roleVoteFor.Value)} に変更します");
@@ -181,7 +182,7 @@ public class MeetingVoteManager
         return new VoteResult(votes);
     }
     /// <summary>
-    /// スキップモードと無投票モードに応じて，投票を変更したりプレイヤーを死亡させたりします
+    /// スキップモードと無投票モードに応じて，投票を上書きしたりプレイヤーを死亡させたりします
     /// </summary>
     private void ApplySkipAndNoVoteMode()
     {
@@ -205,11 +206,11 @@ public class MeetingVoteManager
                         logger.Info($"無投票のため {voterName} を自殺させます");
                         break;
                     case VoteMode.SelfVote:
-                        vote.ChangeVoteTarget(vote.Voter);
+                        SetVote(vote.Voter, vote.Voter, isIntentional: false);
                         logger.Info($"無投票のため {voterName} に自投票させます");
                         break;
                     case VoteMode.Skip:
-                        vote.ChangeVoteTarget(Skip);
+                        SetVote(vote.Voter, Skip, isIntentional: false);
                         logger.Info($"無投票のため {voterName} にスキップさせます");
                         break;
                 }
@@ -224,7 +225,7 @@ public class MeetingVoteManager
                         logger.Info($"スキップしたため {voterName} を自殺させます");
                         break;
                     case VoteMode.SelfVote:
-                        vote.ChangeVoteTarget(vote.Voter);
+                        SetVote(vote.Voter, vote.Voter, isIntentional: false);
                         logger.Info($"スキップしたため {voterName} に自投票させます");
                         break;
                 }
@@ -262,11 +263,6 @@ public class MeetingVoteManager
             logger.Info($"投票: {Utils.GetPlayerById(Voter).GetNameWithRole()} => {GetVoteName(voteTo)} x {numVotes}");
             VotedFor = voteTo;
             NumVotes = numVotes;
-        }
-        public void ChangeVoteTarget(byte voteTarget)
-        {
-            logger.Info($"{Utils.GetPlayerById(Voter).GetNameWithRole()}の投票を{GetVoteName(VotedFor)}から{GetVoteName(voteTarget)}に変更");
-            VotedFor = voteTarget;
         }
     }
 
