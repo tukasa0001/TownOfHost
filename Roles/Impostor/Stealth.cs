@@ -112,7 +112,10 @@ public sealed class Stealth : RoleBase, IImpostor
     }
     public override void OnStartMeeting()
     {
-        ResetDarkenState();
+        if (AmongUsClient.Instance.AmHost)
+        {
+            ResetDarkenState();
+        }
     }
     private void RpcDarken(SystemTypes? roomType)
     {
