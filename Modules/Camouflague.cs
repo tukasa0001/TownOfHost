@@ -57,7 +57,7 @@ namespace TownOfHost
                 {
                     Camouflage.RpcSetSkin(pc);
 
-                    if (!(IsCamouflage && pc.IsAlive()))
+                    if (!IsCamouflage && !pc.IsAlive())
                     {
                         pc.RpcSetPet("");
                     }
