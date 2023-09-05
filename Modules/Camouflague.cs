@@ -53,7 +53,15 @@ namespace TownOfHost
 
             if (oldIsCamouflage != IsCamouflage)
             {
-                Main.AllPlayerControls.Do(pc => Camouflage.RpcSetSkin(pc));
+                foreach (var pc in Main.AllPlayerControls)
+                {
+                    Camouflage.RpcSetSkin(pc);
+
+                    if (!(IsCamouflage && pc.IsAlive()))
+                    {
+                        pc.RpcSetPet("");
+                    }
+                }
                 Utils.NotifyRoles(NoCache: true);
             }
         }
