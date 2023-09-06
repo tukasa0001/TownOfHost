@@ -55,7 +55,7 @@ namespace TownOfHost
             {
                 foreach (var pc in Main.AllPlayerControls)
                 {
-                    Camouflage.RpcSetSkin(pc);
+                    RpcSetSkin(pc);
 
                     if (!IsCamouflage && !pc.IsAlive())
                     {
