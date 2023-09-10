@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using HarmonyLib;
 using TownOfHost.Attributes;
 
 namespace TownOfHost
@@ -53,7 +52,16 @@ namespace TownOfHost
 
             if (oldIsCamouflage != IsCamouflage)
             {
-                Main.AllPlayerControls.Do(pc => Camouflage.RpcSetSkin(pc));
+                foreach (var pc in Main.AllPlayerControls)
+                {
+                    RpcSetSkin(pc);
+
+                    // The code is intended to remove pets at dead players to combat a vanilla bug
+                    if (!IsCamouflage && !pc.IsAlive())
+                    {
+                        pc.RpcSetPet("");
+                    }
+                }
                 Utils.NotifyRoles(NoCache: true);
             }
         }
