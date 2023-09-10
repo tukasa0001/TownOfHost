@@ -599,13 +599,13 @@ namespace TownOfHost
             if (roleType is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost)
             {
                 var targetRequireResetCam = target.GetCustomRole().GetRoleInfo()?.RequireResetCam ?? false;
-                var targetIsKiller = target.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(target.PlayerId) || targetRequireResetCam;
+                var targetIsKiller = target.Is(CustomRoleTypes.Impostor) || targetRequireResetCam;
                 var ghostRoles = new Dictionary<PlayerControl, RoleTypes>();
                 foreach (var seer in Main.AllPlayerControls)
                 {
                     var self = seer.PlayerId == target.PlayerId;
                     var seerRequireResetCam = seer.GetCustomRole().GetRoleInfo()?.RequireResetCam ?? false;
-                    var seerIsKiller = seer.Is(CustomRoleTypes.Impostor) || Main.ResetCamPlayerList.Contains(seer.PlayerId) || seerRequireResetCam;
+                    var seerIsKiller = seer.Is(CustomRoleTypes.Impostor) || seerRequireResetCam;
 
                     if ((self && targetIsKiller) || (!seerIsKiller && target.Is(CustomRoleTypes.Impostor)))
                     {

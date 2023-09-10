@@ -119,9 +119,6 @@ public sealed class Sheriff : RoleBase, IKiller, ISchrodingerCatOwner
         var playerId = Player.PlayerId;
         CurrentKillCooldown = KillCooldown.GetFloat();
 
-        if (!Main.ResetCamPlayerList.Contains(playerId))
-            Main.ResetCamPlayerList.Add(playerId);
-
         ShotLimit = ShotLimitOpt.GetInt();
         Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
     }

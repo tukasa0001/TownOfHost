@@ -28,7 +28,6 @@ namespace TownOfHost
             Main.SKMadmateNowCount = 0;
 
             Main.AfterMeetingDeathPlayers = new();
-            Main.ResetCamPlayerList = new();
             Main.clientIdList = new();
 
             Main.CheckShapeshift = new();

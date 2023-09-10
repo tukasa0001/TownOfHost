@@ -259,7 +259,7 @@ namespace TownOfHost
 
                 // そのままだとホストのみDesyncImpostorの暗室内での視界がクルー仕様になってしまう
                 var roleInfo = PlayerControl.LocalPlayer.GetCustomRole().GetRoleInfo();
-                var amDesyncImpostor = roleInfo?.RequireResetCam == true || Main.ResetCamPlayerList.Contains(PlayerControl.LocalPlayer.PlayerId);
+                var amDesyncImpostor = roleInfo?.RequireResetCam == true;
                 if (amDesyncImpostor)
                 {
                     PlayerControl.LocalPlayer.Data.Role.AffectedByLightAffectors = false;
