@@ -197,7 +197,7 @@ namespace TownOfHost
         /// <param name="seer">見る側</param>
         /// <param name="seen">見られる側</param>
         /// <returns>構築されたRoleName</returns>
-        private static string GetDisplayRoleName(PlayerControl seer, PlayerControl seen = null)
+        public static string GetDisplayRoleName(PlayerControl seer, PlayerControl seen = null)
         {
             seen ??= seer;
             //デフォルト値
