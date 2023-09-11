@@ -598,13 +598,13 @@ namespace TownOfHost
             if (!ShipStatus.Instance.enabled) return true;
             if (roleType is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost)
             {
-                var targetRequireResetCam = target.GetCustomRole().GetRoleInfo()?.RequireResetCam ?? false;
+                var targetRequireResetCam = target.GetCustomRole().GetRoleInfo()?.RequireResetCam == true;
                 var targetIsKiller = target.Is(CustomRoleTypes.Impostor) || targetRequireResetCam;
                 var ghostRoles = new Dictionary<PlayerControl, RoleTypes>();
                 foreach (var seer in Main.AllPlayerControls)
                 {
                     var self = seer.PlayerId == target.PlayerId;
-                    var seerRequireResetCam = seer.GetCustomRole().GetRoleInfo()?.RequireResetCam ?? false;
+                    var seerRequireResetCam = seer.GetCustomRole().GetRoleInfo()?.RequireResetCam == true;
                     var seerIsKiller = seer.Is(CustomRoleTypes.Impostor) || seerRequireResetCam;
 
                     if ((self && targetIsKiller) || (!seerIsKiller && target.Is(CustomRoleTypes.Impostor)))
