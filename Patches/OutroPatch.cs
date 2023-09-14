@@ -131,7 +131,7 @@ namespace TownOfHost
             WinnerText.text = "";
 
             string CustomWinnerText = "";
-            string AdditionalWinnerText = "";
+            var AdditionalWinnerText = new StringBuilder(32);
             string CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Crewmate);
 
             var winnerRole = (CustomRoles)CustomWinnerHolder.WinnerTeam;
@@ -183,7 +183,7 @@ namespace TownOfHost
 
             foreach (var role in CustomWinnerHolder.AdditionalWinnerRoles)
             {
-                AdditionalWinnerText += "＆" + Utils.ColorString(Utils.GetRoleColor(role), Utils.GetRoleName(role));
+                AdditionalWinnerText.Append('＆').Append(Utils.ColorString(Utils.GetRoleColor(role), Utils.GetRoleName(role)));
             }
             if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
             {
