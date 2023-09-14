@@ -257,14 +257,6 @@ namespace TownOfHost
         PlagueDoctor = CustomRoles.PlagueDoctor,
         HASTroll = CustomRoles.HASTroll,
     }
-    public enum AdditionalWinners
-    {
-        None = -1,
-        Opportunist = CustomRoles.Opportunist,
-        SchrodingerCat = CustomRoles.SchrodingerCat,
-        Executioner = CustomRoles.Executioner,
-        HASFox = CustomRoles.HASFox,
-    }
     /*public enum CustomRoles : byte
     {
         Default = 0,
