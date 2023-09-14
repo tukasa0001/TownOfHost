@@ -85,7 +85,7 @@ namespace TownOfHost
                     else if (role == CustomRoles.HASFox && CustomWinnerHolder.WinnerTeam != CustomWinner.HASTroll && !pc.Data.IsDead)
                     {
                         winner.Add(pc);
-                        CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.HASFox);
+                        CustomWinnerHolder.AdditionalWinnerRoles.Add(CustomRoles.HASFox);
                     }
                 }
             }
@@ -181,10 +181,9 @@ namespace TownOfHost
                     break;
             }
 
-            foreach (var additionalWinners in CustomWinnerHolder.AdditionalWinnerTeams)
+            foreach (var role in CustomWinnerHolder.AdditionalWinnerRoles)
             {
-                var addWinnerRole = (CustomRoles)additionalWinners;
-                AdditionalWinnerText += "＆" + Utils.ColorString(Utils.GetRoleColor(addWinnerRole), Utils.GetRoleName(addWinnerRole));
+                AdditionalWinnerText += "＆" + Utils.ColorString(Utils.GetRoleColor(role), Utils.GetRoleName(role));
             }
             if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
             {
