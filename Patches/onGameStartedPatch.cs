@@ -28,7 +28,6 @@ namespace TownOfHost
             Main.SKMadmateNowCount = 0;
 
             Main.AfterMeetingDeathPlayers = new();
-            Main.ResetCamPlayerList = new();
             Main.clientIdList = new();
 
             Main.CheckShapeshift = new();
@@ -251,7 +250,7 @@ namespace TownOfHost
                 foreach (var role in CustomRolesHelper.AllRoles.Where(x => x < CustomRoles.NotAssigned))
                 {
                     if (role.IsVanilla()) continue;
-                    if (CustomRoleManager.GetRoleInfo(role) is SimpleRoleInfo info && info.RequireResetCam) continue;
+                    if (CustomRoleManager.GetRoleInfo(role)?.RequireResetCam == true) continue;
                     var baseRoleTypes = role.GetRoleTypes() switch
                     {
                         RoleTypes.Impostor => Impostors,
@@ -445,7 +444,7 @@ namespace TownOfHost
             int count = 0;
             foreach (var role in CustomRolesHelper.AllRoles.Where(x => x < CustomRoles.NotAssigned))
             {
-                if (CustomRoleManager.GetRoleInfo(role) is SimpleRoleInfo info && info.RequireResetCam) continue;
+                if (CustomRoleManager.GetRoleInfo(role)?.RequireResetCam == true) continue;
                 if (role == CustomRoles.Egoist && Main.NormalOptions.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;
                 if (role.GetRoleTypes() == roleTypes)
                     count += role.GetRealCount();

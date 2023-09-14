@@ -55,7 +55,7 @@ namespace TownOfHost
                 var role = exiled.GetCustomRole();
                 var info = role.GetRoleInfo();
                 //霊界用暗転バグ対処
-                if (!AntiBlackout.OverrideExiledPlayer && (Main.ResetCamPlayerList.Contains(exiled.PlayerId) || (info?.RequireResetCam ?? false)))
+                if (!AntiBlackout.OverrideExiledPlayer && info?.RequireResetCam == true)
                     exiled.Object?.ResetPlayerCam(1f);
 
                 exiled.IsDead = true;
@@ -121,7 +121,7 @@ namespace TownOfHost
                     {
                         var player = Utils.GetPlayerById(x.Key);
                         var roleClass = CustomRoleManager.GetByPlayerId(x.Key);
-                        var requireResetCam = player?.GetCustomRole().GetRoleInfo()?.RequireResetCam;
+                        var requireResetCam = player?.GetCustomRole().GetRoleInfo()?.RequireResetCam == true;
                         var state = PlayerState.GetByPlayerId(x.Key);
                         Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
                         state.DeathReason = x.Value;
@@ -129,7 +129,7 @@ namespace TownOfHost
                         player?.RpcExileV2();
                         if (x.Value == CustomDeathReason.Suicide)
                             player?.SetRealKiller(player, true);
-                        if (Main.ResetCamPlayerList.Contains(x.Key) || (requireResetCam.HasValue && requireResetCam.Value))
+                        if (requireResetCam)
                             player?.ResetPlayerCam(1f);
                         if (roleClass is Executioner executioner && executioner.TargetId == x.Key)
                             Executioner.ChangeRoleByTarget(x.Key);
