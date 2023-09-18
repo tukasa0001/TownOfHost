@@ -181,20 +181,6 @@ namespace TownOfHost
             MeetingStates.ReportTarget = target;
             MeetingStates.DeadBodies = UnityEngine.Object.FindObjectsOfType<DeadBody>();
         }
-        public static void Postfix(ShipStatus __instance)
-        {
-            if (!AmongUsClient.Instance.AmHost)
-            {
-                return;
-            }
-            // 空デデンバグ対応 会議開始時にベントを空にする
-            var ventilationSystem = __instance.Systems.TryGetValue(SystemTypes.Ventilation, out var systemType) ? systemType.TryCast<VentilationSystem>() : null;
-            if (ventilationSystem != null)
-            {
-                ventilationSystem.PlayersInsideVents.Clear();
-                ventilationSystem.IsDirty = true;
-            }
-        }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
     class BeginPatch

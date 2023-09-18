@@ -924,6 +924,13 @@ namespace TownOfHost
             if (Options.AirShipVariableElectrical.GetBool())
                 AirShipElectricalDoors.Initialize();
             DoorsReset.ResetDoors();
+            // 空デデンバグ対応 会議後にベントを空にする
+            var ventilationSystem = ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Ventilation, out var systemType) ? systemType.TryCast<VentilationSystem>() : null;
+            if (ventilationSystem != null)
+            {
+                ventilationSystem.PlayersInsideVents.Clear();
+                ventilationSystem.IsDirty = true;
+            }
         }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max)
