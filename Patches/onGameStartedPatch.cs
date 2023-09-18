@@ -184,7 +184,6 @@ namespace TownOfHost
 
             foreach (var pc in Main.AllPlayerControls)
             {
-                pc.Data.IsDead = false; //プレイヤーの死を解除する
                 var state = PlayerState.GetByPlayerId(pc.PlayerId);
                 if (state.MainRole != CustomRoles.NotAssigned) continue; //既にカスタム役職が割り当てられていればスキップ
                 var role = CustomRoles.NotAssigned;
@@ -363,7 +362,6 @@ namespace TownOfHost
                 RpcSetRoleReplacer.OverriddenSenderList.Add(senders[player.PlayerId]);
                 //ホスト視点はロール決定
                 player.SetRole(othersRole);
-                player.Data.IsDead = true;
             }
         }
         public static void MakeDesyncSender(Dictionary<byte, CustomRpcSender> senders, Dictionary<(byte, byte), RoleTypes> rolesMap)
