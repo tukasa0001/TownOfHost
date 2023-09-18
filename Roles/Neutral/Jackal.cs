@@ -55,6 +55,7 @@ namespace TownOfHost.Roles.Neutral
             OptionHasImpostorVision = BooleanOptionItem.Create(RoleInfo, 13, GeneralOption.ImpostorVision, true, false);
         }
         public float CalculateKillCooldown() => KillCooldown;
+        public bool CanUseImpostorVentButton() => CanVent;
         public override void ApplyGameOptions(IGameOptions opt) => opt.SetVision(HasImpostorVision);
         public static void SetHudActive(HudManager __instance, bool isActive)
         {

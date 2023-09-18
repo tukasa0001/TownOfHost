@@ -401,16 +401,11 @@ namespace TownOfHost
         }
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
         {
-            if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
+            if (!pc.IsAlive()) return false;
 
-            return pc.GetCustomRole() switch
-            {
-                CustomRoles.Sheriff => false,
-                CustomRoles.Egoist => true,
-                CustomRoles.Jackal => Jackal.CanVent,
-                CustomRoles.Arsonist => Arsonist.IsDouseDone(pc),
-                _ => pc.Is(CustomRoleTypes.Impostor),
-            };
+            var roleCanUse = (pc.GetRoleClass() as IKiller)?.CanUseImpostorVentButton();
+
+            return roleCanUse ?? false;
         }
         public static void ResetKillCooldown(this PlayerControl player)
         {
