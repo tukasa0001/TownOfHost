@@ -18,6 +18,4 @@ public sealed class GuardianAngel : RoleBase
         player
     )
     { }
-
-    public override string GetAbilityButtonText() => StringNames.ProtectAbility.ToString();
 }
