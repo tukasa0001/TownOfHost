@@ -36,28 +36,14 @@ namespace TownOfHost
 
             // 前半，Mod独自の処理
 
-            // アーソニストのように，能力を発動するために特別にベントへ入れるようにし，その後出られないようにするもの
-            bool ventForTrigger = false;
-
             // カスタムロールを元にベントを使えるか判定
             // エンジニアベースの役職は常にtrue
             couldUse = playerControl.CanUseImpostorVentButton() || pc.Role.Role == RoleTypes.Engineer;
-
-            if (playerControl.Is(CustomRoles.Arsonist) && Arsonist.IsDouseDone(playerControl))
-            {
-                ventForTrigger = true;
-            }
 
             canUse = couldUse;
             // カスタムロールが使えなかったら使用不可
             if (!canUse)
             {
-                return false;
-            }
-            // ventForTriggerがtrueの場合，ベントから出られない
-            if (ventForTrigger && playerControl.inVent)
-            {
-                canUse = couldUse = false;
                 return false;
             }
 
