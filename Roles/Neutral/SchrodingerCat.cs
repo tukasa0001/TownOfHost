@@ -195,9 +195,8 @@ public sealed class SchrodingerCat : RoleBase, IAdditionalWinner, IDeathReasonSe
         var team = candidates[rand.Next(candidates.Count)];
         RpcSetTeam(team);
     }
-    public bool CheckWin(out AdditionalWinners winnerType)
+    public bool CheckWin(ref CustomRoles winnerRole)
     {
-        winnerType = AdditionalWinners.SchrodingerCat;
         bool? won = Team switch
         {
             TeamType.None => CustomWinnerHolder.WinnerTeam == CustomWinner.Crewmate && CanWinTheCrewmateBeforeChange,

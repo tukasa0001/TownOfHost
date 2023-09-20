@@ -65,10 +65,11 @@ namespace TownOfHost
                     {
                         if (pc.GetRoleClass() is IAdditionalWinner additionalWinner)
                         {
-                            if (additionalWinner.CheckWin(out var winnerType))
+                            var winnerRole = pc.GetCustomRole();
+                            if (additionalWinner.CheckWin(ref winnerRole))
                             {
                                 CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                                CustomWinnerHolder.AdditionalWinnerTeams.Add(winnerType);
+                                CustomWinnerHolder.AdditionalWinnerRoles.Add(winnerRole);
                             }
                         }
                     }
