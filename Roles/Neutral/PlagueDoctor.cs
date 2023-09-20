@@ -121,6 +121,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         text = GetString("Infected");
         return true;
     }
+    public bool CanUseSabotageButton() => false;
     public override bool OnInvokeSabotage(SystemTypes systemType) => false;
     public override string GetProgressText(bool comms = false)
     {

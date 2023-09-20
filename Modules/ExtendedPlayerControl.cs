@@ -407,6 +407,12 @@ namespace TownOfHost
 
             return roleCanUse ?? false;
         }
+        public static bool CanUseSabotageButton(this PlayerControl pc)
+        {
+            var roleCanUse = (pc.GetRoleClass() as IKiller)?.CanUseSabotageButton();
+
+            return roleCanUse ?? false;
+        }
         public static void ResetKillCooldown(this PlayerControl player)
         {
             Main.AllPlayerKillCooldown[player.PlayerId] = (player.GetRoleClass() as IKiller)?.CalculateKillCooldown() ?? Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更

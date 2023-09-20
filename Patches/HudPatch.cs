@@ -198,19 +198,9 @@ namespace TownOfHost
             if (!isActive) return;
 
             var player = PlayerControl.LocalPlayer;
-            if (player == null) return;
-            switch (player.GetCustomRole())
-            {
-                case CustomRoles.Sheriff:
-                case CustomRoles.Arsonist:
-                    __instance.SabotageButton.ToggleVisible(false);
-                    break;
-                case CustomRoles.Jackal:
-                    Jackal.SetHudActive(__instance, isActive);
-                    break;
-            }
             __instance.KillButton.ToggleVisible(player.CanUseKillButton());
             __instance.ImpostorVentButton.ToggleVisible(player.CanUseImpostorVentButton());
+            __instance.SabotageButton.ToggleVisible(player.CanUseSabotageButton());
         }
     }
     [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.Show))]
