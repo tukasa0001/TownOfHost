@@ -139,7 +139,6 @@ public sealed class Sheriff : RoleBase, IKiller, ISchrodingerCatOwner
         && (CanKillAllAlive.GetBool() || GameStates.AlreadyDied)
         && ShotLimit > 0;
     public bool CanUseSabotageButton() => false;
-    public bool CanUseImpostorVentButton() => false;
     public override bool OnInvokeSabotage(SystemTypes systemType) => false;
     public override void ApplyGameOptions(IGameOptions opt)
     {

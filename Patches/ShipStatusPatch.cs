@@ -5,6 +5,7 @@ using HarmonyLib;
 using UnityEngine;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Neutral;
 
 namespace TownOfHost
@@ -61,8 +62,11 @@ namespace TownOfHost
                 //HASモードではサボタージュ不可
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) return false;
                 var roleClass = player.GetRoleClass();
-                if (roleClass != null)
+                if (roleClass is IKiller killer)
                 {
+                    //そもそもサボタージュボタン使用不可ならサボタージュ不可
+                    if (!killer.CanUseSabotageButton()) return false;
+                    //その他処理が必要であれば処理
                     return roleClass.OnInvokeSabotage(nextSabotage);
                 }
                 else
