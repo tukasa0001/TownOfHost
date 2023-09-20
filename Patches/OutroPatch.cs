@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using HarmonyLib;
+using TMPro;
 using UnityEngine;
 
 using TownOfHost.Modules;
@@ -114,6 +115,8 @@ namespace TownOfHost
     class SetEverythingUpPatch
     {
         public static string LastWinsText = "";
+        private static TextMeshPro roleSummary;
+        private static SimpleButton showHideButton;
 
         public static void Postfix(EndGameManager __instance)
         {
@@ -197,7 +200,25 @@ namespace TownOfHost
             //           ==最終結果表示==
             //#######################################
 
-            var Pos = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
+            var showInitially = Main.ShowResults.Value;
+            showHideButton = new SimpleButton(
+               __instance.transform,
+               "ShowHideResultsButton",
+               new(-4.5f, 2.6f, -14f),  // BackgroundLayer(z=-13)より手前
+               new(0, 136, 209, byte.MaxValue),
+               new(0, 196, byte.MaxValue, byte.MaxValue),
+               () =>
+               {
+                   var setToActive = !roleSummary.gameObject.activeSelf;
+                   roleSummary.gameObject.SetActive(setToActive);
+                   Main.ShowResults.Value = setToActive;
+                   showHideButton.Label.text = GetString(setToActive ? "HideResults" : "ShowResults");
+               },
+               GetString(showInitially ? "HideResults" : "ShowResults"))
+            {
+                Scale = new(1.5f, 0.5f),
+                FontSize = 2f,
+            };
 
             StringBuilder sb = new($"{GetString("RoleSummaryText")}");
             List<byte> cloneRoles = new(PlayerState.AllPlayerStates.Keys);
@@ -210,15 +231,16 @@ namespace TownOfHost
             {
                 sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id]);
             }
-            var RoleSummary = TMPTemplate.Create(
+            roleSummary = TMPTemplate.Create(
                 "RoleSummaryText",
                 sb.ToString(),
                 Color.white,
                 1.25f,
-                TMPro.TextAlignmentOptions.TopLeft,
-                setActive: true);
-            RoleSummary.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + -0.05f, Pos.y - 0.13f, -15f);
-            RoleSummary.transform.localScale = new Vector3(1f, 1f, 1f);
+                TextAlignmentOptions.TopLeft,
+                setActive: showInitially,
+                parent: showHideButton.Button.transform);
+            roleSummary.transform.localPosition = new(1.7f, -0.4f, 0f);
+            roleSummary.transform.localScale = new Vector3(1.2f, 1.2f, 1f);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

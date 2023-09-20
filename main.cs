@@ -68,6 +68,7 @@ namespace TownOfHost
         public static ConfigEntry<bool> ForceJapanese { get; private set; }
         public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
         public static ConfigEntry<int> MessageWait { get; private set; }
+        public static ConfigEntry<bool> ShowResults { get; private set; }
 
         public static Dictionary<byte, PlayerVersion> playerVersion = new();
         //Preset Name Options
@@ -128,6 +129,7 @@ namespace TownOfHost
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
             DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
+            ShowResults = Config.Bind("Result", "Show Results", true);
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.Enable();
