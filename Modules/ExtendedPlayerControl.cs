@@ -11,7 +11,6 @@ using TownOfHost.Modules;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Impostor;
 using static TownOfHost.Translator;
 
@@ -404,6 +403,12 @@ namespace TownOfHost
             if (!pc.IsAlive()) return false;
 
             var roleCanUse = (pc.GetRoleClass() as IKiller)?.CanUseImpostorVentButton();
+
+            return roleCanUse ?? false;
+        }
+        public static bool CanUseSabotageButton(this PlayerControl pc)
+        {
+            var roleCanUse = (pc.GetRoleClass() as IKiller)?.CanUseSabotageButton();
 
             return roleCanUse ?? false;
         }

@@ -76,7 +76,7 @@ public sealed class Arsonist : RoleBase, IKiller
     public bool CanUseKillButton() => !IsDouseDone(Player);
     public bool CanUseImpostorVentButton() => IsDouseDone(Player) && !Player.inVent;
     public float CalculateKillCooldown() => DouseCooldown;
-    public override bool OnInvokeSabotage(SystemTypes systemType) => false;
+    public bool CanUseSabotageButton() => false;
     public override string GetProgressText(bool comms = false)
     {
         var doused = GetDousedPlayerCount();

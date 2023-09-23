@@ -9,6 +9,8 @@ namespace TownOfHost.Roles.Core.Interfaces;
 /// </summary>
 public interface IImpostor : IKiller, ISchrodingerCatOwner
 {
+    /// インポスターは基本サボタージュボタンを使える
+    bool IKiller.CanUseSabotageButton() => true;
     /// <summary>
     /// ラストインポスターになれるかどうか デフォルトtrue
     /// </summary>

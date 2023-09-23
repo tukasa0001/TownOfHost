@@ -61,7 +61,7 @@ public sealed class Egoist : RoleBase, ISidekickable, IKiller, ISchrodingerCatOw
         Egoists.Clear();
     }
     public float CalculateKillCooldown() => KillCooldown;
-
+    public bool CanUseSabotageButton() => true;
     public static bool CheckWin()
     {
         var impostorsDead = !Main.AllAlivePlayerControls.Any(p => p.Is(RoleTypes.Impostor));
