@@ -1,26 +1,23 @@
 using System;
 using HarmonyLib;
-using TMPro;
+using TownOfHost.Templates;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(MainMenuManager))]
     public class MainMenuManagerPatch
     {
-        private static PassiveButton template;
-        private static PassiveButton discordButton;
-        public static PassiveButton UpdateButton { get; private set; }
-        private static PassiveButton gitHubButton;
+        private static SimpleButton discordButton;
+        public static SimpleButton UpdateButton { get; private set; }
+        private static SimpleButton gitHubButton;
 
         [HarmonyPatch(nameof(MainMenuManager.Start)), HarmonyPostfix, HarmonyPriority(Priority.Normal)]
         public static void StartPostfix(MainMenuManager __instance)
         {
-            if (template == null) template = __instance.quitButton;
-            if (template == null) return;
+            SimpleButton.SetBase(__instance.quitButton);
             //Discordボタンを生成
-            if (discordButton == null)
+            if (SimpleButton.IsNullOrDestroyed(discordButton))
             {
                 discordButton = CreateButton(
                     "DiscordButton",
@@ -28,12 +25,12 @@ namespace TownOfHost
                     new(88, 101, 242, byte.MaxValue),
                     new(148, 161, byte.MaxValue, byte.MaxValue),
                     () => Application.OpenURL(Main.DiscordInviteUrl),
-                    "Discord");
+                    "Discord",
+                    isActive: Main.ShowDiscordButton);
             }
-            discordButton.gameObject.SetActive(Main.ShowDiscordButton);
 
             // GitHubボタンを生成
-            if (gitHubButton == null)
+            if (SimpleButton.IsNullOrDestroyed(gitHubButton))
             {
                 gitHubButton = CreateButton(
                     "GitHubButton",
@@ -45,7 +42,7 @@ namespace TownOfHost
             }
 
             //Updateボタンを生成
-            if (UpdateButton == null)
+            if (SimpleButton.IsNullOrDestroyed(UpdateButton))
             {
                 UpdateButton = CreateButton(
                     "UpdateButton",
@@ -54,13 +51,13 @@ namespace TownOfHost
                     new(60, 255, 255, byte.MaxValue),
                     () =>
                     {
-                        UpdateButton.gameObject.SetActive(false);
+                        UpdateButton.Button.gameObject.SetActive(false);
                         ModUpdater.StartUpdate(ModUpdater.downloadUrl);
                     },
                     $"{Translator.GetString("updateButton")}\n{ModUpdater.latestTitle}",
-                    new(2.5f, 1f));
+                    new(2.5f, 1f),
+                    isActive: false);
             }
-            UpdateButton.gameObject.SetActive(false);
 
 #if RELEASE
             // フリープレイの無効化
@@ -82,42 +79,21 @@ namespace TownOfHost
         /// <param name="action">押したときに発火するアクション</param>
         /// <param name="label">ボタンのテキスト</param>
         /// <param name="scale">ボタンのサイズ 変更しないなら不要</param>
-        private static PassiveButton CreateButton(string name, Vector3 localPosition, Color32 normalColor, Color32 hoverColor, Action action, string label, Vector2? scale = null)
+        private static SimpleButton CreateButton(
+            string name,
+            Vector3 localPosition,
+            Color32 normalColor,
+            Color32 hoverColor,
+            Action action,
+            string label,
+            Vector2? scale = null,
+            bool isActive = true)
         {
-            var button = Object.Instantiate(template, CredentialsPatch.TohLogo.transform);
-            button.name = name;
-            Object.Destroy(button.GetComponent<AspectPosition>());
-            button.transform.localPosition = localPosition;
-
-            button.OnClick = new();
-            button.OnClick.AddListener(action);
-
-            var buttonText = button.transform.Find("FontPlacer/Text_TMP").GetComponent<TMP_Text>();
-            buttonText.DestroyTranslator();
-            buttonText.fontSize = buttonText.fontSizeMax = buttonText.fontSizeMin = 3.5f;
-            buttonText.enableWordWrapping = false;
-            buttonText.text = label;
-            var normalSprite = button.inactiveSprites.GetComponent<SpriteRenderer>();
-            var hoverSprite = button.activeSprites.GetComponent<SpriteRenderer>();
-            normalSprite.color = normalColor;
-            hoverSprite.color = hoverColor;
-
-            // ラベルをセンタリング
-            var container = buttonText.transform.parent;
-            Object.Destroy(container.GetComponent<AspectPosition>());
-            Object.Destroy(buttonText.GetComponent<AspectPosition>());
-            container.SetLocalX(0f);
-            buttonText.transform.SetLocalX(0f);
-            buttonText.horizontalAlignment = HorizontalAlignmentOptions.Center;
-
-            var buttonCollider = button.GetComponent<BoxCollider2D>();
+            var button = new SimpleButton(CredentialsPatch.TohLogo.transform, name, localPosition, normalColor, hoverColor, action, label, isActive);
             if (scale.HasValue)
             {
-                normalSprite.size = hoverSprite.size = buttonCollider.size = scale.Value;
+                button.Scale = scale.Value;
             }
-            // 当たり判定のズレを直す
-            buttonCollider.offset = new(0f, 0f);
-
             return button;
         }
 

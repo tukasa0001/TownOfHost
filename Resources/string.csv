@@ -610,6 +610,8 @@
 "ForceEnd","Aborted","廃村","强制结束游戏","遊戲已被強制結束","Игра Окончена","Abortado"
 "EveryoneDied","No One Left","誰もいなくなった","没有人存活","沒有人存活","Все Мертвы","Não Sobrou Ninguém"
 "ForceEndText","Host has aborted the game","ホストから強制終了コマンドが入力されました","房主强制结束了游戏","房主已強制結束遊戲","Хост завершил игру","Anfitrião abortou o jogo"
+"ShowResults","Show Results","結果を表示","","","",""
+"HideResults","Hide Results","結果を隠す","","","",""
 "HideGameCodes","Hide Game Code","ゲームコードを隠す","直播模式","隱藏遊戲代碼","Скрыть Игровой Код","Esconder Código do Jogo"
 "updateButton","Update","アップデート","更新","更新","Обновление","Atualizar"
 "updatePleaseWait","Please Wait...","しばらくお待ちください...","请稍候……","請稍後...","Пожалуйста, подождите...","Por favor aguarde..."
