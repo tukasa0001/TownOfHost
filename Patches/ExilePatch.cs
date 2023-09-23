@@ -55,7 +55,7 @@ namespace TownOfHost
                 var role = exiled.GetCustomRole();
                 var info = role.GetRoleInfo();
                 //霊界用暗転バグ対処
-                if (!AntiBlackout.OverrideExiledPlayer && info?.RequireResetCam == true)
+                if (!AntiBlackout.OverrideExiledPlayer && info?.IsDesyncImpostor == true)
                     exiled.Object?.ResetPlayerCam(1f);
 
                 exiled.IsDead = true;
@@ -121,7 +121,7 @@ namespace TownOfHost
                     {
                         var player = Utils.GetPlayerById(x.Key);
                         var roleClass = CustomRoleManager.GetByPlayerId(x.Key);
-                        var requireResetCam = player?.GetCustomRole().GetRoleInfo()?.RequireResetCam == true;
+                        var requireResetCam = player?.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true;
                         var state = PlayerState.GetByPlayerId(x.Key);
                         Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
                         state.DeathReason = x.Value;

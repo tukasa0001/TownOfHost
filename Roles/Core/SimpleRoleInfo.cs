@@ -23,7 +23,8 @@ public class SimpleRoleInfo
     public bool IsEnable = false;
     public OptionCreatorDelegate OptionCreator;
     public string ChatCommand;
-    public bool RequireResetCam;
+    /// <summary>本人視点のみインポスターに見える役職</summary>
+    public bool IsDesyncImpostor;
     private Func<AudioClip> introSound;
     public AudioClip IntroSound => introSound?.Invoke();
     private Func<bool> canMakeMadmate;
@@ -53,7 +54,7 @@ public class SimpleRoleInfo
         OptionCreatorDelegate optionCreator,
         string chatCommand,
         string colorCode,
-        bool requireResetCam,
+        bool isDesyncImpostor,
         TabGroup tab,
         Func<AudioClip> introSound,
         Func<bool> canMakeMadmate,
@@ -69,7 +70,7 @@ public class SimpleRoleInfo
         CountType = countType;
         ConfigId = configId;
         OptionCreator = optionCreator;
-        RequireResetCam = requireResetCam;
+        IsDesyncImpostor = isDesyncImpostor;
         this.introSound = introSound;
         this.canMakeMadmate = canMakeMadmate;
         ChatCommand = chatCommand;
@@ -110,7 +111,7 @@ public class SimpleRoleInfo
         OptionCreatorDelegate optionCreator,
         string chatCommand,
         string colorCode = "",
-        bool requireResetCam = false,
+        bool isDesyncImpostor = false,
         TabGroup tab = TabGroup.MainSettings,
         Func<AudioClip> introSound = null,
         Func<bool> canMakeMadmate = null,
@@ -139,7 +140,7 @@ public class SimpleRoleInfo
                 optionCreator,
                 chatCommand,
                 colorCode,
-                requireResetCam,
+                isDesyncImpostor,
                 tab,
                 introSound,
                 canMakeMadmate,
