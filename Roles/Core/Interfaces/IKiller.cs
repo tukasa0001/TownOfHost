@@ -29,10 +29,9 @@ public interface IKiller
     public float CalculateKillCooldown() => Options.DefaultKillCooldown;
     /// <summary>
     /// サボタージュボタンを使えるかどうか
-    /// デフォルトではtrue
     /// </summary>
     /// <returns>trueを返した場合，サボタージュボタンを使える</returns>
-    public bool CanUseSabotageButton() => true;
+    public bool CanUseSabotageButton();
     /// <summary>
     /// ベントボタンを使えるかどうか
     /// デフォルトでは使用可能
