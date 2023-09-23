@@ -11,7 +11,6 @@ using TownOfHost.Modules;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Impostor;
 using static TownOfHost.Translator;
 
