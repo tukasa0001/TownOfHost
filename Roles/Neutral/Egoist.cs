@@ -20,7 +20,12 @@ public sealed class Egoist : RoleBase, ISidekickable, IKiller, ISchrodingerCatOw
             "eg",
             "#5600ff",
             canMakeMadmate: () => OptionCanCreateMadmate.GetBool(),
-            countType: CountTypes.Impostor
+            countType: CountTypes.Impostor,
+            assignInfo: new RoleAssignInfo(CustomRoles.Egoist, CustomRoleTypes.Neutral)
+            {
+                IsInitiallyAssignableCallBack =
+                    () => Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1
+            }
         );
     public Egoist(PlayerControl player)
     : base(

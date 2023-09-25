@@ -310,12 +310,7 @@ namespace TownOfHost.Roles
         private static RoleAssignInfo GetRoleAssignInfo(this CustomRoles role) =>
             CustomRoleManager.GetRoleInfo(role)?.AssignInfo;
         private static bool IsAssignable(this CustomRoles role)
-            => role switch
-            {
-                CustomRoles.Crewmate => false,
-                CustomRoles.Egoist => Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1,
-                _ => true,
-            };
+            => role.GetRoleAssignInfo()?.IsInitiallyAssignable ?? true;
         /// <summary>
         /// アサインの抽選回数
         /// </summary>
@@ -348,11 +343,17 @@ namespace TownOfHost.Roles
     {
         public RoleAssignInfo(CustomRoles role, CustomRoleTypes roleType)
         {
+            IsInitiallyAssignableCallBack = () => true;
             AssignCountRule =
                 roleType == CustomRoleTypes.Impostor ? new(1, 3, 1) : new(1, 15, 1);
             AssignUnitRoles =
                 Enumerable.Repeat(role, AssignCountRule.Step).ToArray();
         }
+        /// <summary>
+        /// 試合開始時にアサインされるかどうかのデリゲート
+        /// </summary>
+        public Func<bool> IsInitiallyAssignableCallBack { get; init; }
+        public bool IsInitiallyAssignable => IsInitiallyAssignableCallBack.Invoke();
         /// <summary>
         /// 人数設定の最小人数, 最大人数, 一単位数
         /// </summary>
