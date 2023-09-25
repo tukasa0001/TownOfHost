@@ -581,7 +581,7 @@ namespace TownOfHost
         }
 
         public static void SetupRoleOptions(SimpleRoleInfo info) =>
-            SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName, info.AssignCountRule);
+            SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName, info.AssignInfo.AssignCountRule);
         public static void SetupRoleOptions(int id, TabGroup tab, CustomRoles role, IntegerValueRule assignCountRule = null, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             if (role.IsVanilla()) return;
