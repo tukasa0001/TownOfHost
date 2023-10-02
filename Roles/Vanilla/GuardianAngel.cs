@@ -10,7 +10,12 @@ public sealed class GuardianAngel : RoleBase
         SimpleRoleInfo.CreateForVanilla(
             typeof(GuardianAngel),
             player => new GuardianAngel(player),
-            RoleTypes.GuardianAngel
+            RoleTypes.GuardianAngel,
+            assignInfo: new RoleAssignInfo(CustomRoles.GuardianAngel, CustomRoleTypes.Crewmate)
+            {
+                IsInitiallyAssignableCallBack =
+                    () => false
+            }
         );
     public GuardianAngel(PlayerControl player)
     : base(

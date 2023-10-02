@@ -20,7 +20,10 @@ namespace TownOfHost.Roles.Neutral
                 "#00b4eb",
                 true,
                 countType: CountTypes.Jackal,
-                assignCountRule: new(1, 1, 1)
+                assignInfo: new RoleAssignInfo(CustomRoles.Jackal, CustomRoleTypes.Neutral)
+                {
+                    AssignCountRule = new(1, 1, 1)
+                }
             );
         public Jackal(PlayerControl player)
         : base(
