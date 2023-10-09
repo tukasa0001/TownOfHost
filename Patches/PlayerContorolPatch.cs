@@ -131,8 +131,7 @@ namespace TownOfHost
             if (RandomSpawn.CustomNetworkTransformPatch.NumOfTP.TryGetValue(__instance.PlayerId, out var num) && num > 2) RandomSpawn.CustomNetworkTransformPatch.NumOfTP[__instance.PlayerId] = 3;
             if (!target.protectedByGuardian)
             {
-                Main.CheckShapeshift.TryGetValue(target.PlayerId, out var shapeshifting);
-                if (shapeshifting)
+                if (Main.CheckShapeshift.TryGetValue(target.PlayerId, out var shapeshifting) && shapeshifting)
                 {
                     //シェイプシフト強制解除
                     target.RpcShapeshift(target, false);
