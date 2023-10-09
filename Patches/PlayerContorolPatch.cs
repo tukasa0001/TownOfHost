@@ -130,7 +130,14 @@ namespace TownOfHost
 
             if (RandomSpawn.CustomNetworkTransformPatch.NumOfTP.TryGetValue(__instance.PlayerId, out var num) && num > 2) RandomSpawn.CustomNetworkTransformPatch.NumOfTP[__instance.PlayerId] = 3;
             if (!target.protectedByGuardian)
+            {
+                if (Main.CheckShapeshift.TryGetValue(target.PlayerId, out var shapeshifting) && shapeshifting)
+                {
+                    //シェイプシフト強制解除
+                    target.RpcShapeshift(target, false);
+                }
                 Camouflage.RpcSetSkin(target, ForceRevert: true);
+            }
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {

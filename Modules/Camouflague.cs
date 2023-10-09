@@ -94,6 +94,10 @@ namespace TownOfHost
 
                 newOutfit = PlayerSkins[id];
             }
+
+
+            if (newOutfit.Compare(target.Data.DefaultOutfit)) return;
+
             Logger.Info($"newOutfit={newOutfit.GetString()}", "RpcSetSkin");
 
             var sender = CustomRpcSender.Create(name: $"Camouflage.RpcSetSkin({target.Data.PlayerName})");
