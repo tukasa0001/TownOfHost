@@ -497,7 +497,18 @@ namespace TownOfHost
                 foreach (var role in CustomRolesHelper.AllRoles)
                 {
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
-                    if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
+                    if (role.IsEnable() && !role.IsVanilla())
+                    {
+                        if (role.GetRoleInfo()?.Description is { } description)
+                        {
+                            SendMessage(description.FullFormatHelp, PlayerId, removeTags: false);
+                        }
+                        // RoleInfoがない役職は従来処理
+                        else
+                        {
+                            SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
+                        }
+                    }
                 }
             }
             if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo"), PlayerId); }

@@ -312,7 +312,16 @@ namespace TownOfHost
 
                 if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0)
                 {
-                    Utils.SendMessage(GetString(roleName) + GetString($"{roleName}InfoLong"));
+                    var roleInfo = r.Key.GetRoleInfo();
+                    if (roleInfo != null && roleInfo.Description != null)
+                    {
+                        Utils.SendMessage(roleInfo.Description.FullFormatHelp, removeTags: false);
+                    }
+                    // RoleInfoがない役職は従来の処理
+                    else
+                    {
+                        Utils.SendMessage(GetString(roleName) + GetString($"{roleName}InfoLong"));
+                    }
                     return;
                 }
 
