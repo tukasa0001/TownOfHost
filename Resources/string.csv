@@ -80,6 +80,7 @@
 "Workhorse","Workhorse","ワークホース","实干家","加班狂","Работник","Burro de Carga",""
 
 "# その他"
+"Team","Team","陣営","","","","",""
 "CustomRoleTypes.Crewmate","Crewmate","クルー","船员","","Членов Экипажа","Tripulante",""
 "CustomRoleTypes.Impostor","Impostor","インポスター","内鬼","","Предателей","Impostor",""
 "CustomRoleTypes.Neutral","Neutral","ニュートラル","独立","","Нейтралов","Neutro",""
@@ -230,6 +231,9 @@
 "LastImpostorInfoLong","(Add-ons):\nAn Add-on granted to the last Impostor remaining.\nKill cooldown is reduced according to this setting.\nNot granted to Bounty Hunters, Serial Killers, or Vampires.","(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。","（效果）:\n这个效果在内鬼仅剩一人时赋予该内鬼。\n使其击杀冷却缩短。\n该效果对赏金猎人、嗜血杀手以及吸血鬼不适用。","(附加效果):\n該效果給予在場上的最後一位偽裝者，擁有該效果的偽裝者刀人冷卻時間會變短，該效果不會給予:\n賞金獵人, 連環殺手或吸血鬼 (可以設定冷卻)","(Атрибут):\nАтрибут, присваивается последнему Предателю. \nВремя отката убийства становится меньше, чем обычно. \nНе назначается Охотнику за головами, Серийному убийце или Вампиру.","(Atributos): \nUm Atributo dado ao último Impostor. \nO tempo de recarga (abate) é reduzido segundo a configuração. \nNão é dado para Caçadores de Recompensas, Serial Killers ou Vampiros.",""
 "WatcherInfoLong","(Add-ons):\nYou can see everyone's votes even if anonymous voting is on.","(属性):\n全員の投票先を見ることができる。","(效果):\n会议时窥视者可以看到所有人的投票。","(附加效果):\n會議時觀察者可以看到所有人的投票。","(Атрибут):\nНаблюдатель может видеть все цвета голосов несмотря на анонимное голосование.","(Atributos):\nVocê consegue ver os votos de todos, mesmo que os votos anônimos estejam ligados.",""
 "WorkhorseInfoLong","(Add-ons):\nAn Add-on granted to the first living Crewmate finishing all the tasks.\nYou are assigned additional tasks necessary for the tasks win.\nNot granted to roles with no tasks or with abilities triggered by finishing tasks.","(属性):\n最初に生きてタスクを終えたクルーに付与される属性。\n追加タスクが割り当てられる。\nクルーメイト以外にも割り当てる設定でもタスクが無い、タスク完了で能力が発動する役職には付与されない。","(附加效果):\n该附加效果赋予给第一个完成所有任务并存活的船员。\n你需要完成额外的任务来达成任务胜利。\n此效果不会赋予那些没有任务或者通过完成任务才能使用能力的诸多职业。","(屬性):\n此效果會被賦予在第一個完成任務且存活的船員。\n實習生必須做完附加任務來獲勝，\n此效果不會賦予在那些需要通過完成任務來觸發技能的職業上。","(Атрибут):\nДополнительные задания присваиваются первому живому Члену Экипажа, который выполнит все задания. \nЕму назначаются дополнительные задания, необходимые для победы с помощью заданий. \nНе может присваиваться ролям которые не имеют заданий, или ролям со способностями которые активируются после выполнения заданий.","(Atributos):\nUm atributo dado ao primeiro tripulante que finalizar todas as tarefas.\nVocê recebe tarefas adicionais necessárias para vencer. \nNão é dado a classes quem não têm tarefas, ou com habilidades ativadas ao finalizar todas as tarefas.",""
+
+"# ヘルプ"
+"Basis","Basis","判定","","","","",""
 
 "#モードオプション"
 "HideAndSeek","Hide and Seek","かくれんぼ","躲猫猫","躲貓貓","Прятки","Esconde-Esconde",""
