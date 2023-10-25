@@ -223,6 +223,7 @@ class Penguin : RoleBase, IImpostor
                             sender.AutoStartRpc(Player.NetId, (byte)RpcCalls.MurderPlayer);
                             {
                                 sender.WriteNetObject(abductVictim);
+                                sender.Write((int)ExtendedPlayerControl.SucceededFlags);
                             }
                             sender.EndRpc();
                         }

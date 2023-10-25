@@ -51,6 +51,7 @@ namespace TownOfHost
                         .EndRpc();
                         sender.AutoStartRpc(player.NetId, (byte)RpcCalls.MurderPlayer)
                                 .WriteNetObject(player)
+                                .Write((int)ExtendedPlayerControl.SucceededFlags)
                         .EndRpc();
                         sender.SendMessage();
                         player.NetTransform.SnapTo(targetPos);

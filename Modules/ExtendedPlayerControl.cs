@@ -187,6 +187,7 @@ namespace TownOfHost
                     .EndRpc();
                 sender.StartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
                     .WriteNetObject((InnerNetObject)target)
+                    .Write((int)SucceededFlags)
                     .EndRpc();
                 sender.EndMessage();
                 sender.SendMessage();
@@ -220,6 +221,7 @@ namespace TownOfHost
             {
                 MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, killer.GetClientId());
                 messageWriter.WriteNetObject(target);
+                messageWriter.Write((int)SucceededFlags);
                 AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
             }
         }
@@ -453,6 +455,7 @@ namespace TownOfHost
             }
             MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
             messageWriter.WriteNetObject(target);
+            messageWriter.Write((int)SucceededFlags);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
             Utils.NotifyRoles();
         }
