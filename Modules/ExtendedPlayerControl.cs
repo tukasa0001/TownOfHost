@@ -567,6 +567,7 @@ namespace TownOfHost
             }
             return null;
         }
+        public static bool IsProtected(this PlayerControl self) => self.protectedByGuardianId > -1;
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>
