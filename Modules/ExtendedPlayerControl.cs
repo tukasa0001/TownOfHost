@@ -446,6 +446,10 @@ namespace TownOfHost
             killer.MurderPlayer(target, SucceededFlags);
         }
         public const MurderResultFlags SucceededFlags = MurderResultFlags.Succeeded | MurderResultFlags.DecisionByHost;
+        public static void RpcMurderPlayer(this PlayerControl killer, PlayerControl target)
+        {
+            killer.RpcMurderPlayer(target, true);
+        }
         public static void RpcMurderPlayerV2(this PlayerControl killer, PlayerControl target)
         {
             if (target == null) target = killer;
