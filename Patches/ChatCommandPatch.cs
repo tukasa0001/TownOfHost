@@ -131,7 +131,6 @@ namespace TownOfHost
                                 cancelVal = "/dis";
                                 break;
                         }
-                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.Admin, 0);
                         break;
 
                     case "/h":
