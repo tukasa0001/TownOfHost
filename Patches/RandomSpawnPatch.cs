@@ -32,7 +32,7 @@ namespace TownOfHost
 
                     NumOfTP[player.PlayerId]++;
 
-                    if (NumOfTP[player.PlayerId] == 2)
+                    if (NumOfTP[player.PlayerId] == 1)
                     {
                         if (Main.NormalOptions.MapId != 4) return; //マップがエアシップじゃなかったらreturn
                         if (player.Is(CustomRoles.Penguin))
