@@ -157,20 +157,20 @@ public sealed class SabotageMaster : RoleBase
                 if (mapId == 2)
                 {
                     //Polus
-                    RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 71, 72);
-                    RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 67, 68);
-                    RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 64, 66);
-                    RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 73, 74);
+                    ShipStatusUpdateSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 71, 72);
+                    ShipStatusUpdateSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 67, 68);
+                    ShipStatusUpdateSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 64, 66);
+                    ShipStatusUpdateSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 73, 74);
                 }
                 else if (mapId == 4)
                 {
                     //Airship
-                    RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 64, 67);
-                    RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 71, 73);
-                    RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 74, 75);
-                    RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 76, 78);
-                    RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 68, 70);
-                    RepairSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 83, 84);
+                    ShipStatusUpdateSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 64, 67);
+                    ShipStatusUpdateSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 71, 73);
+                    ShipStatusUpdateSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 74, 75);
+                    ShipStatusUpdateSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 76, 78);
+                    ShipStatusUpdateSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 68, 70);
+                    ShipStatusUpdateSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 83, 84);
                 }
                 DoorsProgressing = false;
                 break;

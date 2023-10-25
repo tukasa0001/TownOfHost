@@ -176,10 +176,6 @@ public static class CustomRoleManager
                 cancel = true;
             }
         }
-        if (!RepairSystemPatch.OnSabotage(player, systemType, amount))
-        {
-            cancel = true;
-        }
         return !cancel;
     }
     // ==初期化関連処理 ==
