@@ -108,7 +108,7 @@ namespace TownOfHost
         {
             if (DoorIds.Contains(amount)) foreach (var id in DoorIds)
                 {
-                    __instance.RpcRepairSystem(SystemTypes.Doors, id);
+                    __instance.RpcUpdateSystem(SystemTypes.Doors, (byte)id);
                 }
         }
         private static bool CanSabotage(PlayerControl player, SystemTypes systemType)
