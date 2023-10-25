@@ -42,8 +42,8 @@ namespace TownOfHost
                         if (mapId == 2) return false;
                         else if (mapId == 4)
                         {
-                            var HeliSabotageSystem = ShipStatus.Instance.Systems[type].Cast<HeliSabotageSystem>();
-                            return HeliSabotageSystem != null && HeliSabotageSystem.IsActive;
+                            type = SystemTypes.HeliSabotage;
+                            goto case SystemTypes.HeliSabotage;
                         }
                         else
                         {
@@ -76,10 +76,21 @@ namespace TownOfHost
                             return HudOverrideSystemType != null && HudOverrideSystemType.IsActive;
                         }
                     }
+                case SystemTypes.HeliSabotage:
+                    {
+                        var HeliSabotageSystem = ShipStatus.Instance.Systems[type].Cast<HeliSabotageSystem>();
+                        return HeliSabotageSystem != null && HeliSabotageSystem.IsActive;
+                    }
                 default:
                     return false;
             }
         }
+        public static SystemTypes GetCriticalSabotageSystemType() => (MapNames)Main.NormalOptions.MapId switch
+        {
+            MapNames.Polus => SystemTypes.Laboratory,
+            MapNames.Airship => SystemTypes.HeliSabotage,
+            _ => SystemTypes.Reactor,
+        };
         public static void SetVision(this IGameOptions opt, bool HasImpVision)
         {
             if (HasImpVision)
@@ -144,9 +155,7 @@ namespace TownOfHost
         public static void KillFlash(this PlayerControl player)
         {
             //キルフラッシュ(ブラックアウト+リアクターフラッシュ)の処理
-            bool ReactorCheck = false; //リアクターフラッシュの確認
-            if (Main.NormalOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
-            else ReactorCheck = IsActive(SystemTypes.Reactor);
+            bool ReactorCheck = IsActive(GetCriticalSabotageSystemType());
 
             var Duration = Options.KillFlashDuration.GetFloat();
             if (ReactorCheck) Duration += 0.2f; //リアクター中はブラックアウトを長くする
