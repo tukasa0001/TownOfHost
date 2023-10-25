@@ -72,7 +72,7 @@ public static class DoorsReset
     /// <summary>ドアの開閉状況を設定する．サボタージュで閉められないドアに対しては何もしない</summary>
     /// <param name="door">対象のドア</param>
     /// <param name="isOpen">開けるならtrue，閉めるならfalse</param>
-    private static void SetDoorOpenState(PlainDoor door, bool isOpen)
+    private static void SetDoorOpenState(OpenableDoor door, bool isOpen)
     {
         if (IsValidDoor(door))
         {
@@ -81,7 +81,7 @@ public static class DoorsReset
     }
     /// <summary>リセット対象のドアかどうか判定する</summary>
     /// <returns>リセット対象ならtrue</returns>
-    private static bool IsValidDoor(PlainDoor door)
+    private static bool IsValidDoor(OpenableDoor door)
     {
         // エアシラウンジトイレとPolus除染室のドアは対象外
         if (door.Room is SystemTypes.Lounge or SystemTypes.Decontamination)
