@@ -28,7 +28,11 @@ namespace TownOfHost
     {
         public static bool IsActive(SystemTypes type)
         {
-            //Logger.Info($"SystemTypes:{type}", "IsActive");
+            // ないものはfalse
+            if (!ShipStatus.Instance.Systems.ContainsKey(type))
+            {
+                return false;
+            }
             int mapId = Main.NormalOptions.MapId;
             switch (type)
             {
@@ -40,11 +44,6 @@ namespace TownOfHost
                 case SystemTypes.Reactor:
                     {
                         if (mapId == 2) return false;
-                        else if (mapId == 4)
-                        {
-                            type = SystemTypes.HeliSabotage;
-                            goto case SystemTypes.HeliSabotage;
-                        }
                         else
                         {
                             var ReactorSystemType = ShipStatus.Instance.Systems[type].Cast<ReactorSystemType>();
@@ -65,7 +64,7 @@ namespace TownOfHost
                     }
                 case SystemTypes.Comms:
                     {
-                        if (mapId == 1)
+                        if (mapId is 1 or 5)
                         {
                             var HqHudSystemType = ShipStatus.Instance.Systems[type].Cast<HqHudSystemType>();
                             return HqHudSystemType != null && HqHudSystemType.IsActive;
