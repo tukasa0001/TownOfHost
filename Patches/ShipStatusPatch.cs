@@ -35,7 +35,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.UpdateSystem), typeof(SystemTypes), typeof(PlayerControl), typeof(byte))]
     class ShipStatusUpdateSystemPatch
     {
-        public static bool Prefix(ShipStatus __instance,
+        public static void Prefix(ShipStatus __instance,
             [HarmonyArgument(0)] SystemTypes systemType,
             [HarmonyArgument(1)] PlayerControl player,
             [HarmonyArgument(2)] byte amount)
@@ -48,7 +48,6 @@ namespace TownOfHost
             {
                 Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount);
             }
-            return CustomRoleManager.OnSabotage(player, systemType, amount);
         }
         public static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
         {

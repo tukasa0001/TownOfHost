@@ -166,12 +166,12 @@ public static class CustomRoleManager
     /// </summary>
     public static HashSet<Action<PlayerControl>> OnFixedUpdateOthers = new();
 
-    public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
+    public static bool OnSabotage(PlayerControl player, SystemTypes systemType)
     {
         bool cancel = false;
         foreach (var roleClass in AllActiveRoles.Values)
         {
-            if (!roleClass.OnSabotage(player, systemType, amount))
+            if (!roleClass.OnSabotage(player, systemType))
             {
                 cancel = true;
             }

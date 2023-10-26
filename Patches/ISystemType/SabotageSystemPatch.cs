@@ -30,6 +30,11 @@ namespace TownOfHost
 
             //HASモードではサボタージュ不可
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) return false;
+
+            if (!CustomRoleManager.OnSabotage(player, nextSabotage))
+            {
+                return false;
+            }
             var roleClass = player.GetRoleClass();
             if (roleClass is IKiller killer)
             {
