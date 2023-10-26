@@ -29,4 +29,8 @@ public static class HudOverrideSystemTypeUpdateSystemPatch
         }
         return true;
     }
+    public static void Postfix()
+    {
+        Camouflage.CheckCamouflage();
+    }
 }

@@ -19,4 +19,8 @@ public static class HqHudSystemTypeUpdateSystemPatch
         }
         return true;
     }
+    public static void Postfix()
+    {
+        Camouflage.CheckCamouflage();
+    }
 }

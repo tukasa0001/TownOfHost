@@ -50,11 +50,6 @@ namespace TownOfHost
             }
             return CustomRoleManager.OnSabotage(player, systemType, amount);
         }
-        [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.UpdateSystem), typeof(SystemTypes), typeof(PlayerControl), typeof(MessageReader))]
-        public static void Postfix()
-        {
-            Camouflage.CheckCamouflage();
-        }
         public static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
         {
             var Ids = new List<int>();
