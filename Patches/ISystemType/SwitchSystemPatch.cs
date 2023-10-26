@@ -1,6 +1,7 @@
 using HarmonyLib;
 using Hazel;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Neutral;
 using UnityEngine;
 
@@ -56,6 +57,12 @@ public static class SwitchSystemUpdateSystemPatch
             {
                 return false;
             }
+        }
+
+        // ロールの処理
+        if (player.GetRoleClass() is ISystemTypeUpdateHook systemTypeUpdateHook && !systemTypeUpdateHook.UpdateSwitchSystem(__instance, amount))
+        {
+            return false;
         }
         return true;
     }
