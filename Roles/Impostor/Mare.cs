@@ -100,21 +100,18 @@ public sealed class Mare : RoleBase, IImpostor
             }
         }
     }
-    public override bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
+    public override bool OnSabotage(PlayerControl player, SystemTypes systemType)
     {
         if (systemType == SystemTypes.Electrical)
         {
-            if (amount.HasAnyBit(128))
+            _ = new LateTask(() =>
             {
-                _ = new LateTask(() =>
+                //まだ停電が直っていなければキル可能モードに
+                if (Utils.IsActive(SystemTypes.Electrical))
                 {
-                    //まだ停電が直っていなければキル可能モードに
-                    if (Utils.IsActive(SystemTypes.Electrical))
-                    {
-                        ActivateKill(true);
-                    }
-                }, 4.0f, "Mare Activate Kill");
-            }
+                    ActivateKill(true);
+                }
+            }, 4.0f, "Mare Activate Kill");
         }
         return true;
     }
