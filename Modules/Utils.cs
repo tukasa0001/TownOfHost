@@ -429,15 +429,7 @@ namespace TownOfHost
         private static string GetProgressText(PlayerControl seer, PlayerControl seen = null)
         {
             seen ??= seer;
-            var comms = false;
-            foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
-            {
-                if (task.TaskType == TaskTypes.FixComms)
-                {
-                    comms = true;
-                    break;
-                }
-            }
+            var comms = IsActive(SystemTypes.Comms);
             bool enabled = seer == seen
                         || (Main.VisibleTasksCount && !seer.IsAlive() && Options.GhostCanSeeOtherTasks.GetBool());
             string text = GetProgressText(seen.PlayerId, comms);
