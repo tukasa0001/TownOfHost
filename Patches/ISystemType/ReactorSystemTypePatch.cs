@@ -10,8 +10,12 @@ public static class ReactorSystemTypeUpdateSystemPatch
 {
     public static bool Prefix(ReactorSystemType __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] MessageReader msgReader)
     {
-        var newReader = MessageReader.Get(msgReader);
-        var amount = newReader.ReadByte();
+        byte amount;
+        {
+            var newReader = MessageReader.Get(msgReader);
+            amount = newReader.ReadByte();
+            newReader.Recycle();
+        }
 
         if (player.GetRoleClass() is ISystemTypeUpdateHook systemTypeUpdateHook && !systemTypeUpdateHook.UpdateReactorSystem(__instance, amount))
         {

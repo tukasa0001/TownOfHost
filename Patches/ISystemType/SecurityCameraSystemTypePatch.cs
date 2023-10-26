@@ -8,8 +8,13 @@ public static class SecurityCameraSystemTypeUpdateSystemPatch
 {
     public static bool Prefix([HarmonyArgument(1)] MessageReader msgReader)
     {
-        var newReader = MessageReader.Get(msgReader);
-        var amount = newReader.ReadByte();
+        byte amount;
+        {
+            var newReader = MessageReader.Get(msgReader);
+            amount = newReader.ReadByte();
+            newReader.Recycle();
+        }
+
         // カメラ無効時，バニラプレイヤーはカメラを開けるので点滅させない
         if (amount == SecurityCameraSystemType.IncrementOp)
         {

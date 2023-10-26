@@ -23,8 +23,13 @@ namespace TownOfHost
 
         public static bool Prefix([HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] MessageReader msgReader)
         {
-            var newReader = MessageReader.Get(msgReader);
-            var amount = newReader.ReadByte();
+            byte amount;
+            {
+                var newReader = MessageReader.Get(msgReader);
+                amount = newReader.ReadByte();
+                newReader.Recycle();
+            }
+
             var nextSabotage = (SystemTypes)amount;
             logger.Info($"PlayerName: {player.GetNameWithRole()}, SabotageType: {nextSabotage}");
 
