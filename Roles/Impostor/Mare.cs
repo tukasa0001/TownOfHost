@@ -18,7 +18,11 @@ public sealed class Mare : RoleBase, IImpostor
             CustomRoleTypes.Impostor,
             2300,
             SetupCustomOption,
-            "ma"
+            "ma",
+            assignInfo: new(CustomRoles.Mare, CustomRoleTypes.Impostor)
+            {
+                IsInitiallyAssignableCallBack = () => ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Electrical, out var systemType) && systemType.TryCast<SwitchSystem>(out _),  // 停電が存在する
+            }
         );
     public Mare(PlayerControl player)
     : base(
