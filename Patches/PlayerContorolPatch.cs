@@ -128,13 +128,29 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
     class MurderPlayerPatch
     {
-        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target, [HarmonyArgument(1)] MurderResultFlags resultFlags)
+        private static readonly LogHandler logger = Logger.Handler(nameof(PlayerControl.MurderPlayer));
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target, [HarmonyArgument(1)] MurderResultFlags resultFlags, ref bool __state /* 成功したキルかどうか */ )
         {
-            var isProtected = resultFlags.HasFlag(MurderResultFlags.FailedProtected) || (resultFlags.HasFlag(MurderResultFlags.DecisionByHost) && target.IsProtected());
-            Logger.Info($"{__instance.GetNameWithRole()} => {target.GetNameWithRole()}{(isProtected ? "(Protected)" : "")}", "MurderPlayer");
+            logger.Info($"{__instance.GetNameWithRole()} => {target.GetNameWithRole()}({resultFlags})");
+            var isProtectedByClient = resultFlags.HasFlag(MurderResultFlags.DecisionByHost) && target.IsProtected();
+            var isProtectedByHost = resultFlags.HasFlag(MurderResultFlags.FailedProtected);
+            var isFailed = resultFlags.HasFlag(MurderResultFlags.FailedError);
+            var isSucceeded = __state = !isProtectedByClient && !isProtectedByHost && !isFailed;
+            if (isProtectedByClient)
+            {
+                logger.Info("守護されているため，キルは失敗します");
+            }
+            if (isProtectedByHost)
+            {
+                logger.Info("守護されているため，キルはホストによってキャンセルされました");
+            }
+            if (isFailed)
+            {
+                logger.Info("キルはホストによってキャンセルされました");
+            }
 
             if (RandomSpawn.CustomNetworkTransformPatch.NumOfTP.TryGetValue(__instance.PlayerId, out var num) && num > 2) RandomSpawn.CustomNetworkTransformPatch.NumOfTP[__instance.PlayerId] = 3;
-            if (!isProtected)
+            if (isSucceeded)
             {
                 if (Main.CheckShapeshift.TryGetValue(target.PlayerId, out var shapeshifting) && shapeshifting)
                 {
@@ -144,8 +160,13 @@ namespace TownOfHost
                 Camouflage.RpcSetSkin(target, ForceRevert: true);
             }
         }
-        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target, bool __state)
         {
+            // キルが成功していない場合，何もしない
+            if (!__state)
+            {
+                return;
+            }
             if (target.AmOwner) RemoveDisableDevicesPatch.UpdateDisableDevices();
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
             //以降ホストしか処理しない
