@@ -173,24 +173,15 @@ namespace TownOfHost
             // Host
             if (killer.AmOwner)
             {
-                killer.ProtectPlayer(target, colorId);
-                killer.MurderPlayer(target);
+                killer.MurderPlayer(target, MurderResultFlags.FailedProtected);
             }
             // Other Clients
             if (killer.PlayerId != 0)
             {
-                var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
-                sender.StartMessage(killer.GetClientId());
-                sender.StartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
-                    .WriteNetObject((InnerNetObject)target)
-                    .Write(colorId)
-                    .EndRpc();
-                sender.StartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
-                    .WriteNetObject((InnerNetObject)target)
-                    .Write((int)SucceededFlags)
-                    .EndRpc();
-                sender.EndMessage();
-                sender.SendMessage();
+                var writer = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable);
+                writer.WriteNetObject(target);
+                writer.Write((int)MurderResultFlags.FailedProtected);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
         public static void SetKillCooldown(this PlayerControl player, float time = -1f)
