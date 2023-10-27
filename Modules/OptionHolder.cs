@@ -61,6 +61,7 @@ namespace TownOfHost
         public static bool IsActiveMiraHQ => AddedMiraHQ.GetBool() || Main.NormalOptions.MapId == 1;
         public static bool IsActivePolus => AddedPolus.GetBool() || Main.NormalOptions.MapId == 2;
         public static bool IsActiveAirship => AddedTheAirShip.GetBool() || Main.NormalOptions.MapId == 4;
+        public static bool IsActiveFungle => AddedTheFungle.GetBool() || Main.NormalOptions.MapId == 5;
 
         // 役職数・確率
         public static Dictionary<CustomRoles, OptionItem> CustomRoleCounts;
@@ -134,6 +135,7 @@ namespace TownOfHost
         public static OptionItem AddedMiraHQ;
         public static OptionItem AddedPolus;
         public static OptionItem AddedTheAirShip;
+        public static OptionItem AddedTheFungle;
         // public static OptionItem AddedDleks;
 
         // ランダムスポーン
@@ -466,6 +468,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             // MapDleks = CustomOption.Create(100405, Color.white, "AddedDleks", false, RandomMapMode)
             //     .SetGameMode(CustomGameMode.All);
+            AddedTheFungle = BooleanOptionItem.Create(100406, "AddedTheFungle", false, TabGroup.MainSettings, false).SetParent(RandomMapsMode);
 
             // ランダムスポーン
             RandomSpawn = BooleanOptionItem.Create(101300, "RandomSpawn", false, TabGroup.MainSettings, false)
