@@ -164,26 +164,6 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
-        {
-            //killerが死んでいる場合は実行しない
-            if (!killer.IsAlive()) return;
-
-            if (target == null) target = killer;
-            // Host
-            if (killer.AmOwner)
-            {
-                killer.MurderPlayer(target, MurderResultFlags.FailedProtected);
-            }
-            // Other Clients
-            if (killer.PlayerId != 0)
-            {
-                var writer = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable);
-                writer.WriteNetObject(target);
-                writer.Write((int)MurderResultFlags.FailedProtected);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-            }
-        }
         public static void SetKillCooldown(this PlayerControl player, float time = -1f)
         {
             if (player == null) return;
@@ -198,7 +178,7 @@ namespace TownOfHost
                 Main.AllPlayerKillCooldown[player.PlayerId] *= 2;
             }
             player.SyncSettings();
-            player.RpcGuardAndKill();
+            player.RpcProtectedMurderPlayer();
             player.ResetKillCooldown();
         }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
@@ -450,6 +430,26 @@ namespace TownOfHost
             messageWriter.Write((int)SucceededFlags);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
             Utils.NotifyRoles();
+        }
+        public static void RpcProtectedMurderPlayer(this PlayerControl killer, PlayerControl target = null)
+        {
+            //killerが死んでいる場合は実行しない
+            if (!killer.IsAlive()) return;
+
+            if (target == null) target = killer;
+            // Host
+            if (killer.AmOwner)
+            {
+                killer.MurderPlayer(target, MurderResultFlags.FailedProtected);
+            }
+            // Other Clients
+            if (killer.PlayerId != 0)
+            {
+                var writer = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable);
+                writer.WriteNetObject(target);
+                writer.Write((int)MurderResultFlags.FailedProtected);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
         }
         public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
         { /*サボタージュ中でも関係なしに会議を起こせるメソッド
