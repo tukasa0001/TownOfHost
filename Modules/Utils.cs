@@ -80,6 +80,11 @@ namespace TownOfHost
                         var HeliSabotageSystem = ShipStatus.Instance.Systems[type].Cast<HeliSabotageSystem>();
                         return HeliSabotageSystem != null && HeliSabotageSystem.IsActive;
                     }
+                case SystemTypes.MushroomMixupSabotage:
+                    {
+                        var mushroomMixupSabotageSystem = ShipStatus.Instance.Systems[type].TryCast<MushroomMixupSabotageSystem>();
+                        return mushroomMixupSabotageSystem != null && mushroomMixupSabotageSystem.IsActive;
+                    }
                 default:
                     return false;
             }
