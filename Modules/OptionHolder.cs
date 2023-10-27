@@ -122,6 +122,8 @@ namespace TownOfHost
         public static OptionItem DisableAirshipRecordsAdmin;
         public static OptionItem DisableAirshipCamera;
         public static OptionItem DisableAirshipVital;
+        public static OptionItem DisableFungleDevices;
+        public static OptionItem DisableFungleVital;
         public static OptionItem DisableDevicesIgnoreConditions;
         public static OptionItem DisableDevicesIgnoreImpostors;
         public static OptionItem DisableDevicesIgnoreMadmates;
@@ -440,6 +442,10 @@ namespace TownOfHost
             DisableAirshipCamera = BooleanOptionItem.Create(101243, "DisableAirshipCamera", false, TabGroup.MainSettings, false).SetParent(DisableAirshipDevices)
                 .SetGameMode(CustomGameMode.Standard);
             DisableAirshipVital = BooleanOptionItem.Create(101244, "DisableAirshipVital", false, TabGroup.MainSettings, false).SetParent(DisableAirshipDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableFungleDevices = BooleanOptionItem.Create(101250, "DisableFungleDevices", false, TabGroup.MainSettings, false).SetParent(DisableDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableFungleVital = BooleanOptionItem.Create(101251, "DisableFungleVital", false, TabGroup.MainSettings, false).SetParent(DisableFungleDevices)
                 .SetGameMode(CustomGameMode.Standard);
             DisableDevicesIgnoreConditions = BooleanOptionItem.Create(101290, "IgnoreConditions", false, TabGroup.MainSettings, false).SetParent(DisableDevices)
                 .SetGameMode(CustomGameMode.Standard);
