@@ -53,7 +53,11 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return false;
 
             // 処理は全てCustomRoleManager側で行う
-            CustomRoleManager.OnCheckMurder(__instance, target);
+            if (!CustomRoleManager.OnCheckMurder(__instance, target))
+            {
+                // キル失敗
+                __instance.RpcMurderPlayer(target, false);
+            }
 
             return false;
         }
