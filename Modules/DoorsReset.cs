@@ -12,8 +12,8 @@ public static class DoorsReset
     [GameModuleInitializer]
     public static void Initialize()
     {
-        // AirshipとPolus以外は非対応
-        if ((MapNames)Main.NormalOptions.MapId is not (MapNames.Airship or MapNames.Polus))
+        // AirshipとPolusとFungle以外は非対応
+        if ((MapNames)Main.NormalOptions.MapId is not (MapNames.Airship or MapNames.Polus or MapNames.Fungle))
         {
             isEnabled = false;
             return;

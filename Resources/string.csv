@@ -320,7 +320,7 @@
 "MapModification","Map Modifications","マップ改造","地图修改","","Модификации для карт","Modificações do Mapa",""
 "DisableAirshipMovingPlatform","Disable Moving Platform(Airship)","昇降機のリフトを無効化(エアシップ)","禁用升降机(飞艇地图)","","Отключить движущуюся платформу (Airship)","Desativar Plataformas Voadoras(Airship)",""
 "AirShipVariableElectrical","Variable Electrical(AirShip)","電気室の構造変化（エアシップ）","改变配电室构造(飞艇地图)","電力室構造變化 (Airship)","Двери в Электрощитовой меняются случайно (Airship)","Elétrica Varia(AirShip)",""
-"ResetDoorsEveryTurns","Reset Doors After Meeting(Airship/Polus)","会議後にドア状況をリセットする(エアシップ・ポーラス)","","","Сбросить статус дверей после собраний","Redefinir Portas Após Reunião(Airship/Polus)",""
+"ResetDoorsEveryTurns","Reset Doors After Meeting(Airship/Polus/Fungle)","会議後にドア状況をリセットする(エアシップ・ポーラス・ファングル)","","","Сбросить статус дверей после собраний","Redefinir Portas Após Reunião(Airship/Polus)",""
 "DoorsResetMode","Reset Mode","リセットモード","","","Режим сброса дверей","Modo de Redefinição",""
 "AllOpen","All Open","全て開放","","","Все Открыты","Todas Abertas",""
 "AllClosed","All Closed","全て閉鎖","","","Все Закрыты","Todas Fechadas",""
