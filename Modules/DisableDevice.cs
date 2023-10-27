@@ -106,15 +106,15 @@ namespace TownOfHost
                         if (!DesyncComms.Contains(pc.PlayerId))
                             DesyncComms.Add(pc.PlayerId);
 
-                        pc.RpcDesyncRepairSystem(SystemTypes.Comms, 128);
+                        pc.RpcDesyncUpdateSystem(SystemTypes.Comms, 128);
                     }
                     else if (!Utils.IsActive(SystemTypes.Comms) && DesyncComms.Contains(pc.PlayerId))
                     {
                         DesyncComms.Remove(pc.PlayerId);
-                        pc.RpcDesyncRepairSystem(SystemTypes.Comms, 16);
+                        pc.RpcDesyncUpdateSystem(SystemTypes.Comms, 16);
 
                         if (Main.NormalOptions.MapId == 1)
-                            pc.RpcDesyncRepairSystem(SystemTypes.Comms, 17);
+                            pc.RpcDesyncUpdateSystem(SystemTypes.Comms, 17);
                     }
                 }
                 catch (Exception ex)

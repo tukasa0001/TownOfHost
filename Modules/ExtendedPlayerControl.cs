@@ -264,7 +264,7 @@ namespace TownOfHost
                 ホストのクールダウンは直接リセットします。
             */
         }
-        public static void RpcDesyncRepairSystem(this PlayerControl target, SystemTypes systemType, int amount)
+        public static void RpcDesyncUpdateSystem(this PlayerControl target, SystemTypes systemType, int amount)
         {
             MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.UpdateSystem, SendOption.Reliable, target.GetClientId());
             messageWriter.Write((byte)systemType);
@@ -351,7 +351,7 @@ namespace TownOfHost
             var systemtypes = Utils.GetCriticalSabotageSystemType();
             _ = new LateTask(() =>
             {
-                pc.RpcDesyncRepairSystem(systemtypes, 128);
+                pc.RpcDesyncUpdateSystem(systemtypes, 128);
             }, 0f + delay, "Reactor Desync");
 
             _ = new LateTask(() =>
@@ -361,9 +361,9 @@ namespace TownOfHost
 
             _ = new LateTask(() =>
             {
-                pc.RpcDesyncRepairSystem(systemtypes, 16);
+                pc.RpcDesyncUpdateSystem(systemtypes, 16);
                 if (Main.NormalOptions.MapId == 4) //Airship用
-                    pc.RpcDesyncRepairSystem(systemtypes, 17);
+                    pc.RpcDesyncUpdateSystem(systemtypes, 17);
             }, 0.4f + delay, "Fix Desync Reactor");
         }
         public static void ReactorFlash(this PlayerControl pc, float delay = 0f)
@@ -374,14 +374,14 @@ namespace TownOfHost
             var systemtypes = Utils.GetCriticalSabotageSystemType();
             float FlashDuration = Options.KillFlashDuration.GetFloat();
 
-            pc.RpcDesyncRepairSystem(systemtypes, 128);
+            pc.RpcDesyncUpdateSystem(systemtypes, 128);
 
             _ = new LateTask(() =>
             {
-                pc.RpcDesyncRepairSystem(systemtypes, 16);
+                pc.RpcDesyncUpdateSystem(systemtypes, 16);
 
                 if (Main.NormalOptions.MapId == 4) //Airship用
-                    pc.RpcDesyncRepairSystem(systemtypes, 17);
+                    pc.RpcDesyncUpdateSystem(systemtypes, 17);
             }, FlashDuration + delay, "Fix Desync Reactor");
         }
 
