@@ -655,4 +655,24 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MixUpOutfit))]
+    public static class PlayerControlMixupOutfitPatch
+    {
+        public static void Postfix(PlayerControl __instance)
+        {
+            if (!__instance.IsAlive())
+            {
+                return;
+            }
+            // 自分がDesyncインポスターで，バニラ判定ではインポスターの場合，バニラ処理で名前が非表示にならないため，相手の名前を非表示にする
+            if (
+                PlayerControl.LocalPlayer.Data.Role.IsImpostor &&  // バニラ判定でインポスター
+                !PlayerControl.LocalPlayer.Is(CustomRoleTypes.Impostor) &&  // Mod判定でインポスターではない
+                PlayerControl.LocalPlayer.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true)  // Desyncインポスター
+            {
+                // 名前を隠す
+                __instance.cosmetics.ToggleNameVisible(false);
+            }
+        }
+    }
 }
