@@ -29,6 +29,7 @@ namespace TownOfHost
         public CustomGameMode GameMode { get; protected set; }
         public bool IsHeader { get; protected set; }
         public bool IsHidden { get; protected set; }
+        public bool IsWord { get; protected set; }
         public Dictionary<string, string> ReplacementDictionary
         {
             get => _replacementDictionary;
@@ -77,6 +78,7 @@ namespace TownOfHost
             GameMode = CustomGameMode.All;
             IsHeader = false;
             IsHidden = false;
+            IsWord = false;
 
             // オブジェクト初期化
             Children = new();
@@ -121,6 +123,7 @@ namespace TownOfHost
         public OptionItem SetGameMode(CustomGameMode value) => Do(i => i.GameMode = value);
         public OptionItem SetHeader(bool value) => Do(i => i.IsHeader = value);
         public OptionItem SetHidden(bool value) => Do(i => i.IsHidden = value);
+        public OptionItem SetWord(bool value) => Do(i => i.IsWord = value);///todo
 
         public OptionItem SetParent(OptionItem parent) => Do(i =>
         {

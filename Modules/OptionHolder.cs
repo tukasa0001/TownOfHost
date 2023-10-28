@@ -156,21 +156,21 @@ namespace TownOfHost
         public static OptionItem RandomSpawnSkeldMedBay;
 
         //Mira
-        public static OptionItem RandomSpawnMiraHQ;
-        public static OptionItem RandomSpawnMiraHQCafeteria;
-        public static OptionItem RandomSpawnMiraHQBalcony;
-        public static OptionItem RandomSpawnMiraHQStorage;
-        public static OptionItem RandomSpawnMiraHQThreeWay;
-        public static OptionItem RandomSpawnMiraHQCommunications;
-        public static OptionItem RandomSpawnMiraHQMedBay;
-        public static OptionItem RandomSpawnMiraHQLockerRoom;
-        public static OptionItem RandomSpawnMiraHQDecontamination;
-        public static OptionItem RandomSpawnMiraHQLaboratory;
-        public static OptionItem RandomSpawnMiraHQReactor;
-        public static OptionItem RandomSpawnMiraHQLaunchpad;
-        public static OptionItem RandomSpawnMiraHQAdmin;
-        public static OptionItem RandomSpawnMiraHQOffice;
-        public static OptionItem RandomSpawnMiraHQGreenhouse;
+        public static OptionItem RandomSpawnMira;
+        public static OptionItem RandomSpawnMiraCafeteria;
+        public static OptionItem RandomSpawnMiraBalcony;
+        public static OptionItem RandomSpawnMiraStorage;
+        public static OptionItem RandomSpawnMiraThreeWay;
+        public static OptionItem RandomSpawnMiraCommunications;
+        public static OptionItem RandomSpawnMiraMedBay;
+        public static OptionItem RandomSpawnMiraLockerRoom;
+        public static OptionItem RandomSpawnMiraDecontamination;
+        public static OptionItem RandomSpawnMiraLaboratory;
+        public static OptionItem RandomSpawnMiraReactor;
+        public static OptionItem RandomSpawnMiraLaunchpad;
+        public static OptionItem RandomSpawnMiraAdmin;
+        public static OptionItem RandomSpawnMiraOffice;
+        public static OptionItem RandomSpawnMiraGreenhouse;
         //Polus
         public static OptionItem RandomSpawnPolus;
         public static OptionItem RandomSpawnPolusOffice1;
