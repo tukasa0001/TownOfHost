@@ -73,7 +73,7 @@ namespace TownOfHost
             {
                 pc.ResetKillCooldown();
             }
-            if (Options.RandomSpawn.GetBool())
+            if (RandomSpawn.IsRandomSpawn())
             {
                 RandomSpawn.SpawnMap map;
                 switch (Main.NormalOptions.MapId)

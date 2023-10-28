@@ -241,7 +241,7 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.RpcExile();
                     PlayerState.GetByPlayerId(PlayerControl.LocalPlayer.PlayerId).SetDead();
                 }
-                if (Options.RandomSpawn.GetBool())
+                if (RandomSpawn.IsRandomSpawn())
                 {
                     RandomSpawn.SpawnMap map;
                     switch (Main.NormalOptions.MapId)

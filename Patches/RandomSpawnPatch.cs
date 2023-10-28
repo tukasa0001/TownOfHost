@@ -107,12 +107,34 @@ namespace TownOfHost
                         }
                         player.RpcResetAbilityCooldown();
                         if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
-                        if (!Options.RandomSpawn.GetBool()) return; //ランダムスポーンが無効ならreturn
+                        if (!IsRandomSpawn()) return; //ランダムスポーンが無効ならreturn
                         new AirshipSpawnMap().RandomTeleport(player);
                     }
                 }
             }
         }
+
+        public static bool IsRandomSpawn()
+        {
+            if (!Options.DisableRandomSpawn.GetBool()) return false;
+            switch (Main.NormalOptions.MapId)
+            {
+                case 0:
+                    return Options.RandomSpawnSkeld.GetBool();
+                case 1:
+                    return Options.RandomSpawnMiraHQ.GetBool();
+                case 2:
+                    return Options.RandomSpawnPolus.GetBool();
+                case 4:
+                    return Options.RandomSpawnAirShip.GetBool();
+                case 5:
+                    return Options.RandomSpawnFungle.GetBool();
+                default:
+                    Logger.Error("MapIdFiled", "IsRandomSpan");
+                    return false;
+            }
+        }
+
         public static void TP(CustomNetworkTransform nt, Vector2 location)
         {
             if (AmongUsClient.Instance.AmHost) nt.SnapTo(location);
