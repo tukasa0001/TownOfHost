@@ -217,19 +217,19 @@ namespace TownOfHost
             Options.RandomSpawnFungleBonfire = BooleanOptionItem.Create(101436, SpawnPoint.Bonfire, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnFungleDropship = BooleanOptionItem.Create(101437, SpawnPoint.Dropship, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnFungleStorage = BooleanOptionItem.Create(101438, SpawnPoint.Storage, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleMeetingRoom = BooleanOptionItem.Create(101438, SpawnPoint.MeetingRoom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleTheDorm = BooleanOptionItem.Create(101439, SpawnPoint.TheDorm, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleLaboratory = BooleanOptionItem.Create(101440, SpawnPoint.Laboratory, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleGreenhouse = BooleanOptionItem.Create(101441, SpawnPoint.Greenhouse, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleReactor = BooleanOptionItem.Create(101442, SpawnPoint.Reactor, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleJungleTop = BooleanOptionItem.Create(101443, SpawnPoint.JungleTop, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleJungleBottom = BooleanOptionItem.Create(101444, SpawnPoint.JungleBottom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleLookOut = BooleanOptionItem.Create(101445, SpawnPoint.LookOut, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleMiningPit = BooleanOptionItem.Create(101446, SpawnPoint.MiningPit, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFunglePlateau = BooleanOptionItem.Create(101447, SpawnPoint.Plateau, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleUpperEngine = BooleanOptionItem.Create(101448, SpawnPoint.UpperEngine, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleCliff = BooleanOptionItem.Create(101449, SpawnPoint.Cliff, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleCommunications = BooleanOptionItem.Create(101450, SpawnPoint.Communications, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleMeetingRoom = BooleanOptionItem.Create(101439, SpawnPoint.MeetingRoom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleTheDorm = BooleanOptionItem.Create(101440, SpawnPoint.TheDorm, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleLaboratory = BooleanOptionItem.Create(101441, SpawnPoint.Laboratory, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleGreenhouse = BooleanOptionItem.Create(101442, SpawnPoint.Greenhouse, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleReactor = BooleanOptionItem.Create(101443, SpawnPoint.Reactor, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleJungleTop = BooleanOptionItem.Create(101444, SpawnPoint.JungleTop, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleJungleBottom = BooleanOptionItem.Create(101445, SpawnPoint.JungleBottom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleLookOut = BooleanOptionItem.Create(101446, SpawnPoint.LookOut, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleMiningPit = BooleanOptionItem.Create(101447, SpawnPoint.MiningPit, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFunglePlateau = BooleanOptionItem.Create(101448, SpawnPoint.Plateau, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleUpperEngine = BooleanOptionItem.Create(101449, SpawnPoint.UpperEngine, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleCliff = BooleanOptionItem.Create(101450, SpawnPoint.Cliff, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleCommunications = BooleanOptionItem.Create(101451, SpawnPoint.Communications, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
         }
 
         public abstract class SpawnMap
