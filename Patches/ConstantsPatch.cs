@@ -3,7 +3,7 @@ using HarmonyLib;
 namespace TownOfHost.Patches;
 
 [HarmonyPatch(typeof(Constants), nameof(Constants.GetBroadcastVersion))]
-public static class GetBroadcastVersionPatch
+public static class ConstantsGetBroadcastVersionPatch
 {
     public static void Postfix(ref int __result)
     {
