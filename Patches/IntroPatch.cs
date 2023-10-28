@@ -254,6 +254,10 @@ namespace TownOfHost
                             map = new RandomSpawn.MiraHQSpawnMap();
                             Main.AllPlayerControls.Do(map.RandomTeleport);
                             break;
+                        case 2:
+                            map = new RandomSpawn.PolusSpawnMap();
+                            Main.AllPlayerControls.Do(map.RandomTeleport);
+                            break;
                         case 5:
                             map = new RandomSpawn.FungleSpawnMap();
                             Main.AllPlayerControls.Do(map.RandomTeleport);
