@@ -139,6 +139,99 @@ namespace TownOfHost
         // ランダムスポーン
         public static OptionItem DisableRandomSpawn;
         public static OptionItem AirshipAdditionalSpawn;
+        //Skeld
+        public static OptionItem RandomSpawnSkeld;
+        public static OptionItem RandomSpawnSkeldCafeteria;
+        public static OptionItem RandomSpawnSkeldWeapons;
+        public static OptionItem RandomSpawnSkeldO2;
+        public static OptionItem RandomSpawnSkeldNavigation;
+        public static OptionItem RandomSpawnSkeldShields;
+        public static OptionItem RandomSpawnSkeldCommunications;
+        public static OptionItem RandomSpawnSkeldStorage;
+        public static OptionItem RandomSpawnSkeldAdmin;
+        public static OptionItem RandomSpawnSkeldElectrical;
+        public static OptionItem RandomSpawnSkeldLowerEngine;
+        public static OptionItem RandomSpawnSkeldUpperEngine;
+        public static OptionItem RandomSpawnSkeldSecurity;
+        public static OptionItem RandomSpawnSkeldReactor;
+        public static OptionItem RandomSpawnSkeldMedBay;
+
+        //Mira
+        public static OptionItem RandomSpawnMiraHQ;
+        public static OptionItem RandomSpawnMiraHQCafeteria;
+        public static OptionItem RandomSpawnMiraHQBalcony;
+        public static OptionItem RandomSpawnMiraHQStorage;
+        public static OptionItem RandomSpawnMiraHQThreeWay;
+        public static OptionItem RandomSpawnMiraHQCommunications;
+        public static OptionItem RandomSpawnMiraHQMedBay;
+        public static OptionItem RandomSpawnMiraHQLockerRoom;
+        public static OptionItem RandomSpawnMiraHQDecontamination;
+        public static OptionItem RandomSpawnMiraHQLaboratory;
+        public static OptionItem RandomSpawnMiraHQReactor;
+        public static OptionItem RandomSpawnMiraHQLaunchpad;
+        public static OptionItem RandomSpawnMiraHQAdmin;
+        public static OptionItem RandomSpawnMiraHQOffice;
+        public static OptionItem RandomSpawnMiraHQGreenhouse;
+        //Polus
+        public static OptionItem RandomSpawnPolus;
+        public static OptionItem RandomSpawnPolusOffice1;
+        public static OptionItem RandomSpawnPolusOffice2;
+        public static OptionItem RandomSpawnPolusAdmin;
+        public static OptionItem RandomSpawnPolusCommunications;
+        public static OptionItem RandomSpawnPolusWeapons;
+        public static OptionItem RandomSpawnPolusBoilerRoom;
+        public static OptionItem RandomSpawnPolusO2;
+        public static OptionItem RandomSpawnPolusElectrical;
+        public static OptionItem RandomSpawnPolusSecurity;
+        public static OptionItem RandomSpawnPolusDropship;
+        public static OptionItem RandomSpawnPolusStorage;
+        public static OptionItem RandomSpawnPolusRocket;
+        public static OptionItem RandomSpawnPolusLaboratory;
+        public static OptionItem RandomSpawnPolusToilet;
+        public static OptionItem RandomSpawnPolusSpecimenRoom;
+        //AIrShip
+        public static OptionItem RandomSpawnAirShip;
+        public static OptionItem RandomSpawnAirShipBrig;
+        public static OptionItem RandomSpawnAirShipEngine;
+        public static OptionItem RandomSpawnAirShipKitchen;
+        public static OptionItem RandomSpawnAirShipCargoBay;
+        public static OptionItem RandomSpawnAirShipRecords;
+        public static OptionItem RandomSpawnAirShipMainHall;
+        public static OptionItem RandomSpawnAirShipNapRoom;
+        public static OptionItem RandomSpawnAirShipMeetingRoom;
+        public static OptionItem RandomSpawnAirShipGapRoom;
+        public static OptionItem RandomSpawnAirShipVault;
+        public static OptionItem RandomSpawnAirShipCommunications;
+        public static OptionItem RandomSpawnAirShipCockpit;
+        public static OptionItem RandomSpawnAirShipArmory;
+        public static OptionItem RandomSpawnAirShipViewingDeck;
+        public static OptionItem RandomSpawnAirShipSecurity;
+        public static OptionItem RandomSpawnAirShipElectrical;
+        public static OptionItem RandomSpawnAirShipMedical;
+        public static OptionItem RandomSpawnAirShipToilet;
+        public static OptionItem RandomSpawnAirShipShowers;
+        //Fungle
+        public static OptionItem RandomSpawnFungle;
+        public static OptionItem RandomSpawnFungleKitchen;
+        public static OptionItem RandomSpawnFungleCoast;
+        public static OptionItem RandomSpawnFungleCafeteria;
+        public static OptionItem RandomSpawnFungleSplashZone;
+        public static OptionItem RandomSpawnFungleBonfire;
+        public static OptionItem RandomSpawnFungleDropship;
+        public static OptionItem RandomSpawnFungleStorage;
+        public static OptionItem RandomSpawnFungleMeetingRoom;
+        public static OptionItem RandomSpawnFungleTheDorm;
+        public static OptionItem RandomSpawnFungleLaboratory;
+        public static OptionItem RandomSpawnFungleGreenhouse;
+        public static OptionItem RandomSpawnFungleReactor;
+        public static OptionItem RandomSpawnFungleJungleTop;
+        public static OptionItem RandomSpawnFungleJungleBottom;
+        public static OptionItem RandomSpawnFungleLookOut;
+        public static OptionItem RandomSpawnFungleMiningPit;
+        public static OptionItem RandomSpawnFunglePlateau;
+        public static OptionItem RandomSpawnFungleUpperEngine;
+        public static OptionItem RandomSpawnFungleCliff;
+        public static OptionItem RandomSpawnFungleCommunications;
 
         // 投票モード
         public static OptionItem VoteMode;
