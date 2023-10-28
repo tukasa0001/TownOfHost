@@ -138,7 +138,6 @@ namespace TownOfHost
 
         // ランダムスポーン
         public static OptionItem DisableRandomSpawn;
-        public static OptionItem AirshipAdditionalSpawn;
         //Skeld
         public static OptionItem RandomSpawnSkeld;
         public static OptionItem RandomSpawnSkeldCafeteria;
@@ -564,13 +563,12 @@ namespace TownOfHost
             DisableRandomSpawn = BooleanOptionItem.Create(101300, "RandomSpawn", false, TabGroup.MainSettings, false)
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
-            AirshipAdditionalSpawn = BooleanOptionItem.Create(101301, "AirshipAdditionalSpawn", false, TabGroup.MainSettings, false).SetParent(RandomSpawn)
-                .SetGameMode(CustomGameMode.All);
+            RandomSpawn.SetupCustomOption();
 
             // ボタン回数同期
             SyncButtonMode = BooleanOptionItem.Create(100200, "SyncButtonMode", false, TabGroup.MainSettings, false)
-                .SetHeader(true)
-                .SetGameMode(CustomGameMode.Standard);
+                    .SetHeader(true)
+                    .SetGameMode(CustomGameMode.Standard);
             SyncedButtonCount = IntegerOptionItem.Create(100201, "SyncedButtonCount", new(0, 100, 1), 10, TabGroup.MainSettings, false).SetParent(SyncButtonMode)
                 .SetValueFormat(OptionFormat.Times)
                 .SetGameMode(CustomGameMode.Standard);
