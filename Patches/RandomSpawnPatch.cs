@@ -253,103 +253,111 @@ namespace TownOfHost
 
         public class SkeldSpawnMap : SpawnMap
         {
-            public Dictionary<string, Vector2> positions = new()
+            public Dictionary<OptionItem, Vector2> positions = new()
             {
-                ["Cafeteria"] = new(-1.0f, 3.0f),
-                ["Weapons"] = new(9.3f, 1.0f),
-                ["O2"] = new(6.5f, -3.8f),
-                ["Navigation"] = new(16.5f, -4.8f),
-                ["Shields"] = new(9.3f, -12.3f),
-                ["Communications"] = new(4.0f, -15.5f),
-                ["Storage"] = new(-1.5f, -15.5f),
-                ["Admin"] = new(4.5f, -7.9f),
-                ["Electrical"] = new(-7.5f, -8.8f),
-                ["LowerEngine"] = new(-17.0f, -13.5f),
-                ["UpperEngine"] = new(-17.0f, -1.3f),
-                ["Security"] = new(-13.5f, -5.5f),
-                ["Reactor"] = new(-20.5f, -5.5f),
-                ["MedBay"] = new(-9.0f, -4.0f)
+                [Options.RandomSpawnSkeldCafeteria] = new(-1.0f, 3.0f),
+                [Options.RandomSpawnSkeldWeapons] = new(9.3f, 1.0f),
+                [Options.RandomSpawnSkeldO2] = new(6.5f, -3.8f),
+                [Options.RandomSpawnSkeldNavigation] = new(16.5f, -4.8f),
+                [Options.RandomSpawnSkeldShields] = new(9.3f, -12.3f),
+                [Options.RandomSpawnSkeldCommunications] = new(4.0f, -15.5f),
+                [Options.RandomSpawnSkeldStorage] = new(-1.5f, -15.5f),
+                [Options.RandomSpawnSkeldAdmin] = new(4.5f, -7.9f),
+                [Options.RandomSpawnSkeldElectrical] = new(-7.5f, -8.8f),
+                [Options.RandomSpawnSkeldLowerEngine] = new(-17.0f, -13.5f),
+                [Options.RandomSpawnSkeldUpperEngine] = new(-17.0f, -1.3f),
+                [Options.RandomSpawnSkeldSecurity] = new(-13.5f, -5.5f),
+                [Options.RandomSpawnSkeldReactor] = new(-20.5f, -5.5f),
+                [Options.RandomSpawnSkeldMedBay] = new(-9.0f, -4.0f)
             };
             public override Vector2 GetLocation()
             {
+                if (positions.ToArray().Where(o => o.Key.GetBool()).Count() > 0) return positions.ToArray().Where(o => o.Key.GetBool()).OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
                 return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
             }
         }
         public class MiraHQSpawnMap : SpawnMap
         {
-            public Dictionary<string, Vector2> positions = new()
+            public Dictionary<OptionItem, Vector2> positions = new()
             {
-                ["Cafeteria"] = new(25.5f, 2.0f),
-                ["Balcony"] = new(24.0f, -2.0f),
-                ["Storage"] = new(19.5f, 4.0f),
-                ["ThreeWay"] = new(17.8f, 11.5f),
-                ["Communications"] = new(15.3f, 3.8f),
-                ["MedBay"] = new(15.5f, -0.5f),
-                ["LockerRoom"] = new(9.0f, 1.0f),
-                ["Decontamination"] = new(6.1f, 6.0f),
-                ["Laboratory"] = new(9.5f, 12.0f),
-                ["Reactor"] = new(2.5f, 10.5f),
-                ["Launchpad"] = new(-4.5f, 2.0f),
-                ["Admin"] = new(21.0f, 17.5f),
-                ["Office"] = new(15.0f, 19.0f),
-                ["Greenhouse"] = new(17.8f, 23.0f)
+                [Options.RandomSpawnMiraHQCafeteria] = new(25.5f, 2.0f),
+                [Options.RandomSpawnMiraHQBalcony] = new(24.0f, -2.0f),
+                [Options.RandomSpawnMiraHQStorage] = new(19.5f, 4.0f),
+                [Options.RandomSpawnMiraHQThreeWay] = new(17.8f, 11.5f),
+                [Options.RandomSpawnMiraHQCommunications] = new(15.3f, 3.8f),
+                [Options.RandomSpawnMiraHQMedBay] = new(15.5f, -0.5f),
+                [Options.RandomSpawnMiraHQLockerRoom] = new(9.0f, 1.0f),
+                [Options.RandomSpawnMiraHQDecontamination] = new(6.1f, 6.0f),
+                [Options.RandomSpawnMiraHQLaboratory] = new(9.5f, 12.0f),
+                [Options.RandomSpawnMiraHQReactor] = new(2.5f, 10.5f),
+                [Options.RandomSpawnMiraHQLaunchpad] = new(-4.5f, 2.0f),
+                [Options.RandomSpawnMiraHQAdmin] = new(21.0f, 17.5f),
+                [Options.RandomSpawnMiraHQOffice] = new(15.0f, 19.0f),
+                [Options.RandomSpawnMiraHQGreenhouse] = new(17.8f, 23.0f)
             };
             public override Vector2 GetLocation()
             {
+                if (positions.ToArray().Where(o => o.Key.GetBool()).Count() > 0) return positions.ToArray().Where(o => o.Key.GetBool()).OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
                 return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
             }
         }
         public class PolusSpawnMap : SpawnMap
         {
-            public Dictionary<string, Vector2> positions = new()
+            public Dictionary<OptionItem, Vector2> positions = new()
             {
-                ["Office1"] = new(19.5f, -18.0f),
-                ["Office2"] = new(26.0f, -17.0f),
-                ["Admin"] = new(24.0f, -22.5f),
-                ["Communications"] = new(12.5f, -16.0f),
-                ["Weapons"] = new(12.0f, -23.5f),
-                ["BoilerRoom"] = new(2.3f, -24.0f),
-                ["O2"] = new(2.0f, -17.5f),
-                ["Electrical"] = new(9.5f, -12.5f),
-                ["Security"] = new(3.0f, -12.0f),
-                ["Dropship"] = new(16.7f, -3.0f),
-                ["Storage"] = new(20.5f, -12.0f),
-                ["Rocket"] = new(26.7f, -8.5f),
-                ["Laboratory"] = new(36.5f, -7.5f),
-                ["Toilet"] = new(34.0f, -10.0f),
-                ["SpecimenRoom"] = new(36.5f, -22.0f)
+
+                [Options.RandomSpawnPolusOffice1] = new(19.5f, -18.0f),
+                [Options.RandomSpawnPolusOffice2] = new(26.0f, -17.0f),
+                [Options.RandomSpawnPolusAdmin] = new(24.0f, -22.5f),
+                [Options.RandomSpawnPolusCommunications] = new(12.5f, -16.0f),
+                [Options.RandomSpawnPolusWeapons] = new(12.0f, -23.5f),
+                [Options.RandomSpawnPolusBoilerRoom] = new(2.3f, -24.0f),
+                [Options.RandomSpawnPolusO2] = new(2.0f, -17.5f),
+                [Options.RandomSpawnPolusElectrical] = new(9.5f, -12.5f),
+                [Options.RandomSpawnPolusSecurity] = new(3.0f, -12.0f),
+                [Options.RandomSpawnPolusDropship] = new(16.7f, -3.0f),
+                [Options.RandomSpawnPolusStorage] = new(20.5f, -12.0f),
+                [Options.RandomSpawnPolusRocket] = new(26.7f, -8.5f),
+                [Options.RandomSpawnPolusLaboratory] = new(36.5f, -7.5f),
+                [Options.RandomSpawnPolusToilet] = new(34.0f, -10.0f),
+                [Options.RandomSpawnPolusSpecimenRoom] = new(36.5f, -22.0f)
             };
             public override Vector2 GetLocation()
             {
+                if (positions.ToArray().Where(o => o.Key.GetBool()).Count() > 0) return positions.ToArray().Where(o => o.Key.GetBool()).OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
                 return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
             }
         }
         public class AirshipSpawnMap : SpawnMap
         {
-            public Dictionary<string, Vector2> positions = new()
+            public Dictionary<OptionItem, Vector2> positions = new()
             {
-                ["Brig"] = new(-0.7f, 8.5f),
-                ["Engine"] = new(-0.7f, -1.0f),
-                ["Kitchen"] = new(-7.0f, -11.5f),
-                ["CargoBay"] = new(33.5f, -1.5f),
-                ["Records"] = new(20.0f, 10.5f),
-                ["MainHall"] = new(15.5f, 0.0f),
-                ["NapRoom"] = new(6.3f, 2.5f),
-                ["MeetingRoom"] = new(17.1f, 14.9f),
-                ["GapRoom"] = new(12.0f, 8.5f),
-                ["Vault"] = new(-8.9f, 12.2f),
-                ["Communications"] = new(-13.3f, 1.3f),
-                ["Cockpit"] = new(-23.5f, -1.6f),
-                ["Armory"] = new(-10.3f, -5.9f),
-                ["ViewingDeck"] = new(-13.7f, -12.6f),
-                ["Security"] = new(5.8f, -10.8f),
-                ["Electrical"] = new(16.3f, -8.8f),
-                ["Medical"] = new(29.0f, -6.2f),
-                ["Toilet"] = new(30.9f, 6.8f),
-                ["Showers"] = new(21.2f, -0.8f)
+                [Options.RandomSpawnAirShipBrig] = new(-0.7f, 8.5f),
+                [Options.RandomSpawnAirShipEngine] = new(-0.7f, -1.0f),
+                [Options.RandomSpawnAirShipKitchen] = new(-7.0f, -11.5f),
+                [Options.RandomSpawnAirShipCargoBay] = new(33.5f, -1.5f),
+                [Options.RandomSpawnAirShipRecords] = new(20.0f, 10.5f),
+                [Options.RandomSpawnAirShipMainHall] = new(15.5f, 0.0f),
+                [Options.RandomSpawnAirShipNapRoom] = new(6.3f, 2.5f),
+                [Options.RandomSpawnAirShipMeetingRoom] = new(17.1f, 14.9f),
+                [Options.RandomSpawnAirShipGapRoom] = new(12.0f, 8.5f),
+                [Options.RandomSpawnAirShipVault] = new(-8.9f, 12.2f),
+                [Options.RandomSpawnAirShipCommunications] = new(-13.3f, 1.3f),
+                [Options.RandomSpawnAirShipCockpit] = new(-23.5f, -1.6f),
+                [Options.RandomSpawnAirShipArmory] = new(-10.3f, -5.9f),
+                [Options.RandomSpawnAirShipViewingDeck] = new(-13.7f, -12.6f),
+                [Options.RandomSpawnAirShipSecurity] = new(5.8f, -10.8f),
+                [Options.RandomSpawnAirShipElectrical] = new(16.3f, -8.8f),
+                [Options.RandomSpawnAirShipMedical] = new(29.0f, -6.2f),
+                [Options.RandomSpawnAirShipToilet] = new(30.9f, 6.8f),
+                [Options.RandomSpawnAirShipShowers] = new(21.2f, -0.8f)
             };
             public override Vector2 GetLocation()
             {
+                if (positions.ToArray().Where(o => o.Key.GetBool()).Count() > 0) return positions.ToArray().Where(o => o.Key.GetBool()).OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
+                return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
+            }
+        }
         public class FungleSpawnMap : SpawnMap
         {
             public Dictionary<OptionItem, Vector2> positions = new()
