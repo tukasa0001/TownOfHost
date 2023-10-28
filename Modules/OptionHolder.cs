@@ -137,7 +137,7 @@ namespace TownOfHost
         // public static OptionItem AddedDleks;
 
         // ランダムスポーン
-        public static OptionItem RandomSpawn;
+        public static OptionItem DisableRandomSpawn;
         public static OptionItem AirshipAdditionalSpawn;
 
         // 投票モード
@@ -468,7 +468,7 @@ namespace TownOfHost
             //     .SetGameMode(CustomGameMode.All);
 
             // ランダムスポーン
-            RandomSpawn = BooleanOptionItem.Create(101300, "RandomSpawn", false, TabGroup.MainSettings, false)
+            DisableRandomSpawn = BooleanOptionItem.Create(101300, "RandomSpawn", false, TabGroup.MainSettings, false)
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
             AirshipAdditionalSpawn = BooleanOptionItem.Create(101301, "AirshipAdditionalSpawn", false, TabGroup.MainSettings, false).SetParent(RandomSpawn)
