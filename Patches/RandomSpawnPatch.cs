@@ -350,9 +350,36 @@ namespace TownOfHost
             };
             public override Vector2 GetLocation()
             {
-                return Options.AirshipAdditionalSpawn.GetBool()
-                    ? positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value
-                    : positions.ToArray()[0..6].OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
+        public class FungleSpawnMap : SpawnMap
+        {
+            public Dictionary<OptionItem, Vector2> positions = new()
+            {
+                [Options.RandomSpawnFungleKitchen] = new(-17.8f, -7.3f),
+                [Options.RandomSpawnFungleCoast] = new(-21.3f, 3.0f),   //海岸
+                [Options.RandomSpawnFungleCafeteria] = new(-16.9f, 5.5f),
+                [Options.RandomSpawnFungleSplashZone] = new(-17.7f, 0.0f),
+                [Options.RandomSpawnFungleBonfire] = new(-9.7f, 2.7f),  //焚き火
+                [Options.RandomSpawnFungleDropship] = new(-7.6f, 10.4f),
+                [Options.RandomSpawnFungleStorage] = new(2.3f, 4.3f),
+                [Options.RandomSpawnFungleMeetingRoom] = new(-4.2f, -2.2f),
+                [Options.RandomSpawnFungleTheDorm] = new(1.7f, -1.4f),  //宿舎
+                [Options.RandomSpawnFungleLaboratory] = new(-4.2f, -7.9f),
+                [Options.RandomSpawnFungleGreenhouse] = new(9.2f, -11.8f),
+                [Options.RandomSpawnFungleReactor] = new(21.8f, -7.2f),
+                [Options.RandomSpawnFungleJungleTop] = new(4.2f, -5.3f),
+                [Options.RandomSpawnFungleJungleBottom] = new(15.9f, -14.8f),
+                [Options.RandomSpawnFungleLookOut] = new(6.4f, 3.1f),
+                [Options.RandomSpawnFungleMiningPit] = new(12.5f, 9.6f),
+                [Options.RandomSpawnFunglePlateau] = new(15.5f, 3.9f),    //展望台右の高原
+                [Options.RandomSpawnFungleUpperEngine] = new(21.9f, 3.2f),
+                [Options.RandomSpawnFungleCliff] = new(19.8f, 7.3f),   //通信室下の崖
+                [Options.RandomSpawnFungleCommunications] = new(20.9f, 13.4f),
+            };
+
+            public override Vector2 GetLocation()
+            {
+                if (positions.ToArray().Where(o => o.Key.GetBool()).Count() > 0) return positions.ToArray().Where(o => o.Key.GetBool()).OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
+                return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
             }
         }
     }
