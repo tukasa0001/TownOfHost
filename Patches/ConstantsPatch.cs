@@ -14,3 +14,14 @@ public static class ConstantsGetBroadcastVersionPatch
         __result += 25;
     }
 }
+
+// AU side bug?
+[HarmonyPatch(typeof(Constants), nameof(Constants.IsVersionModded))]
+public static class ConstantsIsVersionModdedPatch
+{
+    public static bool Prefix(ref bool __result)
+    {
+        __result = true;
+        return false;
+    }
+}
