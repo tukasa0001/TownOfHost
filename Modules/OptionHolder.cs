@@ -142,10 +142,10 @@ namespace TownOfHost
         public static OptionItem RandomSpawnSkeld;
         public static OptionItem RandomSpawnSkeldCafeteria;
         public static OptionItem RandomSpawnSkeldWeapons;
-        public static OptionItem RandomSpawnSkeldO2;
-        public static OptionItem RandomSpawnSkeldNavigation;
+        public static OptionItem RandomSpawnSkeldLifeSupp;
+        public static OptionItem RandomSpawnSkeldNav;
         public static OptionItem RandomSpawnSkeldShields;
-        public static OptionItem RandomSpawnSkeldCommunications;
+        public static OptionItem RandomSpawnSkeldComms;
         public static OptionItem RandomSpawnSkeldStorage;
         public static OptionItem RandomSpawnSkeldAdmin;
         public static OptionItem RandomSpawnSkeldElectrical;
@@ -161,7 +161,7 @@ namespace TownOfHost
         public static OptionItem RandomSpawnMiraBalcony;
         public static OptionItem RandomSpawnMiraStorage;
         public static OptionItem RandomSpawnMiraThreeWay;
-        public static OptionItem RandomSpawnMiraCommunications;
+        public static OptionItem RandomSpawnMiraComms;
         public static OptionItem RandomSpawnMiraMedBay;
         public static OptionItem RandomSpawnMiraLockerRoom;
         public static OptionItem RandomSpawnMiraDecontamination;
@@ -176,10 +176,10 @@ namespace TownOfHost
         public static OptionItem RandomSpawnPolusOffice1;
         public static OptionItem RandomSpawnPolusOffice2;
         public static OptionItem RandomSpawnPolusAdmin;
-        public static OptionItem RandomSpawnPolusCommunications;
+        public static OptionItem RandomSpawnPolusComms;
         public static OptionItem RandomSpawnPolusWeapons;
         public static OptionItem RandomSpawnPolusBoilerRoom;
-        public static OptionItem RandomSpawnPolusO2;
+        public static OptionItem RandomSpawnPolusLifeSupp;
         public static OptionItem RandomSpawnPolusElectrical;
         public static OptionItem RandomSpawnPolusSecurity;
         public static OptionItem RandomSpawnPolusDropship;
@@ -187,7 +187,7 @@ namespace TownOfHost
         public static OptionItem RandomSpawnPolusRocket;
         public static OptionItem RandomSpawnPolusLaboratory;
         public static OptionItem RandomSpawnPolusToilet;
-        public static OptionItem RandomSpawnPolusSpecimenRoom;
+        public static OptionItem RandomSpawnPolusSpecimens;
         //AIrShip
         public static OptionItem RandomSpawnAirship;
         public static OptionItem RandomSpawnAirshipBrig;
@@ -199,8 +199,8 @@ namespace TownOfHost
         public static OptionItem RandomSpawnAirshipNapRoom;
         public static OptionItem RandomSpawnAirshipMeetingRoom;
         public static OptionItem RandomSpawnAirshipGapRoom;
-        public static OptionItem RandomSpawnAirshipVault;
-        public static OptionItem RandomSpawnAirshipCommunications;
+        public static OptionItem RandomSpawnAirshipVaultRoom;
+        public static OptionItem RandomSpawnAirshipComms;
         public static OptionItem RandomSpawnAirshipCockpit;
         public static OptionItem RandomSpawnAirshipArmory;
         public static OptionItem RandomSpawnAirshipViewingDeck;
@@ -212,25 +212,25 @@ namespace TownOfHost
         //Fungle
         public static OptionItem RandomSpawnFungle;
         public static OptionItem RandomSpawnFungleKitchen;
-        public static OptionItem RandomSpawnFungleCoast;
+        public static OptionItem RandomSpawnFungleBeach;
         public static OptionItem RandomSpawnFungleCafeteria;
-        public static OptionItem RandomSpawnFungleSplashZone;
+        public static OptionItem RandomSpawnFungleRecRoom;
         public static OptionItem RandomSpawnFungleBonfire;
         public static OptionItem RandomSpawnFungleDropship;
         public static OptionItem RandomSpawnFungleStorage;
         public static OptionItem RandomSpawnFungleMeetingRoom;
-        public static OptionItem RandomSpawnFungleTheDorm;
+        public static OptionItem RandomSpawnFungleSleepingQuarters;
         public static OptionItem RandomSpawnFungleLaboratory;
         public static OptionItem RandomSpawnFungleGreenhouse;
         public static OptionItem RandomSpawnFungleReactor;
         public static OptionItem RandomSpawnFungleJungleTop;
         public static OptionItem RandomSpawnFungleJungleBottom;
-        public static OptionItem RandomSpawnFungleLookOut;
+        public static OptionItem RandomSpawnFungleLookout;
         public static OptionItem RandomSpawnFungleMiningPit;
-        public static OptionItem RandomSpawnFunglePlateau;
+        public static OptionItem RandomSpawnFungleHighlands;
         public static OptionItem RandomSpawnFungleUpperEngine;
         public static OptionItem RandomSpawnFungleCliff;
-        public static OptionItem RandomSpawnFungleCommunications;
+        public static OptionItem RandomSpawnFungleComms;
 
         // 投票モード
         public static OptionItem VoteMode;
