@@ -1,3 +1,4 @@
+using System.Linq;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
@@ -176,6 +177,28 @@ public sealed class SabotageMaster : RoleBase, ISystemTypeUpdateHook
             ShipStatusUpdateSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 76, 78);
             ShipStatusUpdateSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 68, 70);
             ShipStatusUpdateSystemPatch.CheckAndOpenDoorsRange(shipStatus, amount, 83, 84);
+        }
+        else if (mapId == 5)
+        {
+            // Fungle
+            var openedDoorId = amount & DoorsSystemType.IdMask;
+            var openedDoor = shipStatus.AllDoors.FirstOrDefault(door => door.Id == openedDoorId);
+            if (openedDoor == null)
+            {
+                Logger.Warn($"不明なドアが開けられました: {openedDoorId}", nameof(SabotageMaster));
+            }
+            else
+            {
+                // 同じ部屋のドアで，今から開けるドアではないものを全部開ける
+                var room = openedDoor.Room;
+                foreach (var door in shipStatus.AllDoors)
+                {
+                    if (door.Id != openedDoorId && door.Room == room)
+                    {
+                        door.SetDoorway(true);
+                    }
+                }
+            }
         }
         DoorsProgressing = false;
         return true;
