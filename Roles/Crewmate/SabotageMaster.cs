@@ -122,7 +122,7 @@ public sealed class SabotageMaster : RoleBase, ISystemTypeUpdateHook
             //パネル開いたタイミング
             fixedComms = false;
         }
-        if (!fixedComms && amount.HasAnyBit(16))
+        if (!fixedComms && tags == HqHudSystemType.Tags.FixBit)
         {
             //片方の入力が正解したタイミング
             fixedComms = true;
