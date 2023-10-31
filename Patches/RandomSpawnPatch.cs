@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using Hazel;
 using UnityEngine;
 
 using TownOfHost.Roles.Core;
@@ -18,12 +17,12 @@ namespace TownOfHost
             public static Dictionary<byte, bool> FirstTP = new();
             public static void Postfix(CustomNetworkTransform __instance, Vector2 position, ushort minSid)
             {
-                    var player = Main.AllPlayerControls.Where(p => p.NetTransform == __instance).FirstOrDefault();
-                    if (player == null)
-                    {
-                        Logger.Warn("プレイヤーがnullです", "RandomSpawn");
-                        return;
-                    }
+                var player = Main.AllPlayerControls.Where(p => p.NetTransform == __instance).FirstOrDefault();
+                if (player == null)
+                {
+                    Logger.Warn("プレイヤーがnullです", "RandomSpawn");
+                    return;
+                }
                 Logger.Info($"{player.name} pos:{position} minSid={minSid}", "SnapTo");
                 if (!AmongUsClient.Instance.AmHost) return;
 
@@ -43,7 +42,10 @@ namespace TownOfHost
                     if (FirstTP[player.PlayerId])
                     {
                         FirstTP[player.PlayerId] = false;
+                        //ランダムスポーンをvanillaの初期スポーンより後の判定とする
+                        __instance.lastSequenceId++;
                         AirshipSpawn(player);
+                        __instance.lastSequenceId--;
                     }
                 }
             }
