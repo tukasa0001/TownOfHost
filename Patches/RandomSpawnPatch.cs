@@ -23,7 +23,7 @@ namespace TownOfHost
                     Logger.Warn("プレイヤーがnullです", "RandomSpawn");
                     return;
                 }
-                Logger.Info($"{player.name} pos:{position} minSid={minSid}", "SnapTo");
+                //Logger.Info($"{player.name} pos:{position} minSid={minSid}", "SnapTo");
                 if (!AmongUsClient.Instance.AmHost) return;
 
                 if (GameStates.IsInTask)
