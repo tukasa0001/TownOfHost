@@ -160,7 +160,7 @@ namespace TownOfHost
         public static OptionItem RandomSpawnMiraCafeteria;
         public static OptionItem RandomSpawnMiraBalcony;
         public static OptionItem RandomSpawnMiraStorage;
-        public static OptionItem RandomSpawnMiraThreeWay;
+        public static OptionItem RandomSpawnMiraJunction;
         public static OptionItem RandomSpawnMiraComms;
         public static OptionItem RandomSpawnMiraMedBay;
         public static OptionItem RandomSpawnMiraLockerRoom;

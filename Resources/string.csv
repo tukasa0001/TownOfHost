@@ -475,7 +475,7 @@
 "PlagueDoctorCanInfectVent","Can Infect in Vent","ベント内外でも感染する","","","Может заразить в вентиляции","Pode Infectar no Duto",""
 
 "## ランダムスポーンポイント"
-"ThreeWay","ThreeWay","三叉路","","","","",""
+"Junction","Junction","三叉路","","","","",""
 "Office1","Office1","オフィス1","","","","",""
 "Office2","Office2","オフィス2","","","","",""
 "Rocket","Rocket","ロケット","","","","",""

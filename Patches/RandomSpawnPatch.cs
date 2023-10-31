@@ -27,7 +27,7 @@ namespace TownOfHost
         Reactor,
         MedBay,
         Balcony,
-        ThreeWay,//StringNamesにない文言 string.csvに追加
+        Junction,//StringNamesにない文言 string.csvに追加
         LockerRoom,
         Decontamination,
         Laboratory,
@@ -159,7 +159,7 @@ namespace TownOfHost
             Options.RandomSpawnMiraCafeteria = BooleanOptionItem.Create(101342, StringNames.Cafeteria, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnMiraBalcony = BooleanOptionItem.Create(101343, StringNames.Balcony, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnMiraStorage = BooleanOptionItem.Create(101344, StringNames.Storage, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnMiraThreeWay = BooleanOptionItem.Create(101345, SpawnPoint.ThreeWay, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnMiraJunction = BooleanOptionItem.Create(101345, SpawnPoint.Junction, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnMiraComms = BooleanOptionItem.Create(101346, StringNames.Comms, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnMiraMedBay = BooleanOptionItem.Create(101347, StringNames.MedBay, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnMiraLockerRoom = BooleanOptionItem.Create(101348, StringNames.LockerRoom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
@@ -275,7 +275,7 @@ namespace TownOfHost
                 [Options.RandomSpawnMiraCafeteria] = new(25.5f, 2.0f),
                 [Options.RandomSpawnMiraBalcony] = new(24.0f, -2.0f),
                 [Options.RandomSpawnMiraStorage] = new(19.5f, 4.0f),
-                [Options.RandomSpawnMiraThreeWay] = new(17.8f, 11.5f),
+                [Options.RandomSpawnMiraJunction] = new(17.8f, 11.5f),
                 [Options.RandomSpawnMiraComms] = new(15.3f, 3.8f),
                 [Options.RandomSpawnMiraMedBay] = new(15.5f, -0.5f),
                 [Options.RandomSpawnMiraLockerRoom] = new(9.0f, 1.0f),
