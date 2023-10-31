@@ -149,7 +149,6 @@ namespace TownOfHost
                 logger.Info("キルはホストによってキャンセルされました");
             }
 
-            if (RandomSpawn.CustomNetworkTransformPatch.NumOfTP.TryGetValue(__instance.PlayerId, out var num) && num > 2) RandomSpawn.CustomNetworkTransformPatch.NumOfTP[__instance.PlayerId] = 3;
             if (isSucceeded)
             {
                 if (Main.CheckShapeshift.TryGetValue(target.PlayerId, out var shapeshifting) && shapeshifting)
