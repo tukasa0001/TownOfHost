@@ -23,9 +23,9 @@ public static class HudOverrideSystemTypeUpdateSystemPatch
             player.Is(CustomRoleTypes.Madmate) ||
             // マッド属性化時に削除
             (playerRole is SchrodingerCat schrodingerCat && schrodingerCat.AmMadmate);
-        if (isMadmate && Options.MadmateCanFixComms.GetBool())
+        if ((amount & HudOverrideSystemType.DamageBit) <= 0 && isMadmate && !Options.MadmateCanFixComms.GetBool())
         {
-            return amount is not (0 or 16 or 17);
+            return false;
         }
 
         if (playerRole is ISystemTypeUpdateHook systemTypeUpdateHook && !systemTypeUpdateHook.UpdateHudOverrideSystem(__instance, amount))
