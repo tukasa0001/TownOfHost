@@ -107,7 +107,7 @@ namespace TownOfHost
             }
             player.RpcResetAbilityCooldown();
             if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
-            if (!Options.RandomSpawn.GetBool()) return; //ランダムスポーンが無効ならreturn
+            if (!IsRandomSpawn()) return; //ランダムスポーンが無効ならreturn
             new AirshipSpawnMap().RandomTeleport(player);
         }
         public static bool IsRandomSpawn()
