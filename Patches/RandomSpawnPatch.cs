@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using Hazel;
 using UnityEngine;
 
 using TownOfHost.Roles.Core;
@@ -15,28 +14,38 @@ namespace TownOfHost
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2), typeof(ushort))]
         public class CustomNetworkTransformPatch
         {
-            public static Dictionary<byte, int> NumOfTP = new();
-            public static void Postfix(CustomNetworkTransform __instance, [HarmonyArgument(0)] Vector2 position)
+            public static Dictionary<byte, bool> FirstTP = new();
+            public static void Postfix(CustomNetworkTransform __instance, Vector2 position, ushort minSid)
             {
+                var player = Main.AllPlayerControls.Where(p => p.NetTransform == __instance).FirstOrDefault();
+                if (player == null)
+                {
+                    Logger.Warn("プレイヤーがnullです", "RandomSpawn");
+                    return;
+                }
+                //Logger.Info($"{player.name} pos:{position} minSid={minSid}", "SnapTo");
                 if (!AmongUsClient.Instance.AmHost) return;
-                if (position == new Vector2(-25f, 40f)) return; //最初の湧き地点ならreturn
+
                 if (GameStates.IsInTask)
                 {
-                    var player = Main.AllPlayerControls.Where(p => p.NetTransform == __instance).FirstOrDefault();
-                    if (player == null)
-                    {
-                        Logger.Warn("プレイヤーがnullです", "RandomSpawn");
-                        return;
-                    }
                     if (player.Is(CustomRoles.GM)) return; //GMは対象外に
 
-                    NumOfTP[player.PlayerId]++;
+                    if (Main.NormalOptions.MapId != 4) return;//AirShip以外無効
 
-                    // マップがエアシップ
-                    // ホスト目線のホスト自身はテレポート回数が違って見えるためSpawnInMinigameSpawnAtPatchで対応
-                    if (!player.AmOwner && NumOfTP[player.PlayerId] == 1 && Main.NormalOptions.MapId == 4)
+                    if (position == new Vector2(-25f, 40f))
                     {
+                        //最初の湧き地点なら次回スポーン
+                        FirstTP[player.PlayerId] = true;
+                        return;
+                    }
+
+                    if (FirstTP[player.PlayerId])
+                    {
+                        FirstTP[player.PlayerId] = false;
+                        //ランダムスポーンをvanillaの初期スポーンより後の判定とする
+                        __instance.lastSequenceId++;
                         AirshipSpawn(player);
+                        __instance.lastSequenceId--;
                     }
                 }
             }
