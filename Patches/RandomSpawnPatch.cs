@@ -234,18 +234,27 @@ namespace TownOfHost
 
         public abstract class SpawnMap
         {
+            public abstract Dictionary<OptionItem, Vector2> Positions { get; }
             public virtual void RandomTeleport(PlayerControl player)
             {
                 var location = GetLocation();
                 Logger.Info($"{player.Data.PlayerName}:{location}", "RandomSpawn");
                 TP(player.NetTransform, location);
             }
-            public abstract Vector2 GetLocation();
+            public Vector2 GetLocation()
+            {
+                var locations =
+                    Positions.ToArray().Where(o => o.Key.GetBool()).Any()
+                    ? Positions.ToArray().Where(o => o.Key.GetBool())
+                    : Positions.ToArray();
+                var location = locations.OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault();
+                return location.Value;
+            }
         }
 
         public class SkeldSpawnMap : SpawnMap
         {
-            public Dictionary<OptionItem, Vector2> positions = new()
+            public override Dictionary<OptionItem, Vector2> Positions { get; } = new()
             {
                 [Options.RandomSpawnSkeldCafeteria] = new(-1.0f, 3.0f),
                 [Options.RandomSpawnSkeldWeapons] = new(9.3f, 1.0f),
@@ -262,15 +271,10 @@ namespace TownOfHost
                 [Options.RandomSpawnSkeldReactor] = new(-20.5f, -5.5f),
                 [Options.RandomSpawnSkeldMedBay] = new(-9.0f, -4.0f)
             };
-            public override Vector2 GetLocation()
-            {
-                if (positions.ToArray().Where(o => o.Key.GetBool()).Count() > 0) return positions.ToArray().Where(o => o.Key.GetBool()).OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
-                return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
-            }
         }
         public class MiraHQSpawnMap : SpawnMap
         {
-            public Dictionary<OptionItem, Vector2> positions = new()
+            public override Dictionary<OptionItem, Vector2> Positions { get; } = new()
             {
                 [Options.RandomSpawnMiraCafeteria] = new(25.5f, 2.0f),
                 [Options.RandomSpawnMiraBalcony] = new(24.0f, -2.0f),
@@ -287,15 +291,10 @@ namespace TownOfHost
                 [Options.RandomSpawnMiraOffice] = new(15.0f, 19.0f),
                 [Options.RandomSpawnMiraGreenhouse] = new(17.8f, 23.0f)
             };
-            public override Vector2 GetLocation()
-            {
-                if (positions.ToArray().Where(o => o.Key.GetBool()).Count() > 0) return positions.ToArray().Where(o => o.Key.GetBool()).OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
-                return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
-            }
         }
         public class PolusSpawnMap : SpawnMap
         {
-            public Dictionary<OptionItem, Vector2> positions = new()
+            public override Dictionary<OptionItem, Vector2> Positions { get; } = new()
             {
 
                 [Options.RandomSpawnPolusOffice1] = new(19.5f, -18.0f),
@@ -314,15 +313,10 @@ namespace TownOfHost
                 [Options.RandomSpawnPolusToilet] = new(34.0f, -10.0f),
                 [Options.RandomSpawnPolusSpecimens] = new(36.5f, -22.0f)
             };
-            public override Vector2 GetLocation()
-            {
-                if (positions.ToArray().Where(o => o.Key.GetBool()).Count() > 0) return positions.ToArray().Where(o => o.Key.GetBool()).OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
-                return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
-            }
         }
         public class AirshipSpawnMap : SpawnMap
         {
-            public Dictionary<OptionItem, Vector2> positions = new()
+            public override Dictionary<OptionItem, Vector2> Positions { get; } = new()
             {
                 [Options.RandomSpawnAirshipBrig] = new(-0.7f, 8.5f),
                 [Options.RandomSpawnAirshipEngine] = new(-0.7f, -1.0f),
@@ -344,15 +338,10 @@ namespace TownOfHost
                 [Options.RandomSpawnAirshipToilet] = new(30.9f, 6.8f),
                 [Options.RandomSpawnAirshipShowers] = new(21.2f, -0.8f)
             };
-            public override Vector2 GetLocation()
-            {
-                if (positions.ToArray().Where(o => o.Key.GetBool()).Count() > 0) return positions.ToArray().Where(o => o.Key.GetBool()).OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
-                return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
-            }
         }
         public class FungleSpawnMap : SpawnMap
         {
-            public Dictionary<OptionItem, Vector2> positions = new()
+            public override Dictionary<OptionItem, Vector2> Positions { get; } = new()
             {
                 [Options.RandomSpawnFungleKitchen] = new(-17.8f, -7.3f),
                 [Options.RandomSpawnFungleBeach] = new(-21.3f, 3.0f),   //海岸
@@ -375,12 +364,6 @@ namespace TownOfHost
                 [Options.RandomSpawnFungleCliff] = new(19.8f, 7.3f),   //通信室下の崖
                 [Options.RandomSpawnFungleComms] = new(20.9f, 13.4f),
             };
-
-            public override Vector2 GetLocation()
-            {
-                if (positions.ToArray().Where(o => o.Key.GetBool()).Count() > 0) return positions.ToArray().Where(o => o.Key.GetBool()).OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
-                return positions.ToArray().OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault().Value;
-            }
         }
     }
 }
