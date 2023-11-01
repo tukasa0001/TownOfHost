@@ -33,8 +33,8 @@ namespace TownOfHost
         Laboratory,
         Launchpad,
         Office,
-        Office1,//StringNamesにない文言 string.csvに追加
-        Office2,//StringNamesにない文言 string.csvに追加
+        OfficeLeft,//StringNamesにない文言 string.csvに追加
+        OfficeRight,//StringNamesにない文言 string.csvに追加
         Greenhouse,
         BoilerRoom,
         Dropship,
@@ -140,61 +140,61 @@ namespace TownOfHost
         {
             // Skeld
             Options.RandomSpawnSkeld = BooleanOptionItem.Create(101310, StringNames.MapNameSkeld, false, TabGroup.MainSettings, false).SetParent(Options.EnableRandomSpawn).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnSkeldCafeteria = BooleanOptionItem.Create(101311, StringNames.Cafeteria, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnSkeldWeapons = BooleanOptionItem.Create(101312, StringNames.Weapons, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnSkeldLifeSupp = BooleanOptionItem.Create(101313, StringNames.LifeSupp, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnSkeldNav = BooleanOptionItem.Create(101314, StringNames.Nav, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnSkeldShields = BooleanOptionItem.Create(101315, StringNames.Shields, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnSkeldComms = BooleanOptionItem.Create(101316, StringNames.Comms, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnSkeldStorage = BooleanOptionItem.Create(101317, StringNames.Storage, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnSkeldAdmin = BooleanOptionItem.Create(101318, StringNames.Admin, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnSkeldElectrical = BooleanOptionItem.Create(101319, StringNames.Electrical, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnSkeldLowerEngine = BooleanOptionItem.Create(101320, StringNames.LowerEngine, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnSkeldUpperEngine = BooleanOptionItem.Create(101321, StringNames.UpperEngine, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnSkeldCafeteria = BooleanOptionItem.Create(101311, StringNames.Cafeteria, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnSkeldWeapons = BooleanOptionItem.Create(101312, StringNames.Weapons, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnSkeldShields = BooleanOptionItem.Create(101313, StringNames.Shields, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnSkeldStorage = BooleanOptionItem.Create(101314, StringNames.Storage, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnSkeldLowerEngine = BooleanOptionItem.Create(101315, StringNames.LowerEngine, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnSkeldUpperEngine = BooleanOptionItem.Create(101316, StringNames.UpperEngine, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnSkeldLifeSupp = BooleanOptionItem.Create(101317, StringNames.LifeSupp, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnSkeldNav = BooleanOptionItem.Create(101318, StringNames.Nav, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnSkeldComms = BooleanOptionItem.Create(101319, StringNames.Comms, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnSkeldAdmin = BooleanOptionItem.Create(101320, StringNames.Admin, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnSkeldElectrical = BooleanOptionItem.Create(101321, StringNames.Electrical, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnSkeldSecurity = BooleanOptionItem.Create(101322, StringNames.Security, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnSkeldReactor = BooleanOptionItem.Create(101323, StringNames.Reactor, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnSkeldMedBay = BooleanOptionItem.Create(101324, StringNames.MedBay, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnSkeld).SetGameMode(CustomGameMode.All);
             // Mira
             Options.RandomSpawnMira = BooleanOptionItem.Create(101341, StringNames.MapNameMira, false, TabGroup.MainSettings, false).SetParent(Options.EnableRandomSpawn).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnMiraCafeteria = BooleanOptionItem.Create(101342, StringNames.Cafeteria, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnMiraBalcony = BooleanOptionItem.Create(101343, StringNames.Balcony, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnMiraStorage = BooleanOptionItem.Create(101344, StringNames.Storage, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnMiraJunction = BooleanOptionItem.Create(101345, SpawnPoint.Junction, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnMiraComms = BooleanOptionItem.Create(101346, StringNames.Comms, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnMiraMedBay = BooleanOptionItem.Create(101347, StringNames.MedBay, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnMiraLockerRoom = BooleanOptionItem.Create(101348, StringNames.LockerRoom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnMiraDecontamination = BooleanOptionItem.Create(101349, StringNames.Decontamination, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnMiraLaboratory = BooleanOptionItem.Create(101350, StringNames.Laboratory, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnMiraReactor = BooleanOptionItem.Create(101351, StringNames.Reactor, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnMiraLaunchpad = BooleanOptionItem.Create(101352, StringNames.Launchpad, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnMiraAdmin = BooleanOptionItem.Create(101353, StringNames.Admin, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnMiraCafeteria = BooleanOptionItem.Create(101342, StringNames.Cafeteria, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnMiraComms = BooleanOptionItem.Create(101343, StringNames.Comms, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnMiraDecontamination = BooleanOptionItem.Create(101344, StringNames.Decontamination, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnMiraReactor = BooleanOptionItem.Create(101345, StringNames.Reactor, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnMiraLaunchpad = BooleanOptionItem.Create(101346, StringNames.Launchpad, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnMiraAdmin = BooleanOptionItem.Create(101347, StringNames.Admin, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnMiraBalcony = BooleanOptionItem.Create(101348, StringNames.Balcony, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnMiraStorage = BooleanOptionItem.Create(101349, StringNames.Storage, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnMiraJunction = BooleanOptionItem.Create(101350, SpawnPoint.Junction, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnMiraMedBay = BooleanOptionItem.Create(101351, StringNames.MedBay, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnMiraLockerRoom = BooleanOptionItem.Create(101352, StringNames.LockerRoom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnMiraLaboratory = BooleanOptionItem.Create(101353, StringNames.Laboratory, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnMiraOffice = BooleanOptionItem.Create(101354, StringNames.Office, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnMiraGreenhouse = BooleanOptionItem.Create(101355, StringNames.Greenhouse, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnMira).SetGameMode(CustomGameMode.All);
             // Polus
             Options.RandomSpawnPolus = BooleanOptionItem.Create(101371, StringNames.MapNamePolus, false, TabGroup.MainSettings, false).SetParent(Options.EnableRandomSpawn).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusOffice1 = BooleanOptionItem.Create(101372, SpawnPoint.Office1, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusOffice2 = BooleanOptionItem.Create(101373, SpawnPoint.Office2, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusAdmin = BooleanOptionItem.Create(101374, StringNames.Admin, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusComms = BooleanOptionItem.Create(101375, StringNames.Comms, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusWeapons = BooleanOptionItem.Create(101376, StringNames.Weapons, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusBoilerRoom = BooleanOptionItem.Create(101377, StringNames.BoilerRoom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusLifeSupp = BooleanOptionItem.Create(101378, StringNames.LifeSupp, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusElectrical = BooleanOptionItem.Create(101379, StringNames.Electrical, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusSecurity = BooleanOptionItem.Create(101380, StringNames.Security, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusDropship = BooleanOptionItem.Create(101381, StringNames.Dropship, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusStorage = BooleanOptionItem.Create(101382, StringNames.Storage, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusRocket = BooleanOptionItem.Create(101383, SpawnPoint.Rocket, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusLaboratory = BooleanOptionItem.Create(101384, StringNames.Laboratory, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusToilet = BooleanOptionItem.Create(101385, SpawnPoint.Toilet, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnPolusSpecimens = BooleanOptionItem.Create(101386, StringNames.Specimens, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusOfficeLeft = BooleanOptionItem.Create(101372, SpawnPoint.OfficeLeft, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusBoilerRoom = BooleanOptionItem.Create(101373, StringNames.BoilerRoom, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusSecurity = BooleanOptionItem.Create(101374, StringNames.Security, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusDropship = BooleanOptionItem.Create(101375, StringNames.Dropship, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusLaboratory = BooleanOptionItem.Create(101376, StringNames.Laboratory, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusSpecimens = BooleanOptionItem.Create(101377, StringNames.Specimens, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusOfficeRight = BooleanOptionItem.Create(101378, SpawnPoint.OfficeRight, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusAdmin = BooleanOptionItem.Create(101379, StringNames.Admin, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusComms = BooleanOptionItem.Create(1013780, StringNames.Comms, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusWeapons = BooleanOptionItem.Create(101381, StringNames.Weapons, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusLifeSupp = BooleanOptionItem.Create(101382, StringNames.LifeSupp, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusElectrical = BooleanOptionItem.Create(101383, StringNames.Electrical, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusStorage = BooleanOptionItem.Create(101384, StringNames.Storage, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusRocket = BooleanOptionItem.Create(101385, SpawnPoint.Rocket, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnPolusToilet = BooleanOptionItem.Create(101386, SpawnPoint.Toilet, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnPolus).SetGameMode(CustomGameMode.All);
             // Airship
             Options.RandomSpawnAirship = BooleanOptionItem.Create(101401, StringNames.MapNameAirship, false, TabGroup.MainSettings, false).SetParent(Options.EnableRandomSpawn).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnAirshipBrig = BooleanOptionItem.Create(101402, StringNames.Brig, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnAirshipEngine = BooleanOptionItem.Create(101403, StringNames.Engine, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnAirshipKitchen = BooleanOptionItem.Create(101404, StringNames.Kitchen, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnAirshipCargoBay = BooleanOptionItem.Create(101405, StringNames.CargoBay, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnAirshipRecords = BooleanOptionItem.Create(101406, StringNames.Records, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnAirshipMainHall = BooleanOptionItem.Create(101407, StringNames.MainHall, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnAirshipBrig = BooleanOptionItem.Create(101402, StringNames.Brig, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnAirshipEngine = BooleanOptionItem.Create(101403, StringNames.Engine, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnAirshipKitchen = BooleanOptionItem.Create(101404, StringNames.Kitchen, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnAirshipCargoBay = BooleanOptionItem.Create(101405, StringNames.CargoBay, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnAirshipRecords = BooleanOptionItem.Create(101406, StringNames.Records, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnAirshipMainHall = BooleanOptionItem.Create(101407, StringNames.MainHall, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnAirshipNapRoom = BooleanOptionItem.Create(101408, SpawnPoint.NapRoom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnAirshipMeetingRoom = BooleanOptionItem.Create(101409, StringNames.MeetingRoom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnAirshipGapRoom = BooleanOptionItem.Create(101410, StringNames.GapRoom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
@@ -210,26 +210,26 @@ namespace TownOfHost
             Options.RandomSpawnAirshipShowers = BooleanOptionItem.Create(101420, StringNames.Showers, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnAirship).SetGameMode(CustomGameMode.All);
             // Fungle
             Options.RandomSpawnFungle = BooleanOptionItem.Create(101431, StringNames.MapNameFungle, false, TabGroup.MainSettings, false).SetParent(Options.EnableRandomSpawn).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleKitchen = BooleanOptionItem.Create(101432, StringNames.Kitchen, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleBeach = BooleanOptionItem.Create(101433, StringNames.Beach, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleCafeteria = BooleanOptionItem.Create(101434, StringNames.Cafeteria, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleRecRoom = BooleanOptionItem.Create(101435, StringNames.RecRoom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleBonfire = BooleanOptionItem.Create(101436, SpawnPoint.Bonfire, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleDropship = BooleanOptionItem.Create(101437, StringNames.Dropship, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleStorage = BooleanOptionItem.Create(101438, StringNames.Storage, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleMeetingRoom = BooleanOptionItem.Create(101439, StringNames.MeetingRoom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleSleepingQuarters = BooleanOptionItem.Create(101440, StringNames.SleepingQuarters, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleLaboratory = BooleanOptionItem.Create(101441, StringNames.Laboratory, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleGreenhouse = BooleanOptionItem.Create(101442, StringNames.Greenhouse, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleReactor = BooleanOptionItem.Create(101443, StringNames.Reactor, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleJungleTop = BooleanOptionItem.Create(101444, SpawnPoint.JungleTop, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleJungleBottom = BooleanOptionItem.Create(101445, SpawnPoint.JungleBottom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleLookout = BooleanOptionItem.Create(101446, StringNames.Lookout, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleMiningPit = BooleanOptionItem.Create(101447, StringNames.MiningPit, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleHighlands = BooleanOptionItem.Create(101448, StringNames.Highlands, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleUpperEngine = BooleanOptionItem.Create(101449, StringNames.UpperEngine, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleCliff = BooleanOptionItem.Create(101450, SpawnPoint.Cliff, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleComms = BooleanOptionItem.Create(101451, StringNames.Comms, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleKitchen = BooleanOptionItem.Create(101432, StringNames.Kitchen, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleBeach = BooleanOptionItem.Create(101433, StringNames.Beach, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleBonfire = BooleanOptionItem.Create(101434, SpawnPoint.Bonfire, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleGreenhouse = BooleanOptionItem.Create(101435, StringNames.Greenhouse, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleComms = BooleanOptionItem.Create(101436, StringNames.Comms, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleHighlands = BooleanOptionItem.Create(101437, StringNames.Highlands, true, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleCafeteria = BooleanOptionItem.Create(101438, StringNames.Cafeteria, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleRecRoom = BooleanOptionItem.Create(101439, StringNames.RecRoom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleDropship = BooleanOptionItem.Create(101440, StringNames.Dropship, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleStorage = BooleanOptionItem.Create(101441, StringNames.Storage, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleMeetingRoom = BooleanOptionItem.Create(101442, StringNames.MeetingRoom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleSleepingQuarters = BooleanOptionItem.Create(101443, StringNames.SleepingQuarters, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleLaboratory = BooleanOptionItem.Create(101444, StringNames.Laboratory, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleReactor = BooleanOptionItem.Create(101445, StringNames.Reactor, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleJungleTop = BooleanOptionItem.Create(101446, SpawnPoint.JungleTop, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleJungleBottom = BooleanOptionItem.Create(101447, SpawnPoint.JungleBottom, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleLookout = BooleanOptionItem.Create(101448, StringNames.Lookout, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleMiningPit = BooleanOptionItem.Create(101449, StringNames.MiningPit, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleUpperEngine = BooleanOptionItem.Create(101450, StringNames.UpperEngine, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFungleCliff = BooleanOptionItem.Create(101451, SpawnPoint.Cliff, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
         }
 
         public abstract class SpawnMap
@@ -297,8 +297,8 @@ namespace TownOfHost
             public override Dictionary<OptionItem, Vector2> Positions { get; } = new()
             {
 
-                [Options.RandomSpawnPolusOffice1] = new(19.5f, -18.0f),
-                [Options.RandomSpawnPolusOffice2] = new(26.0f, -17.0f),
+                [Options.RandomSpawnPolusOfficeLeft] = new(19.5f, -18.0f),
+                [Options.RandomSpawnPolusOfficeRight] = new(26.0f, -17.0f),
                 [Options.RandomSpawnPolusAdmin] = new(24.0f, -22.5f),
                 [Options.RandomSpawnPolusComms] = new(12.5f, -16.0f),
                 [Options.RandomSpawnPolusWeapons] = new(12.0f, -23.5f),

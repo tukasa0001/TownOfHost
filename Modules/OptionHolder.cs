@@ -172,8 +172,8 @@ namespace TownOfHost
         public static OptionItem RandomSpawnMiraGreenhouse;
         //Polus
         public static OptionItem RandomSpawnPolus;
-        public static OptionItem RandomSpawnPolusOffice1;
-        public static OptionItem RandomSpawnPolusOffice2;
+        public static OptionItem RandomSpawnPolusOfficeLeft;
+        public static OptionItem RandomSpawnPolusOfficeRight;
         public static OptionItem RandomSpawnPolusAdmin;
         public static OptionItem RandomSpawnPolusComms;
         public static OptionItem RandomSpawnPolusWeapons;
