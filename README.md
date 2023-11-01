@@ -1363,26 +1363,31 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 | 設定名                         |
 | ------------------------------ |
-| ランダムスポーン               |
-| ┗ 追加スポーン位置(エアシップ) |
+| ランダムスポーン                |
+| ┗ Skeld  　　　　 　　　　　　　 |
+| ┗ Mira　  　　　　 　　　　　 　 |
+| ┗ Polus 　 　　　　 　　　　　　 |
+| ┗ AirShip　　　　　　 　　　　　 |
+| ┗ Fungle　　 　　　　　 　　　　 |
 
 #### スケルド
 
-![Skeld](Images/The_Skeld_Random_Map.png)
+![Skeld](Images/Skeld_Random_Map_ja.png)
 
 #### ミラHQ
 
-![MiraHQ](Images/Mira_HQ_Random_Map.png)
+![MiraHQ](Images/Mirahq_Random_Map_ja.png)
 
 #### ポーラス
 
-![Polus](Images/Polus_Random_Map.png)
+![Polus](Images/Polus_Random_Map_ja.png)
 
 #### エアシップ
 
-![AirShip](Images/The_Airship_Random_Map.png)
+![AirShip](Images/Airship_Random_Map_ja.png)
 
-`追加スポーン位置(エアシップ) `がOFFの場合は本来のスポーン位置からのみ選出されます。
+### ファングル
+![Fungle](Images/Fungle_Random_Map_ja.png)
 
 ### RandomMapsMode/ランダムマップモード
 
