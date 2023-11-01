@@ -137,7 +137,7 @@ namespace TownOfHost
         // public static OptionItem AddedDleks;
 
         // ランダムスポーン
-        public static OptionItem DisableRandomSpawn;
+        public static OptionItem EnableRandomSpawn;
         //Skeld
         public static OptionItem RandomSpawnSkeld;
         public static OptionItem RandomSpawnSkeldCafeteria;
@@ -560,7 +560,7 @@ namespace TownOfHost
             //     .SetGameMode(CustomGameMode.All);
 
             // ランダムスポーン
-            DisableRandomSpawn = BooleanOptionItem.Create(101300, "RandomSpawn", false, TabGroup.MainSettings, false)
+            EnableRandomSpawn = BooleanOptionItem.Create(101300, "RandomSpawn", false, TabGroup.MainSettings, false)
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
             RandomSpawn.SetupCustomOption();
