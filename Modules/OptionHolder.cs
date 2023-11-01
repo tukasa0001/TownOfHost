@@ -154,7 +154,6 @@ namespace TownOfHost
         public static OptionItem RandomSpawnSkeldSecurity;
         public static OptionItem RandomSpawnSkeldReactor;
         public static OptionItem RandomSpawnSkeldMedBay;
-
         //Mira
         public static OptionItem RandomSpawnMira;
         public static OptionItem RandomSpawnMiraCafeteria;
