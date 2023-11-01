@@ -479,8 +479,8 @@
 
 "## ランダムスポーンポイント"
 "Junction","Junction","三叉路","","","","",""
-"OfficeLeft","Office Left","オフィス1","","","","",""
-"OfficeRight","Office Right","オフィス2","","","","",""
+"OfficeLeft","Office Left","オフィス左","","","","",""
+"OfficeRight","Office Right","オフィス右","","","","",""
 "Rocket","Rocket","ロケット","","","","",""
 "Toilet","Toilet","トイレ","","","","",""
 "NapRoom","Nap Room","仮眠室","","","","",""
