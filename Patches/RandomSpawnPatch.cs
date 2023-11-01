@@ -122,7 +122,7 @@ namespace TownOfHost
                 case 5:
                     return Options.RandomSpawnFungle.GetBool();
                 default:
-                    Logger.Error("MapIdFiled", "IsRandomSpan");
+                    Logger.Error($"MapIdFailed ID:{Main.NormalOptions.MapId}", "IsRandomSpawn");
                     return false;
             }
         }
