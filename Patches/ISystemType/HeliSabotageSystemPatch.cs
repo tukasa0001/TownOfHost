@@ -10,8 +10,12 @@ public static class HeliSabotageSystemUpdateSystemPatch
 {
     public static bool Prefix(HeliSabotageSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] MessageReader msgReader)
     {
-        var newReader = MessageReader.Get(msgReader);
-        var amount = newReader.ReadByte();
+        byte amount;
+        {
+            var newReader = MessageReader.Get(msgReader);
+            amount = newReader.ReadByte();
+            newReader.Recycle();
+        }
 
         if (player.GetRoleClass() is ISystemTypeUpdateHook systemTypeUpdateHook && !systemTypeUpdateHook.UpdateHeliSabotageSystem(__instance, amount))
         {

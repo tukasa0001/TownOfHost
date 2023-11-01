@@ -53,7 +53,11 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return false;
 
             // 処理は全てCustomRoleManager側で行う
-            CustomRoleManager.OnCheckMurder(__instance, target);
+            if (!CustomRoleManager.OnCheckMurder(__instance, target))
+            {
+                // キル失敗
+                __instance.RpcMurderPlayer(target, false);
+            }
 
             return false;
         }
@@ -124,13 +128,29 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
     class MurderPlayerPatch
     {
-        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target, [HarmonyArgument(1)] MurderResultFlags resultFlags)
+        private static readonly LogHandler logger = Logger.Handler(nameof(PlayerControl.MurderPlayer));
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target, [HarmonyArgument(1)] MurderResultFlags resultFlags, ref bool __state /* 成功したキルかどうか */ )
         {
-            var isProtected = resultFlags.HasFlag(MurderResultFlags.FailedProtected) || (resultFlags.HasFlag(MurderResultFlags.DecisionByHost) && target.IsProtected());
-            Logger.Info($"{__instance.GetNameWithRole()} => {target.GetNameWithRole()}{(isProtected ? "(Protected)" : "")}", "MurderPlayer");
+            logger.Info($"{__instance.GetNameWithRole()} => {target.GetNameWithRole()}({resultFlags})");
+            var isProtectedByClient = resultFlags.HasFlag(MurderResultFlags.DecisionByHost) && target.IsProtected();
+            var isProtectedByHost = resultFlags.HasFlag(MurderResultFlags.FailedProtected);
+            var isFailed = resultFlags.HasFlag(MurderResultFlags.FailedError);
+            var isSucceeded = __state = !isProtectedByClient && !isProtectedByHost && !isFailed;
+            if (isProtectedByClient)
+            {
+                logger.Info("守護されているため，キルは失敗します");
+            }
+            if (isProtectedByHost)
+            {
+                logger.Info("守護されているため，キルはホストによってキャンセルされました");
+            }
+            if (isFailed)
+            {
+                logger.Info("キルはホストによってキャンセルされました");
+            }
 
             if (RandomSpawn.CustomNetworkTransformPatch.NumOfTP.TryGetValue(__instance.PlayerId, out var num) && num > 2) RandomSpawn.CustomNetworkTransformPatch.NumOfTP[__instance.PlayerId] = 3;
-            if (!isProtected)
+            if (isSucceeded)
             {
                 if (Main.CheckShapeshift.TryGetValue(target.PlayerId, out var shapeshifting) && shapeshifting)
                 {
@@ -140,8 +160,13 @@ namespace TownOfHost
                 Camouflage.RpcSetSkin(target, ForceRevert: true);
             }
         }
-        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target, bool __state)
         {
+            // キルが成功していない場合，何もしない
+            if (!__state)
+            {
+                return;
+            }
             if (target.AmOwner) RemoveDisableDevicesPatch.UpdateDisableDevices();
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
             //以降ホストしか処理しない
@@ -652,6 +677,26 @@ namespace TownOfHost
             {
                 // 死者の最終位置にペットが残るバグ対応
                 __instance.RpcSetPet("");
+            }
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MixUpOutfit))]
+    public static class PlayerControlMixupOutfitPatch
+    {
+        public static void Postfix(PlayerControl __instance)
+        {
+            if (!__instance.IsAlive())
+            {
+                return;
+            }
+            // 自分がDesyncインポスターで，バニラ判定ではインポスターの場合，バニラ処理で名前が非表示にならないため，相手の名前を非表示にする
+            if (
+                PlayerControl.LocalPlayer.Data.Role.IsImpostor &&  // バニラ判定でインポスター
+                !PlayerControl.LocalPlayer.Is(CustomRoleTypes.Impostor) &&  // Mod判定でインポスターではない
+                PlayerControl.LocalPlayer.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true)  // Desyncインポスター
+            {
+                // 名前を隠す
+                __instance.cosmetics.ToggleNameVisible(false);
             }
         }
     }

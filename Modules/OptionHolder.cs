@@ -61,6 +61,7 @@ namespace TownOfHost
         public static bool IsActiveMiraHQ => AddedMiraHQ.GetBool() || Main.NormalOptions.MapId == 1;
         public static bool IsActivePolus => AddedPolus.GetBool() || Main.NormalOptions.MapId == 2;
         public static bool IsActiveAirship => AddedTheAirShip.GetBool() || Main.NormalOptions.MapId == 4;
+        public static bool IsActiveFungle => AddedTheFungle.GetBool() || Main.NormalOptions.MapId == 5;
 
         // 役職数・確率
         public static Dictionary<CustomRoles, OptionItem> CustomRoleCounts;
@@ -121,6 +122,8 @@ namespace TownOfHost
         public static OptionItem DisableAirshipRecordsAdmin;
         public static OptionItem DisableAirshipCamera;
         public static OptionItem DisableAirshipVital;
+        public static OptionItem DisableFungleDevices;
+        public static OptionItem DisableFungleVital;
         public static OptionItem DisableDevicesIgnoreConditions;
         public static OptionItem DisableDevicesIgnoreImpostors;
         public static OptionItem DisableDevicesIgnoreMadmates;
@@ -134,6 +137,7 @@ namespace TownOfHost
         public static OptionItem AddedMiraHQ;
         public static OptionItem AddedPolus;
         public static OptionItem AddedTheAirShip;
+        public static OptionItem AddedTheFungle;
         // public static OptionItem AddedDleks;
 
         // ランダムスポーン
@@ -530,6 +534,10 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             DisableAirshipVital = BooleanOptionItem.Create(101244, "DisableAirshipVital", false, TabGroup.MainSettings, false).SetParent(DisableAirshipDevices)
                 .SetGameMode(CustomGameMode.Standard);
+            DisableFungleDevices = BooleanOptionItem.Create(101250, "DisableFungleDevices", false, TabGroup.MainSettings, false).SetParent(DisableDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableFungleVital = BooleanOptionItem.Create(101251, "DisableFungleVital", false, TabGroup.MainSettings, false).SetParent(DisableFungleDevices)
+                .SetGameMode(CustomGameMode.Standard);
             DisableDevicesIgnoreConditions = BooleanOptionItem.Create(101290, "IgnoreConditions", false, TabGroup.MainSettings, false).SetParent(DisableDevices)
                 .SetGameMode(CustomGameMode.Standard);
             DisableDevicesIgnoreImpostors = BooleanOptionItem.Create(101291, "IgnoreImpostors", false, TabGroup.MainSettings, false).SetParent(DisableDevicesIgnoreConditions)
@@ -557,6 +565,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             // MapDleks = CustomOption.Create(100405, Color.white, "AddedDleks", false, RandomMapMode)
             //     .SetGameMode(CustomGameMode.All);
+            AddedTheFungle = BooleanOptionItem.Create(100406, "AddedTheFungle", false, TabGroup.MainSettings, false).SetParent(RandomMapsMode);
 
             // ランダムスポーン
             EnableRandomSpawn = BooleanOptionItem.Create(101300, "RandomSpawn", false, TabGroup.MainSettings, false)

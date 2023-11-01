@@ -11,16 +11,21 @@ public static class HudOverrideSystemTypeUpdateSystemPatch
 {
     public static bool Prefix(HudOverrideSystemType __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] MessageReader msgReader)
     {
-        var newReader = MessageReader.Get(msgReader);
-        var amount = newReader.ReadByte();
+        byte amount;
+        {
+            var newReader = MessageReader.Get(msgReader);
+            amount = newReader.ReadByte();
+            newReader.Recycle();
+        }
+
         var playerRole = player.GetRoleClass();
         var isMadmate =
             player.Is(CustomRoleTypes.Madmate) ||
             // マッド属性化時に削除
             (playerRole is SchrodingerCat schrodingerCat && schrodingerCat.AmMadmate);
-        if (isMadmate && Options.MadmateCanFixComms.GetBool())
+        if ((amount & HudOverrideSystemType.DamageBit) <= 0 && isMadmate && !Options.MadmateCanFixComms.GetBool())
         {
-            return amount is not (0 or 16 or 17);
+            return false;
         }
 
         if (playerRole is ISystemTypeUpdateHook systemTypeUpdateHook && !systemTypeUpdateHook.UpdateHudOverrideSystem(__instance, amount))
@@ -32,5 +37,6 @@ public static class HudOverrideSystemTypeUpdateSystemPatch
     public static void Postfix()
     {
         Camouflage.CheckCamouflage();
+        Utils.NotifyRoles();
     }
 }

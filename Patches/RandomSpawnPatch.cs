@@ -89,23 +89,27 @@ namespace TownOfHost
 
                     NumOfTP[player.PlayerId]++;
 
-                    if (NumOfTP[player.PlayerId] == 1)
+                    // マップがエアシップ
+                    // ホスト目線のホスト自身はテレポート回数が違って見えるためSpawnInMinigameSpawnAtPatchで対応
+                    if (!player.AmOwner && NumOfTP[player.PlayerId] == 1 && Main.NormalOptions.MapId == 4)
                     {
-                        if (Main.NormalOptions.MapId != 4) return; //マップがエアシップじゃなかったらreturn
-                        if (player.Is(CustomRoles.Penguin))
-                        {
-                            var penguin = player.GetRoleClass() as Penguin;
-                            penguin?.OnSpawnAirship();
-                        }
-                        player.RpcResetAbilityCooldown();
-                        if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
-                        if (!IsRandomSpawn()) return; //ランダムスポーンが無効ならreturn
-                        new AirshipSpawnMap().RandomTeleport(player);
+                        AirshipSpawn(player);
                     }
                 }
             }
         }
-
+        public static void AirshipSpawn(PlayerControl player)
+        {
+            if (player.Is(CustomRoles.Penguin))
+            {
+                var penguin = player.GetRoleClass() as Penguin;
+                penguin?.OnSpawnAirship();
+            }
+            player.RpcResetAbilityCooldown();
+            if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
+            if (!Options.RandomSpawn.GetBool()) return; //ランダムスポーンが無効ならreturn
+            new AirshipSpawnMap().RandomTeleport(player);
+        }
         public static bool IsRandomSpawn()
         {
             if (!Options.EnableRandomSpawn.GetBool()) return false;
@@ -126,14 +130,9 @@ namespace TownOfHost
                     return false;
             }
         }
-
         public static void TP(CustomNetworkTransform nt, Vector2 location)
         {
-            if (AmongUsClient.Instance.AmHost) nt.SnapTo(location);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(nt.NetId, (byte)RpcCalls.SnapTo, SendOption.None);
-            NetHelpers.WriteVector2(location, writer);
-            writer.Write(nt.lastSequenceId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            nt.RpcSnapTo(location);
         }
 
         public static void SetupCustomOption()

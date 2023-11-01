@@ -156,7 +156,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
         if (InfectCount > 0)
         {
             InfectCount--;
-            killer.RpcGuardAndKill(target);
+            killer.RpcProtectedMurderPlayer(target);
             DirectInfect(target);
         }
         info.DoKill = false;
