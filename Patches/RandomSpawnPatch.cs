@@ -65,7 +65,7 @@ namespace TownOfHost
         Lookout,
         MiningPit,
         Highlands,//Fungleの高地
-        Cliff,//StringNamesにない文言 string.csvに追加
+        Precipice,//StringNamesにない文言 string.csvに追加
     }
     class RandomSpawn
     {
@@ -229,7 +229,7 @@ namespace TownOfHost
             Options.RandomSpawnFungleLookout = BooleanOptionItem.Create(101448, StringNames.Lookout, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnFungleMiningPit = BooleanOptionItem.Create(101449, StringNames.MiningPit, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
             Options.RandomSpawnFungleUpperEngine = BooleanOptionItem.Create(101450, StringNames.UpperEngine, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
-            Options.RandomSpawnFungleCliff = BooleanOptionItem.Create(101451, SpawnPoint.Cliff, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
+            Options.RandomSpawnFunglePrecipice = BooleanOptionItem.Create(101451, SpawnPoint.Precipice, false, TabGroup.MainSettings, false).SetParent(Options.RandomSpawnFungle).SetGameMode(CustomGameMode.All);
         }
 
         public abstract class SpawnMap
@@ -361,7 +361,7 @@ namespace TownOfHost
                 [Options.RandomSpawnFungleMiningPit] = new(12.5f, 9.6f),
                 [Options.RandomSpawnFungleHighlands] = new(15.5f, 3.9f),    //展望台右の高地
                 [Options.RandomSpawnFungleUpperEngine] = new(21.9f, 3.2f),
-                [Options.RandomSpawnFungleCliff] = new(19.8f, 7.3f),   //通信室下の崖
+                [Options.RandomSpawnFunglePrecipice] = new(19.8f, 7.3f),   //通信室下の崖
                 [Options.RandomSpawnFungleComms] = new(20.9f, 13.4f),
             };
         }

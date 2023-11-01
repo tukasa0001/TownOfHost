@@ -228,7 +228,7 @@ namespace TownOfHost
         public static OptionItem RandomSpawnFungleMiningPit;
         public static OptionItem RandomSpawnFungleHighlands;
         public static OptionItem RandomSpawnFungleUpperEngine;
-        public static OptionItem RandomSpawnFungleCliff;
+        public static OptionItem RandomSpawnFunglePrecipice;
         public static OptionItem RandomSpawnFungleComms;
 
         // 投票モード
