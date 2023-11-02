@@ -151,12 +151,29 @@ namespace TownOfHost
 
             if (isSucceeded)
             {
-                if (Main.CheckShapeshift.TryGetValue(target.PlayerId, out var shapeshifting) && shapeshifting)
+                if (target.shapeshifting)
                 {
-                    //シェイプシフト強制解除
-                    target.RpcShapeshift(target, false);
+                    //シェイプシフトアニメーション中
+                    //アニメーション時間を考慮して1s、加えてクライアントとのラグを考慮して+0.5s遅延する
+                    _ = new LateTask(
+                        () =>
+                        {
+                            if (GameStates.IsInTask)
+                            {
+                                target.RpcShapeshift(target, false);
+                            }
+                        },
+                        1.5f, "RevertShapeshift");
                 }
-                Camouflage.RpcSetSkin(target, ForceRevert: true);
+                else
+                {
+                    if (Main.CheckShapeshift.TryGetValue(target.PlayerId, out var shapeshifting) && shapeshifting)
+                    {
+                        //シェイプシフト強制解除
+                        target.RpcShapeshift(target, false);
+                    }
+                }
+                Camouflage.RpcSetSkin(target, ForceRevert: true, RevertToDefault: true);
             }
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target, bool __state)
