@@ -415,6 +415,7 @@ Basis : Impostor<br>
 
 The Mare can kill only in lights out, but next kill cooldown will be half.<br>
 While lights are out they can move faster, but everyone sees their name in red.<br>
+*Since lights out sabotage is unavailable, the Mare is not assigned in The Fungle.
 
 #### Game Options
 
