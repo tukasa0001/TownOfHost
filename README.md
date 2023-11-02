@@ -1389,7 +1389,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ![AirShip](Images/Airship_Random_Map_ja.png)
 
-### ファングル
+#### ファングル
 ![Fungle](Images/Fungle_Random_Map_ja.png)
 
 ### RandomMapsMode/ランダムマップモード
