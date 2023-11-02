@@ -1390,28 +1390,34 @@ Randomize the spawn position.<br>
 
 #### Game Options
 
-| Name                        |
-| --------------------------- |
-| Random Spawn                |
-| ┗ Additional Spawn(Airship) |
+| Name         |
+| ------------ |
+| Random Spawn |
+| ┣ Skeld      |
+| ┣ Mira       |
+| ┣ Polus      |
+| ┣ Airship    |
+| ┗ Fungle     |
 
 #### The Skeld
 
-![Skeld](Images/The_Skeld_Random_Map.png)
+![Skeld](Images/Skeld_Random_Map_en.png)
 
 #### MiraHQ
 
-![MiraHQ](Images/Mira_HQ_Random_Map.png)
+![MiraHQ](Images/Mirahq_Random_Map_en.png)
 
 #### Polus
 
-![Polus](Images/Polus_Random_Map.png)
+![Polus](Images/Polus_Random_Map_en.png)
 
-#### The AirShip
+#### The Airship
 
-![AirShip](Images/The_Airship_Random_Map.png)
+![Airship](Images/Airship_Random_Map_en.png)
 
-If `Additional Spawn(Airship)` is OFF, the spawn will be selected only from the original spawn position.
+#### The Fungle
+
+![Fungle](Images/Fungle_Random_Map_en.png)
 
 ### RandomMapsMode
 
