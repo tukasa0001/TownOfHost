@@ -73,7 +73,7 @@ namespace TownOfHost
             {
                 pc.ResetKillCooldown();
             }
-            if (Options.RandomSpawn.GetBool())
+            if (RandomSpawn.IsRandomSpawn())
             {
                 RandomSpawn.SpawnMap map;
                 switch (Main.NormalOptions.MapId)
@@ -88,6 +88,10 @@ namespace TownOfHost
                         break;
                     case 2:
                         map = new RandomSpawn.PolusSpawnMap();
+                        Main.AllPlayerControls.Do(map.RandomTeleport);
+                        break;
+                    case 5:
+                        map = new RandomSpawn.FungleSpawnMap();
                         Main.AllPlayerControls.Do(map.RandomTeleport);
                         break;
                 }
