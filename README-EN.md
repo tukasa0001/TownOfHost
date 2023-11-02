@@ -1436,7 +1436,8 @@ The RandomMapsMode changes the maps at random.<br>
 | ┣ Include The Skeld   |
 | ┣ Include MIRA HQ     |
 | ┣ Include Polus       |
-| ┗ Include The Airship |
+| ┣ Include The Airship |
+| ┗ Include The Fungle  |
 
 ### SyncButtonMode
 
