@@ -118,7 +118,7 @@ public sealed class SchrodingerCat : RoleBase, IAdditionalWinner, IDeathReasonSe
     /// </summary>
     private void ChangeTeamOnKill(PlayerControl killer)
     {
-        killer.RpcGuardAndKill(Player);
+        killer.RpcProtectedMurderPlayer(Player);
         if (killer.GetRoleClass() is ISchrodingerCatOwner catOwner)
         {
             catOwner.OnSchrodingerCatKill(this);

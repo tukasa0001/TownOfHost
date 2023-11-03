@@ -234,15 +234,12 @@ public abstract class RoleBase : IDisposable
     public virtual bool OnInvokeSabotage(SystemTypes systemType) => true;
 
     /// <summary>
-    /// 誰かがサボタージュが発生させたときに呼ばれる
-    /// amount&0x80!=0がサボタージュ開始タイミング
-    /// その他の値は修理情報など
+    /// 誰かがサボタージュを発生させたときに呼ばれる
     /// </summary>
     /// <param name="player">アクションを起こしたプレイヤー</param>
     /// <param name="systemType">サボタージュの種類</param>
-    /// <param name="amount">現在の状態など</param>
-    /// <returns>falseで修理活動等のキャンセル</returns>
-    public virtual bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount) => true;
+    /// <returns>falseでサボタージュのキャンセル</returns>
+    public virtual bool OnSabotage(PlayerControl player, SystemTypes systemType) => true;
 
     // NameSystem
     // 名前は下記の構成で表示される

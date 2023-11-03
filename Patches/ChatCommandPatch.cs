@@ -131,7 +131,6 @@ namespace TownOfHost
                                 cancelVal = "/dis";
                                 break;
                         }
-                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.Admin, 0);
                         break;
 
                     case "/h":
@@ -473,7 +472,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmClient && DestroyableSingleton<HudManager>.Instance)
                 DestroyableSingleton<HudManager>.Instance.Chat.AddChat(__instance, chatText);
             if (chatText.Contains("who", StringComparison.OrdinalIgnoreCase))
-                DestroyableSingleton<Telemetry>.Instance.SendWho();
+                DestroyableSingleton<UnityTelemetry>.Instance.SendWho();
             MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(__instance.NetId, (byte)RpcCalls.SendChat, SendOption.None);
             messageWriter.Write(chatText);
             messageWriter.EndMessage();

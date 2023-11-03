@@ -26,7 +26,8 @@ namespace TownOfHost
             ["AirshipCockpitAdmin"] = new(-22.32f, 0.91f),
             ["AirshipRecordsAdmin"] = new(19.89f, 12.60f),
             ["AirshipCamera"] = new(8.10f, -9.63f),
-            ["AirshipVital"] = new(25.24f, -7.94f)
+            ["AirshipVital"] = new(25.24f, -7.94f),
+            ["FungleVital"] = new(-2.765f, -9.819f)
         };
         public static float UsableDistance()
         {
@@ -38,6 +39,7 @@ namespace TownOfHost
                 MapNames.Polus => 1.8f,
                 //MapNames.Dleks => 1.5f,
                 MapNames.Airship => 1.8f,
+                MapNames.Fungle => 1.8f,
                 _ => 0.0f
             };
         }
@@ -98,6 +100,12 @@ namespace TownOfHost
                                 if (Options.DisableAirshipVital.GetBool())
                                     doComms |= Vector2.Distance(PlayerPos, DevicePos["AirshipVital"]) <= UsableDistance();
                                 break;
+                            case 5:
+                                if (Options.DisableFungleVital.GetBool())
+                                {
+                                    doComms |= Vector2.Distance(PlayerPos, DevicePos["FungleVital"]) <= UsableDistance();
+                                }
+                                break;
                         }
                     }
                     doComms &= !ignore;
@@ -106,15 +114,15 @@ namespace TownOfHost
                         if (!DesyncComms.Contains(pc.PlayerId))
                             DesyncComms.Add(pc.PlayerId);
 
-                        pc.RpcDesyncRepairSystem(SystemTypes.Comms, 128);
+                        pc.RpcDesyncUpdateSystem(SystemTypes.Comms, 128);
                     }
                     else if (!Utils.IsActive(SystemTypes.Comms) && DesyncComms.Contains(pc.PlayerId))
                     {
                         DesyncComms.Remove(pc.PlayerId);
-                        pc.RpcDesyncRepairSystem(SystemTypes.Comms, 16);
+                        pc.RpcDesyncUpdateSystem(SystemTypes.Comms, 16);
 
-                        if (Main.NormalOptions.MapId == 1)
-                            pc.RpcDesyncRepairSystem(SystemTypes.Comms, 17);
+                        if (Main.NormalOptions.MapId is 1 or 5)
+                            pc.RpcDesyncUpdateSystem(SystemTypes.Comms, 17);
                     }
                 }
                 catch (Exception ex)
@@ -179,6 +187,12 @@ namespace TownOfHost
                         consoles.DoIf(x => x.name == "task_cams", x => x.gameObject.GetComponent<BoxCollider2D>().enabled = ignore);
                     if (Options.DisableAirshipVital.GetBool())
                         consoles.DoIf(x => x.name == "panel_vitals", x => x.gameObject.GetComponent<CircleCollider2D>().enabled = ignore);
+                    break;
+                case 5:
+                    if (Options.DisableFungleVital.GetBool())
+                    {
+                        consoles.DoIf(x => x.name == "VitalsConsole", x => x.GetComponent<Collider2D>().enabled = ignore);
+                    }
                     break;
             }
         }

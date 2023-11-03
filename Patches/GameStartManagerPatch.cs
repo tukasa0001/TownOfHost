@@ -226,12 +226,14 @@ namespace TownOfHost
                     MIRAHQ     = 1
                     Polus      = 2
                     Dleks      = 3
-                    TheAirShip = 4*/
+                    TheAirShip = 4
+                    TheFungle  = 5*/
                     if (Options.AddedTheSkeld.GetBool()) randomMaps.Add(0);
                     if (Options.AddedMiraHQ.GetBool()) randomMaps.Add(1);
                     if (Options.AddedPolus.GetBool()) randomMaps.Add(2);
                     // if (Options.AddedDleks.GetBool()) RandomMaps.Add(3);
                     if (Options.AddedTheAirShip.GetBool()) randomMaps.Add(4);
+                    if (Options.AddedTheFungle.GetBool()) randomMaps.Add(5);
 
                     if (randomMaps.Count <= 0) return;
                     var mapsId = randomMaps[rand.Next(randomMaps.Count)];
