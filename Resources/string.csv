@@ -526,6 +526,7 @@
 "SabotageTimeControl","Sabotage Duration Control","サボタージュの時間制御","更改修理时限","重新設定緊急任務時間","Изменить время саботажа","Controle da Duração de Sabotagem",""
 "PolusReactorTimeLimit","Polus Reactor Duration","ポーラスのリアクター制限時間","波鲁斯抗震稳定器修理时限","Polus地震抑制器破壞最大時間","Polus время саботажа Реактора","Duração do Reator em Polus",""
 "AirshipReactorTimeLimit","Airship Reactor Duration","エアシップのリアクター制限時間","飞艇坠毁路线修理时限","Airship間隙室破壞最大時間","Airship время саботажа Реактора","Duração do Reator em Airship",""
+"FungleMushroomMixupDuration","Fungle Mushroom Mixup Duration","ファングルのキノコカオス効果時間","","","","",""
 
 "## サボタージュのクールダウン変更"
 "ModifySabotageCooldown","Sabotage Cooldown Control","サボタージュのクールダウン制御","","","Контролировать откат саботажа","Controle do Tepo de Recarga da Sabotagem",""
