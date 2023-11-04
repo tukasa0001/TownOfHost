@@ -70,7 +70,7 @@ namespace TownOfHost
                 if (!AmongUsClient.Instance.AmHost) return;
 
                 // Make Public Button
-                if (ModUpdater.isBroken || ModUpdater.hasUpdate || !Main.AllowPublicRoom || !VersionChecker.IsSupported)
+                if (ModUpdater.isBroken || ModUpdater.hasUpdate || !Main.AllowPublicRoom || !VersionChecker.IsSupported || !Main.IsPublicAvailableOnThisVersion)
                 {
                     __instance.MakePublicButton.color = Palette.DisabledClear;
                     __instance.privatePublicText.color = Palette.DisabledClear;

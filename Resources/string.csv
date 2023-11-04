@@ -640,6 +640,7 @@
 "ModBrokenMessage","The MOD file is damaged.\nPlease reinstall.","MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。","模组文件损坏。\n请重新安装本模组。","模組檔案損壞\n請重新安裝模組","Мод был поврежден.\nПожалуйста переустановите его снова.","Os arquivos do MOD estão danificados.\nPor favor reinstale.",""
 "UnsupportedVersion","Unsupported AmongUs version.\nPlease update.","サポートされていないAmongUsバージョンです。\nゲームをアップデートしてください。","","","Неподдерживаемая версия AmongUs.\nПожалуйста, обновите игру","Versão não suportada do Among Us. \nPor favor, atualize.",""
 "DisabledByProgram","Public rooms have been disabled by the program","公開ルームはプログラムによって無効化されています","公开房间的操作已被程序禁用","公開房間的操作已經被程式禁用","Создание публичного лобби отключена программой","Salas públicas foram desativadas pelo programa",""
+"PublicNotAvailableOnThisVersion","Public lobbies are not available on this version.\nPlease visit our Discord 'modアナウンス' channel for details.","このバージョンでは公開ルームは使用できません。\n詳しくはDiscordの「modアナウンス」チャンネルを参照してください。","","","","",""
 "EnterVentToWin","Enter Vent to Win!!","ベントに入って勝利しろ!!","跳管道来获得胜利！","跳管道來獲得勝利!!","Запрыгните в вентиляцию чтобы победить!!","Entre no Duto Para Ganhar!!!",""
 "FireworksPutPhase","{0} Fireworks Left","あと{0}個置け","还要安放{0}枚烟花","還需要安裝{0}枚煙火","Осталось {0} Фейерверков","Restam {0} Fogos de Artifício",""
 "FireworksWaitPhase","Wait for it...","時を待て...","耐心等待....","等待時機...","Подожди время...","Espere o momento certo...",""
