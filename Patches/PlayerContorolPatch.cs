@@ -190,6 +190,71 @@ namespace TownOfHost
             CustomRoleManager.OnMurderPlayer(__instance, target);
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckShapeshift))]
+    public static class PlayerControlCheckShapeshiftPatch
+    {
+        private static readonly LogHandler logger = Logger.Handler(nameof(PlayerControl.CheckShapeshift));
+
+        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target, [HarmonyArgument(1)] bool shouldAnimate)
+        {
+            if (AmongUsClient.Instance.IsGameOver || !AmongUsClient.Instance.AmHost)
+            {
+                return false;
+            }
+
+            // 無効な変身を弾く．これより前に役職等の処理をしてはいけない
+            if (!CheckInvalidShapeshifting(__instance, target, shouldAnimate))
+            {
+                __instance.RpcRejectShapeshift();
+                return false;
+            }
+            // 役職の処理
+            if (__instance.GetRoleClass()?.OnCheckShapeshift(target, shouldAnimate) == false)
+            {
+                __instance.RpcRejectShapeshift();
+                return false;
+            }
+
+            __instance.RpcShapeshift(target, shouldAnimate);
+            return false;
+        }
+        private static bool CheckInvalidShapeshifting(PlayerControl instance, PlayerControl target, bool animate)
+        {
+            logger.Info($"Checking shapeshift {instance.GetNameWithRole()} -> {(target == null || target.Data == null ? "(null)" : target.GetNameWithRole())}");
+
+            if (!target || target.Data == null)
+            {
+                logger.Info("targetがnullのため変身をキャンセルします");
+                return false;
+            }
+            if (!instance.IsAlive())
+            {
+                logger.Info("変身者が死亡しているため変身をキャンセルします");
+                return false;
+            }
+            if (instance.Data.Role.Role != RoleTypes.Shapeshifter)
+            {
+                logger.Info("変身者がシェイプシフターではないため変身をキャンセルします");
+                return false;
+            }
+            if (instance.Data.Disconnected)
+            {
+                logger.Info("変身者が切断済のため変身をキャンセルします");
+                return false;
+            }
+            if (target.IsMushroomMixupActive() && animate)
+            {
+                logger.Info("キノコカオス中のため変身をキャンセルします");
+                return false;
+            }
+            if (MeetingHud.Instance && animate)
+            {
+                logger.Info("会議中のため変身をキャンセルします");
+                return false;
+            }
+            return true;
+        }
+    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
     class ShapeshiftPatch
     {
