@@ -502,7 +502,7 @@ namespace TownOfHost
                 foreach (var role in CustomRolesHelper.AllRoles)
                 {
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
-                    if (role.IsEnable() && !role.IsVanilla())
+                    if (role.IsEnable())
                     {
                         if (role.GetRoleInfo()?.Description is { } description)
                         {
