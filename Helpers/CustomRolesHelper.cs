@@ -7,9 +7,13 @@ namespace TownOfHost
 {
     static class CustomRolesHelper
     {
+        /// <summary>すべての役職(属性は含まない)</summary>
         public static readonly CustomRoles[] AllRoles = EnumHelper.GetAllValues<CustomRoles>().Where(role => role < CustomRoles.NotAssigned).ToArray();
+        /// <summary>すべての属性</summary>
         public static readonly CustomRoles[] AllAddOns = EnumHelper.GetAllValues<CustomRoles>().Where(role => role > CustomRoles.NotAssigned).ToArray();
+        /// <summary>スタンダードモードで出現できるすべての役職</summary>
         public static readonly CustomRoles[] AllStandardRoles = AllRoles.Where(role => role is not (CustomRoles.HASFox or CustomRoles.HASTroll)).ToArray();
+        /// <summary>HASモードで出現できるすべての役職</summary>
         public static readonly CustomRoles[] AllHASRoles = { CustomRoles.HASFox, CustomRoles.HASTroll };
         public static readonly CustomRoleTypes[] AllRoleTypes = EnumHelper.GetAllValues<CustomRoleTypes>();
 
