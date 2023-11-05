@@ -307,20 +307,17 @@ namespace TownOfHost.Roles
             }
             return candidateRoleList;
         }
+        private static RoleAssignInfo GetRoleAssignInfo(this CustomRoles role) =>
+            CustomRoleManager.GetRoleInfo(role)?.AssignInfo;
         private static bool IsAssignable(this CustomRoles role)
-            => role switch
-            {
-                CustomRoles.Crewmate => false,
-                CustomRoles.Egoist => Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1,
-                _ => true,
-            };
+            => role.GetRoleAssignInfo()?.IsInitiallyAssignable ?? true;
         /// <summary>
         /// アサインの抽選回数
         /// </summary>
         private static int GetAssignCount(this CustomRoles role)
         {
             int maximumCount = role.GetCount();
-            int assignUnitCount = CustomRoleManager.GetRoleInfo(role)?.AssignUnitCount ??
+            int assignUnitCount = role.GetRoleAssignInfo()?.AssignUnitCount ??
                 role switch
                 {
                     CustomRoles.Lovers => 2,
@@ -333,7 +330,7 @@ namespace TownOfHost.Roles
         ///両陣営役職、コンビ役職向け
         ///</summary>
         private static CustomRoles[] GetAssignUnitRolesArray(this CustomRoles role)
-            => CustomRoleManager.GetRoleInfo(role)?.AssignUnitRoles ??
+            => role.GetRoleAssignInfo()?.AssignUnitRoles ??
             role switch
             {
                 CustomRoles.Lovers => new CustomRoles[2] { CustomRoles.Lovers, CustomRoles.Lovers },
@@ -341,5 +338,34 @@ namespace TownOfHost.Roles
             };
         public static bool IsPresent(this CustomRoles role) => AssignRoleList.Any(x => x == role);
         public static int GetRealCount(this CustomRoles role) => AssignRoleList.Count(x => x == role);
+    }
+    public class RoleAssignInfo
+    {
+        public RoleAssignInfo(CustomRoles role, CustomRoleTypes roleType)
+        {
+            IsInitiallyAssignableCallBack = () => true;
+            AssignCountRule =
+                roleType == CustomRoleTypes.Impostor ? new(1, 3, 1) : new(1, 15, 1);
+            AssignUnitRoles =
+                Enumerable.Repeat(role, AssignCountRule.Step).ToArray();
+        }
+        /// <summary>
+        /// 試合開始時にアサインされるかどうかのデリゲート
+        /// </summary>
+        public Func<bool> IsInitiallyAssignableCallBack { get; init; }
+        public bool IsInitiallyAssignable => IsInitiallyAssignableCallBack.Invoke();
+        /// <summary>
+        /// 人数設定の最小人数, 最大人数, 一単位数
+        /// </summary>
+        public IntegerValueRule AssignCountRule { get; init; }
+        /// <summary>
+        /// 人数設定に対し何人単位でアサインするか
+        /// 役職の抽選回数 = 設定人数 / AssignUnitCount
+        /// </summary>
+        public int AssignUnitCount => AssignCountRule.Step;
+        /// <summary>
+        /// 実際にアサインされる役職の内訳
+        /// </summary>
+        public CustomRoles[] AssignUnitRoles { get; init; }
     }
 }

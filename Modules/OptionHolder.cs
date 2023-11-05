@@ -61,6 +61,7 @@ namespace TownOfHost
         public static bool IsActiveMiraHQ => AddedMiraHQ.GetBool() || Main.NormalOptions.MapId == 1;
         public static bool IsActivePolus => AddedPolus.GetBool() || Main.NormalOptions.MapId == 2;
         public static bool IsActiveAirship => AddedTheAirShip.GetBool() || Main.NormalOptions.MapId == 4;
+        public static bool IsActiveFungle => AddedTheFungle.GetBool() || Main.NormalOptions.MapId == 5;
 
         // 役職数・確率
         public static Dictionary<CustomRoles, OptionItem> CustomRoleCounts;
@@ -121,6 +122,8 @@ namespace TownOfHost
         public static OptionItem DisableAirshipRecordsAdmin;
         public static OptionItem DisableAirshipCamera;
         public static OptionItem DisableAirshipVital;
+        public static OptionItem DisableFungleDevices;
+        public static OptionItem DisableFungleVital;
         public static OptionItem DisableDevicesIgnoreConditions;
         public static OptionItem DisableDevicesIgnoreImpostors;
         public static OptionItem DisableDevicesIgnoreMadmates;
@@ -134,11 +137,103 @@ namespace TownOfHost
         public static OptionItem AddedMiraHQ;
         public static OptionItem AddedPolus;
         public static OptionItem AddedTheAirShip;
+        public static OptionItem AddedTheFungle;
         // public static OptionItem AddedDleks;
 
         // ランダムスポーン
-        public static OptionItem RandomSpawn;
-        public static OptionItem AirshipAdditionalSpawn;
+        public static OptionItem EnableRandomSpawn;
+        //Skeld
+        public static OptionItem RandomSpawnSkeld;
+        public static OptionItem RandomSpawnSkeldCafeteria;
+        public static OptionItem RandomSpawnSkeldWeapons;
+        public static OptionItem RandomSpawnSkeldLifeSupp;
+        public static OptionItem RandomSpawnSkeldNav;
+        public static OptionItem RandomSpawnSkeldShields;
+        public static OptionItem RandomSpawnSkeldComms;
+        public static OptionItem RandomSpawnSkeldStorage;
+        public static OptionItem RandomSpawnSkeldAdmin;
+        public static OptionItem RandomSpawnSkeldElectrical;
+        public static OptionItem RandomSpawnSkeldLowerEngine;
+        public static OptionItem RandomSpawnSkeldUpperEngine;
+        public static OptionItem RandomSpawnSkeldSecurity;
+        public static OptionItem RandomSpawnSkeldReactor;
+        public static OptionItem RandomSpawnSkeldMedBay;
+        //Mira
+        public static OptionItem RandomSpawnMira;
+        public static OptionItem RandomSpawnMiraCafeteria;
+        public static OptionItem RandomSpawnMiraBalcony;
+        public static OptionItem RandomSpawnMiraStorage;
+        public static OptionItem RandomSpawnMiraJunction;
+        public static OptionItem RandomSpawnMiraComms;
+        public static OptionItem RandomSpawnMiraMedBay;
+        public static OptionItem RandomSpawnMiraLockerRoom;
+        public static OptionItem RandomSpawnMiraDecontamination;
+        public static OptionItem RandomSpawnMiraLaboratory;
+        public static OptionItem RandomSpawnMiraReactor;
+        public static OptionItem RandomSpawnMiraLaunchpad;
+        public static OptionItem RandomSpawnMiraAdmin;
+        public static OptionItem RandomSpawnMiraOffice;
+        public static OptionItem RandomSpawnMiraGreenhouse;
+        //Polus
+        public static OptionItem RandomSpawnPolus;
+        public static OptionItem RandomSpawnPolusOfficeLeft;
+        public static OptionItem RandomSpawnPolusOfficeRight;
+        public static OptionItem RandomSpawnPolusAdmin;
+        public static OptionItem RandomSpawnPolusComms;
+        public static OptionItem RandomSpawnPolusWeapons;
+        public static OptionItem RandomSpawnPolusBoilerRoom;
+        public static OptionItem RandomSpawnPolusLifeSupp;
+        public static OptionItem RandomSpawnPolusElectrical;
+        public static OptionItem RandomSpawnPolusSecurity;
+        public static OptionItem RandomSpawnPolusDropship;
+        public static OptionItem RandomSpawnPolusStorage;
+        public static OptionItem RandomSpawnPolusRocket;
+        public static OptionItem RandomSpawnPolusLaboratory;
+        public static OptionItem RandomSpawnPolusToilet;
+        public static OptionItem RandomSpawnPolusSpecimens;
+        //AIrShip
+        public static OptionItem RandomSpawnAirship;
+        public static OptionItem RandomSpawnAirshipBrig;
+        public static OptionItem RandomSpawnAirshipEngine;
+        public static OptionItem RandomSpawnAirshipKitchen;
+        public static OptionItem RandomSpawnAirshipCargoBay;
+        public static OptionItem RandomSpawnAirshipRecords;
+        public static OptionItem RandomSpawnAirshipMainHall;
+        public static OptionItem RandomSpawnAirshipNapRoom;
+        public static OptionItem RandomSpawnAirshipMeetingRoom;
+        public static OptionItem RandomSpawnAirshipGapRoom;
+        public static OptionItem RandomSpawnAirshipVaultRoom;
+        public static OptionItem RandomSpawnAirshipComms;
+        public static OptionItem RandomSpawnAirshipCockpit;
+        public static OptionItem RandomSpawnAirshipArmory;
+        public static OptionItem RandomSpawnAirshipViewingDeck;
+        public static OptionItem RandomSpawnAirshipSecurity;
+        public static OptionItem RandomSpawnAirshipElectrical;
+        public static OptionItem RandomSpawnAirshipMedical;
+        public static OptionItem RandomSpawnAirshipToilet;
+        public static OptionItem RandomSpawnAirshipShowers;
+        //Fungle
+        public static OptionItem RandomSpawnFungle;
+        public static OptionItem RandomSpawnFungleKitchen;
+        public static OptionItem RandomSpawnFungleBeach;
+        public static OptionItem RandomSpawnFungleCafeteria;
+        public static OptionItem RandomSpawnFungleRecRoom;
+        public static OptionItem RandomSpawnFungleBonfire;
+        public static OptionItem RandomSpawnFungleDropship;
+        public static OptionItem RandomSpawnFungleStorage;
+        public static OptionItem RandomSpawnFungleMeetingRoom;
+        public static OptionItem RandomSpawnFungleSleepingQuarters;
+        public static OptionItem RandomSpawnFungleLaboratory;
+        public static OptionItem RandomSpawnFungleGreenhouse;
+        public static OptionItem RandomSpawnFungleReactor;
+        public static OptionItem RandomSpawnFungleJungleTop;
+        public static OptionItem RandomSpawnFungleJungleBottom;
+        public static OptionItem RandomSpawnFungleLookout;
+        public static OptionItem RandomSpawnFungleMiningPit;
+        public static OptionItem RandomSpawnFungleHighlands;
+        public static OptionItem RandomSpawnFungleUpperEngine;
+        public static OptionItem RandomSpawnFunglePrecipice;
+        public static OptionItem RandomSpawnFungleComms;
 
         // 投票モード
         public static OptionItem VoteMode;
@@ -439,6 +534,10 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             DisableAirshipVital = BooleanOptionItem.Create(101244, "DisableAirshipVital", false, TabGroup.MainSettings, false).SetParent(DisableAirshipDevices)
                 .SetGameMode(CustomGameMode.Standard);
+            DisableFungleDevices = BooleanOptionItem.Create(101250, "DisableFungleDevices", false, TabGroup.MainSettings, false).SetParent(DisableDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableFungleVital = BooleanOptionItem.Create(101251, "DisableFungleVital", false, TabGroup.MainSettings, false).SetParent(DisableFungleDevices)
+                .SetGameMode(CustomGameMode.Standard);
             DisableDevicesIgnoreConditions = BooleanOptionItem.Create(101290, "IgnoreConditions", false, TabGroup.MainSettings, false).SetParent(DisableDevices)
                 .SetGameMode(CustomGameMode.Standard);
             DisableDevicesIgnoreImpostors = BooleanOptionItem.Create(101291, "IgnoreImpostors", false, TabGroup.MainSettings, false).SetParent(DisableDevicesIgnoreConditions)
@@ -466,18 +565,18 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             // MapDleks = CustomOption.Create(100405, Color.white, "AddedDleks", false, RandomMapMode)
             //     .SetGameMode(CustomGameMode.All);
+            AddedTheFungle = BooleanOptionItem.Create(100406, "AddedTheFungle", false, TabGroup.MainSettings, false).SetParent(RandomMapsMode);
 
             // ランダムスポーン
-            RandomSpawn = BooleanOptionItem.Create(101300, "RandomSpawn", false, TabGroup.MainSettings, false)
+            EnableRandomSpawn = BooleanOptionItem.Create(101300, "RandomSpawn", false, TabGroup.MainSettings, false)
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
-            AirshipAdditionalSpawn = BooleanOptionItem.Create(101301, "AirshipAdditionalSpawn", false, TabGroup.MainSettings, false).SetParent(RandomSpawn)
-                .SetGameMode(CustomGameMode.All);
+            RandomSpawn.SetupCustomOption();
 
             // ボタン回数同期
             SyncButtonMode = BooleanOptionItem.Create(100200, "SyncButtonMode", false, TabGroup.MainSettings, false)
-                .SetHeader(true)
-                .SetGameMode(CustomGameMode.Standard);
+                    .SetHeader(true)
+                    .SetGameMode(CustomGameMode.Standard);
             SyncedButtonCount = IntegerOptionItem.Create(100201, "SyncedButtonCount", new(0, 100, 1), 10, TabGroup.MainSettings, false).SetParent(SyncButtonMode)
                 .SetValueFormat(OptionFormat.Times)
                 .SetGameMode(CustomGameMode.Standard);
@@ -581,7 +680,7 @@ namespace TownOfHost
         }
 
         public static void SetupRoleOptions(SimpleRoleInfo info) =>
-            SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName, info.AssignCountRule);
+            SetupRoleOptions(info.ConfigId, info.Tab, info.RoleName, info.AssignInfo.AssignCountRule);
         public static void SetupRoleOptions(int id, TabGroup tab, CustomRoles role, IntegerValueRule assignCountRule = null, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             if (role.IsVanilla()) return;

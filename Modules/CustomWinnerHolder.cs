@@ -12,9 +12,9 @@ namespace TownOfHost
         // リザルトの背景色の決定などに使用されます。
         // 注: この変数を変更する時、WinnerRoles・WinnerIdsを同時に変更しないと予期せぬ勝者が現れる可能性があります。
         public static CustomWinner WinnerTeam;
-        // 追加勝利するプレイヤーのチームが格納されます。
+        // 追加勝利するプレイヤーの役職が格納されます。
         // リザルトの表示に使用されます。
-        public static HashSet<AdditionalWinners> AdditionalWinnerTeams;
+        public static HashSet<CustomRoles> AdditionalWinnerRoles;
         // 勝者の役職が格納され、この変数に格納されている役職のプレイヤーは全員勝利となります。
         // チームとなるニュートラルの処理に最適です。
         public static HashSet<CustomRoles> WinnerRoles;
@@ -26,7 +26,7 @@ namespace TownOfHost
         public static void Reset()
         {
             WinnerTeam = CustomWinner.Default;
-            AdditionalWinnerTeams = new();
+            AdditionalWinnerRoles = new();
             WinnerRoles = new();
             WinnerIds = new();
         }
@@ -35,17 +35,17 @@ namespace TownOfHost
             WinnerRoles.Clear();
             WinnerIds.Clear();
         }
-        /// <summary><para>WinnerTeamに値を代入します。</para><para>すでに代入されている場合、AdditionalWinnerTeamsに追加します。</para></summary>
+        /// <summary><para>WinnerTeamに値を代入します。</para><para>すでに代入されている場合、AdditionalWinnerRolesに追加します。</para></summary>
         public static void SetWinnerOrAdditonalWinner(CustomWinner winner)
         {
             if (WinnerTeam == CustomWinner.Default) WinnerTeam = winner;
-            else AdditionalWinnerTeams.Add((AdditionalWinners)winner);
+            else AdditionalWinnerRoles.Add((CustomRoles)winner);
         }
-        /// <summary><para>WinnerTeamに値を代入します。</para><para>すでに代入されている場合、既存の値をAdditionalWinnerTeamsに追加してから代入します。</para></summary>
+        /// <summary><para>WinnerTeamに値を代入します。</para><para>すでに代入されている場合、既存の値をAdditionalWinnerRolesに追加してから代入します。</para></summary>
         public static void ShiftWinnerAndSetWinner(CustomWinner winner)
         {
             if (WinnerTeam != CustomWinner.Default)
-                AdditionalWinnerTeams.Add((AdditionalWinners)WinnerTeam);
+                AdditionalWinnerRoles.Add((CustomRoles)WinnerTeam);
             WinnerTeam = winner;
         }
         /// <summary><para>既存の値をすべて削除してから、WinnerTeamに値を代入します。</para></summary>
@@ -59,9 +59,9 @@ namespace TownOfHost
         {
             writer.Write((int)WinnerTeam);
 
-            writer.Write(AdditionalWinnerTeams.Count);
-            foreach (var wt in AdditionalWinnerTeams)
-                writer.Write((int)wt);
+            writer.Write(AdditionalWinnerRoles.Count);
+            foreach (var wr in AdditionalWinnerRoles)
+                writer.Write((int)wr);
 
             writer.Write(WinnerRoles.Count);
             foreach (var wr in WinnerRoles)
@@ -77,10 +77,10 @@ namespace TownOfHost
         {
             WinnerTeam = (CustomWinner)reader.ReadInt32();
 
-            AdditionalWinnerTeams = new();
-            int AdditionalWinnerTeamsCount = reader.ReadInt32();
-            for (int i = 0; i < AdditionalWinnerTeamsCount; i++)
-                AdditionalWinnerTeams.Add((AdditionalWinners)reader.ReadInt32());
+            AdditionalWinnerRoles = new();
+            int AdditionalWinnerRolesCount = reader.ReadInt32();
+            for (int i = 0; i < AdditionalWinnerRolesCount; i++)
+                AdditionalWinnerRoles.Add((CustomRoles)reader.ReadInt32());
 
             WinnerRoles = new();
             int WinnerRolesCount = reader.ReadInt32();

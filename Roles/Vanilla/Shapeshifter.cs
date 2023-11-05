@@ -20,6 +20,4 @@ public sealed class Shapeshifter : RoleBase, IImpostor, IKiller, ISidekickable
         player
     )
     { }
-
-    public override string GetAbilityButtonText() => StringNames.ShapeshiftAbility.ToString();
 }

@@ -153,9 +153,8 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
         }
         CustomWinnerHolder.WinnerIds.Add(Player.PlayerId);
     }
-    public bool CheckWin(out AdditionalWinners winnerType)
+    public bool CheckWin(ref CustomRoles winnerRole)
     {
-        winnerType = AdditionalWinners.Executioner;
         return TargetExiled && CustomWinnerHolder.WinnerTeam != CustomWinner.Default;
     }
     public void ChangeRole()

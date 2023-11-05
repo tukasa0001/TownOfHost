@@ -19,6 +19,4 @@ public sealed class Engineer : RoleBase
         player
     )
     { }
-
-    public override string GetAbilityButtonText() => StringNames.VentAbility.ToString();
 }

@@ -50,9 +50,11 @@ namespace TownOfHost
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "5.1.1";
+        public const string PluginVersion = "5.1.2";
         // サポートされている最低のAmongUsバージョン
-        public static readonly string LowestSupportedVersion = "2023.7.11";
+        public static readonly string LowestSupportedVersion = "2023.10.24";
+        // このバージョンのみで公開ルームを無効にする場合
+        public static readonly bool IsPublicAvailableOnThisVersion = false;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -68,6 +70,7 @@ namespace TownOfHost
         public static ConfigEntry<bool> ForceJapanese { get; private set; }
         public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
         public static ConfigEntry<int> MessageWait { get; private set; }
+        public static ConfigEntry<bool> ShowResults { get; private set; }
 
         public static Dictionary<byte, PlayerVersion> playerVersion = new();
         //Preset Name Options
@@ -87,7 +90,6 @@ namespace TownOfHost
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, CustomDeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, string> roleColors;
-        public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
         public static List<int> clientIdList;
         public static List<(string, byte, string)> MessagesToSend;
@@ -129,6 +131,7 @@ namespace TownOfHost
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
             DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
+            ShowResults = Config.Bind("Result", "Show Results", true);
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.Enable();
@@ -257,14 +260,6 @@ namespace TownOfHost
         Jackal = CustomRoles.Jackal,
         PlagueDoctor = CustomRoles.PlagueDoctor,
         HASTroll = CustomRoles.HASTroll,
-    }
-    public enum AdditionalWinners
-    {
-        None = -1,
-        Opportunist = CustomRoles.Opportunist,
-        SchrodingerCat = CustomRoles.SchrodingerCat,
-        Executioner = CustomRoles.Executioner,
-        HASFox = CustomRoles.HASFox,
     }
     /*public enum CustomRoles : byte
     {

@@ -32,51 +32,58 @@ namespace TownOfHost
             [HarmonyArgument(2)] ref bool couldUse,
             ref float __result)
         {
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            PlayerControl playerControl = pc.Object;
 
-            //#######################################
-            //     ==ベント処理==
-            //#######################################
-            //参考:https://github.com/Eisbison/TheOtherRoles/blob/main/TheOtherRoles/Patches/UsablesPatch.cs
+            // 前半，Mod独自の処理
 
-            bool VentForTrigger = false;
-            float num = float.MaxValue;
+            // カスタムロールを元にベントを使えるか判定
+            // エンジニアベースの役職は常にtrue
+            couldUse = playerControl.CanUseImpostorVentButton() || pc.Role.Role == RoleTypes.Engineer;
 
-            var usableDistance = __instance.UsableDistance;
-
-            if (pc.IsDead) return false; //死んでる人は強制的にfalseに。
-
-            canUse = couldUse = pc.Object.CanUseImpostorVentButton();
-            switch (pc.GetCustomRole())
+            canUse = couldUse;
+            // カスタムロールが使えなかったら使用不可
+            if (!canUse)
             {
-                case CustomRoles.Arsonist:
-                    if (Arsonist.IsDouseDone(pc.Object))
-                        VentForTrigger = true;
-                    break;
-                default:
-                    if (pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
-                        canUse = couldUse = true;
-                    break;
-            }
-            if (!canUse) return false;
-
-            canUse = couldUse = (pc.Object.inVent || canUse) && (pc.Object.CanMove || pc.Object.inVent);
-
-            if (VentForTrigger && pc.Object.inVent)
-            {
-                canUse = couldUse = false;
                 return false;
             }
+
+            // ここまでMod独自の処理
+            // ここからバニラ処理の置き換え
+
+            IUsable usableVent = __instance.Cast<IUsable>();
+            // ベントとプレイヤーの間の距離
+            float actualDistance = float.MaxValue;
+
+            couldUse =
+                // クラシックではtrue 多分バニラHnS用
+                GameManager.Instance.LogicUsables.CanUse(usableVent, playerControl) &&
+                // pc.Role.CanUse(usableVent) &&  バニラロールではなくカスタムロールを元に判定するので無視
+                // 対象のベントにベントタスクがない もしくは今自分が対象のベントに入っている
+                (!playerControl.MustCleanVent(__instance.Id) || (playerControl.inVent && Vent.currentVent == __instance)) &&
+                playerControl.IsAlive() &&
+                (playerControl.CanMove || playerControl.inVent);
+
+            // ベント掃除のチェック
+            if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Ventilation, out var systemType))
+            {
+                VentilationSystem ventilationSystem = systemType.TryCast<VentilationSystem>();
+                // 誰かがベント掃除をしていたらそのベントには入れない
+                if (ventilationSystem != null && ventilationSystem.IsVentCurrentlyBeingCleaned(__instance.Id))
+                {
+                    couldUse = false;
+                }
+            }
+
+            canUse = couldUse;
             if (canUse)
             {
-                Vector2 truePosition = pc.Object.GetTruePosition();
-                Vector3 position = __instance.transform.position;
-                num = Vector2.Distance(truePosition, position);
-                canUse &= num <= usableDistance && !PhysicsHelpers.AnythingBetween(truePosition, position, Constants.ShipOnlyMask, false);
+                Vector3 center = playerControl.Collider.bounds.center;
+                Vector3 ventPosition = __instance.transform.position;
+                actualDistance = Vector2.Distance(center, ventPosition);
+                canUse &= actualDistance <= __instance.UsableDistance && !PhysicsHelpers.AnythingBetween(playerControl.Collider, center, ventPosition, Constants.ShipOnlyMask, false);
             }
-            __result = num;
+            __result = actualDistance;
             return false;
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
     }
 }

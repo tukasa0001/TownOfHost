@@ -18,6 +18,4 @@ public sealed class Scientist : RoleBase
         player
     )
     { }
-
-    public override string GetAbilityButtonText() => StringNames.VitalsAbility.ToString();
 }

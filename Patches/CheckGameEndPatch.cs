@@ -65,10 +65,11 @@ namespace TownOfHost
                     {
                         if (pc.GetRoleClass() is IAdditionalWinner additionalWinner)
                         {
-                            if (additionalWinner.CheckWin(out var winnerType))
+                            var winnerRole = pc.GetCustomRole();
+                            if (additionalWinner.CheckWin(ref winnerRole))
                             {
                                 CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                                CustomWinnerHolder.AdditionalWinnerTeams.Add(winnerType);
+                                CustomWinnerHolder.AdditionalWinnerRoles.Add(winnerRole);
                             }
                         }
                     }
@@ -304,6 +305,7 @@ namespace TownOfHost
             ISystemType sys = null;
             if (systems.ContainsKey(SystemTypes.Reactor)) sys = systems[SystemTypes.Reactor];
             else if (systems.ContainsKey(SystemTypes.Laboratory)) sys = systems[SystemTypes.Laboratory];
+            else if (systems.ContainsKey(SystemTypes.HeliSabotage)) sys = systems[SystemTypes.HeliSabotage];
 
             ICriticalSabotage critical;
             if (sys != null && // サボタージュ存在確認
