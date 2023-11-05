@@ -249,7 +249,7 @@ namespace TownOfHost
             {
                 foreach (var role in CustomRolesHelper.AllRoles.Where(x => x < CustomRoles.NotAssigned))
                 {
-                    if (role.IsVanilla()) continue;
+                    if (role.IsVanilla() || role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (CustomRoleManager.GetRoleInfo(role)?.IsDesyncImpostor == true) continue;
                     var baseRoleTypes = role.GetRoleTypes() switch
                     {
