@@ -1,3 +1,4 @@
+using System.Linq;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
@@ -6,7 +7,10 @@ namespace TownOfHost
 {
     static class CustomRolesHelper
     {
-        public static readonly CustomRoles[] AllRoles = EnumHelper.GetAllValues<CustomRoles>();
+        public static readonly CustomRoles[] AllRoles = EnumHelper.GetAllValues<CustomRoles>().Where(role => role < CustomRoles.NotAssigned).ToArray();
+        public static readonly CustomRoles[] AllAddOns = EnumHelper.GetAllValues<CustomRoles>().Where(role => role > CustomRoles.NotAssigned).ToArray();
+        public static readonly CustomRoles[] AllStandardRoles = AllRoles.Where(role => role is not (CustomRoles.HASFox or CustomRoles.HASTroll)).ToArray();
+        public static readonly CustomRoles[] AllHASRoles = { CustomRoles.HASFox, CustomRoles.HASTroll };
         public static readonly CustomRoleTypes[] AllRoleTypes = EnumHelper.GetAllValues<CustomRoleTypes>();
 
         public static bool IsImpostor(this CustomRoles role)
