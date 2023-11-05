@@ -75,11 +75,9 @@ public sealed class Sheriff : RoleBase, IKiller, ISchrodingerCatOwner
     }
     public static void SetUpNeutralOptions(int idOffset)
     {
-        foreach (var neutral in CustomRolesHelper.AllRoles.Where(x => x.IsNeutral()).ToArray())
+        foreach (var neutral in CustomRolesHelper.AllStandardRoles.Where(x => x.IsNeutral()).ToArray())
         {
-            if (neutral is CustomRoles.SchrodingerCat
-                        or CustomRoles.HASFox
-                        or CustomRoles.HASTroll) continue;
+            if (neutral is CustomRoles.SchrodingerCat) continue;
             SetUpKillTargetOption(neutral, idOffset, true, CanKillNeutrals);
             idOffset++;
         }
