@@ -164,34 +164,6 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
-        {
-            //killerが死んでいる場合は実行しない
-            if (!killer.IsAlive()) return;
-
-            if (target == null) target = killer;
-            // Host
-            if (killer.AmOwner)
-            {
-                killer.ProtectPlayer(target, colorId);
-                killer.MurderPlayer(target);
-            }
-            // Other Clients
-            if (killer.PlayerId != 0)
-            {
-                var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
-                sender.StartMessage(killer.GetClientId());
-                sender.StartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
-                    .WriteNetObject((InnerNetObject)target)
-                    .Write(colorId)
-                    .EndRpc();
-                sender.StartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
-                    .WriteNetObject((InnerNetObject)target)
-                    .EndRpc();
-                sender.EndMessage();
-                sender.SendMessage();
-            }
-        }
         public static void SetKillCooldown(this PlayerControl player, float time = -1f)
         {
             if (player == null) return;
@@ -206,7 +178,7 @@ namespace TownOfHost
                 Main.AllPlayerKillCooldown[player.PlayerId] *= 2;
             }
             player.SyncSettings();
-            player.RpcGuardAndKill();
+            player.RpcProtectedMurderPlayer();
             player.ResetKillCooldown();
         }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
@@ -220,6 +192,7 @@ namespace TownOfHost
             {
                 MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, killer.GetClientId());
                 messageWriter.WriteNetObject(target);
+                messageWriter.Write((int)SucceededFlags);
                 AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
             }
         }
@@ -262,9 +235,9 @@ namespace TownOfHost
                 ホストのクールダウンは直接リセットします。
             */
         }
-        public static void RpcDesyncRepairSystem(this PlayerControl target, SystemTypes systemType, int amount)
+        public static void RpcDesyncUpdateSystem(this PlayerControl target, SystemTypes systemType, int amount)
         {
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, target.GetClientId());
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.UpdateSystem, SendOption.Reliable, target.GetClientId());
             messageWriter.Write((byte)systemType);
             messageWriter.WriteNetObject(target);
             messageWriter.Write((byte)amount);
@@ -346,12 +319,10 @@ namespace TownOfHost
         {
             if (pc == null || !AmongUsClient.Instance.AmHost || pc.AmOwner) return;
 
-            var systemtypes = SystemTypes.Reactor;
-            if (Main.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
-
+            var systemtypes = Utils.GetCriticalSabotageSystemType();
             _ = new LateTask(() =>
             {
-                pc.RpcDesyncRepairSystem(systemtypes, 128);
+                pc.RpcDesyncUpdateSystem(systemtypes, 128);
             }, 0f + delay, "Reactor Desync");
 
             _ = new LateTask(() =>
@@ -361,9 +332,9 @@ namespace TownOfHost
 
             _ = new LateTask(() =>
             {
-                pc.RpcDesyncRepairSystem(systemtypes, 16);
+                pc.RpcDesyncUpdateSystem(systemtypes, 16);
                 if (Main.NormalOptions.MapId == 4) //Airship用
-                    pc.RpcDesyncRepairSystem(systemtypes, 17);
+                    pc.RpcDesyncUpdateSystem(systemtypes, 17);
             }, 0.4f + delay, "Fix Desync Reactor");
         }
         public static void ReactorFlash(this PlayerControl pc, float delay = 0f)
@@ -371,18 +342,17 @@ namespace TownOfHost
             if (pc == null) return;
             int clientId = pc.GetClientId();
             // Logger.Info($"{pc}", "ReactorFlash");
-            var systemtypes = SystemTypes.Reactor;
-            if (Main.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
+            var systemtypes = Utils.GetCriticalSabotageSystemType();
             float FlashDuration = Options.KillFlashDuration.GetFloat();
 
-            pc.RpcDesyncRepairSystem(systemtypes, 128);
+            pc.RpcDesyncUpdateSystem(systemtypes, 128);
 
             _ = new LateTask(() =>
             {
-                pc.RpcDesyncRepairSystem(systemtypes, 16);
+                pc.RpcDesyncUpdateSystem(systemtypes, 16);
 
                 if (Main.NormalOptions.MapId == 4) //Airship用
-                    pc.RpcDesyncRepairSystem(systemtypes, 17);
+                    pc.RpcDesyncUpdateSystem(systemtypes, 17);
             }, FlashDuration + delay, "Fix Desync Reactor");
         }
 
@@ -439,6 +409,15 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, SendOption.None, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void MurderPlayer(this PlayerControl killer, PlayerControl target)
+        {
+            killer.MurderPlayer(target, SucceededFlags);
+        }
+        public const MurderResultFlags SucceededFlags = MurderResultFlags.Succeeded | MurderResultFlags.DecisionByHost;
+        public static void RpcMurderPlayer(this PlayerControl killer, PlayerControl target)
+        {
+            killer.RpcMurderPlayer(target, true);
+        }
         public static void RpcMurderPlayerV2(this PlayerControl killer, PlayerControl target)
         {
             if (target == null) target = killer;
@@ -448,8 +427,29 @@ namespace TownOfHost
             }
             MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
             messageWriter.WriteNetObject(target);
+            messageWriter.Write((int)SucceededFlags);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
             Utils.NotifyRoles();
+        }
+        public static void RpcProtectedMurderPlayer(this PlayerControl killer, PlayerControl target = null)
+        {
+            //killerが死んでいる場合は実行しない
+            if (!killer.IsAlive()) return;
+
+            if (target == null) target = killer;
+            // Host
+            if (killer.AmOwner)
+            {
+                killer.MurderPlayer(target, MurderResultFlags.FailedProtected);
+            }
+            // Other Clients
+            if (killer.PlayerId != 0)
+            {
+                var writer = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable);
+                writer.WriteNetObject(target);
+                writer.Write((int)MurderResultFlags.FailedProtected);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
         }
         public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
         { /*サボタージュ中でも関係なしに会議を起こせるメソッド
@@ -567,6 +567,7 @@ namespace TownOfHost
             }
             return null;
         }
+        public static bool IsProtected(this PlayerControl self) => self.protectedByGuardianId > -1;
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>

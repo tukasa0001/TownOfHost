@@ -50,9 +50,11 @@ namespace TownOfHost
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "5.1.1";
+        public const string PluginVersion = "5.1.2";
         // サポートされている最低のAmongUsバージョン
-        public static readonly string LowestSupportedVersion = "2023.7.11";
+        public static readonly string LowestSupportedVersion = "2023.10.24";
+        // このバージョンのみで公開ルームを無効にする場合
+        public static readonly bool IsPublicAvailableOnThisVersion = false;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;

@@ -178,10 +178,10 @@ namespace TownOfHost
             //エアシップのトイレのドアを全て開ける
             if (Input.GetKeyDown(KeyCode.P))
             {
-                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 79);
-                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 80);
-                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
-                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 82);
+                ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Doors, 79);
+                ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Doors, 80);
+                ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Doors, 81);
+                ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Doors, 82);
             }
             //現在の座標を取得
             if (Input.GetKeyDown(KeyCode.I))

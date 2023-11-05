@@ -15,7 +15,7 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 ## Releases
 
-AmongUs Version: **2023.7.12**
+AmongUs Version: **2023.10.24**
 
 **Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
@@ -415,6 +415,7 @@ Basis : Impostor<br>
 
 The Mare can kill only in lights out, but next kill cooldown will be half.<br>
 While lights are out they can move faster, but everyone sees their name in red.<br>
+*Since lights out sabotage is unavailable, the Mare is not assigned in The Fungle.
 
 #### Game Options
 
@@ -1230,6 +1231,8 @@ Various devices can be disabled.
 | ┣ Disable Airship Records Admin |
 | ┣ Disable Camera                |
 | ┗ Disable Vital                 |
+| Disable Fungle Devices          |
+| ┗ Disable Vital                 |
 | Ignore Conditions               |
 | ┣ Ignore Impostors              |
 | ┣ Ignore Madmates               |
@@ -1285,14 +1288,14 @@ Disable the moving platform in Airship.
 | -------------------------------- |
 | Disable Moving Platform(Airship) |
 
-### Reset Doors After Meeting(Airship/Polus)
+### Reset Doors After Meeting(Airship/Polus/Fungle)
 
 After meetings, all door openings are reset to the specified state.
 
-| Name                                     |                                                |
-| ---------------------------------------- | ---------------------------------------------- |
-| Reset Doors After Meeting(Airship/Polus) |                                                |
-| ┗ Reset Mode                             | Select from All Open/All Closed/Random By Door |
+| Name                                            |                                                |
+| ----------------------------------------------- | ---------------------------------------------- |
+| Reset Doors After Meeting(Airship/Polus/Fungle) |                                                |
+| ┗ Reset Mode                                    | Select from All Open/All Closed/Random By Door |
 
 ## Mode
 
@@ -1390,28 +1393,34 @@ Randomize the spawn position.<br>
 
 #### Game Options
 
-| Name                        |
-| --------------------------- |
-| Random Spawn                |
-| ┗ Additional Spawn(Airship) |
+| Name         |
+| ------------ |
+| Random Spawn |
+| ┣ Skeld      |
+| ┣ Mira       |
+| ┣ Polus      |
+| ┣ Airship    |
+| ┗ Fungle     |
 
 #### The Skeld
 
-![Skeld](Images/The_Skeld_Random_Map.png)
+![Skeld](Images/Skeld_Random_Map_en.png)
 
 #### MiraHQ
 
-![MiraHQ](Images/Mira_HQ_Random_Map.png)
+![MiraHQ](Images/Mirahq_Random_Map_en.png)
 
 #### Polus
 
-![Polus](Images/Polus_Random_Map.png)
+![Polus](Images/Polus_Random_Map_en.png)
 
-#### The AirShip
+#### The Airship
 
-![AirShip](Images/The_Airship_Random_Map.png)
+![Airship](Images/Airship_Random_Map_en.png)
 
-If `Additional Spawn(Airship)` is OFF, the spawn will be selected only from the original spawn position.
+#### The Fungle
+
+![Fungle](Images/Fungle_Random_Map_en.png)
 
 ### RandomMapsMode
 
@@ -1427,7 +1436,8 @@ The RandomMapsMode changes the maps at random.<br>
 | ┣ Include The Skeld   |
 | ┣ Include MIRA HQ     |
 | ┣ Include Polus       |
-| ┗ Include The Airship |
+| ┣ Include The Airship |
+| ┗ Include The Fungle  |
 
 ### SyncButtonMode
 

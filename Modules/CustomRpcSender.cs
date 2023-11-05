@@ -263,6 +263,7 @@ namespace TownOfHost
         {
             sender.AutoStartRpc(player.NetId, (byte)RpcCalls.MurderPlayer, targetClientId)
                 .WriteNetObject(target)
+                .Write((int)ExtendedPlayerControl.SucceededFlags)
                 .EndRpc();
         }
     }

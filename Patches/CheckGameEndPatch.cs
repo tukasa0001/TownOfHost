@@ -305,6 +305,7 @@ namespace TownOfHost
             ISystemType sys = null;
             if (systems.ContainsKey(SystemTypes.Reactor)) sys = systems[SystemTypes.Reactor];
             else if (systems.ContainsKey(SystemTypes.Laboratory)) sys = systems[SystemTypes.Laboratory];
+            else if (systems.ContainsKey(SystemTypes.HeliSabotage)) sys = systems[SystemTypes.HeliSabotage];
 
             ICriticalSabotage critical;
             if (sys != null && // サボタージュ存在確認
