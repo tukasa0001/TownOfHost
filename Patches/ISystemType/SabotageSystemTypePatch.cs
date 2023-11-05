@@ -62,9 +62,9 @@ public static class SabotageSystemTypeUpdateSystemPatch
         }
         return true;
     }
-    public static void Postfix(SabotageSystemType __instance)
+    public static void Postfix(SabotageSystemType __instance, [HarmonyArgument(0)] PlayerControl player)
     {
-        if (!isCooldownModificationEnabled || !AmongUsClient.Instance.AmHost)
+        if (!AmongUsClient.Instance.AmHost || !isCooldownModificationEnabled || !CanSabotage(player))
         {
             return;
         }
