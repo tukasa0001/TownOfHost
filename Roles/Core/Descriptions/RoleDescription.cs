@@ -31,7 +31,7 @@ public abstract class RoleDescription
             builder.AppendFormat("<size={0}>{1}\n", SecondHeaderSize, Translator.GetString("Team"));
             //   マッドメイトはインポスター陣営
             var roleTeam = RoleInfo.CustomRoleType == CustomRoleTypes.Madmate ? CustomRoleTypes.Impostor : RoleInfo.CustomRoleType;
-            builder.AppendFormat("<size={0}>{1}\n", BodySize, Translator.GetString(roleTeam.ToString()));
+            builder.AppendFormat("<size={0}>{1}\n", BodySize, Translator.GetString($"CustomRoleTypes.{roleTeam}"));
             // バニラ役職判定
             builder.AppendFormat("<size={0}>\n", BlankLineSize);
             builder.AppendFormat("<size={0}>{1}\n", SecondHeaderSize, Translator.GetString("Basis"));
