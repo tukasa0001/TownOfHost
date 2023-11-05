@@ -206,9 +206,17 @@ namespace TownOfHost
                     case "/m":
                     case "/myrole":
                         canceled = true;
-                        var role = PlayerControl.LocalPlayer.GetCustomRole();
-                        if (GameStates.IsInGame)
+                        if (!GameStates.IsInGame) break;
+                        if (args.Length > 1 && args[1] == "all")
+                        {
+                            foreach (var pc in Main.AllPlayerControls)
+                                Utils.SendMessage(GetString(pc.GetCustomRole().ToString()) + pc.GetRoleInfo(true), pc.PlayerId);
+                        }
+                        else
+                        {
+                            var role = PlayerControl.LocalPlayer.GetCustomRole();
                             HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + PlayerControl.LocalPlayer.GetRoleInfo(true));
+                        }
                         break;
 
                     case "/t":

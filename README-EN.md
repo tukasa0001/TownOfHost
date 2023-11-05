@@ -88,6 +88,7 @@ You can execute chat commands by typing in chat.
 | /help modes <mode><br>/help m <mode>        | Show mode description                             |
 | /hidename <string><br>/hn <string>          | Rename code concealment string                    |
 | /say <string>                               | Make an announcement as a host                    |
+| /myrole all<br>/m all                       | Display a description of your role to all players |
 
 #### MOD Client Only
 | Command        | Function                    |
