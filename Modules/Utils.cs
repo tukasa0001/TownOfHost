@@ -786,8 +786,8 @@ namespace TownOfHost
                 if (isForMeeting && (seer.GetClient().PlatformData.Platform is Platforms.Playstation or Platforms.Switch)) fontSize = "70%";
                 logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START");
 
-                // キノコカオス中で，seerが生きていてdesyncインポスターの場合に自身の名前を消す
-                if (isMushroomMixupActive && seer.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && seer.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true)
+                // 会議じゃなくて，キノコカオス中で，seerが生きていてdesyncインポスターの場合に自身の名前を消す
+                if (!isForMeeting && isMushroomMixupActive && seer.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && seer.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true)
                 {
                     seer.RpcSetNamePrivate("<size=0>", true, force: NoCache);
                 }
@@ -860,8 +860,8 @@ namespace TownOfHost
                         if (target == seer) continue;
                         logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START");
 
-                        // キノコカオス中で，targetが生きていてseerがdesyncインポスターの場合にtargetの名前を消す
-                        if (isMushroomMixupActive && target.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && seer.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true)
+                        // 会議じゃなくて，キノコカオス中で，targetが生きていてseerがdesyncインポスターの場合にtargetの名前を消す
+                        if (!isForMeeting && isMushroomMixupActive && target.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && seer.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true)
                         {
                             target.RpcSetNamePrivate("<size=0>", true, seer, force: NoCache);
                         }
