@@ -411,7 +411,7 @@ namespace TownOfHost
                         var role = player.GetCustomRole();
                         if (role.GetRoleInfo()?.Description is { } description)
                         {
-                            Utils.SendMessage(description.FullFormatHelp, removeTags: false);
+                            Utils.SendMessage(description.FullFormatHelp, player.PlayerId, removeTags: false);
                         }
                         // roleInfoがない役職
                         else
