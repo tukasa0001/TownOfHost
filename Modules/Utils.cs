@@ -499,9 +499,8 @@ namespace TownOfHost
                 if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo"), PlayerId); }
                 if (Options.IsStandardHAS) { SendMessage(GetString("StandardHASInfo"), PlayerId); }
                 if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong"), PlayerId); }
-                foreach (var role in CustomRolesHelper.AllRoles)
+                foreach (var role in CustomRolesHelper.AllStandardRoles)
                 {
-                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
                 }
             }
@@ -593,9 +592,8 @@ namespace TownOfHost
             sb.AppendFormat("<size={0}>", ActiveSettingsSize);
             sb.Append("<size=100%>").Append(GetString("Roles")).Append('\n').Append("</size>");
             sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString());
-            foreach (CustomRoles role in CustomRolesHelper.AllRoles)
+            foreach (CustomRoles role in CustomRolesHelper.AllStandardRoles)
             {
-                if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                 if (role.IsEnable()) sb.AppendFormat("\n{0}:{1}x{2}", GetRoleName(role), $"{role.GetChance()}%", role.GetCount());
             }
             SendMessage(sb.ToString(), PlayerId, removeTags: false);
