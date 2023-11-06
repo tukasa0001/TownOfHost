@@ -62,12 +62,13 @@ public static class SabotageSystemTypeUpdateSystemPatch
         }
         return true;
     }
-    public static void Postfix(SabotageSystemType __instance)
+    public static void Postfix(SabotageSystemType __instance, bool __runOriginal /* Prefixの結果，本体処理が実行されたかどうか */ )
     {
-        if (!isCooldownModificationEnabled || !AmongUsClient.Instance.AmHost)
+        if (!__runOriginal || !isCooldownModificationEnabled || !AmongUsClient.Instance.AmHost)
         {
             return;
         }
+        // サボタージュクールダウンを変更
         __instance.Timer = modifiedCooldownSec;
         __instance.IsDirty = true;
     }
