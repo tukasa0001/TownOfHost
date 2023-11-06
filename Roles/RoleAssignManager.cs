@@ -53,7 +53,7 @@ namespace TownOfHost.Roles
             "AssignAlgorithm.Fixed",
             "AssignAlgorithm.Random"
         };
-        private static readonly CustomRoles[] AllMainRoles = CustomRolesHelper.AllRoles.Where(role => role < CustomRoles.NotAssigned).ToArray();
+        private static CustomRoles[] AllMainRoles => Options.CurrentGameMode == CustomGameMode.Standard ? CustomRolesHelper.AllStandardRoles : CustomRolesHelper.AllHASRoles;
         public static OptionItem OptionAssignMode;
         private static Dictionary<CustomRoleTypes, RandomAssignOptions> RandomAssignOptionsCollection = new(CustomRolesHelper.AllRoleTypes.Length);
         private static Dictionary<CustomRoleTypes, int> AssignCount = new(CustomRolesHelper.AllRoleTypes.Length);
@@ -282,7 +282,7 @@ namespace TownOfHost.Roles
         ///</summary>
         private static void SetAddOnsList(bool isFixedAssign)
         {
-            foreach (var subRole in CustomRolesHelper.AllRoles.Where(x => x > CustomRoles.NotAssigned))
+            foreach (var subRole in CustomRolesHelper.AllAddOns)
             {
                 var chance = subRole.GetChance();
                 var count = subRole.GetAssignCount();
