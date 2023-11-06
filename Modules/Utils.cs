@@ -501,7 +501,18 @@ namespace TownOfHost
                 if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong"), PlayerId); }
                 foreach (var role in CustomRolesHelper.AllStandardRoles)
                 {
-                    if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
+                    if (role.IsEnable())
+                    {
+                        if (role.GetRoleInfo()?.Description is { } description)
+                        {
+                            SendMessage(description.FullFormatHelp, PlayerId, removeTags: false);
+                        }
+                        // RoleInfoがない役職は従来処理
+                        else
+                        {
+                            SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
+                        }
+                    }
                 }
             }
             if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo"), PlayerId); }
