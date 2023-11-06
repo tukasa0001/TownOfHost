@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using AmongUs.GameOptions;
+using TownOfHost.Roles.Core.Descriptions;
 
 using static TownOfHost.Options;
 
@@ -29,6 +30,8 @@ public class SimpleRoleInfo
     private Func<bool> canMakeMadmate;
     public bool CanMakeMadmate => canMakeMadmate?.Invoke() == true;
     public RoleAssignInfo AssignInfo { get; }
+    /// <summary>役職の説明関係</summary>
+    public RoleDescription Description { get; private set; }
 
     private SimpleRoleInfo(
         Type classType,
@@ -109,24 +112,24 @@ public class SimpleRoleInfo
             CountTypes.Crew;
         assignInfo ??= new RoleAssignInfo(roleName, customRoleType);
 
-        return
-            new(
-                classType,
-                createInstance,
-                roleName,
-                baseRoleType,
-                customRoleType,
-                countType.Value,
-                configId,
-                optionCreator,
-                chatCommand,
-                colorCode,
-                isDesyncImpostor,
-                tab,
-                introSound,
-                canMakeMadmate,
-                assignInfo
-            );
+        var roleInfo = new SimpleRoleInfo(
+            classType,
+            createInstance,
+            roleName,
+            baseRoleType,
+            customRoleType,
+            countType.Value,
+            configId,
+            optionCreator,
+            chatCommand,
+            colorCode,
+            isDesyncImpostor,
+            tab,
+            introSound,
+            canMakeMadmate,
+            assignInfo);
+        roleInfo.Description = new SingleRoleDescription(roleInfo);
+        return roleInfo;
     }
     public static SimpleRoleInfo CreateForVanilla(
         Type classType,
@@ -170,24 +173,24 @@ public class SimpleRoleInfo
                 customRoleType = CustomRoleTypes.Crewmate;
                 break;
         }
-        return
-            new(
-                classType,
-                createInstance,
-                roleName,
-                () => baseRoleType,
-                customRoleType,
-                countType,
-                -1,
-                null,
-                null,
-                colorCode,
-                false,
-                TabGroup.MainSettings,
-                null,
-                () => canMakeMadmate,
-                assignInfo ?? new(roleName, customRoleType)
-            );
+        var roleInfo = new SimpleRoleInfo(
+            classType,
+            createInstance,
+            roleName,
+            () => baseRoleType,
+            customRoleType,
+            countType,
+            -1,
+            null,
+            null,
+            colorCode,
+            false,
+            TabGroup.MainSettings,
+            null,
+            () => canMakeMadmate,
+            assignInfo ?? new(roleName, customRoleType));
+        roleInfo.Description = new VanillaRoleDescription(roleInfo, baseRoleType);
+        return roleInfo;
     }
     public delegate void OptionCreatorDelegate();
 }

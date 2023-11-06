@@ -499,10 +499,20 @@ namespace TownOfHost
                 if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo"), PlayerId); }
                 if (Options.IsStandardHAS) { SendMessage(GetString("StandardHASInfo"), PlayerId); }
                 if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong"), PlayerId); }
-                foreach (var role in CustomRolesHelper.AllRoles)
+                foreach (var role in CustomRolesHelper.AllStandardRoles)
                 {
-                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
-                    if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
+                    if (role.IsEnable())
+                    {
+                        if (role.GetRoleInfo()?.Description is { } description)
+                        {
+                            SendMessage(description.FullFormatHelp, PlayerId, removeTags: false);
+                        }
+                        // RoleInfoがない役職は従来処理
+                        else
+                        {
+                            SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
+                        }
+                    }
                 }
             }
             if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo"), PlayerId); }
@@ -593,9 +603,8 @@ namespace TownOfHost
             sb.AppendFormat("<size={0}>", ActiveSettingsSize);
             sb.Append("<size=100%>").Append(GetString("Roles")).Append('\n').Append("</size>");
             sb.AppendFormat("\n{0}:{1}", GetRoleName(CustomRoles.GM), Options.EnableGM.GetString());
-            foreach (CustomRoles role in CustomRolesHelper.AllRoles)
+            foreach (CustomRoles role in CustomRolesHelper.AllStandardRoles)
             {
-                if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                 if (role.IsEnable()) sb.AppendFormat("\n{0}:{1}x{2}", GetRoleName(role), $"{role.GetChance()}%", role.GetCount());
             }
             SendMessage(sb.ToString(), PlayerId, removeTags: false);
@@ -786,8 +795,8 @@ namespace TownOfHost
                 if (isForMeeting && (seer.GetClient().PlatformData.Platform is Platforms.Playstation or Platforms.Switch)) fontSize = "70%";
                 logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START");
 
-                // キノコカオス中で，seerが生きていてdesyncインポスターの場合に自身の名前を消す
-                if (isMushroomMixupActive && seer.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && seer.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true)
+                // 会議じゃなくて，キノコカオス中で，seerが生きていてdesyncインポスターの場合に自身の名前を消す
+                if (!isForMeeting && isMushroomMixupActive && seer.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && seer.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true)
                 {
                     seer.RpcSetNamePrivate("<size=0>", true, force: NoCache);
                 }
@@ -860,8 +869,8 @@ namespace TownOfHost
                         if (target == seer) continue;
                         logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START");
 
-                        // キノコカオス中で，targetが生きていてseerがdesyncインポスターの場合にtargetの名前を消す
-                        if (isMushroomMixupActive && target.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && seer.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true)
+                        // 会議じゃなくて，キノコカオス中で，targetが生きていてseerがdesyncインポスターの場合にtargetの名前を消す
+                        if (!isForMeeting && isMushroomMixupActive && target.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && seer.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true)
                         {
                             target.RpcSetNamePrivate("<size=0>", true, seer, force: NoCache);
                         }

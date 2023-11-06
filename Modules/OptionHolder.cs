@@ -299,6 +299,7 @@ namespace TownOfHost
         public static OptionItem DisableAirshipMovingPlatform;
         public static OptionItem ResetDoorsEveryTurns;
         public static OptionItem DoorsResetMode;
+        public static OptionItem DisableFungleSporeTrigger;
 
         // その他
         public static OptionItem FixFirstKillCooldown;
@@ -482,6 +483,7 @@ namespace TownOfHost
             DisableAirshipMovingPlatform = BooleanOptionItem.Create(101700, "DisableAirshipMovingPlatform", false, TabGroup.MainSettings, false).SetParent(MapModification);
             ResetDoorsEveryTurns = BooleanOptionItem.Create(101800, "ResetDoorsEveryTurns", false, TabGroup.MainSettings, false).SetParent(MapModification);
             DoorsResetMode = StringOptionItem.Create(101810, "DoorsResetMode", EnumHelper.GetAllNames<DoorsReset.ResetMode>(), 0, TabGroup.MainSettings, false).SetParent(ResetDoorsEveryTurns);
+            DisableFungleSporeTrigger = BooleanOptionItem.Create(101900, "DisableFungleSporeTrigger", false, TabGroup.MainSettings, false).SetParent(MapModification);
 
             // タスク無効化
             DisableTasks = BooleanOptionItem.Create(100300, "DisableTasks", false, TabGroup.MainSettings, false)
