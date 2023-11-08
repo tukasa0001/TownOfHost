@@ -1297,6 +1297,14 @@ After meetings, all door openings are reset to the specified state.
 | Reset Doors After Meeting(Airship/Polus/Fungle) |                                                |
 | ┗ Reset Mode                                    | Select from All Open/All Closed/Random By Door |
 
+### Prevent Spores Trigger(Fungle)
+
+Prevents spores to be released when mushrooms are stepped on.
+
+| Name                           |
+| ------------------------------ |
+| Prevent Spores Trigger(Fungle) |
+
 ## Mode
 
 ### DisableTasks

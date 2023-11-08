@@ -281,6 +281,7 @@ namespace TownOfHost
         public static OptionItem SabotageTimeControl;
         public static OptionItem PolusReactorTimeLimit;
         public static OptionItem AirshipReactorTimeLimit;
+        public static OptionItem FungleReactorTimeLimit;
         public static OptionItem FungleMushroomMixupDuration;
 
         // サボタージュのクールダウン変更
@@ -300,6 +301,7 @@ namespace TownOfHost
         public static OptionItem DisableAirshipMovingPlatform;
         public static OptionItem ResetDoorsEveryTurns;
         public static OptionItem DoorsResetMode;
+        public static OptionItem DisableFungleSporeTrigger;
 
         // その他
         public static OptionItem FixFirstKillCooldown;
@@ -456,6 +458,9 @@ namespace TownOfHost
             AirshipReactorTimeLimit = FloatOptionItem.Create(100802, "AirshipReactorTimeLimit", new(1f, 90f, 1f), 60f, TabGroup.MainSettings, false).SetParent(SabotageTimeControl)
                 .SetValueFormat(OptionFormat.Seconds)
                 .SetGameMode(CustomGameMode.Standard);
+            FungleReactorTimeLimit = FloatOptionItem.Create(100803, "FungleReactorTimeLimit", new(1f, 90f, 1f), 60f, TabGroup.MainSettings, false).SetParent(SabotageTimeControl)
+                .SetValueFormat(OptionFormat.Seconds)
+                .SetGameMode(CustomGameMode.Standard);
             FungleMushroomMixupDuration = FloatOptionItem.Create(100804, "FungleMushroomMixupDuration", new(1f, 20f, 1f), 10f, TabGroup.MainSettings, false).SetParent(SabotageTimeControl)
                 .SetValueFormat(OptionFormat.Seconds)
                 .SetGameMode(CustomGameMode.Standard);
@@ -486,6 +491,7 @@ namespace TownOfHost
             DisableAirshipMovingPlatform = BooleanOptionItem.Create(101700, "DisableAirshipMovingPlatform", false, TabGroup.MainSettings, false).SetParent(MapModification);
             ResetDoorsEveryTurns = BooleanOptionItem.Create(101800, "ResetDoorsEveryTurns", false, TabGroup.MainSettings, false).SetParent(MapModification);
             DoorsResetMode = StringOptionItem.Create(101810, "DoorsResetMode", EnumHelper.GetAllNames<DoorsReset.ResetMode>(), 0, TabGroup.MainSettings, false).SetParent(ResetDoorsEveryTurns);
+            DisableFungleSporeTrigger = BooleanOptionItem.Create(101900, "DisableFungleSporeTrigger", false, TabGroup.MainSettings, false).SetParent(MapModification);
 
             // タスク無効化
             DisableTasks = BooleanOptionItem.Create(100300, "DisableTasks", false, TabGroup.MainSettings, false)
