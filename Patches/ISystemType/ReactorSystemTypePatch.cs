@@ -8,7 +8,7 @@ namespace TownOfHost.Patches.ISystemType;
 [HarmonyPatch(typeof(ReactorSystemType), nameof(ReactorSystemType.UpdateSystem))]
 public static class ReactorSystemTypeUpdateSystemPatch
 {
-    public static bool Prefix(ReactorSystemType __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] MessageReader msgReader)
+    public static bool Prefix(ReactorSystemType __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] MessageReader msgReader, ref byte __state /* amount */)
     {
         byte amount;
         {
@@ -16,6 +16,7 @@ public static class ReactorSystemTypeUpdateSystemPatch
             amount = newReader.ReadByte();
             newReader.Recycle();
         }
+        __state = amount;
 
         if (player.GetRoleClass() is ISystemTypeUpdateHook systemTypeUpdateHook && !systemTypeUpdateHook.UpdateReactorSystem(__instance, amount))
         {
@@ -23,24 +24,25 @@ public static class ReactorSystemTypeUpdateSystemPatch
         }
         return true;
     }
-}
-
-//参考
-//https://github.com/Koke1024/Town-Of-Moss/blob/main/TownOfMoss/Patches/MeltDownBoost.cs
-
-[HarmonyPatch(typeof(ReactorSystemType), nameof(ReactorSystemType.Deteriorate))]
-public static class ReactorSystemDetetiorateTypePatch
-{
-    public static void Prefix(ReactorSystemType __instance)
+    public static void Postfix(ReactorSystemType __instance, byte __state /* amount */ )
     {
-        if (!__instance.IsActive || !Options.SabotageTimeControl.GetBool())
-            return;
-        if (ShipStatus.Instance.Type == ShipStatus.MapType.Pb)
+        // サボタージュ発動時
+        if (__state == ReactorSystemType.StartCountdown)
         {
-            if (__instance.Countdown >= Options.PolusReactorTimeLimit.GetFloat())
-                __instance.Countdown = Options.PolusReactorTimeLimit.GetFloat();
-            return;
+            if (!Options.SabotageTimeControl.GetBool())
+            {
+                return;
+            }
+            var duration = (MapNames)Main.NormalOptions.MapId switch
+            {
+                MapNames.Polus => Options.PolusReactorTimeLimit.GetFloat(),
+                MapNames.Fungle => Options.FungleReactorTimeLimit.GetFloat(),
+                _ => float.NaN,
+            };
+            if (!float.IsNaN(duration))
+            {
+                __instance.Countdown = duration;
+            }
         }
-        return;
     }
 }
