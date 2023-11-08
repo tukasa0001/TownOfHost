@@ -310,7 +310,7 @@ namespace TownOfHost.Roles
         private static RoleAssignInfo GetRoleAssignInfo(this CustomRoles role) =>
             CustomRoleManager.GetRoleInfo(role)?.AssignInfo;
         private static bool IsAssignable(this CustomRoles role)
-            => role.GetRoleAssignInfo()?.IsInitiallyAssignable ?? true;
+    => role.GetRoleAssignInfo()?.IsInitiallyAssignable ?? true;
         /// <summary>
         /// アサインの抽選回数
         /// </summary>
@@ -343,12 +343,17 @@ namespace TownOfHost.Roles
     {
         public RoleAssignInfo(CustomRoles role, CustomRoleTypes roleType)
         {
+            AssignRoleType = roleType;
             IsInitiallyAssignableCallBack = () => true;
             AssignCountRule =
                 roleType == CustomRoleTypes.Impostor ? new(1, 3, 1) : new(1, 15, 1);
             AssignUnitRoles =
                 Enumerable.Repeat(role, AssignCountRule.Step).ToArray();
         }
+        /// <summary>
+        /// どのアサイン枠を消費するか
+        /// </summary>
+        public CustomRoleTypes AssignRoleType { get; init; }
         /// <summary>
         /// 試合開始時にアサインされるかどうかのデリゲート
         /// </summary>
