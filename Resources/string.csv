@@ -615,6 +615,7 @@
 "ERR-000-804-1","TownOfHost does not support the Vanilla HnS, so unloaded.","現在バニラのHide And Seekはサポートされていません。modを無効化しました。","TOH不支持原版躲猫猫, mod因此失效","Town Of Host模組尚未支援原版的Hide And Seek模式，所以模組將暫時卸載。","Мод не поддерживает обычные Прятки. Мод был отключён","TownOfHost não suporta o Esconde-Esconde padrão, então foi descarregado.",""
 "#### 001 Main"
 "ERR-001-000-3","Main dictionary has duplicated keys.","MainのDictonaryでKeyの重複が発生しています。","在主目录出现重复密钥","在主目錄出現重複密鑰","Дублирование ключей происходит в основном словаре.","Dicionário principal tem chaves duplicadas.",""
+"ERR-001-010-3","Duplicate Options ID","オプションIDが重複しています","","","","",""
 "#### 002 Support"
 "ERR-002-000-1","Unsupported AmongUs version. Please update.","サポートされていないAmongUsバージョンです。ゲームをアップデートしてください。","","","Неподдерживаемая версия AmongUs. Пожалуйста, обновите игру","Versão não suportada do Among Us. Por favor, atualize.",""
 
