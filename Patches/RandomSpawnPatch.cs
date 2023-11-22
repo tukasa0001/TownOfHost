@@ -83,16 +83,23 @@ namespace TownOfHost
                 //Logger.Info($"{player.name} pos:{position} minSid={minSid}", "SnapTo");
                 if (!AmongUsClient.Instance.AmHost) return;
 
-                    if (player.Is(CustomRoles.GM)) return; //GMは対象外に
+                if (Main.NormalOptions.MapId != 4) return;//AirShip以外無効
 
-                    if (Main.NormalOptions.MapId != 4) return;//AirShip以外無効
-
-                    if (position == new Vector2(-25f, 40f))
+                if (position == new Vector2(-25f, 40f))
+                {
+                    if (player.Is(CustomRoles.GM))
                     {
-                        //最初の湧き地点なら次回スポーン
-                        FirstTP[player.PlayerId] = true;
+                        //GMは初めから固定位置にスポーン
+                        var location = new AirshipSpawnMap().Positions.First().Value;
+                        Logger.Info($"{player.Data.PlayerName}:{location}", "RandomSpawn");
+                        TP(player.NetTransform, location);
                         return;
                     }
+
+                    //最初の湧き地点なら次回スポーン
+                    FirstTP[player.PlayerId] = true;
+                    return;
+                }
                 if (GameStates.IsInTask)
                 {
                     if (FirstTP[player.PlayerId])
