@@ -83,8 +83,6 @@ namespace TownOfHost
                 //Logger.Info($"{player.name} pos:{position} minSid={minSid}", "SnapTo");
                 if (!AmongUsClient.Instance.AmHost) return;
 
-                if (GameStates.IsInTask)
-                {
                     if (player.Is(CustomRoles.GM)) return; //GMは対象外に
 
                     if (Main.NormalOptions.MapId != 4) return;//AirShip以外無効
@@ -95,7 +93,8 @@ namespace TownOfHost
                         FirstTP[player.PlayerId] = true;
                         return;
                     }
-
+                if (GameStates.IsInTask)
+                {
                     if (FirstTP[player.PlayerId])
                     {
                         FirstTP[player.PlayerId] = false;
