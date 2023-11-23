@@ -95,10 +95,6 @@ namespace TownOfHost
                         TP(player.NetTransform, location);
                         return;
                     }
-
-                    //最初の湧き地点なら次回スポーン
-                    FirstTP[player.PlayerId] = true;
-                    return;
                 }
                 if (GameStates.IsInTask)
                 {
