@@ -10,7 +10,13 @@ namespace TownOfHost
     {
         public static bool Prefix()
         {
-            return !PlayerControl.LocalPlayer.Is(CustomRoles.GM); // GMは湧き画面をスキップ
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
+            {
+                RandomSpawn.AirshipSpawn(PlayerControl.LocalPlayer);
+                // GMは湧き画面をスキップ
+                return false;
+            }
+            return true;
         }
     }
 }

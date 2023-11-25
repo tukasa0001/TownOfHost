@@ -69,48 +69,57 @@ namespace TownOfHost
     class RandomSpawn
     {
         public static Dictionary<byte, bool> FirstTP = new();
+
+        [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.RpcSnapTo))]
+        public class RpcSnapToPatch
+        {
+            public static void Postfix(CustomNetworkTransform __instance, Vector2 position)
+            {
+                var player = __instance.myPlayer;
+                //Logger.Info($"RpcSnapTo:{player.name} pos:{position}", "RandomSpawn");
+                if (!AmongUsClient.Instance.AmHost) return;
+                if (Main.NormalOptions.MapId != 4) return;//AirShip以外無効
+                if (FirstTP.TryGetValue(player.PlayerId, out var first) && first)
+                {
+                    //ホスト用処理
+                    //他視点へRPCを最初に送るのはスポーン位置選択後のため
+                    //クライアントへRPCを発行するときにはすでにクライアントの初期配置は終わっている。
+                    AirshipSpawn(player);
+                }
+            }
+        }
+        [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.HandleRpc))]
+        public class HandleRpcPatch
+        {
+            public static void Postfix(CustomNetworkTransform __instance)
+            {
+                var player = __instance.myPlayer;
+                //Logger.Info($"HandleRpc:{player.name}", "RandomSpawn");
+
+                if (!AmongUsClient.Instance.AmHost) return;
+                if (Main.NormalOptions.MapId != 4) return;//AirShip以外無効
+
+                if (FirstTP.TryGetValue(player.PlayerId, out var first) && first)
+                {
+                    //クライアント用処理
+                    //他視点へRPCを最初に送るのはスポーン位置選択後のため
+                    //ランダムスポーン発生
+                    AirshipSpawn(player);
+                }
+            }
+        }
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2), typeof(ushort))]
-        public class CustomNetworkTransformPatch
+        public class SnapToPatch
         {
             public static void Postfix(CustomNetworkTransform __instance, Vector2 position, ushort minSid)
             {
-                var player = Main.AllPlayerControls.Where(p => p.NetTransform == __instance).FirstOrDefault();
-                if (player == null)
-                {
-                    Logger.Warn("プレイヤーがnullです", "RandomSpawn");
-                    return;
-                }
-                //Logger.Info($"{player.name} pos:{position} minSid={minSid}", "SnapTo");
-                if (!AmongUsClient.Instance.AmHost) return;
-
-                if (Main.NormalOptions.MapId != 4) return;//AirShip以外無効
-
-                if (position == new Vector2(-25f, 40f))
-                {
-                    if (player.Is(CustomRoles.GM))
-                    {
-                        //GMは初めから固定位置にスポーン
-                        var location = new AirshipSpawnMap().Positions.First().Value;
-                        Logger.Info($"{player.Data.PlayerName}:{location}", "RandomSpawn");
-                        TP(player.NetTransform, location);
-                        return;
-                    }
-                }
-                if (GameStates.IsInTask)
-                {
-                    if (FirstTP[player.PlayerId])
-                    {
-                        FirstTP[player.PlayerId] = false;
-                        //ランダムスポーンをvanillaの初期スポーンより後の判定とする
-                        __instance.lastSequenceId++;
-                        AirshipSpawn(player);
-                        __instance.lastSequenceId--;
-                    }
-                }
+                var player = __instance.myPlayer;
+                Logger.Info($"SnapTo:{player.name} pos:{position} minSid={minSid}", "RandomSpawn");
             }
         }
         public static void AirshipSpawn(PlayerControl player)
         {
+            FirstTP[player.PlayerId] = false;
             if (player.Is(CustomRoles.Penguin))
             {
                 var penguin = player.GetRoleClass() as Penguin;
