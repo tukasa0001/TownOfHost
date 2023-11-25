@@ -40,7 +40,7 @@ namespace TownOfHost
 
             Main.introDestroyed = false;
 
-            RandomSpawn.CustomNetworkTransformPatch.FirstTP = new();
+            RandomSpawn.FirstTP = new();
 
             Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
             Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
@@ -83,7 +83,7 @@ namespace TownOfHost
                 ReportDeadBodyPatch.WaitReport[pc.PlayerId] = new();
                 pc.cosmetics.nameText.text = pc.name;
 
-                RandomSpawn.CustomNetworkTransformPatch.FirstTP.Add(pc.PlayerId, true);
+                RandomSpawn.FirstTP.Add(pc.PlayerId, true);
                 var outfit = pc.Data.DefaultOutfit;
                 Camouflage.PlayerSkins[pc.PlayerId] = new GameData.PlayerOutfit().Set(outfit.PlayerName, outfit.ColorId, outfit.HatId, outfit.SkinId, outfit.VisorId, outfit.PetId);
                 Main.clientIdList.Add(pc.GetClientId());

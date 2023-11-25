@@ -68,10 +68,10 @@ namespace TownOfHost
     }
     class RandomSpawn
     {
+        public static Dictionary<byte, bool> FirstTP = new();
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2), typeof(ushort))]
         public class CustomNetworkTransformPatch
         {
-            public static Dictionary<byte, bool> FirstTP = new();
             public static void Postfix(CustomNetworkTransform __instance, Vector2 position, ushort minSid)
             {
                 var player = Main.AllPlayerControls.Where(p => p.NetTransform == __instance).FirstOrDefault();
