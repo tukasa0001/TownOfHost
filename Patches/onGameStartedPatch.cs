@@ -41,6 +41,8 @@ namespace TownOfHost
             Main.introDestroyed = false;
 
             RandomSpawn.FirstTP = new();
+            RandomSpawn.FastSpawnPosition = new();
+            RandomSpawn.hostReady = false;
 
             Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
             Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);

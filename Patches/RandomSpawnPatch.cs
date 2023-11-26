@@ -69,7 +69,8 @@ namespace TownOfHost
     class RandomSpawn
     {
         public static Dictionary<byte, bool> FirstTP = new();
-
+        public static Dictionary<PlayerControl, Vector2> FastSpawnPosition = new();
+        public static bool hostReady;
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.RpcSnapTo))]
         public class RpcSnapToPatch
         {
@@ -81,6 +82,7 @@ namespace TownOfHost
                 if (Main.NormalOptions.MapId != 4) return;//AirShip以外無効
                 if (FirstTP.TryGetValue(player.PlayerId, out var first) && first)
                 {
+                    hostReady = true;
                     //ホスト用処理
                     //他視点へRPCを最初に送るのはスポーン位置選択後のため
                     //クライアントへRPCを発行するときにはすでにクライアントの初期配置は終わっている。
@@ -117,6 +119,16 @@ namespace TownOfHost
                 Logger.Info($"SnapTo:{player.name} pos:{position} minSid={minSid}", "RandomSpawn");
             }
         }
+        [HarmonyPatch(typeof(SpawnInMinigame), nameof(SpawnInMinigame.Begin))]
+        public class SpawnInMinigamePatch
+        {
+            public static void Postfix()
+            {
+                Logger.Info($"BeginPost", "SpawnInMinigame");
+                if (!AmongUsClient.Instance.AmHost) return;
+                hostReady = true;
+            }
+        }
         public static void AirshipSpawn(PlayerControl player)
         {
             FirstTP[player.PlayerId] = false;
@@ -127,8 +139,20 @@ namespace TownOfHost
             }
             player.RpcResetAbilityCooldown();
             if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
-            if (!IsRandomSpawn()) return; //ランダムスポーンが無効ならreturn
+            if (IsRandomSpawn())
+            {
             new AirshipSpawnMap().RandomTeleport(player);
+        }
+            foreach (var (sp, pos) in FastSpawnPosition)
+            {
+                //早湧きした人を船外から初期位置に戻す
+                sp.RpcSnapToDesync(player, pos);
+            }
+            if (!hostReady)
+            {
+                //ホストのSpawnMiniGame開始までに湧いたプレイヤーを記録
+                FastSpawnPosition[player] = player.transform.position;
+            }
         }
         public static bool IsRandomSpawn()
         {
