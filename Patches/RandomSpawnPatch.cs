@@ -74,10 +74,15 @@ namespace TownOfHost
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.RpcSnapTo))]
         public class RpcSnapToPatch
         {
+            public static void Prefix(CustomNetworkTransform __instance, Vector2 position)
+            {
+                var player = __instance.myPlayer;
+                Logger.Info($"RpcSnapToPre:{player.name} pos:{position}", "RandomSpawn");
+            }
             public static void Postfix(CustomNetworkTransform __instance, Vector2 position)
             {
                 var player = __instance.myPlayer;
-                //Logger.Info($"RpcSnapTo:{player.name} pos:{position}", "RandomSpawn");
+                //Logger.Info($"RpcSnapToPost:{player.name} pos:{position}", "RandomSpawn");
                 if (!AmongUsClient.Instance.AmHost) return;
                 if (Main.NormalOptions.MapId != 4) return;//AirShip以外無効
                 if (FirstTP.TryGetValue(player.PlayerId, out var first) && first)
@@ -96,7 +101,7 @@ namespace TownOfHost
             public static void Postfix(CustomNetworkTransform __instance)
             {
                 var player = __instance.myPlayer;
-                //Logger.Info($"HandleRpc:{player.name}", "RandomSpawn");
+                //Logger.Info($"HandleRpcPost:{player.name}", "RandomSpawn");
 
                 if (!AmongUsClient.Instance.AmHost) return;
                 if (Main.NormalOptions.MapId != 4) return;//AirShip以外無効
@@ -116,7 +121,7 @@ namespace TownOfHost
             public static void Postfix(CustomNetworkTransform __instance, Vector2 position, ushort minSid)
             {
                 var player = __instance.myPlayer;
-                Logger.Info($"SnapTo:{player.name} pos:{position} minSid={minSid}", "RandomSpawn");
+                //Logger.Info($"SnapTo:{player.name} pos:{position} minSid={minSid}", "RandomSpawn");
             }
         }
         [HarmonyPatch(typeof(SpawnInMinigame), nameof(SpawnInMinigame.Begin))]
@@ -129,6 +134,7 @@ namespace TownOfHost
                 hostReady = true;
             }
         }
+
         public static void AirshipSpawn(PlayerControl player)
         {
             FirstTP[player.PlayerId] = false;
@@ -141,8 +147,8 @@ namespace TownOfHost
             if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
             if (IsRandomSpawn())
             {
-            new AirshipSpawnMap().RandomTeleport(player);
-        }
+                new AirshipSpawnMap().RandomTeleport(player);
+            }
             foreach (var (sp, pos) in FastSpawnPosition)
             {
                 //早湧きした人を船外から初期位置に戻す
