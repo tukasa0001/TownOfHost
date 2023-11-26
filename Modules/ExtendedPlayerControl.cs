@@ -567,6 +567,19 @@ namespace TownOfHost
             }
             return null;
         }
+        public static void RpcSnapTo(this PlayerControl pc, Vector2 position)
+        {
+            pc.NetTransform.RpcSnapTo(position);
+        }
+        public static void RpcSnapToDesync(this PlayerControl pc, PlayerControl target, Vector2 position)
+        {
+            var net = pc.NetTransform;
+            var num = (ushort)(net.lastSequenceId + 2);
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(net.NetId, (byte)RpcCalls.SnapTo, SendOption.None, target.GetClientId());
+            NetHelpers.WriteVector2(position, messageWriter);
+            messageWriter.Write(num);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        }
         public static bool IsProtected(this PlayerControl self) => self.protectedByGuardianId > -1;
 
         //汎用

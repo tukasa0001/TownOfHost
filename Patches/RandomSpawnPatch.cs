@@ -150,11 +150,6 @@ namespace TownOfHost
                     return false;
             }
         }
-        public static void TP(CustomNetworkTransform nt, Vector2 location)
-        {
-            nt.RpcSnapTo(location);
-        }
-
         public static void SetupCustomOption()
         {
             // Skeld
@@ -258,7 +253,7 @@ namespace TownOfHost
             {
                 var location = GetLocation();
                 Logger.Info($"{player.Data.PlayerName}:{location}", "RandomSpawn");
-                TP(player.NetTransform, location);
+                player.RpcSnapTo(location);
             }
             public Vector2 GetLocation()
             {
