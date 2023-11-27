@@ -74,11 +74,6 @@ namespace TownOfHost
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.RpcSnapTo))]
         public class RpcSnapToPatch
         {
-            public static void Prefix(CustomNetworkTransform __instance, Vector2 position)
-            {
-                var player = __instance.myPlayer;
-                Logger.Info($"RpcSnapToPre:{player.name} pos:{position}", "RandomSpawn");
-            }
             public static void Postfix(CustomNetworkTransform __instance, Vector2 position)
             {
                 var player = __instance.myPlayer;
@@ -134,7 +129,6 @@ namespace TownOfHost
                 hostReady = true;
             }
         }
-
         public static void AirshipSpawn(PlayerControl player)
         {
             FirstTP[player.PlayerId] = false;
