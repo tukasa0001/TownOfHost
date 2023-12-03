@@ -543,24 +543,54 @@ namespace TownOfHost
                 if (RoleAssignManager.OptionAssignMode.GetBool())
                 {
                     ShowChildrenSettings(RoleAssignManager.OptionAssignMode, ref sb);
+                    CheckPageChange(PlayerId, sb);
                 }
                 foreach (var role in Options.CustomRoleCounts)
                 {
                     if (!role.Key.IsEnable()) continue;
                     sb.Append($"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n");
                     ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref sb);
+                    CheckPageChange(PlayerId, sb);
                 }
                 foreach (var opt in OptionItem.AllOptions.Where(x => x.GetBool() && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
                 {
-                    if (opt.Name is "KillFlashDuration" or "RoleAssigningAlgorithm")
-                        sb.Append($"\n【{opt.GetName(true)}: {opt.GetString()}】\n");
+                    if (opt.Name is "RandomSpawn")
+                    {
+                        //ランダムスポーンは長いので必ず改ページ入れる
+                        CheckPageChange(PlayerId, sb, true);
+                        foreach (var randomOpt in opt.Children)
+                        {
+                            sb.Append($"\n【{opt.GetName(true)}】\n");
+                            sb.Append($"\n【{randomOpt.GetName(true)}: {randomOpt.GetString()}】\n");
+                            ShowChildrenSettings(randomOpt, ref sb, 1);
+                            CheckPageChange(PlayerId, sb, true);
+                        }
+                    }
                     else
-                        sb.Append($"\n【{opt.GetName(true)}】\n");
-                    ShowChildrenSettings(opt, ref sb);
+                    {
+                        if (opt.Name is "KillFlashDuration" or "RoleAssigningAlgorithm")
+                            sb.Append($"\n【{opt.GetName(true)}: {opt.GetString()}】\n");
+                        else
+                            sb.Append($"\n【{opt.GetName(true)}】\n");
+                        ShowChildrenSettings(opt, ref sb);
+                        CheckPageChange(PlayerId, sb);
+                    }
                 }
             }
             SendMessage(sb.ToString(), PlayerId, removeTags: false);
         }
+
+        private static void CheckPageChange(byte PlayerId, StringBuilder sb, bool force = false)
+        {
+            //2Byte文字で1000文字程度でページを変える
+            if (force || sb.Length > 500)
+            {
+                SendMessage(sb.ToString(), PlayerId, removeTags: false);
+                sb.Clear();
+                sb.AppendFormat("<size={0}>", ActiveSettingsSize);
+            }
+        }
+
         public static void CopyCurrentSettings()
         {
             var sb = new StringBuilder();
