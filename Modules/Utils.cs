@@ -582,7 +582,7 @@ namespace TownOfHost
 
         private static void CheckPageChange(byte PlayerId, StringBuilder sb, bool force = false)
         {
-            //2Byte文字で1000文字程度でページを変える
+            //2Byte文字想定で1000byt越えるならページを変える
             if (force || sb.Length > 500)
             {
                 SendMessage(sb.ToString(), PlayerId, removeTags: false);
