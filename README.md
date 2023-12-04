@@ -15,10 +15,9 @@
 
 ## リリース
 
-AmongUsバージョン : **2023.07.12**
+AmongUsバージョン : **2023.11.28**
 
 **本家最新版は[こちら](https://github.com/tukasa0001/TownOfHost/releases/latest)**<br>
-**そこから派生され、TOH4Eの元となったTOHYの最新版は[こちら](https://github.com/Yumenopai/TownOfHost_Y/releases/latest)**<br>
 
 TOH過去バージョンは[こちら](https://github.com/tukasa0001/TownOfHost/releases)
 
