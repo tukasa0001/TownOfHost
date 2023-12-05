@@ -232,7 +232,8 @@ namespace TownOfHost
                 logger.Info("変身者が死亡しているため変身をキャンセルします");
                 return false;
             }
-            if (instance.Data.Role.Role != RoleTypes.Shapeshifter)
+            // RoleInfoによるdesyncシェイプシフター用の判定を追加
+            if (instance.Data.Role.Role != RoleTypes.Shapeshifter && instance.GetCustomRole().GetRoleInfo()?.BaseRoleType?.Invoke() != RoleTypes.Shapeshifter)
             {
                 logger.Info("変身者がシェイプシフターではないため変身をキャンセルします");
                 return false;
