@@ -143,6 +143,12 @@ public abstract class RoleBase : IDisposable
     { }
 
     /// <summary>
+    /// 自視点のみ変身する
+    /// 抜け殻を自視点のみに残すことが可能
+    /// </summary>
+    public bool CanDesyncShapeshift => false;
+
+    /// <summary>
     /// シェイプシフトチェック時に呼ばれる
     /// 自分自身が変身したときのみ呼ばれる
     /// </summary>
