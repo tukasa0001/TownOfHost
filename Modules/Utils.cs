@@ -1020,27 +1020,39 @@ namespace TownOfHost
         }
         public static string SummaryTexts(byte id, bool isForChat)
         {
-            // 全プレイヤー中最長の名前の長さからプレイヤー名の後の水平位置を計算する
-            // 1em ≒ 半角2文字
-            // 空白は0.5emとする
-            // SJISではアルファベットは1バイト，日本語は基本的に2バイト
-            var longestNameByteCount = Main.AllPlayerNames.Values.Select(name => name.GetByteCount()).OrderByDescending(byteCount => byteCount).FirstOrDefault();
-            //最大11.5emとする(★+日本語10文字分+半角空白)
-            var pos = Math.Min(((float)longestNameByteCount / 2) + 1.5f /* ★+末尾の半角空白 */ , 11.5f);
 
             var builder = new StringBuilder();
-            builder.Append(isForChat ? Main.AllPlayerNames[id] : ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id]));
-            builder.AppendFormat("<pos={0}em>", pos).Append(isForChat ? GetProgressText(id).RemoveColorTags() : GetProgressText(id)).Append("</pos>");
-            // "(00/00) " = 4em
-            pos += 4f;
-            builder.AppendFormat("<pos={0}em>", pos).Append(GetVitalText(id)).Append("</pos>");
-            // "Lover's Suicide " = 8em
-            // "回線切断 " = 4.5em
-            pos += DestroyableSingleton<TranslationController>.Instance.currentLanguage.languageID == SupportedLangs.English ? 8f : 4.5f;
-            builder.AppendFormat("<pos={0}em>", pos);
-            builder.Append(isForChat ? GetTrueRoleName(id, false).RemoveColorTags() : GetTrueRoleName(id, false));
-            builder.Append(isForChat ? GetSubRolesText(id).RemoveColorTags() : GetSubRolesText(id));
-            builder.Append("</pos>");
+            // チャットならposタグを使わない(文字数削減)
+            if (isForChat)
+            {
+                builder.Append(Main.AllPlayerNames[id]);
+                builder.Append(": ").Append(GetProgressText(id).RemoveColorTags());
+                builder.Append(' ').Append(GetVitalText(id));
+                builder.Append(' ').Append(GetTrueRoleName(id, false).RemoveColorTags());
+                builder.Append(' ').Append(GetSubRolesText(id).RemoveColorTags());
+            }
+            else
+            {
+                // 全プレイヤー中最長の名前の長さからプレイヤー名の後の水平位置を計算する
+                // 1em ≒ 半角2文字
+                // 空白は0.5emとする
+                // SJISではアルファベットは1バイト，日本語は基本的に2バイト
+                var longestNameByteCount = Main.AllPlayerNames.Values.Select(name => name.GetByteCount()).OrderByDescending(byteCount => byteCount).FirstOrDefault();
+                //最大11.5emとする(★+日本語10文字分+半角空白)
+                var pos = Math.Min(((float)longestNameByteCount / 2) + 1.5f /* ★+末尾の半角空白 */ , 11.5f);
+                builder.Append(ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id]));
+                builder.AppendFormat("<pos={0}em>", pos).Append(GetProgressText(id)).Append("</pos>");
+                // "(00/00) " = 4em
+                pos += 4f;
+                builder.AppendFormat("<pos={0}em>", pos).Append(GetVitalText(id)).Append("</pos>");
+                // "Lover's Suicide " = 8em
+                // "回線切断 " = 4.5em
+                pos += DestroyableSingleton<TranslationController>.Instance.currentLanguage.languageID == SupportedLangs.English ? 8f : 4.5f;
+                builder.AppendFormat("<pos={0}em>", pos);
+                builder.Append(GetTrueRoleName(id, false));
+                builder.Append(GetSubRolesText(id));
+                builder.Append("</pos>");
+            }
             return builder.ToString();
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
