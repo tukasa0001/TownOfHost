@@ -146,7 +146,7 @@ public abstract class RoleBase : IDisposable
     /// 自視点のみ変身する
     /// 抜け殻を自視点のみに残すことが可能
     /// </summary>
-    public bool CanDesyncShapeshift => false;
+    public virtual bool CanDesyncShapeshift => false;
 
     /// <summary>
     /// シェイプシフトチェック時に呼ばれる
