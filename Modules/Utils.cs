@@ -556,19 +556,27 @@ namespace TownOfHost
                 {
                     if (opt.Name is "RandomSpawn")
                     {
-                        //ランダムスポーンは長いので必ず改ページ入れる
-                        CheckPageChange(PlayerId, sb, true);
                         foreach (var randomOpt in opt.Children)
                         {
+                            if ((randomOpt.Id / 100) % 10 != mapId) continue;
                             //現在のマップのみ表示する
-                            if ((randomOpt.Id / 100) % 10 == mapId)
+                            if (randomOpt.GetBool())
                             {
-                                sb.Append($"\n【{opt.GetName(true)}】\n");
-                                sb.Append($"\n【{randomOpt.GetName(true)}: {randomOpt.GetString()}】\n");
-                                ShowChildrenSettings(randomOpt, ref sb, 1);
+                                //Onの時は頭に改ページを入れる
                                 CheckPageChange(PlayerId, sb, true);
+                                sb.Append($"\n【{opt.GetName(true)}】");
+                                sb.Append($"\n {randomOpt.GetName(true)}: {randomOpt.GetString()}\n");
+
+                                ShowChildrenSettings(randomOpt, ref sb, 1);
+                            }
+                            else
+                            {
+                                //オフならそのままで大丈夫
+                                sb.Append($"\n【{opt.GetName(true)}】");
+                                sb.Append($"\n {randomOpt.GetName(true)}: {randomOpt.GetString()}\n");
                             }
                         }
+                        CheckPageChange(PlayerId, sb, true);
                     }
                     else
                     {
