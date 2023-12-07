@@ -560,10 +560,14 @@ namespace TownOfHost
                         CheckPageChange(PlayerId, sb, true);
                         foreach (var randomOpt in opt.Children)
                         {
-                            sb.Append($"\n【{opt.GetName(true)}】\n");
-                            sb.Append($"\n【{randomOpt.GetName(true)}: {randomOpt.GetString()}】\n");
-                            ShowChildrenSettings(randomOpt, ref sb, 1);
-                            CheckPageChange(PlayerId, sb, true);
+                            //現在のマップのみ表示する
+                            if ((randomOpt.Id / 100) % 10 == mapId)
+                            {
+                                sb.Append($"\n【{opt.GetName(true)}】\n");
+                                sb.Append($"\n【{randomOpt.GetName(true)}: {randomOpt.GetString()}】\n");
+                                ShowChildrenSettings(randomOpt, ref sb, 1);
+                                CheckPageChange(PlayerId, sb, true);
+                            }
                         }
                     }
                     else
