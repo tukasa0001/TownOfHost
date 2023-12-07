@@ -548,6 +548,8 @@ namespace TownOfHost
                 foreach (var role in Options.CustomRoleCounts)
                 {
                     if (!role.Key.IsEnable()) continue;
+                    if (role.Key is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
+
                     sb.Append($"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n");
                     ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref sb);
                     CheckPageChange(PlayerId, sb);
