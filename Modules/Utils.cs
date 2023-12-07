@@ -576,7 +576,7 @@ namespace TownOfHost
                                 sb.Append($"\n {randomOpt.GetName(true)}: {randomOpt.GetString()}\n");
                             }
                         }
-                        CheckPageChange(PlayerId, sb, true);
+                        CheckPageChange(PlayerId, sb);
                     }
                     else
                     {
