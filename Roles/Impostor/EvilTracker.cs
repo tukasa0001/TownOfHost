@@ -185,7 +185,7 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         && (target.Is(CustomRoleTypes.Impostor) || TargetId == target.PlayerId);
 
     // 各所で呼ばれる処理
-    public override bool OnCheckShapeshift(PlayerControl target, bool animate)
+    public override bool OnCheckShapeshift(PlayerControl target, ref bool animate)
     {
         //ターゲット出来ない、もしくはターゲットが味方の場合は処理しない
         //※どちらにしろシェイプシフトは出来ない

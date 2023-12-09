@@ -210,7 +210,7 @@ namespace TownOfHost
             }
             // 役職の処理
             var role = __instance.GetRoleClass();
-            if (role?.OnCheckShapeshift(target, shouldAnimate) == false)
+            if (role?.OnCheckShapeshift(target, ref shouldAnimate) == false)
             {
                 if (role.CanDesyncShapeshift)
                 {

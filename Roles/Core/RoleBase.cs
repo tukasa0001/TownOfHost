@@ -151,11 +151,12 @@ public abstract class RoleBase : IDisposable
     /// <summary>
     /// シェイプシフトチェック時に呼ばれる
     /// 自分自身が変身したときのみ呼ばれる
+    /// animateを操作して変身アニメーションのカットも可能
     /// </summary>
     /// <param name="target">変身先</param>
     /// <param name="animate">アニメーションを再生するかどうか</param>
     /// <returns>falseを返すと変身がキャンセルされる</returns>
-    public virtual bool OnCheckShapeshift(PlayerControl target, bool animate) => true;
+    public virtual bool OnCheckShapeshift(PlayerControl target, ref bool animate) => true;
 
     /// <summary>
     /// シェイプシフト時に呼ばれる関数
