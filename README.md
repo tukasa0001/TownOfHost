@@ -124,11 +124,32 @@ BGM機能はAmongUsのメインメニュー画面以外に任意のBGMを設定�
 ・「meeting.wav」：議論中に再生されます。<br>
 ・「result.wav」：ゲームが終わったときのリザルト画面で再生されます。<br>
 
-### 死亡時にペットを外す。
-バニラバグ対策の設定です。ペットを使用する際はこれを有効にすると幸せだと思います。
-
 ### YouTube連携(実験段階)
 「TOH_DATA」フォルダ配下の「YouTubeLiveID.csv」に対象の配信のLiveIdを記録し、ゲームを起動することでロビー画面で配信のチャット欄のコメントを拾います。
+
+### ゲームモード：大惨事爆裂大戦
+アモアスで行う爆弾ゲームを有効にする機能です。<br>
+名前に「魔力が溜まっていく」的な文言がある場合は爆弾を持っています。<br>
+キルボタンを押して他の人に押し付けましょう。<br>
+一定時間経過すると爆弾が爆発します。最後まで生き残ると勝利です。<br>
+カウントダウンが始まってからは爆弾の押しつけは出来ません。<br>
+爆発するとき周りを巻き込むことが出来るので可能な限り周囲のプレイヤーを巻き添えにしましょう。<br>
+また本ゲームモードではBGMをあらかじめ設定していなくてもBGM機能を有効にすることでBGMの再生が可能です。<br>
+是非遊ぶ際はBGM機能を有効にしてみてください。<br>
+
+### 言葉制限モード
+会議時に言葉に制限をかけるモードです。<br>
+「平仮名制限」「カタカナ制限」「アルファベット制限」「指定ワード必須」の4つが選べます。<br>
+それぞれを設定の上違反した場合会議中に自爆します。<br>
+「指定ワード必須」を選択した際は下記コマンドにて言葉を設定してください。<br>
+「/swl 指定したい言葉」<br>
+
+### ラバーズ複数組採用
+vBOMBよりラバーズが複数組採用可能になっています。<br>
+複数組採用した場合、ラバーズの勝利条件に以下が追加されます。<br>
+・一番早くラバーズを組んだチーム<br>
+原則的にアドオンのラバーズが最も早くラバーズを組むことになるため、他ラバーズは他ラバーズチームの殲滅を行うことをお勧めします。<br>
+
 
 ## ★役職
 
@@ -140,7 +161,7 @@ BGM機能はAmongUsのメインメニュー画面以外に任意のBGMを設定�
 | [花火職人](#FireWorks花火職人)                                     																      |  [サイドキックマッドメイト](https://github.com/tukasa0001/TownOfHost#SidekickMadmateサイドキックマッドメイト)     | [ライター](https://github.com/tukasa0001/TownOfHost#Lighterライター)                                		 | [ジャッカル](https://github.com/tukasa0001/TownOfHost#Jackalジャッカル)                             | [ブラキディオス](#ブラキディオス)													 |[ライティング](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#x1c528ac)				 |
 | [メアー](https://github.com/tukasa0001/TownOfHost#Mareメアー)                                  										  |  [マッドディクテーター](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#n4bf3323)  | [メイヤー](https://github.com/tukasa0001/TownOfHost#Mayorメイヤー)                                  		 | [ジェスター](https://github.com/tukasa0001/TownOfHost#Jesterジェスター)                             | [ヒョウ](#ヒョウ)																	 |[サングラス](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#f3497d33)					 |
 | [パペッティア](https://github.com/tukasa0001/TownOfHost#Puppeteerパペッティア)                 										  |  [マッドネイチャコール](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#rca696b4)  | [ナイスウォッチャー](https://github.com/tukasa0001/TownOfHost#Watcherウォッチャー)                  		 | [ラバーズ](https://github.com/tukasa0001/TownOfHost#Lovers恋人)                                     | [レッサーパンダ](#レッサーパンダ)													 |[シーイング](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#qd5258ff)					 |
-| [シリアルキラー](https://github.com/tukasa0001/TownOfHost#SerialKillerシリアルキラー)         										  |  [マッドブラックアウター](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#w655a7de)| [サボタージュマスター](https://github.com/tukasa0001/TownOfHost#SabotageMasterサボタージュマスター) 		 | [オポチュニスト](https://github.com/tukasa0001/TownOfHost#Opportunistオポチュニスト)                |																					 |[オートプシー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#g06da7ee) 			 |
+| [シリアルキラー](https://github.com/tukasa0001/TownOfHost#SerialKillerシリアルキラー)         										  |  [マッドブラックアウター](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#w655a7de)| [サボタージュマスター](https://github.com/tukasa0001/TownOfHost#SabotageMasterサボタージュマスター) 		 | [オポチュニスト](https://github.com/tukasa0001/TownOfHost#Opportunistオポチュニスト)                | [クサネコ](#クサネコ)																 |[オートプシー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#g06da7ee) 			 |
 | [スナイパー](https://github.com/tukasa0001/TownOfHost#Sniperスナイパー)                       										  |  [マッドシェリフ](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#w25d7302)        | [シーア](https://github.com/tukasa0001/TownOfHost#Seerシーア)                                       		 | [テロリスト](https://github.com/tukasa0001/TownOfHost#Terroristテロリスト)                          |																					 |[VIP](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#u300fea1)  								 |
 | [タイムシーフ](https://github.com/tukasa0001/TownOfHost#TimeThiefタイムシーフ)               											  |  [マッドニムロッド](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#w0330508)      | [シェリフ](https://github.com/tukasa0001/TownOfHost#Sheriffシェリフ)                                		 | [シュレディンガーの猫](https://github.com/tukasa0001/TownOfHost#SchrodingerCatシュレディンガーの猫) |																					 |[クラムシー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#q9b16991)					 |
 | [ヴァンパイア](https://github.com/tukasa0001/TownOfHost#Vampireヴァンパイア)                  										  |  [クモマッドメイト](#クモマッドメイト) 																		      | [スニッチ](https://github.com/tukasa0001/TownOfHost#Snitchスニッチ)                                 		 | [アンチコンプリート](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#w9104b1e)|																					 |[リベンジャー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#ifcdc37f)				 |
@@ -168,7 +189,7 @@ BGM機能はAmongUsのメインメニュー画面以外に任意のBGMを設定�
 | [ネコカボチャ](https://github.com/tukasa0001/TownOfHost#neko-kabocha%E3%83%8D%E3%82%B3%E3%82%AB%E3%83%9C%E3%83%81%E3%83%A3)		 	  |																												      | [ナイスゲッサー](#ナイスゲッサー)                                  											 |                                                             										   |           																		     |          																		     |
 | [ペンギン](https://github.com/tukasa0001/TownOfHost#penguin%E3%83%9A%E3%83%B3%E3%82%AE%E3%83%B3)										  |																												      | [ニムロッド](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#x2e6844e)        |                                                             										   |           																		     |          																		     |
 | [ステルス](https://github.com/tukasa0001/TownOfHost#stealth%E3%82%B9%E3%83%86%E3%83%AB%E3%82%B9)										  |																												      | [メタトン](#メタトン)                                  														 |                                                             										   |           																			 |          																			 |
-| [イレイサー](#イレイサー)																												  |																												      | 					                               															 |                                                             										   |           																		     |          																		     |
+| [イレイサー](#イレイサー)																												  |																												      | [ドッグシェリフ](#ドッグシェリフ)                               											 |                                                             										   |           																		     |          																		     |
 |                                                       			  							 										  |																												      | 					                            															 |                                                             										   |           																		     |          																		     |
 |                                                       			  							 										  |																												      | 						                         															 |                                                             										   |           																		     |          																		     |
 |                                                       			  							 										  |																												      | 					                               															 |                                                             										   |           																		     |          																		     |
@@ -273,6 +294,9 @@ BGM機能はAmongUsのメインメニュー画面以外に任意のBGMを設定�
 | 変身のクールタイム  |
 | ゲートの範囲 |
 | 再度ゲートを利用できるまでの時間 |
+| ゲートの場所が味方に伝わる |
+| ゲートの再設置不可 |
+| ゲートが一方通行になる |
 
 
 ### 人形術師
@@ -473,6 +497,27 @@ BGM機能はAmongUsのメインメニュー画面以外に任意のBGMを設定�
 | YouTubeコメント数で溜まるエネルギー倍率 |
 | エネルギー最大チャージ数 |
 | 専用BGMを有効にする |
+| 設定名         |
+
+### ドッグシェリフ
+
+陣営 : クルーメイト<br>
+判定 : クルーメイト<br>
+
+ペットを撫でることでキルを行うクルーメイトです。<br>
+シェリフと違い、タスクが割り振られます。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| キルクール |
+| 誤爆時、ターゲットも死ぬ |
+| キル可能回数 |
+| 全員生存時にキルができる |
+| マッドメイトをキルできる |
+| ニュートラルをキルできる |
+| アニマルズをキルできる |
 
 ### 姫
 
@@ -647,6 +692,25 @@ BGM機能はAmongUsのメインメニュー画面以外に任意のBGMを設定�
 | バフ属性を付与する |
 | デバフ属性を付与する |
 
+### クサネコ
+
+陣営 : アニマルズ<br>
+判定 : インポスター<br>
+勝利条件 :インポスター、ジャッカルを全滅させ、アニマルズの人数がクルーの人数と同数か上回ること<br>
+
+クサネコはペットを撫でることで特殊な光弾の発射準備を行います。<br>
+発射準備中に左側に移動をすれば左側に光弾を発射、右側に行けば右側に放ちます。<br>
+光弾はとても強力な技ですが、他プレイヤー視点では光弾の位置が矢印にて描画されます。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 推測できる最大人数  |
+| キルクール |
+| エネルギー弾数 |
+| クールタイム |
+
 ### 中二病
 
 ・属性<br>
@@ -672,6 +736,9 @@ BGM機能はAmongUsのメインメニュー画面以外に任意のBGMを設定�
 
 ### 見送り人/センディング
 インポスターの代わりに見送った相手がクルーメイトであったか確認出来る設定が追加されています。
+
+### メイヤー
+投票をスキップした場合、その投票が保存される設定が追加されています。
 
 ### FireWorks/花火職人
 
@@ -701,9 +768,11 @@ TOH4Eでは爆破するまでキルできない制限と、<br>
 
 
 ## クレジット
-- SuperNewRoles[SNR](https://github.com/ykundesu/SuperNewRoles)：自爆魔と部屋人数コマンドそのほか諸々スペシャルthx
+- SuperNewRoles[SNR](https://github.com/ykundesu/SuperNewRoles)：自爆魔、マグロと部屋人数コマンドそのほか諸々スペシャルthx
 - TownOfHostEditer[TOHE](https://github.com/KARPED1EM/TownOfHostEdited)：ゲッサーの処理。
 - TownOfHostY[TOHY](https://github.com/Yumenopai/TownOfHost_Y)：様々な設定、役職など。
+- DovaSyndrome[DovaSyndrome](https://dova-s.jp/)：楽曲利用
+
 ## 開発者
 <!--
 開発者用チャンネルでの一番最初の発言が早い順に記載する。
