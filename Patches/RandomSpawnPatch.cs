@@ -143,6 +143,10 @@ namespace TownOfHost
             {
                 new AirshipSpawnMap().RandomTeleport(player);
             }
+            else if (player.Is(CustomRoles.GM))
+            {
+                new AirshipSpawnMap().FirstTeleport(player);
+            }
             foreach (var (sp, pos) in FastSpawnPosition)
             {
                 //早湧きした人を船外から初期位置に戻す
@@ -275,16 +279,25 @@ namespace TownOfHost
             public abstract Dictionary<OptionItem, Vector2> Positions { get; }
             public virtual void RandomTeleport(PlayerControl player)
             {
-                var location = GetLocation();
+                Teleport(player, true);
+            }
+            public virtual void FirstTeleport(PlayerControl player)
+            {
+                Teleport(player, false);
+            }
+
+            private void Teleport(PlayerControl player, bool isRadndom)
+            {
+                var location = GetLocation(!isRadndom);
                 Logger.Info($"{player.Data.PlayerName}:{location}", "RandomSpawn");
                 player.RpcSnapTo(location);
             }
-            public Vector2 GetLocation()
+
+            public Vector2 GetLocation(Boolean first = false)
             {
-                var locations =
-                    Positions.ToArray().Where(o => o.Key.GetBool()).Any()
-                    ? Positions.ToArray().Where(o => o.Key.GetBool())
-                    : Positions.ToArray();
+                var EnableLocations = Positions.Where(o => o.Key.GetBool()).ToArray();
+                var locations = EnableLocations.Length != 0 ? EnableLocations : Positions.ToArray();
+                if (first) return locations[0].Value;
                 var location = locations.OrderBy(_ => Guid.NewGuid()).Take(1).FirstOrDefault();
                 return location.Value;
             }
