@@ -40,5 +40,10 @@ namespace TownOfHost
             base.SetValue(Rule.RepeatIndex(value), doSync);
             SwitchPreset(Rule.RepeatIndex(value));
         }
+        public override void SetValue(int afterValue, bool doSave, bool doSync = true)
+        {
+            base.SetValue(Rule.RepeatIndex(afterValue), doSave, doSync);
+            SwitchPreset(Rule.RepeatIndex(afterValue));
+        }
     }
 }
