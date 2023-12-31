@@ -23,7 +23,7 @@ TOH過去バージョンは[こちら](https://github.com/tukasa0001/TownOfHost/
 
 ## TOH4Eの特徴('ω')ノ
 
-このModは本家**TownOfHost** Modから派生された**TownOfHost_Y**に追加のオリジナル役職を入れたものです。
+このModは本家**TownOfHost** Modから派生された**TownOfHost_Y**を元にオリジナル役職を入れたものです。
 
 TownOfHost ForEでは個性豊かなオリジナル役職を実装していきます。
 それはきっとここだけでしか遊べない独特なAmongUs体験になることをお約束します。
@@ -177,7 +177,7 @@ vBOMBよりラバーズが複数組採用可能になっています。<br>
 | [イビルディバイナー](https://wikiwiki.jp/tohy_amongus/%E3%82%A4%E3%83%B3%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E5%BD%B9%E8%81%B7#k56dd09f)|																												      | [見送り人](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#k71c8da5)          | [決闘者]()																						   |																					 |[ベイティング](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#q4442d0a)	         |
 | [テレパシスターズ](https://wikiwiki.jp/tohy_amongus/%E3%82%A4%E3%83%B3%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E5%BD%B9%E8%81%B7#r5027f96)  |																												      | [バカシェリフ](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#df970198)      | [ヤンデレ](#ヤンデレ)																			   |																					 |[リフュージング](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#c264cc48)	     |
 | [シェイプキラー](https://wikiwiki.jp/tohy_amongus/%E3%82%A4%E3%83%B3%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E5%BD%B9%E8%81%B7#qde80b78)	  |																												      | [共鳴者](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#q7a11499)            | [ペスト医師](https://github.com/tukasa0001/TownOfHost#plaguedoctorペスト医師)					   |																					 |[コンプリートクルー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#c761d7a5)	 |
-| [はぐれ狼](#はぐれ狼)	                                       			  																  |																												      | [ブラインダー](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#m14f3d7b)      |                                                             										   |          																		     |[中二病](#中二病)																	     |
+| [はぐれ狼](#はぐれ狼)	                                       			  																  |																												      | [ブラインダー](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#m14f3d7b)      |  [マグロ](#マグロ)                                                      										   |          																		     |[中二病](#中二病)																	     |
 | [爆裂魔](#爆裂魔)                                                       	 															  |																												      | [メディック](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#k2c704f9)        |                                                             										   |           																		     |[ギャンブラー](#ギャンブラー)														     |
 | [シンデレラ](#シンデレラ)	              					  									 										  |																												      | [キャンドルライター](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#vb854377)|                                                             										   |           																		     |          																		     |
 | [イビルゲッサー](#イビルゲッサー) 																									  |																												      | [占い師](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#ia71342f)            |                                                             										   |          																		     |         																			     |
@@ -574,10 +574,28 @@ vBOMBよりラバーズが複数組採用可能になっています。<br>
 3.最後に「あいつ」をキルする。 <br>
 上記以外のキルは一切できないのでご注意ください。 <br>
 
+
+### マグロ
+
+陣営 : 第三（単独）<br>
+判定 : クルーメイト/エンジニア<br>
+カウント : クルー<br>
+勝利条件 : 最後まで生き残ること<br>
+
+**スペシャルThx SuperNewRoles!!**<br>
+SNRでお馴染みマグロ
+マグロはいつもどんな時も走り続けないと生きていけない...
+本役職はそんな生態が再現されています！
+つまり、一定時間立ち止まると死んでしまう！
+いつまでも動き続けて生き残ろうぜ！
+※最初の会議が発生するまでは立ち止まっても死にません。
+
 #### 設定
 | 設定名         |
 | -------------- |
-| キルクール |
+| 立ち止まれる時間 |
+| 追加勝利 |
+| ベントを使える |
 
 
 ### コヨーテ
