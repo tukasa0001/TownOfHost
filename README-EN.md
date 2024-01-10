@@ -1244,11 +1244,13 @@ Various devices can be disabled.
 
 The time limit for some sabotage can be modified.
 
-| Name                        |
-| --------------------------- |
-| Modify Sabotage TimeLimit   |
-| ┣ Polus Reactor TimeLimit   |
-| ┗ Airship Reactor TimeLimit |
+| Name                            |
+| ------------------------------- |
+| Modify Sabotage TimeLimit       |
+| ┣ Polus Reactor TimeLimit       |
+| ┣ Airship Reactor TimeLimit     |
+| ┣Fungle Reactor Duration        |
+| ┗Fungle Mushroom Mixup Duration |
 
 ## Sabotage Cooldown Control
 
