@@ -57,17 +57,17 @@ namespace TownOfHost
 
         public static MessageWriter WriteTo(MessageWriter writer)
         {
-            writer.Write((int)WinnerTeam);
+            writer.WritePacked((int)WinnerTeam);
 
-            writer.Write(AdditionalWinnerRoles.Count);
+            writer.WritePacked(AdditionalWinnerRoles.Count);
             foreach (var wr in AdditionalWinnerRoles)
-                writer.Write((int)wr);
+                writer.WritePacked((int)wr);
 
-            writer.Write(WinnerRoles.Count);
+            writer.WritePacked(WinnerRoles.Count);
             foreach (var wr in WinnerRoles)
-                writer.Write((int)wr);
+                writer.WritePacked((int)wr);
 
-            writer.Write(WinnerIds.Count);
+            writer.WritePacked(WinnerIds.Count);
             foreach (var id in WinnerIds)
                 writer.Write(id);
 
@@ -75,20 +75,20 @@ namespace TownOfHost
         }
         public static void ReadFrom(MessageReader reader)
         {
-            WinnerTeam = (CustomWinner)reader.ReadInt32();
+            WinnerTeam = (CustomWinner)reader.ReadPackedInt32();
 
             AdditionalWinnerRoles = new();
-            int AdditionalWinnerRolesCount = reader.ReadInt32();
+            int AdditionalWinnerRolesCount = reader.ReadPackedInt32();
             for (int i = 0; i < AdditionalWinnerRolesCount; i++)
-                AdditionalWinnerRoles.Add((CustomRoles)reader.ReadInt32());
+                AdditionalWinnerRoles.Add((CustomRoles)reader.ReadPackedInt32());
 
             WinnerRoles = new();
-            int WinnerRolesCount = reader.ReadInt32();
+            int WinnerRolesCount = reader.ReadPackedInt32();
             for (int i = 0; i < WinnerRolesCount; i++)
-                WinnerRoles.Add((CustomRoles)reader.ReadInt32());
+                WinnerRoles.Add((CustomRoles)reader.ReadPackedInt32());
 
             WinnerIds = new();
-            int WinnerIdsCount = reader.ReadInt32();
+            int WinnerIdsCount = reader.ReadPackedInt32();
             for (int i = 0; i < WinnerIdsCount; i++)
                 WinnerIds.Add(reader.ReadByte());
         }

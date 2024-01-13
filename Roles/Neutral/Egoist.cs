@@ -23,6 +23,7 @@ public sealed class Egoist : RoleBase, ISidekickable, IKiller, ISchrodingerCatOw
             countType: CountTypes.Impostor,
             assignInfo: new RoleAssignInfo(CustomRoles.Egoist, CustomRoleTypes.Neutral)
             {
+                AssignRoleType = CustomRoleTypes.Impostor,
                 IsInitiallyAssignableCallBack =
                     () => Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1,
                 AssignCountRule = new(1, 1, 1)

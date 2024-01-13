@@ -14,6 +14,9 @@ namespace TownOfHost
         public static IReadOnlyDictionary<int, OptionItem> FastOptions => _fastOptions;
         private static Dictionary<int, OptionItem> _fastOptions = new(1024);
         public static int CurrentPreset { get; set; }
+#if DEBUG
+        public static bool IdDuplicated { get; private set; } = false;
+#endif
         #endregion
 
         // 必須情報 (コンストラクタで必ず設定させる必要がある値)
@@ -105,6 +108,9 @@ namespace TownOfHost
             }
             else
             {
+#if DEBUG
+                IdDuplicated = true;
+#endif
                 Logger.Error($"ID:{id}が重複しています", "OptionItem");
             }
         }
@@ -179,7 +185,7 @@ namespace TownOfHost
                 opt.oldValue = opt.Value = CurrentValue;
             }
         }
-        public void SetValue(int afterValue, bool doSave, bool doSync = true)
+        public virtual void SetValue(int afterValue, bool doSave, bool doSync = true)
         {
             int beforeValue = CurrentValue;
             if (IsSingleValue)

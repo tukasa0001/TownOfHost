@@ -1,8 +1,11 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
+using BepInEx.Unity.IL2CPP.Utils.Collections;
 using HarmonyLib;
 using Hazel;
+using UnityEngine;
 
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
@@ -82,11 +85,13 @@ namespace TownOfHost
         }
         public static void StartEndGame(GameOverReason reason)
         {
-            var sender = new CustomRpcSender("EndGameSender", SendOption.Reliable, true);
-            sender.StartMessage(-1); // 5: GameData
-            MessageWriter writer = sender.stream;
+            AmongUsClient.Instance.StartCoroutine(CoEndGame(AmongUsClient.Instance, reason).WrapToIl2Cpp());
+        }
+        private static IEnumerator CoEndGame(AmongUsClient self, GameOverReason reason)
+        {
+            // サーバー側のパケットサイズ制限によりCustomRpcSenderが利用できないため，遅延を挟むことで順番の整合性を保つ．
 
-            //ゴーストロール化
+            // バニラ画面でのアウトロを正しくするためのゴーストロール化
             List<byte> ReviveRequiredPlayerIds = new();
             var winner = CustomWinnerHolder.WinnerTeam;
             foreach (var pc in Main.AllPlayerControls)
@@ -107,58 +112,45 @@ namespace TownOfHost
                     if (ToGhostImpostor)
                     {
                         Logger.Info($"{pc.GetNameWithRole()}: ImpostorGhostに変更", "ResetRoleAndEndGame");
-                        sender.StartRpc(pc.NetId, RpcCalls.SetRole)
-                            .Write((ushort)RoleTypes.ImpostorGhost)
-                            .EndRpc();
-                        pc.SetRole(RoleTypes.ImpostorGhost);
+                        pc.RpcSetRole(RoleTypes.ImpostorGhost);
                     }
                     else
                     {
                         Logger.Info($"{pc.GetNameWithRole()}: CrewmateGhostに変更", "ResetRoleAndEndGame");
-                        sender.StartRpc(pc.NetId, RpcCalls.SetRole)
-                            .Write((ushort)RoleTypes.CrewmateGhost)
-                            .EndRpc();
-                        pc.SetRole(RoleTypes.Crewmate);
+                        pc.RpcSetRole(RoleTypes.CrewmateGhost);
                     }
                 }
             }
 
             // CustomWinnerHolderの情報の同期
-            sender.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame);
-            CustomWinnerHolder.WriteTo(sender.stream);
-            sender.EndRpc();
+            var winnerWriter = self.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, SendOption.Reliable);
+            CustomWinnerHolder.WriteTo(winnerWriter);
+            self.FinishRpcImmediately(winnerWriter);
 
-            // GameDataによる蘇生処理
-            writer.StartMessage(1); // Data
+            // 蘇生を確実にゴーストロール設定の後に届けるための遅延
+            yield return new WaitForSeconds(EndGameDelay);
+
+            if (ReviveRequiredPlayerIds.Count > 0)
             {
-                writer.WritePacked(GameData.Instance.NetId); // NetId
-                foreach (var info in GameData.Instance.AllPlayers)
+                // 蘇生 パケットが膨れ上がって死ぬのを防ぐため，1送信につき1人ずつ蘇生する
+                for (int i = 0; i < ReviveRequiredPlayerIds.Count; i++)
                 {
-                    if (ReviveRequiredPlayerIds.Contains(info.PlayerId))
-                    {
-                        // 蘇生&メッセージ書き込み
-                        info.IsDead = false;
-                        writer.StartMessage(info.PlayerId);
-                        info.Serialize(writer);
-                        writer.EndMessage();
-                    }
+                    var playerId = ReviveRequiredPlayerIds[i];
+                    var playerInfo = GameData.Instance.GetPlayerById(playerId);
+                    // 蘇生
+                    playerInfo.IsDead = false;
+                    // 送信
+                    GameData.Instance.SetDirtyBit(0b_1u << playerId);
+                    AmongUsClient.Instance.SendAllStreamedObjects();
                 }
-                writer.EndMessage();
+                // ゲーム終了を確実に最後に届けるための遅延
+                yield return new WaitForSeconds(EndGameDelay);
             }
 
-            sender.EndMessage();
-
-            // バニラ側のゲーム終了RPC
-            writer.StartMessage(8); //8: EndGame
-            {
-                writer.Write(AmongUsClient.Instance.GameId); //GameId
-                writer.Write((byte)reason); //GameoverReason
-                writer.Write(false); //showAd
-            }
-            writer.EndMessage();
-
-            sender.SendMessage();
+            // ゲーム終了
+            GameManager.Instance.RpcEndGame(reason, false);
         }
+        private const float EndGameDelay = 0.2f;
 
         public static void SetPredicateToNormal() => predicate = new NormalGameEndPredicate();
         public static void SetPredicateToHideAndSeek() => predicate = new HideAndSeekGameEndPredicate();

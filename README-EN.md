@@ -15,7 +15,7 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 ## Releases
 
-AmongUs Version: **2023.10.24**
+AmongUs Version: **2023.11.28**
 
 **Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
@@ -1244,11 +1244,13 @@ Various devices can be disabled.
 
 The time limit for some sabotage can be modified.
 
-| Name                        |
-| --------------------------- |
-| Modify Sabotage TimeLimit   |
-| ┣ Polus Reactor TimeLimit   |
-| ┗ Airship Reactor TimeLimit |
+| Name                            |
+| ------------------------------- |
+| Modify Sabotage TimeLimit       |
+| ┣ Polus Reactor TimeLimit       |
+| ┣ Airship Reactor TimeLimit     |
+| ┣Fungle Reactor Duration        |
+| ┗Fungle Mushroom Mixup Duration |
 
 ## Sabotage Cooldown Control
 

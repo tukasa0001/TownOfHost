@@ -61,7 +61,7 @@ public sealed class SabotageMaster : RoleBase, ISystemTypeUpdateHook
     public int UsedSkillCount;
 
     private bool DoorsProgressing = false;
-    private bool fixedComms = false;
+    private bool fixedSabotage;
 
     public static void SetupOptionItem()
     {
@@ -90,12 +90,19 @@ public sealed class SabotageMaster : RoleBase, ISystemTypeUpdateHook
         if (!IsSkillAvailable()) return true;
         if (!FixesReactors) return true;
         var tags = (HeliSabotageSystem.Tags)(amount & HeliSabotageSystem.TagMask);
-        if (tags == HeliSabotageSystem.Tags.FixBit)
+        if (tags == HeliSabotageSystem.Tags.ActiveBit)
+        {
+            //パネル開いたタイミング
+            fixedSabotage = false;
+        }
+        if (!fixedSabotage && tags == HeliSabotageSystem.Tags.FixBit)
         {
             //片方の入力が正解したタイミング
+            fixedSabotage = true;
+            //ヘリサボは16,17がそろったとき完了。
             var consoleId = amount & HeliSabotageSystem.IdMask;
             var otherConsoleId = (consoleId + 1) % 2;
-            ShipStatus.Instance.UpdateSystem(SystemTypes.HeliSabotage, Player, (byte)(consoleId | (int)HeliSabotageSystem.Tags.FixBit));
+            //もう一方のパネルの完了報告
             ShipStatus.Instance.UpdateSystem(SystemTypes.HeliSabotage, Player, (byte)(otherConsoleId | (int)HeliSabotageSystem.Tags.FixBit));
             UsedSkillCount++;
         }
@@ -121,12 +128,12 @@ public sealed class SabotageMaster : RoleBase, ISystemTypeUpdateHook
         if (tags == HqHudSystemType.Tags.ActiveBit)
         {
             //パネル開いたタイミング
-            fixedComms = false;
+            fixedSabotage = false;
         }
-        if (!fixedComms && tags == HqHudSystemType.Tags.FixBit)
+        if (!fixedSabotage && tags == HqHudSystemType.Tags.FixBit)
         {
             //片方の入力が正解したタイミング
-            fixedComms = true;
+            fixedSabotage = true;
             //MiraHQのコミュは16,17がそろったとき完了。
             var consoleId = amount & HqHudSystemType.IdMask;
             var otherConsoleId = (consoleId + 1) % 2;
