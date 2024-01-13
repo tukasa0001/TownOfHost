@@ -122,13 +122,11 @@ public sealed class Sheriff : RoleBase, IKiller, ISchrodingerCatOwner
     }
     private void SendRPC()
     {
-        using var sender = CreateSender(CustomRPC.SetSheriffShotLimit);
+        using var sender = CreateSender();
         sender.Writer.Write(ShotLimit);
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SetSheriffShotLimit) return;
-
         ShotLimit = reader.ReadInt32();
     }
     public float CalculateKillCooldown() => CanUseKillButton() ? CurrentKillCooldown : 0f;

@@ -68,7 +68,7 @@ namespace TownOfHost.Roles.Impostor
         }
         private void SendRPC(bool doSpell, byte target = 255)
         {
-            using var sender = CreateSender(CustomRPC.WitchSync);
+            using var sender = CreateSender();
             sender.Writer.Write(doSpell);
             if (doSpell)
             {
@@ -80,10 +80,8 @@ namespace TownOfHost.Roles.Impostor
             }
         }
 
-        public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+        public override void ReceiveRPC(MessageReader reader)
         {
-            if (rpcType != CustomRPC.WitchSync) return;
-
             var doSpel = reader.ReadBoolean();
             if (doSpel)
             {

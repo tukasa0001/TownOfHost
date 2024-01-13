@@ -144,16 +144,13 @@ public sealed class EvilHacker : RoleBase, IImpostor, IKillFlashSeeable
         CreateMurderNotify(room);
         if (AmongUsClient.Instance.AmHost)
         {
-            using var sender = CreateSender(CustomRPC.EvilHackerCreateMurderNotify);
+            using var sender = CreateSender();
             sender.Writer.Write((byte)room);
         }
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType == CustomRPC.EvilHackerCreateMurderNotify)
-        {
-            CreateMurderNotify((SystemTypes)reader.ReadByte());
-        }
+        CreateMurderNotify((SystemTypes)reader.ReadByte());
     }
     /// <summary>
     /// 名前の下にキル発生通知を出す
