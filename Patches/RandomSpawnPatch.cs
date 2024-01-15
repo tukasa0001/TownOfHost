@@ -290,7 +290,7 @@ namespace TownOfHost
             {
                 var location = GetLocation(!isRadndom);
                 Logger.Info($"{player.Data.PlayerName}:{location}", "RandomSpawn");
-                player.RpcSnapTo(location);
+                player.RpcSnapToForced(location);
             }
 
             public Vector2 GetLocation(Boolean first = false)

@@ -238,14 +238,14 @@ class Penguin : RoleBase, IImpostor
                 var position = Player.transform.position;
                 if (Player.PlayerId != 0)
                 {
-                    AbductVictim.RpcSnapTo(position);
+                    AbductVictim.RpcSnapToForced(position);
                 }
                 else
                 {
                     _ = new LateTask(() =>
                     {
                         if (AbductVictim != null)
-                            AbductVictim.RpcSnapTo(position);
+                            AbductVictim.RpcSnapToForced(position);
                     }
                     , 0.25f, "");
                 }
