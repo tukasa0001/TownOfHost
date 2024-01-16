@@ -578,7 +578,7 @@ namespace TownOfHost
                 netTransform.SnapTo(position, (ushort)(netTransform.lastSequenceId + 128));
             }
             ushort newSid = (ushort)(netTransform.lastSequenceId + 2);
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(netTransform.NetId, 21, SendOption.Reliable);
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(netTransform.NetId, (byte)RpcCalls.SnapTo, SendOption.Reliable);
             NetHelpers.WriteVector2(position, messageWriter);
             messageWriter.Write(newSid);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
