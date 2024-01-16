@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using Hazel;
 using UnityEngine;
 
 using TownOfHost.Roles.Core;
@@ -68,95 +69,130 @@ namespace TownOfHost
     }
     class RandomSpawn
     {
-        public static Dictionary<byte, bool> FirstTP = new();
-        public static Dictionary<PlayerControl, Vector2> FastSpawnPosition = new();
-        public static bool hostReady;
-        [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.RpcSnapTo))]
-        public class RpcSnapToPatch
-        {
-            public static void Postfix(CustomNetworkTransform __instance, Vector2 position)
-            {
-                var player = __instance.myPlayer;
-                //Logger.Info($"RpcSnapToPost:{player.name} pos:{position}", "RandomSpawn");
-                if (!AmongUsClient.Instance.AmHost) return;
-                if (Main.NormalOptions.MapId != 4) return;//AirShip以外無効
-                if (FirstTP.TryGetValue(player.PlayerId, out var first) && first)
-                {
-                    hostReady = true;
-                    //ホスト用処理
-                    //他視点へRPCを最初に送るのはスポーン位置選択後のため
-                    //クライアントへRPCを発行するときにはすでにクライアントの初期配置は終わっている。
-                    AirshipSpawn(player);
-                }
-            }
-        }
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.HandleRpc))]
-        public class HandleRpcPatch
+        public class CustomNetworkTransformHandleRpcPatch
         {
-            public static void Postfix(CustomNetworkTransform __instance)
+            public static bool Prefix(CustomNetworkTransform __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
             {
-                var player = __instance.myPlayer;
-                //Logger.Info($"HandleRpcPost:{player.name}", "RandomSpawn");
-
-                if (!AmongUsClient.Instance.AmHost) return;
-                if (Main.NormalOptions.MapId != 4) return;//AirShip以外無効
-
-                if (FirstTP.TryGetValue(player.PlayerId, out var first) && first)
+                if (!__instance.isActiveAndEnabled)
                 {
-                    //クライアント用処理
-                    //他視点へRPCを最初に送るのはスポーン位置選択後のため
-                    //ランダムスポーン発生
-                    AirshipSpawn(player);
+                    return false;
                 }
+                if ((RpcCalls)callId == RpcCalls.SnapTo && (MapNames)Main.NormalOptions.MapId == MapNames.Airship)
+                {
+                    var player = __instance.myPlayer;
+                    // プレイヤーがまだ湧いていない
+                    if (!PlayerState.GetByPlayerId(player.PlayerId).HasSpawned)
+                    {
+                        // SnapTo先の座標を読み取る
+                        Vector2 position;
+                        {
+                            var newReader = MessageReader.Get(reader);
+                            position = NetHelpers.ReadVector2(newReader);
+                            newReader.Recycle();
+                        }
+                        Logger.Info($"SnapTo: {player.GetRealName()}, ({position.x}, {position.y})", "RandomSpawn");
+                        // SnapTo先が湧き位置だったら湧き処理に進む
+                        if (IsAirshipVanillaSpawnPosition(position))
+                        {
+                            AirshipSpawn(player);
+                            return false;
+                        }
+                        else
+                        {
+                            Logger.Info("ポジションは湧き位置ではありません", "RandomSpawn");
+                        }
+                    }
+                }
+                return true;
             }
-        }
-        [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2), typeof(ushort))]
-        public class SnapToPatch
-        {
-            public static void Postfix(CustomNetworkTransform __instance, Vector2 position, ushort minSid)
+
+            private static bool IsAirshipVanillaSpawnPosition(Vector2 position)
             {
-                var player = __instance.myPlayer;
-                //Logger.Info($"SnapTo:{player.name} pos:{position} minSid={minSid}", "RandomSpawn");
+                // 湧き位置の座標が0.1刻みであることを利用し，float型の誤差やReadVector2の実装による誤差の拡大の対策として座標を10倍したint型で比較する
+                var decupleXFloat = position.x * 10f;
+                var decupleYFloat = position.y * 10f;
+                var decupleXInt = Mathf.RoundToInt(decupleXFloat);
+                // 10倍した値の差が0.1近く以上あったら，元の座標が0.1刻みではないので湧き位置ではない
+                if (Mathf.Abs(((float)decupleXInt) - decupleXFloat) >= 0.09f)
+                {
+                    return false;
+                }
+                var decupleYInt = Mathf.RoundToInt(decupleYFloat);
+                if (Mathf.Abs(((float)decupleYInt) - decupleYFloat) >= 0.09f)
+                {
+                    return false;
+                }
+                var decuplePosition = (decupleXInt, decupleYInt);
+                return decupleVanillaSpawnPositions.Contains(decuplePosition);
             }
-        }
-        [HarmonyPatch(typeof(SpawnInMinigame), nameof(SpawnInMinigame.Begin))]
-        public class SpawnInMinigamePatch
-        {
-            public static void Postfix()
+            /// <summary>比較用 エアシップのバニラ湧き位置の10倍</summary>
+            private static readonly HashSet<(int x, int y)> decupleVanillaSpawnPositions = new()
             {
-                Logger.Info($"BeginPost", "SpawnInMinigame");
-                if (!AmongUsClient.Instance.AmHost) return;
-                hostReady = true;
+                (-7, 85),  // 宿舎前通路
+                (-7, -10),  // エンジン
+                (-70, -115),  // キッチン
+                (335, -15),  // 貨物
+                (200, 105),  // アーカイブ
+                (155, 0),  // メインホール
+            };
+        }
+        [HarmonyPatch(typeof(SpawnInMinigame), nameof(SpawnInMinigame.SpawnAt))]
+        public static class SpawnInMinigameSpawnAtPatch
+        {
+            public static bool Prefix(SpawnInMinigame __instance, [HarmonyArgument(0)] SpawnInMinigame.SpawnLocation spawnPoint)
+            {
+                if (!AmongUsClient.Instance.AmHost)
+                {
+                    return true;
+                }
+
+                if (__instance.amClosing != Minigame.CloseState.None)
+                {
+                    return false;
+                }
+                // ランダムスポーンが有効ならバニラの湧きをキャンセル
+                if (IsRandomSpawn())
+                {
+                    // バニラ処理のRpcSnapToをAirshipSpawnに置き換えたもの
+                    __instance.gotButton = true;
+                    PlayerControl.LocalPlayer.SetKinematic(true);
+                    PlayerControl.LocalPlayer.NetTransform.SetPaused(true);
+                    AirshipSpawn(PlayerControl.LocalPlayer);
+                    DestroyableSingleton<HudManager>.Instance.PlayerCam.SnapToTarget();
+                    __instance.StopAllCoroutines();
+                    __instance.StartCoroutine(__instance.CoSpawnAt(PlayerControl.LocalPlayer, spawnPoint));
+                    return false;
+                }
+                else
+                {
+                    AirshipSpawn(PlayerControl.LocalPlayer);
+                    return true;
+                }
             }
         }
         public static void AirshipSpawn(PlayerControl player)
         {
-            FirstTP[player.PlayerId] = false;
-            if (player.Is(CustomRoles.Penguin))
+            Logger.Info($"Spawn: {player.GetRealName()}", "RandomSpawn");
+            if (AmongUsClient.Instance.AmHost)
             {
-                var penguin = player.GetRoleClass() as Penguin;
-                penguin?.OnSpawnAirship();
+                if (player.Is(CustomRoles.Penguin))
+                {
+                    var penguin = player.GetRoleClass() as Penguin;
+                    penguin?.OnSpawnAirship();
+                }
+                player.RpcResetAbilityCooldown();
+                if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
+                if (IsRandomSpawn())
+                {
+                    new AirshipSpawnMap().RandomTeleport(player);
+                }
+                else if (player.Is(CustomRoles.GM))
+                {
+                    new AirshipSpawnMap().FirstTeleport(player);
+                }
             }
-            player.RpcResetAbilityCooldown();
-            if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
-            if (IsRandomSpawn())
-            {
-                new AirshipSpawnMap().RandomTeleport(player);
-            }
-            else if (player.Is(CustomRoles.GM))
-            {
-                new AirshipSpawnMap().FirstTeleport(player);
-            }
-            foreach (var (sp, pos) in FastSpawnPosition)
-            {
-                //早湧きした人を船外から初期位置に戻す
-                sp.RpcSnapToDesync(player, pos);
-            }
-            if (!hostReady)
-            {
-                //ホストのSpawnMiniGame開始までに湧いたプレイヤーを記録
-                FastSpawnPosition[player] = player.transform.position;
-            }
+            PlayerState.GetByPlayerId(player.PlayerId).HasSpawned = true;
         }
         public static bool IsRandomSpawn()
         {
