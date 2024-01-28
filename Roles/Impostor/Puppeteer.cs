@@ -42,15 +42,13 @@ public sealed class Puppeteer : RoleBase, IImpostor
 
     private void SendRPC(byte targetId, byte typeId)
     {
-        using var sender = CreateSender(CustomRPC.SyncPuppet);
+        using var sender = CreateSender();
 
         sender.Writer.Write(typeId);
         sender.Writer.Write(targetId);
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SyncPuppet) return;
-
         var typeId = reader.ReadByte();
         var targetId = reader.ReadByte();
 

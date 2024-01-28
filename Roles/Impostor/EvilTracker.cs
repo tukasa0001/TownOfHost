@@ -122,10 +122,8 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
     }
     public bool CanMakeSidekick() => CanCreateMadmate; // ISidekickable
 
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SetEvilTrackerTarget) return;
-
         var operation = (TargetOperation)reader.ReadByte();
 
         switch (operation)
@@ -141,7 +139,7 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         CanSetTarget = true;
         if (AmongUsClient.Instance.AmHost)
         {
-            using var sender = CreateSender(CustomRPC.SetEvilTrackerTarget);
+            using var sender = CreateSender();
             sender.Writer.Write((byte)TargetOperation.ReEnableTargeting);
         }
     }
@@ -150,7 +148,7 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         TargetId = byte.MaxValue;
         if (AmongUsClient.Instance.AmHost)
         {
-            using var sender = CreateSender(CustomRPC.SetEvilTrackerTarget);
+            using var sender = CreateSender();
             sender.Writer.Write((byte)TargetOperation.RemoveTarget);
         }
     }
@@ -164,7 +162,7 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         TargetArrow.Add(Player.PlayerId, targetId);
         if (AmongUsClient.Instance.AmHost)
         {
-            using var sender = CreateSender(CustomRPC.SetEvilTrackerTarget);
+            using var sender = CreateSender();
             sender.Writer.Write((byte)TargetOperation.SetTarget);
             sender.Writer.Write(targetId);
         }
