@@ -126,5 +126,6 @@ public sealed class Warlock : RoleBase, IImpostor
     public override void AfterMeetingTasks()
     {
         CursedPlayer = null;
+        IsCursed = false;
     }
 }
