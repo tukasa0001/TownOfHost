@@ -12,6 +12,7 @@ using UnityEngine;
 
 using TownOfHost.Attributes;
 using TownOfHost.Roles.Core;
+using TownOfHost.Modules;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -220,6 +221,8 @@ namespace TownOfHost
             handler.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}");
 
             ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
+
+            SystemEnvironment.SetEnvironmentVariables();
 
             Harmony.PatchAll();
         }

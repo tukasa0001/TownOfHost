@@ -138,14 +138,12 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     }
     public void SendRPC(byte targetId, float rate)
     {
-        using var sender = CreateSender(CustomRPC.SyncPlagueDoctor);
+        using var sender = CreateSender();
         sender.Writer.Write(targetId);
         sender.Writer.Write(rate);
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SyncPlagueDoctor) return;
-
         var targetId = reader.ReadByte();
         var rate = reader.ReadSingle();
         InfectInfos[targetId] = rate;

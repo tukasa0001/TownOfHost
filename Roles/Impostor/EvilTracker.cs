@@ -122,10 +122,8 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
     }
     public bool CanMakeSidekick() => CanCreateMadmate; // ISidekickable
 
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SetEvilTrackerTarget) return;
-
         var operation = (TargetOperation)reader.ReadByte();
 
         switch (operation)
@@ -141,7 +139,7 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         CanSetTarget = true;
         if (AmongUsClient.Instance.AmHost)
         {
-            using var sender = CreateSender(CustomRPC.SetEvilTrackerTarget);
+            using var sender = CreateSender();
             sender.Writer.Write((byte)TargetOperation.ReEnableTargeting);
         }
     }
@@ -150,7 +148,7 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         TargetId = byte.MaxValue;
         if (AmongUsClient.Instance.AmHost)
         {
-            using var sender = CreateSender(CustomRPC.SetEvilTrackerTarget);
+            using var sender = CreateSender();
             sender.Writer.Write((byte)TargetOperation.RemoveTarget);
         }
     }
@@ -164,7 +162,7 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         TargetArrow.Add(Player.PlayerId, targetId);
         if (AmongUsClient.Instance.AmHost)
         {
-            using var sender = CreateSender(CustomRPC.SetEvilTrackerTarget);
+            using var sender = CreateSender();
             sender.Writer.Write((byte)TargetOperation.SetTarget);
             sender.Writer.Write(targetId);
         }
@@ -185,16 +183,17 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
         && (target.Is(CustomRoleTypes.Impostor) || TargetId == target.PlayerId);
 
     // 各所で呼ばれる処理
-    public override void OnShapeshift(PlayerControl target)
+    public override bool OnCheckShapeshift(PlayerControl target, ref bool animate)
     {
-        var shapeshifting = !Is(target);
-        if (!CanTarget() || !shapeshifting) return;
-        if (target == null || target.Is(CustomRoleTypes.Impostor)) return;
+        //ターゲット出来ない、もしくはターゲットが味方の場合は処理しない
+        //※どちらにしろシェイプシフトは出来ない
+        if (!CanTarget() || target.Is(CustomRoleTypes.Impostor)) return false;
 
         SetTarget(target.PlayerId);
         Logger.Info($"{Player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に設定", "EvilTrackerTarget");
         Player.MarkDirtySettings();
         Utils.NotifyRoles();
+        return false;
     }
     public override void AfterMeetingTasks()
     {

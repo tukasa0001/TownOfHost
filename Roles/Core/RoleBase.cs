@@ -86,9 +86,9 @@ public abstract class RoleBase : IDisposable
     protected class RoleRPCSender : IDisposable
     {
         public MessageWriter Writer;
-        public RoleRPCSender(RoleBase role, CustomRPC rpcType)
+        public RoleRPCSender(RoleBase role)
         {
-            Writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)rpcType, SendOption.Reliable, -1);
+            Writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.CustomRoleSync, SendOption.Reliable, -1);
             Writer.Write(role.Player.PlayerId);
         }
         public void Dispose()
@@ -102,17 +102,16 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     /// <param name="rpcType">送信するCustomRPC</param>
     /// <returns>送信に使用するRoleRPCSender</returns>
-    protected RoleRPCSender CreateSender(CustomRPC rpcType)
+    protected RoleRPCSender CreateSender()
     {
-        return new RoleRPCSender(this, rpcType);
+        return new RoleRPCSender(this);
     }
     /// <summary>
     /// RPCを受け取った時に呼ばれる関数
     /// RoleRPCSenderで送信されたPlayerIdは削除されて渡されるため意識しなくてもよい。
     /// </summary>
     /// <param name="reader">届いたRPCの情報</param>
-    /// <param name="rpcType">届いたCustomRPC</param>
-    public virtual void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public virtual void ReceiveRPC(MessageReader reader)
     { }
     /// <summary>
     /// 能力ボタンを使えるかどうか
@@ -141,6 +140,22 @@ public abstract class RoleBase : IDisposable
     /// <param name="info">キル関係者情報</param>
     public virtual void OnMurderPlayerAsTarget(MurderInfo info)
     { }
+
+    /// <summary>
+    /// 自視点のみ変身する
+    /// 抜け殻を自視点のみに残すことが可能
+    /// </summary>
+    public virtual bool CanDesyncShapeshift => false;
+
+    /// <summary>
+    /// シェイプシフトチェック時に呼ばれる
+    /// 自分自身が変身したときのみ呼ばれる
+    /// animateを操作して変身アニメーションのカットも可能
+    /// </summary>
+    /// <param name="target">変身先</param>
+    /// <param name="animate">アニメーションを再生するかどうか</param>
+    /// <returns>falseを返すと変身がキャンセルされる</returns>
+    public virtual bool OnCheckShapeshift(PlayerControl target, ref bool animate) => true;
 
     /// <summary>
     /// シェイプシフト時に呼ばれる関数
