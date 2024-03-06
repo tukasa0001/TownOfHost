@@ -93,6 +93,14 @@ namespace TownOfHost
             MeetingStates.ReportTarget = target;
             MeetingStates.DeadBodies = UnityEngine.Object.FindObjectsOfType<DeadBody>();
         }
+        public static void Postfix()
+        {
+            // 全プレイヤーを湧いてない状態にする
+            foreach (var state in PlayerState.AllPlayerStates.Values)
+            {
+                state.HasSpawned = false;
+            }
+        }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
     class BeginPatch

@@ -218,16 +218,12 @@ public sealed class SchrodingerCat : RoleBase, IAdditionalWinner, IDeathReasonSe
         Team = team;
         if (AmongUsClient.Instance.AmHost)
         {
-            using var sender = CreateSender(CustomRPC.SetSchrodingerCatTeam);
+            using var sender = CreateSender();
             sender.Writer.Write((byte)team);
         }
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SetSchrodingerCatTeam)
-        {
-            return;
-        }
         Team = (TeamType)reader.ReadByte();
     }
 

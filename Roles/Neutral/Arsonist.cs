@@ -86,24 +86,30 @@ public sealed class Arsonist : RoleBase, IKiller
     {
         opt.SetVision(false);
     }
-    public void SendRPC(CustomRPC rpcType, byte targetId = byte.MaxValue, bool isDoused = false)
+    enum RPC_type
     {
-        using var sender = CreateSender(rpcType);
+        SetDousedPlayer,
+        SetCurrentDousingTarget
+    }
+    private void SendRPC(RPC_type rpcType, byte targetId = byte.MaxValue, bool isDoused = false)
+    {
+        using var sender = CreateSender();
         sender.Writer.Write(targetId);
-
-        if (rpcType == CustomRPC.SetDousedPlayer)
+        sender.Writer.Write((byte)rpcType);
+        if (rpcType == RPC_type.SetDousedPlayer)
             sender.Writer.Write(isDoused);
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
         var targetId = reader.ReadByte();
+        var rpcType = (RPC_type)reader.ReadByte();
         switch (rpcType)
         {
-            case CustomRPC.SetDousedPlayer:
+            case RPC_type.SetDousedPlayer:
                 bool doused = reader.ReadBoolean();
                 IsDoused[targetId] = doused;
                 break;
-            case CustomRPC.SetCurrentDousingTarget:
+            case RPC_type.SetCurrentDousingTarget:
                 TargetInfo = new(targetId, 0f);
                 break;
         }
@@ -118,7 +124,7 @@ public sealed class Arsonist : RoleBase, IKiller
         {
             TargetInfo = new(target.PlayerId, 0f);
             Utils.NotifyRoles(SpecifySeer: killer);
-            SendRPC(CustomRPC.SetCurrentDousingTarget, target.PlayerId);
+            SendRPC(RPC_type.SetCurrentDousingTarget, target.PlayerId);
         }
         info.DoKill = false;
     }
@@ -136,7 +142,7 @@ public sealed class Arsonist : RoleBase, IKiller
             {
                 TargetInfo = null;
                 Utils.NotifyRoles(SpecifySeer: Player);
-                SendRPC(CustomRPC.SetCurrentDousingTarget);
+                SendRPC(RPC_type.SetCurrentDousingTarget);
             }
             else
             {
@@ -151,9 +157,9 @@ public sealed class Arsonist : RoleBase, IKiller
                     Player.SetKillCooldown();
                     TargetInfo = null;//塗が完了したのでTupleから削除
                     IsDoused[ar_target.PlayerId] = true;//塗り完了
-                    SendRPC(CustomRPC.SetDousedPlayer, ar_target.PlayerId, true);
+                    SendRPC(RPC_type.SetDousedPlayer, ar_target.PlayerId, true);
                     Utils.NotifyRoles();//名前変更
-                    SendRPC(CustomRPC.SetCurrentDousingTarget);
+                    SendRPC(RPC_type.SetCurrentDousingTarget);
                 }
                 else
                 {
@@ -167,7 +173,7 @@ public sealed class Arsonist : RoleBase, IKiller
                     {
                         TargetInfo = null;
                         Utils.NotifyRoles(SpecifySeer: Player);
-                        SendRPC(CustomRPC.SetCurrentDousingTarget);
+                        SendRPC(RPC_type.SetCurrentDousingTarget);
 
                         Logger.Info($"Canceled: {Player.GetNameWithRole()}", "Arsonist");
                     }
