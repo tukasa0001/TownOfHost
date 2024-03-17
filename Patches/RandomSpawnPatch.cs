@@ -74,6 +74,11 @@ namespace TownOfHost
         {
             public static bool Prefix(CustomNetworkTransform __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
             {
+                if (!AmongUsClient.Instance.AmHost)
+                {
+                    return true;
+                }
+
                 if (!__instance.isActiveAndEnabled)
                 {
                     return false;
