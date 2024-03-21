@@ -354,7 +354,6 @@ Depending on option, they can also see kill flash when other impostor kills.<br>
 - EvilTrackers can select a target after every meeting or once in a game, when marked left-triangle (◁).
 - When they Shapeshift to impostor or dead player (unavailable for target), they stay able to select target.
 - Shapeshift cooldown is fixed to __"5s"__ (can select target) or to __"255s"__ (cannot).
-- Shapeshift duration is fixed to __"1s"__, which means EvilTrackers can hardly pretend to be someone else.
 - EvilTrackers can Assign [SidekickMadmate](#sidekickmadmate) by Shapeshift.
 
 #### Game Options
