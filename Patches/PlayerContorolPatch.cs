@@ -208,22 +208,52 @@ namespace TownOfHost
                 __instance.RpcRejectShapeshift();
                 return false;
             }
+            var shapeshifter = __instance;
+            var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
+            // 変身したとき一番近い人をマッドメイトにする処理
+            if (shapeshifter.CanMakeMadmate() && shapeshifting)
+            {
+                var sidekickable = shapeshifter.GetRoleClass() as ISidekickable;
+                var targetRole = sidekickable?.SidekickTargetRole ?? CustomRoles.SKMadmate;
+
+                Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
+                Dictionary<PlayerControl, float> mpdistance = new();
+                float dis;
+                foreach (var p in Main.AllAlivePlayerControls)
+                {
+                    if (p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(CustomRoleTypes.Impostor) && !p.Is(targetRole))
+                    {
+                        dis = Vector2.Distance(shapeshifterPosition, p.transform.position);
+                        mpdistance.Add(p, dis);
+                    }
+                }
+                if (mpdistance.Count != 0)
+                {
+                    var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
+                    PlayerControl targetm = min.Key;
+                    targetm.RpcSetCustomRole(targetRole);
+                    Logger.Info($"Make SKMadmate:{targetm.name}", "Shapeshift");
+                    Main.SKMadmateNowCount++;
+                    Utils.MarkEveryoneDirtySettings();
+                    Utils.NotifyRoles();
+                }
+            }
             // 役職の処理
-            var role = __instance.GetRoleClass();
+            var role = shapeshifter.GetRoleClass();
             if (role?.OnCheckShapeshift(target, ref shouldAnimate) == false)
             {
                 if (role.CanDesyncShapeshift)
                 {
-                    __instance.RpcSpecificRejectShapeshift(target, shouldAnimate);
+                    shapeshifter.RpcSpecificRejectShapeshift(target, shouldAnimate);
                 }
                 else
                 {
-                    __instance.RpcRejectShapeshift();
+                    shapeshifter.RpcRejectShapeshift();
                 }
                 return false;
             }
 
-            __instance.RpcShapeshift(target, shouldAnimate);
+            shapeshifter.RpcShapeshift(target, shouldAnimate);
             return false;
         }
         private static bool CheckInvalidShapeshifting(PlayerControl instance, PlayerControl target, bool animate)
@@ -288,35 +318,6 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
 
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
-
-            // 変身したとき一番近い人をマッドメイトにする処理
-            if (shapeshifter.CanMakeMadmate() && shapeshifting)
-            {
-                var sidekickable = shapeshifter.GetRoleClass() as ISidekickable;
-                var targetRole = sidekickable?.SidekickTargetRole ?? CustomRoles.SKMadmate;
-
-                Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
-                Dictionary<PlayerControl, float> mpdistance = new();
-                float dis;
-                foreach (var p in Main.AllAlivePlayerControls)
-                {
-                    if (p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(CustomRoleTypes.Impostor) && !p.Is(targetRole))
-                    {
-                        dis = Vector2.Distance(shapeshifterPosition, p.transform.position);
-                        mpdistance.Add(p, dis);
-                    }
-                }
-                if (mpdistance.Count != 0)
-                {
-                    var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
-                    PlayerControl targetm = min.Key;
-                    targetm.RpcSetCustomRole(targetRole);
-                    Logger.Info($"Make SKMadmate:{targetm.name}", "Shapeshift");
-                    Main.SKMadmateNowCount++;
-                    Utils.MarkEveryoneDirtySettings();
-                    Utils.NotifyRoles();
-                }
-            }
 
             //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
             if (!shapeshifting)
