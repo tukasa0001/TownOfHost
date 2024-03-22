@@ -31,7 +31,7 @@ namespace TownOfHost
         }
         public (DateTime, byte) RealKiller;
         public PlainShipRoom LastRoom;
-        /// <summary>会議等の後に湧いた後かどうか</summary>
+        /// <summary>会議等の後に湧いた後かどうか<br/>ホスト以外は正しい値にならないので注意</summary>
         public bool HasSpawned { get; set; } = false;
         public Dictionary<byte, string> TargetColorData;
         public PlayerState(byte playerId)
