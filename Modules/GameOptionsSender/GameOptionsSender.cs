@@ -30,7 +30,7 @@ namespace TownOfHost.Modules
         public virtual void SendGameOptions()
         {
             var opt = BuildGameOptions();
-            var currentGameMode = opt.GameMode; // temp the current game mode for further changes if necessary
+            var currentGameMode = opt.GameMode; // remember the current game mode for further changes if necessary
 
             //April fools mode toggled on by host
             if (AprilFoolsMode.IsAprilFoolsModeToggledOn)
