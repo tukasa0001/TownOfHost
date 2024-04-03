@@ -30,12 +30,25 @@ namespace TownOfHost.Modules
         public virtual void SendGameOptions()
         {
             var opt = BuildGameOptions();
+            var currentGameMode = opt.GameMode; // temp the current game mode for further changes if necessary
+
+            //April fools mode toggled on by host
+            if (AprilFoolsMode.IsAprilFoolsModeToggledOn)
+            {
+                // if current game mode is classic
+                if (opt.GameMode == GameModes.Normal)
+                    currentGameMode = GameModes.NormalFools;
+            
+                // if current game mode is vanilla HideNSeek
+                else if (opt.GameMode == GameModes.HideNSeek)
+                    currentGameMode = GameModes.SeekFools;
+            }
 
             // option => byte[]
             MessageWriter writer = MessageWriter.Get(SendOption.None);
             writer.Write(opt.Version);
             writer.StartMessage(0);
-            writer.Write((byte)opt.GameMode);
+            writer.Write((byte)currentGameMode);
             if (opt.TryCast<NormalGameOptionsV07>(out var normalOpt))
                 NormalGameOptionsV07.Serialize(writer, normalOpt);
             else if (opt.TryCast<HideNSeekGameOptionsV07>(out var hnsOpt))
