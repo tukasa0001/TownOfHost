@@ -36,11 +36,11 @@ namespace TownOfHost.Modules
             if (AprilFoolsMode.IsAprilFoolsModeToggledOn)
             {
                 // if current game mode is classic
-                if (opt.GameMode == GameModes.Normal)
+                if (currentGameMode == GameModes.Normal)
                     currentGameMode = GameModes.NormalFools;
             
                 // if current game mode is vanilla HideNSeek
-                else if (opt.GameMode == GameModes.HideNSeek)
+                else if (currentGameMode == GameModes.HideNSeek)
                     currentGameMode = GameModes.SeekFools;
             }
 
