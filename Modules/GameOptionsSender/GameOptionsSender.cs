@@ -35,11 +35,12 @@ namespace TownOfHost.Modules
             //April fools mode toggled on by host
             if (AprilFoolsMode.IsAprilFoolsModeToggledOn)
             {
-                // if current game mode is classic
+                //Change the game mode to april fools instead of normal
+                //Because it doesn't change automatically 
+                
                 if (currentGameMode == GameModes.Normal)
                     currentGameMode = GameModes.NormalFools;
-            
-                // if current game mode is vanilla HideNSeek
+                
                 else if (currentGameMode == GameModes.HideNSeek)
                     currentGameMode = GameModes.SeekFools;
             }
