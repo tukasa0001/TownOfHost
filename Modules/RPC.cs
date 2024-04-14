@@ -1,36 +1,85 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 
-using TownOfHost.Roles.Core;
-using static TownOfHost.Translator;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Modules;
+using static TownOfHostForE.Translator;
+using TownOfHostForE.Roles.Crewmate;
+using TownOfHostForE.Roles.AddOns.Common;
+using TownOfHostForE.GameMode;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     public enum CustomRPC
     {
-        VersionCheck = 60,
-        RequestRetryVersionCheck = 61,
-        SyncCustomSettings = 80,
+        VersionCheck = 80,
+        RequestRetryVersionCheck = 81,
+        SyncCustomSettings = 100,
         SetDeathReason,
         EndGame,
         PlaySound,
         SetCustomRole,
-        SetBountyTarget,
-        WitchSync,
-        SetSheriffShotLimit,
-        SetDousedPlayer,
+        //SetBountyTarget,
+        //WitchSync,
+        //SetSheriffShotLimit,
+        SetSSheriffShotLimit,
+        SetHunterShotLimit,
+        //SetDousedPlayer,
         SetNameColorData,
-        SniperSync,
+        //SniperSync,
         SetLoversPlayers,
-        SetExecutionerTarget,
-        SetCurrentDousingTarget,
-        SetEvilTrackerTarget,
+        //SetExecutionerTarget,
+        //SetCurrentDousingTarget,
+        //SetEvilTrackerTarget,
         SetRealKiller,
-        SyncPuppet
+        CustomRoleSync,
+        SyncPuppet,
+        SetOppoKillerShotLimit,
+        SetCursedWolfSpellCount,
+        SetNBakryPoison,
+        BakryChangeSync,
+        SetBlinderVisionPlayer,
+        SetEvilDiviner,
+        SetLawyerTarget,
+        LawTrackerSync,
+        Guess,
+        GuessKill,
+        ShowPopUp,
+        PlayCustomSound,
+        SetPrincessShotLimit,
+        SetCinderellaTarget,
+        SendChu2Attack,
+        JapPupkillTargetSync,
+        OniichanTargetSync,
+        OniichanStateSync,
+        GizokuShotLimitSync,
+        TeleportTargetSync,
+        GreatDetectiveSync,
+        BadgerSync,
+        VultureSync,
+        SetGrudgeSheriffShotLimit,
+        SetPsychicCount,
+        SetFortuneTellerTarget,
+        SetDuelistTarget,
+        SetTotocalcioTarget,
+        LoveCuttorSync,
+        SendingSync,
+        EraserSync,
+        SetSchrodingerCatTeam,
+        StealthDarken,
+        EvilHackerCreateMurderNotify,
+        PenguinSync,
+        MareSync,
+        SyncPlagueDoctor,
+        SyncMetaton,
+        RedPandaSync,
+        SyncBetwinShogo,
+        PlaySoundSERPC,
     }
     public enum Sounds
     {
@@ -59,7 +108,16 @@ namespace TownOfHost
                 case RpcCalls.SendChat:
                     var text = subReader.ReadString();
                     Logger.Info($"{__instance.GetNameWithRole()}:{text}", "SendChat");
-                    ChatCommands.OnReceiveChat(__instance, text);
+                    ChatCommands.OnReceiveChat(__instance, text, out var canceled);
+                    if (!GameStates.IsLobby)
+                    {
+                        var cRole = __instance.GetCustomRole();
+                        if(!cRole.IsNotAssignRoles())__instance.GetRoleClass().OnReceiveChat(__instance, text);
+                        Ojou.OjouOnReceiveChat(__instance, text);
+                        Chu2Byo.Chu2OnReceiveChat(__instance, text);
+                        WordLimit.OnReceiveChat(__instance,text);
+                    }
+                    BetWinTeams.BetOnReceiveChat(__instance, text);
                     break;
                 case RpcCalls.StartMeeting:
                     var p = Utils.GetPlayerById(subReader.ReadByte());
@@ -114,7 +172,7 @@ namespace TownOfHost
                     foreach (var co in OptionItem.AllOptions)
                     {
                         //すべてのカスタムオプションについてインデックス値で受信
-                        co.SetValue(reader.ReadInt32());
+                        co.SetValue(reader.ReadPackedInt32());
                     }
                     break;
                 case CustomRPC.SetDeathReason:
@@ -137,15 +195,64 @@ namespace TownOfHost
                     NameColorManager.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetLoversPlayers:
-                    Main.LoversPlayers.Clear();
+                    Main.LoversPlayersV2.Clear();
+                    List<byte> lovers = new();
                     int count = reader.ReadInt32();
                     for (int i = 0; i < count; i++)
-                        Main.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
+                    {
+                        byte id = reader.ReadByte();
+                        if (id != byte.MaxValue)
+                        {
+                            lovers.Add(id);
+                        }
+                        else
+                        {
+                            //リストに保管 最初のindexを親とする。
+                            Main.LoversPlayersV2.Add(lovers[0], lovers);
+                            Main.isLoversLeaders.Add(lovers[0]);
+                            //リセット
+                            lovers.Clear();
+                        }
+                    }
+                    if (AmongUsClient.Instance.AmHost) break;
+                    foreach (var list in Main.LoversPlayersV2)
+                    {
+                        foreach (var loversId in list.Value)
+                        {
+                            var lovePc = Utils.GetPlayerById(loversId);
+                            lovePc.RpcSetCustomRole(CustomRoles.Lovers);
+                        }
+                    }
                     break;
                 case CustomRPC.SetRealKiller:
                     byte targetId = reader.ReadByte();
                     byte killerId = reader.ReadByte();
                     RPC.SetRealKiller(targetId, killerId);
+                    break;
+                case CustomRPC.ShowPopUp:
+                    string msg = reader.ReadString();
+                    HudManager.Instance.ShowPopUp(msg);
+                    break;
+                case CustomRPC.Guess:
+                    GuessManager.ReceiveRPC(reader, __instance);
+                    break;
+                case CustomRPC.GuessKill:
+                    GuessManager.RpcClientGuess(Utils.GetPlayerById(reader.ReadByte()));
+                    break;
+                case CustomRPC.PlayCustomSound:
+                    CustomSoundsManager.ReceiveRPC(reader);
+                    break;
+                case CustomRPC.SendingSync:
+                    Sending.ReceiveRPC(reader);
+                    break;
+                case CustomRPC.SyncBetwinShogo:
+                    BetWinTeams.ReceiveRPC(reader);
+                    break;
+                case CustomRPC.PlaySoundSERPC:
+                    BGMSettings.ReceiveRPC(reader);
+                    break;
+                case CustomRPC.CustomRoleSync:
+                    CustomRoleManager.DispatchRpc(reader);
                     break;
                 default:
                     CustomRoleManager.DispatchRpc(reader, rpcType);
@@ -159,18 +266,18 @@ namespace TownOfHost
         public static void SyncCustomSettingsRPC()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncCustomSettings, SendOption.Reliable, -1);
             foreach (var co in OptionItem.AllOptions)
             {
                 //すべてのカスタムオプションについてインデックス値で送信
-                writer.Write(co.GetValue());
+                writer.WritePacked(co.GetValue());
             }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
         {
-            if (AmongUsClient.Instance.AmHost)
                 RPC.PlaySound(PlayerID, sound);
+            if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.PlaySound, Hazel.SendOption.Reliable, -1);
             writer.Write(PlayerID);
             writer.Write((byte)sound);
@@ -236,16 +343,16 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role)
         {
-            var roleClass = CustomRoleManager.GetByPlayerId(targetId);
-            if (roleClass != null)
-            {
-                var player = roleClass.Player;
-                roleClass.Dispose();
-                CustomRoleManager.CreateInstance(role, player);
-            }
-
             if (role < CustomRoles.NotAssigned)
             {
+                var roleClass = CustomRoleManager.GetByPlayerId(targetId);
+                if (roleClass != null)
+                {
+                    var player = roleClass.Player;
+                    roleClass.Dispose();
+                    CustomRoleManager.CreateInstance(role, player);
+                }
+
                 PlayerState.GetByPlayerId(targetId).SetMainRole(role);
                 CustomRoleManager.CreateInstance(role, Utils.GetPlayerById(targetId));
             }
@@ -257,17 +364,41 @@ namespace TownOfHost
             HudManager.Instance.SetHudActive(true);
             if (PlayerControl.LocalPlayer.PlayerId == targetId) RemoveDisableDevicesPatch.UpdateDisableDevices();
         }
+
+        //最初とbyteMaxを受け取った後は切り替え式
         public static void SyncLoversPlayers()
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetLoversPlayers, Hazel.SendOption.Reliable, -1);
-            writer.Write(Main.LoversPlayers.Count);
-            foreach (var lp in Main.LoversPlayers)
+
+            List<byte> sendData = LoversAllCount();
+
+            writer.Write(sendData.Count);
+            foreach (var id in sendData)
             {
-                writer.Write(lp.PlayerId);
+                writer.Write(id);
             }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+
+        private static List<byte> LoversAllCount()
+        {
+            List<byte> sendData = new();
+
+            foreach (var list in Main.LoversPlayersV2)
+            {
+                foreach (var id in list.Value)
+                {
+                    sendData.Add(id);
+                }
+                //切り分け判定
+                sendData.Add(byte.MaxValue);
+            }
+
+            return sendData;
+        }
+
+
         public static void SendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
         {
             if (!DebugModeManager.AmDebugger) return;
@@ -300,6 +431,28 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetRealKiller, Hazel.SendOption.Reliable, -1);
             writer.Write(targetId);
             writer.Write(killerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void ReportDeadBodyForced(this PlayerControl player, GameData.PlayerInfo target)
+        {
+            //PlayerControl.ReportDeadBodyと同様の処理
+            if (!AmongUsClient.Instance.AmHost) return;
+            //if (AmongUsClient.Instance.IsGameOver || (bool)MeetingHud.Instance || (target == null && LocalPlayer.myTasks.Any(PlayerTask.TaskIsEmergency)) || Data.IsDead)
+            //    return;
+
+            MeetingRoomManager.Instance.AssignSelf(player, target);
+            //if (AmongUsClient.Instance.AmHost && !ShipStatus.Instance.   .CheckTaskCompletion())
+            if (AmongUsClient.Instance.AmHost)
+            {
+                DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(player);
+                player.RpcStartMeeting(target);
+            }
+        }
+        public static void ShowPopUp(this PlayerControl pc, string msg)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ShowPopUp, SendOption.Reliable, pc.GetClientId());
+            writer.Write(msg);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }

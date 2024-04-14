@@ -4,11 +4,12 @@ using HarmonyLib;
 using TMPro;
 using UnityEngine;
 
-using TownOfHost.Modules;
-using TownOfHost.Roles.Core;
-using static TownOfHost.Translator;
+using TownOfHostForE.Modules;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Templates;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     [HarmonyPatch]
     public static class CredentialsPatch
@@ -30,6 +31,7 @@ namespace TownOfHost
                 if (Options.NoGameEnd.GetBool()) sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("NoGameEnd")));
                 if (Options.IsStandardHAS) sb.Append($"\r\n").Append(Utils.ColorString(Color.yellow, GetString("StandardHAS")));
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("HideAndSeek")));
+                if (Options.CurrentGameMode == CustomGameMode.SuperBombParty) sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("SuperBombParty")));
                 if (!GameStates.IsModHost) sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("Warning.NoModHost")));
                 if (DebugModeManager.IsDebugMode) sb.Append("\r\n").Append(Utils.ColorString(Color.green, "デバッグモード"));
 
@@ -50,18 +52,21 @@ namespace TownOfHost
         [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
         class VersionShowerStartPatch
         {
-            static TextMeshPro SpecialEventText;
+            //static TextMeshPro SpecialEventText;
             static void Postfix(VersionShower __instance)
             {
-                Main.credentialsText = $"<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
+                TMPTemplate.SetBase(__instance.text);
+                Main.credentialsText = $"<color={Main.ModColor}>{Main.ModName}</color> v{Main.PleviewPluginVersion}";
 #if DEBUG
                 Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
 #endif
-                var credentials = Object.Instantiate(__instance.text);
-                credentials.text = Main.credentialsText;
-                credentials.alignment = TextAlignmentOptions.Right;
+                var credentials = TMPTemplate.Create(
+                    "TOHCredentialsText",
+                    Main.credentialsText,
+                    fontSize: 2f,
+                    alignment: TextAlignmentOptions.Right,
+                    setActive: true);
                 credentials.transform.position = new Vector3(1f, 2.65f, -2f);
-                credentials.fontSize = credentials.fontSizeMax = credentials.fontSizeMin = 2f;
 
                 ErrorText.Create(__instance.text);
                 if (Main.hasArgumentException && ErrorText.Instance != null)
@@ -71,35 +76,55 @@ namespace TownOfHost
 
                 VersionChecker.Check();
 
-                if (SpecialEventText == null && TohLogo != null)
+#if DEBUG
+                if (OptionItem.IdDuplicated)
                 {
-                    SpecialEventText = Object.Instantiate(__instance.text, TohLogo.transform);
-                    SpecialEventText.name = "SpecialEventText";
-                    SpecialEventText.text = "";
-                    SpecialEventText.color = Color.white;
-                    SpecialEventText.fontSizeMin = 3f;
-                    SpecialEventText.alignment = TextAlignmentOptions.Center;
-                    SpecialEventText.transform.localPosition = new Vector3(0f, 0.8f, 0f);
+                    ErrorText.Instance.AddError(ErrorCode.OptionIDDuplicate);
                 }
-                if (SpecialEventText != null)
-                {
-                    SpecialEventText.enabled = TitleLogoPatch.amongUsLogo != null;
-                }
-                if (Main.IsInitialRelease)
-                {
-                    SpecialEventText.text = $"Happy Birthday to {Main.ModName}!";
-                    if (ColorUtility.TryParseHtmlString(Main.ModColor, out var col))
-                    {
-                        SpecialEventText.color = col;
-                    }
-                }
-                if (Main.IsChristmas && CultureInfo.CurrentCulture.Name == "ja-JP")
-                {
-                    //このソースコ―ドを見た人へ。口外しないでもらえると嬉しいです...
-                    //To anyone who has seen this source code. I would appreciate it if you would keep your mouth shut...
-                    SpecialEventText.text = "何とは言いませんが、特別な日ですね。\n<size=15%>\n\n末永く爆発しろ</size>";
-                    SpecialEventText.color = Utils.GetRoleColor(CustomRoles.Lovers);
-                }
+#endif
+
+                //if (SpecialEventText == null && TohLogo != null)
+                //{
+                //    SpecialEventText = Object.Instantiate(__instance.text, TohLogo.transform);
+                //    SpecialEventText.name = "SpecialEventText";
+                //    SpecialEventText.text = "";
+                //    SpecialEventText.color = Color.white;
+                //    SpecialEventText.fontSizeMin = 3f;
+                //    SpecialEventText.alignment = TextAlignmentOptions.Center;
+                //    SpecialEventText.transform.localPosition = new Vector3(0f, -1.2f, 0f);
+                //}
+                //if (SpecialEventText != null)
+                //{
+                //    SpecialEventText.enabled = TitleLogoPatch.amongUsLogo != null;
+                //}
+                //if (Main.IsInitialRelease)
+                //{
+                //    SpecialEventText.text = $"Happy Birthday to {Main.ModName}!";
+                //    if (ColorUtility.TryParseHtmlString(Main.ModColor, out var col))
+                //    {
+                //        SpecialEventText.color = col;
+                //    }
+                //}
+                //if (Main.IsOneNightRelease && CultureInfo.CurrentCulture.Name == "ja-JP")
+                //{
+                //    SpecialEventText.text = "TOH_ForE(制限版)へようこそ！" +
+                //        "\n<size=55%>6/22のAmongUs内部的サイレント更新のため、" +
+                //        "\nホスト系MODの役職に不具合が発生しております。" +
+                //        "\nしばらくはこのTOH_ForEをご利用ください。\n</size><size=40%>\nTOH_ForEのＳはSimpleのＳです。</size>";
+                //    SpecialEventText.color = Color.yellow;
+                //}
+                ////if (Main.IsValentine)
+                ////{
+                ////    SpecialEventText.text = "♥happy Valentine♥";
+                ////    if (CultureInfo.CurrentCulture.Name == "ja-JP")
+                ////        SpecialEventText.text += "<size=60%>\n<color=#b58428>チョコレート屋で遊んでみてね。</size></color>";
+                ////    SpecialEventText.color = Utils.GetRoleColor(CustomRoles.Lovers);
+                ////}
+                //if (Main.IsChristmas && CultureInfo.CurrentCulture.Name == "ja-JP")
+                //{
+                //    SpecialEventText.text = "★Merry Christmas★\n<size=15%>\n\nTOH_ForEからのプレゼントはありません。</size>";
+                //    SpecialEventText.color = Color.yellow;
+                //}
             }
         }
 
@@ -108,7 +133,7 @@ namespace TownOfHost
         {
             public static GameObject amongUsLogo;
 
-            [HarmonyPriority(Priority.VeryHigh)]
+        [HarmonyPriority(Priority.VeryHigh)]
             static void Postfix(MainMenuManager __instance)
             {
                 amongUsLogo = GameObject.Find("LOGO-AU");
@@ -118,9 +143,16 @@ namespace TownOfHost
                 var logoTransform = logoObject.transform;
                 TohLogo = logoObject.AddComponent<SpriteRenderer>();
                 logoTransform.parent = rightpanel;
-                logoTransform.localPosition = new(0f, 0.15f, 1f);
-                logoTransform.localScale *= 1.2f;
-                TohLogo.sprite = Utils.LoadSprite("TownOfHost.Resources.TownOfHost-Logo.png", 300f);
+                logoTransform.localPosition = new(0f, 0.18f, 1f);
+                //logoTransform.localScale *= 1f;
+                if (Main.IsForEPreRelease)
+                {
+                    TohLogo.sprite = Utils.LoadSprite("TownOfHost_ForE.Resources.TownOfHost4E_Debug-Logo.png", 300f);
+                }
+                else
+                {
+                    TohLogo.sprite = Utils.LoadSprite("TownOfHost_ForE.Resources.TownOfHost-Logo.png", 300f);
+                }
             }
         }
         [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]
@@ -135,10 +167,10 @@ namespace TownOfHost
             }
             public static void Postfix(ModManager __instance)
             {
-                var offset_y = HudManager.InstanceExists ? 1.6f : 0.9f;
+                //var offset_y = HudManager.InstanceExists ? 1.6f : 0.9f;
                 __instance.ModStamp.transform.position = AspectPosition.ComputeWorldPosition(
                     __instance.localCamera, AspectPosition.EdgeAlignments.RightTop,
-                    new Vector3(0.4f, offset_y, __instance.localCamera.nearClipPlane + 0.1f));
+                    new Vector3(0.4f, 1.6f, __instance.localCamera.nearClipPlane + 0.1f));
             }
         }
     }

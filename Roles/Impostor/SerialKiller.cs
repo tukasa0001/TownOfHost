@@ -1,11 +1,12 @@
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Translator;
+using TownOfHostForE.Roles.Neutral;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost.Roles.Impostor
+namespace TownOfHostForE.Roles.Impostor
 {
     public sealed class SerialKiller : RoleBase, IImpostor
     {
@@ -16,9 +17,9 @@ namespace TownOfHost.Roles.Impostor
                 CustomRoles.SerialKiller,
                 () => RoleTypes.Shapeshifter,
                 CustomRoleTypes.Impostor,
-                1100,
+                10200,
                 SetUpOptionItem,
-                "sk"
+                "シリアルキラー"
             );
         public SerialKiller(PlayerControl player)
         : base(
@@ -67,13 +68,14 @@ namespace TownOfHost.Roles.Impostor
             SuicideTimer = null;
             killer.MarkDirtySettings();
         }
-        public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+        public override bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
         {
             SuicideTimer = null;
+            return true;
         }
         public override void OnFixedUpdate(PlayerControl player)
         {
-            if (AmongUsClient.Instance.AmHost)
+            if (AmongUsClient.Instance.AmHost && !ExileController.Instance)
             {
                 if (!HasKilled())
                 {
@@ -90,6 +92,14 @@ namespace TownOfHost.Roles.Impostor
                     //自爆時間が来たとき
                     MyState.DeathReason = CustomDeathReason.Suicide;//死因：自殺
                     Player.RpcMurderPlayer(Player);//自殺させる
+                    //ExileControllerWrapUpPatch.REIKAITENSOU(Player.PlayerId, CustomDeathReason.Suicide);
+                    //foreach (var target in Main.AllAlivePlayerControls)
+                    //{
+                    //    if (target != Player && target.Is(CustomRoleTypes.Impostor))
+                    //    {
+                    //        Utils.KillFlash(target);
+                    //    }
+                    //}
                     SuicideTimer = null;
                 }
                 else
@@ -106,6 +116,10 @@ namespace TownOfHost.Roles.Impostor
                 if (HasKilled())
                     SuicideTimer = 0f;
             }
+        }
+        public void OnSchrodingerCatKill(SchrodingerCat schrodingerCat)
+        {
+            SuicideTimer = null;
         }
     }
 }

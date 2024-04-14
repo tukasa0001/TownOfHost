@@ -4,11 +4,11 @@ using Hazel;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Translator;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost.Roles.Impostor;
+namespace TownOfHostForE.Roles.Impostor;
 public sealed class Sniper : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -18,9 +18,9 @@ public sealed class Sniper : RoleBase, IImpostor
             CustomRoles.Sniper,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
-            1800,
+            10900,
             SetupOptionItem,
-            "snp"
+            "スナイパー"
         );
     public Sniper(PlayerControl player)
     : base(
@@ -66,6 +66,7 @@ public sealed class Sniper : RoleBase, IImpostor
     bool AimAssistOneshot;
 
     bool MeetingReset;
+    bool MashSaboReset;
     public static void SetupOptionItem()
     {
         SniperBulletCount = IntegerOptionItem.Create(RoleInfo, 10, OptionName.SniperBulletCount, new(1, 5, 1), 2, false)
@@ -85,13 +86,14 @@ public sealed class Sniper : RoleBase, IImpostor
         IsAim = false;
         AimTime = 0f;
         MeetingReset = false;
+        MashSaboReset = false;
 
         Snipers.Add(this);
     }
     private void SendRPC()
     {
         Logger.Info($"{Player.GetNameWithRole()}:SendRPC", "Sniper");
-        using var sender = CreateSender(CustomRPC.SniperSync);
+        using var sender = CreateSender();
 
         var snList = ShotNotify;
         sender.Writer.Write(snList.Count);
@@ -101,9 +103,8 @@ public sealed class Sniper : RoleBase, IImpostor
         }
     }
 
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SniperSync) return;
         ShotNotify.Clear();
         var count = reader.ReadInt32();
         while (count > 0)
@@ -113,6 +114,7 @@ public sealed class Sniper : RoleBase, IImpostor
         }
         Logger.Info($"{Player.GetNameWithRole()}:ReceiveRPC", "Sniper");
     }
+
     public bool CanUseKillButton()
     {
         return Player.IsAlive() && BulletCount <= 0;
@@ -195,6 +197,7 @@ public sealed class Sniper : RoleBase, IImpostor
         {
             //Aim開始
             MeetingReset = false;
+            MashSaboReset = false;
 
             //スナイプ地点の登録
             SnipeBasePosition = Player.transform.position;
@@ -217,6 +220,13 @@ public sealed class Sniper : RoleBase, IImpostor
             return;
         }
 
+        //キノコカオスによる変身解除なら射撃しない
+        if (MashSaboReset)
+        {
+            MashSaboReset = false;
+            return;
+        }
+
         //一発消費して
         BulletCount--;
 
@@ -235,7 +245,7 @@ public sealed class Sniper : RoleBase, IImpostor
             );
 
             //あたった通知
-            Player.RpcGuardAndKill();
+            Player.RpcProtectedMurderPlayer();
 
             //スナイプが起きたことを聞こえそうな対象に通知したい
             targets.Remove(snipedTarget);
@@ -292,9 +302,16 @@ public sealed class Sniper : RoleBase, IImpostor
             Utils.NotifyRoles(SpecifySeer: Player);
         }
     }
-    public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    public override bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
     {
         MeetingReset = true;
+        return true;
+    }
+
+    public override bool OnSabotage(PlayerControl player, SystemTypes systemType)
+    {
+        if(systemType == SystemTypes.MushroomMixupSabotage) MashSaboReset = true;
+        return true;
     }
     public override string GetProgressText(bool comms = false)
     {

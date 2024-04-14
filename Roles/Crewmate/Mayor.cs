@@ -1,8 +1,9 @@
 using AmongUs.GameOptions;
+using TownOfHostForE.Modules;
+using TownOfHostForE.Roles.Core;
+using Unity.Services.Core.Telemetry.Internal;
 
-using TownOfHost.Roles.Core;
-
-namespace TownOfHost.Roles.Crewmate;
+namespace TownOfHostForE.Roles.Crewmate;
 public sealed class Mayor : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -12,9 +13,9 @@ public sealed class Mayor : RoleBase
             CustomRoles.Mayor,
             () => OptionHasPortableButton.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
-            20200,
+            30300,
             SetupOptionItem,
-            "my",
+            "メイヤー",
             "#204d42",
             introSound: () => GetIntroSound(RoleTypes.Crewmate)
         );
@@ -27,6 +28,7 @@ public sealed class Mayor : RoleBase
         AdditionalVote = OptionAdditionalVote.GetInt();
         HasPortableButton = OptionHasPortableButton.GetBool();
         NumOfUseButton = OptionNumOfUseButton.GetInt();
+        SkipPlusVote = OptionSkipPlusVote.GetBool();
 
         LeftButtonCount = NumOfUseButton;
     }
@@ -34,15 +36,20 @@ public sealed class Mayor : RoleBase
     private static OptionItem OptionAdditionalVote;
     private static OptionItem OptionHasPortableButton;
     private static OptionItem OptionNumOfUseButton;
+    private static OptionItem OptionSkipPlusVote;
     enum OptionName
     {
         MayorAdditionalVote,
         MayorHasPortableButton,
         MayorNumOfUseButton,
+        MayorSkipPlusVote,
     }
     public static int AdditionalVote;
     public static bool HasPortableButton;
     public static int NumOfUseButton;
+    private static bool SkipPlusVote = false;
+
+    private int TotalVote;
 
     public int LeftButtonCount;
     private static void SetupOptionItem()
@@ -52,6 +59,11 @@ public sealed class Mayor : RoleBase
         OptionHasPortableButton = BooleanOptionItem.Create(RoleInfo, 11, OptionName.MayorHasPortableButton, false, false);
         OptionNumOfUseButton = IntegerOptionItem.Create(RoleInfo, 12, OptionName.MayorNumOfUseButton, new(1, 99, 1), 1, false, OptionHasPortableButton)
             .SetValueFormat(OptionFormat.Times);
+        OptionSkipPlusVote = BooleanOptionItem.Create(RoleInfo, 13, OptionName.MayorSkipPlusVote, false, false);
+    }
+    public override void Add()
+    {
+        TotalVote = 1;
     }
     public override void ApplyGameOptions(IGameOptions opt)
     {
@@ -62,10 +74,11 @@ public sealed class Mayor : RoleBase
             : opt.GetInt(Int32OptionNames.EmergencyCooldown);
         AURoleOptions.EngineerInVentMaxTime = 1;
     }
-    public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    public override bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
     {
         if (Is(reporter) && target == null) //ボタン
             LeftButtonCount--;
+        return true;
     }
     public override bool OnEnterVent(PlayerPhysics physics, int ventId)
     {
@@ -78,13 +91,38 @@ public sealed class Mayor : RoleBase
 
         return false;
     }
-    public override (byte? votedForId, int? numVotes, bool doVote) OnVote(byte voterId, byte sourceVotedForId)
+    public override string GetProgressText(bool comms = false) =>　SkipPlusVote ? Utils.ColorString(UnityEngine.Color.yellow,$"({TotalVote})") : "";
+
+    public override (byte? votedForId, int? numVotes, bool doVote) ModifyVote(byte voterId, byte sourceVotedForId, bool isIntentional)
     {
         // 既定値
-        var (votedForId, numVotes, doVote) = base.OnVote(voterId, sourceVotedForId);
+        var (votedForId, numVotes, doVote) = base.ModifyVote(voterId, sourceVotedForId, isIntentional);
         if (voterId == Player.PlayerId)
         {
-            numVotes = AdditionalVote + 1;
+            if (SkipPlusVote)
+            {
+                //skip
+                if (sourceVotedForId == MeetingVoteManager.Skip)
+                {
+                    TotalVote += AdditionalVote;
+                    numVotes = 1;
+                }
+                //無投票は無視
+                else if (sourceVotedForId == MeetingVoteManager.NoVote)
+                { }
+                //通常投票
+                else
+                {
+                    numVotes = TotalVote;
+                    //基礎投票数リセット
+                    TotalVote = 1;
+                }
+            }
+            else
+            {
+                numVotes = AdditionalVote + 1;
+            }
+
         }
         return (votedForId, numVotes, doVote);
     }

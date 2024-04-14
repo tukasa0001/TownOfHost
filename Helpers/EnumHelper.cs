@@ -1,6 +1,6 @@
 using System;
 
-namespace TownOfHost;
+namespace TownOfHostForE;
 
 public static class EnumHelper
 {

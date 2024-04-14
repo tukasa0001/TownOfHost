@@ -2,31 +2,40 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
 
-using TownOfHost.Modules;
-using TownOfHost.Roles.Core;
-using static TownOfHost.Translator;
+using TownOfHostForE.Templates;
+using TownOfHostForE.Modules;
+using TownOfHostForE.Roles.Core;
+using static TownOfHostForE.Translator;
+using AmongUs.Data;
+using TMPro;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameEnd))]
     class EndGamePatch
     {
         public static Dictionary<byte, string> SummaryText = new();
+        public static Dictionary<byte, string> SDSummaryText = new();
         public static string KillLog = "";
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             GameStates.InGame = false;
-
+            BGMSettings.SetEndingBGM();
             Logger.Info("-----------ゲーム終了-----------", "Phase");
+            Main.NormalOptions.NumImpostors = ChangeRoleSettings.ImpostorSetNum;
             if (!GameStates.IsModHost) return;
             SummaryText = new();
+            SDSummaryText = new();
             foreach (var id in PlayerState.AllPlayerStates.Keys)
-                SummaryText[id] = Utils.SummaryTexts(id, disableColor: false);
-
+            {
+                SummaryText[id] = Utils.SummaryTexts(id,false);
+                SDSummaryText[id] = Utils.SummaryTexts(id,false);
+            }
             var sb = new StringBuilder(GetString("KillLog") + ":");
             foreach (var kvp in PlayerState.AllPlayerStates.OrderBy(x => x.Value.RealKiller.Item1.Ticks))
             {
@@ -34,9 +43,9 @@ namespace TownOfHost
                 if (date == DateTime.MinValue) continue;
                 var killerId = kvp.Value.GetRealKiller();
                 var targetId = kvp.Key;
-                sb.Append($"\n{date:T} {Main.AllPlayerNames[targetId]}({Utils.GetTrueRoleName(targetId, false)}{Utils.GetSubRolesText(targetId)}) [{Utils.GetVitalText(kvp.Key)}]");
+                sb.Append($"\n{date:T} {Main.AllPlayerNames[targetId]}({Utils.GetTrueRoleName(targetId, false)}{Utils.GetSubRolesText(targetId)}) [{Utils.GetVitalText(kvp.Key)}]".RemoveHtmlTags());
                 if (killerId != byte.MaxValue && killerId != targetId)
-                    sb.Append($"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetTrueRoleName(killerId, false)}{Utils.GetSubRolesText(killerId)})");
+                    sb.Append($"\n\t\t⇐ {Main.AllPlayerNames[killerId]}({Utils.GetTrueRoleName(killerId, false)}{Utils.GetSubRolesText(killerId)})".RemoveHtmlTags());
             }
             KillLog = sb.ToString();
 
@@ -47,6 +56,9 @@ namespace TownOfHost
             foreach (var pc in Main.AllPlayerControls)
             {
                 if (CustomWinnerHolder.WinnerIds.Contains(pc.PlayerId)) winner.Add(pc);
+
+                //DBSetting.SetDbRoleList(pc);
+
             }
             foreach (var team in CustomWinnerHolder.WinnerRoles)
             {
@@ -83,8 +95,21 @@ namespace TownOfHost
                     else if (role == CustomRoles.HASFox && CustomWinnerHolder.WinnerTeam != CustomWinner.HASTroll && !pc.Data.IsDead)
                     {
                         winner.Add(pc);
-                        CustomWinnerHolder.AdditionalWinnerTeams.Add(AdditionalWinners.HASFox);
+                        CustomWinnerHolder.AdditionalWinnerRoles.Add(CustomRoles.HASFox);
                     }
+                }
+            }
+
+            //SuperBombParty専用処理
+            if (Options.CurrentGameMode == CustomGameMode.SuperBombParty &&
+                CustomWinnerHolder.WinnerTeam != CustomWinner.Draw && CustomWinnerHolder.WinnerTeam != CustomWinner.None)
+            {
+                winner = new();
+                foreach (var pc in Main.AllAlivePlayerControls)
+                {
+                    //一人しかいないはずなので取得したら抜ける。
+                    winner.Add(pc);
+                    break;
                 }
             }
             Main.winnerList = new();
@@ -94,6 +119,11 @@ namespace TownOfHost
 
                 TempData.winners.Add(new WinningPlayerData(pc.Data));
                 Main.winnerList.Add(pc.PlayerId);
+                if (BetWinTeams.BetWinTeamMode.GetBool())
+                {
+                    Logger.Info("対象を追加：" + pc.FriendCode + ":" + pc?.Data?.PlayerName, "BETWIN");
+                    BetWinTeams.winnerCode.Add(pc.FriendCode);
+                }
             }
 
             Main.VisibleTasksCount = false;
@@ -112,6 +142,8 @@ namespace TownOfHost
     class SetEverythingUpPatch
     {
         public static string LastWinsText = "";
+        private static TextMeshPro roleSummary;
+        private static SimpleButton showHideButton;
 
         public static void Postfix(EndGameManager __instance)
         {
@@ -120,16 +152,15 @@ namespace TownOfHost
             //          ==勝利陣営表示==
             //#######################################
 
-            __instance.WinText.alignment = TMPro.TextAlignmentOptions.Right;
             var WinnerTextObject = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
-            WinnerTextObject.transform.position = new(__instance.WinText.transform.position.x + 2.4f, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
+            WinnerTextObject.transform.position = new(__instance.WinText.transform.position.x, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
             WinnerTextObject.transform.localScale = new(0.6f, 0.6f, 0.6f);
             var WinnerText = WinnerTextObject.GetComponent<TMPro.TextMeshPro>(); //WinTextと同じ型のコンポーネントを取得
             WinnerText.fontSizeMin = 3f;
             WinnerText.text = "";
 
             string CustomWinnerText = "";
-            string AdditionalWinnerText = "";
+            var AdditionalWinnerText = new StringBuilder(32);
             string CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Crewmate);
 
             var winnerRole = (CustomRoles)CustomWinnerHolder.WinnerTeam;
@@ -137,7 +168,7 @@ namespace TownOfHost
             {
                 CustomWinnerText = Utils.GetRoleName(winnerRole);
                 CustomWinnerColor = Utils.GetRoleColorCode(winnerRole);
-                if (winnerRole.IsNeutral())
+                if (winnerRole.IsNeutral() || winnerRole.IsAnimals())
                 {
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(winnerRole);
                 }
@@ -161,6 +192,10 @@ namespace TownOfHost
                 case CustomWinner.Lovers:
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.Lovers);
                     break;
+                //アニマルズは存在するけど役職じゃないので代表でコヨーテ
+                case CustomWinner.Animals:
+                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Coyote);
+                    break;
                 //引き分け処理
                 case CustomWinner.Draw:
                     __instance.WinText.text = GetString("ForceEnd");
@@ -179,10 +214,9 @@ namespace TownOfHost
                     break;
             }
 
-            foreach (var additionalWinners in CustomWinnerHolder.AdditionalWinnerTeams)
+            foreach (var role in CustomWinnerHolder.AdditionalWinnerRoles)
             {
-                var addWinnerRole = (CustomRoles)additionalWinners;
-                AdditionalWinnerText += "＆" + Utils.ColorString(Utils.GetRoleColor(addWinnerRole), Utils.GetRoleName(addWinnerRole));
+                AdditionalWinnerText.Append('＆').Append(Utils.ColorString(Utils.GetRoleColor(role), Utils.GetRoleName(role)));
             }
             if (CustomWinnerHolder.WinnerTeam is not CustomWinner.Draw and not CustomWinner.None)
             {
@@ -196,10 +230,25 @@ namespace TownOfHost
             //           ==最終結果表示==
             //#######################################
 
-            var Pos = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
-            var RoleSummaryObject = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
-            RoleSummaryObject.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, Pos.y - 0.1f, -15f);
-            RoleSummaryObject.transform.localScale = new Vector3(1f, 1f, 1f);
+            var showInitially = Main.ShowResults.Value;
+            showHideButton = new SimpleButton(
+               __instance.transform,
+               "ShowHideResultsButton",
+               new(-4.5f, 2.6f, -14f),  // BackgroundLayer(z=-13)より手前
+               new(0, 136, 209, byte.MaxValue),
+               new(0, 196, byte.MaxValue, byte.MaxValue),
+               () =>
+               {
+                   var setToActive = !roleSummary.gameObject.activeSelf;
+                   roleSummary.gameObject.SetActive(setToActive);
+                   Main.ShowResults.Value = setToActive;
+                   showHideButton.Label.text = GetString(setToActive ? "HideResults" : "ShowResults");
+               },
+               GetString(showInitially ? "HideResults" : "ShowResults"))
+            {
+                Scale = new(1.5f, 0.5f),
+                FontSize = 2f,
+            };
 
             StringBuilder sb = new($"{GetString("RoleSummaryText")}");
             List<byte> cloneRoles = new(PlayerState.AllPlayerStates.Keys);
@@ -212,15 +261,50 @@ namespace TownOfHost
             {
                 sb.Append($"\n　 ").Append(EndGamePatch.SummaryText[id]);
             }
-            var RoleSummary = RoleSummaryObject.GetComponent<TMPro.TextMeshPro>();
-            RoleSummary.alignment = TMPro.TextAlignmentOptions.TopLeft;
-            RoleSummary.color = Color.white;
-            RoleSummary.outlineWidth *= 1.2f;
-            RoleSummary.fontSizeMin = RoleSummary.fontSizeMax = RoleSummary.fontSize = 1.25f;
+            roleSummary = TMPTemplate.Create(
+                "RoleSummaryText",
+                sb.ToString(),
+                Color.white,
+                1.25f,
+                TextAlignmentOptions.TopLeft,
+                setActive: showInitially,
+                parent: showHideButton.Button.transform);
+            roleSummary.transform.localPosition = new(1.7f, -0.4f, 0f);
+            roleSummary.transform.localScale = new Vector3(1.2f, 1.2f, 1f);
 
-            var RoleSummaryRectTransform = RoleSummary.GetComponent<RectTransform>();
-            RoleSummaryRectTransform.anchoredPosition = new Vector2(Pos.x + 3.5f, Pos.y - 0.1f);
-            RoleSummary.text = sb.ToString();
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            //if (AmongUsClient.Instance.AmHost)
+            //{
+            //    if (CustomWinnerHolder.WinnerTeam == CustomWinner.Draw)
+            //    {
+            //        //廃村のため処理しない
+            //        //Logger.Info("廃村のため試合結果の送信をキャンセル", "DB");
+            //    }
+            //    else if (!GameStates.IsOnlineGame)
+            //    {
+            //        //ローカルゲームなので処理しない
+            //        //Logger.Info("廃村のため試合結果の送信をキャンセル", "DB");
+            //    }
+            //    else
+            //    {
+            //        DBSetting.SendData sendData = new()
+            //        {
+            //            TableStringDate = "DATEl" + DateTime.Today.Year.ToString() + DateTime.Today.Month.ToString() + DateTime.Today.Day,
+            //            RoomCode = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId),
+            //            ModVersion = Main.PleviewPluginVersion,
+            //            PlayerCount = PlayerState.AllPlayerStates.Count().ToString(),
+            //            Date = DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToShortTimeString(),
+            //            HostName = DataManager.Player.Customization.Name,
+            //            HostFriendCode = PlayerControl.LocalPlayer.FriendCode,
+            //            RoomState = AmongUsClient.Instance.IsGamePublic ? "公開" : "非公開",
+            //            WinnerTeam = CustomWinnerText + "/" + AdditionalWinnerText,
+            //            Map = Constants.MapNames[Main.NormalOptions.MapId]
+            //        };
+            //        Logger.Info(sendData.TableStringDate,"DB");
+            //        DBSetting.sendDB(sendData);
+            //    }
+            //}
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

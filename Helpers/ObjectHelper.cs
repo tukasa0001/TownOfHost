@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TownOfHost;
+namespace TownOfHostForE;
 
 public static class ObjectHelper
 {

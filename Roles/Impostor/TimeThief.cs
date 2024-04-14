@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
 
-namespace TownOfHost.Roles.Impostor
+namespace TownOfHostForE.Roles.Impostor
 {
     public sealed class TimeThief : RoleBase, IMeetingTimeAlterable, IImpostor
     {
@@ -14,9 +14,9 @@ namespace TownOfHost.Roles.Impostor
                 CustomRoles.TimeThief,
                 () => RoleTypes.Impostor,
                 CustomRoleTypes.Impostor,
-                2400,
+                11200,
                 SetupOptionItem,
-                "tt"
+                "タイムシーフ"
             );
         public TimeThief(PlayerControl player)
         : base(

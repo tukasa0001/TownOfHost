@@ -4,10 +4,11 @@ using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 
-using TownOfHost.Attributes;
-using TownOfHost.Roles.Core;
+using TownOfHostForE.Attributes;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Neutral;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     public class PlayerState
     {
@@ -19,8 +20,20 @@ namespace TownOfHost
         public CustomDeathReason DeathReason { get; set; }
         public TaskState taskState;
         public bool IsBlackOut { get; set; }
+        private bool _canUseMovingPlatform = true;
+        public bool CanUseMovingPlatform
+        {
+            get => _canUseMovingPlatform;
+            set
+            {
+                Logger.Info($"ID: {PlayerId} の昇降機可用性を {value} に設定", nameof(PlayerState));
+                _canUseMovingPlatform = value;
+            }
+        }
         public (DateTime, byte) RealKiller;
         public PlainShipRoom LastRoom;
+        /// <summary>会議等の後に湧いた後かどうか<br/>ホスト以外は正しい値にならないので注意</summary>
+        public bool HasSpawned { get; set; } = false;
         public Dictionary<byte, string> TargetColorData;
         public PlayerState(byte playerId)
         {
@@ -63,6 +76,7 @@ namespace TownOfHost
                     CustomRoles.GM => CountTypes.OutOfGame,
                     CustomRoles.HASFox or
                     CustomRoles.HASTroll => CountTypes.None,
+                    CustomRoles.BAKURETSUKI => CountTypes.SB,
                     _ => role.IsImpostor() ? CountTypes.Impostor : CountTypes.Crew,
                 };
         }
@@ -170,10 +184,14 @@ namespace TownOfHost
 
             CompletedTasksCount++;
 
+            DarkGameMaster.InDeathGamePenalty(player);
+
             //調整後のタスク量までしか表示しない
             CompletedTasksCount = Math.Min(AllTasksCount, CompletedTasksCount);
             Logger.Info($"{player.GetNameWithRole()}: TaskCounts = {CompletedTasksCount}/{AllTasksCount}", "TaskState.Update");
         }
+        public bool HasCompletedEnoughCountOfTasks(int count) =>
+            IsTaskFinished || CompletedTasksCount >= count;
     }
     public class PlayerVersion
     {
@@ -207,6 +225,9 @@ namespace TownOfHost
         public static bool IsInTask => InGame && !MeetingHud.Instance;
         public static bool IsMeeting => InGame && MeetingHud.Instance;
         public static bool IsCountDown => GameStartManager.InstanceExists && GameStartManager.Instance.startState == GameStartManager.StartingStates.Countdown;
+        public static bool IsShip => ShipStatus.Instance != null;
+        public static bool IsCanMove => PlayerControl.LocalPlayer?.CanMove is true;
+        public static bool IsDead => PlayerControl.LocalPlayer?.Data?.IsDead is true;
     }
     public static class MeetingStates
     {

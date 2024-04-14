@@ -2,7 +2,7 @@ using Hazel;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using InnerNet;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     public class WriterProxy : ICustomWriter
     {

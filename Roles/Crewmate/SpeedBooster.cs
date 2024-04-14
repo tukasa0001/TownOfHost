@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
+using TownOfHostForE.Roles.Core;
 
-namespace TownOfHost.Roles.Crewmate;
+namespace TownOfHostForE.Roles.Crewmate;
 public sealed class SpeedBooster : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -15,9 +15,9 @@ public sealed class SpeedBooster : RoleBase
             CustomRoles.SpeedBooster,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
-            20600,
+            30600,
             SetupOptionItem,
-            "sb",
+            "スピードブースター",
             "#00ffff"
         );
     public SpeedBooster(PlayerControl player)
@@ -56,7 +56,7 @@ public sealed class SpeedBooster : RoleBase
         var playerId = Player.PlayerId;
         if (Player.IsAlive()
             && BoostTarget == byte.MaxValue
-            && (IsTaskFinished || MyTaskState.CompletedTasksCount >= TaskTrigger))
+            && MyTaskState.HasCompletedEnoughCountOfTasks(TaskTrigger))
         {   //ｽﾋﾟﾌﾞが生きていて、SpeedBoostTargetに登録済みでなく、全タスク完了orトリガー数までタスクを完了している場合
             var rand = IRandom.Instance;
             List<PlayerControl> targetPlayers = new();

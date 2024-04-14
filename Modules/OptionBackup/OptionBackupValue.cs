@@ -1,7 +1,7 @@
 using System;
 using AmongUs.GameOptions;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     public abstract class OptionBackupValue
     {

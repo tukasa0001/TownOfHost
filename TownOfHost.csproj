@@ -1,34 +1,61 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-    <Description>Town Of Host</Description>
-    <Authors>tukasa0001(EmptyBottle), integral0131</Authors>
-    <langVersion>preview</langVersion>
-    <NoWarn>MSB3246</NoWarn>
-  </PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+		<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+		<Description>Town Of Host_ForE</Description>
+		<Authors>tukasa0001(EmptyBottle), integral0131, AkagumaAsumu</Authors>
+		<langVersion>preview</langVersion>
+		<NoWarn>MSB3246</NoWarn>
+		<PackageId>TownOfHost_ForE</PackageId>
+		<Company>tukasa0001(EmptyBottle), integral0131, AkagumaAsumu</Company>
+		<Product>TownOfHost_ForE</Product>
+		<AssemblyName>TownOfHost_ForE</AssemblyName>
+		<RootNamespace>TownOfHost_ForE</RootNamespace>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>TRACE</DefineConstants>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
-    <Reference Include="$(AmongUs)\BepInEx\interop\*.dll" />
-    <EmbeddedResource Include=".\Resources\*.png" />
-    <EmbeddedResource Include=".\Resources\string.csv" />
-  </ItemGroup>
-    
-  <ItemGroup>
-    <PackageReference Include="Costura.Fody" Version="5.7.0">
-      <IncludeAssets>runtime; compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="csv" Version="2.0.87" />
-    <PackageReference Include="GitInfo" Version="2.0.20">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="C:\Program Files (x86)\Steam\steamapps\common\Among Us _dev\BepInEx\core\*.dll" />
+		<Reference Include="C:\Program Files (x86)\Steam\steamapps\common\Among Us _dev\BepInEx\interop\*.dll" />
+		<EmbeddedResource Include=".\Resources\*.png" />
+		<EmbeddedResource Include=".\Resources\string.csv" />
+		<EmbeddedResource Include=".\Resources\Sounds\**" />
+	</ItemGroup>
 
-  <Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
-    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />
-  </Target>
+	<ItemGroup>
+		<PackageReference Include="Costura.Fody" Version="5.7.0">
+			<IncludeAssets>runtime; compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	    <PackageReference Include="csv" Version="2.0.93" />
+	    <PackageReference Include="GitInfo" Version="2.0.20">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	    <PackageReference Include="NCMBClient" Version="1.2.0" />
+	    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	    <PackageReference Include="SharpDX.XAudio2" Version="4.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="ForhiteListEngine">
+	    <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\ForhiteListEngine.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Microsoft.DirectX.DirectSound">
+	    <HintPath>..\..\..\..\..\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.DirectSound.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Modules\YouTube\" />
+	</ItemGroup>
+
+	<Target Name="Copy" AfterTargets="Build" Condition="'C:\Program Files (x86)\Steam\steamapps\common\Among Us _dev' != ''">
+		<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="C:\Program Files (x86)\Steam\steamapps\common\Among Us _dev/BepInEx/plugins/" />
+	</Target>
 </Project>

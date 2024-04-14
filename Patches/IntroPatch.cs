@@ -5,10 +5,11 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
 
-using TownOfHost.Roles.Core;
-using static TownOfHost.Translator;
+using TownOfHostForE.Roles.Core;
+using static TownOfHostForE.Translator;
+using TownOfHostForE.Patches;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
     class SetUpRoleTextPatch
@@ -84,6 +85,9 @@ namespace TownOfHost
             GameData.Instance.RecomputeTaskCounts();
             TaskState.InitialTotalTasks = GameData.Instance.TotalTasks;
 
+            //ペット付与
+            PetSettings.SetPetRoleInPet();
+
             Utils.NotifyRoles();
 
             GameStates.InGame = true;
@@ -94,7 +98,7 @@ namespace TownOfHost
     {
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
-            if (PlayerControl.LocalPlayer.Is(CustomRoleTypes.Neutral))
+            if (PlayerControl.LocalPlayer.Is(CustomRoleTypes.Neutral) || PlayerControl.LocalPlayer.Is(CustomRoles.StrayWolf))
             {
                 //ぼっち役職
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
@@ -111,31 +115,100 @@ namespace TownOfHost
             {
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = introSound;
             }
-
-            switch (role.GetCustomRoleTypes())
+            if (!Options.ChangeIntro.GetBool())
             {
-                case CustomRoleTypes.Neutral:
-                    __instance.TeamTitle.text = Utils.GetRoleName(role);
-                    __instance.TeamTitle.color = Utils.GetRoleColor(role);
-                    __instance.ImpostorText.gameObject.SetActive(true);
-                    __instance.ImpostorText.text = role switch
-                    {
-                        CustomRoles.Egoist => GetString("TeamEgoist"),
-                        CustomRoles.Jackal => GetString("TeamJackal"),
-                        _ => GetString("NeutralInfo"),
-                    };
-                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
-                    break;
-                case CustomRoleTypes.Madmate:
-                    __instance.TeamTitle.text = GetString("Madmate");
-                    __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Madmate);
-                    __instance.ImpostorText.text = GetString("TeamImpostor");
-                    StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
-                    break;
+                switch (role.GetCustomRoleTypes())
+                {
+                    case CustomRoleTypes.Neutral:
+                        __instance.TeamTitle.text = GetString("Neutral");
+                        __instance.TeamTitle.color = Color.gray;
+                        //__instance.TeamTitle.text = Utils.GetRoleName(role);
+                        //__instance.TeamTitle.color = Utils.GetRoleColor(role);
+                        __instance.ImpostorText.gameObject.SetActive(true);
+                        __instance.ImpostorText.text = GetString("NeutralInfo");
+                        __instance.BackgroundBar.material.color = Color.gray;
+                        //if (!Options.CurrentGameMode.IsOneNightMode())
+                            StartFadeIntro(__instance, Color.gray, Utils.GetRoleColor(role));
+                        break;
+                    case CustomRoleTypes.Animals:
+                        __instance.TeamTitle.text = Utils.GetRoleName(role);
+                        __instance.TeamTitle.color = Utils.GetRoleColor(role);
+                        __instance.ImpostorText.gameObject.SetActive(true);
+                        __instance.ImpostorText.text = GetString("TeamAnimals");
+                        __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
+                        break;
+                    case CustomRoleTypes.Madmate:
+                        //if (!Options.CurrentGameMode.IsOneNightMode())
+                            StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
+                        PlayerControl.LocalPlayer.Data.Role.IntroSound = RoleManager.Instance.AllRoles.Where((role) => role.Role == RoleTypes.Impostor).FirstOrDefault().IntroSound;
+                        break;
+                }
+                switch (role)
+                {
+                    case CustomRoles.Jackal:
+                    case CustomRoles.JClient:
+                        __instance.TeamTitle.text = Utils.GetRoleName(CustomRoles.Jackal);
+                        __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Jackal);
+                        __instance.ImpostorText.gameObject.SetActive(true);
+                        __instance.ImpostorText.text = GetString("TeamJackal");
+                        __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.Jackal);
+                        break;
+                    
+                    case CustomRoles.MadSheriff:
+                        __instance.ImpostorText.gameObject.SetActive(true);
+                        var numImpostors = Main.NormalOptions.NumImpostors;
+                        __instance.ImpostorText.text = numImpostors == 1
+                            ? DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.NumImpostorsS)
+                            : __instance.ImpostorText.text = string.Format(DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.NumImpostorsP), numImpostors);
+                        __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[FF1919FF]", "<color=#FF1919FF>").Replace("[]", "</color>");
+                        break;
+                    
+                }
+            }
+            else
+            {
+                switch (role.GetCustomRoleTypes())
+                {
+                    case CustomRoleTypes.Neutral:
+                        __instance.TeamTitle.text = Utils.GetRoleName(role);
+                        __instance.TeamTitle.color = Utils.GetRoleColor(role);
+                        __instance.ImpostorText.gameObject.SetActive(true);
+                        __instance.ImpostorText.text = role switch
+                        {
+                            CustomRoles.Egoist => GetString("TeamEgoist"),
+                            CustomRoles.Jackal => GetString("TeamJackal"),
+                            CustomRoles.JClient => GetString("TeamJackal"),
+                            _ => GetString("NeutralInfo"),
+                        };
+                        __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
+                        break;
+                    case CustomRoleTypes.Animals:
+                        __instance.TeamTitle.text = Utils.GetRoleName(role);
+                        __instance.TeamTitle.color = Utils.GetRoleColor(role);
+                        __instance.ImpostorText.gameObject.SetActive(true);
+                        __instance.ImpostorText.text = GetString("TeamAnimals");
+                        __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
+                        break;
+                    case CustomRoleTypes.Madmate:
+                        __instance.TeamTitle.text = GetString("Madmate");
+                        __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Madmate);
+                        __instance.ImpostorText.text = GetString("TeamImpostor");
+                        StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
+                        break;
+                }
             }
             switch (role)
             {
+                case CustomRoles.StrayWolf:
+                    __instance.TeamTitle.text = GetString("Impostor");
+                    __instance.TeamTitle.color = Palette.ImpostorRed;
+                    __instance.ImpostorText.gameObject.SetActive(false);
+                    __instance.BackgroundBar.material.color = Palette.ImpostorRed;
+                    break;
                 case CustomRoles.Sheriff:
+                case CustomRoles.Hunter:
+                case CustomRoles.SillySheriff:
+                case CustomRoles.Metaton:
                     __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                     __instance.ImpostorText.gameObject.SetActive(true);
                     var numImpostors = Main.NormalOptions.NumImpostors;
@@ -151,7 +224,6 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     __instance.ImpostorText.gameObject.SetActive(false);
                     break;
-
             }
 
             if (Input.GetKey(KeyCode.RightShift))
@@ -174,7 +246,7 @@ namespace TownOfHost
         }
         private static async void StartFadeIntro(IntroCutscene __instance, Color start, Color end)
         {
-            await Task.Delay(1000);
+            await Task.Delay(2000);
             int milliseconds = 0;
             while (true)
             {
@@ -196,7 +268,10 @@ namespace TownOfHost
     {
         public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff))
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff)
+                ||PlayerControl.LocalPlayer.Is(CustomRoles.Hunter)
+                ||PlayerControl.LocalPlayer.Is(CustomRoles.Metaton)
+                ||PlayerControl.LocalPlayer.Is(CustomRoles.SillySheriff))
             {
                 //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
@@ -224,9 +299,20 @@ namespace TownOfHost
         {
             if (!GameStates.IsInGame) return;
             Main.introDestroyed = true;
+
+            var mapId = Main.NormalOptions.MapId;
+            // エアシップではまだ湧かない
+            if ((MapNames)mapId != MapNames.Airship)
+            {
+                foreach (var state in PlayerState.AllPlayerStates.Values)
+                {
+                    state.HasSpawned = true;
+                }
+            }
+
             if (AmongUsClient.Instance.AmHost)
             {
-                if (Main.NormalOptions.MapId != 4)
+                if (mapId != 4)
                 {
                     Main.AllPlayerControls.Do(pc => pc.RpcResetAbilityCooldown());
                     if (Options.FixFirstKillCooldown.GetBool())
@@ -241,10 +327,10 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.RpcExile();
                     PlayerState.GetByPlayerId(PlayerControl.LocalPlayer.PlayerId).SetDead();
                 }
-                if (Options.RandomSpawn.GetBool())
+                if (RandomSpawn.IsRandomSpawn())
                 {
                     RandomSpawn.SpawnMap map;
-                    switch (Main.NormalOptions.MapId)
+                    switch (mapId)
                     {
                         case 0:
                             map = new RandomSpawn.SkeldSpawnMap();
@@ -254,12 +340,20 @@ namespace TownOfHost
                             map = new RandomSpawn.MiraHQSpawnMap();
                             Main.AllPlayerControls.Do(map.RandomTeleport);
                             break;
+                        case 2:
+                            map = new RandomSpawn.PolusSpawnMap();
+                            Main.AllPlayerControls.Do(map.RandomTeleport);
+                            break;
+                        case 5:
+                            map = new RandomSpawn.FungleSpawnMap();
+                            Main.AllPlayerControls.Do(map.RandomTeleport);
+                            break;
                     }
                 }
 
                 // そのままだとホストのみDesyncImpostorの暗室内での視界がクルー仕様になってしまう
                 var roleInfo = PlayerControl.LocalPlayer.GetCustomRole().GetRoleInfo();
-                var amDesyncImpostor = roleInfo?.RequireResetCam == true || Main.ResetCamPlayerList.Contains(PlayerControl.LocalPlayer.PlayerId);
+                var amDesyncImpostor = roleInfo?.IsDesyncImpostor == true;
                 if (amDesyncImpostor)
                 {
                     PlayerControl.LocalPlayer.Data.Role.AffectedByLightAffectors = false;

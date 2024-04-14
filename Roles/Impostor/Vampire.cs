@@ -3,11 +3,11 @@ using System.Linq;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Translator;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost.Roles.Impostor
+namespace TownOfHostForE.Roles.Impostor
 {
     public sealed class Vampire : RoleBase, IImpostor
     {
@@ -18,9 +18,9 @@ namespace TownOfHost.Roles.Impostor
                 CustomRoles.Vampire,
                 () => RoleTypes.Impostor,
                 CustomRoleTypes.Impostor,
-                1300,
+                10400,
                 SetupOptionItem,
-                "va",
+                "ヴァンパイア",
                 introSound: () => GetIntroSound(RoleTypes.Shapeshifter)
             );
         public Vampire(PlayerControl player)
@@ -55,7 +55,7 @@ namespace TownOfHost.Roles.Impostor
             if (!info.CanKill) return; //キル出来ない相手には無効
             var (killer, target) = info.AttemptTuple;
 
-            if (target.Is(CustomRoles.Bait)) return;
+            if (target.Is(CustomRoles.Bait) || target.Is(CustomRoles.AddBait)) return;
             if (info.IsFakeSuicide) return;
 
             //誰かに噛まれていなければ登録
@@ -84,7 +84,7 @@ namespace TownOfHost.Roles.Impostor
                 }
             }
         }
-        public override void OnReportDeadBody(PlayerControl _, GameData.PlayerInfo __)
+        public override bool OnReportDeadBody(PlayerControl _, GameData.PlayerInfo __)
         {
             foreach (var targetId in BittenPlayers.Keys)
             {
@@ -92,6 +92,7 @@ namespace TownOfHost.Roles.Impostor
                 KillBitten(target, true);
             }
             BittenPlayers.Clear();
+            return true;
         }
         public bool OverrideKillButtonText(out string text)
         {

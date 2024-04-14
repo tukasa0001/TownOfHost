@@ -1,8 +1,8 @@
 using HarmonyLib;
 
-using TownOfHost.Modules.ClientOptions;
+using TownOfHostForE.Modules.ClientOptions;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     [HarmonyPatch(typeof(OptionsMenuBehaviour), nameof(OptionsMenuBehaviour.Start))]
     public static class OptionsMenuBehaviourStartPatch
@@ -11,6 +11,7 @@ namespace TownOfHost
         private static ClientActionItem JapaneseRoleName;
         private static ClientActionItem UnloadMod;
         private static ClientActionItem DumpLog;
+        private static ClientOptionItem EnableCustomSoundEffect;
 
         public static void Postfix(OptionsMenuBehaviour __instance)
         {
@@ -36,6 +37,10 @@ namespace TownOfHost
                 DumpLog = ClientActionItem.Create("DumpLog", Utils.DumpLog, __instance);
             }
 
+            if (EnableCustomSoundEffect == null || EnableCustomSoundEffect.ToggleButton == null)
+            {
+                EnableCustomSoundEffect = ClientOptionItem.Create("EnableCustomSoundEffect", Main.EnableCustomSoundEffect, __instance);
+            }
             if (ModUnloaderScreen.Popup == null)
             {
                 ModUnloaderScreen.Init(__instance);

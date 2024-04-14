@@ -3,10 +3,10 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.AddOns.Crewmate;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.AddOns.Crewmate;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.AddTasksFromList))]
     class AddTasksFromListPatch
@@ -105,7 +105,7 @@ namespace TownOfHost
 
             //割り当て可能なショートタスクのリスト
             Il2CppSystem.Collections.Generic.List<NormalPlayerTask> ShortTasks = new();
-            foreach (var task in ShipStatus.Instance.NormalTasks)
+            foreach (var task in ShipStatus.Instance.ShortTasks)
                 ShortTasks.Add(task);
             Shuffle<NormalPlayerTask>(ShortTasks);
 
@@ -137,7 +137,7 @@ namespace TownOfHost
             for (int i = 0; i < list.Count - 1; i++)
             {
                 T obj = list[i];
-                int rand = UnityEngine.Random.Range(i, list.Count);
+                int rand = IRandom.Instance.Next(i, list.Count);
                 list[i] = list[rand];
                 list[rand] = obj;
             }

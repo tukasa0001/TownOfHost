@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using HarmonyLib;
-using TownOfHost.Attributes;
+using TownOfHostForE.Attributes;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     static class PlayerOutfitExtension
     {
@@ -53,7 +52,16 @@ namespace TownOfHost
 
             if (oldIsCamouflage != IsCamouflage)
             {
-                Main.AllPlayerControls.Do(pc => Camouflage.RpcSetSkin(pc));
+                foreach (var pc in Main.AllPlayerControls)
+                {
+                    if (!pc.Is(Roles.Core.CustomRoles.Rainbow)) RpcSetSkin(pc);
+
+                    // The code is intended to remove pets at dead players to combat a vanilla bug
+                    if (!IsCamouflage && !pc.IsAlive())
+                    {
+                        pc.RpcSetPet("");
+                    }
+                }
                 Utils.NotifyRoles(NoCache: true);
             }
         }
@@ -74,7 +82,7 @@ namespace TownOfHost
 
             var newOutfit = CamouflageOutfit;
 
-            if (!IsCamouflage || ForceRevert)
+            if ((target.IsAlive() && !IsCamouflage) || ForceRevert)
             {
                 //コミュサボ解除または強制解除
 
@@ -86,6 +94,14 @@ namespace TownOfHost
 
                 newOutfit = PlayerSkins[id];
             }
+            //ターゲットが死んでいる場合
+            else if (!target.IsAlive())
+            {
+                return;
+            }
+
+            if (newOutfit.Compare(target.Data.DefaultOutfit)) return;
+
             Logger.Info($"newOutfit={newOutfit.GetString()}", "RpcSetSkin");
 
             var sender = CustomRpcSender.Create(name: $"Camouflage.RpcSetSkin({target.Data.PlayerName})");

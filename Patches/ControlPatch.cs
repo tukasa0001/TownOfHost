@@ -1,14 +1,14 @@
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
-using TownOfHost.Modules;
+using TownOfHostForE.Modules;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
     class ControllerManagerUpdatePatch
     {
-        static readonly (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1280, 720), (1600, 900), (1920, 1080) };
+        static readonly (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1024, 576), (1280, 720), (1366, 768), (1600, 900) };
         static int resolutionIndex = 0;
         public static void Postfix(ControllerManager __instance)
         {
@@ -74,7 +74,7 @@ namespace TownOfHost
             //実行ファイルのフォルダを開く
             if (GetKeysDown(KeyCode.F10))
             {
-                Utils.OpenDirectory(System.Environment.CurrentDirectory);
+                System.Diagnostics.Process.Start(System.Environment.CurrentDirectory);
             }
 
             //--以下ホスト専用コマンド--//
@@ -119,6 +119,16 @@ namespace TownOfHost
             {
                 OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValue(x.DefaultValue));
             }
+            //自分自身の死体をレポート
+            if (GetKeysDown(KeyCode.Return, KeyCode.M, KeyCode.RightShift) && GameStates.IsInGame)
+            {
+                PlayerControl.LocalPlayer.NoCheckStartMeeting(PlayerControl.LocalPlayer.Data);
+            }
+            //自分自身を追放
+            if (GetKeysDown(KeyCode.Return, KeyCode.E, KeyCode.LeftShift) && GameStates.IsInGame)
+            {
+                PlayerControl.LocalPlayer.RpcExile();
+            }
 
             //--以下デバッグモード用コマンド--//
             if (!DebugModeManager.IsDebugMode) return;
@@ -132,16 +142,6 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.V) && GameStates.IsMeeting && !GameStates.IsOnlineGame)
             {
                 MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
-            }
-            //自分自身の死体をレポート
-            if (GetKeysDown(KeyCode.Return, KeyCode.M, KeyCode.RightShift) && GameStates.IsInGame)
-            {
-                PlayerControl.LocalPlayer.NoCheckStartMeeting(PlayerControl.LocalPlayer.Data);
-            }
-            //自分自身を追放
-            if (GetKeysDown(KeyCode.Return, KeyCode.E, KeyCode.LeftShift) && GameStates.IsInGame)
-            {
-                PlayerControl.LocalPlayer.RpcExile();
             }
             //ログをゲーム内にも出力するかトグル
             if (GetKeysDown(KeyCode.F2, KeyCode.LeftControl))
@@ -178,10 +178,10 @@ namespace TownOfHost
             //エアシップのトイレのドアを全て開ける
             if (Input.GetKeyDown(KeyCode.P))
             {
-                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 79);
-                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 80);
-                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
-                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 82);
+                ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Doors, 79);
+                ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Doors, 80);
+                ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Doors, 81);
+                ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Doors, 82);
             }
             //現在の座標を取得
             if (Input.GetKeyDown(KeyCode.I))

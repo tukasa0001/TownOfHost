@@ -1,7 +1,7 @@
 using System;
 using HarmonyLib;
 
-namespace TownOfHost.Patches;
+namespace TownOfHostForE.Patches;
 
 [HarmonyPatch(typeof(HashRandom))]
 class HashRandomPatch

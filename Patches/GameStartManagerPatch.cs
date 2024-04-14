@@ -8,11 +8,11 @@ using InnerNet;
 using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using TownOfHost.Modules;
-using static TownOfHost.Translator;
-using TownOfHost.Roles;
+using TownOfHostForE.Modules;
+using static TownOfHostForE.Translator;
+using TownOfHostForE.Roles;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     public class GameStartManagerPatch
     {
@@ -70,7 +70,7 @@ namespace TownOfHost
                 if (!AmongUsClient.Instance.AmHost) return;
 
                 // Make Public Button
-                if (ModUpdater.isBroken || ModUpdater.hasUpdate || !Main.AllowPublicRoom || !VersionChecker.IsSupported)
+                if (ModUpdater.isBroken || ModUpdater.hasUpdate || !Main.AllowPublicRoom || !VersionChecker.IsSupported || !Main.IsPublicAvailableOnThisVersion)
                 {
                     __instance.MakePublicButton.color = Palette.DisabledClear;
                     __instance.privatePublicText.color = Palette.DisabledClear;
@@ -122,12 +122,19 @@ namespace TownOfHost
                         {
                             canStartGame = false;
                             mismatchedPlayerNameList.Add(Utils.ColorString(Palette.PlayerColors[client.ColorId], client.Character.Data.PlayerName));
+                            ChatCommands.OtherVersionPlayerId.Add(client.Character.PlayerId);
                         }
                     }
                     if (!canStartGame)
                     {
                         __instance.StartButton.gameObject.SetActive(false);
                         warningMessage = Utils.ColorString(Color.red, string.Format(GetString("Warning.MismatchedVersion"), String.Join(" ", mismatchedPlayerNameList), $"<color={Main.ModColor}>{Main.ModName}</color>"));
+                        ChatCommands.ResetVersionCheckFlag = true;
+                    }
+                    if (AmongUsClient.Instance.AmHost && ChatCommands.StartButtonReset)
+                    {
+                        __instance.StartButton.gameObject.SetActive(true);
+                        ChatCommands.StartButtonReset = false;
                     }
                     cancelButton.gameObject.SetActive(__instance.startState == GameStartManager.StartingStates.Countdown);
                 }
@@ -204,14 +211,14 @@ namespace TownOfHost
 
                 Options.DefaultKillCooldown = Main.NormalOptions.KillCooldown;
                 Main.LastKillCooldown.Value = Main.NormalOptions.KillCooldown;
-                Main.NormalOptions.KillCooldown = 0f;
+                if(Options.CurrentGameMode == CustomGameMode.Standard) Main.NormalOptions.KillCooldown = 0f; //特殊系でホストがキルできなくなってたため仮対応
 
                 var opt = Main.NormalOptions.Cast<IGameOptions>();
                 AURoleOptions.SetOpt(opt);
                 Main.LastShapeshifterCooldown.Value = AURoleOptions.ShapeshifterCooldown;
                 AURoleOptions.ShapeshifterCooldown = 0f;
 
-                PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(opt));
+                PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(opt, AprilFoolsMode.IsAprilFoolsModeToggledOn));
 
                 __instance.ReallyBegin(false);
                 return false;
@@ -226,12 +233,14 @@ namespace TownOfHost
                     MIRAHQ     = 1
                     Polus      = 2
                     Dleks      = 3
-                    TheAirShip = 4*/
+                    TheAirShip = 4
+                    TheFungle  = 5*/
                     if (Options.AddedTheSkeld.GetBool()) randomMaps.Add(0);
                     if (Options.AddedMiraHQ.GetBool()) randomMaps.Add(1);
                     if (Options.AddedPolus.GetBool()) randomMaps.Add(2);
                     // if (Options.AddedDleks.GetBool()) RandomMaps.Add(3);
                     if (Options.AddedTheAirShip.GetBool()) randomMaps.Add(4);
+                    if (Options.AddedTheFungle.GetBool()) randomMaps.Add(5);
 
                     if (randomMaps.Count <= 0) return;
                     var mapsId = randomMaps[rand.Next(randomMaps.Count)];
@@ -248,12 +257,12 @@ namespace TownOfHost
                 if (GameStates.IsCountDown)
                 {
                     Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
-                    PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions));
+                    PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions, AprilFoolsMode.IsAprilFoolsModeToggledOn));
                 }
             }
         }
     }
-
+    
     [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.SetText))]
     public static class HiddenTextPatch
     {

@@ -1,9 +1,9 @@
 using System.Linq;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
+using TownOfHostForE.Roles.Core;
 
-namespace TownOfHost.Roles.Neutral;
+namespace TownOfHostForE.Roles.Neutral;
 
 public sealed class Terrorist : RoleBase
 {
@@ -16,7 +16,7 @@ public sealed class Terrorist : RoleBase
             CustomRoleTypes.Neutral,
             50200,
             SetupOptionItem,
-            "te",
+            "テロリスト",
             "#00ff00",
             introSound: () => ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault().MinigamePrefab.OpenSound
         );

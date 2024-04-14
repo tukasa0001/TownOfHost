@@ -1,7 +1,7 @@
 using AmongUs.GameOptions;
-using TownOfHost.Roles.Core;
+using TownOfHostForE.Roles.Core;
 
-namespace TownOfHost.Roles.Vanilla;
+namespace TownOfHostForE.Roles.Vanilla;
 
 public sealed class Scientist : RoleBase
 {
@@ -18,6 +18,4 @@ public sealed class Scientist : RoleBase
         player
     )
     { }
-
-    public override string GetAbilityButtonText() => StringNames.VitalsAbility.ToString();
 }

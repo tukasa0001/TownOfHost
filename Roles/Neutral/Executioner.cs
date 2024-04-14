@@ -3,10 +3,10 @@ using System.Linq;
 using Hazel;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
 
-namespace TownOfHost.Roles.Neutral;
+namespace TownOfHostForE.Roles.Neutral;
 public sealed class Executioner : RoleBase, IAdditionalWinner
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -16,21 +16,21 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
             CustomRoles.Executioner,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Neutral,
-            50700,
+            50600,
             SetupOptionItem,
-            "exe",
+            "エクスキューショナー",
             "#611c3a",
             introSound: () => GetIntroSound(RoleTypes.Shapeshifter)
         );
     public Executioner(PlayerControl player)
     : base(
         RoleInfo,
-        player,
-        () => ChangeRolesAfterTargetKilled == CustomRoles.Crewmate ? HasTask.ForRecompute : HasTask.False
+        player
     )
     {
         CanTargetImpostor = OptionCanTargetImpostor.GetBool();
         CanTargetNeutralKiller = OptionCanTargetNeutralKiller.GetBool();
+        CanTargetAnimalsKiller = OptionCanTargetAnimalsKiller.GetBool();
         ChangeRolesAfterTargetKilled = ChangeRoles[OptionChangeRolesAfterTargetKilled.GetValue()];
 
         Executioners.Add(this);
@@ -42,16 +42,19 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
 
     private static OptionItem OptionCanTargetImpostor;
     private static OptionItem OptionCanTargetNeutralKiller;
+    private static OptionItem OptionCanTargetAnimalsKiller;
     public static OptionItem OptionChangeRolesAfterTargetKilled;
     enum OptionName
     {
         ExecutionerCanTargetImpostor,
         ExecutionerCanTargetNeutralKiller,
+        ExecutionerCanTargetAnimalsKiller,
         ExecutionerChangeRolesAfterTargetKilled
     }
 
     private static bool CanTargetImpostor;
     private static bool CanTargetNeutralKiller;
+    private static bool CanTargetAnimalsKiller;
     public static CustomRoles ChangeRolesAfterTargetKilled;
 
     public static HashSet<Executioner> Executioners = new(15);
@@ -67,6 +70,7 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
         var cRolesString = ChangeRoles.Select(x => x.ToString()).ToArray();
         OptionCanTargetImpostor = BooleanOptionItem.Create(RoleInfo, 10, OptionName.ExecutionerCanTargetImpostor, false, false);
         OptionCanTargetNeutralKiller = BooleanOptionItem.Create(RoleInfo, 12, OptionName.ExecutionerCanTargetNeutralKiller, false, false);
+        OptionCanTargetAnimalsKiller = BooleanOptionItem.Create(RoleInfo, 13, OptionName.ExecutionerCanTargetAnimalsKiller, false, false);
         OptionChangeRolesAfterTargetKilled = StringOptionItem.Create(RoleInfo, 11, OptionName.ExecutionerChangeRolesAfterTargetKilled, cRolesString, 1, false);
     }
     public override void Add()
@@ -82,6 +86,7 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
             if (playerId == target.PlayerId) continue;
             else if (!CanTargetImpostor && target.Is(CustomRoleTypes.Impostor)) continue;
             else if (!CanTargetNeutralKiller && target.IsNeutralKiller()) continue;
+            else if (!CanTargetAnimalsKiller && target.IsAnimalsKiller()) continue;
             if (target.Is(CustomRoles.GM)) continue;
 
             targetList.Add(target);
@@ -104,10 +109,10 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
     {
         if (!AmongUsClient.Instance.AmHost) return;
 
-        using var sender = CreateSender(CustomRPC.SetExecutionerTarget);
+        using var sender = CreateSender();
         sender.Writer.Write(TargetId);
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
         byte targetId = reader.ReadByte();
         TargetId = targetId;
@@ -153,9 +158,8 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
         }
         CustomWinnerHolder.WinnerIds.Add(Player.PlayerId);
     }
-    public bool CheckWin(out AdditionalWinners winnerType)
+    public bool CheckWin(ref CustomRoles winnerRole)
     {
-        winnerType = AdditionalWinners.Executioner;
         return TargetExiled && CustomWinnerHolder.WinnerTeam != CustomWinner.Default;
     }
     public void ChangeRole()

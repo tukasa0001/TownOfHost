@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using TownOfHost.Modules;
+using TownOfHostForE.Modules;
 
-namespace TownOfHost.Attributes;
+namespace TownOfHostForE.Attributes;
 
 [AttributeUsage(AttributeTargets.Method)]
 public abstract class InitializerAttribute<T> : Attribute

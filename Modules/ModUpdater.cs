@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -7,14 +8,14 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     [HarmonyPatch]
     public class ModUpdater
     {
-        private static readonly string URL = "https://api.github.com/repos/tukasa0001/TownOfHost";
+        private static readonly string URL = "https://api.github.com/repos/AsumuAkaguma/TownOfHost_ForE";
         public static bool hasUpdate = false;
         public static bool isBroken = false;
         public static bool isChecked = false;
@@ -34,8 +35,8 @@ namespace TownOfHost
             {
                 CheckRelease(Main.BetaBuildURL.Value != "").GetAwaiter().GetResult();
             }
-            MainMenuManagerPatch.UpdateButton.gameObject.SetActive(hasUpdate);
-            MainMenuManagerPatch.UpdateButton.transform.Find("FontPlacer/Text_TMP").GetComponent<TMPro.TMP_Text>().SetText($"{GetString("updateButton")}\n{latestTitle}");
+            MainMenuManagerPatch.UpdateButton.Button.gameObject.SetActive(hasUpdate);
+            MainMenuManagerPatch.UpdateButton.Button.transform.Find("FontPlacer/Text_TMP").GetComponent<TMPro.TMP_Text>().SetText($"{GetString("updateButton")}\n{latestTitle}");
         }
         public static async Task<bool> CheckRelease(bool beta = false)
         {
@@ -65,7 +66,7 @@ namespace TownOfHost
                 {
                     latestVersion = new(data["tag_name"]?.ToString().TrimStart('v'));
                     latestTitle = $"Ver. {latestVersion}";
-                    JArray assets = data["assets"].Cast<JArray>();
+                    JArray assets = (JArray)data["assets"].Cast<JArray>();
                     for (int i = 0; i < assets.Count; i++)
                     {
                         if (assets[i]["name"].ToString() == "TownOfHost_Steam.dll" && Constants.GetPlatformType() == Platforms.StandaloneSteamPC)
@@ -78,7 +79,7 @@ namespace TownOfHost
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                             break;
                         }
-                        if (assets[i]["name"].ToString() == "TownOfHost.dll")
+                        if (assets[i]["name"].ToString() == "TownOfHost_ForE.dll")
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                     }
                     hasUpdate = latestVersion.CompareTo(Main.version) > 0;
@@ -93,7 +94,7 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
-                isBroken = true;
+                //isBroken = true;
                 Logger.Error($"リリースのチェックに失敗しました。\n{ex}", "CheckRelease", false);
                 return false;
             }
@@ -177,7 +178,11 @@ namespace TownOfHost
                     button.gameObject.SetActive(showButton);
                     button.GetComponentInChildren<TextTranslatorTMP>().TargetText = StringNames.QuitLabel;
                     button.GetComponent<PassiveButton>().OnClick = new();
-                    button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.Quit()));
+                    button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() =>
+                    {
+                        Application.OpenURL("https://github.com/tukasa0001/TownOfHost/releases/latest");
+                        Application.Quit();
+                    }));
                 }
             }
         }

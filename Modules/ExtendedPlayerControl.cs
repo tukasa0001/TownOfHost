@@ -7,15 +7,20 @@ using Hazel;
 using InnerNet;
 using UnityEngine;
 
-using TownOfHost.Modules;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Neutral;
-using TownOfHost.Roles.AddOns.Impostor;
-using static TownOfHost.Translator;
+using TownOfHostForE.Modules;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
+using TownOfHostForE.Roles.Impostor;
+using TownOfHostForE.Roles.Madmate;
+using TownOfHostForE.Roles.Crewmate;
+using TownOfHostForE.Roles.Neutral;
+using TownOfHostForE.Roles.Animals;
+using TownOfHostForE.Roles.AddOns.Impostor;
+using static TownOfHostForE.Translator;
+using static UnityEngine.GraphicsBuffer;
+using TownOfHostForE.GameMode;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     static class ExtendedPlayerControl
     {
@@ -33,11 +38,14 @@ namespace TownOfHost
             }
             if (AmongUsClient.Instance.AmHost)
             {
-                var roleClass = player.GetRoleClass();
-                if (roleClass != null)
+                if (role < CustomRoles.NotAssigned)
                 {
-                    roleClass.Dispose();
-                    CustomRoleManager.CreateInstance(role, player);
+                    var roleClass = player.GetRoleClass();
+                    if (roleClass != null)
+                    {
+                        roleClass.Dispose();
+                        CustomRoleManager.CreateInstance(role, player);
+                    }
                 }
 
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
@@ -142,7 +150,7 @@ namespace TownOfHost
             }
             Main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
             HudManagerPatch.LastSetNameDesyncCount++;
-            Logger.Info($"Set:{player?.Data?.PlayerName}:{name} for {seer.GetNameWithRole()}", "RpcSetNamePrivate");
+            //Logger.Info($"Set:{player?.Data?.PlayerName}:{name.RemoveHtmlTags()} for {seer.GetNameWithRole()}", "RpcSetNamePrivate");
 
             var clientId = seer.GetClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
@@ -165,34 +173,35 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
-        {
-            //killerが死んでいる場合は実行しない
-            if (!killer.IsAlive()) return;
+        //public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null,int colorId = 0)
+        //{
+        //    //killerが死んでいる場合は実行しない
+        //    if (!killer.IsAlive()) return;
 
-            if (target == null) target = killer;
-            // Host
-            if (killer.AmOwner)
-            {
-                killer.ProtectPlayer(target, colorId);
-                killer.MurderPlayer(target);
-            }
-            // Other Clients
-            if (killer.PlayerId != 0)
-            {
-                var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
-                sender.StartMessage(killer.GetClientId());
-                sender.StartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
-                    .WriteNetObject((InnerNetObject)target)
-                    .Write(colorId)
-                    .EndRpc();
-                sender.StartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
-                    .WriteNetObject((InnerNetObject)target)
-                    .EndRpc();
-                sender.EndMessage();
-                sender.SendMessage();
-            }
-        }
+        //    if (target == null) target = killer;
+        //    // Host
+        //    if (killer.AmOwner)
+        //    {
+        //        killer.ProtectPlayer(target, colorId);
+        //        killer.MurderPlayer(target, SuccessFlags);
+        //    }
+        //    // Other Clients
+        //    if (killer.PlayerId != 0)
+        //    {
+        //        var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
+        //        sender.StartMessage(killer.GetClientId());
+        //        sender.StartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
+        //            .WriteNetObject((InnerNetObject)target)
+        //            .Write(colorId)
+        //            .EndRpc();
+        //        sender.StartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
+        //            .WriteNetObject((InnerNetObject)target)
+        //            .Write((int)SuccessFlags)
+        //            .EndRpc();
+        //        sender.EndMessage();
+        //        sender.SendMessage();
+        //    }
+        //}
         public static void SetKillCooldown(this PlayerControl player, float time = -1f)
         {
             if (player == null) return;
@@ -207,7 +216,7 @@ namespace TownOfHost
                 Main.AllPlayerKillCooldown[player.PlayerId] *= 2;
             }
             player.SyncSettings();
-            player.RpcGuardAndKill();
+            player.RpcProtectedMurderPlayer();
             player.ResetKillCooldown();
         }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
@@ -215,12 +224,13 @@ namespace TownOfHost
             if (target == null) target = killer;
             if (killer.AmOwner)
             {
-                killer.MurderPlayer(target);
+                killer.MurderPlayer(target, SuccessFlags);
             }
             else
             {
                 MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, killer.GetClientId());
                 messageWriter.WriteNetObject(target);
+                messageWriter.Write((int)SuccessFlags);
                 AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
             }
         }
@@ -263,9 +273,38 @@ namespace TownOfHost
                 ホストのクールダウンは直接リセットします。
             */
         }
-        public static void RpcDesyncRepairSystem(this PlayerControl target, SystemTypes systemType, int amount)
+        public static void RpcSpecificShapeshift(this PlayerControl player, PlayerControl target, bool shouldAnimate)
         {
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, target.GetClientId());
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (player.PlayerId == 0)
+            {
+                player.Shapeshift(target, shouldAnimate);
+                return;
+            }
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Shapeshift, SendOption.Reliable, player.GetClientId());
+            messageWriter.WriteNetObject(target);
+            messageWriter.Write(shouldAnimate);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        }
+        public static void RpcSpecificRejectShapeshift(this PlayerControl player, PlayerControl target, bool shouldAnimate)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            foreach (var seer in Main.AllPlayerControls)
+            {
+                if (seer != player)
+                {
+                    MessageWriter msg = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.RejectShapeshift, SendOption.Reliable, seer.GetClientId());
+                    AmongUsClient.Instance.FinishRpcImmediately(msg);
+                }
+                else
+                {
+                    player.RpcSpecificShapeshift(target, shouldAnimate);
+                }
+            }
+        }
+        public static void RpcDesyncUpdateSystem(this PlayerControl target, SystemTypes systemType, int amount)
+        {
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.UpdateSystem, SendOption.Reliable, target.GetClientId());
             messageWriter.Write((byte)systemType);
             messageWriter.WriteNetObject(target);
             messageWriter.Write((byte)amount);
@@ -329,7 +368,8 @@ namespace TownOfHost
             if (!player) return null;
             var text = Utils.GetRoleName(player.GetCustomRole());
             text += player.GetSubRoleName();
-            return text;
+            // Logでしか使用していないのでここにRemoveTag
+            return text.RemoveHtmlTags();
         }
         public static string GetNameWithRole(this PlayerControl player)
         {
@@ -347,12 +387,11 @@ namespace TownOfHost
         {
             if (pc == null || !AmongUsClient.Instance.AmHost || pc.AmOwner) return;
 
-            var systemtypes = SystemTypes.Reactor;
-            if (Main.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
+            var systemtypes = Utils.GetCriticalSabotageSystemType();
 
             _ = new LateTask(() =>
             {
-                pc.RpcDesyncRepairSystem(systemtypes, 128);
+                pc.RpcDesyncUpdateSystem(systemtypes, 128);
             }, 0f + delay, "Reactor Desync");
 
             _ = new LateTask(() =>
@@ -362,9 +401,9 @@ namespace TownOfHost
 
             _ = new LateTask(() =>
             {
-                pc.RpcDesyncRepairSystem(systemtypes, 16);
+                pc.RpcDesyncUpdateSystem(systemtypes, 16);
                 if (Main.NormalOptions.MapId == 4) //Airship用
-                    pc.RpcDesyncRepairSystem(systemtypes, 17);
+                    pc.RpcDesyncUpdateSystem(systemtypes, 17);
             }, 0.4f + delay, "Fix Desync Reactor");
         }
         public static void ReactorFlash(this PlayerControl pc, float delay = 0f)
@@ -372,18 +411,22 @@ namespace TownOfHost
             if (pc == null) return;
             int clientId = pc.GetClientId();
             // Logger.Info($"{pc}", "ReactorFlash");
-            var systemtypes = SystemTypes.Reactor;
-            if (Main.NormalOptions.MapId == 2) systemtypes = SystemTypes.Laboratory;
+            var systemtypes = (MapNames)Main.NormalOptions.MapId switch
+            {
+                MapNames.Polus => SystemTypes.Laboratory,
+                MapNames.Airship => SystemTypes.HeliSabotage,
+                _ => SystemTypes.Reactor,
+            };
             float FlashDuration = Options.KillFlashDuration.GetFloat();
 
-            pc.RpcDesyncRepairSystem(systemtypes, 128);
+            pc.RpcDesyncUpdateSystem(systemtypes, 128);
 
             _ = new LateTask(() =>
             {
-                pc.RpcDesyncRepairSystem(systemtypes, 16);
+                pc.RpcDesyncUpdateSystem(systemtypes, 16);
 
                 if (Main.NormalOptions.MapId == 4) //Airship用
-                    pc.RpcDesyncRepairSystem(systemtypes, 17);
+                    pc.RpcDesyncUpdateSystem(systemtypes, 17);
             }, FlashDuration + delay, "Fix Desync Reactor");
         }
 
@@ -394,29 +437,52 @@ namespace TownOfHost
         public static bool CanUseKillButton(this PlayerControl pc)
         {
             if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
-
             var roleCanUse = (pc.GetRoleClass() as IKiller)?.CanUseKillButton();
-
+            //大惨事爆裂大戦中は全員キルボタン使える
+            if (Options.CurrentGameMode == CustomGameMode.SuperBombParty)
+                roleCanUse = true;
             return roleCanUse ?? pc.Is(CustomRoleTypes.Impostor);
         }
+        //public static bool CanUseImpostorVentButton(this PlayerControl pc)
+        //{
+        //    if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
+
+        //    return pc.GetCustomRole() switch
+        //    {
+        //        CustomRoles.Sheriff => false,
+        //        CustomRoles.Metaton => false,
+        //        CustomRoles.Egoist => true,
+        //        CustomRoles.Jackal => Jackal.CanVent,
+        //        CustomRoles.Coyote => Coyote.CanVent,
+        //        CustomRoles.Braki => true,
+        //        CustomRoles.Leopard => true,
+        //        CustomRoles.SuicideBomber => SuicideBomber.NowExpVentFlag,
+        //        CustomRoles.MadSheriff => MadSheriff.CanVent,
+        //        CustomRoles.Arsonist => Arsonist.IsDouseDone(pc),
+
+        //        CustomRoles.Telepathisters => Telepathisters.VentCountLimit > -1,
+        //        _ => pc.Is(CustomRoleTypes.Impostor),
+        //    };
+        //}
         public static bool CanUseImpostorVentButton(this PlayerControl pc)
         {
-            if (!pc.IsAlive() || pc.Data.Role.Role == RoleTypes.GuardianAngel) return false;
+            if (!pc.IsAlive()) return false;
 
-            return pc.GetCustomRole() switch
-            {
-                CustomRoles.Sheriff => false,
-                CustomRoles.Egoist => true,
-                CustomRoles.Jackal => Jackal.CanVent,
-                CustomRoles.Arsonist => Arsonist.IsDouseDone(pc),
-                _ => pc.Is(CustomRoleTypes.Impostor),
-            };
+            var roleCanUse = (pc.GetRoleClass() as IKiller)?.CanUseImpostorVentButton();
+
+            return roleCanUse ?? false;
+        }
+        public static bool CanUseSabotageButton(this PlayerControl pc)
+        {
+            var roleCanUse = (pc.GetRoleClass() as IKiller)?.CanUseSabotageButton();
+
+            return roleCanUse ?? false;
         }
         public static void ResetKillCooldown(this PlayerControl player)
         {
             Main.AllPlayerKillCooldown[player.PlayerId] = (player.GetRoleClass() as IKiller)?.CalculateKillCooldown() ?? Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
             if (player.PlayerId == LastImpostor.currentId)
-                LastImpostor.SetKillCooldown();
+                LastImpostor.SetKillCooldown(player);
         }
         public static bool CanMakeMadmate(this PlayerControl player)
         {
@@ -439,17 +505,90 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, SendOption.None, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void MurderPlayer(this PlayerControl killer, PlayerControl target)
+        {
+            killer.MurderPlayer(target, SucceededFlags);
+        }
+        public const MurderResultFlags SucceededFlags = MurderResultFlags.Succeeded | MurderResultFlags.DecisionByHost;
+        public static void RpcMurderPlayer(this PlayerControl killer, PlayerControl target)
+        {
+            if (CheckTarget(killer,target))
+            {
+                killer.RpcMurderPlayer(target, true);
+            }
+
+            //if (DarkGameMaster.IsDeathGameTime && DarkGameMaster.deathGameJoinPlayerIds[DarkGameMaster.IsDeathGameOwner].Contains(target.PlayerId))
+            //{
+            //    Logger.Info("呼び出し", "debug");
+            //    killer?.ReportDeadBody(Utils.GetPlayerInfoById(target.PlayerId));
+            //}
+
+        }
+
+        //キル確認
+        private static bool CheckTarget(PlayerControl killer, PlayerControl target)
+        {
+            if (DarkGameMaster.IsDeathGameTime)
+            {
+                //自殺の場合は許容
+                if (killer.PlayerId == target.PlayerId) return true;
+                if (DarkGameMaster.deathGameJoinPlayerIds[DarkGameMaster.IsDeathGameOwner].Contains(killer.PlayerId) &&
+                    DarkGameMaster.deathGameJoinPlayerIds[DarkGameMaster.IsDeathGameOwner].Contains(target.PlayerId))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            Logger.Info("キル","debug");
+            //キル数カウント
+            if (Main.killCount.ContainsKey(killer.PlayerId))
+            {
+                Main.killCount[killer.PlayerId]++;
+            }
+            else
+            {
+                Main.killCount.Add(killer.PlayerId, 1);
+            }
+
+            return true;
+        }
+
         public static void RpcMurderPlayerV2(this PlayerControl killer, PlayerControl target)
         {
             if (target == null) target = killer;
             if (AmongUsClient.Instance.AmClient)
             {
-                killer.MurderPlayer(target);
+                killer.MurderPlayer(target, SuccessFlags);
+
             }
+            GreatDetective.TargetOnMurder(killer, target);
             MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
             messageWriter.WriteNetObject(target);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
             Utils.NotifyRoles();
+        }
+        public static void RpcProtectedMurderPlayer(this PlayerControl killer, PlayerControl target = null)
+        {
+            //killerが死んでいる場合は実行しない
+            if (!killer.IsAlive()) return;
+
+            if (target == null) target = killer;
+            // Host
+            if (killer.AmOwner)
+            {
+                killer.MurderPlayer(target, MurderResultFlags.FailedProtected);
+            }
+            // Other Clients
+            if (killer.PlayerId != 0)
+            {
+                var writer = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable);
+                writer.WriteNetObject(target);
+                writer.Write((int)MurderResultFlags.FailedProtected);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
         }
         public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
         { /*サボタージュ中でも関係なしに会議を起こせるメソッド
@@ -484,10 +623,40 @@ namespace TownOfHost
         }
         public static bool IsNeutralKiller(this PlayerControl player)
         {
-            return
+            if (player.Is(CustomRoles.Opportunist) && Opportunist.CanKill) return true;
+            return 
                 player.GetCustomRole() is
                 CustomRoles.Egoist or
-                CustomRoles.Jackal;
+                CustomRoles.Jackal or
+                CustomRoles.Gizoku or
+                CustomRoles.Oniichan or
+                CustomRoles.DarkHide;
+        }
+        public static bool IsAnimalsKiller(this PlayerControl player)
+        {
+            return 
+                player.GetCustomRole() is
+                CustomRoles.Coyote or
+                CustomRoles.Braki or
+                CustomRoles.Leopard or
+                CustomRoles.Nyaoha;
+        }
+        public static bool IsLoversClient(this PlayerControl player)
+        {
+            return 
+                player.GetCustomRole() is
+                CustomRoles.Lovers or
+                CustomRoles.PlatonicLover or
+                CustomRoles.OtakuPrincess;
+        }
+        public static bool IsCrewKiller(this PlayerControl player)
+        {
+            return
+                player.GetCustomRole() is
+                CustomRoles.Sheriff or
+                CustomRoles.SillySheriff or
+                CustomRoles.Hunter or
+                CustomRoles.Metaton;
         }
         public static bool KnowDeathReason(this PlayerControl seer, PlayerControl seen)
         {
@@ -508,33 +677,58 @@ namespace TownOfHost
                 return deathReasonSeeable.CheckSeeDeathReason(seen);
             }
             // IDeathReasonSeeable未対応役職はこちら
-            return seer.Is(CustomRoleTypes.Madmate) && Options.MadmateCanSeeDeathReason.GetBool();
+            return (seer.Is(CustomRoles.SKMadmate) && Options.MadmateCanSeeDeathReason.GetBool())
+                || seer.Is(CustomRoles.Autopsy);
         }
         public static string GetRoleInfo(this PlayerControl player, bool InfoLong = false)
         {
             var roleClass = player.GetRoleClass();
             var role = player.GetCustomRole();
-            if (role is CustomRoles.Crewmate or CustomRoles.Impostor)
-                InfoLong = false;
-
-            var text = role.ToString();
 
             var Prefix = "";
-            if (!InfoLong)
-                switch (role)
-                {
-                    case CustomRoles.Mafia:
-                        if (roleClass is not Mafia mafia) break;
-
-                        Prefix = mafia.CanUseKillButton() ? "After" : "Before";
-                        break;
-                    case CustomRoles.MadSnitch:
-                    case CustomRoles.MadGuardian:
-                        text = CustomRoles.Madmate.ToString();
-                        Prefix = player.GetPlayerTaskState().IsTaskFinished ? "" : "Before";
-                        break;
-                };
-            var Info = (role.IsVanilla() ? "Blurb" : "Info") + (InfoLong ? "Long" : "");
+            var text = role.ToString();
+            var Info = "";
+            switch(role)
+            {
+                case CustomRoles.NormalImpostor:
+                    text = ""; Info = "ImpostorBlurb"; InfoLong = false;
+                    break;
+                case CustomRoles.NormalShapeshifter:
+                case CustomRoles.Shapeshifter:
+                    text = ""; Info = "ShapeshifterBlurb";
+                    break;
+                case CustomRoles.NormalEngineer:
+                case CustomRoles.Engineer:
+                    text = ""; Info = "EngineerBlurb";
+                    break;
+                case CustomRoles.NormalScientist:
+                case CustomRoles.Scientist:
+                    text = ""; Info = "ScientistBlurb";
+                    break;
+                case CustomRoles.Crewmate:
+                case CustomRoles.Impostor:
+                    InfoLong = false;
+                    goto default;
+                case CustomRoles.Mafia:
+                    if (InfoLong) goto default;
+                    if (roleClass is not Mafia mafia) goto default;
+                    Prefix = mafia.CanUseKillButton() ? "After" : "Before";
+                    goto default;
+                case CustomRoles.MadSnitch:
+                case CustomRoles.MadGuardian:
+                    if (InfoLong) goto default;
+                    text = CustomRoles.Madmate.ToString();
+                    Prefix = player.GetPlayerTaskState().IsTaskFinished ? "" : "Before";
+                    goto default;
+                case CustomRoles.Bakery:
+                    if (Bakery.IsNeutral(player))
+                        text = "NBakery";
+                    goto default;
+                default:
+                    Info = role.IsVanilla() ? "Blurb" : "Info";
+                    break;
+            }
+            Info += (InfoLong ? "Long" : "");
             return GetString($"{Prefix}{text}{Info}");
         }
         public static void SetRealKiller(this PlayerControl target, PlayerControl killer, bool NotOverRide = false)
@@ -567,6 +761,31 @@ namespace TownOfHost
             }
             return null;
         }
+        public static void RpcSnapToForced(this PlayerControl pc, Vector2 position)
+        {
+            var netTransform = pc.NetTransform;
+            if (AmongUsClient.Instance.AmClient)
+            {
+                netTransform.SnapTo(position, (ushort)(netTransform.lastSequenceId + 128));
+            }
+            ushort newSid = (ushort)(netTransform.lastSequenceId + 2);
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(netTransform.NetId, (byte)RpcCalls.SnapTo, SendOption.Reliable);
+            NetHelpers.WriteVector2(position, messageWriter);
+            messageWriter.Write(newSid);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        }
+        public static void RpcSnapToDesync(this PlayerControl pc, PlayerControl target, Vector2 position)
+        {
+            var net = pc.NetTransform;
+            var num = (ushort)(net.lastSequenceId + 2);
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(net.NetId, (byte)RpcCalls.SnapTo, SendOption.None, target.GetClientId());
+            NetHelpers.WriteVector2(position, messageWriter);
+            messageWriter.Write(num);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        }
+
+        /// <summary>現在守護されているかどうか</summary>
+        public static bool IsProtected(this PlayerControl self) => self.protectedByGuardianId > -1;
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>
@@ -593,5 +812,6 @@ namespace TownOfHost
             }
             return !state.IsDead;
         }
+        public const MurderResultFlags SuccessFlags = MurderResultFlags.Succeeded | MurderResultFlags.DecisionByHost;
     }
 }

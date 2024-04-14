@@ -6,10 +6,13 @@ using Il2CppSystem.Linq;
 using InnerNet;
 using Mathf = UnityEngine.Mathf;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Neutral;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Neutral;
+using TownOfHostForE.Roles.Animals;
+using TownOfHostForE.Roles.Crewmate;
+using TownOfHostForE.Roles.AddOns.Common;
 
-namespace TownOfHost.Modules
+namespace TownOfHostForE.Modules
 {
     public class PlayerGameOptionsSender : GameOptionsSender
     {
@@ -97,24 +100,50 @@ namespace TownOfHost.Modules
 
             var roleClass = player.GetRoleClass();
             roleClass?.ApplyGameOptions(opt);
-            switch (role)
-            {
-                case CustomRoles.EgoSchrodingerCat:
-                    opt.SetVision(true);
-                    break;
-                case CustomRoles.JSchrodingerCat:
-                    ((Jackal)roleClass).ApplyGameOptions(opt);
-                    break;
-            }
+            //switch (role)
+            //{
+            //    case CustomRoles.EgoSchrodingerCat:
+            //        opt.SetVision(true);
+            //        break;
+            //    case CustomRoles.JSchrodingerCat:
+            //        ((Jackal)roleClass).ApplyGameOptions(opt);
+            //        break;
+            //    case CustomRoles.OSchrodingerCat:
+            //        ((Opportunist)roleClass).ApplyGameOptions(opt);
+            //        break;
+            //    case CustomRoles.DSchrodingerCat:
+            //        ((DarkHide)roleClass).ApplyGameOptions(opt);
+            //        break;
+            //    case CustomRoles.GSchrodingerCat:
+            //        ((Gizoku)roleClass).ApplyGameOptions(opt);
+            //        break;
+            //    case CustomRoles.ASchrodingerCat:
+            //        if (Coyote.RoleInfo.IsEnable)
+            //        {
+            //            ((Coyote)roleClass).ApplyGameOptions(opt);
+            //        }
+            //        else if (Braki.RoleInfo.IsEnable)
+            //        {
+            //            ((Braki)roleClass).ApplyGameOptions(opt);
+            //        }
+            //        else if (Leopard.RoleInfo.IsEnable)
+            //        {
+            //            ((Leopard)roleClass).ApplyGameOptions(opt);
+            //        }
+            //        break;
+            //}
+
             foreach (var subRole in player.GetCustomSubRoles())
             {
                 switch (subRole)
                 {
-                    case CustomRoles.Watcher:
-                        opt.SetBool(BoolOptionNames.AnonymousVotes, false);
-                        break;
+                    case CustomRoles.AddWatch: AddWatch.ApplyGameOptions(opt); break;
+                    case CustomRoles.AddLight: AddLight.ApplyGameOptions(opt); break;
+                    case CustomRoles.Sunglasses: Sunglasses.ApplyGameOptions(opt); break;
                 }
             }
+            Blinder.ApplyGameOptionsByOther(player.PlayerId, opt);
+
             if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))
             {
                 AURoleOptions.KillCooldown = Mathf.Max(0f, killCooldown);
@@ -126,7 +155,7 @@ namespace TownOfHost.Modules
             }
 
             state.taskState.hasTasks = Utils.HasTasks(player.Data, false);
-            if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead)
+            if (!Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead)
                 opt.SetBool(BoolOptionNames.AnonymousVotes, false);
             if (Options.AdditionalEmergencyCooldown.GetBool() &&
                 Options.AdditionalEmergencyCooldownThreshold.GetInt() <= Utils.AllAlivePlayersCount)
@@ -151,7 +180,6 @@ namespace TownOfHost.Modules
 
             AURoleOptions.ShapeshifterCooldown = Mathf.Max(1f, AURoleOptions.ShapeshifterCooldown);
             AURoleOptions.ProtectionDurationSeconds = 0f;
-
             return opt;
         }
 

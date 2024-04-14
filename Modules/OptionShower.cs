@@ -3,10 +3,11 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-using TownOfHost.Roles.Core;
-using static TownOfHost.Translator;
+using TownOfHostForE.Roles;
+using TownOfHostForE.Roles.Core;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     public static class OptionShower
     {
@@ -38,7 +39,7 @@ namespace TownOfHost
                 {
                     //有効な役職一覧
                     sb.Append($"<color={Utils.GetRoleColorCode(CustomRoles.GM)}>{Utils.GetRoleName(CustomRoles.GM)}:</color> {Options.EnableGM.GetString()}\n\n");
-                    sb.Append(GetString("ActiveRolesList")).Append('\n');
+                    sb.Append(GetString("ActiveRolesList")).Append("\n");
                     foreach (var kvp in Options.CustomRoleSpawnChances)
                         if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All && kvp.Value.GetBool()) //スタンダードか全てのゲームモードで表示する役職
                             sb.Append($"{Utils.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n");
@@ -47,6 +48,11 @@ namespace TownOfHost
                 }
                 //有効な役職と詳細設定一覧
                 pages.Add("");
+                if (RoleAssignManager.OptionAssignMode.GetBool())
+                {
+                    ShowChildren(RoleAssignManager.OptionAssignMode, ref sb, Color.white);
+                    sb.Append('\n');
+                }
                 nameAndValue(Options.EnableGM);
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                 {
@@ -58,13 +64,13 @@ namespace TownOfHost
                     string ruleFooter = Utils.ColorString(Palette.ImpostorRed.ShadeColor(-0.5f), "┗ ");
                     if (kvp.Key.IsMadmate()) //マッドメイトの時に追加する詳細設定
                     {
-                        sb.Append($"{rule}{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n");
-                        sb.Append($"{rule}{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n");
-                        sb.Append($"{rule}{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n");
-                        sb.Append($"{rule}{Options.MadmateCanSeeKillFlash.GetName()}: {Options.MadmateCanSeeKillFlash.GetString()}\n");
-                        sb.Append($"{rule}{Options.MadmateCanSeeOtherVotes.GetName()}: {Options.MadmateCanSeeOtherVotes.GetString()}\n");
-                        sb.Append($"{rule}{Options.MadmateCanSeeDeathReason.GetName()}: {Options.MadmateCanSeeDeathReason.GetString()}\n");
-                        sb.Append($"{rule}{Options.MadmateRevengeCrewmate.GetName()}: {Options.MadmateRevengeCrewmate.GetString()}\n");
+                        //sb.Append($"{rule}{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n");
+                        //sb.Append($"{rule}{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n");
+                        //sb.Append($"{rule}{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n");
+                        //sb.Append($"{rule}{Options.MadmateCanSeeKillFlash.GetName()}: {Options.MadmateCanSeeKillFlash.GetString()}\n");
+                        //sb.Append($"{rule}{Options.MadmateCanSeeOtherVotes.GetName()}: {Options.MadmateCanSeeOtherVotes.GetString()}\n");
+                        //sb.Append($"{rule}{Options.MadmateCanSeeDeathReason.GetName()}: {Options.MadmateCanSeeDeathReason.GetString()}\n");
+                        //sb.Append($"{rule}{Options.MadmateRevengeCrewmate.GetName()}: {Options.MadmateRevengeCrewmate.GetString()}\n");
                         sb.Append($"{rule}{Options.MadmateVentCooldown.GetName()}: {Options.MadmateVentCooldown.GetString()}\n");
                         sb.Append($"{ruleFooter}{Options.MadmateVentMaxTime.GetName()}: {Options.MadmateVentMaxTime.GetString()}\n");
                     }
@@ -74,7 +80,7 @@ namespace TownOfHost
                     }
                 }
 
-                foreach (var opt in OptionItem.AllOptions.Where(x => x.Id >= 90000 && !x.IsHiddenOn(Options.CurrentGameMode) && x.Parent == null))
+                foreach (var opt in OptionItem.AllOptions.Where(x => x.Id >= 100000 && !x.IsHiddenOn(Options.CurrentGameMode) && x.Parent == null))
                 {
                     if (opt.IsHeader) sb.Append('\n');
                     sb.Append($"{opt.GetName()}: {opt.GetString()}\n");
@@ -105,8 +111,11 @@ namespace TownOfHost
             foreach (var opt in option.Children.Select((v, i) => new { Value = v, Index = i + 1 }))
             {
                 if (opt.Value.Name == "Maximum") continue; //Maximumの項目は飛ばす
-                sb.Append(string.Concat(Enumerable.Repeat(Utils.ColorString(color, "┃"), deep - 1)));
-                sb.Append(Utils.ColorString(color, opt.Index == option.Children.Count ? "┗ " : "┣ "));
+                if (deep > 0)
+                {
+                    sb.Append(string.Concat(Enumerable.Repeat(Utils.ColorString(color, "┃"), deep - 1)));
+                    sb.Append(Utils.ColorString(color, opt.Index == option.Children.Count ? "┗ " : "┣ "));
+                }
                 sb.Append($"{opt.Value.GetName()}: {opt.Value.GetString()}\n");
                 if (opt.Value.GetBool()) ShowChildren(opt.Value, ref sb, color, deep + 1);
             }

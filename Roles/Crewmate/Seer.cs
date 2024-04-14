@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
 
-namespace TownOfHost.Roles.Crewmate;
+namespace TownOfHostForE.Roles.Crewmate;
 public sealed class Seer : RoleBase, IKillFlashSeeable
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -13,9 +13,9 @@ public sealed class Seer : RoleBase, IKillFlashSeeable
             CustomRoles.Seer,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
-            21000,
+            31000,
             null,
-            "se",
+            "シーア",
             "#61b26c"
         );
     public Seer(PlayerControl player)

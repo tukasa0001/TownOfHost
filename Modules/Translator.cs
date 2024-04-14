@@ -6,9 +6,9 @@ using System.Text;
 using Csv;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using TownOfHost.Attributes;
+using TownOfHostForE.Attributes;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     public static class Translator
     {
@@ -25,7 +25,7 @@ namespace TownOfHost
         public static void LoadLangs()
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            var stream = assembly.GetManifestResourceStream("TownOfHost.Resources.string.csv");
+            var stream = assembly.GetManifestResourceStream("TownOfHost_ForE.Resources.string.csv");
             translateMaps = new Dictionary<string, Dictionary<int, string>>();
 
             var options = new CsvOptions()
@@ -49,7 +49,7 @@ namespace TownOfHost
                 }
                 catch (Exception ex)
                 {
-                    Logger.Warn(ex.ToString(), "Translator");
+                    Logger.Warn($"{ex.Message}/{ex.StackTrace}", "Translator");
                 }
             }
 

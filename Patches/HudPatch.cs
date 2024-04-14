@@ -2,12 +2,13 @@ using System;
 using HarmonyLib;
 using UnityEngine;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Neutral;
-using static TownOfHost.Translator;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
+using TownOfHostForE.Roles.Neutral;
+using TownOfHostForE.Roles.Animals;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     class HudManagerPatch
@@ -84,7 +85,7 @@ namespace TownOfHost
                         LowerInfoText.fontSizeMax = 2.0f;
                     }
 
-                    LowerInfoText.text = roleClass?.GetLowerText(player, isForHud: true) ?? "";
+                    LowerInfoText.text = roleClass?.GetLowerText(player, isForMeeting: GameStates.IsMeeting, isForHud: true) ?? "";
                     LowerInfoText.enabled = LowerInfoText.text != "";
 
                     if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)
@@ -198,19 +199,36 @@ namespace TownOfHost
             if (!isActive) return;
 
             var player = PlayerControl.LocalPlayer;
-            if (player == null) return;
-            switch (player.GetCustomRole())
-            {
-                case CustomRoles.Sheriff:
-                case CustomRoles.Arsonist:
-                    __instance.SabotageButton.ToggleVisible(false);
-                    break;
-                case CustomRoles.Jackal:
-                    Jackal.SetHudActive(__instance, isActive);
-                    break;
-            }
+            //if (player == null) return;
+            //switch (player.GetCustomRole())
+            //{
+            //    case CustomRoles.Arsonist:
+            //    case CustomRoles.Sheriff:
+            //    case CustomRoles.SillySheriff:
+            //    case CustomRoles.MadSheriff:
+            //    case CustomRoles.Hunter:
+            //    case CustomRoles.DarkHide:
+            //    case CustomRoles.Gizoku:
+            //    case CustomRoles.Oniichan:
+            //    case CustomRoles.PlatonicLover:
+            //    case CustomRoles.OtakuPrincess:
+            //    case CustomRoles.Totocalcio:
+            //    case CustomRoles.Opportunist:
+            //    case CustomRoles.Braki:
+            //    case CustomRoles.Leopard:
+            //    case CustomRoles.Metaton:
+            //        __instance.SabotageButton.ToggleVisible(false);
+            //        break;
+            //    case CustomRoles.Jackal:
+            //        Jackal.SetHudActive(__instance, isActive);
+            //        break;
+            //    case CustomRoles.Coyote:
+            //        Coyote.SetHudActive(__instance, isActive);
+            //        break;
+            //}
             __instance.KillButton.ToggleVisible(player.CanUseKillButton());
             __instance.ImpostorVentButton.ToggleVisible(player.CanUseImpostorVentButton());
+            __instance.SabotageButton.ToggleVisible(player.CanUseSabotageButton());
         }
     }
     [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.Show))]
@@ -223,7 +241,8 @@ namespace TownOfHost
             if (opts.Mode is MapOptions.Modes.Normal or MapOptions.Modes.Sabotage)
             {
                 var player = PlayerControl.LocalPlayer;
-                if (player.Is(CustomRoleTypes.Impostor) || (player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage) || player.Is(CustomRoles.Egoist))
+                //if (player.Is(CustomRoleTypes.Impostor) || (player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage) || (player.Is(CustomRoles.Coyote) && Coyote.CanUseSabotage) || player.Is(CustomRoles.Egoist))
+                if (player.GetRoleClass() is IKiller killer && killer.CanUseSabotageButton())
                     opts.Mode = MapOptions.Modes.Sabotage;
                 else
                     opts.Mode = MapOptions.Modes.Normal;
@@ -293,7 +312,7 @@ namespace TownOfHost
         }
         public static void Send()
         {
-            ShipStatus.Instance.RpcRepairSystem((SystemTypes)SystemType, amount);
+            ShipStatus.Instance.RpcUpdateSystem((SystemTypes)SystemType, (byte)amount);
             Reset();
         }
         public static void Reset()

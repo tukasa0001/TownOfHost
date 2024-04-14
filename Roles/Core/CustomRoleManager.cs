@@ -6,11 +6,18 @@ using Hazel;
 using Il2CppSystem.Text;
 
 using AmongUs.GameOptions;
-using TownOfHost.Attributes;
-using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.AddOns.Common;
+using TownOfHostForE.Roles.Core.Interfaces;
+using TownOfHostForE.Roles.AddOns.Common;
+using TownOfHostForE.Roles.Impostor;
+using TownOfHostForE.Roles.Crewmate;
 
-namespace TownOfHost.Roles.Core;
+using TownOfHostForE.Attributes;
+using TownOfHostForE.Roles.Animals;
+using TownOfHostForE.Roles.AddOns.NotCrew;
+using TownOfHostForE.GameMode;
+using TownOfHostForE.Roles.Neutral;
+
+namespace TownOfHostForE.Roles.Core;
 
 public static class CustomRoleManager
 {
@@ -29,7 +36,7 @@ public static class CustomRoleManager
     /// </summary>
     /// <param name="attemptKiller">実際にキルを行ったプレイヤー 不変</param>
     /// <param name="attemptTarget">>Killerが実際にキルを行おうとしたプレイヤー 不変</param>
-    public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget)
+    public static bool OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget)
         => OnCheckMurder(attemptKiller, attemptTarget, attemptKiller, attemptTarget);
     /// <summary>
     ///
@@ -38,8 +45,9 @@ public static class CustomRoleManager
     /// <param name="attemptTarget">>Killerが実際にキルを行おうとしたプレイヤー 不変</param>
     /// <param name="appearanceKiller">見た目上でキルを行うプレイヤー 可変</param>
     /// <param name="appearanceTarget">見た目上でキルされるプレイヤー 可変</param>
-    public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget, PlayerControl appearanceKiller, PlayerControl appearanceTarget)
+    public static bool OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget, PlayerControl appearanceKiller, PlayerControl appearanceTarget)
     {
+
         Logger.Info($"Attempt  :{attemptKiller.GetNameWithRole()} => {attemptTarget.GetNameWithRole()}", "CheckMurder");
         if (appearanceKiller != attemptKiller || appearanceTarget != attemptTarget)
             Logger.Info($"Apperance:{appearanceKiller.GetNameWithRole()} => {appearanceTarget.GetNameWithRole()}", "CheckMurder");
@@ -47,9 +55,23 @@ public static class CustomRoleManager
         var info = new MurderInfo(attemptKiller, attemptTarget, appearanceKiller, appearanceTarget);
 
         appearanceKiller.ResetKillCooldown();
+        if (Options.CurrentGameMode == CustomGameMode.SuperBombParty)
+        {
+            SuperBakuretsuBros.CheckMurder(attemptKiller, attemptTarget);
+
+            //大惨事爆裂大戦中は通常キルは出来ない。
+            return false;
+        }
 
         // 無効なキルをブロックする処理 必ず最初に実行する
-        if (!CheckMurderPatch.CheckForInvalidMurdering(info)) return;
+        if (!CheckMurderPatch.CheckForInvalidMurdering(info))
+        {
+            appearanceKiller.RpcMurderPlayer(appearanceTarget, false);
+            return false;
+        }
+
+        //デスゲーム中は通常キルが許されない
+        if (DarkGameMaster.InDeathGamePenalty(attemptKiller) == false) return false;
 
         var killerRole = attemptKiller.GetRoleClass();
         var targetRole = attemptTarget.GetRoleClass();
@@ -59,10 +81,20 @@ public static class CustomRoleManager
         {
             if (killer.IsKiller)
             {
+                // イビルディバイナーのみ占いのためここで先に処理
+                if (killerRole is EvilDiviner && !EvilDiviner.OnCheckMurder(attemptKiller, attemptTarget)) return false;
+                // ガーディング属性によるガード
+                if (!Guarding.OnCheckMurder(info)) return false;
+                // メディックの対象プレイヤー
+                if (!Medic.GuardPlayerCheckMurder(info)) return false;
                 // ターゲットのキルチェック処理実行
                 if (targetRole != null)
                 {
-                    if (!targetRole.OnCheckMurderAsTarget(info)) return;
+                    if (!targetRole.OnCheckMurderAsTarget(info))
+                    {
+                        appearanceKiller.RpcMurderPlayer(appearanceTarget, false);
+                        return false;
+                    }
                 }
             }
             // キラーのキルチェック処理実行
@@ -75,11 +107,13 @@ public static class CustomRoleManager
             //MurderPlayer用にinfoを保存
             CheckMurderInfos[appearanceKiller.PlayerId] = info;
             appearanceKiller.RpcMurderPlayer(appearanceTarget);
+            return true;
         }
         else
         {
             if (!info.CanKill) Logger.Info($"{appearanceTarget.GetNameWithRole()}をキル出来ない。", "CheckMurder");
             if (!info.DoKill) Logger.Info($"{appearanceKiller.GetNameWithRole()}はキルしない。", "CheckMurder");
+            return false;
         }
     }
     /// <summary>
@@ -118,6 +152,7 @@ public static class CustomRoleManager
         {
             onMurderPlayer(info);
         }
+        AddBait.OnMurderPlayer(info);
 
         //サブロール処理ができるまではラバーズをここで処理
         FixedUpdatePatch.LoversSuicide(attemptTarget.PlayerId);
@@ -133,9 +168,22 @@ public static class CustomRoleManager
         targetState.SetDead();
         attemptTarget.SetRealKiller(attemptKiller, true);
 
+        //Logger.Info("キル", "debug");
+        ////キルカウント
+        //if (Main.killCount.ContainsKey(attemptKiller.PlayerId))
+        //{
+        //    Main.killCount[attemptKiller.PlayerId]++;
+        //}
+        //else
+        //{
+        //    Main.killCount.Add(attemptKiller.PlayerId,0);
+        //}
+
         Utils.CountAlivePlayers(true);
 
         Utils.TargetDies(info);
+
+        Vulture.UpdateDeadBody();
 
         Utils.SyncAllSettings();
         Utils.NotifyRoles();
@@ -150,7 +198,9 @@ public static class CustomRoleManager
     {
         if (GameStates.IsInTask)
         {
-            player.GetRoleClass()?.OnFixedUpdate(player);
+            if(!player.GetCustomRole().IsNotAssignRoles())
+                player.GetRoleClass()?.OnFixedUpdate(player);
+            Tiikawa.FixedUpdate(player);
             //その他視点処理があれば実行
             foreach (var onFixedUpdate in OnFixedUpdateOthers)
             {
@@ -166,19 +216,15 @@ public static class CustomRoleManager
     /// </summary>
     public static HashSet<Action<PlayerControl>> OnFixedUpdateOthers = new();
 
-    public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
+    public static bool OnSabotage(PlayerControl player, SystemTypes systemType)
     {
         bool cancel = false;
         foreach (var roleClass in AllActiveRoles.Values)
         {
-            if (!roleClass.OnSabotage(player, systemType, amount))
+            if (!roleClass.OnSabotage(player, systemType))
             {
                 cancel = true;
             }
-        }
-        if (!RepairSystemPatch.OnSabotage(player, systemType, amount))
-        {
-            cancel = true;
         }
         return !cancel;
     }
@@ -208,25 +254,43 @@ public static class CustomRoleManager
         {
             roleInfo.CreateInstance(player).Add();
         }
-        else
+        //AddonAdd
         {
-            OtherRolesAdd(player);
+            foreach (var subRole in player.GetCustomSubRoles())
+            {
+                subRoleAdd(player.PlayerId, subRole);
+            }
         }
         if (player.Data.Role.Role == RoleTypes.Shapeshifter)
         {
             Main.CheckShapeshift.TryAdd(player.PlayerId, false);
         }
     }
-    public static void OtherRolesAdd(PlayerControl pc)
+    public static void subRoleAdd(byte playerId, CustomRoles subRole)
     {
-        foreach (var subRole in pc.GetCustomSubRoles())
+        switch (subRole)
         {
-            switch (subRole)
-            {
-                case CustomRoles.Watcher:
-                    Watcher.Add(pc.PlayerId);
-                    break;
-            }
+            case CustomRoles.AddWatch: AddWatch.Add(playerId); break;
+            case CustomRoles.AddLight: AddLight.Add(playerId); break;
+            case CustomRoles.AddSeer: AddSeer.Add(playerId); break;
+            case CustomRoles.Autopsy: Autopsy.Add(playerId); break;
+            case CustomRoles.VIP: VIP.Add(playerId); break;
+            case CustomRoles.Revenger: Revenger.Add(playerId); break;
+            case CustomRoles.Management: Management.Add(playerId); break;
+            case CustomRoles.Sending: Sending.Add(playerId); break;
+            case CustomRoles.TieBreaker: TieBreaker.Add(playerId); break;
+            case CustomRoles.Loyalty: Loyalty.Add(playerId); break;
+            case CustomRoles.PlusVote: PlusVote.Add(playerId); break;
+            case CustomRoles.Guarding: Guarding.Add(playerId); break;
+            case CustomRoles.AddBait: AddBait.Add(playerId); break;
+            case CustomRoles.Refusing: Refusing.Add(playerId); break;
+
+            case CustomRoles.Sunglasses: Sunglasses.Add(playerId); break;
+            case CustomRoles.Clumsy: Clumsy.Add(playerId); break;
+            case CustomRoles.InfoPoor: InfoPoor.Add(playerId); break;
+            case CustomRoles.NonReport: NonReport.Add(playerId); break;
+            case CustomRoles.Chu2Byo: Chu2Byo.Add(playerId); break;
+            case CustomRoles.Gambler: Gambler.Add(playerId); break;
         }
     }
     /// <summary>
@@ -239,10 +303,37 @@ public static class CustomRoleManager
         var playerId = reader.ReadByte();
         GetByPlayerId(playerId)?.ReceiveRPC(reader, rpcType);
     }
+    /// <summary>
+    /// 受信したRPCから送信先を読み取ってRoleClassに配信する
+    /// </summary>
+    /// <param name="reader"></param>
+    public static void DispatchRpc(MessageReader reader)
+    {
+        var playerId = reader.ReadByte();
+        GetByPlayerId(playerId)?.ReceiveRPC(reader);
+    }
     //NameSystem
     public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> MarkOthers = new();
     public static HashSet<Func<PlayerControl, PlayerControl, bool, bool, string>> LowerOthers = new();
     public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> SuffixOthers = new();
+    public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> OverriderOthers = new();
+    /// <summary>
+    /// seer,seenが役職であるかに関わらず発動するMark
+    /// 登録されたすべてを結合する。
+    /// </summary>
+    /// <param name="seer">見る側</param>
+    /// <param name="seen">見られる側</param>
+    /// <param name="isForMeeting">会議中フラグ</param>
+    /// <returns>結合したMark</returns>
+    public static string GetOverrideOthers(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
+    {
+        var sb = new StringBuilder(100);
+        foreach (var marker in OverriderOthers)
+        {
+            sb.Append(marker(seer, seen, isForMeeting));
+        }
+        return sb.ToString();
+    }
     /// <summary>
     /// seer,seenが役職であるかに関わらず発動するMark
     /// 登録されたすべてを結合する。
@@ -363,6 +454,9 @@ public enum CustomRoles
     Impostor,
     Shapeshifter,
     //Impostor
+    NormalImpostor,
+    NormalShapeshifter,
+    EvilWatcher,
     BountyHunter,
     FireWorks,
     Mafia,
@@ -373,20 +467,54 @@ public enum CustomRoles
     Witch,
     Warlock,
     Mare,
+    Penguin,
     Puppeteer,
     TimeThief,
     EvilTracker,
+    Stealth,
+    NekoKabocha,
+    EvilHacker,
+    Insider,
+    EvilNekomata,
+    AntiAdminer,
+    CursedWolf,
+    Greedier,
+    Ambitioner,
+    Scavenger,
+    EvilDiviner,
+    Telepathisters,
+    ShapeKiller,
+    StrayWolf,
+    SuicideBomber,
+    Cinderella,
+    EvilGuesser,
+    Talktive,
+    Teleporter,
+    JapPup,
+    Eraser,
+    Detonator,
     //Madmate
     MadGuardian,
     Madmate,
     MadSnitch,
+    MadSheriff,
+    MadDictator,
+    MadNatureCalls,
+    MadBrackOuter,
+    MadNimrod,
+    MadTricker,
+    SpiderMad,
     SKMadmate,
-    MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
+    IUsagi,
+    MOjouSama,//インポスター陣営のお嬢様
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,
     Scientist,
     //Crewmate
+    NormalEngineer,
+    NormalScientist,
+    NiceWatcher,
     Bait,
     Lighter,
     Mayor,
@@ -399,36 +527,125 @@ public enum CustomRoles
     Doctor,
     Seer,
     TimeManager,
-    CSchrodingerCat,//クルー陣営のシュレディンガーの猫
+    Bakery,
+    TaskManager,
+    SillySheriff,
+    GrudgeSheriff,
+    Hunter,
+    Nekomata,
+    Chairman,
+    Express,
+    SeeingOff,
+    Rainbow,
+    Sympathizer,
+    Blinder,
+    Medic,
+    CandleLighter,
+    FortuneTeller,
+    Psychic,
+    Nimrod,
+    OjouSama,
+    Counselor,
+    NiceGuesser,
+    Tiikawa,
+    Hachiware,
+    Usagi,
+    GreatDetective,
+    Metaton,
+    DogSheriff,
+    Balancer,
     //Neutral
     Arsonist,
     Egoist,
-    EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
+    EOjouSama,//エゴイスト陣営のお嬢様
     Jester,
     Opportunist,
+    PlagueDoctor,
+    OSchrodingerCat,
+    OOjouSama,//おぽ陣営のお嬢様
     SchrodingerCat,//無所属のシュレディンガーの猫
     Terrorist,
     Executioner,
     Jackal,
     JSchrodingerCat,//ジャッカル陣営のシュレディンガーの猫
+    JOjouSama,//ジャッカル陣営のお嬢様
+    JClient,
+    AntiComplete,
+    Workaholic,
+    DarkHide,
+    DSchrodingerCat,//ダークハイド陣営のシュレディンガーの猫
+    DOjouSama,//ダークハイド陣営のお嬢様
+    LoveCutter,
+    PlatonicLover,
+    Lawyer,
+    LawTracker,
+    Totocalcio,
+    Duelist,
+    OtakuPrincess,
+    Gizoku,
+    GOjouSama,
+    GSchrodingerCat,//義賊陣営のシュレディンガーの猫
+    Oniichan,
+    OwnerChef,
+    Tuna,
+    DarkGameMaster,
+    //Animals
+    Animals,
+    Coyote,
+    Vulture,
+    Badger,
+    Braki,
+    Leopard,
+    RedPanda,
+    Nyaoha,
+    ASchrodingerCat,//アニマルズのシュレディンガーの猫
+    AOjouSama,//アニマルズのお嬢様
     //HideAndSeek
     HASFox,
     HASTroll,
+    //大惨事爆裂大戦
+    BAKURETSUKI,
     //GM
     GM,
+
+    _Max,
+
     // Sub-roll after 500
     NotAssigned = 500,
     LastImpostor,
+    CompreteCrew,
     Lovers,
-    Watcher,
     Workhorse,
+    AddWatch,
+    AddLight,
+    AddSeer,
+    Autopsy,
+    VIP,
+    Revenger,
+    Management,
+    Sending,
+    TieBreaker,
+    Loyalty,
+    PlusVote,
+    Guarding,
+    AddBait,
+    Refusing,
+    Sunglasses,
+    Clumsy,
+    InfoPoor,
+    NonReport,
+    Archenemy,
+    Chu2Byo,
+    Gambler,
+    //Drunkard,
 }
 public enum CustomRoleTypes
 {
-    Crewmate,
     Impostor,
+    Madmate,
+    Crewmate,
     Neutral,
-    Madmate
+    Animals,
 }
 public enum HasTask
 {

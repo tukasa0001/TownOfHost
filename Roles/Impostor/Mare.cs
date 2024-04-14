@@ -1,10 +1,11 @@
 using AmongUs.GameOptions;
+using Hazel;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Options;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
+using static TownOfHostForE.Options;
 
-namespace TownOfHost.Roles.Impostor;
+namespace TownOfHostForE.Roles.Impostor;
 
 public sealed class Mare : RoleBase, IImpostor
 {
@@ -15,9 +16,13 @@ public sealed class Mare : RoleBase, IImpostor
             CustomRoles.Mare,
             () => RoleTypes.Impostor,
             CustomRoleTypes.Impostor,
-            2300,
+            11100,
             SetupCustomOption,
-            "ma"
+            "メアー",
+            assignInfo: new(CustomRoles.Mare, CustomRoleTypes.Impostor)
+            {
+                IsInitiallyAssignableCallBack = () => ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Electrical, out var systemType) && systemType.TryCast<SwitchSystem>(out _),  // 停電が存在する
+            }
         );
     public Mare(PlayerControl player)
     : base(
@@ -47,8 +52,9 @@ public sealed class Mare : RoleBase, IImpostor
 
     public static void SetupCustomOption()
     {
-        OptionSpeedInLightsOut = FloatOptionItem.Create(RoleInfo, 10, OptionName.MareAddSpeedInLightsOut, new(0.1f, 0.5f, 0.1f), 0.3f, false);
-        OptionKillCooldownInLightsOut = FloatOptionItem.Create(RoleInfo, 11, OptionName.MareKillCooldownInLightsOut, new(2.5f, 180f, 2.5f), 15f, false)
+        OptionSpeedInLightsOut = FloatOptionItem.Create(RoleInfo, 10, OptionName.MareAddSpeedInLightsOut, new(0.1f, 0.5f, 0.1f), 0.3f, false)
+        .SetValueFormat(OptionFormat.Multiplier);
+            OptionKillCooldownInLightsOut = FloatOptionItem.Create(RoleInfo, 11, OptionName.MareKillCooldownInLightsOut, new(2.5f, 180f, 2.5f), 15f, false)
             .SetValueFormat(OptionFormat.Seconds);
     }
     public bool CanUseKillButton() => IsActivateKill;
@@ -66,6 +72,26 @@ public sealed class Mare : RoleBase, IImpostor
             Main.AllPlayerSpeed[Player.PlayerId] -= SpeedInLightsOut;//Mareの速度を減算
         }
     }
+    private void ActivateKill(bool activate)
+    {
+        IsActivateKill = activate;
+        if (AmongUsClient.Instance.AmHost)
+        {
+            SendRPC();
+            Player.MarkDirtySettings();
+            Utils.NotifyRoles();
+        }
+    }
+    public void SendRPC()
+    {
+        using var sender = CreateSender();
+        sender.Writer.Write(IsActivateKill);
+    }
+    public override void ReceiveRPC(MessageReader reader)
+    {
+        IsActivateKill = reader.ReadBoolean();
+    }
+
     public override void OnFixedUpdate(PlayerControl player)
     {
         if (GameStates.IsInTask && IsActivateKill)
@@ -73,29 +99,22 @@ public sealed class Mare : RoleBase, IImpostor
             if (!Utils.IsActive(SystemTypes.Electrical))
             {
                 //停電解除されたらキルモード解除
-                IsActivateKill = false;
-                Player.MarkDirtySettings();
-                Utils.NotifyRoles();
+                ActivateKill(false);
             }
         }
     }
-    public override bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
+    public override bool OnSabotage(PlayerControl player, SystemTypes systemType)
     {
         if (systemType == SystemTypes.Electrical)
         {
-            if (amount.HasAnyBit(128))
+            _ = new LateTask(() =>
             {
-                _ = new LateTask(() =>
+                //まだ停電が直っていなければキル可能モードに
+                if (Utils.IsActive(SystemTypes.Electrical))
                 {
-                    //まだ停電が直っていなければキル可能モードに
-                    if (Utils.IsActive(SystemTypes.Electrical))
-                    {
-                        IsActivateKill = true;
-                        Player.MarkDirtySettings();
-                        Utils.NotifyRoles();
-                    }
-                }, 4.0f, "Mare Activate Kill");
-            }
+                    ActivateKill(true);
+                }
+            }, 4.0f, "Mare Activate Kill");
         }
         return true;
     }

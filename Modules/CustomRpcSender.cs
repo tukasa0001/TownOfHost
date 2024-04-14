@@ -4,7 +4,7 @@ using Hazel;
 using InnerNet;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     public class CustomRpcSender
     {
@@ -263,6 +263,7 @@ namespace TownOfHost
         {
             sender.AutoStartRpc(player.NetId, (byte)RpcCalls.MurderPlayer, targetClientId)
                 .WriteNetObject(target)
+                .Write((int)ExtendedPlayerControl.SuccessFlags)
                 .EndRpc();
         }
     }

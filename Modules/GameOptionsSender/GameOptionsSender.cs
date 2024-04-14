@@ -6,7 +6,7 @@ using Il2CppSystem;
 using InnerNet;
 // Il2CppStructArray<byte>とbyte[]との間での暗黙的な変換の際に発生する重い計算を抑制するため，意図的にIl2CppSystemとIl2CppInterop.Runtime.InteropTypes.Arraysを使用します - Hyz-sui
 
-namespace TownOfHost.Modules
+namespace TownOfHostForE.Modules
 {
     public abstract class GameOptionsSender
     {

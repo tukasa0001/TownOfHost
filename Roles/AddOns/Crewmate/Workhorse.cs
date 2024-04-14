@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using TownOfHost.Attributes;
-using TownOfHost.Roles.Core;
-using static TownOfHost.Options;
+using TownOfHostForE.Roles.Core;
+using static TownOfHostForE.Options;
 
-namespace TownOfHost.Roles.AddOns.Crewmate
+using TownOfHostForE.Attributes;
+namespace TownOfHostForE.Roles.AddOns.Crewmate
 {
     public static class Workhorse
     {
-        private static readonly int Id = 80100;
+        private static readonly int Id = 71000;
         public static Color RoleColor = Utils.GetRoleColor(CustomRoles.Workhorse);
         public static List<byte> playerIdList = new();
         private static OptionItem OptionAssignOnlyToCrewmate;

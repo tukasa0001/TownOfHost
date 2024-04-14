@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-namespace TownOfHost
+namespace TownOfHostForE
 {
     class LateTask
     {

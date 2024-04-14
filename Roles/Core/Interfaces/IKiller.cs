@@ -1,4 +1,4 @@
-namespace TownOfHost.Roles.Core.Interfaces;
+namespace TownOfHostForE.Roles.Core.Interfaces;
 
 /// <summary>
 /// キルボタン持ち役職の必須要素
@@ -27,6 +27,18 @@ public interface IKiller
     /// </summary>
     /// <returns>キルクールダウン(秒)</returns>
     public float CalculateKillCooldown() => Options.DefaultKillCooldown;
+
+    /// <summary>
+    /// サボタージュボタンを使えるかどうか
+    /// </summary>
+    /// <returns>trueを返した場合，サボタージュボタンを使える</returns>
+    public bool CanUseSabotageButton();
+    /// <summary>
+    /// ベントボタンを使えるかどうか
+    /// デフォルトでは使用可能
+    /// </summary>
+    /// <returns>trueを返した場合，ベントボタンを使える</returns>
+    public bool CanUseImpostorVentButton() => true;
 
     /// <summary>
     /// キラーとしてのCheckMurder処理<br/>

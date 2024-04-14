@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TownOfHostForE": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Among Us _dev\\Among Us.exe"
+    }
+  }
+}

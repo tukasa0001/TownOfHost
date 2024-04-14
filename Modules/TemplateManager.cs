@@ -6,10 +6,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using HarmonyLib;
-using TownOfHost.Attributes;
-using static TownOfHost.Translator;
+using static TownOfHostForE.Translator;
+using TownOfHostForE.Attributes;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     public static class TemplateManager
     {
@@ -19,7 +19,7 @@ namespace TownOfHost
             ["RoomCode"] = () => InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId),
             ["PlayerName"] = () => DataManager.Player.Customization.Name,
             ["AmongUsVersion"] = () => UnityEngine.Application.version,
-            ["ModVersion"] = () => Main.PluginVersion,
+            ["ModVersion"] = () => Main.PleviewPluginVersion,
             ["Map"] = () => Constants.MapNames[Main.NormalOptions.MapId],
             ["NumEmergencyMeetings"] = () => Main.NormalOptions.NumEmergencyMeetings.ToString(),
             ["EmergencyCooldown"] = () => Main.NormalOptions.EmergencyCooldown.ToString(),

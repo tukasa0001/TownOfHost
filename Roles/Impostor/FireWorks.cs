@@ -3,11 +3,11 @@ using System.Linq;
 using UnityEngine;
 
 using AmongUs.GameOptions;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Translator;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost.Roles.Impostor;
+namespace TownOfHostForE.Roles.Impostor;
 
 public sealed class FireWorks : RoleBase, IImpostor
 {
@@ -27,9 +27,9 @@ public sealed class FireWorks : RoleBase, IImpostor
             CustomRoles.FireWorks,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
-            1700,
+            10800,
             SetupCustomOption,
-            "fw"
+            "花火職人"
         );
     public FireWorks(PlayerControl player)
     : base(
@@ -39,19 +39,27 @@ public sealed class FireWorks : RoleBase, IImpostor
     {
         FireWorksCount = OptionFireWorksCount.GetInt();
         FireWorksRadius = OptionFireWorksRadius.GetFloat();
+        fireWorksNormalKill = OptionFireWorksNormalKill.GetBool();
+        fireWorksOtherImpostersFire = OptionFireWorksOtherImpostersFire.GetBool();
     }
 
     static OptionItem OptionFireWorksCount;
     static OptionItem OptionFireWorksRadius;
+    static OptionItem OptionFireWorksNormalKill;
+    static OptionItem OptionFireWorksOtherImpostersFire;
     enum OptionName
     {
         FireWorksMaxCount,
         FireWorksRadius,
+        FireWorksNormalKill,
+        FireWorksOtherImpostersFire,
     }
 
     int FireWorksCount;
     float FireWorksRadius;
     int NowFireWorksCount;
+    bool fireWorksNormalKill;
+    bool fireWorksOtherImpostersFire;
     List<Vector3> FireWorksPosition = new();
     FireWorksState State = FireWorksState.Initial;
 
@@ -61,6 +69,8 @@ public sealed class FireWorks : RoleBase, IImpostor
             .SetValueFormat(OptionFormat.Pieces);
         OptionFireWorksRadius = FloatOptionItem.Create(RoleInfo, 11, OptionName.FireWorksRadius, new(0.5f, 3f, 0.5f), 1f, false)
             .SetValueFormat(OptionFormat.Multiplier);
+        OptionFireWorksNormalKill = BooleanOptionItem.Create(RoleInfo, 12, OptionName.FireWorksNormalKill, false, false);
+        OptionFireWorksOtherImpostersFire = BooleanOptionItem.Create(RoleInfo, 13, OptionName.FireWorksOtherImpostersFire, false, false);
     }
 
     public override void Add()
@@ -73,7 +83,7 @@ public sealed class FireWorks : RoleBase, IImpostor
     public bool CanUseKillButton()
     {
         if (!Player.IsAlive()) return false;
-        return (State & FireWorksState.CanUseKill) != 0;
+        return ((State & FireWorksState.CanUseKill) != 0) || fireWorksNormalKill;
     }
     public override void ApplyGameOptions(IGameOptions opt)
     {
@@ -93,7 +103,7 @@ public sealed class FireWorks : RoleBase, IImpostor
                 FireWorksPosition.Add(Player.transform.position);
                 NowFireWorksCount--;
                 if (NowFireWorksCount == 0)
-                    State = Main.AliveImpostorCount <= 1 ? FireWorksState.ReadyFire : FireWorksState.WaitTime;
+                    State = (Main.AliveImpostorCount <= 1 || fireWorksOtherImpostersFire) ? FireWorksState.ReadyFire : FireWorksState.WaitTime;
                 else
                     State = FireWorksState.SettingFireWorks;
                 break;

@@ -1,8 +1,8 @@
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
+using TownOfHostForE.Roles.Core;
 
-namespace TownOfHost.Roles.Vanilla;
+namespace TownOfHostForE.Roles.Vanilla;
 
 public sealed class Crewmate : RoleBase
 {
@@ -10,7 +10,13 @@ public sealed class Crewmate : RoleBase
         SimpleRoleInfo.CreateForVanilla(
             typeof(Crewmate),
             player => new Crewmate(player),
-            RoleTypes.Crewmate
+            RoleTypes.Crewmate,
+            "#8cffff",
+            assignInfo: new RoleAssignInfo(CustomRoles.Crewmate, CustomRoleTypes.Crewmate)
+            {
+                IsInitiallyAssignableCallBack =
+                    () => false
+            }
         );
     public Crewmate(PlayerControl player)
     : base(

@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
 
-namespace TownOfHost.Roles.Vanilla;
+namespace TownOfHostForE.Roles.Vanilla;
 
 public sealed class Impostor : RoleBase, IImpostor
 {

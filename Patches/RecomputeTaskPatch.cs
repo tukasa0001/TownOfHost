@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     [HarmonyPatch(typeof(GameData), nameof(GameData.RecomputeTaskCounts))]
     class CustomTaskCountsPatch
@@ -34,8 +34,21 @@ namespace TownOfHost
     [HarmonyPatch(typeof(GameData), nameof(GameData.CompleteTask))]
     class CompleteTaskPatch
     {
-        public static void Postfix(GameData __instance)
+        public static bool Prefix(PlayerControl pc, uint taskId)
         {
+            GameData.TaskInfo taskById = pc.Data.FindTaskById(taskId);
+            if (taskById != null)
+            {
+                if (!taskById.Complete)
+                {
+                    taskById.Complete = true;
+                    if (Utils.HasTasks(pc.Data))
+                        ++GameData.Instance.CompletedTasks;
+                    Logger.Info($"{pc?.name} {Utils.HasTasks(pc?.Data)} TotalTaskCounts = {GameData.Instance.CompletedTasks}/{GameData.Instance.TotalTasks}", "CompleteTaskPatch.Prefix");
+                }
+            }
+
+            return false;
         }
     }
 }

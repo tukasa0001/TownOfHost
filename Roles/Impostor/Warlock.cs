@@ -3,11 +3,11 @@ using System.Linq;
 using UnityEngine;
 
 using AmongUs.GameOptions;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Translator;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost.Roles.Impostor;
+namespace TownOfHostForE.Roles.Impostor;
 
 public sealed class Warlock : RoleBase, IImpostor
 {
@@ -18,9 +18,9 @@ public sealed class Warlock : RoleBase, IImpostor
             CustomRoles.Warlock,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
-            1400,
+            10500,
             null,
-            "wa"
+            "ウォーロック"
         );
     public Warlock(PlayerControl player)
     : base(
@@ -63,7 +63,7 @@ public sealed class Warlock : RoleBase, IImpostor
     public void OnCheckMurderAsKiller(MurderInfo info)
     {
         //自殺なら関係ない
-        if (info.IsSuicide) return;
+        if (info.IsSuicide || !info.CanKill) return;
 
         var (killer, target) = info.AttemptTuple;
         if (!Shapeshifting)
@@ -74,6 +74,7 @@ public sealed class Warlock : RoleBase, IImpostor
                 CursedPlayer = target;
                 //呪える相手は一人だけなのでキルボタン無効化
                 killer.SetKillCooldown(255f);
+                killer.RpcResetAbilityCooldown();
             }
             //どちらにしてもキルは無効
             info.DoKill = false;
@@ -106,7 +107,7 @@ public sealed class Warlock : RoleBase, IImpostor
                 var killTarget = nearest.Key;
                 killTarget.SetRealKiller(Player);
                 Logger.Info($"{killTarget.GetNameWithRole()}was killed", "Warlock");
-                CursedPlayer.RpcMurderPlayerV2(killTarget);
+                CursedPlayer.RpcMurderPlayer(killTarget);
                 Player.SetKillCooldown();
                 CursedPlayer = null;
             }
@@ -125,5 +126,6 @@ public sealed class Warlock : RoleBase, IImpostor
     public override void AfterMeetingTasks()
     {
         CursedPlayer = null;
+        IsCursed = false;
     }
 }

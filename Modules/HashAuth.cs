@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     public class HashAuth
     {

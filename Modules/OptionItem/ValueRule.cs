@@ -1,6 +1,6 @@
 using System;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     public abstract class ValueRule<T>
     {
@@ -69,7 +69,11 @@ namespace TownOfHost
         }
 
         public override float GetValueByIndex(int index)
-            => RepeatIndex(index) * Step + MinValue;
+        {
+            //ŠÛ‚ßŒë·‘Îô‚ÅdecimalŒ^‚É‚µ‚ÄŒvZ‚µAfloatŒ^‚É‚µ‚Ä•Ô‚·
+            decimal ss = RepeatIndex(index) * (decimal)Step + (decimal)MinValue;
+            return (float)ss;
+        }
 
         public override int GetNearestIndex(float num)
         {

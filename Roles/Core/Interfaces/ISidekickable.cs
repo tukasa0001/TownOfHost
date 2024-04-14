@@ -1,4 +1,4 @@
-namespace TownOfHost.Roles.Core.Interfaces;
+namespace TownOfHostForE.Roles.Core.Interfaces;
 
 public interface ISidekickable
 {

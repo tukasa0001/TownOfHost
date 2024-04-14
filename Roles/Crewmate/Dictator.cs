@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using TownOfHost.Modules;
-using TownOfHost.Roles.Core;
+using TownOfHostForE.Modules;
+using TownOfHostForE.Roles.Core;
 
-namespace TownOfHost.Roles.Crewmate;
+namespace TownOfHostForE.Roles.Crewmate;
 public sealed class Dictator : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -13,9 +13,9 @@ public sealed class Dictator : RoleBase
             CustomRoles.Dictator,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
-            20900,
+            30900,
             null,
-            "dic",
+            "ディクテーター",
             "#df9b00"
         );
     public Dictator(PlayerControl player)
@@ -24,11 +24,11 @@ public sealed class Dictator : RoleBase
         player
     )
     { }
-    public override (byte? votedForId, int? numVotes, bool doVote) OnVote(byte voterId, byte sourceVotedForId)
+    public override (byte? votedForId, int? numVotes, bool doVote) ModifyVote(byte voterId, byte sourceVotedForId, bool isIntentional)
     {
-        var (votedForId, numVotes, doVote) = base.OnVote(voterId, sourceVotedForId);
+        var (votedForId, numVotes, doVote) = base.ModifyVote(voterId, sourceVotedForId, isIntentional);
         var baseVote = (votedForId, numVotes, doVote);
-        if (voterId != Player.PlayerId || sourceVotedForId == Player.PlayerId || sourceVotedForId >= 253 || !Player.IsAlive())
+        if (!isIntentional || voterId != Player.PlayerId || sourceVotedForId == Player.PlayerId || sourceVotedForId >= 253 || !Player.IsAlive())
         {
             return baseVote;
         }

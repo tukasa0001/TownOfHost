@@ -3,14 +3,15 @@ using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
+using UnityEngine;
 
-using TownOfHost.Modules;
-using TownOfHost.Roles;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Neutral;
-using static TownOfHost.Translator;
+using TownOfHostForE.Modules;
+using TownOfHostForE.Roles;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Neutral;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
     class OnGameJoinedPatch
@@ -26,6 +27,7 @@ namespace TownOfHost
             ChatUpdatePatch.DoBlockChat = false;
             GameStates.InGame = false;
             ErrorText.Instance.Clear();
+            BGMSettings.SetLobbyBGM();
             if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
             {
                 if (Main.NormalOptions.KillCooldown == 0f)
@@ -42,10 +44,25 @@ namespace TownOfHost
     {
         public static void Prefix(InnerNetClient __instance, DisconnectReasons reason, string stringReason)
         {
+
+            Main.playerVersion.Clear();
+            RPC.RpcVersionCheck();
+            if (AmongUsClient.Instance.AmHost && GameStates.IsLobby)
+                ChatCommands.StartButtonReset = true;
+
             Logger.Info($"切断(理由:{reason}:{stringReason}, ping:{__instance.Ping})", "Session");
 
             if (AmongUsClient.Instance.AmHost && GameStates.InGame)
                 GameManager.Instance.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
+
+            //ホストであり、霊界投票が有効であれば切断時にCSVを保存する。
+            if (AmongUsClient.Instance.AmHost && BetWinTeams.BetWinTeamMode.GetBool() && BetWinTeams.readedCSV)
+            {
+                BetWinTeams.WriteCSVPlayerData();
+            }
+            //if(BGMSettings.BGMMode.GetBool())
+            BGMSettings.StopSound();
+
 
             CustomRoleManager.Dispose();
         }
@@ -79,6 +96,8 @@ namespace TownOfHost
         {
             if (CustomRoles.Executioner.IsPresent())
                 Executioner.ChangeRoleByTarget(data.Character.PlayerId);
+            if (CustomRoles.Lawyer.IsPresent())
+                Lawyer.ChangeRoleByTarget(data.Character);
         }
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
         {
@@ -86,24 +105,54 @@ namespace TownOfHost
             //            main.RealNames.Remove(data.Character.PlayerId);
             if (GameStates.IsInGame)
             {
+                if(data == null || data.Character == null)
+                {
+                    Logger.Info("切断者のデータがないため処理しない","disconnect");
+                    return;
+                }
                 if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
-                    foreach (var lovers in Main.LoversPlayers.ToArray())
+                {
+                    var loversList = GetLoversList(data.Character);
+                    byte ownerId = loversList[0].PlayerId;
+                    foreach (var lovers in loversList.ToArray())
                     {
-                        Main.isLoversDead = true;
-                        Main.LoversPlayers.Remove(lovers);
                         PlayerState.GetByPlayerId(lovers.PlayerId).RemoveSubRole(CustomRoles.Lovers);
                     }
+                    Main.LoversPlayersV2.Remove(ownerId);
+                    Main.isLoversDeadV2[ownerId] = true;
+                }
                 var state = PlayerState.GetByPlayerId(data.Character.PlayerId);
                 if (state.DeathReason == CustomDeathReason.etc) //死因が設定されていなかったら
                 {
                     state.DeathReason = CustomDeathReason.Disconnected;
                     state.SetDead();
                 }
+                data.Character?.GetRoleClass()?.Dispose();
                 AntiBlackout.OnDisconnect(data.Character.Data);
                 PlayerGameOptionsSender.RemoveSender(data.Character);
             }
             Main.playerVersion.Remove(data.Character.PlayerId);
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
+        }
+
+        private static List<PlayerControl> GetLoversList(PlayerControl pc)
+        {
+            foreach (var list in Main.LoversPlayersV2)
+            {
+                if (list.Value.Contains(pc.PlayerId))
+                {
+                    List<PlayerControl> lovers = new ();
+
+                    foreach (var id in list.Value)
+                    {
+                        lovers.Add(Utils.GetPlayerById(id));
+                    }
+
+                    return lovers;
+                }
+            }
+
+            return null;
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CreatePlayer))]
@@ -117,6 +166,7 @@ namespace TownOfHost
                 _ = new LateTask(() =>
                 {
                     if (client.Character == null) return;
+                    if (AmongUsClient.Instance.IsGamePublic) Utils.SendMessage(string.Format(GetString("Message.AnnounceUsingTOH"), Main.PleviewPluginVersion), client.Character.PlayerId);
                     TemplateManager.SendTemplate("welcome", client.Character.PlayerId, true);
                 }, 3f, "Welcome Message");
                 if (Options.AutoDisplayLastResult.GetBool() && PlayerState.AllPlayerStates.Count != 0 && Main.clientIdList.Contains(client.Id))

@@ -2,10 +2,10 @@ using System.Globalization;
 using HarmonyLib;
 using InnerNet;
 using UnityEngine;
-using TownOfHost.Modules;
-using static TownOfHost.Translator;
+using TownOfHostForE.Modules;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.MakePublic))]
     class MakePublicPatch
@@ -20,9 +20,10 @@ namespace TownOfHost
                 Logger.SendInGame(message);
                 return false;
             }
-            if (ModUpdater.isBroken || ModUpdater.hasUpdate || !VersionChecker.IsSupported)
+            if (ModUpdater.isBroken || ModUpdater.hasUpdate || !VersionChecker.IsSupported || !Main.IsPublicAvailableOnThisVersion)
             {
                 var message = "";
+                if (!Main.IsPublicAvailableOnThisVersion) message = GetString("PublicNotAvailableOnThisVersion");
                 if (!VersionChecker.IsSupported) message = GetString("UnsupportedVersion");
                 if (ModUpdater.isBroken) message = GetString("ModBrokenMessage");
                 if (ModUpdater.hasUpdate) message = GetString("CanNotJoinPublicRoomNoLatest");
@@ -38,7 +39,7 @@ namespace TownOfHost
     {
         public static void Postfix(MMOnlineManager __instance)
         {
-            if (!(ModUpdater.hasUpdate || ModUpdater.isBroken || !VersionChecker.IsSupported)) return;
+            if (!(ModUpdater.hasUpdate || ModUpdater.isBroken || !VersionChecker.IsSupported || !Main.IsPublicAvailableOnThisVersion)) return;
             var obj = GameObject.Find("FindGameButton");
             if (obj)
             {
@@ -60,6 +61,10 @@ namespace TownOfHost
                 else if (!VersionChecker.IsSupported)
                 {
                     message = GetString("UnsupportedVersion");
+                }
+                else if (!Main.IsPublicAvailableOnThisVersion)
+                {
+                    message = GetString("PublicNotAvailableOnThisVersion");
                 }
                 textObj.text = $"<size=2>{Utils.ColorString(Color.red, message)}</size>";
             }

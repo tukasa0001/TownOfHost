@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
 
-namespace TownOfHost.Roles.Impostor;
+namespace TownOfHostForE.Roles.Impostor;
 
 public sealed class ShapeMaster : RoleBase, IImpostor
 {
@@ -14,9 +14,9 @@ public sealed class ShapeMaster : RoleBase, IImpostor
             CustomRoles.ShapeMaster,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
-            1200,
+            10300,
             SetupOptionItem,
-            "sha"
+            "シェイプマスター"
         );
     public ShapeMaster(PlayerControl player)
     : base(
@@ -35,7 +35,8 @@ public sealed class ShapeMaster : RoleBase, IImpostor
 
     public static void SetupOptionItem()
     {
-        OptionShapeshiftDuration = FloatOptionItem.Create(RoleInfo, 10, OptionName.ShapeMasterShapeshiftDuration, new(1, 1000, 1), 10, false);
+        OptionShapeshiftDuration = FloatOptionItem.Create(RoleInfo, 10, OptionName.ShapeMasterShapeshiftDuration, new(1, 1000, 1), 10, false)
+            .SetValueFormat(OptionFormat.Seconds);
     }
 
     public override void ApplyGameOptions(IGameOptions opt)

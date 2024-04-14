@@ -1,7 +1,7 @@
 using System;
-using TownOfHost.Roles.Core;
+using TownOfHostForE.Roles.Core;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     public class BooleanOptionItem : OptionItem
     {

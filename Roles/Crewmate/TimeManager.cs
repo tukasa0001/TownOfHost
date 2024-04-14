@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
 
-namespace TownOfHost.Roles.Crewmate
+namespace TownOfHostForE.Roles.Crewmate
 {
     public sealed class TimeManager : RoleBase, IMeetingTimeAlterable
     {
@@ -14,9 +14,9 @@ namespace TownOfHost.Roles.Crewmate
                 CustomRoles.TimeManager,
                 () => RoleTypes.Crewmate,
                 CustomRoleTypes.Crewmate,
-                21500,
+                31100,
                 SetupOptionItem,
-                "tm",
+                "タイムマネージャー",
                 "#6495ed"
             );
         public TimeManager(PlayerControl player)

@@ -3,11 +3,11 @@ using System.Text;
 using Hazel;
 
 using AmongUs.GameOptions;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Translator;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost.Roles.Impostor
+namespace TownOfHostForE.Roles.Impostor
 {
     public sealed class Witch : RoleBase, IImpostor
     {
@@ -18,9 +18,9 @@ namespace TownOfHost.Roles.Impostor
                 CustomRoles.Witch,
                 () => RoleTypes.Impostor,
                 CustomRoleTypes.Impostor,
-                1500,
+                10600,
                 SetupOptionItem,
-                "wi"
+                "ウィッチ"
             );
         public Witch(PlayerControl player)
         : base(
@@ -68,7 +68,7 @@ namespace TownOfHost.Roles.Impostor
         }
         private void SendRPC(bool doSpell, byte target = 255)
         {
-            using var sender = CreateSender(CustomRPC.WitchSync);
+            using var sender = CreateSender();
             sender.Writer.Write(doSpell);
             if (doSpell)
             {
@@ -80,10 +80,8 @@ namespace TownOfHost.Roles.Impostor
             }
         }
 
-        public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+        public override void ReceiveRPC(MessageReader reader)
         {
-            if (rpcType != CustomRPC.WitchSync) return;
-
             var doSpel = reader.ReadBoolean();
             if (doSpel)
             {
@@ -146,6 +144,8 @@ namespace TownOfHost.Roles.Impostor
         }
         public void OnCheckMurderAsKiller(MurderInfo info)
         {
+            if (!info.CanKill) return;
+
             var (killer, target) = info.AttemptTuple;
             if (NowSwitchTrigger == SwitchTrigger.TriggerDouble)
             {

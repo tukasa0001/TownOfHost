@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using HarmonyLib;
-using TownOfHost.Attributes;
 using UnityEngine;
+using TownOfHostForE.Attributes;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     public class FallFromLadder
     {
@@ -51,14 +51,15 @@ namespace TownOfHost
                         .EndRpc();
                         sender.AutoStartRpc(player.NetId, (byte)RpcCalls.MurderPlayer)
                                 .WriteNetObject(player)
+                                .Write((int)ExtendedPlayerControl.SuccessFlags)
                         .EndRpc();
                         sender.SendMessage();
                         player.NetTransform.SnapTo(targetPos);
-                        player.MurderPlayer(player);
+                        player.MurderPlayer(player, ExtendedPlayerControl.SuccessFlags);
                         var state = PlayerState.GetByPlayerId(player.PlayerId);
                         state.DeathReason = CustomDeathReason.Fall;
                         state.SetDead();
-                    }, 0.05f, "LadderFallTask");
+                    }, 0.30f, "LadderFallTask");
                 }
             }
         }

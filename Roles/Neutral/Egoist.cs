@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
 
-namespace TownOfHost.Roles.Neutral;
-public sealed class Egoist : RoleBase, ISidekickable, IKiller
+namespace TownOfHostForE.Roles.Neutral;
+public sealed class Egoist : RoleBase, ISidekickable, IKiller, ISchrodingerCatOwner
 {
     public static readonly SimpleRoleInfo RoleInfo =
         SimpleRoleInfo.Create(
@@ -15,12 +15,19 @@ public sealed class Egoist : RoleBase, ISidekickable, IKiller
             CustomRoles.Egoist,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Neutral,
-            50600,
+            50550,
             SetupOptionItem,
-            "eg",
+            "エゴイスト",
             "#5600ff",
             canMakeMadmate: () => OptionCanCreateMadmate.GetBool(),
-            countType: CountTypes.Impostor
+            countType: CountTypes.Impostor,
+            assignInfo: new RoleAssignInfo(CustomRoles.Egoist, CustomRoleTypes.Neutral)
+            {
+                AssignRoleType = CustomRoleTypes.Impostor,
+                IsInitiallyAssignableCallBack =
+                    () => Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1,
+                AssignCountRule = new(1, 1, 1)
+            }
         );
     public Egoist(PlayerControl player)
     : base(
@@ -38,7 +45,10 @@ public sealed class Egoist : RoleBase, ISidekickable, IKiller
     private static float KillCooldown;
     public static bool CanCreateMadmate;
 
-    public static List<PlayerControl> Egoists = new(3);
+    private static PlayerControl egoist;
+
+    public SchrodingerCat.TeamType SchrodingerCatChangeTo => SchrodingerCat.TeamType.Egoist;
+
     private static void SetupOptionItem()
     {
         OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 20f, false)
@@ -47,24 +57,25 @@ public sealed class Egoist : RoleBase, ISidekickable, IKiller
     }
     public override void Add()
     {
+        var playerId = Player.PlayerId;
         foreach (var impostor in Main.AllPlayerControls.Where(pc => pc.Is(CustomRoleTypes.Impostor)))
         {
             NameColorManager.Add(impostor.PlayerId, Player.PlayerId);
         }
-        Egoists.Add(Player);
+        egoist = Player;
     }
     public override void OnDestroy()
     {
-        Egoists.Clear();
+        egoist = null;
     }
     public float CalculateKillCooldown() => KillCooldown;
+    public bool CanUseSabotageButton() => true;
 
     public static bool CheckWin()
     {
-        var impostorsDead = !Main.AllAlivePlayerControls.Any(p => p.Is(RoleTypes.Impostor));
-        var isAnyEgoistAlive = Egoists.Any(p => p.IsAlive());
 
-        if (impostorsDead && isAnyEgoistAlive) //インポスター全滅でエゴイストが生存
+        if (Main.AllAlivePlayerControls.All(p => !p.Is(CustomRoleTypes.Impostor)) &&
+            egoist.IsAlive()) //インポスター全滅でエゴイストが生存
         {
             Win();
             return true;
@@ -76,7 +87,10 @@ public sealed class Egoist : RoleBase, ISidekickable, IKiller
     {
         CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Egoist);
         CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Egoist);
-        CustomWinnerHolder.WinnerRoles.Add(CustomRoles.EgoSchrodingerCat);
     }
     public bool CanMakeSidekick() => CanCreateMadmate;
+    public void ApplySchrodingerCatOptions(IGameOptions option)
+    {
+        option.SetVision(true);
+    }
 }

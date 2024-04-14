@@ -1,11 +1,10 @@
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Options;
+using TownOfHostForE.Roles.Core;
+using static TownOfHostForE.Options;
 
-namespace TownOfHost.Roles.Madmate;
-public sealed class MadGuardian : RoleBase, IKillFlashSeeable
+namespace TownOfHostForE.Roles.Madmate;
+public sealed class MadGuardian : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
         SimpleRoleInfo.Create(
@@ -14,9 +13,9 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
             CustomRoles.MadGuardian,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Madmate,
-            10100,
+            5100,
             SetupOptionItem,
-            "mg",
+            "マッドガーディアン",
             introSound: () => GetIntroSound(RoleTypes.Impostor)
         );
     public MadGuardian(PlayerControl player)
@@ -44,6 +43,7 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
         OptionCanSeeWhoTriedToKill = BooleanOptionItem.Create(RoleInfo, 10, OptionName.MadGuardianCanSeeWhoTriedToKill, false, false);
         //ID10120~10123を使用
         Tasks = OverrideTasksData.Create(RoleInfo, 20);
+        SetUpAddOnOptions(RoleInfo.ConfigId + 30, RoleInfo.RoleName, RoleInfo.Tab);
     }
     public override bool OnCheckMurderAsTarget(MurderInfo info)
     {

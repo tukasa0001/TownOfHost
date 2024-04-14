@@ -3,9 +3,9 @@ using System.Linq;
 using UnityEngine;
 using Hazel;
 using AmongUs.GameOptions;
-using static TownOfHost.Translator;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost.Roles.Core;
+namespace TownOfHostForE.Roles.Core;
 
 public abstract class RoleBase : IDisposable
 {
@@ -91,6 +91,11 @@ public abstract class RoleBase : IDisposable
             Writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)rpcType, SendOption.Reliable, -1);
             Writer.Write(role.Player.PlayerId);
         }
+        public RoleRPCSender(RoleBase role)
+        {
+            Writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.CustomRoleSync, SendOption.Reliable, -1);
+            Writer.Write(role.Player.PlayerId);
+        }
         public void Dispose()
         {
             AmongUsClient.Instance.FinishRpcImmediately(Writer);
@@ -106,6 +111,10 @@ public abstract class RoleBase : IDisposable
     {
         return new RoleRPCSender(this, rpcType);
     }
+    protected RoleRPCSender CreateSender()
+    {
+        return new RoleRPCSender(this);
+    }
     /// <summary>
     /// RPCを受け取った時に呼ばれる関数
     /// RoleRPCSenderで送信されたPlayerIdは削除されて渡されるため意識しなくてもよい。
@@ -113,6 +122,8 @@ public abstract class RoleBase : IDisposable
     /// <param name="reader">届いたRPCの情報</param>
     /// <param name="rpcType">届いたCustomRPC</param>
     public virtual void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    { }
+    public virtual void ReceiveRPC(MessageReader reader)
     { }
     /// <summary>
     /// 能力ボタンを使えるかどうか
@@ -143,6 +154,21 @@ public abstract class RoleBase : IDisposable
     { }
 
     /// <summary>
+    /// 自視点のみ変身する
+    /// 抜け殻を自視点のみに残すことが可能
+    /// </summary>
+    public virtual bool CanDesyncShapeshift => false;
+
+    /// <summary>
+    /// シェイプシフトチェック時に呼ばれる
+    /// 自分自身が変身したときのみ呼ばれる
+    /// animateを操作して変身アニメーションのカットも可能
+    /// </summary>
+    /// <param name="target">変身先</param>
+    /// <param name="animate">アニメーションを再生するかどうか</param>
+    /// <returns>falseを返すと変身がキャンセルされる</returns>
+    public virtual bool OnCheckShapeshift(PlayerControl target, ref bool animate) => true;
+    /// <summary>
     /// シェイプシフト時に呼ばれる関数
     /// 自分自身について呼ばれるため本人確認不要
     /// Host以外も呼ばれるので注意
@@ -163,13 +189,13 @@ public abstract class RoleBase : IDisposable
     { }
 
     /// <summary>
-    /// 通報時，会議が呼ばれることが確定してから呼ばれる関数<br/>
+    /// 通報時に呼ばれる関数
     /// 通報に関係ないプレイヤーも呼ばれる
     /// </summary>
     /// <param name="reporter">通報したプレイヤー</param>
     /// <param name="target">通報されたプレイヤー</param>
-    public virtual void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
-    { }
+    /// <returns>falseを返すと通報がキャンセルされます</returns>
+    public virtual bool OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target) => true;
 
     /// <summary>
     /// <para>ベントに入ったときに呼ばれる関数</para>
@@ -187,12 +213,22 @@ public abstract class RoleBase : IDisposable
     { }
 
     /// <summary>
-    /// 誰かが投票したときに発火する
+    /// 自分が投票した瞬間，票がカウントされる前に呼ばれる<br/>
+    /// falseを返すと投票行動自体をなかったことにし，再度投票できるようになる<br/>
+    /// 投票行動自体は取り消さず，票だけカウントさせない場合は<see cref="ModifyVote"/>を使用し，doVoteをfalseにする
+    /// </summary>
+    /// <param name="votedForId">投票先</param>
+    /// <returns>falseを返すと投票自体がなかったことになり，投票者自身以外には投票したことがバレません</returns>
+    public virtual bool CheckVoteAsVoter(PlayerControl votedFor) => true;
+
+    /// <summary>
+    /// 誰かが投票した瞬間に呼ばれ，票を書き換えることができる<br/>
+    /// 投票行動自体をなかったことにしたい場合は<see cref="CheckVoteAsVoter"/>を使用する
     /// </summary>
     /// <param name="voterId">投票した人のID</param>
     /// <param name="sourceVotedForId">投票された人のID</param>
     /// <returns>(変更後の投票先(変更しないならnull), 変更後の票数(変更しないならnull), 投票をカウントするか)</returns>
-    public virtual (byte? votedForId, int? numVotes, bool doVote) OnVote(byte voterId, byte sourceVotedForId) => (null, null, true);
+    public virtual (byte? votedForId, int? numVotes, bool doVote) ModifyVote(byte voterId, byte sourceVotedForId, bool isIntentional) => (null, null, true);
 
     /// <summary>
     /// 追放後に行われる処理
@@ -230,9 +266,8 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     /// <param name="player">アクションを起こしたプレイヤー</param>
     /// <param name="systemType">サボタージュの種類</param>
-    /// <param name="amount">現在の状態など</param>
-    /// <returns>falseで修理活動等のキャンセル</returns>
-    public virtual bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount) => true;
+    /// <returns>falseでサボタージュのキャンセル</returns>
+    public virtual bool OnSabotage(PlayerControl player, SystemTypes systemType) => true;
 
     // NameSystem
     // 名前は下記の構成で表示される
@@ -245,22 +280,29 @@ public abstract class RoleBase : IDisposable
     // Suffix:ターゲット矢印などの追加情報。
 
     /// <summary>
-    /// seenによるRoleNameの書き換え
+    /// seenによる表示上のRoleNameの書き換え
     /// </summary>
     /// <param name="seer">見る側</param>
     /// <param name="enabled">RoleNameを表示するかどうか</param>
     /// <param name="roleColor">RoleNameの色</param>
     /// <param name="roleText">RoleNameのテキスト</param>
-    public virtual void OverrideRoleNameAsSeen(PlayerControl seer, ref bool enabled, ref Color roleColor, ref string roleText)
+    public virtual void OverrideDisplayRoleNameAsSeen(PlayerControl seer, bool isMeeting, ref bool enabled, ref Color roleColor, ref string roleText)
     { }
     /// <summary>
-    /// seerによるRoleNameの書き換え
+    /// seerによる表示上のRoleNameの書き換え
     /// </summary>
     /// <param name="seen">見られる側</param>
     /// <param name="enabled">RoleNameを表示するかどうか</param>
     /// <param name="roleColor">RoleNameの色</param>
     /// <param name="roleText">RoleNameのテキスト</param>
-    public virtual void OverrideRoleNameAsSeer(PlayerControl seen, ref bool enabled, ref Color roleColor, ref string roleText)
+    public virtual void OverrideDisplayRoleNameAsSeer(PlayerControl seen,bool isMeeting ,ref bool enabled, ref Color roleColor, ref string roleText)
+    { }
+    /// <summary>
+    /// 本来の役職名の書き換え
+    /// </summary>
+    /// <param name="roleColor">RoleNameの色</param>
+    /// <param name="roleText">RoleNameのテキスト</param>
+    public virtual void OverrideTrueRoleName(ref Color roleColor, ref string roleText)
     { }
     /// <summary>
     /// seerによるProgressTextの書き換え
@@ -275,6 +317,24 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     /// <param name="comms">コミュサボ中扱いするかどうか</param>
     public virtual string GetProgressText(bool comms = false) => "";
+    /// <summary>
+    /// 役職名に覆いかぶさる特別テキスト
+    /// 但しseer自身にしか効果はない。
+    /// </summary>
+    public virtual string OverrideSpecialText() => "";
+    /// <summary>
+    /// チャットによって反応する奴
+    /// </summary>
+    /// <param name="player">発言者</param>
+    /// <param name="text">発言内容</param>
+    public virtual void OnReceiveChat(PlayerControl player, string text)
+    { }
+    /// <summary>
+    /// ペット可愛いね
+    /// </summary>
+    /// <param name="player">撫でた人</param>
+    public virtual void OnTouchPet(PlayerControl player)
+    { }
     /// <summary>
     /// seerが自分であるときのMark
     /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し
@@ -335,5 +395,8 @@ public abstract class RoleBase : IDisposable
         ImpostorVision,
         CanUseSabotage,
         CanCreateMadmate,
+        VentCooldown,
+        VentMaxTime,
+        ShapeshiftCooldown,
     }
 }

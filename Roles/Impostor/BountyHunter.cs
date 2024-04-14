@@ -4,11 +4,12 @@ using Hazel;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Translator;
+using TownOfHostForE.Roles.Neutral;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost.Roles.Impostor;
+namespace TownOfHostForE.Roles.Impostor;
 public sealed class BountyHunter : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -18,9 +19,9 @@ public sealed class BountyHunter : RoleBase, IImpostor
             CustomRoles.BountyHunter,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
-            1000,
+            10100,
             SetupOptionItem,
-            "bo"
+            "バウンティハンター"
         );
     public BountyHunter(PlayerControl player)
     : base(
@@ -74,14 +75,12 @@ public sealed class BountyHunter : RoleBase, IImpostor
     }
     private void SendRPC(byte targetId)
     {
-        using var sender = CreateSender(CustomRPC.SetBountyTarget);
+        using var sender = CreateSender();
         sender.Writer.Write(targetId);
     }
 
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SetBountyTarget) return;
-
         byte targetId = reader.ReadByte();
 
         Target = Utils.GetPlayerById(targetId);
@@ -211,5 +210,12 @@ public sealed class BountyHunter : RoleBase, IImpostor
         //seerがtarget自身でBountyHunterのとき、
         //矢印オプションがありミーティング以外で矢印表示
         return TargetArrow.GetArrows(Player, target.PlayerId);
+    }
+    public void OnSchrodingerCatKill(SchrodingerCat schrodingerCat)
+    {
+        if (GetTarget() == schrodingerCat.Player)
+        {
+            ResetTarget();  // ターゲットの選びなおし
+        }
     }
 }

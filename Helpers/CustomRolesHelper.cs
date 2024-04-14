@@ -1,12 +1,22 @@
+using System.Linq;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
+using TownOfHostForE.Roles.Core;
 
-namespace TownOfHost
+namespace TownOfHostForE
 {
     static class CustomRolesHelper
     {
-        public static readonly CustomRoles[] AllRoles = EnumHelper.GetAllValues<CustomRoles>();
+        /// <summary>すべての役職(属性は含まない)</summary>
+        public static readonly CustomRoles[] AllRoles = EnumHelper.GetAllValues<CustomRoles>().Where(role => role < CustomRoles.NotAssigned).ToArray();
+        /// <summary>すべての属性</summary>
+        public static readonly CustomRoles[] AllAddOns = EnumHelper.GetAllValues<CustomRoles>().Where(role => role > CustomRoles.NotAssigned).ToArray();
+        /// <summary>スタンダードモードで出現できるすべての役職</summary>
+        public static readonly CustomRoles[] AllStandardRoles = AllRoles.Where(role => role is not (CustomRoles.HASFox or CustomRoles.HASTroll)).ToArray();
+        /// <summary>HASモードで出現できるすべての役職</summary>
+        public static readonly CustomRoles[] AllHASRoles = { CustomRoles.HASFox, CustomRoles.HASTroll };
+        /// <summary>大惨事爆裂大戦モードで出現できるすべての役職</summary>
+        public static readonly CustomRoles[] AllBAKURETSURoles = { CustomRoles.BAKURETSUKI};
         public static readonly CustomRoleTypes[] AllRoleTypes = EnumHelper.GetAllValues<CustomRoleTypes>();
 
         public static bool IsImpostor(this CustomRoles role)
@@ -25,7 +35,8 @@ namespace TownOfHost
             return
                 role is
                 CustomRoles.SKMadmate or
-                CustomRoles.MSchrodingerCat;
+                CustomRoles.MOjouSama or
+                CustomRoles.IUsagi;
         }
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
         public static bool IsNeutral(this CustomRoles role)
@@ -35,13 +46,40 @@ namespace TownOfHost
                 return roleInfo.CustomRoleType == CustomRoleTypes.Neutral;
             return
                 role is
-                CustomRoles.SchrodingerCat or
-                CustomRoles.EgoSchrodingerCat or
-                CustomRoles.JSchrodingerCat or
-                CustomRoles.HASTroll or
+                CustomRoles.JOjouSama or
+                CustomRoles.EOjouSama or
+                CustomRoles.DOjouSama or
+                CustomRoles.OOjouSama or
+                CustomRoles.GOjouSama or
+                CustomRoles.BAKURETSUKI or
                 CustomRoles.HASFox;
         }
-        public static bool IsCrewmate(this CustomRoles role) => role.GetRoleInfo()?.CustomRoleType == CustomRoleTypes.Crewmate || (!role.IsImpostorTeam() && !role.IsNeutral());
+        public static bool IsAnimals(this CustomRoles role)
+        {
+            var roleInfo = role.GetRoleInfo();
+            if (roleInfo != null)
+                return roleInfo.CustomRoleType == CustomRoleTypes.Animals;
+            return
+                role is
+                //CustomRoles.ASchrodingerCat or
+                CustomRoles.AOjouSama;
+        }
+        public static bool IsCrewmate(this CustomRoles role) => role.GetRoleInfo()?.CustomRoleType == CustomRoleTypes.Crewmate || (!role.IsImpostorTeam() && !role.IsNeutral() && !role.IsAnimals() && !role.IsAddOn() && !role.IsLovers());
+
+        public static bool IsLovers(this CustomRoles role)
+        {
+            return role is CustomRoles.Lovers or
+                CustomRoles.PlatonicLover or
+                CustomRoles.OtakuPrincess;
+        }
+        public static bool IsWhiteCrew(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Rainbow or
+                CustomRoles.Express or
+                CustomRoles.Metaton or
+                CustomRoles.OjouSama;
+        }
         public static bool IsVanilla(this CustomRoles role)
         {
             return
@@ -52,14 +90,86 @@ namespace TownOfHost
                 CustomRoles.Impostor or
                 CustomRoles.Shapeshifter;
         }
-        public static bool IsKilledSchrodingerCat(this CustomRoles role)
+        //public static bool IsReplaceImposter(this CustomRoles role)
+        //{
+        //    return
+        //        role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.PlagueDoctor 
+        //            or CustomRoles.Hunter or CustomRoles.SillySheriff or CustomRoles.MadSheriff
+        //            or CustomRoles.DarkHide or CustomRoles.PlatonicLover or CustomRoles.OtakuPrincess or CustomRoles.Totocalcio
+        //            or CustomRoles.Jackal or CustomRoles.Gizoku or CustomRoles.Oniichan
+        //            or CustomRoles.Coyote or CustomRoles.Braki or CustomRoles.Leopard or CustomRoles.RedPanda;
+        //}
+
+        public static bool IsAddAddOn(this CustomRoles role)
+        {
+            return role.IsMadmate() || 
+                role is CustomRoles.Jackal or CustomRoles.JClient or CustomRoles.RedPanda;
+        }
+        public static bool IsAddOn(this CustomRoles role) => role.IsBuffAddOn() || role.IsDebuffAddOn();
+        public static bool IsBuffAddOn(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.AddWatch or
+                CustomRoles.AddLight or
+                CustomRoles.AddSeer or
+                CustomRoles.Autopsy or
+                CustomRoles.VIP or
+                CustomRoles.Revenger or
+                CustomRoles.Management or
+                CustomRoles.Sending or
+                CustomRoles.TieBreaker or
+                CustomRoles.Loyalty or
+                CustomRoles.PlusVote or
+                CustomRoles.Guarding or
+                CustomRoles.AddBait or
+                CustomRoles.Chu2Byo or
+                CustomRoles.Gambler or
+                CustomRoles.Refusing;
+        }
+        public static bool IsDebuffAddOn(this CustomRoles role)
+        {
+            return
+                role is
+                CustomRoles.Sunglasses or
+                CustomRoles.Clumsy or
+                CustomRoles.InfoPoor or
+                CustomRoles.NonReport;
+        }
+        public static bool IsKilledOhouSama(this CustomRoles role)
         {
             return role is
-                CustomRoles.SchrodingerCat or
-                CustomRoles.MSchrodingerCat or
-                CustomRoles.CSchrodingerCat or
-                CustomRoles.EgoSchrodingerCat or
-                CustomRoles.JSchrodingerCat;
+                CustomRoles.MOjouSama or
+                CustomRoles.EOjouSama or
+                CustomRoles.DOjouSama or
+                CustomRoles.JOjouSama or
+                CustomRoles.AOjouSama or
+                CustomRoles.OOjouSama;
+        }
+        public static bool IsDirectKillRole(this CustomRoles role)
+        {
+            return role is
+                CustomRoles.Arsonist or
+                CustomRoles.PlatonicLover or
+                CustomRoles.OtakuPrincess or
+                CustomRoles.Totocalcio or
+                CustomRoles.MadSheriff;
+        }
+        public static bool IsNotAssignRoles(this CustomRoles role)
+        {
+            if (role.IsKilledOhouSama() ||
+                role.IsVanilla()) return true;
+
+            return role is
+                CustomRoles.Hachiware or
+                CustomRoles.Usagi or
+                CustomRoles.IUsagi or
+                CustomRoles.Tiikawa or
+                CustomRoles.SKMadmate or
+                CustomRoles.HASFox or
+                CustomRoles.HASTroll or
+                CustomRoles.BAKURETSUKI or
+                CustomRoles.NotAssigned or
+                CustomRoles.GM;
         }
 
         public static CustomRoleTypes GetCustomRoleTypes(this CustomRoles role)
@@ -72,6 +182,7 @@ namespace TownOfHost
 
             if (role.IsImpostor()) type = CustomRoleTypes.Impostor;
             if (role.IsNeutral()) type = CustomRoleTypes.Neutral;
+            if (role.IsAnimals()) type = CustomRoleTypes.Animals;
             if (role.IsMadmate()) type = CustomRoleTypes.Madmate;
             return type;
         }
@@ -137,6 +248,15 @@ namespace TownOfHost
                 _ => role.IsImpostor() ? RoleTypes.Impostor : RoleTypes.Crewmate,
             };
         }
+        public static bool PetActivatedAbility(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Badger or
+                CustomRoles.Gizoku or
+                CustomRoles.Nyaoha or
+                CustomRoles.DogSheriff or
+                CustomRoles.SpiderMad;
+        }
     }
     public enum CountTypes
     {
@@ -145,5 +265,7 @@ namespace TownOfHost
         Crew,
         Impostor,
         Jackal,
+        Animals,
+        SB,
     }
 }

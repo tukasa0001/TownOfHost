@@ -1,8 +1,8 @@
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
+using TownOfHostForE.Roles.Core;
 
-namespace TownOfHost.Roles.Vanilla;
+namespace TownOfHostForE.Roles.Vanilla;
 
 public sealed class GuardianAngel : RoleBase
 {
@@ -18,6 +18,4 @@ public sealed class GuardianAngel : RoleBase
         player
     )
     { }
-
-    public override string GetAbilityButtonText() => StringNames.ProtectAbility.ToString();
 }

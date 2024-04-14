@@ -4,11 +4,11 @@ using UnityEngine;
 using Hazel;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Translator;
+using TownOfHostForE.Roles.Core;
+using TownOfHostForE.Roles.Core.Interfaces;
+using static TownOfHostForE.Translator;
 
-namespace TownOfHost.Roles.Impostor;
+namespace TownOfHostForE.Roles.Impostor;
 public sealed class Puppeteer : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -18,9 +18,9 @@ public sealed class Puppeteer : RoleBase, IImpostor
             CustomRoles.Puppeteer,
             () => RoleTypes.Impostor,
             CustomRoleTypes.Impostor,
-            2000,
+            11000,
             null,
-            "pup"
+            "パペッティア"
         );
     public Puppeteer(PlayerControl player)
     : base(
@@ -42,15 +42,13 @@ public sealed class Puppeteer : RoleBase, IImpostor
 
     private void SendRPC(byte targetId, byte typeId)
     {
-        using var sender = CreateSender(CustomRPC.SyncPuppet);
+        using var sender = CreateSender();
 
         sender.Writer.Write(typeId);
         sender.Writer.Write(targetId);
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SyncPuppet) return;
-
         var typeId = reader.ReadByte();
         var targetId = reader.ReadByte();
 
@@ -69,6 +67,7 @@ public sealed class Puppeteer : RoleBase, IImpostor
     }
     public void OnCheckMurderAsKiller(MurderInfo info)
     {
+        if (!info.CanKill) return; //キル出来ない相手には無効
         var (puppeteer, target) = info.AttemptTuple;
 
         Puppets[target.PlayerId] = this;
@@ -77,10 +76,11 @@ public sealed class Puppeteer : RoleBase, IImpostor
         Utils.NotifyRoles(SpecifySeer: puppeteer);
         info.DoKill = false;
     }
-    public override void OnReportDeadBody(PlayerControl _, GameData.PlayerInfo __)
+    public override bool OnReportDeadBody(PlayerControl _, GameData.PlayerInfo __)
     {
         Puppets.Clear();
         SendRPC(byte.MaxValue, 0);
+        return true;
     }
     public static void OnFixedUpdateOthers(PlayerControl puppet)
     {
