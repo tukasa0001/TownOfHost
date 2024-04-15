@@ -10,6 +10,7 @@ using TownOfHostForE.Roles.Core.Interfaces;
 using static TownOfHostForE.Translator;
 using static UnityEngine.GraphicsBuffer;
 using TownOfHostForE.Modules;
+using Sentry.Internal.Extensions;
 
 namespace TownOfHostForE.Roles.Crewmate;
 public sealed class Balancer : RoleBase
@@ -79,6 +80,9 @@ public sealed class Balancer : RoleBase
 
     public override bool CheckVoteAsVoter(PlayerControl votedFor)
     {
+        //スキップの場合
+        if (votedFor.IsNull()) return true;
+
         //投票先が自分以外か
         if (votedFor.PlayerId != Player.PlayerId) return true;
 

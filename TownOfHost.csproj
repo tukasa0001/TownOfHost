@@ -44,7 +44,7 @@
 
 	<ItemGroup>
 	  <Reference Include="ForhiteListEngine">
-	    <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\ForhiteListEngine.dll</HintPath>
+	    <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\ForhiteListEngine.dll</HintPath>
 	  </Reference>
 	  <Reference Include="Microsoft.DirectX.DirectSound">
 	    <HintPath>..\..\..\..\..\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.DirectSound.dll</HintPath>
