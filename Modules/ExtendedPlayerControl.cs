@@ -477,7 +477,7 @@ namespace TownOfHost
             // Other Clients
             if (killer.PlayerId != 0)
             {
-                var writer = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable);
+                var writer = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, killer.GetClientId());
                 writer.WriteNetObject(target);
                 writer.Write((int)MurderResultFlags.FailedProtected);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
