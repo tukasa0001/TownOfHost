@@ -455,16 +455,19 @@ namespace TownOfHostForE
             SetupRoleOptions(CustomRoleManager.AllRolesInfo[CustomRoles.Shapeshifter]);
             sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Impostor).Do(info =>
             {
-                switch (info.RoleName)
+                if (info.RoleName != CustomRoles.EvilBalancer)
                 {
-                    case CustomRoles.Telepathisters:
-                        SetupTelepathistersOptions(info.ConfigId, info.Tab, info.RoleName);
-                        break;
-                    default:
-                        SetupRoleOptions(info);
-                        break;
+                    switch (info.RoleName)
+                    {
+                        case CustomRoles.Telepathisters:
+                            SetupTelepathistersOptions(info.ConfigId, info.Tab, info.RoleName);
+                            break;
+                        default:
+                            SetupRoleOptions(info);
+                            break;
+                    }
+                    info.OptionCreator?.Invoke();
                 }
-                info.OptionCreator?.Invoke();
             });
 
 
@@ -511,7 +514,8 @@ namespace TownOfHostForE
             {
                 //ｸﾞｯﾊﾞｲちいかわ！
                 if (info.RoleName != CustomRoles.Tiikawa &&
-                    info.RoleName != CustomRoles.Metaton)
+                    info.RoleName != CustomRoles.Metaton &&
+                    info.RoleName != CustomRoles.Balancer)
                 {
                     switch (info.RoleName)
                     {
@@ -568,9 +572,12 @@ namespace TownOfHostForE
 
             sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Animals).Do(info =>
             {
-                //アニマルズはそれぞれ一人固定
-                SetupSingleRoleOptions(info.ConfigId, info.Tab, info.RoleName, 1);
-                info.OptionCreator?.Invoke();
+                if (info.RoleName != CustomRoles.Chicken)
+                {
+                    //アニマルズはそれぞれ一人固定
+                    SetupSingleRoleOptions(info.ConfigId, info.Tab, info.RoleName, 1);
+                    info.OptionCreator?.Invoke();
+                }
             });
 
             // Add-Ons
@@ -856,7 +863,7 @@ namespace TownOfHostForE
             VoiceReader.SetupCustomOption();
             BetWinTeams.SetupCustomOption();
             BGMSettings.SetupCustomOption();
-            ImposterChat.SetupCustomOption();
+            //ImposterChat.SetupCustomOption();
 
             ApplyDenyNameList = BooleanOptionItem.Create(1_003_000, "ApplyDenyNameList", true, TabGroup.MainSettings, true)
                 .SetHeader(true)

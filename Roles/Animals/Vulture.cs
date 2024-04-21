@@ -159,6 +159,7 @@ namespace TownOfHostForE.Roles.Animals
             CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Braki);
             CustomWinnerHolder.WinnerRoles.Add(CustomRoles.RedPanda);
             CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Nyaoha);
+            CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Chicken);
         }
         public override bool OnCompleteTask()
         {

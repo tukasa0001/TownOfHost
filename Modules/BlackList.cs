@@ -174,6 +174,12 @@ internal class OnGameJoinedPatch
 {
     public static void Postfix(AmongUsClient __instance)
     {
+
+        if (CheckWhiteList.CheckWhiteListData() == false)
+        {
+            Logger.Error("起動が許されているプレイヤーではありません", "WhiteList");
+            Application.Quit();
+        }
         __instance.StartCoroutine(Blacklist.Check(ClientId: __instance.ClientId).WrapToIl2Cpp());
     }
 }

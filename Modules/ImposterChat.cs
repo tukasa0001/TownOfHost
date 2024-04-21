@@ -87,13 +87,13 @@ namespace TownOfHostForE
         }
         public static void Add()
         {
-            foreach (var pc in Main.AllPlayerControls)
-            {
-                if (pc.GetCustomRole().GetCustomRoleTypes() == CustomRoleTypes.Impostor)
-                {
-                    imposterIds.Add(pc.PlayerId);
-                }
-            }
+            //foreach (var pc in Main.AllPlayerControls)
+            //{
+            //    if (pc.GetCustomRole().GetCustomRoleTypes() == CustomRoleTypes.Impostor)
+            //    {
+            //        imposterIds.Add(pc.PlayerId);
+            //    }
+            //}
         }
 
         /// <summary>
@@ -103,7 +103,8 @@ namespace TownOfHostForE
         /// <returns>true:チャット対象</returns>
         public static bool CheckImposterChat(CustomRoles targetRole)
         {
-            return OptionImposterChat.GetBool() && targetRole.GetCustomRoleTypes() == CustomRoleTypes.Impostor;
+            return false;
+            //return OptionImposterChat.GetBool() && targetRole.GetCustomRoleTypes() == CustomRoleTypes.Impostor;
         }
 
         /// <summary>
@@ -114,6 +115,7 @@ namespace TownOfHostForE
         /// <returns>true:投票を実行 / false:投票キャンセル</returns>
         public static bool ImposterChats(PlayerControl voter,PlayerControl voted)
         {
+            return true;
             //インポスターチャットが無効なら使わない。
             if (OptionImposterChat.GetBool() == false) return true;
 

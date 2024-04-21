@@ -78,11 +78,8 @@ public static class WavManager
         memoryStream.Read(subChunkIDBytes);
 
         // If fact exists, discard fact
-        Logger.Info($"chk:{string.Format("{0:X2}",subChunkIDBytes[0])}:{string.Format("{0:X2}", subChunkIDBytes[1])}:{string.Format("{0:X2}", subChunkIDBytes[2])}:{string.Format("{0:X2}", subChunkIDBytes[3])}", "debug");
-        Logger.Info($"chk:{subChunkIDBytes[0] == 0x66}:{subChunkIDBytes[1] == 0x61}:{subChunkIDBytes[2] == 0x63}:{subChunkIDBytes[3] == 0x74}", "debug");
         if (subChunkIDBytes[0] == 0x66 && subChunkIDBytes[1] == 0x61 && subChunkIDBytes[2] == 0x63 && subChunkIDBytes[3] == 0x74)
         {
-            Logger.Info("入る","debug");
             var factSizeBytes = new byte[4];
             memoryStream.Read(factSizeBytes);
             var factSize = BitConverter.ToInt32(factSizeBytes);

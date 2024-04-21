@@ -493,6 +493,7 @@ public enum CustomRoles
     JapPup,
     Eraser,
     Detonator,
+    EvilBalancer,
     //Madmate
     MadGuardian,
     Madmate,
@@ -598,6 +599,7 @@ public enum CustomRoles
     Leopard,
     RedPanda,
     Nyaoha,
+    Chicken,
     ASchrodingerCat,//アニマルズのシュレディンガーの猫
     AOjouSama,//アニマルズのお嬢様
     //HideAndSeek

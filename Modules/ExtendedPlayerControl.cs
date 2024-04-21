@@ -542,7 +542,6 @@ namespace TownOfHostForE
                     return false;
                 }
             }
-            Logger.Info("キル","debug");
             //キル数カウント
             if (Main.killCount.ContainsKey(killer.PlayerId))
             {

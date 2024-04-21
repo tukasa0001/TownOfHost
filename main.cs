@@ -52,8 +52,8 @@ namespace TownOfHostForE
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.AsumuAkaguma.townofhostfore";
-        public const string PluginVersion = "516.3.2";
-        public const string PleviewPluginVersion = "BOMB!-β";
+        public const string PluginVersion = "516.3.3";
+        public const string PleviewPluginVersion = "BOMB!-γ";
         // サポートされている最低のAmongUsバージョン
         public static readonly string LowestSupportedVersion = "2024.03.05";
         // このバージョンのみで公開ルームを無効にする場合

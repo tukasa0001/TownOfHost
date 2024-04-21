@@ -58,6 +58,7 @@ Teleporter,Teleporter,テレポーター,传送者
 JapPup,Magic Puppeteer,人形術師,木偶師
 Eraser,Eraser,イレイサー,橡皮
 Detonator,Detonator,デトネーター,Detonator
+EvilBalancer,DogSheriff,服従の天秤,DogSheriff
 
 ## Imposter役職説明ショート
 SuicideBomberInfo,Involve a lot of crew and try to self-destruct,多くのクルーを吹っ飛ばしてやろうぜ！,让很多船员参与并尝试自毁
@@ -68,6 +69,7 @@ TalktiveInfo,Words are cleverly concealed.,言葉は巧妙に隠すもの,文字
 "JapPupInfo","I don't even have to put my hands on it.",私が直接手を出すまでもない。,"我什至不必把手放在上面"
 "EraserInfo","you don't have that ability.",君にそんな能力はない,"你沒有那個能力"
 "DetonatorInfo","everything is in my hands.",全ては我が手中にあるのだよ,"一切都在我們手中"
+"EvilBalancerInfo","my pal has a keen sense of smell",私は500年以上生きた大インポスターだ！,"我的朋友嗅覺很敏銳"
 
 ## Imposter役職説明ロング
 SuicideBomberInfoLong,"(Impostors)\nSelf-destruct by transforming. It might be fun to do it in a place where many people are nearby.",[インポスター陣営]\n我が名は爆裂魔！ この船を破壊しもの！！\n変身することで周囲を巻き込んで大爆発する。\n爆発後は力が抜けて動けないしキルする力もない。\nやってもいいけどやり返されるだろうよ。,"(内鬼阵营)\n通过变形自毁  在附近有很多人的地方做这件事可能会很有趣"言葉は巧妙に隠すもの
@@ -78,6 +80,7 @@ TalktiveInfoLong,"(Impostors)\nSpeak the subject words well during the meeting. 
 "JapPupInfoLong","(Impostors):\nTransforming and performing a kill turns the target of the kill into a doll. The opponent who has been transformed into a doll will die if he does not meet the target of the transformation within a certain period of time.",[インポスター陣営]\n変身してキルを行うことでキルの対象を人形に変える。人形に変えられた相手は一定時間以内に変身対象に出会わないと死んでしまう。,"(内鬼阵营):\n变身并实施击杀后，击杀目标会变成玩偶。 被变成玩偶的对手如果在一定时间内没有遇到变身目标，就会死亡。"
 "EraserInfoLong","(Impostors):\nBy transforming, you can decide who you want to be your crewmate, and then passing by that person will confirm the activation of your abilities. At the end of the meeting after confirmation, the other party's position becomes crewmate.",[インポスター陣営]\n変身することでクルーメイトにしたい相手を決定し、その後その相手とすれ違うことで能力の発動が確定される。確定後の会議終了時に相手の役職がクルーメイトになる。,"(内鬼阵营):\n通過變身，你可以決定你想要誰成為你的隊友，然後經過那個人就會確認你的能力激活。 會議結束確認後，對方的位置變為船員。"
 "DetonatorInfoLong","(Impostors):\nYou can place a radar on any player you like. \nYou can learn the roles of players who have been near the player with the radar attached for a certain period of time. \nAlso, you can kill the player whose radar is attached by transforming at any time after installing the radar. \n\n[Operation method]\n-Before installation-\n・Normal kill: Radar installation\n・Kill button double click: Normal kill\n\n-After installation-\n・Normal kill: Normal kill\ n・Transformation: Kill the opponent with radar installed",[インポスター陣営]\n好きなプレイヤーにレーダーを設置することが出来る。\nレーダーが取りつけられたプレイヤーの近くに一定時間いたプレイヤーの役職を知ることが出来る。\nまた、レーダー設置後に任意のタイミングで変身することでレーダーのついたプレイヤーをキルすることが出来る。\n\n【操作方法】\n-設置前-\n・通常キル：レーダーの設置\n・キルボタンダブルクリック：通常キル\n\n-設置後-\n・通常キル：通常キル\n・変身：レーダー設置相手のキル,"(内鬼阵营):\n您可以在任何您喜歡的玩家身上放置雷達。 \n您可以了解靠近安裝雷達的玩家一定時間的玩家的角色。 \n此外，安裝雷達後，您可以隨時透過變身殺死安裝了雷達的玩家。 \n\n[操作方法]\n-安裝前-\n・正常查殺：雷達安裝\n・查殺按鈕雙擊：正常查殺\n\n-安裝後-\n・正常查殺：正常查殺\n・變身：安裝雷達殺死對手"
+"EvilBalancerInfoLong","(Crewmates):\nKill a nearby player by petting their pet. If the opponent is a crew member, it cannot be killed and will self-destruct.",[インポスター陣営]\n自投票後に任意の相手に投票することで自身の魔力と相手の魔力を比較し、魔力が高い方が生き残る(これはデバッグ版限定の書き方です。魔力はタスク数もしくはキル数を比較します。),"(船员阵营):\n透過撫摸附近的玩家的寵物來殺死他們。 如果對手是船員，則無法殺死並且會自毀。"
 
 ## Neutral
 OtakuPrincess,Princess,姫,姫
@@ -144,6 +147,9 @@ RedPanda,RedPanda,レッサーパンダ,小熊猫
 Nyaoha,LeafCat,クサネコ,草貓
 "NyaohaInfo","Because I'm crazy, crazy about you",ﾀﾞｯﾃﾑﾁｭｰ、ｷﾐﾆﾑﾁｭｰ,"因為我很瘋狂，為你而瘋狂"
 "NyaohaInfoLong","(Animals):\nBy petting your pet, your pet will temporarily release its original power and prepare to fire a powerful energy bullet. By moving left and right while charging, you can determine the firing direction and it will fire in either the left or right direction. All players who come into contact with this energy bullet will be killed. Although energy bullets cannot be seen because they do not emit visible light, crewmates can apparently sense the location of energy bullets.",[アニマルズ陣営]\nペットを愛でることでペットが本来の力を一時的に解放し、強力なエネルギー弾の射出準備に入る。チャージ中に左右に移動することで射出方向を決めることで左右どちらかの狙った方向射出される。このエネルギー弾に触れてしまったプレイヤーは全員キルされる。エネルギー弾は可視光ではないために見えないがクルーメイト達はエネルギー弾の位置を察知できるらしい。,"(动物阵营):\n透過撫摸你的寵物，你的寵物會暫時釋放其原有的力量，並準備發射強大的能量子彈。 透過在充電時左右移動，您可以確定射擊方向，它會向左或向右方向射擊。 所有接觸到這種能量子彈的玩家都會被殺死。 雖然能量子彈因為不發出可見光而無法被看見，但船員顯然可以感知到能量子彈的位置。"
+"Chicken",LeafCat,チキン,草貓
+"ChickenInfo","Because I'm crazy, crazy about you",これは壮大なる『競争』の始まり,"因為我很瘋狂，為你而瘋狂"
+"ChickenInfoLong","(Animals):\nBy petting your pet, your pet will temporarily release its original power and prepare to fire a powerful energy bullet. By moving left and right while charging, you can determine the firing direction and it will fire in either the left or right direction. All players who come into contact with this energy bullet will be killed. Although energy bullets cannot be seen because they do not emit visible light, crewmates can apparently sense the location of energy bullets.",[アニマルズ陣営]\nチキンは会議ボタンを押しても会議を発生させることが出来ない。\n【勝利条件】\n指定回数会議ボタンを押す。,"(动物阵营):\n透過撫摸你的寵物，你的寵物會暫時釋放其原有的力量，並準備發射強大的能量子彈。 透過在充電時左右移動，您可以確定射擊方向，它會向左或向右方向射擊。 所有接觸到這種能量子彈的玩家都會被殺死。 雖然能量子彈因為不發出可見光而無法被看見，但船員顯然可以感知到能量子彈的位置。"
 
 ## マッドメイト
 SpiderMad,Spider-Madmate,クモマッドメイト,蜘蛛叛徒
