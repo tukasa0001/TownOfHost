@@ -192,7 +192,7 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     /// <param name="physics"></param>
     /// <param name="id"></param>
-    /// <returns>falseを返すとベントから追い出され、他人からアニメーションも見られません</returns>
+    /// <returns>falseを返すとベントから追い出されます</returns>
     public virtual bool OnEnterVent(PlayerPhysics physics, int ventId) => true;
 
     /// <summary>
