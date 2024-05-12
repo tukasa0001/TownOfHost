@@ -618,6 +618,9 @@
 "ERR-001-010-3","Duplicate Options ID","オプションIDが重複しています","选项ID重复","","Повторяющийся идентификатор настроек","",""
 "#### 002 Support"
 "ERR-002-000-1","Unsupported AmongUs version. Please update.","サポートされていないAmongUsバージョンです。ゲームをアップデートしてください。","不支持的 AmongUs 版本，请更新","","Неподдерживаемая версия AmongUs. Пожалуйста, обновите игру","Versão não suportada do Among Us. Por favor, atualize.",""
+"#### 010 Session"
+"ERR-010-000-2","An error occurred while processing disconnection. Please abort the game.","プレイヤーの切断処理中にエラーが発生しました。廃村してください。","","","",""
+"ERR-010-001-2","An error occurred while processing disconnection. Please recreate the lobby.","プレイヤーの切断処理中にエラーが発生しました。ロビーを作り直してください。","","","",""
 
 "## その他"
 "DefaultSystemMessageTitle","【===== System Message =====】","【===== システムメッセージ ======】","【===== 系统信息 ======】","【===== 系統訊息 ======】","【=== Системное сообщение ===】","【===== Mensagem do Sistema ======】",""
