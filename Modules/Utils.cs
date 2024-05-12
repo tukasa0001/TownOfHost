@@ -5,11 +5,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.InteropTypes;
+using Mono.Cecil;
 using TownOfHostForE.GameMode;
 using TownOfHostForE.Modules;
 using TownOfHostForE.Roles;
@@ -997,8 +999,11 @@ namespace TownOfHostForE
             }
             else
             {
-                if (AmongUsClient.Instance.IsGamePublic)
-                    name = $"<color={Main.ModColor}>TownOfHost_ForE v{Main.PleviewPluginVersion}</color>\r\n" + name;
+                //if (AmongUsClient.Instance.IsGamePublic)
+                //    name = $"<color={Main.ModColor}>TownOfHost_ForE v{Main.PleviewPluginVersion}</color>\r\n" + name;
+
+                //公開部屋できるまで誘導部屋対策としてMod名を表示
+                name += $"<color={Main.ModColor}><TOH4E></color>";
                 if (BetWinTeams.BetWinTeamMode.GetBool() && BetWinTeams.BetPoint.ContainsKey(PlayerControl.LocalPlayer.FriendCode) && !BetWinTeams.DisableShogo.GetBool())
                 {
                     if (BetWinTeams.BetPoint[PlayerControl.LocalPlayer.FriendCode].Syougo != null &&
@@ -1057,10 +1062,10 @@ namespace TownOfHostForE
             if (GameStates.IsMeeting) return;
             var caller = new StackFrame(1, false);
             var callerMethod = caller.GetMethod();
-            string callerMethodName = callerMethod.Name;
-            string callerClassName = callerMethod.DeclaringType.FullName;
+            //string callerMethodName = callerMethod == null ? "呼び出し不明" : callerMethod.Name;
+            //string callerClassName = callerMethod == null ? "呼び出し不明" : callerMethod.DeclaringType.FullName;
             var logger = Logger.Handler("NotifyRoles");
-            logger.Info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました");
+            //logger.Info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました");
             HudManagerPatch.NowCallNotifyRolesCount++;
             HudManagerPatch.LastSetNameDesyncCount = 0;
 
@@ -1179,6 +1184,11 @@ namespace TownOfHostForE
 
                     //全体書き換えテキスト
                     (SelfName,bool changed) = OverrideSpecialText(SelfName,seer.PlayerId);
+
+
+                    // ミーティングテキスト
+                    //SelfName = MeetingDisplayText.AddTextForVanilla(seer, SelfName, SelfSuffix.ToString(), SelfRoleName, isForMeeting);
+                    SelfName = MeetingDisplay.SetDisplayForVanilla(seer,seer, SelfName, SelfSuffix.ToString(), SelfRoleName, isForMeeting);
 
                     //適用
                     seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
@@ -1318,6 +1328,8 @@ namespace TownOfHostForE
                                 }
                             }
 
+                            TargetName = MeetingDisplay.SetDisplayForVanilla(seer,target, TargetName, TargetSuffix.ToString(), TargetRoleText, isForMeeting);
+
                             //適用
                             target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
                         }
@@ -1341,6 +1353,62 @@ namespace TownOfHostForE
             return false;
         }
 
+        /// <summary>
+        /// ロビーにJoinしてきたやつに称号を付ける
+        /// ロビーのみ有効
+        /// </summary>
+        public static void JoinLobbyModInfo()
+        {
+            //ロビー限定
+            if (!GameStates.IsLobby) return;
+
+            _ = new LateTask(() =>
+            {
+                string testVersionString = $"<align={"right"}><size=120%><color={Main.ModColor}>{Main.ModName}</color>\n<color=#ffffff>{Main.PleviewPluginVersion}\nHostFriendCode:{PlayerControl.LocalPlayer.FriendCode}</color></size></align>";
+
+                foreach (var target in Main.AllPlayerControls)
+                {
+                    //ホストは変更しない
+                    if (target.PlayerId == 0) continue;
+                    if (target.name.Contains(testVersionString)) continue;
+
+                    string targetName = target.name;
+
+                    targetName = SetModInfo(targetName);
+
+                    //targetName = testVersionString + "\n" + targetName;
+                    //適用
+                    target.RpcSetNamePrivateSingle(targetName, true);
+                }
+            }, 1f, "LobbySetModInfo");
+        }
+
+        private static string SetModInfo(string targetName)
+        {
+            string testVersionString = $"<align={"center"}><size=120%><color={Main.ModColor}>{Main.ModName}</color>\n<color=#ffffff>{Main.PleviewPluginVersion}\nHostFriendCode:{PlayerControl.LocalPlayer.FriendCode}</color></size></align>";
+            int count = CountKaigyou(testVersionString);
+            int loop = 6;
+            for (int i = 0; i < loop; i++)
+            {
+                testVersionString += "\n";
+            }
+
+            testVersionString = testVersionString + "\n" + targetName;
+
+            for (int i = 0; i < count + loop + 1; i++)
+            {
+                testVersionString += "\n";
+            }
+
+            return testVersionString;
+
+        }
+
+        private static int CountKaigyou(string targetString)
+        {
+            string[] splitString = targetString.Split('\n');
+            return splitString.Count() - 1;
+        }
         public static void MarkEveryoneDirtySettings()
         {
             PlayerGameOptionsSender.SetDirtyToAll();
@@ -1396,6 +1464,7 @@ namespace TownOfHostForE
                 Logger.Info(sb.ToString(), "CountAlivePlayers");
             }
         }
+
         public static string PadRightV2(this object text, int num)
         {
             int bc = 0;
@@ -1550,6 +1619,15 @@ namespace TownOfHostForE
         {
             casted = obj.TryCast<T>();
             return casted != null;
+        }
+
+        public static Color GetCodeOfColor(string colorCode)
+        {
+            if (ColorUtility.TryParseHtmlString(colorCode,out Color outColor))
+            {
+                return outColor;
+            }
+            return new Color();
         }
         public static int AllPlayersCount => PlayerState.AllPlayerStates.Values.Count(state => state.CountType != CountTypes.OutOfGame);
         public static int AllAlivePlayersCount => Main.AllAlivePlayerControls.Count(pc => !pc.Is(CountTypes.OutOfGame));

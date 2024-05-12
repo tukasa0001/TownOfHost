@@ -25,6 +25,8 @@ namespace TownOfHostForE
             SetTarget,
             //何をした
             SetWhat,
+            //役職予想用
+            SetRole,
             //終わり 使わないなら消す
             End
         }
@@ -65,6 +67,7 @@ namespace TownOfHostForE
         }
 
         private static HashSet<byte> imposterIds = new();
+        private static HashSet<string> RoleList = new();
         private static Dictionary<byte, chatData> ChatDatas = new();
         private static Dictionary<byte, List<List<string>>> PageDatas = new();
 
@@ -78,22 +81,27 @@ namespace TownOfHostForE
             ChatDatas = new();
             PageDatas = new();
             imposterIds = new();
+            RoleList = new();
         }
 
         public static void SetupCustomOption()
         {
             OptionImposterChat = BooleanOptionItem.Create(4_252526, "OptionImposterChat", false, TabGroup.MainSettings, false)
+                .SetColor(Color.cyan)
                 .SetGameMode(CustomGameMode.Standard);
         }
         public static void Add()
         {
-            //foreach (var pc in Main.AllPlayerControls)
-            //{
-            //    if (pc.GetCustomRole().GetCustomRoleTypes() == CustomRoleTypes.Impostor)
-            //    {
-            //        imposterIds.Add(pc.PlayerId);
-            //    }
-            //}
+            foreach (var pc in Main.AllPlayerControls)
+            {
+                var cRole = pc.GetCustomRole();
+                RoleList.Add(Utils.GetRoleName(cRole));
+
+                if (cRole.GetCustomRoleTypes() == CustomRoleTypes.Impostor)
+                {
+                    imposterIds.Add(pc.PlayerId);
+                }
+            }
         }
 
         /// <summary>
@@ -103,8 +111,7 @@ namespace TownOfHostForE
         /// <returns>true:チャット対象</returns>
         public static bool CheckImposterChat(CustomRoles targetRole)
         {
-            return false;
-            //return OptionImposterChat.GetBool() && targetRole.GetCustomRoleTypes() == CustomRoleTypes.Impostor;
+            return OptionImposterChat.GetBool() && targetRole.GetCustomRoleTypes() == CustomRoleTypes.Impostor;
         }
 
         /// <summary>
@@ -115,7 +122,6 @@ namespace TownOfHostForE
         /// <returns>true:投票を実行 / false:投票キャンセル</returns>
         public static bool ImposterChats(PlayerControl voter,PlayerControl voted)
         {
-            return true;
             //インポスターチャットが無効なら使わない。
             if (OptionImposterChat.GetBool() == false) return true;
 
@@ -124,6 +130,21 @@ namespace TownOfHostForE
 
             //生存人数が2人以下(人外生存のみ)の場合は関係なし
             if(Main.AllAlivePlayerControls.Count() <= 2) return true;
+
+            bool onlyCheck = false;
+            foreach (var iid in imposterIds)
+            {
+                if (voter.PlayerId == iid) continue;
+                var imp = Utils.GetPlayerById(iid);
+                if (imp.IsAlive())
+                {
+                    onlyCheck = true;
+                    break;
+                }
+            }
+
+            //生存人数1人なら意味ないので処理しない
+            if(!onlyCheck) return true;
 
             //skip投票
             if(voted == null)
@@ -181,6 +202,9 @@ namespace TownOfHostForE
                         break;
                     case nowState.SetWhat:
                         SetWhat(voter.PlayerId, voted.PlayerId);
+                        break;
+                    case nowState.SetRole:
+                        SetRole(voter.PlayerId, voted.PlayerId);
                         break;
                     case nowState.End:
                     default:
@@ -276,6 +300,29 @@ namespace TownOfHostForE
         }
 
         /// <summary>
+        /// 送信主にのみ主語のプレイヤーを選択させる。
+        /// </summary>
+        /// <param name="voterId"></param>
+        private static void CreateTargetWordsForRole(byte voterId, bool isFirst = true)
+        {
+            string sendWord = $"役職を選択してください。\n\n";
+
+            if (isFirst)
+            {
+                List<string> data = RoleList.ToList();
+                //ページ情報記憶
+                //ページ作成
+                CreatePageDatasList(voterId, data);
+                //初期ページ設定
+                ChatDatas[voterId].NowPage = 0;
+            }
+            //反映
+            sendWord += CreatePageWords(PageDatas[voterId][ChatDatas[voterId].NowPage]);
+            sendWord += "Skip:インポスターチャットを中断する。";
+            SendImposterChat(voterId, sendWord);
+        }
+
+        /// <summary>
         /// 場所の名前 or プレイヤーを選択する
         /// </summary>
         /// <param name="voterId"></param>
@@ -301,6 +348,15 @@ namespace TownOfHostForE
             }
 
             string sendString = PageDatas[voterId][nowPage][picNum];
+            //文字精査で対応
+            if (sendString.Contains("(役職)だと思う"))
+            {
+                ChatDatas[voterId].NowState = nowState.SetRole;
+                ChatDatas[voterId].SendData = $"{sendString}";
+                CreateTargetWordsForRole(voterId);
+                return;
+            }
+
             var info = Utils.GetPlayerInfoById(voterId);
             foreach (var impId in imposterIds)
             {
@@ -317,6 +373,43 @@ namespace TownOfHostForE
             PageDatas.Remove(voterId);
         }
 
+        /// <summary>
+        /// 役職を選択する
+        /// </summary>
+        /// <param name="voterId"></param>
+        /// <param name="votedId"></param>
+        private static void SetRole(byte voterId, byte votedId)
+        {
+            byte picNum = GetPicPlayerNumber(voterId, votedId);
+            int nowPage = ChatDatas[voterId].NowPage;
+
+            //次ページ対象なら次へ
+            if (CheckPages(voterId, picNum) == false)
+            {
+                //役職選定にはプレイヤー選択時のみのため判別しない
+                CreateTargetWordsForRole(voterId, false);
+                return;
+            }
+
+            //最終決定
+            //ここにはまだ役職名しか詰まってないはず
+            string tempSendString = PageDatas[voterId][nowPage][picNum];
+            string sendString = ChatDatas[voterId].SendData.Replace("(役職)",tempSendString);
+            var info = Utils.GetPlayerInfoById(voterId);
+            foreach (var impId in imposterIds)
+            {
+                if (impId == voterId)
+                {
+                    SendImposterChat(impId, $"「{sendString}」を送信しました。");
+                }
+                else
+                {
+                    SendImposterChat(impId, sendString, Utils.ColorString(info.Color, $"【†{info.PlayerName}†】"));
+                }
+            }
+            ChatDatas.Remove(voterId);
+            PageDatas.Remove(voterId);
+        }
         /// <summary>
         /// プレイヤーを選択する
         /// </summary>
@@ -392,13 +485,13 @@ namespace TownOfHostForE
 
         private static List<string> GetPlaceList()
         {
-            List<string> returnData = new ();
+            HashSet<string> returnData = new ();
 
             foreach (var room in ShipStatus.Instance.AllRooms)
             {
                 returnData.Add($"{DestroyableSingleton<TranslationController>.Instance.GetString(room.RoomId)}");
             }
-            return returnData;
+            return returnData.ToList();
         }
 
         /// <summary>
@@ -472,7 +565,8 @@ namespace TownOfHostForE
                 {
                     $"{name}に気をつけろ",
                     $"{name}を狙おう",
-                    $"{name}と一緒にいたことにして"
+                    $"{name}と一緒にいたことにして",
+                    $"{name}は(役職)だと思う",
                 };
                 //ページ情報記憶
                 //ページ作成

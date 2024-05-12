@@ -143,6 +143,7 @@ namespace TownOfHostForE.Modules
                 }
             }
             Blinder.ApplyGameOptionsByOther(player.PlayerId, opt);
+            Kraken.ApplyGameOptionsByOther(player.PlayerId, opt);
 
             if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))
             {

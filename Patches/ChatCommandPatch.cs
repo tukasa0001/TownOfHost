@@ -197,6 +197,10 @@ namespace TownOfHostForE
                                                                                     pc.Is(CustomRoles.Braki) ||
                                                                                     pc.Is(CustomRoles.Leopard) ||
                                                                                     pc.Is(CustomRoles.Nyaoha) ||
+                                                                                    pc.Is(CustomRoles.Chicken) ||
+                                                                                    pc.Is(CustomRoles.Dolphin) ||
+                                                                                    pc.Is(CustomRoles.Monkey) ||
+                                                                                    pc.Is(CustomRoles.Kraken) ||
                                                                                     pc.Is(CustomRoles.AOjouSama) ||
                                                                                     pc.Is(CustomRoles.ASchrodingerCat)))
                                 {
@@ -823,17 +827,10 @@ namespace TownOfHostForE
                 (msg, sendTo, title) = Main.MessagesToSend[0];
                 Main.MessagesToSend.RemoveAt(0);
             }
-            else if (CustomRoles.OjouSama.IsEnable()) //将来的にはここいらんかも
+            else if (!(Main.SuffixMessagesToSend.Count < 1 || (Main.SuffixMessagesToSend[0].Item2 == byte.MaxValue && Main.MessageWait.Value > __instance.timeSinceLastMessage)))
             {
-                if (!(Main.SuffixMessagesToSend.Count < 1 || (Main.SuffixMessagesToSend[0].Item2 == byte.MaxValue && Main.MessageWait.Value > __instance.timeSinceLastMessage)))
-                {
-                    (msg, sendTo, title, player) = Main.SuffixMessagesToSend[0];
-                    Main.SuffixMessagesToSend.RemoveAt(0);
-                }
-                else
-                {
-                    return;
-                }
+                (msg, sendTo, title, player) = Main.SuffixMessagesToSend[0];
+                Main.SuffixMessagesToSend.RemoveAt(0);
             }
             else
             {

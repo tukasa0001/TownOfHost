@@ -81,6 +81,7 @@ namespace TownOfHostForE.Roles.Impostor
         float killCooldown;
         static OptionItem TalktiveKillCooldown;
         float talktiveKillCooldown;
+        string nowText = "";
 
         private readonly static string clearWords = "上手く喋れたようだね、次のターンのキルクールを下げてあげよう";
 
@@ -104,6 +105,7 @@ namespace TownOfHostForE.Roles.Impostor
         public override void Add()
         {
             nowTalkContents = TalkContents.Free;
+            RandomSetContents();
         }
 
         //開始時はデフォルトのキルクール
@@ -129,7 +131,8 @@ namespace TownOfHostForE.Roles.Impostor
             //ミーティング開始時にキルクールをデフォルトにリセット
             if (setFiverFlag && PlayerControl.LocalPlayer == Player) setModPlayerResetKillCool = true;
             setFiverFlag = false;
-            RandomSetContents();
+            //RandomSetContents();
+            SendWord();
         }
 
         public override void AfterMeetingTasks()
@@ -140,6 +143,7 @@ namespace TownOfHostForE.Roles.Impostor
                 setModPlayerResetKillCool = false;
                 PlayerControl.LocalPlayer.SetKillCooldown();
             }
+            RandomSetContents();
         }
 
         private void RandomSetContents()
@@ -149,7 +153,13 @@ namespace TownOfHostForE.Roles.Impostor
             int contentsInt = rand.Next(1,30);
             nowTalkContents = (TalkContents)Enum.ToObject(typeof(TalkContents), contentsInt);
 
-            string sendWords = "「" + setTalkContents(contentsInt) + "」" + "\n↑↑↑↑↑\n上手く言葉に紛れ込ませるのだ";
+            //nowText = $"【お題】「{setTalkContents(contentsInt)}」";
+            nowText = setTalkContents(contentsInt);
+        }
+
+        private void SendWord()
+        {
+            string sendWords = "「" + nowText + "」" + "\n↑↑↑↑↑\n上手く言葉に紛れ込ませるのだ";
 
             Utils.SendMessage(sendWords, Player.PlayerId, "<color=#ff1919>【今回のお題】</color>");
 
@@ -157,6 +167,13 @@ namespace TownOfHostForE.Roles.Impostor
             {
                 Utils.SendMessage(sendWords, pc.PlayerId, "<color=#ff1919>【今回のトークティブのお題】</color>");
             }
+        }
+
+        public override string MeetingInfo()
+        {
+            string returnString = "";
+            if (nowText != "") returnString = $"【お題】「{nowText}」";
+            return returnString;
         }
 
         private string setTalkContents(int nowId)

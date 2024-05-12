@@ -82,10 +82,15 @@ namespace TownOfHostForE
 
                 foreach (var opt in OptionItem.AllOptions.Where(x => x.Id >= 100000 && !x.IsHiddenOn(Options.CurrentGameMode) && x.Parent == null))
                 {
-                    if (opt.IsHeader) sb.Append('\n');
-                    sb.Append($"{opt.GetName()}: {opt.GetString()}\n");
-                    if (opt.GetBool())
-                        ShowChildren(opt, ref sb, Color.white, 1);
+
+                    if (opt.IsText) sb.Append('\n');
+                    else
+                    {
+                        if (opt.IsHeader) sb.Append('\n');
+                        sb.Append($"{opt.GetName()}: {opt.GetString()}\n");
+                        if (opt.GetBool())
+                            ShowChildren(opt, ref sb, Color.white, 1);
+                    }
                 }
                 //Onの時に子要素まで表示するメソッド
                 void nameAndValue(OptionItem o) => sb.Append($"{o.GetName()}: {o.GetString()}\n");

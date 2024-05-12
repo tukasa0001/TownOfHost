@@ -12,6 +12,7 @@ namespace TownOfHostForE
         private static ClientActionItem UnloadMod;
         private static ClientActionItem DumpLog;
         private static ClientOptionItem EnableCustomSoundEffect;
+        private static ClientOptionItem EnableCustomBGMEffect;
 
         public static void Postfix(OptionsMenuBehaviour __instance)
         {
@@ -36,6 +37,11 @@ namespace TownOfHostForE
             {
                 DumpLog = ClientActionItem.Create("DumpLog", Utils.DumpLog, __instance);
             }
+
+            //if (EnableCustomBGMEffect == null || EnableCustomBGMEffect.ToggleButton == null)
+            //{
+            //    EnableCustomBGMEffect = ClientOptionItem.Create("EnableCustomBGMEffect", Main.EnableCustomBGMEffect, __instance);
+            //}
 
             if (EnableCustomSoundEffect == null || EnableCustomSoundEffect.ToggleButton == null)
             {

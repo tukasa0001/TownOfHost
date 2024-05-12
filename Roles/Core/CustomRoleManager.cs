@@ -600,6 +600,9 @@ public enum CustomRoles
     RedPanda,
     Nyaoha,
     Chicken,
+    Dolphin,
+    Monkey,
+    Kraken,
     ASchrodingerCat,//アニマルズのシュレディンガーの猫
     AOjouSama,//アニマルズのお嬢様
     //HideAndSeek

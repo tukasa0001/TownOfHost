@@ -42,6 +42,25 @@ namespace TownOfHostForE
             SimpleButton.SetBase(__instance.quitButton);
             if (template == null) template = __instance.quitButton;
             if (template == null) return;
+
+            //Updateボタンを生成
+            if (SimpleButton.IsNullOrDestroyed(UpdateButton))
+            {
+                UpdateButton = CreateButton(
+                    "UpdateButton",
+                    new(0f, -1.3f, 1f),
+                    new(0, 202, 255, byte.MaxValue),
+                    new(60, 255, 255, byte.MaxValue),
+                    () =>
+                    {
+                        UpdateButton.Button.gameObject.SetActive(false);
+                        ModUpdater.StartUpdate(ModUpdater.downloadUrl);
+                    },
+                    $"{Translator.GetString("updateButton")}\n{ModUpdater.latestTitle}",
+                    new(2.5f, 1f),
+                    isActive: false);
+            }
+
             //Discordボタンを生成
             if (discordButton == null)
             {
@@ -91,26 +110,6 @@ namespace TownOfHostForE
                     () => Application.OpenURL("https://github.com/AsumuAkaguma/TownOfHost_ForE"),
                     "GitHub",
                     new(1.9f, 0.725f));
-            }
-            //Updateボタンを生成
-            if (SimpleButton.IsNullOrDestroyed(UpdateButton))
-            {
-                UpdateButton = CreateButton(
-                    "UpdateButton",
-                    new(-0.85f, -2f, 0),
-                    new(161, 161, 161, byte.MaxValue),
-                    new(209, 209, 209, byte.MaxValue),
-                    //new(0f, -1.7f, 1f),
-                    //new(0, 202, 255, byte.MaxValue),
-                    //new(60, 255, 255, byte.MaxValue),
-                    () =>
-                    {
-                        UpdateButton.Button.gameObject.SetActive(false);
-                        ModUpdater.StartUpdate(ModUpdater.downloadUrl);
-                    },
-                    $"{Translator.GetString("updateButton")}\n{ModUpdater.latestTitle}",
-                    new(2.5f, 1f),
-                    isActive: false);
             }
 
 #if RELEASE

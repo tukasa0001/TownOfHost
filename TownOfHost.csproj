@@ -38,19 +38,19 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-	    <PackageReference Include="NCMBClient" Version="1.2.0" />
-	    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	    <PackageReference Include="SharpDX.XAudio2" Version="4.2.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Reference Include="Microsoft.DirectX.DirectSound">
-	    <HintPath>..\..\..\..\..\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.DirectSound.dll</HintPath>
-	  </Reference>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Modules\YouTube\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="SharpDX">
+	    <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\SharpDX.dll</HintPath>
+	  </Reference>
+	  <Reference Include="SharpDX.XAudio2">
+	    <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\SharpDX.XAudio2.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 	<Target Name="Copy" AfterTargets="Build" Condition="'C:\Program Files (x86)\Steam\steamapps\common\Among Us _dev' != ''">

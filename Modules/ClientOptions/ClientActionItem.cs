@@ -9,7 +9,9 @@ public class ClientActionItem
     public Action OnClickAction { get; protected set; }
 
     public static SpriteRenderer CustomBackground { get; private set; }
+    public static SpriteRenderer CustomBGMBackground { get; private set; }
     public static ToggleButtonBehaviour ModOptionsButton { get; private set; }
+    public static ToggleButtonBehaviour BGMSettingButton { get; private set; }
     private static int numItems = 0;
 
     protected ClientActionItem(
@@ -88,6 +90,51 @@ public class ClientActionItem
                     returnButton.transform.localPosition = new(1.35f, -2.411f, -1f);
                 }
             }
+
+            //// BGM用背景も生成
+            //if (CustomBGMBackground == null)
+            //{
+            //    CustomBGMBackground = Object.Instantiate(optionsMenuBehaviour.Background, optionsMenuBehaviour.transform);
+            //    CustomBGMBackground.name = "CustomBGMBackground";
+            //    CustomBGMBackground.transform.localScale = new(0.9f, 0.9f, 1f);
+            //    CustomBGMBackground.transform.localPosition += Vector3.back * 8;
+            //    CustomBGMBackground.gameObject.SetActive(false);
+
+            //    var closeButton = Object.Instantiate(mouseMoveToggle, CustomBGMBackground.transform);
+            //    closeButton.transform.localPosition = new(1.3f, -2.3f, -6f);
+            //    closeButton.name = "Close";
+            //    closeButton.Text.text = Translator.GetString("Close");
+            //    closeButton.Background.color = Palette.DisabledGrey;
+            //    var closePassiveButton = closeButton.GetComponent<PassiveButton>();
+            //    closePassiveButton.OnClick = new();
+            //    closePassiveButton.OnClick.AddListener(new Action(() =>
+            //    {
+            //        CustomBGMBackground.gameObject.SetActive(false);
+            //        CustomBackground.gameObject.SetActive(true);
+            //    }));
+
+            //    BGMSettingButton = Object.Instantiate(mouseMoveToggle, CustomBackground.transform);
+            //    BGMSettingButton.transform.localPosition = new Vector3(
+            //    // 現在のオプション数を基に位置を計算
+            //    numItems % 2 == 0 ? -1.3f : 1.3f,
+            //    2.2f - (0.5f * (numItems / 2)),
+            //    -6f);
+            //    numItems++;
+            //    BGMSettingButton.name = "BGMOptions";
+            //    BGMSettingButton.Text.text = Translator.GetString("BGMOptions");
+            //    if (ColorUtility.TryParseHtmlString(Main.ModColor, out var modColor))
+            //    {
+            //        BGMSettingButton.Background.color = modColor;
+            //    }
+            //    var modOptionsPassiveButton = BGMSettingButton.GetComponent<PassiveButton>();
+            //    modOptionsPassiveButton.OnClick = new();
+            //    modOptionsPassiveButton.OnClick.AddListener(new Action(() =>
+            //    {
+            //        CustomBGMBackground.gameObject.SetActive(true);
+            //        CustomBackground.gameObject.SetActive(false);
+            //    }));
+
+            //}
 
             // ボタン生成
             ToggleButton = Object.Instantiate(mouseMoveToggle, CustomBackground.transform);

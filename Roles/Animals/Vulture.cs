@@ -5,6 +5,7 @@ using AmongUs.GameOptions;
 using Hazel;
 using TownOfHostForE.Roles.Core;
 using TownOfHostForE.Roles.Core.Interfaces;
+using TownOfHostForE.Roles.Neutral;
 using UnityEngine;
 
 namespace TownOfHostForE.Roles.Animals
@@ -28,8 +29,8 @@ namespace TownOfHostForE.Roles.Animals
                 SetupOptionItem,
                 "バルチャー",
                 "#FF8C00",
-                countType: CountTypes.Crew,
-            introSound: () => ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault().MinigamePrefab.OpenSound
+                countType: CountTypes.Crew
+            //introSound: () => ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault().MinigamePrefab.OpenSound
             );
         public Vulture(PlayerControl player)
         : base(
@@ -66,7 +67,7 @@ namespace TownOfHostForE.Roles.Animals
             VictoryEatDeadBody = IntegerOptionItem.Create(RoleInfo, 10, OptionName.VictoryEatDeadBody, new(1, 15, 1), 3, false)
                 .SetValueFormat(OptionFormat.Players);
             // 100-103を使用
-            Tasks = Options.OverrideTasksData.Create(RoleInfo, 100);
+            Tasks = Options.OverrideTasksData.Create(RoleInfo, 11);
         }
 
         public override void Add()
@@ -125,7 +126,7 @@ namespace TownOfHostForE.Roles.Animals
                 AnimalsWin();
             }
         }
-        public static void AnimalsBomb(CustomDeathReason dr)
+        public static void AnimalsBomb(CustomDeathReason dr = CustomDeathReason.Bombed)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             foreach (var pc in PlayerControl.AllPlayerControls)
@@ -134,13 +135,15 @@ namespace TownOfHostForE.Roles.Animals
                 var playerState = PlayerState.GetByPlayerId(pc.PlayerId);
                 if (cRole.IsAnimals())
                 {
-                    playerState.DeathReason = CustomDeathReason.Kill;
+                    //playerState.DeathReason = CustomDeathReason.Kill;
+                    playerState.DeathReason = dr;
                 }
                 else if (!pc.Data.IsDead)
                 {
                     //生存者は爆死
                     pc.RpcMurderPlayer(pc);
-                    playerState.DeathReason = CustomDeathReason.Kill;
+                    //playerState.DeathReason = CustomDeathReason.Kill;
+                    playerState.DeathReason = dr;
                     playerState.SetDead();
                 }
             }
@@ -160,6 +163,10 @@ namespace TownOfHostForE.Roles.Animals
             CustomWinnerHolder.WinnerRoles.Add(CustomRoles.RedPanda);
             CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Nyaoha);
             CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Chicken);
+            CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Dolphin);
+            CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Monkey);
+            CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Kraken);
+            if (Tuna.TunaTypeAnimals) CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Tuna);
         }
         public override bool OnCompleteTask()
         {

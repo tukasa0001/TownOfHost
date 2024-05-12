@@ -9,14 +9,10 @@ using TownOfHostForE.Roles;
 using TownOfHostForE.Roles.Core;
 using static TownOfHostForE.Translator;
 using TownOfHostForE.Roles.AddOns.Common;
-using TownOfHostForE.Roles.Crewmate;
 using TownOfHostForE.Roles.Core.Interfaces;
-using TownOfHostForE.Roles.Animals;
 using System.Linq;
-using TownOfHostForE.Roles.Impostor;
 using TMPro;
 using static TownOfHostForE.GameMode.WordLimit;
-using TownOfHostForE.GameMode;
 
 namespace TownOfHostForE;
 
@@ -73,6 +69,8 @@ public static class MeetingHudPatch
             Main.AllPlayerControls.Do(x => ReportDeadBodyPatch.WaitReport[x.PlayerId].Clear());
             Sending.OnStartMeeting();
             MeetingStates.MeetingCalled = true;
+            foreach (var tm in Main.AllAlivePlayerControls.Where(p => p.Is(CustomRoles.TaskManager) || p.Is(CustomRoles.Management)))
+                Utils.NotifyRoles(true, tm);
         }
         public static void Postfix(MeetingHud __instance)
         {
@@ -144,13 +142,13 @@ public static class MeetingHudPatch
                 Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount));
                 Logger.Info("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
             }
-            if (Options.ShowReportReason.GetBool())
-            {
-                if (ReportDeadBodyPatch.ReportTarget == null)
-                    Utils.SendMessage(GetString("Message.isButton"));
-                else
-                    Utils.SendMessage(string.Format(GetString("Message.isReport"), ReportDeadBodyPatch.ReportTarget.PlayerName));
-            }
+            //if (Options.ShowReportReason.GetBool())
+            //{
+            //    if (ReportDeadBodyPatch.ReportTarget == null)
+            //        Utils.SendMessage(GetString("Message.isButton"));
+            //    else
+            //        Utils.SendMessage(string.Format(GetString("Message.isReport"), ReportDeadBodyPatch.ReportTarget.PlayerName));
+            //}
             if (Options.ShowRevengeTarget.GetBool())
             {
                 foreach (var Exiled_Target in RevengeTargetPlayer)
@@ -206,6 +204,8 @@ public static class MeetingHudPatch
                     //ChatUpdatePatch.DoBlockChat = false;
                 }, 3f, "SetName To Chat");
             }
+
+            int showCount = 0;
 
             foreach (var pva in __instance.playerStates)
             {
@@ -302,6 +302,13 @@ public static class MeetingHudPatch
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
 
                 pva.NameText.text += sb.ToString();
+
+                if (!pva.AmDead && showCount < 3)
+                {
+                    //pva.NameText.text = MeetingDisplayText.AddTextForClient(pva.NameText.text, showCount);
+                    MeetingDisplay.SetDisplayForClient(showCount,pva);
+                    showCount++;
+                }
             }
         }
     }

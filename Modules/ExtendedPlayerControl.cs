@@ -151,13 +151,22 @@ namespace TownOfHostForE
             Main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
             HudManagerPatch.LastSetNameDesyncCount++;
             //Logger.Info($"Set:{player?.Data?.PlayerName}:{name.RemoveHtmlTags()} for {seer.GetNameWithRole()}", "RpcSetNamePrivate");
-
             var clientId = seer.GetClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
             writer.Write(name);
             writer.Write(DontShowOnModdedClient);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+
+        public static void RpcSetNamePrivateSingle(this PlayerControl seer,string name, bool DontShowOnModdedClient = false)
+        {
+            var clientId = seer.GetClientId();
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(seer.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
+            writer.Write(name);
+            writer.Write(DontShowOnModdedClient);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+
         public static void RpcSetRoleDesync(this PlayerControl player, RoleTypes role, int clientId)
         {
             //player: 名前の変更対象
@@ -552,6 +561,8 @@ namespace TownOfHostForE
                 Main.killCount.Add(killer.PlayerId, 1);
             }
 
+            Monkey.CheckKillAnimals(killer);
+
             return true;
         }
 
@@ -638,7 +649,8 @@ namespace TownOfHostForE
                 CustomRoles.Coyote or
                 CustomRoles.Braki or
                 CustomRoles.Leopard or
-                CustomRoles.Nyaoha;
+                CustomRoles.Nyaoha or
+                CustomRoles.Kraken;
         }
         public static bool IsLoversClient(this PlayerControl player)
         {

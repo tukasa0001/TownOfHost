@@ -4,6 +4,7 @@ using System.Linq;
 using AmongUs.GameOptions;
 
 using TownOfHostForE.Roles.Core;
+using UnityEngine;
 using static TownOfHostForE.Translator;
 
 namespace TownOfHostForE.Roles
@@ -62,7 +63,9 @@ namespace TownOfHostForE.Roles
         public static void SetupOptionItem()
         {
             OptionAssignMode = StringOptionItem.Create(idStart, "AssignMode", AssignModeSelections, 0, TabGroup.MainSettings, false)
-                .SetHeader(true);
+                //.SetHeader(true)
+                .SetColor(Color.yellow)
+                .SetGameMode(CustomGameMode.Standard);
 
             assignMode = () => (AssignAlgorithm)OptionAssignMode.GetInt();
             RandomAssignOptionsCollection.Clear();

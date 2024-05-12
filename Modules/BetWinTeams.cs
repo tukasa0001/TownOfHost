@@ -22,6 +22,8 @@ namespace TownOfHostForE
         private static Dictionary<string, ShopData> ShopDataDic = new();
         public static List<string> winnerCode = new();
 
+        //private static readonly int maxData = 99999;
+
         public static OptionItem BetWinTeamMode;
         public static OptionItem VoteMaxPlayer;
         public static OptionItem DisableShogo;
@@ -134,7 +136,7 @@ namespace TownOfHostForE
 
         public static bool IsCamofuluge()
         {
-            return  (Utils.IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool());
+            return (Utils.IsActive(SystemTypes.Comms) && Options.CommsCamouflage.GetBool());
         }
 
         [PluginModuleInitializer]
@@ -194,7 +196,7 @@ namespace TownOfHostForE
                 {
                     if (BetPoint.ContainsKey(pc.FriendCode))
                     {
-                        sendData.Add(pc.FriendCode,BetPoint[pc.FriendCode]);
+                        sendData.Add(pc.FriendCode, BetPoint[pc.FriendCode]);
                     }
                 }
 
@@ -209,6 +211,42 @@ namespace TownOfHostForE
             }
         }
 
+        /// <summary>
+        /// ロビーにJoinしてきたやつに称号を付ける
+        /// ロビーのみ有効
+        /// </summary>
+        public static void JoinLobbySyougo()
+        {
+            return;
+            //ロビー限定
+            if (!GameStates.IsLobby) return;
+
+            //称号付けれたらつけるよ
+            if (BetWinTeamMode.GetBool() && !DisableShogo.GetBool())
+            {
+                _ = new LateTask(() =>
+                {
+                    foreach (var target in Main.AllPlayerControls)
+                    {
+                        //ホストは変更しない
+                        if (target.PlayerId == 0) continue;
+                        string targetName = target.name;
+
+                        if (BetPoint.ContainsKey(target.FriendCode) &&
+                        BetPoint[target.FriendCode].Syougo != null &&
+                        BetPoint[target.FriendCode].Syougo != "")
+                        {
+                            string syogoData = BetPoint[target.FriendCode].Syougo;
+                            if (!targetName.Contains(syogoData))
+                            {
+                                targetName += "\r\n" + BetPoint[target.FriendCode].Syougo;
+                                target.RpcSetName(targetName);
+                            }
+                        }
+                    }
+                }, 1f, "LobbySetShogo");
+            }
+        }
         public static void ReceiveRPC(MessageReader reader)
         {
             var count = reader.ReadInt32();
@@ -227,7 +265,7 @@ namespace TownOfHostForE
                         Agree = true,
                         Syougo = readString[1]
                     };
-                    BetPoint.Add(readString[0],betPointData);
+                    BetPoint.Add(readString[0], betPointData);
                 }
                 else
                 {
@@ -239,13 +277,13 @@ namespace TownOfHostForE
         public static void SetupCustomOption()
         {
             BetWinTeamMode = BooleanOptionItem.Create(Id, "BetWinTeamMode", false, TabGroup.MainSettings, false)
-                .SetGameMode(CustomGameMode.All);
+                .SetColor(Color.yellow)
+                .SetGameMode(CustomGameMode.Standard);
 
-            VoteMaxPlayer = IntegerOptionItem.Create(Id + 5, "VoteMaxPlayer", new(2, 15, 1),6, TabGroup.MainSettings, false).SetParent(BetWinTeamMode)
+            VoteMaxPlayer = IntegerOptionItem.Create(Id + 5, "VoteMaxPlayer", new(2, 15, 1), 6, TabGroup.MainSettings, false).SetParent(BetWinTeamMode)
                 .SetValueFormat(OptionFormat.Players);
 
-            DisableShogo = BooleanOptionItem.Create(Id + 10, "DisableShogo", false, TabGroup.MainSettings, false).SetParent(BetWinTeamMode)
-                .SetGameMode(CustomGameMode.All);
+            DisableShogo = BooleanOptionItem.Create(Id + 10, "DisableShogo", false, TabGroup.MainSettings, false).SetParent(BetWinTeamMode);
         }
         public static bool BetOnReceiveChat(PlayerControl player, string text)
         {
@@ -350,6 +388,7 @@ namespace TownOfHostForE
                             WriteCSVPlayerData();
 
                             Utils.SendMessage("称号に" + tempName + "を付けたよ。\r\nﾏｲﾄﾞｱﾘ！", player.PlayerId, "");
+                            JoinLobbySyougo();
                         }
                         else
                         {
@@ -371,8 +410,9 @@ namespace TownOfHostForE
                             //ストック処理
                             SetKeepShogo(player.FriendCode, tempName);
                             WriteCSVPlayerData();
-                            
+
                             Utils.SendMessage("称号に" + tempName + "を付けたよ。\r\nﾏｲﾄﾞｱﾘ！", player.PlayerId, "");
+                            JoinLobbySyougo();
                         }
                         else
                         {
@@ -429,14 +469,15 @@ namespace TownOfHostForE
                     string subArgs = args.Length < 2 ? "" : args[1];
                     Logger.Info("SubArgs" + subArgs, "BETBUY");
                     int targetNum = Int32.Parse(subArgs);
-                    if (!CheckKeepShogo(player.FriendCode,targetNum))
+                    if (!CheckKeepShogo(player.FriendCode, targetNum))
                     {
                         Utils.SendMessage("保存されている称号がありません。", player.PlayerId, "");
                         return true;
                     }
 
-                    SetShogoToKeep(player.FriendCode,targetNum);
+                    SetShogoToKeep(player.FriendCode, targetNum);
                     Utils.SendMessage("称号を適用しました！", player.PlayerId, "");
+                    JoinLobbySyougo();
                 }
                 catch
                 {
@@ -447,7 +488,7 @@ namespace TownOfHostForE
 
             if (args[0] == "/MyShougoList" || args[0] == "/msl")
             {
-                SendMyShogouList(player.FriendCode,player.PlayerId);
+                SendMyShogouList(player.FriendCode, player.PlayerId);
                 return true;
             }
 
@@ -485,7 +526,7 @@ namespace TownOfHostForE
                     ReadCsvToDictionaryForShopData();
                     Utils.SendMessage("CSVを読み取り", player.PlayerId, "");
                 }
-                else if(subArgs == "init")
+                else if (subArgs == "init")
                 {
                     FirstInit = true;
                     Init();
@@ -630,7 +671,7 @@ namespace TownOfHostForE
 
                             try
                             {
-                                if(int.TryParse(subArgs,out plusbet))
+                                if (int.TryParse(subArgs, out plusbet))
                                 {
                                     if (plusbet == 0)
                                     {
@@ -682,7 +723,7 @@ namespace TownOfHostForE
         /// 称号をストックする奴
         /// 飽きがなければストックしない
         /// </summary>
-        public static void SetKeepShogo(string targetFriendCode,string shogo,int targetNum = 0)
+        public static void SetKeepShogo(string targetFriendCode, string shogo, int targetNum = 0)
         {
             if (!BetPoint.ContainsKey(targetFriendCode)) return;
             KeepShogo data = BetPoint[targetFriendCode].KeepShogo;
@@ -720,7 +761,7 @@ namespace TownOfHostForE
         /// <summary>
         /// 対象の称号が空いているか確認するやつ
         /// </summary>
-        public static bool CheckKeepShogo(string targetFriendCode,int targetNum)
+        public static bool CheckKeepShogo(string targetFriendCode, int targetNum)
         {
             if (!BetPoint.ContainsKey(targetFriendCode)) return false;
             KeepShogo data = BetPoint[targetFriendCode].KeepShogo;
@@ -745,7 +786,7 @@ namespace TownOfHostForE
         /// <summary>
         /// 称号を適用する奴
         /// </summary>
-        public static void SetShogoToKeep(string targetFriendCode,int targetNum)
+        public static void SetShogoToKeep(string targetFriendCode, int targetNum)
         {
             if (!BetPoint.ContainsKey(targetFriendCode)) return;
             BetPointData data = BetPoint[targetFriendCode];
@@ -764,7 +805,7 @@ namespace TownOfHostForE
             }
         }
 
-        public static void SendMyShogouList(string targetFriendCode,byte targetId)
+        public static void SendMyShogouList(string targetFriendCode, byte targetId)
         {
             if (!BetPoint.ContainsKey(targetFriendCode))
             {
@@ -790,8 +831,8 @@ namespace TownOfHostForE
         public static string RemoveCrLf(string input)
         {
             var tempinput = input;
-            tempinput.Replace("\r", string.Empty);
-            tempinput.Replace("\n", string.Empty);
+            tempinput.Replace("\r", "");
+            tempinput.Replace("\n", "");
 
             return tempinput;
         }
@@ -805,7 +846,7 @@ namespace TownOfHostForE
                     return pc?.Data?.PlayerName;
                 }
             }
-            Logger.Warn("そんな名前の奴などいない。：" + FriendCode,"BETWIN");
+            Logger.Warn("そんな名前の奴などいない。：" + FriendCode, "BETWIN");
             return "豆腐国の王：鏑木・ﾃﾞｨﾎﾞｳｽｷｨ";
         }
 
@@ -1014,9 +1055,6 @@ namespace TownOfHostForE
                         SetPointFlag = true;
                         //WriteCSVPlayerData();
                     }
-
-
-
                 }
                 else //誰も投票してない時
                 {
@@ -1027,7 +1065,7 @@ namespace TownOfHostForE
             }
             catch (Exception ex)
             {
-                Logger.Info("不明なエラーが発生しました。" + ex.Message + "/ST:" + ex.StackTrace,"BETWIN");
+                Logger.Info("不明なエラーが発生しました。" + ex.Message + "/ST:" + ex.StackTrace, "BETWIN");
                 return "集計に異常が発生したので見せられないよ！";
             }
         }
@@ -1038,7 +1076,7 @@ namespace TownOfHostForE
             return input.Trim();
         }
 
-        public static List<string> GetManyBetTeam(Dictionary<string,int> betData)
+        public static List<string> GetManyBetTeam(Dictionary<string, int> betData)
         {
             try
             {
@@ -1064,7 +1102,7 @@ namespace TownOfHostForE
                 }
                 return ManyBetTeamName;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Info("最多投票数取得で例外発生" + ex.Message + "/ST:" + ex.StackTrace, "BETWIN");
                 return null;
@@ -1135,18 +1173,18 @@ namespace TownOfHostForE
         private static void SetPoint(string WinnerTeam, List<string> ManyBetTeamNames)
         {
             //ポイント付与ループ
-            foreach(var SetPlayer in BetTeamName)
+            foreach (var SetPlayer in BetTeamName)
             {
-                Logger.Info("確認:" + SetPlayer.Key,"BETWIN");
+                Logger.Info("確認:" + SetPlayer.Key, "BETWIN");
                 string PlayerValueBefore = IsStringContained(SetPlayer.Value);
 
                 //予想陣営と勝利が一致してない人は対象外
                 if (PlayerValueBefore != WinnerTeam) continue;
-                
+
                 Logger.Info("一致:" + SetPlayer.Key, "BETWIN");
                 int PlusValue = 1;
                 bool PlusFlag = true;
-                foreach(var ManyBetTeamName in ManyBetTeamNames)
+                foreach (var ManyBetTeamName in ManyBetTeamNames)
                 {
                     //一つでも一致したら3点にはならない。
                     if (PlayerValueBefore == ManyBetTeamName)
@@ -1168,6 +1206,9 @@ namespace TownOfHostForE
                     PlusBetPoint.Remove(SetPlayer.Key);
                 }
 
+                //上限を超えていたら上限で調整する
+                //if (PlusValue > maxData) PlusValue = maxData;
+
                 Logger.Info("ポイント追加:" + SetPlayer.Key, "BETWIN");
                 if (BetPoint.ContainsKey(SetPlayer.Key))
                 {
@@ -1182,7 +1223,7 @@ namespace TownOfHostForE
                     TmpData.PlayerFriendCode = SetPlayer.Key;
                     BetPoint.TryAdd(SetPlayer.Key, TmpData);
                 }
-                Logger.Info(SetPlayer.Key + "に" + PlusValue +"ポイントを付与しました。","BETWIN");
+                Logger.Info(SetPlayer.Key + "に" + PlusValue + "ポイントを付与しました。", "BETWIN");
                 //Utils.SendMessage("予想したチームが勝利したためポイントが付与されました！\r\nおめでとう！！", getFirendCodeToId(SetPlayer.Key), "");
             }
 
@@ -1201,9 +1242,9 @@ namespace TownOfHostForE
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Logger.Info("ポイントはく奪で例外が発生。" + e.Message + "/ST:" + e.StackTrace , "BETWIN");
+                Logger.Info("ポイントはく奪で例外が発生。" + e.Message + "/ST:" + e.StackTrace, "BETWIN");
             }
         }
         public static byte getFirendCodeToId(string FriendCode)
@@ -1258,7 +1299,7 @@ namespace TownOfHostForE
             }
             catch (Exception ex)
             {
-                Logger.Info("CSV書き込み異常：" + ex.Message + ":" + ex.StackTrace,"WRITECSV");
+                Logger.Info("CSV書き込み異常：" + ex.Message + ":" + ex.StackTrace, "WRITECSV");
             }
         }
 
@@ -1267,7 +1308,7 @@ namespace TownOfHostForE
             try
             {
                 Logger.Msg("ポイントデータ読み取り開始", "BETREAD");
-                using (StreamReader reader = new (BET_SETTING__PATH))
+                using (StreamReader reader = new(BET_SETTING__PATH))
                 {
                     string line;
                     while ((line = reader.ReadLine()) != null)
@@ -1327,7 +1368,7 @@ namespace TownOfHostForE
             }
             catch (Exception e)
             {
-                Logger.Msg("ポイントデータ読み取り例外：" + e.Message,"BETREAD");
+                Logger.Msg("ポイントデータ読み取り例外：" + e.Message, "BETREAD");
             }
         }
 
@@ -1337,7 +1378,7 @@ namespace TownOfHostForE
             {
                 //if (!AmongUsClient.Instance.AmHost) return;
                 Logger.Msg("ショップデータ読み取り開始", "BETREAD");
-                using (StreamReader reader = new (SHOP_SETTING__PATH))
+                using (StreamReader reader = new(SHOP_SETTING__PATH))
                 {
                     string line;
                     while ((line = reader.ReadLine()) != null)
@@ -1366,7 +1407,7 @@ namespace TownOfHostForE
             }
             catch (Exception e)
             {
-                Logger.Msg("ショップデータ読み取り例外：" + e.Message,"BETREAD");
+                Logger.Msg("ショップデータ読み取り例外：" + e.Message, "BETREAD");
             }
         }
 
@@ -1378,7 +1419,7 @@ namespace TownOfHostForE
 
         public static bool setSubNameFlag(string friendCode)
         {
-            if(!BetWinTeamMode.GetBool()) return false;
+            if (!BetWinTeamMode.GetBool()) return false;
             if (!BetPoint.ContainsKey(friendCode)) return false;
             if (BetPoint[friendCode].Syougo == null) return false;
             return true;
@@ -1426,7 +1467,7 @@ namespace TownOfHostForE
             Color color = new Color();
             if (ColorUtility.TryParseHtmlString(colorCode, out color))// outキーワードで参照渡しにする
             {
-                createShogo = Utils.ColorString(color,createShogo);
+                createShogo = Utils.ColorString(color, createShogo);
             }
 
             return createShogo;

@@ -87,6 +87,9 @@ namespace TownOfHostForE
             BanManager.CheckBanPlayer(client);
             BanManager.CheckDenyNamePlayer(client);
             RPC.RpcVersionCheck();
+            Logger.Info($"ID:{client.Id}","debug");
+            //BetWinTeams.JoinLobbySyougo();
+            //Utils.JoinLobbyModInfo();
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]

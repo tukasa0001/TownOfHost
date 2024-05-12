@@ -52,8 +52,8 @@ namespace TownOfHostForE
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.AsumuAkaguma.townofhostfore";
-        public const string PluginVersion = "516.3.3";
-        public const string PleviewPluginVersion = "BOMB!-γ";
+        public const string PluginVersion = "516.4.0";
+        public const string PleviewPluginVersion = "Commemorative";
         // サポートされている最低のAmongUsバージョン
         public static readonly string LowestSupportedVersion = "2024.03.05";
         // このバージョンのみで公開ルームを無効にする場合
@@ -143,6 +143,7 @@ namespace TownOfHostForE
 
         public static int tempImpostorNum = 0;
         public static ConfigEntry<bool> EnableCustomSoundEffect { get; private set; }
+        public static ConfigEntry<bool> EnableCustomBGMEffect { get; private set; }
         public override void Load()
         {
             Instance = this;
@@ -186,6 +187,8 @@ namespace TownOfHostForE
             LastShapeshifterCooldown = Config.Bind("Other", "LastShapeshifterCooldown", (float)30);
 
             EnableCustomSoundEffect = Config.Bind("Client Options", "EnableCustomSoundEffect", true);
+
+            EnableCustomBGMEffect = Config.Bind("Client Options", "EnableCustomBGMEffect", true);
 
             PluginModuleInitializerAttribute.InitializeAll();
 

@@ -193,8 +193,9 @@ public sealed class SchrodingerCat : RoleBase, IAdditionalWinner, IDeathReasonSe
             candidates.Add(TeamType.Jackal);
         }
         if (CustomRoles.Coyote.IsPresent() ||
-            CustomRoles.Braki.IsPresent()  ||
-            CustomRoles.Nyaoha.IsPresent()  ||
+            CustomRoles.Braki.IsPresent() ||
+            CustomRoles.Nyaoha.IsPresent() ||
+            CustomRoles.Kraken.IsPresent() ||
             CustomRoles.Leopard.IsPresent())
         {
             candidates.Add(TeamType.Animals);

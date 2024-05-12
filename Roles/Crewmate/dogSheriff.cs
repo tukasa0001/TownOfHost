@@ -161,14 +161,14 @@ public sealed class DogSheriff : RoleBase, ISchrodingerCatOwner
 
         ShotLimit = ShotLimitOpt.GetInt();
         NowState = nowState.ready;
-        nowString = "\nWait";
+        nowString = "Wait";
         Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit}発", "Sheriff");
     }
 
     public override void AfterMeetingTasks()
     {
         NowState = nowState.ready;
-        nowString = "\nWait";
+        nowString = "Wait";
         Utils.NotifyRoles(Player);
     }
     private void SendRPC()
@@ -238,12 +238,22 @@ public sealed class DogSheriff : RoleBase, ISchrodingerCatOwner
         target.RpcMurderPlayer(target);
         Utils.MarkEveryoneDirtySettings();
         SendRPC();
-        nowString = ShotLimit <= 0 ? "" : "\nWait";
+        nowString = ShotLimit <= 0 ? "" : "Wait";
         NowState = nowState.ready;
         Utils.NotifyRoles();
     }
 
-    public override string GetProgressText(bool comms = false) => Utils.ColorString(CanUseKillButton() ? Color.yellow : Color.gray, $"({ShotLimit})") + $"{nowString}";
+    public override string GetProgressText(bool comms = false) => Utils.ColorString(CanUseKillButton() ? Color.yellow : Color.gray, $"({ShotLimit})");
+
+    public override string GetSuffix(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false)
+    {
+        if (isForMeeting) return "";
+        seen ??= seer;
+        if (seer != seen) return "";
+
+        return nowString;
+    }
+
     public static bool CanBeKilledBy(PlayerControl player)
     {
         if (player.GetRoleClass() is SchrodingerCat schrodingerCat)
@@ -283,7 +293,7 @@ public sealed class DogSheriff : RoleBase, ISchrodingerCatOwner
         if (UpdateTime == CurrentKillCooldown)
         {
             NowState = nowState.GO;
-            nowString = "\nGO!";
+            nowString = "GO!";
             Utils.NotifyRoles();
         }
     }

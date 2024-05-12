@@ -56,6 +56,7 @@ static class SuperBakuretsuBros
     public static void SetupCustomOption()
     {
         MaxBomb = IntegerOptionItem.Create(Id + 1000, "SBPMaxBomb", new(1, 3, 1), 1, TabGroup.MainSettings, false)
+            .SetHeader(true)
             .SetValueFormat(OptionFormat.Pieces)
             .SetGameMode(CustomGameMode.SuperBombParty);
         BombRadius = FloatOptionItem.Create(Id + 1001, "SuicideBomberRadius", new(1, 3, 1), 1, TabGroup.MainSettings, false)

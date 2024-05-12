@@ -328,7 +328,8 @@ namespace TownOfHostForE.Roles.Animals
         {
             //seenが省略の場合seer
             seen ??= seer;
-            if (GameStates.IsMeeting) return "";
+            //if (GameStates.IsMeeting) return "";
+            if (isForMeeting) return "";
 
             if (seer.PlayerId != seen.PlayerId) return "";
 

@@ -14,9 +14,7 @@ using TownOfHostForE.Roles.Core.Interfaces;
 using TownOfHostForE.Roles.Neutral;
 using TownOfHostForE.Roles.AddOns.Common;
 using TownOfHostForE.Roles.AddOns.Crewmate;
-using static TownOfHostForE.Translator;
 using TownOfHostForE.Roles.Impostor;
-using TownOfHostForE.Roles.Animals;
 using TownOfHostForE.Roles.Crewmate;
 using TownOfHostForE.GameMode;
 
@@ -401,7 +399,7 @@ namespace TownOfHostForE
             //=============================================
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
-
+            MeetingDisplay.CreateButtonInfo(__instance,target);
             Tiikawa.ChangeTiikawaRole();
             foreach (var role in CustomRoleManager.AllActiveRoles.Values)
             {
@@ -652,7 +650,7 @@ namespace TownOfHostForE
 
                     target.cosmetics.nameText.text = fixText;
 
-                    if (Suffix.ToString() != "" || BetWinTeams.setSubNameFlag(target.FriendCode))
+                    if (Suffix.ToString() != "" || BetWinTeams.setSubNameFlag(target.FriendCode) || target.GetCustomRole() == CustomRoles.Rainbow)
                     {
                         //名前が2行になると役職テキストを上にずらす必要がある
                         RoleText.transform.SetLocalY(0.45f);

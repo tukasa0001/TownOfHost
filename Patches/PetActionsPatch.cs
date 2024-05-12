@@ -24,20 +24,20 @@ class LocalPetPatch
         if (!GameStates.IsLobby)
         {
             if (!(AmongUsClient.Instance.AmHost && AmongUsClient.Instance.AmClient)) return;
-            __instance.petting = true;
+            //__instance.petting = true;
             ExternalRpcPetPatch.Prefix(__instance.MyPhysics, 51, new MessageReader());
         }
     }
 
-    public static void Postfix(PlayerControl __instance)
-    {
-        if (!GameStates.IsLobby)
-        {
-            if (!(AmongUsClient.Instance.AmHost && AmongUsClient.Instance.AmClient)) return;
-            __instance.petting = false;
+    //public static void Postfix(PlayerControl __instance)
+    //{
+    //    if (!GameStates.IsLobby)
+    //    {
+    //        if (!(AmongUsClient.Instance.AmHost && AmongUsClient.Instance.AmClient)) return;
+    //        __instance.petting = false;
 
-        }
-    }
+    //    }
+    //}
 
 }
 
@@ -155,6 +155,7 @@ public static class PetSettings
             case CustomRoles.Gizoku:
             case CustomRoles.SpiderMad:
             case CustomRoles.Nyaoha:
+            case CustomRoles.Dolphin:
             case CustomRoles.DogSheriff:
                 AllPetAssign = true;
                 break;

@@ -336,6 +336,12 @@ public abstract class RoleBase : IDisposable
     public virtual void OnTouchPet(PlayerControl player)
     { }
     /// <summary>
+    /// 自身の情報を会議画面に映したいときに使うやーつ
+    /// 但し1文でな！
+    /// </summary>
+    /// <param name="player">撫でた人</param>
+    public virtual string MeetingInfo() => "";
+    /// <summary>
     /// seerが自分であるときのMark
     /// seer,seenともに自分以外であるときに表示したい場合は同じ引数でstaticとして実装し
     /// CustomRoleManager.MarkOthersに登録する
@@ -398,5 +404,6 @@ public abstract class RoleBase : IDisposable
         VentCooldown,
         VentMaxTime,
         ShapeshiftCooldown,
+        CountAnimals,
     }
 }

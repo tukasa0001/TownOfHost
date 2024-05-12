@@ -121,6 +121,8 @@ namespace TownOfHostForE
                     if (option.Tab != (TabGroup)tab) continue;
                     if (option.OptionBehaviour == null)
                     {
+                        float offset = option.IsFixValue || option.IsText ? 100f : 0f;
+                        float textOffset = option.IsText ? 100f : 0f;
                         var stringOption = Object.Instantiate(template, tohMenu.transform);
                         scOptions.Add(stringOption);
                         stringOption.OnValueChanged = new System.Action<OptionBehaviour>((o) => { });
@@ -133,7 +135,8 @@ namespace TownOfHostForE
                         stringOption.transform.FindChild("Minus_TMP").localPosition += new Vector3(1.0f, 0f, 0f);
                         stringOption.transform.FindChild("Value_TMP").localPosition += new Vector3(1.2f, 0f, 0f);
                         stringOption.transform.FindChild("Value_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(1.6f, 0.26f);
-                        stringOption.transform.FindChild("Title_TMP").localPosition += new Vector3(0.1f, 0f, 0f);
+                        //stringOption.transform.FindChild("Title_TMP").localPosition += new Vector3(0.1f, 0f, 0f);
+                        stringOption.transform.FindChild("Title_TMP").localPosition += new Vector3(option.IsText ? 0.25f : 0.1f, option.IsText ? -0.1f : 0f, 0f);
                         stringOption.transform.FindChild("Title_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(5.5f, 0.37f);
 
                         option.OptionBehaviour = stringOption;
@@ -256,6 +259,12 @@ namespace TownOfHostForE
                                 option.OptionBehaviour.transform.FindChild("Title_TMP").GetComponent<RectTransform>().sizeDelta = new Vector2(4.7f, 0.28f);
                             }
                         }
+                    }
+
+                    if (option.IsText)
+                    {
+                        opt.color = new(0, 0, 0);
+                        opt.transform.localPosition = new(100f, 100f, 100f);
                     }
 
                     option.OptionBehaviour.gameObject.SetActive(enabled);

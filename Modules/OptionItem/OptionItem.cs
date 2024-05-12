@@ -32,6 +32,8 @@ namespace TownOfHostForE
         public CustomGameMode GameMode { get; protected set; }
         public bool IsHeader { get; protected set; }
         public bool IsHidden { get; protected set; }
+        public bool IsFixValue { get; protected set; }
+        public bool IsText { get; protected set; }
         public Dictionary<string, string> ReplacementDictionary
         {
             get => _replacementDictionary;
@@ -77,9 +79,11 @@ namespace TownOfHostForE
             // 任意情報の初期値設定
             NameColor = Color.white;
             ValueFormat = OptionFormat.None;
-            GameMode = CustomGameMode.All;
+            GameMode = CustomGameMode.Standard;
             IsHeader = false;
             IsHidden = false;
+            IsFixValue = false;
+            IsText = false;
 
             // オブジェクト初期化
             Children = new();
@@ -127,6 +131,8 @@ namespace TownOfHostForE
         public OptionItem SetGameMode(CustomGameMode value) => Do(i => i.GameMode = value);
         public OptionItem SetHeader(bool value) => Do(i => i.IsHeader = value);
         public OptionItem SetHidden(bool value) => Do(i => i.IsHidden = value);
+        public OptionItem SetFixValue(bool value) => Do(i => i.IsFixValue = value);
+        public OptionItem SetText(bool value) => Do(i => i.IsText = value);
 
         public OptionItem SetParent(OptionItem parent) => Do(i =>
         {

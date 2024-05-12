@@ -1,7 +1,7 @@
 using AmongUs.GameOptions;
 using Hazel;
 using System.Linq;
-
+using TownOfHostForE.Roles.Animals;
 using TownOfHostForE.Roles.Core;
 using TownOfHostForE.Roles.Core.Interfaces;
 using UnityEngine;
@@ -21,11 +21,11 @@ public sealed class Tuna : RoleBase, IAdditionalWinner
             player => new Tuna(player),
             CustomRoles.Tuna,
             () => setRoleType(),
-            CustomRoleTypes.Neutral,
+            setCustomRoleType(),
             23400,
             SetupOptionItem,
             "マグロ",
-            "#00bfff"
+            TunaTypeAnimals ? "#FF8C00" : "#00bfff"
         );
     public Tuna(PlayerControl player)
     : base(
@@ -33,6 +33,7 @@ public sealed class Tuna : RoleBase, IAdditionalWinner
         player
     )
     {
+        TunaTypeAnimals = OptionAddAnimals.GetBool();
         waitTime = OptionWaitTime.GetFloat();
         additionalWin = OptionAdditionalWinner.GetBool();
         isFirst = false;
@@ -47,6 +48,9 @@ public sealed class Tuna : RoleBase, IAdditionalWinner
     private static OptionItem OptionWaitTime;
     private static OptionItem OptionAdditionalWinner;
     private static OptionItem OptionUseVent;
+    public static OptionItem OptionAddAnimals;
+
+    public static bool TunaTypeAnimals = false;
 
     private float waitTime = 0f;
     private bool additionalWin = false;
@@ -68,12 +72,24 @@ public sealed class Tuna : RoleBase, IAdditionalWinner
             return RoleTypes.Crewmate;
         }
     }
+    private static CustomRoleTypes setCustomRoleType()
+    {
+        if (TunaTypeAnimals)
+        {
+            return CustomRoleTypes.Animals;
+        }
+        else
+        {
+            return CustomRoleTypes.Neutral;
+        }
+    }
     private static void SetupOptionItem()
     {
         OptionWaitTime = FloatOptionItem.Create(RoleInfo, 10, OptionName.TunaWaitTime, new(0f, 30f, 1f), 3f, false)
             .SetValueFormat(OptionFormat.Seconds);
         OptionAdditionalWinner = BooleanOptionItem.Create(RoleInfo, 11, OptionName.additionalWinner, false, false);
         OptionUseVent = BooleanOptionItem.Create(RoleInfo, 12, GeneralOption.CanVent, false, false);
+        OptionAddAnimals = BooleanOptionItem.Create(RoleInfo, 13, GeneralOption.CountAnimals, false, false);
     }
     public bool CheckWin(ref CustomRoles winnerRole)
     {
@@ -86,6 +102,14 @@ public sealed class Tuna : RoleBase, IAdditionalWinner
     }
     public static void CheckAliveWin(PlayerControl pc)
     {
+        //アニマルズ判定ならアニマルズ勝利
+        if (TunaTypeAnimals)
+        {
+            Vulture.AnimalsBomb(CustomDeathReason.Bombed);
+            Vulture.AnimalsWin();
+            return;
+        }
+
         //追加勝利ならそっちで処理
         if (OptionAdditionalWinner.GetBool()) return;
 
@@ -124,7 +148,6 @@ public sealed class Tuna : RoleBase, IAdditionalWinner
                 PlayerState.GetByPlayerId(Player.PlayerId).DeathReason = CustomDeathReason.fishing;
                 Player.RpcMurderPlayer(Player);
             }
-
         }
         else
         {

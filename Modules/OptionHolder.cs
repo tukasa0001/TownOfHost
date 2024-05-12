@@ -15,6 +15,7 @@ using TownOfHostForE.Roles.AddOns.NotCrew;
 using TownOfHostForE.GameMode;
 using static TownOfHostForE.GameMode.WordLimit;
 using static TownOfHostForE.Roles.Crewmate.Tiikawa;
+using static Il2CppSystem.Uri;
 
 namespace TownOfHostForE
 {
@@ -426,16 +427,32 @@ namespace TownOfHostForE
 
             // プリセット
             _ = PresetOptionItem.Create(0, TabGroup.MainSettings)
-                .SetColor(new Color32(204, 204, 0, 255))
-                .SetHeader(true);
+                .SetColor(Utils.GetCodeOfColor(Main.ModColor))
+                .SetHeader(true)
+                .SetGameMode(CustomGameMode.All);
 
+            #region ゲームモード
+            //TextOptionItem.Create(10_0000, "Head.GameMode", TabGroup.MainSettings).SetColor(Color.yellow).SetGameMode(CustomGameMode.All);
             // ゲームモード
             GameMode = StringOptionItem.Create(1, "GameMode", gameModes, 0, TabGroup.MainSettings, false)
-                .SetColor(new Color32(204, 204, 0, 255));
-
+                .SetHeader(true)
+                .SetColor(Color.yellow)
+                .SetGameMode(CustomGameMode.All);
+            // 通常モードでかくれんぼ用
+            StandardHAS = BooleanOptionItem.Create(100600, "StandardHAS", false, TabGroup.MainSettings, false)
+                //上記載時にheader消去
+                .SetColor(Color.yellow)
+                .SetGameMode(CustomGameMode.Standard);
+            StandardHASWaitingTime = FloatOptionItem.Create(100601, "StandardHASWaitingTime", new(0f, 180f, 2.5f), 10f, TabGroup.MainSettings, false).SetParent(StandardHAS)
+                .SetValueFormat(OptionFormat.Seconds)
+                .SetGameMode(CustomGameMode.Standard);
             //言葉制限モード
             WordLimitOptions = StringOptionItem.Create(25_001_001, "WordLimit", wordLimitMode, 0, TabGroup.MainSettings, true)
+                .SetColor(Color.yellow)
                 .SetGameMode(CustomGameMode.Standard);
+            RoleAssignManager.SetupOptionItem();
+            BetWinTeams.SetupCustomOption();
+            #endregion
 
             #region 役職・詳細設定
             CustomRoleCounts = new();
@@ -447,27 +464,22 @@ namespace TownOfHostForE
                 .SetColor(new Color32(255, 91, 112, 255))
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.Standard);
-
-            RoleAssignManager.SetupOptionItem();
             // Impostor
 
             SetupRoleOptions(CustomRoleManager.AllRolesInfo[CustomRoles.Impostor]);
             SetupRoleOptions(CustomRoleManager.AllRolesInfo[CustomRoles.Shapeshifter]);
             sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Impostor).Do(info =>
             {
-                if (info.RoleName != CustomRoles.EvilBalancer)
+                switch (info.RoleName)
                 {
-                    switch (info.RoleName)
-                    {
-                        case CustomRoles.Telepathisters:
-                            SetupTelepathistersOptions(info.ConfigId, info.Tab, info.RoleName);
-                            break;
-                        default:
-                            SetupRoleOptions(info);
-                            break;
-                    }
-                    info.OptionCreator?.Invoke();
+                    case CustomRoles.Telepathisters:
+                        SetupTelepathistersOptions(info.ConfigId, info.Tab, info.RoleName);
+                        break;
+                    default:
+                        SetupRoleOptions(info);
+                        break;
                 }
+                info.OptionCreator?.Invoke();
             });
 
 
@@ -514,8 +526,7 @@ namespace TownOfHostForE
             {
                 //ｸﾞｯﾊﾞｲちいかわ！
                 if (info.RoleName != CustomRoles.Tiikawa &&
-                    info.RoleName != CustomRoles.Metaton &&
-                    info.RoleName != CustomRoles.Balancer)
+                    info.RoleName != CustomRoles.Metaton )
                 {
                     switch (info.RoleName)
                     {
@@ -572,12 +583,9 @@ namespace TownOfHostForE
 
             sortedRoleInfo.Where(role => role.CustomRoleType == CustomRoleTypes.Animals).Do(info =>
             {
-                if (info.RoleName != CustomRoles.Chicken)
-                {
-                    //アニマルズはそれぞれ一人固定
-                    SetupSingleRoleOptions(info.ConfigId, info.Tab, info.RoleName, 1);
-                    info.OptionCreator?.Invoke();
-                }
+                //アニマルズはそれぞれ一人固定
+                SetupSingleRoleOptions(info.ConfigId, info.Tab, info.RoleName, 1);
+                info.OptionCreator?.Invoke();
             });
 
             // Add-Ons
@@ -609,6 +617,7 @@ namespace TownOfHostForE
             Gambler.SetupCustomOption();
             #endregion
 
+            #region ゲームモード固有設定
             HideGameSettings = BooleanOptionItem.Create(1_000_000, "HideGameSettings", false, TabGroup.MainSettings, false)
                 .SetColor(Color.gray)
                 .SetHeader(true)
@@ -639,16 +648,19 @@ namespace TownOfHostForE
             /********************************************************************************/
             SuperBakuretsuBros.SetupCustomOption();
             /********************************************************************************/
+            #endregion
 
+            #region マップ設定
+            //TextOptionItem.Create(10_0001, "Head.Map", TabGroup.MainSettings).SetColor(Color.yellow).SetGameMode(CustomGameMode.All);
             // ランダムスポーン
             EnableRandomSpawn = BooleanOptionItem.Create(100010, "RandomSpawn", false, TabGroup.MainSettings, false)
-                .SetColor(Color.yellow)
+                .SetColor(Palette.Orange)
                 .SetHeader(true);
             RandomSpawn.SetupCustomOption();
 
             //デバイス無効化
             DisableDevices = BooleanOptionItem.Create(100100, "DisableDevices", false, TabGroup.MainSettings, false)
-                .SetColor(Color.yellow)
+                .SetColor(Palette.Orange)
                 .SetGameMode(CustomGameMode.Standard);
             DisableSkeldDevices = BooleanOptionItem.Create(100110, "DisableSkeldDevices", false, TabGroup.MainSettings, false).SetParent(DisableDevices)
                 .SetColor(Color.gray);
@@ -682,6 +694,41 @@ namespace TownOfHostForE
             DisableDevicesIgnoreCrewmates = BooleanOptionItem.Create(100195, "IgnoreCrewmates", false, TabGroup.MainSettings, false).SetParent(DisableDevicesIgnoreConditions);
             DisableDevicesIgnoreAfterAnyoneDied = BooleanOptionItem.Create(100196, "IgnoreAfterAnyoneDied", false, TabGroup.MainSettings, false).SetParent(DisableDevicesIgnoreConditions);
 
+            // ランダムマップ
+            RandomMapsMode = BooleanOptionItem.Create(100500, "RandomMapsMode", false, TabGroup.MainSettings, false)
+                .SetColor(Palette.Orange);
+            AddedTheSkeld = BooleanOptionItem.Create(100501, "AddedTheSkeld", false, TabGroup.MainSettings, false).SetParent(RandomMapsMode);
+            AddedMiraHQ = BooleanOptionItem.Create(100502, "AddedMIRAHQ", false, TabGroup.MainSettings, false).SetParent(RandomMapsMode);
+            AddedPolus = BooleanOptionItem.Create(100503, "AddedPolus", false, TabGroup.MainSettings, false).SetParent(RandomMapsMode);
+            AddedTheAirShip = BooleanOptionItem.Create(100504, "AddedTheAirShip", false, TabGroup.MainSettings, false).SetParent(RandomMapsMode);
+            AddedTheFungle = BooleanOptionItem.Create(100505, "AddedTheFungle", false, TabGroup.MainSettings, false).SetParent(RandomMapsMode);
+            // MapDleks = CustomOption.Create(100505, Color.white, "AddedDleks", false, RandomMapMode);
+
+            // 転落死
+            LadderDeath = BooleanOptionItem.Create(100510, "LadderDeath", false, TabGroup.MainSettings, false)
+                .SetColor(Palette.Orange);
+            LadderDeathChance = StringOptionItem.Create(100511, "LadderDeathChance", rates[1..], 0, TabGroup.MainSettings, false).SetParent(LadderDeath);
+
+            // マップ改造
+            AirShipVariableElectrical = BooleanOptionItem.Create(100520, "AirShipVariableElectrical", false, TabGroup.MainSettings, false)
+                .SetColor(Palette.Orange);
+            DisableAirshipMovingPlatform = BooleanOptionItem.Create(100530, "DisableAirshipMovingPlatform", false, TabGroup.MainSettings, false)
+                .SetColor(Palette.Orange);
+
+            MapModification = BooleanOptionItem.Create(100540, "MapModification", false, TabGroup.MainSettings, false)
+                .SetColor(Palette.Orange);
+
+            ResetDoorsEveryTurns = BooleanOptionItem.Create(100550, "ResetDoorsEveryTurns", false, TabGroup.MainSettings, false).SetParent(MapModification);
+            DoorsResetMode = StringOptionItem.Create(100560, "DoorsResetMode", EnumHelper.GetAllNames<DoorsReset.ResetMode>(), 0, TabGroup.MainSettings, false).SetParent(ResetDoorsEveryTurns);
+            DisableFungleSporeTrigger = BooleanOptionItem.Create(100570, "DisableFungleSporeTrigger", false, TabGroup.MainSettings, false).SetParent(MapModification);
+
+            // 初手キルクール調整
+            FixFirstKillCooldown = BooleanOptionItem.Create(1_001_020, "FixFirstKillCooldown", false, TabGroup.MainSettings, false)
+                .SetColor(Palette.Orange);
+#endregion
+
+            #region サボ設定
+            //TextOptionItem.Create(10_0002, "Head.Sabotage", TabGroup.MainSettings).SetColor(Color.yellow).SetGameMode(CustomGameMode.All);
             // リアクターの時間制御
             SabotageTimeControl = BooleanOptionItem.Create(100200, "SabotageTimeControl", false, TabGroup.MainSettings, false)
                 .SetColor(Color.magenta)
@@ -699,6 +746,7 @@ namespace TownOfHostForE
 
             // サボタージュのクールダウン変更
             ModifySabotageCooldown = BooleanOptionItem.Create(100810, "ModifySabotageCooldown", false, TabGroup.MainSettings, false)
+                .SetColor(Color.magenta)
                 .SetGameMode(CustomGameMode.Standard);
             SabotageCooldown = FloatOptionItem.Create(100811, "SabotageCooldown", new(1f, 60f, 1f), 30f, TabGroup.MainSettings, false).SetParent(ModifySabotageCooldown)
                 .SetValueFormat(OptionFormat.Seconds)
@@ -718,7 +766,10 @@ namespace TownOfHostForE
             //コミュサボカモフラージュ
             CommsCamouflage = BooleanOptionItem.Create(100220, "CommsCamouflage", false, TabGroup.MainSettings, false)
                 .SetColor(Color.magenta);
+#endregion
 
+            #region 会議設定
+            //TextOptionItem.Create(10_0003, "Head.Meeting", TabGroup.MainSettings).SetColor(Color.yellow).SetGameMode(CustomGameMode.All);
             // 会議収集理由表示
             ShowReportReason = BooleanOptionItem.Create(100300, "ShowReportReason", false, TabGroup.MainSettings, false)
                 .SetHeader(true)
@@ -739,6 +790,9 @@ namespace TownOfHostForE
                 .SetColor(Color.cyan);
             SyncedButtonCount = IntegerOptionItem.Create(100331, "SyncedButtonCount", new(0, 100, 1), 10, TabGroup.MainSettings, false).SetParent(SyncButtonMode)
                 .SetValueFormat(OptionFormat.Times);
+
+            //インポスターチャット
+            ImposterChat.SetupCustomOption();
 
             // 投票モード
             VoteMode = BooleanOptionItem.Create(100340, "VoteMode", false, TabGroup.MainSettings, false)
@@ -788,7 +842,10 @@ namespace TownOfHostForE
             DisableTaskWin = BooleanOptionItem.Create(1_001_000, "DisableTaskWin", false, TabGroup.MainSettings, false)
                 .SetColor(Color.green)
                 .SetGameMode(CustomGameMode.Standard);
+#endregion
 
+            #region 幽霊設定
+            //TextOptionItem.Create(10_0004, "Head.Ghost", TabGroup.MainSettings).SetColor(Color.yellow).SetGameMode(CustomGameMode.All);
             // 幽霊
             GhostIgnoreTasks = BooleanOptionItem.Create(1_001_010, "GhostIgnoreTasks", false, TabGroup.MainSettings, false)
                 .SetColor(Palette.LightBlue)
@@ -803,51 +860,10 @@ namespace TownOfHostForE
             GhostCanSeeDeathReason = BooleanOptionItem.Create(1_001_014, "GhostCanSeeDeathReason", false, TabGroup.MainSettings, false)
                 .SetColor(Palette.LightBlue)
                 .SetGameMode(CustomGameMode.Standard);
+#endregion
 
-            // ランダムマップ
-            RandomMapsMode = BooleanOptionItem.Create(100500, "RandomMapsMode", false, TabGroup.MainSettings, false)
-                .SetHeader(true)
-                .SetColor(Palette.Orange);
-            AddedTheSkeld = BooleanOptionItem.Create(100501, "AddedTheSkeld", false, TabGroup.MainSettings, false).SetParent(RandomMapsMode);
-            AddedMiraHQ = BooleanOptionItem.Create(100502, "AddedMIRAHQ", false, TabGroup.MainSettings, false).SetParent(RandomMapsMode);
-            AddedPolus = BooleanOptionItem.Create(100503, "AddedPolus", false, TabGroup.MainSettings, false).SetParent(RandomMapsMode);
-            AddedTheAirShip = BooleanOptionItem.Create(100504, "AddedTheAirShip", false, TabGroup.MainSettings, false).SetParent(RandomMapsMode);
-            AddedTheFungle = BooleanOptionItem.Create(100505, "AddedTheFungle", false, TabGroup.MainSettings, false).SetParent(RandomMapsMode);
-            // MapDleks = CustomOption.Create(100505, Color.white, "AddedDleks", false, RandomMapMode);
-
-            // 転落死
-            LadderDeath = BooleanOptionItem.Create(100510, "LadderDeath", false, TabGroup.MainSettings, false)
-                .SetColor(Palette.Orange);
-            LadderDeathChance = StringOptionItem.Create(100511, "LadderDeathChance", rates[1..], 0, TabGroup.MainSettings, false).SetParent(LadderDeath);
-
-            // マップ改造
-            AirShipVariableElectrical = BooleanOptionItem.Create(100520, "AirShipVariableElectrical", false, TabGroup.MainSettings, false)
-                .SetColor(Palette.Orange);
-            DisableAirshipMovingPlatform = BooleanOptionItem.Create(100530, "DisableAirshipMovingPlatform", false, TabGroup.MainSettings, false)
-                .SetColor(Palette.Orange);
-
-            MapModification = BooleanOptionItem.Create(100540, "MapModification", false, TabGroup.MainSettings, false)
-                .SetHeader(true);
-            ResetDoorsEveryTurns = BooleanOptionItem.Create(100550, "ResetDoorsEveryTurns", false, TabGroup.MainSettings, false).SetParent(MapModification);
-            DoorsResetMode = StringOptionItem.Create(100560, "DoorsResetMode", EnumHelper.GetAllNames<DoorsReset.ResetMode>(), 0, TabGroup.MainSettings, false).SetParent(ResetDoorsEveryTurns);
-            DisableFungleSporeTrigger = BooleanOptionItem.Create(100570, "DisableFungleSporeTrigger", false, TabGroup.MainSettings, false).SetParent(MapModification);
-
-
-            // 初手キルクール調整
-            FixFirstKillCooldown = BooleanOptionItem.Create(1_001_020, "FixFirstKillCooldown", false, TabGroup.MainSettings, false)
-                .SetColor(Palette.Orange);
-
-
-            // 通常モードでかくれんぼ用
-            StandardHAS = BooleanOptionItem.Create(100600, "StandardHAS", false, TabGroup.MainSettings, false)
-                //上記載時にheader消去
-                .SetHeader(true)
-                .SetColor(Color.yellow)
-                .SetGameMode(CustomGameMode.Standard);
-            StandardHASWaitingTime = FloatOptionItem.Create(100601, "StandardHASWaitingTime", new(0f, 180f, 2.5f), 10f, TabGroup.MainSettings, false).SetParent(StandardHAS)
-                .SetValueFormat(OptionFormat.Seconds)
-                .SetGameMode(CustomGameMode.Standard);
-
+            #region システム
+            //TextOptionItem.Create(10_0005, "Head.System", TabGroup.MainSettings).SetColor(Color.yellow).SetGameMode(CustomGameMode.All);
             // その他
             NoGameEnd = BooleanOptionItem.Create(1_002_000, "NoGameEnd", false, TabGroup.MainSettings, false)
                 .SetHeader(true);
@@ -861,17 +877,22 @@ namespace TownOfHostForE
             RoleAssigningAlgorithm = StringOptionItem.Create(1_002_008, "RoleAssigningAlgorithm", RoleAssigningAlgorithms, 0, TabGroup.MainSettings, true)
                 .RegisterUpdateValueEvent((object obj, OptionItem.UpdateValueEventArgs args) => IRandom.SetInstanceById(args.CurrentValue));
             VoiceReader.SetupCustomOption();
-            BetWinTeams.SetupCustomOption();
             BGMSettings.SetupCustomOption();
-            //ImposterChat.SetupCustomOption();
+            #endregion
 
+            #region 参加設定
+            //TextOptionItem.Create(10_0006, "Head.join", TabGroup.MainSettings).SetColor(Color.yellow).SetGameMode(CustomGameMode.All);
             ApplyDenyNameList = BooleanOptionItem.Create(1_003_000, "ApplyDenyNameList", true, TabGroup.MainSettings, true)
                 .SetHeader(true)
+                .SetColor(Color.gray)
                 .SetGameMode(CustomGameMode.All);
             KickPlayerFriendCodeNotExist = BooleanOptionItem.Create(1_003_001, "KickPlayerFriendCodeNotExist", false, TabGroup.MainSettings, true)
+                .SetColor(Color.gray)
                 .SetGameMode(CustomGameMode.All);
             ApplyBanList = BooleanOptionItem.Create(1_003_002, "ApplyBanList", true, TabGroup.MainSettings, true)
+                .SetColor(Color.gray)
                 .SetGameMode(CustomGameMode.All);
+            #endregion
 
             DebugModeManager.SetupCustomOption();
 

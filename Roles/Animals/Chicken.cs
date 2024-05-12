@@ -60,9 +60,9 @@ namespace TownOfHostForE.Roles.Animals
         private static void SetupOptionItem()
         {
             ChickenVictoryButtonCount = IntegerOptionItem.Create(RoleInfo, 10, OptionName.ChickenVictoryButtonCount, new(1, 30, 1), 3, false)
-                .SetValueFormat(OptionFormat.Votes);
+                .SetValueFormat(OptionFormat.Times);
             ChickenButtonCoolDown = IntegerOptionItem.Create(RoleInfo, 11, OptionName.ChickenButtonCoolDown, new(5, 60, 5), 25, false)
-                .SetValueFormat(OptionFormat.Votes);
+                .SetValueFormat(OptionFormat.Seconds);
         }
 
         public override void ApplyGameOptions(IGameOptions opt)

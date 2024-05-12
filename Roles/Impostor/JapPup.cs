@@ -253,7 +253,7 @@ namespace TownOfHostForE.Roles.Impostor
             //seenが省略の場合seer
             seen ??= seer;
 
-            if (GameStates.IsMeeting) return "";
+            if (isForMeeting) return "";
             //シーアもしくはシーンが死んでいたら処理しない。
             if (!seer.IsAlive() || !seen.IsAlive()) return "";
             //ターゲットが登録されていなかったら抜ける

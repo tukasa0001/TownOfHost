@@ -470,7 +470,8 @@ namespace TownOfHostForE
                 AllPlayers.Remove(player);
                 PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(role);
 
-                var selfRole = player.PlayerId == hostId ? hostBaseRole : BaseRole;
+                var selfRole = player.PlayerId == hostId && BaseRole != RoleTypes.Shapeshifter ? hostBaseRole : BaseRole;
+
                 var othersRole = player.PlayerId == hostId ? RoleTypes.Crewmate : RoleTypes.Scientist;
 
                 //Desync役職視点
@@ -496,7 +497,14 @@ namespace TownOfHostForE
                 }
                 RpcSetRoleReplacer.OverriddenSenderList.Add(senders[player.PlayerId]);
                 //ホスト視点はロール決定
-                player.SetRole(othersRole);
+                if (player.PlayerId == hostId)
+                {
+                    player.SetRole(selfRole);
+                }
+                else
+                {
+                    player.SetRole(othersRole);
+                }
                 player.Data.IsDead = true;
                 realAssigned++;
 

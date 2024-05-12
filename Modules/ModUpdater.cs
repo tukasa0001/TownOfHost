@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -22,6 +21,7 @@ namespace TownOfHostForE
         public static Version latestVersion = null;
         public static string latestTitle = null;
         public static string downloadUrl = null;
+        public static string newFileName = "TOH4E.dll";
         public static GenericPopup InfoPopup;
 
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPostfix, HarmonyPriority(Priority.LowerThanNormal)]
@@ -65,8 +65,10 @@ namespace TownOfHostForE
                 else
                 {
                     latestVersion = new(data["tag_name"]?.ToString().TrimStart('v'));
-                    latestTitle = $"Ver. {latestVersion}";
-                    JArray assets = (JArray)data["assets"].Cast<JArray>();
+                    //latestTitle = $"Ver. {latestVersion}";
+                    latestTitle = $"{data["name"].ToString().Replace("リリース","")}";
+                    JArray assets = data["assets"].Cast<JArray>();
+
                     for (int i = 0; i < assets.Count; i++)
                     {
                         if (assets[i]["name"].ToString() == "TownOfHost_Steam.dll" && Constants.GetPlatformType() == Platforms.StandaloneSteamPC)
@@ -79,8 +81,11 @@ namespace TownOfHostForE
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                             break;
                         }
-                        if (assets[i]["name"].ToString() == "TownOfHost_ForE.dll")
+                        if (assets[i]["name"].ToString().Contains("TownOfHost_ForE") && assets[i]["name"].ToString().Contains(".dll"))
+                        {
+                            newFileName = assets[i]["name"].ToString();
                             downloadUrl = assets[i]["browser_download_url"].ToString();
+                        }
                     }
                     hasUpdate = latestVersion.CompareTo(Main.version) > 0;
                 }
@@ -94,7 +99,7 @@ namespace TownOfHostForE
             }
             catch (Exception ex)
             {
-                //isBroken = true;
+                isBroken = true;
                 Logger.Error($"リリースのチェックに失敗しました。\n{ex}", "CheckRelease", false);
                 return false;
             }
@@ -150,7 +155,7 @@ namespace TownOfHostForE
                 {
                     using var content = response.Content;
                     using var stream = content.ReadAsStream();
-                    using var file = new FileStream("BepInEx/plugins/TownOfHost.dll", FileMode.Create, FileAccess.Write);
+                    using var file = new FileStream($"BepInEx/plugins/{newFileName}", FileMode.Create, FileAccess.Write);
                     stream.CopyTo(file);
                     ShowPopup(GetString("updateRestart"), true);
                     return true;
@@ -180,7 +185,7 @@ namespace TownOfHostForE
                     button.GetComponent<PassiveButton>().OnClick = new();
                     button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() =>
                     {
-                        Application.OpenURL("https://github.com/tukasa0001/TownOfHost/releases/latest");
+                        Application.OpenURL("https://github.com/AsumuAkaguma/TownOfHost_ForE/releases/latest");
                         Application.Quit();
                     }));
                 }

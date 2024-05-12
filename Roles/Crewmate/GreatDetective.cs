@@ -169,7 +169,7 @@ public sealed class GreatDetective : RoleBase
         //seenが省略の場合seer
         seen ??= seer;
 
-        if (GameStates.IsMeeting) return "";
+        if (isForMeeting) return "";
         //シーアもしくはシーンが死んでいたら処理しない。
         if (!seer.IsAlive() || !seen.IsAlive()) return "";
         //有効じゃないなら

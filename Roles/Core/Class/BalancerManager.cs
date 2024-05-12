@@ -1,6 +1,7 @@
 using System;
 using Sentry.Internal.Extensions;
 using TownOfHostForE.Modules;
+using TownOfHostForE.GameMode;
 
 namespace TownOfHostForE.Roles.Core.Class
 {
@@ -30,7 +31,7 @@ namespace TownOfHostForE.Roles.Core.Class
         //キル数の倍数
         protected int killaway = 1;
         //発言者を隠す
-        protected bool hidePlayer;
+        protected static bool hidePlayer;
         //同数の場合天秤を優先する。
         protected bool balancerPri;
 
@@ -82,34 +83,50 @@ namespace TownOfHostForE.Roles.Core.Class
 
             //投票先を無効に。
             numVotes = MeetingVoteManager.NoVote;
-
-            string sendMessage = Utils.ColorString(killerInfo.Color, $"{targetInfo.PlayerName}、自害しろ");
-            Utils.SendMessage(sendMessage, title: killerInfo.PlayerName);
+            if (hidePlayer)
+            {
+                Utils.SendMessage($"{targetInfo.PlayerName}、自害しろ",title:"天秤");
+            }
+            else
+            {
+                SendBalancerMessage($"{targetInfo.PlayerName}、自害しろ", killer, killerInfo.PlayerName);
+            }
 
             //判定
             if (CheckBalancerSkills(voterId, sourceVotedForId, (byte)killaway, balancerPri))
             {
                 new LateTask(() =>
                 {
-                    sendMessage = Utils.ColorString(targetInfo.Color, $"ありえない...!! この私が...");
-                    Utils.SendMessage(sendMessage, title: targetInfo.PlayerName);
+                    SendBalancerMessage("ありえない...!! この私が...", target,targetInfo.PlayerName);
 
-                    killer.MurderPlayer(target);
-                    //その死体は恐らく会議後残るが、面白いので通報できないようにしておく
-                    ReportDeadBodyPatch.CanReportByDeadBody[target.PlayerId] = false;
+                    new LateTask(() =>
+                    {
+                        killer.MurderPlayer(target);
+                        //その死体は恐らく会議後残るが、面白いので通報できないようにしておく
+                        ReportDeadBodyPatch.CanReportByDeadBody[target.PlayerId] = false;
 
+                    }, 0.5f, "Balancer Kill");
                 }, 1f, "Balancer Kill");
             }
             else
             {
                 new LateTask(() =>
                 {
-                    sendMessage = Utils.ColorString(killerInfo.Color, $"＜(´⌯ω⌯`)＞");
-                    Utils.SendMessage(sendMessage, title: killerInfo.PlayerName);
+                    if (hidePlayer)
+                    {
+                        Utils.SendMessage("＜(´⌯ω⌯`)＞", title: "天秤");
+                    }
+                    else
+                    {
+                        SendBalancerMessage($"＜(´⌯ω⌯`)＞", killer, killerInfo.PlayerName);
+                    }
 
-                    killer.MurderPlayer(killer);
-                    //その死体は恐らく会議後残るが、面白いので通報できないようにしておく
-                    ReportDeadBodyPatch.CanReportByDeadBody[killer.PlayerId] = false;
+                    new LateTask(() =>
+                    {
+                        killer.MurderPlayer(killer);
+                        //その死体は恐らく会議後残るが、面白いので通報できないようにしておく
+                        ReportDeadBodyPatch.CanReportByDeadBody[killer.PlayerId] = false;
+                    }, 0.5f, "Balancer Kill");
 
                 }, 1f, "Balancer Kill");
             }
@@ -118,6 +135,17 @@ namespace TownOfHostForE.Roles.Core.Class
 
             return (votedForId, numVotes, doVote);
         }
+
+        private static void SendBalancerMessage(string text, PlayerControl player, string name)
+        {
+            if (Options.GetWordLimitMode() != WordLimit.regulation.None) WordLimit.nowSafeWords.Add(text);
+
+            foreach (var sendTo in Main.AllPlayerControls)
+            {
+                Main.SuffixMessagesToSend.Add((text, sendTo.PlayerId, name, player));
+            }
+        }
+
         private static bool CheckBalancerSkills(byte balncerId, byte targetId, byte killBonus, bool equal)
         {
             var balancer = Utils.GetPlayerById(balncerId);

@@ -25,7 +25,7 @@ public sealed class TaskManager : RoleBase
         player
     )
     {
-        SeeNowtask = OptionSeeNowtask.GetBool();
+        //SeeNowtask = OptionSeeNowtask.GetBool();
     }
 
     private static OptionItem OptionSeeNowtask;
@@ -33,11 +33,11 @@ public sealed class TaskManager : RoleBase
     {
         TaskmanagerSeeNowtask,
     }
-    private static bool SeeNowtask;
+    private static bool SeeNowtask = true;
 
     private static void SetupOptionItem()
     {
-        OptionSeeNowtask = BooleanOptionItem.Create(RoleInfo, 10, OptionName.TaskmanagerSeeNowtask, false, false);
+        //OptionSeeNowtask = BooleanOptionItem.Create(RoleInfo, 10, OptionName.TaskmanagerSeeNowtask, false, false);
     }
 
     public override string GetProgressText(bool comms = false)

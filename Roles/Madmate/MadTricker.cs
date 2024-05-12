@@ -77,6 +77,8 @@ public sealed class MadTricker : RoleBase
             if (pc.inVent) continue;
             //梯子、ぬーんの確認
             if (!CheckLadderorNoonPos(pc.transform.position)) continue;
+            //梯子の確認
+            if (pc.MyPhysics.Animations.IsPlayingAnyLadderAnimation()) continue;
 
             posList.Add(pc.transform.position);
         }
@@ -93,6 +95,8 @@ public sealed class MadTricker : RoleBase
             if (pc.inVent) continue;
             //梯子、ぬーんの確認
             if (!CheckLadderorNoonPos(pc.transform.position)) continue;
+            //梯子の確認
+            if (pc.MyPhysics.Animations.IsPlayingAnyLadderAnimation()) continue;
             pc.RpcSnapToForced(posList[0]);
             posList.RemoveAt(0);
         }
