@@ -22,7 +22,7 @@ namespace TownOfHostForE.Roles.Animals
                 CustomRoleTypes.Animals,
                 25000,
                 SetupOptionItem,
-                "モンキー",
+                "猿",
                 "#FF8C00",
                 countType: CountTypes.Animals
             );

@@ -77,7 +77,7 @@ public sealed class Dolphin : RoleBase
         OptionCanVent = BooleanOptionItem.Create(RoleInfo, 11, GeneralOption.CanVent, true, false);
         OptionHasImpostorVision = BooleanOptionItem.Create(RoleInfo, 12, GeneralOption.ImpostorVision, true, false);
         OptionCooldown = IntegerOptionItem.Create(RoleInfo, 13, GeneralOption.Cooldown, new(5, 30, 1), 10, false)
-                .SetValueFormat(OptionFormat.Times);
+                .SetValueFormat(OptionFormat.Seconds);
         // 100-103を使用
         Tasks = Options.OverrideTasksData.Create(RoleInfo, 14);
         Options.SetUpAddOnOptions(RoleInfo.ConfigId + 20, RoleInfo.RoleName, RoleInfo.Tab);

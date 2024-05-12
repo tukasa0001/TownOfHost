@@ -174,10 +174,10 @@ vBOMBよりラバーズが複数組採用可能になっています。<br>
 | [メアー](https://github.com/tukasa0001/TownOfHost#Mareメアー)                                  										  |  [マッドディクテーター](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#n4bf3323)  | [メイヤー](https://github.com/tukasa0001/TownOfHost#Mayorメイヤー)                                  		 | [ジェスター](https://github.com/tukasa0001/TownOfHost#Jesterジェスター)                             | [ヒョウ](#ヒョウ)																	 |[サングラス](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#f3497d33)					 |
 | [パペッティア](https://github.com/tukasa0001/TownOfHost#Puppeteerパペッティア)                 										  |  [マッドネイチャコール](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#rca696b4)  | [ナイスウォッチャー](https://github.com/tukasa0001/TownOfHost#Watcherウォッチャー)                  		 | [ラバーズ](https://github.com/tukasa0001/TownOfHost#Lovers恋人)                                     | [レッサーパンダ](#レッサーパンダ)													 |[シーイング](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#qd5258ff)					 |
 | [シリアルキラー](https://github.com/tukasa0001/TownOfHost#SerialKillerシリアルキラー)         										  |  [マッドブラックアウター](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#w655a7de)| [サボタージュマスター](https://github.com/tukasa0001/TownOfHost#SabotageMasterサボタージュマスター) 		 | [オポチュニスト](https://github.com/tukasa0001/TownOfHost#Opportunistオポチュニスト)                | [クサネコ](#クサネコ)																 |[オートプシー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#g06da7ee) 			 |
-| [スナイパー](https://github.com/tukasa0001/TownOfHost#Sniperスナイパー)                       										  |  [マッドシェリフ](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#w25d7302)        | [シーア](https://github.com/tukasa0001/TownOfHost#Seerシーア)                                       		 | [テロリスト](https://github.com/tukasa0001/TownOfHost#Terroristテロリスト)                          |																					 |[VIP](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#u300fea1)  								 |
-| [タイムシーフ](https://github.com/tukasa0001/TownOfHost#TimeThiefタイムシーフ)               											  |  [マッドニムロッド](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#w0330508)      | [シェリフ](https://github.com/tukasa0001/TownOfHost#Sheriffシェリフ)                                		 | [シュレディンガーの猫](https://github.com/tukasa0001/TownOfHost#SchrodingerCatシュレディンガーの猫) |																					 |[クラムシー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#q9b16991)					 |
-| [ヴァンパイア](https://github.com/tukasa0001/TownOfHost#Vampireヴァンパイア)                  										  |  [クモマッドメイト](#クモマッドメイト) 																		      | [スニッチ](https://github.com/tukasa0001/TownOfHost#Snitchスニッチ)                                 		 | [アンチコンプリート](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#w9104b1e)|																					 |[リベンジャー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#ifcdc37f)				 |
-| [ウォーロック](https://github.com/tukasa0001/TownOfHost#Warlockウォーロック)                 											  |  [マッドトリッカー](#マッドトリッカー) 																		      | [スピードブースター](https://github.com/tukasa0001/TownOfHost#SpeedBoosterスピードブースター)       		 | [ワーカホリック](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#gc9e692d)    |																					 |[マネジメント](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#bf04ff4c)				 |
+| [スナイパー](https://github.com/tukasa0001/TownOfHost#Sniperスナイパー)                       										  |  [マッドシェリフ](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#w25d7302)        | [シーア](https://github.com/tukasa0001/TownOfHost#Seerシーア)                                       		 | [テロリスト](https://github.com/tukasa0001/TownOfHost#Terroristテロリスト)                          | [チキン](#チキン)																	 |[VIP](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#u300fea1)  								 |
+| [タイムシーフ](https://github.com/tukasa0001/TownOfHost#TimeThiefタイムシーフ)               											  |  [マッドニムロッド](https://wikiwiki.jp/tohy_amongus/%E3%83%9E%E3%83%83%E3%83%89%E5%BD%B9%E8%81%B7#w0330508)      | [シェリフ](https://github.com/tukasa0001/TownOfHost#Sheriffシェリフ)                                		 | [シュレディンガーの猫](https://github.com/tukasa0001/TownOfHost#SchrodingerCatシュレディンガーの猫) | [イルカ](#イルカ)																	 |[クラムシー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#q9b16991)					 |
+| [ヴァンパイア](https://github.com/tukasa0001/TownOfHost#Vampireヴァンパイア)                  										  |  [クモマッドメイト](#クモマッドメイト) 																		      | [スニッチ](https://github.com/tukasa0001/TownOfHost#Snitchスニッチ)                                 		 | [アンチコンプリート](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#w9104b1e)| [猿](#猿)																			 |[リベンジャー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#ifcdc37f)				 |
+| [ウォーロック](https://github.com/tukasa0001/TownOfHost#Warlockウォーロック)                 											  |  [マッドトリッカー](#マッドトリッカー) 																		      | [スピードブースター](https://github.com/tukasa0001/TownOfHost#SpeedBoosterスピードブースター)       		 | [ワーカホリック](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#gc9e692d)    | [クラーケン](#クラーケン)															 |[マネジメント](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#bf04ff4c)				 |
 | [魔女](https://github.com/tukasa0001/TownOfHost#Witch魔女)                                    										  | 																	    										  | [トラッパー](https://github.com/tukasa0001/TownOfHost#Trapperトラッパー)                            		 | [ダークハイド](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#zebf393f)      |																					 |[ワークホース](https://github.com/tukasa0001/TownOfHost#ワークホース)	          	 |
 | [マフィア](https://github.com/tukasa0001/TownOfHost#Mafiaマフィア)                            										  |   																											      | [ハンター](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#s9662b39)          | [ラブカッター](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#w7a644b0)      |																					 |[インフォプアー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#e518d95e)	         |
 | [アンチアドミナー](https://wikiwiki.jp/tohy_amongus/%E3%82%A4%E3%83%B3%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E5%BD%B9%E8%81%B7#kab62fbb)  |    																											      | [タスクマネージャー](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#fd7f7dd4)| [純愛者](https://wikiwiki.jp/tohy_amongus/%E7%AC%AC%E4%B8%89%E9%99%A3%E5%96%B6#y6b427d2)            |																					 |[タイブレーカー](https://wikiwiki.jp/tohy_amongus/%E5%B1%9E%E6%80%A7#x6fc1adb)	         |
@@ -202,8 +202,8 @@ vBOMBよりラバーズが複数組採用可能になっています。<br>
 | [ペンギン](https://github.com/tukasa0001/TownOfHost#penguin%E3%83%9A%E3%83%B3%E3%82%AE%E3%83%B3)										  |																												      | [ニムロッド](https://wikiwiki.jp/tohy_amongus/%E3%82%AF%E3%83%AB%E3%83%BC%E9%99%A3%E5%96%B6#x2e6844e)        |                                                             										   |           																		     |          																		     |
 | [ステルス](https://github.com/tukasa0001/TownOfHost#stealth%E3%82%B9%E3%83%86%E3%83%AB%E3%82%B9)										  |																												      | [メタトン](#メタトン)                                  														 |                                                             										   |           																			 |          																			 |
 | [イレイサー](#イレイサー)																												  |																												      | [ドッグシェリフ](#ドッグシェリフ)                               											 |                                                             										   |           																		     |          																		     |
-| [デトネーター](#デトネーター)                            			  							 										  |																												      | 					                            															 |                                                             										   |           																		     |          																		     |
-|                                                       			  							 										  |																												      | 						                         															 |                                                             										   |           																		     |          																		     |
+| [デトネーター](#デトネーター)                            			  							 										  |																												      | [真実の天秤](#真実の天秤)					                            									 |                                                             										   |           																		     |          																		     |
+| [服従の天秤](#服従の天秤)                                                    					 										  |																												      | 						                         															 |                                                             										   |           																		     |          																		     |
 |                                                       			  							 										  |																												      | 					                               															 |                                                             										   |           																		     |          																		     |
 |                                                       			  							 										  |																												      | 				                                															 |                                                             										   |           																		     |          																		     |
 
@@ -367,6 +367,25 @@ vBOMBよりラバーズが複数組採用可能になっています。<br>
 | レーダーの半径  |
 | 役職が分かるまでの時間  |
 | 会議後レーダーが有効になるまでの時間  |
+
+### 服従の天秤
+
+陣営 : インポスター<br>
+判定 : インポスター<br>
+
+会議中に能力を発動することにより、相手と自分の魔力を比較し、その比較結果が低い方がキルされる役職です。<br>
+この魔力は服従の天秤はキル数を参照し、相手はインポスター置換であればキル数、クルー置換であればタスク数を参照します。<br>
+キル数は倍率の設定により魔力を向上させることが出来ます。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 能力発動回数 |
+| 通常キルの計算倍率 |
+| 発動者の名前を隠す |
+| 発動者を優先する |
+
 
 ### マッドトリッカー
 
@@ -552,6 +571,25 @@ vBOMBよりラバーズが複数組採用可能になっています。<br>
 | ニュートラルをキルできる |
 | アニマルズをキルできる |
 
+
+### 真実の天秤
+
+陣営 : クルーメイト<br>
+判定 : クルーメイト<br>
+
+会議中に能力を発動することにより、相手と自分の魔力を比較し、その比較結果が低い方がキルされる役職です。<br>
+この魔力は真実の天秤はタスク数を参照し、相手はインポスター置換であればキル数、クルー置換であればタスク数を参照します。<br>
+キル数は倍率の設定により魔力を向上させることが出来ます。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 能力発動回数 |
+| 通常キルの計算倍率 |
+| 発動者の名前を隠す |
+| 発動者を優先する |
+
 ### 姫
 
 陣営 : 第三（単独）<br>
@@ -629,6 +667,7 @@ SNRでお馴染みマグロ<br>
 | 立ち止まれる時間 |
 | 追加勝利 |
 | ベントを使える |
+| アニマルズにカウントする |
 
 
 ### 運営者
@@ -796,10 +835,87 @@ SNRでお馴染みマグロ<br>
 
 | 設定名         |
 | -------------- |
-| 推測できる最大人数  |
 | キルクール |
 | エネルギー弾数 |
 | クールタイム |
+
+### チキン
+
+発案者 : チョロQ<br>
+※1周年記念アニマルズ限定役職提案コンテスト入賞役職<br>
+陣営 : アニマルズ<br>
+判定 : シェイプシフター<br>
+勝利条件 :指定回数ボタンを押すこと<br>
+
+チキンは死体の通報は出来ますが、ボタンによる会議招集を出来ない役職です。<br>
+ボタンを指定回数押すことにより勝利条件が満たされ、押すとクールダウンが終わるまで再度押すことが出来ません。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 勝利条件のボタン回数 |
+| ボタンのクールダウン |
+
+### イルカ
+
+発案者 : セオノ<br>
+※1周年記念アニマルズ限定役職提案コンテスト入賞役職<br>
+陣営 : アニマルズ<br>
+判定 : クルーメイト or エンジニア<br>
+勝利条件 :なし(他のアニマルズが勝利すること)<br>
+
+イルカはタスク完了後にペットを撫でることにより、その地点で他のアニマルズがいる場所を矢印で示します。<br>
+味方を判別して援護しよう！<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| 能力発動回数 |
+| ベントを使える |
+| インポスター視界 |
+| クールダウン |
+| タスクを上書きする |
+
+### 猿
+
+発案者 : 依存症<br>
+※1周年記念アニマルズ限定役職提案コンテスト入賞役職<br>
+陣営 : アニマルズ<br>
+判定 : クルーメイト<br>
+勝利条件 :タスク終了後に自身が吊られる<br>
+
+猿は他のアニマルズがプレイヤーをキルした場合にキルフラッシュが見えます。<br>
+キルフラッシュが見えた後に次にすれ違ったプレイヤーをキルします。<br>
+怪しくなって疑われるもあり、憎いあいつをキルするもあり！<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| アニマルズもキルする |
+
+
+### クラーケン
+
+発案者 : ドラキラ<br>
+※1周年記念アニマルズ限定役職提案コンテスト入賞役職<br>
+陣営 : アニマルズ<br>
+判定 : インポスター<br>
+勝利条件 :一定人数キルをする or インポスター、ジャッカルを全滅させ、アニマルズの人数がクルーの人数と同数か上回ること<br>
+
+各タスクターンの開始時に自身を除いたランダムなプレイヤーを触手認定します。<br>
+クラーケンがキルを行う場合、本人の代わりに触手がキルを行います。<br>
+設定により触手のキル相手がランダムなプレイヤーもしくはキルした相手かを選択することが出来ます。<br>
+触手はキルを行うと視界が0になり、死体の通報を行うことも出来ません。この状態は一定時間経過で解除されます。<br>
+キル時に触手が死亡していた場合、霊界の触手にクラーケンがキルされます。<br>
+
+#### 設定
+
+| 設定名         |
+| -------------- |
+| アニマルズもキルする |
 
 ### 中二病
 
