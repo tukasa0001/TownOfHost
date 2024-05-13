@@ -642,16 +642,7 @@ namespace TownOfHost
                 !user.CanUseImpostorVentButton()) //インポスターベントも使えない
                 )
                 {
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
-                    writer.WritePacked(127);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    _ = new LateTask(() =>
-                    {
-                        int clientId = user.GetClientId();
-                        MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, clientId);
-                        writer2.Write(id);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer2);
-                    }, 0.5f, "Fix DesyncImpostor Stuck");
+                    __instance.RpcBootFromVent(id);
                     return false;
                 }
             }
