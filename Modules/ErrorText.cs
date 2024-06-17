@@ -187,6 +187,11 @@ namespace TownOfHost
         OptionIDDuplicate = 001_010_3, // 001-010-3 オプションIDが重複している(DEBUGビルド時のみ)
         // 002 サポート関連
         UnsupportedVersion = 002_000_1,  // 002-000-1 AmongUsのバージョンが古い
+
+        // 010 参加/退出関連
+        OnPlayerLeftPostfixFailedInGame = 010_000_2,  // 010-000-2 OnPlayerLeftPatch.Postfixがゲーム中に失敗
+        OnPlayerLeftPostfixFailedInLobby = 010_001_2,  // 010-001-2 OnPlayerLeftPatch.Postfixがロビーで失敗
+
         // ==========
         // 000 Test
         NoError = 0000000, // 000-000-0 No Error
