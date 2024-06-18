@@ -10,17 +10,6 @@ using Object = UnityEngine.Object;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.InitializeOptions))]
-    public static class GameSettingMenuPatch
-    {
-        public static void Prefix(GameSettingMenu __instance)
-        {
-            // Unlocks map/impostor amount changing in online (for testing on your custom servers)
-            // オンラインモードで部屋を立て直さなくてもマップを変更できるように変更
-            __instance.HideForOnline = new Il2CppReferenceArray<Transform>(0);
-        }
-    }
-
     [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Start))]
     [HarmonyPriority(Priority.First)]
     public static class GameOptionsMenuPatch
