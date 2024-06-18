@@ -36,7 +36,7 @@ namespace TownOfHost
         }
     }
 
-    [HarmonyPatch(typeof(GameData), nameof(GameData.RpcSetTasks))]
+    [HarmonyPatch(typeof(NetworkedPlayerInfo), nameof(NetworkedPlayerInfo.RpcSetTasks))]
     class RpcSetTasksPatch
     {
         //タスクを割り当ててRPCを送る処理が行われる直前にタスクを上書きするPatch

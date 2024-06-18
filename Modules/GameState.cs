@@ -225,7 +225,7 @@ namespace TownOfHost
     public static class MeetingStates
     {
         public static DeadBody[] DeadBodies = null;
-        public static GameData.PlayerInfo ReportTarget = null;
+        public static NetworkedPlayerInfo ReportTarget = null;
         public static bool IsEmergencyMeeting => ReportTarget == null;
         public static bool IsExistDeadBody => DeadBodies.Length > 0;
         public static bool MeetingCalled = false;

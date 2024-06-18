@@ -77,7 +77,7 @@ namespace TownOfHost
             AmongUsClient.Instance.SendOrDisconnect(writer);
             writer.Recycle();
         }
-        public static void OnDisconnect(GameData.PlayerInfo player)
+        public static void OnDisconnect(NetworkedPlayerInfo player)
         {
             // 実行条件: クライアントがホストである, IsDeadが上書きされている, playerが切断済み
             if (!AmongUsClient.Instance.AmHost || !IsCached || !player.Disconnected) return;

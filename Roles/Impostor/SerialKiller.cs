@@ -68,7 +68,7 @@ namespace TownOfHost.Roles.Impostor
             SuicideTimer = null;
             killer.MarkDirtySettings();
         }
-        public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+        public override void OnReportDeadBody(PlayerControl reporter, NetworkedPlayerInfo target)
         {
             SuicideTimer = null;
         }

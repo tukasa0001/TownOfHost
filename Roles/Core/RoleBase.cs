@@ -183,7 +183,7 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     /// <param name="reporter">通報したプレイヤー</param>
     /// <param name="target">通報されたプレイヤー</param>
-    public virtual void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    public virtual void OnReportDeadBody(PlayerControl reporter, NetworkedPlayerInfo target)
     { }
 
     /// <summary>
@@ -224,7 +224,7 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     /// <param name="exiled">追放されるプレイヤー</param>
     /// <param name="DecidedWinner">勝者を確定させるか</param>
-    public virtual void OnExileWrapUp(GameData.PlayerInfo exiled, ref bool DecidedWinner)
+    public virtual void OnExileWrapUp(NetworkedPlayerInfo exiled, ref bool DecidedWinner)
     { }
 
     /// <summary>

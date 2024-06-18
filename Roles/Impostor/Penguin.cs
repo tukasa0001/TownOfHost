@@ -144,7 +144,7 @@ class Penguin : RoleBase, IImpostor
     {
         return AbductVictim != null;
     }
-    public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    public override void OnReportDeadBody(PlayerControl reporter, NetworkedPlayerInfo target)
     {
         stopCount = true;
         // 時間切れ状態で会議を迎えたらはしご中でも構わずキルする
