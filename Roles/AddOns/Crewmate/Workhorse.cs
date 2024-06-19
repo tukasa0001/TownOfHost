@@ -67,7 +67,7 @@ namespace TownOfHost.Roles.AddOns.Crewmate
             if (AmongUsClient.Instance.AmHost)
             {
                 Add(pc.PlayerId);
-                GameData.Instance.RpcSetTasks(pc.PlayerId, Array.Empty<byte>()); //タスクを再配布
+                pc.Data.RpcSetTasks(Array.Empty<byte>()); //タスクを再配布
                 pc.SyncSettings();
                 Utils.NotifyRoles();
             }

@@ -199,7 +199,7 @@ class Penguin : RoleBase, IImpostor
             {
                 // 先にIsDeadをtrueにする(はしごチェイス封じ)
                 AbductVictim.Data.IsDead = true;
-                GameData.Instance.SetDirty();
+                AbductVictim.Data.MarkDirty();
                 // ペンギン自身がはしご上にいる場合，はしごを降りてからキルする
                 if (!AbductVictim.MyPhysics.Animations.IsPlayingAnyLadderAnimation())
                 {
