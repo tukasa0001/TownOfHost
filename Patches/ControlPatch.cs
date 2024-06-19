@@ -173,7 +173,7 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.Equals))
             {
                 Main.VisibleTasksCount = !Main.VisibleTasksCount;
-                DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + Main.VisibleTasksCount.ToString() + "に変更されました。");
+                DestroyableSingleton<HudManager>.Instance.Notifier.AddDisconnectMessage("VisibleTaskCountが" + Main.VisibleTasksCount.ToString() + "に変更されました。");
             }
             //エアシップのトイレのドアを全て開ける
             if (Input.GetKeyDown(KeyCode.P))
