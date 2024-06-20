@@ -14,11 +14,11 @@ namespace TownOfHost
             string DisableText = $" ({GetString("Disabled")})";
             if (__instance.Role.Role == RoleTypes.Scientist)
             {
-                __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Scientist);
+                __instance.titleText.color = Utils.GetRoleColor(CustomRoles.Scientist);
             }
             if (__instance.Role.Role == RoleTypes.Engineer)
             {
-                __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Engineer);
+                __instance.titleText.color = Utils.GetRoleColor(CustomRoles.Engineer);
             }
             if (__instance.Role.Role == RoleTypes.GuardianAngel)
             {
@@ -31,13 +31,13 @@ namespace TownOfHost
                     = tf.Find("More Options").gameObject.active
                     = false;
 
-                if (!__instance.TitleText.text.Contains(DisableText))
-                    __instance.TitleText.text += DisableText;
-                __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.GuardianAngel);
+                if (!__instance.titleText.text.Contains(DisableText))
+                    __instance.titleText.text += DisableText;
+                __instance.titleText.color = Utils.GetRoleColor(CustomRoles.GuardianAngel);
             }
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
             {
-                __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Shapeshifter);
+                __instance.titleText.color = Utils.GetRoleColor(CustomRoles.Shapeshifter);
             }
         }
     }
