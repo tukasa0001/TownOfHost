@@ -58,6 +58,26 @@ namespace TownOfHost
         public static readonly bool IsPublicAvailableOnThisVersion = false;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
+        public static Color UnityModColor
+        {
+            get
+            {
+                if (!_unityModColor.HasValue)
+                {
+                    if (ColorUtility.TryParseHtmlString(ModColor, out var unityColor))
+                    {
+                        _unityModColor = unityColor;
+                    }
+                    else
+                    {
+                        // failure
+                        return Color.gray;
+                    }
+                }
+                return _unityModColor.Value;
+            }
+        }
+        private static Color? _unityModColor;
         public static BepInEx.Logging.ManualLogSource Logger;
         public static bool hasArgumentException = false;
         public static string ExceptionMessage;

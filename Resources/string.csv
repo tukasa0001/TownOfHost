@@ -538,6 +538,10 @@
 "ModifySabotageCooldown","Sabotage Cooldown Control","サボタージュのクールダウン制御","修改破坏冷却时间","","Контролировать откат саботажа","Controle do Tepo de Recarga da Sabotagem",""
 "SabotageCooldown","Sabotage Cooldown","サボタージュのクールダウン","破坏冷却时间","","Откат саботажа","Tempo de Recarga da Sabotagem",""
 
+"## ゲーム設定UI"
+"TOHSettingsButtonLabel","TOH Settings","ＴＯＨ設定","","","","",""
+"TOHSettingsDescription","Edit mod settings for your game lobby.","Modの設定を編集する。","","","","",""
+
 "## クライアント設定"
 "Close","Close","閉じる","关闭","","Закрыть","Fechar",""
 "TOHOptions","<color=#00bfff>TOH</color> Options","<color=#00bfff>TOH</color>の設定","<color=#00bfff>TOH</color> 选项","","Настройки <color=#00bfff>TOH</color>","<color=#00bfff>TOH</color> Opções",""
