@@ -147,8 +147,9 @@ namespace TownOfHost
             return categoryHeader;
         }
 
-        [HarmonyPatch(nameof(GameSettingMenu.ChangeTab)), HarmonyPostfix]
-        public static void ChangeTabPostfix(bool previewOnly)
+        // 初めてロール設定を表示したときに発生する例外(バニラバグ)の影響を回避するためPrefix
+        [HarmonyPatch(nameof(GameSettingMenu.ChangeTab)), HarmonyPrefix]
+        public static void ChangeTabPrefix(bool previewOnly)
         {
             if (!previewOnly)
             {
