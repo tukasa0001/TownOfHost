@@ -12,28 +12,24 @@ namespace TownOfHost
         public static void Postfix(RoleOptionSetting __instance)
         {
             string DisableText = $" ({GetString("Disabled")})";
-            if (__instance.Role.Role == RoleTypes.Scientist)
-            {
-                __instance.titleText.color = Utils.GetRoleColor(CustomRoles.Scientist);
-            }
-            if (__instance.Role.Role == RoleTypes.Engineer)
-            {
-                __instance.titleText.color = Utils.GetRoleColor(CustomRoles.Engineer);
-            }
             if (__instance.Role.Role == RoleTypes.GuardianAngel)
             {
-                //+-ボタン, 設定値, 詳細設定ボタンを非表示
+                //+-ボタンを非表示
                 var tf = __instance.transform;
-                tf.Find("Count Plus_TMP").gameObject.active
-                    = tf.Find("Chance Minus_TMP").gameObject.active
-                    = tf.Find("Chance Value_TMP").gameObject.active
-                    = tf.Find("Chance Plus_TMP").gameObject.active
-                    = tf.Find("More Options").gameObject.active
-                    = false;
+                foreach (var button in __instance.GetComponentsInChildren<PassiveButton>())
+                {
+                    button.gameObject.SetActive(false);
+                }
 
                 if (!__instance.titleText.text.Contains(DisableText))
                     __instance.titleText.text += DisableText;
                 __instance.titleText.color = Utils.GetRoleColor(CustomRoles.GuardianAngel);
+                if (__instance.roleChance != 0 || __instance.roleMaxCount != 0)
+                {
+                    __instance.roleChance = 0;
+                    __instance.roleMaxCount = 0;
+                    __instance.OnValueChanged.Invoke(__instance);
+                }
             }
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
             {
