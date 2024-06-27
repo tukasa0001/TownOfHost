@@ -28,7 +28,6 @@ public sealed class RoleSpawnChanceOptionItem : IntegerOptionItem, IRoleOptionIt
         IntegerValueRule rule,
         SimpleRoleInfo roleInfo) : this(id, name, defaultValue, tab, isSingleValue, rule, roleInfo.RoleName, roleInfo.RoleColor) { }
 
-
     public CustomRoles RoleId { get; }
     public Color RoleColor { get; }
 
