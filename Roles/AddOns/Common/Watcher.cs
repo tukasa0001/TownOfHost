@@ -15,7 +15,7 @@ namespace TownOfHost.Roles.AddOns.Common
 
         public static void SetupCustomOption()
         {
-            SetupRoleOptions(Id, TabGroup.Addons, CustomRoles.Watcher);
+            SetupRoleOptions(Id, TabGroup.Addons, CustomRoles.Watcher, RoleColor);
             AddOnsAssignData.Create(Id + 10, CustomRoles.Watcher, true, true, true);
         }
         [GameModuleInitializer]
