@@ -56,6 +56,8 @@ namespace TownOfHost
         public static readonly string LowestSupportedVersion = "2024.3.5";
         // このバージョンのみで公開ルームを無効にする場合
         public static readonly bool IsPublicAvailableOnThisVersion = false;
+        // プレリリースかどうか
+        public static bool IsPrerelease { get; } = true;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static Color UnityModColor
