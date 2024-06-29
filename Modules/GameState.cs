@@ -58,9 +58,12 @@ namespace TownOfHost
                     RoleTypes.Crewmate => CustomRoles.Crewmate,
                     RoleTypes.Engineer => CustomRoles.Engineer,
                     RoleTypes.Scientist => CustomRoles.Scientist,
+                    RoleTypes.Noisemaker => CustomRoles.Noisemaker,
+                    RoleTypes.Tracker => CustomRoles.Tracker,
                     RoleTypes.GuardianAngel => CustomRoles.GuardianAngel,
                     RoleTypes.Impostor => CustomRoles.Impostor,
                     RoleTypes.Shapeshifter => CustomRoles.Shapeshifter,
+                    RoleTypes.Phantom => CustomRoles.Phantom,
                     _ => CustomRoles.Crewmate,
                 };
         }
