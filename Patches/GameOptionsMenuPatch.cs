@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
+using TownOfHost.Modules.OptionItems;
+using TownOfHost.Modules.OptionItems.Interfaces;
 using UnityEngine;
 using static TownOfHost.Translator;
 using Object = UnityEngine.Object;
@@ -266,7 +268,7 @@ namespace TownOfHost
             if (enabled)
             {
                 // 見やすさのため交互に色を変える
-                stringOption.LabelBackground.color = isOdd ? Color.cyan : Color.white;
+                stringOption.LabelBackground.color = item is IRoleOptionItem roleOption ? roleOption.RoleColor : (isOdd ? Color.cyan : Color.white);
 
                 offset -= GameOptionsMenu.SPACING_Y;
                 if (item.IsHeader)
@@ -295,7 +297,7 @@ namespace TownOfHost
             if (option == null) return true;
 
             __instance.OnValueChanged = new Action<OptionBehaviour>((o) => { });
-            __instance.TitleText.text = option.GetName();
+            __instance.TitleText.text = option.GetName(option is RoleSpawnChanceOptionItem);
             __instance.Value = __instance.oldValue = option.CurrentValue;
             __instance.ValueText.text = option.GetString();
 
