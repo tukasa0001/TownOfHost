@@ -11,9 +11,12 @@
 "Crewmate","Crewmate","クルーメイト","船员","船員","Член Экипажа","Tripulante","Tripulante"
 "Engineer","Engineer","エンジニア","工程师","工程師","Инженер","Engenheiro","Engenheiro"
 "Scientist","Scientist","科学者","科学家","科學家","Ученый","Cientista","Cientista"
+"Noisemaker","Noisemaker","ノイズメーカー","","","","",""
+"Tracker","Tracker","トラッカー","","","","",""
 "GuardianAngel","Guardian Angel","守護天使","守护天使","守護天使","Ангел-хранитель","Anjo da Guarda","Anjo da Guarda"
 "Impostor","Impostor","インポスター","内鬼","偽裝者","Предателей","Impostor","Impostor"
 "Shapeshifter","Shapeshifter","シェイプシフター","变形者","變形者","Оборотень","Metamorfo","Metamorfo"
+"Phantom","Phantom","亡霊","","","","",""
 
 "# 特殊インポスター役職"
 "BountyHunter","Bounty Hunter","バウンティハンター","赏金猎人","賞金獵人","Охотник за головами","Caçador de Recompensas","Caçador de Recompensas"
