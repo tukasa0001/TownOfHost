@@ -104,27 +104,32 @@ namespace TownOfHost
 
             target.SetColor(newOutfit.ColorId);
             sender.AutoStartRpc(target.NetId, (byte)RpcCalls.SetColor)
+                .Write(target.Data.NetId)
                 .Write(newOutfit.ColorId)
                 .EndRpc();
 
             target.SetHat(newOutfit.HatId, newOutfit.ColorId);
             sender.AutoStartRpc(target.NetId, (byte)RpcCalls.SetHatStr)
                 .Write(newOutfit.HatId)
+                .Write(target.GetNextRpcSequenceId(RpcCalls.SetHatStr))
                 .EndRpc();
 
             target.SetSkin(newOutfit.SkinId, newOutfit.ColorId);
             sender.AutoStartRpc(target.NetId, (byte)RpcCalls.SetSkinStr)
                 .Write(newOutfit.SkinId)
+                .Write(target.GetNextRpcSequenceId(RpcCalls.SetSkinStr))
                 .EndRpc();
 
             target.SetVisor(newOutfit.VisorId, newOutfit.ColorId);
             sender.AutoStartRpc(target.NetId, (byte)RpcCalls.SetVisorStr)
                 .Write(newOutfit.VisorId)
+                .Write(target.GetNextRpcSequenceId(RpcCalls.SetVisorStr))
                 .EndRpc();
 
             target.SetPet(newOutfit.PetId);
             sender.AutoStartRpc(target.NetId, (byte)RpcCalls.SetPetStr)
                 .Write(newOutfit.PetId)
+                .Write(target.GetNextRpcSequenceId(RpcCalls.SetPetStr))
                 .EndRpc();
 
             sender.SendMessage();
