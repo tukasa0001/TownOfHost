@@ -393,13 +393,19 @@ namespace TownOfHost
             __instance.VisualTasks = false;
 
             __instance.roleOptions.SetRoleRate(RoleTypes.Shapeshifter, 0, 0);
+            __instance.roleOptions.SetRoleRate(RoleTypes.Phantom, 0, 0);
             __instance.roleOptions.SetRoleRate(RoleTypes.Scientist, 0, 0);
             __instance.roleOptions.SetRoleRate(RoleTypes.GuardianAngel, 0, 0);
             __instance.roleOptions.SetRoleRate(RoleTypes.Engineer, 0, 0);
+            __instance.roleOptions.SetRoleRate(RoleTypes.Noisemaker, 0, 0);
+            __instance.roleOptions.SetRoleRate(RoleTypes.Tracker, 0, 0);
             __instance.roleOptions.SetRoleRecommended(RoleTypes.Shapeshifter);
+            __instance.roleOptions.SetRoleRecommended(RoleTypes.Phantom);
             __instance.roleOptions.SetRoleRecommended(RoleTypes.Scientist);
             __instance.roleOptions.SetRoleRecommended(RoleTypes.GuardianAngel);
             __instance.roleOptions.SetRoleRecommended(RoleTypes.Engineer);
+            __instance.roleOptions.SetRoleRecommended(RoleTypes.Noisemaker);
+            __instance.roleOptions.SetRoleRecommended(RoleTypes.Tracker);
 
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) //HideAndSeek
             {

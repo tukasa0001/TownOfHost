@@ -124,7 +124,7 @@ namespace TownOfHost
 
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
-                RoleTypes[] RoleTypesList = { RoleTypes.Scientist, RoleTypes.Engineer, RoleTypes.Shapeshifter };
+                RoleTypes[] RoleTypesList = [RoleTypes.Scientist, RoleTypes.Engineer, RoleTypes.Noisemaker, RoleTypes.Tracker, RoleTypes.Shapeshifter, RoleTypes.Phantom];
                 foreach (var roleTypes in RoleTypesList)
                 {
                     var roleOpt = Main.NormalOptions.roleOptions;
@@ -178,6 +178,9 @@ namespace TownOfHost
             List<PlayerControl> Engineers = new();
             List<PlayerControl> GuardianAngels = new();
             List<PlayerControl> Shapeshifters = new();
+            List<PlayerControl> trackers = [];
+            List<PlayerControl> noisemakers = [];
+            List<PlayerControl> phantoms = [];
 
             foreach (var pc in Main.AllPlayerControls)
             {
@@ -210,6 +213,18 @@ namespace TownOfHost
                     case RoleTypes.Shapeshifter:
                         Shapeshifters.Add(pc);
                         role = CustomRoles.Shapeshifter;
+                        break;
+                    case RoleTypes.Tracker:
+                        trackers.Add(pc);
+                        role = CustomRoles.Tracker;
+                        break;
+                    case RoleTypes.Noisemaker:
+                        noisemakers.Add(pc);
+                        role = CustomRoles.Noisemaker;
+                        break;
+                    case RoleTypes.Phantom:
+                        phantoms.Add(pc);
+                        role = CustomRoles.Phantom;
                         break;
                     default:
                         Logger.SendInGame(string.Format(GetString("Error.InvalidRoleAssignment"), pc?.Data?.PlayerName));
@@ -252,8 +267,11 @@ namespace TownOfHost
                     {
                         RoleTypes.Impostor => Impostors,
                         RoleTypes.Shapeshifter => Shapeshifters,
+                        RoleTypes.Phantom => phantoms,
                         RoleTypes.Scientist => Scientists,
                         RoleTypes.Engineer => Engineers,
+                        RoleTypes.Noisemaker => noisemakers,
+                        RoleTypes.Tracker => trackers,
                         RoleTypes.GuardianAngel => GuardianAngels,
                         _ => Crewmates,
                     };
@@ -288,7 +306,7 @@ namespace TownOfHost
                     }
                 }
 
-                RoleTypes[] RoleTypesList = { RoleTypes.Scientist, RoleTypes.Engineer, RoleTypes.Shapeshifter };
+                RoleTypes[] RoleTypesList = [RoleTypes.Scientist, RoleTypes.Engineer, RoleTypes.Noisemaker, RoleTypes.Tracker, RoleTypes.Shapeshifter, RoleTypes.Phantom];
                 foreach (var roleTypes in RoleTypesList)
                 {
                     var roleOpt = Main.NormalOptions.roleOptions;
