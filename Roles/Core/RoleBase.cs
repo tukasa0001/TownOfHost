@@ -46,8 +46,10 @@ public abstract class RoleBase : IDisposable
         this.hasTasks = hasTasks ?? (roleInfo.CustomRoleType == CustomRoleTypes.Crewmate ? () => HasTask.True : () => HasTask.False);
         HasAbility = hasAbility ?? roleInfo.BaseRoleType.Invoke() is
             RoleTypes.Shapeshifter or
+            RoleTypes.Phantom or
             RoleTypes.Engineer or
             RoleTypes.Scientist or
+            RoleTypes.Tracker or
             RoleTypes.GuardianAngel or
             RoleTypes.CrewmateGhost or
             RoleTypes.ImpostorGhost;
@@ -343,6 +345,8 @@ public abstract class RoleBase : IDisposable
     {
         StringNames? str = Player.Data.Role.Role switch
         {
+            RoleTypes.Phantom => Player.Data.Role.TryCast<PhantomRole>(out var phantomRole) ? (phantomRole.IsInvisible ? StringNames.PhantomAbilityUndo : StringNames.PhantomAbility) : null,
+            RoleTypes.Tracker => Player.Data.Role.TryCast<TrackerRole>(out var trackerRole) ? (trackerRole.isTrackingActive ? StringNames.TrackerAbilityUndo : StringNames.TrackerAbility) : null,
             RoleTypes.Engineer => StringNames.VentAbility,
             RoleTypes.Scientist => StringNames.VitalsAbility,
             RoleTypes.Shapeshifter => StringNames.ShapeshiftAbility,
