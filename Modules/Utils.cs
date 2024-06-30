@@ -368,7 +368,7 @@ namespace TownOfHost
             return (text, color);
         }
 
-        public static bool HasTasks(GameData.PlayerInfo p, bool ForRecompute = true)
+        public static bool HasTasks(NetworkedPlayerInfo p, bool ForRecompute = true)
         {
             if (GameStates.IsLobby) return false;
             //Tasksがnullの場合があるのでその場合タスク無しとする
@@ -796,7 +796,7 @@ namespace TownOfHost
             cachedPlayers[playerId] = player;
             return player;
         }
-        public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
+        public static NetworkedPlayerInfo GetPlayerInfoById(int PlayerId) =>
             GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
         private static StringBuilder SelfMark = new(20);
         private static StringBuilder SelfSuffix = new(20);

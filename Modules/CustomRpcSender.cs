@@ -257,6 +257,7 @@ namespace TownOfHost
         {
             sender.AutoStartRpc(player.NetId, (byte)RpcCalls.SetRole, targetClientId)
                 .Write((ushort)role)
+                .Write(false)
                 .EndRpc();
         }
         public static void RpcMurderPlayer(this CustomRpcSender sender, PlayerControl player, PlayerControl target, int targetClientId = -1)

@@ -291,7 +291,7 @@ public sealed class Sniper : RoleBase, IImpostor
             Utils.NotifyRoles(SpecifySeer: Player);
         }
     }
-    public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
+    public override void OnReportDeadBody(PlayerControl reporter, NetworkedPlayerInfo target)
     {
         MeetingReset = true;
     }

@@ -53,18 +53,40 @@ namespace TownOfHost
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "5.1.6";
         // サポートされている最低のAmongUsバージョン
-        public static readonly string LowestSupportedVersion = "2024.3.5";
+        public static readonly string LowestSupportedVersion = "2024.6.18";
         // このバージョンのみで公開ルームを無効にする場合
         public static readonly bool IsPublicAvailableOnThisVersion = false;
+        // プレリリースかどうか
+        public static bool IsPrerelease { get; } = true;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
+        public static Color UnityModColor
+        {
+            get
+            {
+                if (!_unityModColor.HasValue)
+                {
+                    if (ColorUtility.TryParseHtmlString(ModColor, out var unityColor))
+                    {
+                        _unityModColor = unityColor;
+                    }
+                    else
+                    {
+                        // failure
+                        return Color.gray;
+                    }
+                }
+                return _unityModColor.Value;
+            }
+        }
+        private static Color? _unityModColor;
         public static BepInEx.Logging.ManualLogSource Logger;
         public static bool hasArgumentException = false;
         public static string ExceptionMessage;
         public static bool ExceptionMessageIsShown = false;
         public static string credentialsText;
-        public static NormalGameOptionsV07 NormalOptions => GameOptionsManager.Instance.currentNormalGameOptions;
-        public static HideNSeekGameOptionsV07 HideNSeekSOptions => GameOptionsManager.Instance.currentHideNSeekGameOptions;
+        public static NormalGameOptionsV08 NormalOptions => GameOptionsManager.Instance.currentNormalGameOptions;
+        public static HideNSeekGameOptionsV08 HideNSeekSOptions => GameOptionsManager.Instance.currentHideNSeekGameOptions;
         //Client Options
         public static ConfigEntry<string> HideName { get; private set; }
         public static ConfigEntry<string> HideColor { get; private set; }

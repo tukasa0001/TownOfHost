@@ -73,7 +73,7 @@ namespace TownOfHost
             var client = player.GetClient();
             return client == null ? -1 : client.Id;
         }
-        public static CustomRoles GetCustomRole(this GameData.PlayerInfo player)
+        public static CustomRoles GetCustomRole(this NetworkedPlayerInfo player)
         {
             return player == null || player.Object == null ? CustomRoles.Crewmate : player.Object.GetCustomRole();
         }
@@ -148,6 +148,7 @@ namespace TownOfHost
 
             var clientId = seer.GetClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
+            writer.Write(player.Data.NetId);
             writer.Write(name);
             writer.Write(DontShowOnModdedClient);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -159,11 +160,12 @@ namespace TownOfHost
             if (player == null) return;
             if (AmongUsClient.Instance.ClientId == clientId)
             {
-                player.SetRole(role);
+                player.StartCoroutine(player.CoSetRole(role, false));
                 return;
             }
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, clientId);
             writer.Write((ushort)role);
+            writer.Write(false);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
@@ -483,7 +485,7 @@ namespace TownOfHost
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
-        public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
+        public static void NoCheckStartMeeting(this PlayerControl reporter, NetworkedPlayerInfo target)
         { /*サボタージュ中でも関係なしに会議を起こせるメソッド
             targetがnullの場合はボタンとなる*/
             MeetingRoomManager.Instance.AssignSelf(reporter, target);
