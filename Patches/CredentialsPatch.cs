@@ -38,8 +38,8 @@ namespace TownOfHost
                 if (pingTrackerCredentialAspectPos)
                 {
                     pingTrackerCredentialAspectPos.DistanceFromEdge = DestroyableSingleton<HudManager>.InstanceExists && DestroyableSingleton<HudManager>.Instance.Chat.chatButton.gameObject.active
-                        ? new(2.5f, 0f, -1000f)
-                        : new(1.8f, 0f, -1000f);
+                        ? new(2.5f, 0f, -800f)
+                        : new(1.8f, 0f, -800f);
                 }
 
                 sb.Clear();
