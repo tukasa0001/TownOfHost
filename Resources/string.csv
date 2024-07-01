@@ -609,8 +609,8 @@
 "Error.InvalidColor","Error: Only default colors are available.","エラー：デフォルトカラー以外は使えません","错误: 仅默认颜色可用","錯誤: 無法使用遊戲自帶以外的顏色。","Ошибка: Нельзя использовать другие цвета, кроме цветов по умолчанию","Erro: Apenas as cores padrão estão disponíveis.",""
 
 "### ErrorText関連"
-"ErrorLevel1","Bugs may occur.","何らかのバグが発生する可能性があります。","可能同时产生多个bug","可能同時產生多個Bug","Могут возникнуть некоторые ошибки.","Bugs podem acontecer.",""
-"ErrorLevel2","This may be a bug.","バグが発生している可能性があります。","可能出现bug","可能出現Bug","Возможно вы столкнулись с ошибкой.","Talvez isso seja um bug.",""
+"ErrorLevel1","Some failure may occur.","何らかの不具合が発生する可能性があります。","","","","",""
+"ErrorLevel2","Some failure may have occurred.","不具合が発生している可能性があります。","","","","",""
 "ErrorLevel3","This version shouldn't have been released.","このバージョンはリリースされるべきではありません。","未发布版本","未發布版本","Эта версия никогда не должна быть выпущена.","Esta versão não deveria ter sido lançada.",""
 "TerminateCommand","Abort Command","廃村コマンド","强制结束游戏命令","強制結束遊戲指令","Команда устарела","Abortar Comando",""
 "#### 000 Test"
