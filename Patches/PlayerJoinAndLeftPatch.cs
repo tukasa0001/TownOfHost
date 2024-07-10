@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AmongUs.Data;
 using AmongUs.GameOptions;
@@ -82,28 +83,61 @@ namespace TownOfHost
         }
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
         {
-            //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
-            //            main.RealNames.Remove(data.Character.PlayerId);
-            if (GameStates.IsInGame)
+            var isFailure = false;
+
+            try
             {
-                if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
-                    foreach (var lovers in Main.LoversPlayers.ToArray())
-                    {
-                        Main.isLoversDead = true;
-                        Main.LoversPlayers.Remove(lovers);
-                        PlayerState.GetByPlayerId(lovers.PlayerId).RemoveSubRole(CustomRoles.Lovers);
-                    }
-                var state = PlayerState.GetByPlayerId(data.Character.PlayerId);
-                if (state.DeathReason == CustomDeathReason.etc) //死因が設定されていなかったら
+                if (data == null)
                 {
-                    state.DeathReason = CustomDeathReason.Disconnected;
-                    state.SetDead();
+                    isFailure = true;
+                    Logger.Warn("退出者のClientDataがnull", nameof(OnPlayerLeftPatch));
                 }
-                AntiBlackout.OnDisconnect(data.Character.Data);
-                PlayerGameOptionsSender.RemoveSender(data.Character);
+                else if (data.Character == null)
+                {
+                    isFailure = true;
+                    Logger.Warn("退出者のPlayerControlがnull", nameof(OnPlayerLeftPatch));
+                }
+                else if (data.Character.Data == null)
+                {
+                    isFailure = true;
+                    Logger.Warn("退出者のPlayerInfoがnull", nameof(OnPlayerLeftPatch));
+                }
+                else
+                {
+                    if (GameStates.IsInGame)
+                    {
+                        if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
+                            foreach (var lovers in Main.LoversPlayers.ToArray())
+                            {
+                                Main.isLoversDead = true;
+                                Main.LoversPlayers.Remove(lovers);
+                                PlayerState.GetByPlayerId(lovers.PlayerId).RemoveSubRole(CustomRoles.Lovers);
+                            }
+                        var state = PlayerState.GetByPlayerId(data.Character.PlayerId);
+                        if (state.DeathReason == CustomDeathReason.etc) //死因が設定されていなかったら
+                        {
+                            state.DeathReason = CustomDeathReason.Disconnected;
+                            state.SetDead();
+                        }
+                        AntiBlackout.OnDisconnect(data.Character.Data);
+                        PlayerGameOptionsSender.RemoveSender(data.Character);
+                    }
+                    Main.playerVersion.Remove(data.Character.PlayerId);
+                    Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
+                }
             }
-            Main.playerVersion.Remove(data.Character.PlayerId);
-            Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason}, ping:{AmongUsClient.Instance.Ping})", "Session");
+            catch (Exception e)
+            {
+                Logger.Warn("切断処理中に例外が発生", nameof(OnPlayerLeftPatch));
+                Logger.Exception(e, nameof(OnPlayerLeftPatch));
+                isFailure = true;
+            }
+
+            if (isFailure)
+            {
+                Logger.Warn($"正常に完了しなかった切断 - 名前:{(data == null || data.PlayerName == null ? "(不明)" : data.PlayerName)}, 理由:{reason}, ping:{AmongUsClient.Instance.Ping}", "Session");
+                ErrorText.Instance.AddError(AmongUsClient.Instance.GameState is InnerNetClient.GameStates.Started ? ErrorCode.OnPlayerLeftPostfixFailedInGame : ErrorCode.OnPlayerLeftPostfixFailedInLobby);
+            }
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CreatePlayer))]

@@ -11,9 +11,12 @@
 "Crewmate","Crewmate","クルーメイト","船员","船員","Член Экипажа","Tripulante","Tripulante"
 "Engineer","Engineer","エンジニア","工程师","工程師","Инженер","Engenheiro","Engenheiro"
 "Scientist","Scientist","科学者","科学家","科學家","Ученый","Cientista","Cientista"
+"Noisemaker","Noisemaker","ノイズメーカー","","","","",""
+"Tracker","Tracker","トラッカー","","","","",""
 "GuardianAngel","Guardian Angel","守護天使","守护天使","守護天使","Ангел-хранитель","Anjo da Guarda","Anjo da Guarda"
 "Impostor","Impostor","インポスター","内鬼","偽裝者","Предателей","Impostor","Impostor"
 "Shapeshifter","Shapeshifter","シェイプシフター","变形者","變形者","Оборотень","Metamorfo","Metamorfo"
+"Phantom","Phantom","亡霊","","","","",""
 
 "# 特殊インポスター役職"
 "BountyHunter","Bounty Hunter","バウンティハンター","赏金猎人","賞金獵人","Охотник за головами","Caçador de Recompensas","Caçador de Recompensas"
@@ -538,6 +541,10 @@
 "ModifySabotageCooldown","Sabotage Cooldown Control","サボタージュのクールダウン制御","修改破坏冷却时间","","Контролировать откат саботажа","Controle do Tepo de Recarga da Sabotagem",""
 "SabotageCooldown","Sabotage Cooldown","サボタージュのクールダウン","破坏冷却时间","","Откат саботажа","Tempo de Recarga da Sabotagem",""
 
+"## ゲーム設定UI"
+"TOHSettingsButtonLabel","TOH Settings","ＴＯＨ設定","","","","",""
+"TOHSettingsDescription","Edit mod settings for your game lobby.","Modの設定を編集する。","","","","",""
+
 "## クライアント設定"
 "Close","Close","閉じる","关闭","","Закрыть","Fechar",""
 "TOHOptions","<color=#00bfff>TOH</color> Options","<color=#00bfff>TOH</color>の設定","<color=#00bfff>TOH</color> 选项","","Настройки <color=#00bfff>TOH</color>","<color=#00bfff>TOH</color> Opções",""
@@ -602,8 +609,8 @@
 "Error.InvalidColor","Error: Only default colors are available.","エラー：デフォルトカラー以外は使えません","错误: 仅默认颜色可用","錯誤: 無法使用遊戲自帶以外的顏色。","Ошибка: Нельзя использовать другие цвета, кроме цветов по умолчанию","Erro: Apenas as cores padrão estão disponíveis.",""
 
 "### ErrorText関連"
-"ErrorLevel1","Bugs may occur.","何らかのバグが発生する可能性があります。","可能同时产生多个bug","可能同時產生多個Bug","Могут возникнуть некоторые ошибки.","Bugs podem acontecer.",""
-"ErrorLevel2","This may be a bug.","バグが発生している可能性があります。","可能出现bug","可能出現Bug","Возможно вы столкнулись с ошибкой.","Talvez isso seja um bug.",""
+"ErrorLevel1","Some failure may occur.","何らかの不具合が発生する可能性があります。","","","","",""
+"ErrorLevel2","Some failure may have occurred.","不具合が発生している可能性があります。","","","","",""
 "ErrorLevel3","This version shouldn't have been released.","このバージョンはリリースされるべきではありません。","未发布版本","未發布版本","Эта версия никогда не должна быть выпущена.","Esta versão não deveria ter sido lançada.",""
 "TerminateCommand","Abort Command","廃村コマンド","强制结束游戏命令","強制結束遊戲指令","Команда устарела","Abortar Comando",""
 "#### 000 Test"
@@ -618,6 +625,9 @@
 "ERR-001-010-3","Duplicate Options ID","オプションIDが重複しています","选项ID重复","","Повторяющийся идентификатор настроек","",""
 "#### 002 Support"
 "ERR-002-000-1","Unsupported AmongUs version. Please update.","サポートされていないAmongUsバージョンです。ゲームをアップデートしてください。","不支持的 AmongUs 版本，请更新","","Неподдерживаемая версия AmongUs. Пожалуйста, обновите игру","Versão não suportada do Among Us. Por favor, atualize.",""
+"#### 010 Session"
+"ERR-010-000-2","An error occurred while processing disconnection. Please abort the game.","プレイヤーの切断処理中にエラーが発生しました。廃村してください。","","","",""
+"ERR-010-001-2","An error occurred while processing disconnection. Please recreate the lobby.","プレイヤーの切断処理中にエラーが発生しました。ロビーを作り直してください。","","","",""
 
 "## その他"
 "DefaultSystemMessageTitle","【===== System Message =====】","【===== システムメッセージ ======】","【===== 系统信息 ======】","【===== 系統訊息 ======】","【=== Системное сообщение ===】","【===== Mensagem do Sistema ======】",""
@@ -655,6 +665,7 @@
 "FireworksReadyFirePhase","Fire!","打ち上げろ！","烟花来咯，大型烟花秀开始！","準備就緒，煙火秀開始!","Огонь!","Lançar!",""
 "StandardHAS","Hide And Seek with Roles","役職入りでかくれんぼ","在躲猫猫模式中加入职业","在躲貓貓中加入多職業模式中的職業","Прятки с Ролями","Esconde-Esconde com Classes",""
 "StandardHASWaitingTime","Standby","待機時間","躲猫猫猎人等待时间","躲貓貓偽裝者等待時間","Время ожидания","Tempo de Espera",""
+"Prerelease","Pre-release","プレリリース","","","","",""
 "InvalidArgs","Invalid Args","無効な引数","无效参数","無效的參數","Недопустимые Аргументы","Argumento Inválido",""
 "On","ON","オン","开启","開啟","ВКЛ","Ativado",""
 "Off","OFF","オフ","关闭","關閉","ВЫКЛ","Desativado",""

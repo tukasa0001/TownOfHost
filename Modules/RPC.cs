@@ -40,6 +40,7 @@ namespace TownOfHost
             switch (rpcType)
             {
                 case RpcCalls.SetName: //SetNameRPC
+                    subReader.ReadUInt32();
                     string name = subReader.ReadString();
                     if (subReader.BytesRemaining > 0 && subReader.ReadBoolean()) return false;
                     Logger.Info("名前変更:" + __instance.GetNameWithRole() + " => " + name, "SetName");

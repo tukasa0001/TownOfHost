@@ -334,8 +334,8 @@ namespace TownOfHost
     class ReportDeadBodyPatch
     {
         public static Dictionary<byte, bool> CanReport;
-        public static Dictionary<byte, List<GameData.PlayerInfo>> WaitReport = new();
-        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
+        public static Dictionary<byte, List<NetworkedPlayerInfo>> WaitReport = new();
+        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] NetworkedPlayerInfo target)
         {
             if (GameStates.IsMeeting) return false;
             Logger.Info($"{__instance.GetNameWithRole()} => {target?.Object?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
@@ -642,17 +642,10 @@ namespace TownOfHost
                 !user.CanUseImpostorVentButton()) //インポスターベントも使えない
                 )
                 {
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
-                    writer.WritePacked(127);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
                     _ = new LateTask(() =>
                     {
-                        int clientId = user.GetClientId();
-                        MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, clientId);
-                        writer2.Write(id);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer2);
-                    }, 0.5f, "Fix DesyncImpostor Stuck");
-                    return false;
+                        __instance.RpcBootFromVent(id);
+                    }, 0.5f, "Cancel Vent");
                 }
             }
             return true;

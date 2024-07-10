@@ -36,14 +36,13 @@ namespace TownOfHost
         }
     }
 
-    [HarmonyPatch(typeof(GameData), nameof(GameData.RpcSetTasks))]
+    [HarmonyPatch(typeof(NetworkedPlayerInfo), nameof(NetworkedPlayerInfo.RpcSetTasks))]
     class RpcSetTasksPatch
     {
         //タスクを割り当ててRPCを送る処理が行われる直前にタスクを上書きするPatch
         //バニラのタスク割り当て処理自体には干渉しない
-        public static void Prefix(GameData __instance,
-        [HarmonyArgument(0)] byte playerId,
-        [HarmonyArgument(1)] ref Il2CppStructArray<byte> taskTypeIds)
+        public static void Prefix(NetworkedPlayerInfo __instance,
+        [HarmonyArgument(0)] ref Il2CppStructArray<byte> taskTypeIds)
         {
             //null対策
             if (Main.RealOptionsData == null)
@@ -52,7 +51,7 @@ namespace TownOfHost
                 return;
             }
 
-            var pc = Utils.GetPlayerById(playerId);
+            var pc = __instance.Object;
             CustomRoles? RoleNullable = pc?.GetCustomRole();
             if (RoleNullable == null) return;
             CustomRoles role = RoleNullable.Value;

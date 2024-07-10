@@ -108,7 +108,8 @@ namespace TownOfHost
 
                 void SetGhostRole(bool ToGhostImpostor)
                 {
-                    if (!pc.Data.IsDead) ReviveRequiredPlayerIds.Add(pc.PlayerId);
+                    var isDead = pc.Data.IsDead;
+                    if (!isDead) ReviveRequiredPlayerIds.Add(pc.PlayerId);
                     if (ToGhostImpostor)
                     {
                         Logger.Info($"{pc.GetNameWithRole()}: ImpostorGhostに変更", "ResetRoleAndEndGame");
@@ -119,6 +120,8 @@ namespace TownOfHost
                         Logger.Info($"{pc.GetNameWithRole()}: CrewmateGhostに変更", "ResetRoleAndEndGame");
                         pc.RpcSetRole(RoleTypes.CrewmateGhost);
                     }
+                    // 蘇生までの遅延の間にオートミュートをかけられないように元に戻しておく
+                    pc.Data.IsDead = isDead;
                 }
             }
 
@@ -140,7 +143,7 @@ namespace TownOfHost
                     // 蘇生
                     playerInfo.IsDead = false;
                     // 送信
-                    GameData.Instance.SetDirtyBit(0b_1u << playerId);
+                    playerInfo.MarkDirty();
                     AmongUsClient.Instance.SendAllStreamedObjects();
                 }
                 // ゲーム終了を確実に最後に届けるための遅延

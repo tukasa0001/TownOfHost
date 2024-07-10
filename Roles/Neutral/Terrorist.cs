@@ -58,7 +58,7 @@ public sealed class Terrorist : RoleBase
             Win();
         }
     }
-    public override void OnExileWrapUp(GameData.PlayerInfo exiled, ref bool DecidedWinner)
+    public override void OnExileWrapUp(NetworkedPlayerInfo exiled, ref bool DecidedWinner)
     {
         if (exiled.PlayerId != Player.PlayerId)
         {

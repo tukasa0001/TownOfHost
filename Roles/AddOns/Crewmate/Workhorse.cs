@@ -21,7 +21,7 @@ namespace TownOfHost.Roles.AddOns.Crewmate
         public static int NumShortTasks;
         public static void SetupCustomOption()
         {
-            SetupRoleOptions(Id, TabGroup.Addons, CustomRoles.Workhorse);
+            SetupRoleOptions(Id, TabGroup.Addons, CustomRoles.Workhorse, RoleColor);
             OptionAssignOnlyToCrewmate = BooleanOptionItem.Create(Id + 10, "AssignOnlyTo%role%", true, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workhorse]);
             OptionAssignOnlyToCrewmate.ReplacementDictionary = new Dictionary<string, string> { { "%role%", Utils.ColorString(Palette.CrewmateBlue, Utils.GetRoleName(CustomRoles.Crewmate)) } };
             OptionNumLongTasks = IntegerOptionItem.Create(Id + 11, "WorkhorseNumLongTasks", new(0, 5, 1), 1, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workhorse])
@@ -67,7 +67,7 @@ namespace TownOfHost.Roles.AddOns.Crewmate
             if (AmongUsClient.Instance.AmHost)
             {
                 Add(pc.PlayerId);
-                GameData.Instance.RpcSetTasks(pc.PlayerId, Array.Empty<byte>()); //タスクを再配布
+                pc.Data.RpcSetTasks(Array.Empty<byte>()); //タスクを再配布
                 pc.SyncSettings();
                 Utils.NotifyRoles();
             }

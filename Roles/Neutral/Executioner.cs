@@ -137,7 +137,7 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
 
         return TargetId == seen.PlayerId ? Utils.ColorString(RoleInfo.RoleColor, "♦") : "";
     }
-    public override void OnExileWrapUp(GameData.PlayerInfo exiled, ref bool DecidedWinner)
+    public override void OnExileWrapUp(NetworkedPlayerInfo exiled, ref bool DecidedWinner)
     {
         if (!AmongUsClient.Instance.AmHost) return;
         if (Player?.IsAlive() != true) return;
