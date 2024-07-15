@@ -465,7 +465,7 @@ namespace TownOfHost
                     {
                         foreach (var seer in Main.AllPlayerControls)
                         {
-                            var assignRole = DesyncImpostorList.Contains(seer.PlayerId) ? role : RoleTypes.Scientist;
+                            var assignRole = DesyncImpostorList.Contains(seer.PlayerId) ? RoleTypes.Scientist : role;
                             senders[player.PlayerId].RpcSetRole(player, assignRole, seer.GetClientId());
                         }
                     }
