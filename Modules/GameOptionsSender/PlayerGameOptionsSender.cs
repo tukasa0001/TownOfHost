@@ -93,6 +93,10 @@ namespace TownOfHost.Modules
                         opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                     break;
             }
+            if (!role.IsImpostor())
+            {
+                AURoleOptions.NoisemakerImpostorAlert = true;
+            }
 
             var roleClass = player.GetRoleClass();
             roleClass?.ApplyGameOptions(opt);
