@@ -202,8 +202,11 @@ namespace TownOfHost
             {
                 var hashSet = new System.Collections.Generic.HashSet<GameObject>();
                 //SendGameManagerの代替。初めに発行する必要があるためここへ。
-                WriteSpawnMessageEx(__instance, GameManager.Instance, GameManager.Instance.OwnerId, GameManager.Instance.SpawnFlags, clientId);
-                hashSet.Add(GameManager.Instance.gameObject);
+                var gameManager = GameManager.Instance;
+                if (gameManager && (gameManager.OwnerId != -4 || __instance.AmModdedHost) && hashSet.Add(gameManager.gameObject))
+                {
+                    WriteSpawnMessageEx(__instance, gameManager, gameManager.OwnerId, gameManager.SpawnFlags, clientId);
+                }
 
                 for (int i = 0; i < __instance.allObjects.Count; i++)
                 {
