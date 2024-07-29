@@ -183,4 +183,108 @@ namespace TownOfHost
             return false;
         }
     }
+    [HarmonyPatch]
+    class InnerNetClientPatch
+    {
+        [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendOrDisconnect)), HarmonyPrefix]
+        public static void SendOrDisconnectPatch(InnerNetClient __instance, MessageWriter msg)
+        {
+            if (msg.Length > 1000)
+                Logger.Info($"SendOrDisconnectPatch:Large Packet({msg.Length})", "InnerNetClient");
+        }
+        [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendInitialData)), HarmonyPrefix]
+        public static bool SendInitialDataPatch(InnerNetClient __instance, int clientId)
+        {
+            Logger.Info($"SendInitialDataPatch:", "InnerNetClient");
+            var obj = __instance.allObjects;
+
+            lock (obj)
+            {
+                var hashSet = new System.Collections.Generic.HashSet<GameObject>();
+                //SendGameManagerの代替。初めに発行する必要があるためここへ。
+                WriteSpawnMessageEx(__instance, GameManager.Instance, GameManager.Instance.OwnerId, GameManager.Instance.SpawnFlags, clientId);
+                hashSet.Add(GameManager.Instance.gameObject);
+
+                for (int i = 0; i < __instance.allObjects.Count; i++)
+                {
+                    var innerNetObject = __instance.allObjects[i];
+                    if (innerNetObject && (innerNetObject.OwnerId != -4 || __instance.AmModdedHost) && hashSet.Add(innerNetObject.gameObject))
+                    {
+                        WriteSpawnMessageEx(__instance, innerNetObject, innerNetObject.OwnerId, innerNetObject.SpawnFlags, clientId);
+                    }
+                }
+            }
+            return false;
+        }
+        [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.Spawn)), HarmonyPrefix]
+        public static bool SpawnPatch(InnerNetClient __instance, InnerNetObject netObjParent, int ownerId, SpawnFlags flags)
+        {
+            Logger.Info($"SpawnPatch", "InnerNetClient");
+            if (__instance.AmHost)
+            {
+                ownerId = (ownerId == -3) ? __instance.ClientId : ownerId;
+                WriteSpawnMessageEx(__instance, netObjParent, ownerId, flags);
+            }
+            return false;
+        }
+        /// <summary>
+        /// WriteSpawnMessageを単一パケットにまとめて発行する。
+        /// </summary>
+        /// <param name="__instance"></param>
+        /// <param name="netObjParent"></param>
+        /// <param name="ownerId"></param>
+        /// <param name="flags"></param>
+        /// <param name="clientId"></param>
+        public static void WriteSpawnMessageEx(InnerNetClient __instance, InnerNetObject netObjParent, int ownerId, SpawnFlags flags, int clientId = -1)
+        {
+            Logger.Info($"WriteSpawnMessageEx", "InnerNetClient");
+
+            InnerNetObject[] componentsInChildren = netObjParent.GetComponentsInChildren<InnerNetObject>();
+            var msg = MessageWriter.Get(SendOption.Reliable);
+            if (clientId == -1)
+            {
+                msg.StartMessage(5);
+                msg.Write(__instance.GameId);
+            }
+            else
+            {
+                msg.StartMessage(6);
+                msg.Write(__instance.GameId);
+                msg.Write(clientId);
+            }
+            {
+                msg.StartMessage(4);
+                {
+                    msg.WritePacked(netObjParent.SpawnId);
+                    msg.WritePacked(ownerId);
+                    msg.Write((byte)flags);
+                    msg.WritePacked(componentsInChildren.Length);
+                    foreach (InnerNetObject innerNetObject in componentsInChildren)
+                    {
+                        innerNetObject.OwnerId = ownerId;
+                        innerNetObject.SpawnFlags = flags;
+                        if (innerNetObject.NetId == 0U)
+                        {
+                            InnerNetObject innerNetObject2 = innerNetObject;
+                            uint netIdCnt = __instance.NetIdCnt;
+                            __instance.NetIdCnt = netIdCnt + 1U;
+                            innerNetObject2.NetId = netIdCnt;
+                            __instance.allObjects.Add(innerNetObject);
+                            __instance.allObjectsFast.Add(innerNetObject.NetId, innerNetObject);
+                        }
+                        msg.WritePacked(innerNetObject.NetId);
+                        msg.StartMessage(1);
+                        {
+                            innerNetObject.Serialize(msg, true);
+                        }
+                        msg.EndMessage();
+                    }
+                    msg.EndMessage();
+                }
+                msg.EndMessage();
+            }
+            __instance.SendOrDisconnect(msg);
+            msg.Recycle();
+        }
+    }
 }
