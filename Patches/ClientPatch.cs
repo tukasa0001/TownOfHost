@@ -132,25 +132,8 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
                 GameOptionsSender.SendAllGameOptions();
 
-            //いったんバッファにたまっている分を送信する
-            for (int j = 0; j < __instance.Streams.Length; j++)
-            {
-                MessageWriter messageWriter2 = __instance.Streams[j];
-                if (messageWriter2.HasBytes(7))
-                {
-                    messageWriter2.EndMessage();
-                    if (DebugModeManager.IsDebugMode)
-                    {
-                        Logger.Info($"Send Buffer before SendAllStreamedObjects", "InnerNetClient");
-                    }
-                    __instance.SendOrDisconnect(messageWriter2);
-                    messageWriter2.Clear((SendOption)j);
-                    messageWriter2.StartMessage(5);
-                    messageWriter2.Write(__instance.GameId);
-                }
-            }
-
             //9人以上部屋で落ちる現象の対策コード
+            var sended = false;
             __result = false;
             var obj = __instance.allObjects;
             lock (obj)
@@ -158,11 +141,23 @@ namespace TownOfHost
                 for (int i = 0; i < __instance.allObjects.Count; i++)
                 {
                     InnerNetObject innerNetObject = __instance.allObjects[i];
-                    if (innerNetObject && innerNetObject.IsDirty && (innerNetObject.AmOwner || (innerNetObject.OwnerId == -2 && __instance.AmHost)))
+                    if (innerNetObject && innerNetObject.IsDirty && (innerNetObject.AmOwner ||
+                        (innerNetObject.OwnerId == -2 && __instance.AmHost)))
                     {
-                        var messageWriter = MessageWriter.Get(SendOption.Reliable);
-                        messageWriter.StartMessage(5);
-                        messageWriter.Write(__instance.GameId);
+                        var messageWriter = __instance.Streams[(byte)innerNetObject.sendMode];
+                        if (messageWriter.Length > 500)
+                        {
+                            if (!sended)
+                            {
+                                Logger.Info($"SendAllStreamedObjects: Start", "InnerNetClient");
+                                sended = true;
+                            }
+                            messageWriter.EndMessage();
+                            __instance.SendOrDisconnect(messageWriter);
+                            messageWriter.Clear(innerNetObject.sendMode);
+                            messageWriter.StartMessage(5);
+                            messageWriter.Write(__instance.GameId);
+                        }
                         messageWriter.StartMessage(1);
                         messageWriter.WritePacked(innerNetObject.NetId);
                         try
@@ -177,6 +172,7 @@ namespace TownOfHost
                             }
                             if (innerNetObject.Chunked && innerNetObject.IsDirty)
                             {
+                                Logger.Info($"SendAllStreamedObjects: Chunked", "InnerNetClient");
                                 __result = true;
                             }
                         }
@@ -185,19 +181,27 @@ namespace TownOfHost
                             Logger.Info($"Exception:{ex.Message}", "InnerNetClient");
                             messageWriter.CancelMessage();
                         }
-                        if (messageWriter.HasBytes(7))
-                        {
-                            messageWriter.EndMessage();
-                            if (DebugModeManager.IsDebugMode)
-                            {
-                                Logger.Info($"SendAllStreamedObjects", "InnerNetClient");
-                            }
-                            __instance.SendOrDisconnect(messageWriter);
-                        }
-                        messageWriter.Recycle();
                     }
                 }
             }
+            for (int j = 0; j < __instance.Streams.Length; j++)
+            {
+                MessageWriter messageWriter2 = __instance.Streams[j];
+                if (messageWriter2.HasBytes(7))
+                {
+                    if (!sended)
+                    {
+                        Logger.Info($"SendAllStreamedObjects: Start", "InnerNetClient");
+                        sended = true;
+                    }
+                    messageWriter2.EndMessage();
+                    __instance.SendOrDisconnect(messageWriter2);
+                    messageWriter2.Clear((SendOption)j);
+                    messageWriter2.StartMessage(5);
+                    messageWriter2.Write(__instance.GameId);
+                }
+            }
+            if (sended) Logger.Info($"SendAllStreamedObjects: End", "InnerNetClient");
             return false;
         }
     }
@@ -232,117 +236,51 @@ namespace TownOfHost
         [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendInitialData)), HarmonyPrefix]
         public static bool SendInitialDataPatch(InnerNetClient __instance, int clientId)
         {
-            Logger.Info($"SendInitialDataPatch:", "InnerNetClient");
-            var obj = __instance.allObjects;
+            Logger.Info($"SendInitialData: Start", "InnerNetClient");
+            MessageWriter messageWriter = MessageWriter.Get(SendOption.Reliable);
+            messageWriter.StartMessage(6);
+            messageWriter.Write(__instance.GameId);
+            messageWriter.WritePacked(clientId);
 
+            var obj = __instance.allObjects;
             lock (obj)
             {
                 var hashSet = new System.Collections.Generic.HashSet<GameObject>();
-                //SendGameManagerの代替。初めに発行する必要があるためここへ。
-                var gameManager = GameManager.Instance;
-                if (gameManager && (gameManager.OwnerId != -4 || __instance.AmModdedHost) && hashSet.Add(gameManager.gameObject))
-                {
-                    WriteSpawnMessageEx(__instance, gameManager, gameManager.OwnerId, gameManager.SpawnFlags, clientId);
-                }
+                //まずはGameManagerを送信
+                GameManager gameManager = GameManager.Instance;
+                __instance.SendGameManager(clientId, gameManager);
+                hashSet.Add(gameManager.gameObject);
 
                 for (int i = 0; i < __instance.allObjects.Count; i++)
                 {
-                    var innerNetObject = __instance.allObjects[i];
+                    InnerNetObject innerNetObject = __instance.allObjects[i];
                     if (innerNetObject && (innerNetObject.OwnerId != -4 || __instance.AmModdedHost) && hashSet.Add(innerNetObject.gameObject))
                     {
-                        WriteSpawnMessageEx(__instance, innerNetObject, innerNetObject.OwnerId, innerNetObject.SpawnFlags, clientId);
+                        if (messageWriter.Length > 500)
+                        {
+                            messageWriter.EndMessage();
+                            __instance.SendOrDisconnect(messageWriter);
+                            messageWriter.Clear(SendOption.Reliable);
+                            messageWriter.StartMessage(6);
+                            messageWriter.Write(__instance.GameId);
+                            messageWriter.WritePacked(clientId);
+
+                        }
+                        __instance.WriteSpawnMessage(innerNetObject, innerNetObject.OwnerId, innerNetObject.SpawnFlags, messageWriter);
                     }
                 }
             }
+            messageWriter.EndMessage();
+            __instance.SendOrDisconnect(messageWriter);
+            messageWriter.Recycle();
+            Logger.Info($"SendInitialData: End", "InnerNetClient");
             return false;
         }
         [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.Spawn)), HarmonyPrefix]
         public static bool SpawnPatch(InnerNetClient __instance, InnerNetObject netObjParent, int ownerId, SpawnFlags flags)
         {
             Logger.Info($"SpawnPatch", "InnerNetClient");
-            if (__instance.AmHost)
-            {
-                ownerId = (ownerId == -3) ? __instance.ClientId : ownerId;
-                WriteSpawnMessageEx(__instance, netObjParent, ownerId, flags);
-            }
-            return false;
-        }
-        /// <summary>
-        /// WriteSpawnMessageを単一パケットにまとめて発行する。
-        /// </summary>
-        /// <param name="__instance"></param>
-        /// <param name="netObjParent"></param>
-        /// <param name="ownerId"></param>
-        /// <param name="flags"></param>
-        /// <param name="clientId"></param>
-        public static void WriteSpawnMessageEx(InnerNetClient __instance, InnerNetObject netObjParent, int ownerId, SpawnFlags flags, int clientId = -1)
-        {
-            //いったんバッファにたまっている分を送信する
-            for (int j = 0; j < __instance.Streams.Length; j++)
-            {
-                MessageWriter messageWriter2 = __instance.Streams[j];
-                if (messageWriter2.HasBytes(7))
-                {
-                    messageWriter2.EndMessage();
-                    if (DebugModeManager.IsDebugMode)
-                    {
-                        Logger.Info($"Send Buffer before WriteSpawnMessageEx", "InnerNetClient");
-                    }
-                    __instance.SendOrDisconnect(messageWriter2);
-                    messageWriter2.Clear((SendOption)j);
-                    messageWriter2.StartMessage(5);
-                    messageWriter2.Write(__instance.GameId);
-                }
-            }
-
-            Logger.Info($"WriteSpawnMessageEx", "InnerNetClient");
-
-            InnerNetObject[] componentsInChildren = netObjParent.GetComponentsInChildren<InnerNetObject>();
-            var msg = MessageWriter.Get(SendOption.Reliable);
-            if (clientId == -1)
-            {
-                msg.StartMessage(5);
-                msg.Write(__instance.GameId);
-            }
-            else
-            {
-                msg.StartMessage(6);
-                msg.Write(__instance.GameId);
-                msg.WritePacked(clientId);
-            }
-            {
-                msg.StartMessage(4);
-                {
-                    msg.WritePacked(netObjParent.SpawnId);
-                    msg.WritePacked(ownerId);
-                    msg.Write((byte)flags);
-                    msg.WritePacked(componentsInChildren.Length);
-                    foreach (InnerNetObject innerNetObject in componentsInChildren)
-                    {
-                        innerNetObject.OwnerId = ownerId;
-                        innerNetObject.SpawnFlags = flags;
-                        if (innerNetObject.NetId == 0U)
-                        {
-                            InnerNetObject innerNetObject2 = innerNetObject;
-                            uint netIdCnt = __instance.NetIdCnt;
-                            __instance.NetIdCnt = netIdCnt + 1U;
-                            innerNetObject2.NetId = netIdCnt;
-                            __instance.allObjects.Add(innerNetObject);
-                            __instance.allObjectsFast.Add(innerNetObject.NetId, innerNetObject);
-                        }
-                        msg.WritePacked(innerNetObject.NetId);
-                        msg.StartMessage(1);
-                        {
-                            innerNetObject.Serialize(msg, true);
-                        }
-                        msg.EndMessage();
-                    }
-                    msg.EndMessage();
-                }
-                msg.EndMessage();
-            }
-            __instance.SendOrDisconnect(msg);
-            msg.Recycle();
+            return true;
         }
     }
 }
