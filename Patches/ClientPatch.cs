@@ -204,12 +204,25 @@ namespace TownOfHost
     [HarmonyPatch]
     class InnerNetClientPatch
     {
+        [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.HandleMessage)), HarmonyPrefix]
+        public static bool HandleMessagePatch(InnerNetClient __instance, MessageReader reader, SendOption sendOption)
+        {
+            if (DebugModeManager.IsDebugMode)
+            {
+                Logger.Info($"HandleMessagePatch:Packet({reader.Length}) ,SendOption:{sendOption}", "InnerNetClient");
+            }
+            else if (reader.Length > 1000)
+            {
+                Logger.Info($"HandleMessagePatch:Large Packet({reader.Length})", "InnerNetClient");
+            }
+            return true;
+        }
         [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendOrDisconnect)), HarmonyPrefix]
         public static void SendOrDisconnectPatch(InnerNetClient __instance, MessageWriter msg)
         {
             if (DebugModeManager.IsDebugMode)
             {
-                Logger.Info($"SendOrDisconnectPatch:Packet({msg.Length})", "InnerNetClient");
+                Logger.Info($"SendOrDisconnectPatch:Packet({msg.Length}) ,SendOption:{msg.SendOption}", "InnerNetClient");
             }
             else if (msg.Length > 1000)
             {
