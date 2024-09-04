@@ -151,7 +151,10 @@ namespace TownOfHost
                         {
                             if (!sended)
                             {
-                                Logger.Info($"SendAllStreamedObjects: Start", "InnerNetClient");
+                                if (DebugModeManager.IsDebugMode)
+                                {
+                                    Logger.Info($"SendAllStreamedObjects: Start", "InnerNetClient");
+                                }
                                 sended = true;
                             }
                             messageWriter.EndMessage();
@@ -193,7 +196,10 @@ namespace TownOfHost
                 {
                     if (!sended)
                     {
-                        Logger.Info($"SendAllStreamedObjects: Start", "InnerNetClient");
+                        if (DebugModeManager.IsDebugMode)
+                        {
+                            Logger.Info($"SendAllStreamedObjects: Start", "InnerNetClient");
+                        }
                         sended = true;
                     }
                     messageWriter2.EndMessage();
@@ -203,7 +209,7 @@ namespace TownOfHost
                     messageWriter2.Write(__instance.GameId);
                 }
             }
-            if (sended) Logger.Info($"SendAllStreamedObjects: End", "InnerNetClient");
+            if (DebugModeManager.IsDebugMode && sended) Logger.Info($"SendAllStreamedObjects: End", "InnerNetClient");
             return false;
         }
     }
@@ -239,7 +245,10 @@ namespace TownOfHost
         public static bool SendInitialDataPatch(InnerNetClient __instance, int clientId)
         {
             if (!Options.FixSpawnPacketSize.GetBool()) return true;
-            Logger.Info($"SendInitialData: Start", "InnerNetClient");
+            if (DebugModeManager.IsDebugMode)
+            {
+                Logger.Info($"SendInitialData: Start", "InnerNetClient");
+            }
             MessageWriter messageWriter = MessageWriter.Get(SendOption.Reliable);
             messageWriter.StartMessage(6);
             messageWriter.Write(__instance.GameId);
@@ -276,13 +285,19 @@ namespace TownOfHost
             messageWriter.EndMessage();
             __instance.SendOrDisconnect(messageWriter);
             messageWriter.Recycle();
-            Logger.Info($"SendInitialData: End", "InnerNetClient");
+            if (DebugModeManager.IsDebugMode)
+            {
+                Logger.Info($"SendInitialData: End", "InnerNetClient");
+            }
             return false;
         }
         [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.Spawn)), HarmonyPrefix]
         public static bool SpawnPatch(InnerNetClient __instance, InnerNetObject netObjParent, int ownerId, SpawnFlags flags)
         {
-            Logger.Info($"SpawnPatch", "InnerNetClient");
+            if (DebugModeManager.IsDebugMode)
+            {
+                Logger.Info($"SpawnPatch", "InnerNetClient");
+            }
             return true;
         }
     }
