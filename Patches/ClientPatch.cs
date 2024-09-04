@@ -133,6 +133,8 @@ namespace TownOfHost
                 GameOptionsSender.SendAllGameOptions();
 
             //9人以上部屋で落ちる現象の対策コード
+            if (!Options.FixSpawnPacketSize.GetBool()) return true;
+
             var sended = false;
             __result = false;
             var obj = __instance.allObjects;
@@ -236,6 +238,7 @@ namespace TownOfHost
         [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendInitialData)), HarmonyPrefix]
         public static bool SendInitialDataPatch(InnerNetClient __instance, int clientId)
         {
+            if (!Options.FixSpawnPacketSize.GetBool()) return true;
             Logger.Info($"SendInitialData: Start", "InnerNetClient");
             MessageWriter messageWriter = MessageWriter.Get(SendOption.Reliable);
             messageWriter.StartMessage(6);

@@ -348,6 +348,7 @@
 "ApplyDenyNameList","Apply DenyName List","DenyNameリストを適用する","启用违禁昵称名单","自動禁止具有不良名字的人加入","Применить файл запрещённых имён (DenyName)","Aplicar Lista de Nomes Proibidos (DenyName)",""
 "KickPlayerFriendCodeNotExist","Kick Players Whose Friend Code Does Not Exist","フレンドコードが存在しないプレイヤーをキックする","踢出好友编号无效的玩家","將沒有好友代碼的玩家自動踢出","Кикнуть игроков у которых нет Кода Друга","Expulsar Jogadores Sem Código de Amigo",""
 "ApplyBanList","Apply BanList","BANリストを適用する","启用封禁名单","啟用封禁名單","Применить файл с забаненными игроками (BanList)","Aplicar Lista de Banimentos (BanList)",""
+"FixSpawnPacketSize","Set When Disconnect above 8-9 People","8～9人以上で切断される現象の修正"
 
 "## モード説明"
 "HideAndSeekInfo","Hide and Seek:\nNo emergency meetings. Crewmates (Blue) can only win by finishing tasks\nand impostors (Red) can only win by killing all crewmates.","かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。","躲猫猫:\n不能开会；船员只能通过完成任务获得胜利；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。","躲貓貓:\n不能拍桌或舉報，船員只能做任務\n偽裝者的勝利條件為殺光所有船員\n狼人的顏色會轉變為紅色，船員則會變為藍色。","Прятки:\nНикто не может созвать срочное собрание, Члены Экипажа могут победить, только выполняя задания. \nПредатели меняют цвет тела на красный, а экипажи на синий.","Esconde-Esconde:\nNão há reuniões de emergência. Tripulantes (Azul) podem ganhar apenas ao completar todas as tarefas,\ne Impostores (Vermelho) ganham apenas quando matarem todos os tripulantes.",""

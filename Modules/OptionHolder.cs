@@ -328,6 +328,8 @@ namespace TownOfHost
         public static OptionItem KickPlayerFriendCodeNotExist;
         public static OptionItem ApplyBanList;
 
+        public static OptionItem FixSpawnPacketSize;
+
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -685,6 +687,9 @@ namespace TownOfHost
 
             DebugModeManager.SetupCustomOption();
 
+            //9人以上部屋で落ちる現象の対策
+            FixSpawnPacketSize = BooleanOptionItem.Create(1_000_200, "FixSpawnPacketSize", false, TabGroup.MainSettings, true)
+                .SetGameMode(CustomGameMode.All);
             OptionSaver.Load();
 
             IsLoaded = true;
