@@ -291,14 +291,22 @@ namespace TownOfHost
             }
             return false;
         }
-        [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.Spawn)), HarmonyPrefix]
-        public static bool SpawnPatch(InnerNetClient __instance, InnerNetObject netObjParent, int ownerId, SpawnFlags flags)
+        [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.Spawn)), HarmonyPostfix]
+        public static void SpawnPatch(InnerNetClient __instance, InnerNetObject netObjParent, int ownerId, SpawnFlags flags)
         {
             if (DebugModeManager.IsDebugMode)
             {
                 Logger.Info($"SpawnPatch", "InnerNetClient");
             }
-            return true;
+            var messageWriter = __instance.Streams[(byte)SendOption.Reliable];
+            if (messageWriter.Length > 500)
+            {
+                messageWriter.EndMessage();
+                __instance.SendOrDisconnect(messageWriter);
+                messageWriter.Clear(SendOption.Reliable);
+                messageWriter.StartMessage(5);
+                messageWriter.Write(__instance.GameId);
+            }
         }
     }
 }
