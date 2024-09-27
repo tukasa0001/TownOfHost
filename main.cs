@@ -247,6 +247,7 @@ namespace TownOfHost
             SystemEnvironment.SetEnvironmentVariables();
 
             Harmony.PatchAll();
+            Application.quitting += new Action(Utils.SaveNowLog);
         }
     }
     public enum CustomDeathReason
