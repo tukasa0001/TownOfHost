@@ -1044,9 +1044,14 @@ namespace TownOfHost
             foreach (char c in t) bc += Encoding.GetEncoding("UTF-8").GetByteCount(c.ToString()) == 1 ? 1 : 2;
             return t?.PadRight(Mathf.Max(num - (bc - t.Length), 0));
         }
-        public static DirectoryInfo GetLogFolder()
+        public static DirectoryInfo GetLogFolder(bool auto = false)
         {
-            return Directory.CreateDirectory("TOH_LOGS");
+            var folder = Directory.CreateDirectory("TOH_LOGS");
+            if (auto)
+            {
+                folder = Directory.CreateDirectory($"{folder.FullName}/AutoLogs");
+            }
+            return folder;
         }
         public static void DumpLog()
         {
@@ -1058,7 +1063,7 @@ namespace TownOfHost
         }
         public static void SaveNowLog()
         {
-            var logs = GetLogFolder();
+            var logs = GetLogFolder(true);
             // 7日以上前のログを削除
             logs.EnumerateFiles().Where(f => f.CreationTime < DateTime.Now.AddDays(-7)).ToList().ForEach(f => f.Delete());
             CopyLog(logs.FullName);
