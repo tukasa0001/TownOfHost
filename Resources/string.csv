@@ -557,6 +557,7 @@
 "Cancel","Cancel","キャンセル","取消","","Отменить","Cancelar",""
 "Unload","DISABLE","無効化","确认","","ОТКЛЮЧИТЬ","DESATIVAR",""
 "DumpLog","Output Log","ログを出力","输出日志","","Вывести Журнал","Log de Saída",""
+"OpenLogFolder","Open Log Folder","ログフォルダを開く"
 
 "## ヘルプテキスト"
 "CommandList","Command List:","コマンド一覧:","指令列表:","指令列表:","Список команд:","Lista de Comandos:",""

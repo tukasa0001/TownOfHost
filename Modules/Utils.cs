@@ -1067,6 +1067,11 @@ namespace TownOfHost
             file.CopyTo(fileName);
 
         }
+        public static void OpenLogFolder()
+        {
+            var logs = Directory.CreateDirectory("TOH_LOGS");
+            OpenDirectory(logs.FullName);
+        }
         public static void OpenDirectory(string path)
         {
             var startInfo = new ProcessStartInfo(path)
