@@ -1059,13 +1059,13 @@ namespace TownOfHost
             logs.EnumerateFiles().Where(f => f.CreationTime < DateTime.Now.AddDays(-7)).ToList().ForEach(f => f.Delete());
             CopyLog(logs.FullName);
         }
-        public static void CopyLog(string folder)
+        public static string CopyLog(string folder)
         {
             string t = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
             string fileName = $"{folder}/TownOfHost-v{Main.PluginVersion}-{t}.log";
             FileInfo file = new(@$"{Environment.CurrentDirectory}/BepInEx/LogOutput.log");
-            file.CopyTo(fileName);
-
+            var logFile = file.CopyTo(fileName);
+            return logFile.FullName;
         }
         public static void OpenLogFolder()
         {
