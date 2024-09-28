@@ -1072,13 +1072,9 @@ namespace TownOfHost
             var logs = Directory.CreateDirectory("TOH_LOGS");
             OpenDirectory(logs.FullName);
         }
-        public static void OpenDirectory(string path)
-        {
-            var startInfo = new ProcessStartInfo(path)
+        public static void OpenDirectory(string path, string filename = null)
             {
-                UseShellExecute = true,
-            };
-            Process.Start(startInfo);
+            Process.Start("Explorer.exe", filename != null ? $"/select,{filename}" : path);
         }
         public static string SummaryTexts(byte id, bool isForChat)
         {
