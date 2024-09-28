@@ -1044,17 +1044,21 @@ namespace TownOfHost
             foreach (char c in t) bc += Encoding.GetEncoding("UTF-8").GetByteCount(c.ToString()) == 1 ? 1 : 2;
             return t?.PadRight(Mathf.Max(num - (bc - t.Length), 0));
         }
+        public static DirectoryInfo GetLogFolder()
+        {
+            return Directory.CreateDirectory("TOH_LOGS");
+        }
         public static void DumpLog()
         {
-            var desktop = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            CopyLog(desktop);
-            OpenDirectory(desktop);
+            var logs = GetLogFolder();
+            var filename = CopyLog(logs.FullName);
+            OpenDirectory("", filename);
             if (PlayerControl.LocalPlayer != null)
-                HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
+                HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, "ログフォルダにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
         }
         public static void SaveNowLog()
         {
-            var logs = Directory.CreateDirectory("TOH_LOGS");
+            var logs = GetLogFolder();
             // 7日以上前のログを削除
             logs.EnumerateFiles().Where(f => f.CreationTime < DateTime.Now.AddDays(-7)).ToList().ForEach(f => f.Delete());
             CopyLog(logs.FullName);
@@ -1069,11 +1073,11 @@ namespace TownOfHost
         }
         public static void OpenLogFolder()
         {
-            var logs = Directory.CreateDirectory("TOH_LOGS");
+            var logs = GetLogFolder();
             OpenDirectory(logs.FullName);
         }
         public static void OpenDirectory(string path, string filename = null)
-            {
+        {
             Process.Start("Explorer.exe", filename != null ? $"/select,{filename}" : path);
         }
         public static string SummaryTexts(byte id, bool isForChat)
