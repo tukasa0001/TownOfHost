@@ -1046,7 +1046,7 @@ namespace TownOfHost
         }
         public static DirectoryInfo GetLogFolder(bool auto = false)
         {
-            var folder = Directory.CreateDirectory($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/TownOfHost/Logs");
+            var folder = Directory.CreateDirectory($"{Application.persistentDataPath}/TownOfHost/Logs");
             if (auto)
             {
                 folder = Directory.CreateDirectory($"{folder.FullName}/AutoLogs");
