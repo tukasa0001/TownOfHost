@@ -593,6 +593,7 @@
 "Message.ExportedOptions","Exported options","オプションデータを出力しました","输出选项数据到文件","","Экспортированные настройки","Opções exportadas",""
 "Message.LoadedOptions","Loaded options","オプションデータを読み込みました","数据选项已加载","","Загруженные настройки","Opções carregadas",""
 "Message.OnlyHostCanLoadOptions","Only the host can load options","ホストのみがオプションを読み込めます","只有房主可以加载数据选项","","Только хост может загружать настройки","Apenas o anfitrião pode carregar opções",""
+"Message.LogsSavedInLogsFolder","Logs saved in the logs folder.Please create a bug ticket and attach this file.","ログフォルダにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。","","","","",""
 
 "## 警告"
 "Warning.EgoistCannotWin","Egoist cannot win","エゴイストが勝利できません","野心家无法获胜","利己主義者無法獲勝","Эгоист не может победить!","Egoísta não pode vencer",""

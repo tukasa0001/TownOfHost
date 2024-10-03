@@ -1059,7 +1059,7 @@ namespace TownOfHost
             var filename = CopyLog(logs.FullName);
             OpenDirectory(filename);
             if (PlayerControl.LocalPlayer != null)
-                HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, "ログフォルダにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
+                HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, Translator.GetString("Message.LogsSavedInLogsFolder"));
         }
         public static void SaveNowLog()
         {
