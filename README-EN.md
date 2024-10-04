@@ -41,6 +41,9 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Sheriff, Arsonist, Jackal, and other roles can close doors, but please don't use it because the system can't limit it.
 - The dead player chat can be seen when exile screen by anti blackout, but this is not a bug.
 - The "Confirm Ejects" option will not work if any of the following roles are enabled: Sheriff, Arsonist, Jackal, PlagueDoctor.
+- When more than about 9 players join a lobby, sometimes particular players may get disconnected.To address this issue, we have added an optional countermeasure function on a trial basis. <b>Please Turn ON only when disconnections occurs. </b>
+- The folder for log output has been changed. To see where they are saved, select Open Log Folder from the TOH settings screen.
+- Successful completion is now automatically saved in the log folder.
 
 ## Features
 ### Hotkeys
@@ -61,7 +64,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 | HotKey      | Function                                                                           | Usable Scene  |
 | ----------- | ---------------------------------------------------------------------------------- | ------------- |
 | `Tab`       | Option list page feed                                                              | Lobby         |
-| `Ctrl`+`F1` | Output log to desktop                                                              | Anywhere      |
+| `Ctrl`+`F1` | Output log to Log Folder                                                           | Anywhere      |
 | `F10`       | Open AmongUs folder                                                                | Anywhere      |
 | `F11`       | Change resolution<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 → 1920x1080 | Anywhere      |
 | `T`+`F5`    | Reload custom translation file                                                     | Anywhere      |
