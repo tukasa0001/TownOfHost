@@ -1044,23 +1044,46 @@ namespace TownOfHost
             foreach (char c in t) bc += Encoding.GetEncoding("UTF-8").GetByteCount(c.ToString()) == 1 ? 1 : 2;
             return t?.PadRight(Mathf.Max(num - (bc - t.Length), 0));
         }
+        public static DirectoryInfo GetLogFolder(bool auto = false)
+        {
+            var folder = Directory.CreateDirectory($"{Application.persistentDataPath}/TownOfHost/Logs");
+            if (auto)
+            {
+                folder = Directory.CreateDirectory($"{folder.FullName}/AutoLogs");
+            }
+            return folder;
+        }
         public static void DumpLog()
         {
-            string t = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
-            string fileName = $"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/TownOfHost-v{Main.PluginVersion}-{t}.log";
-            FileInfo file = new(@$"{Environment.CurrentDirectory}/BepInEx/LogOutput.log");
-            file.CopyTo(fileName);
-            OpenDirectory(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+            var logs = GetLogFolder();
+            var filename = CopyLog(logs.FullName);
+            OpenDirectory(filename);
             if (PlayerControl.LocalPlayer != null)
-                HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
+                HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, Translator.GetString("Message.LogsSavedInLogsFolder"));
+        }
+        public static void SaveNowLog()
+        {
+            var logs = GetLogFolder(true);
+            // 7日以上前のログを削除
+            logs.EnumerateFiles().Where(f => f.CreationTime < DateTime.Now.AddDays(-7)).ToList().ForEach(f => f.Delete());
+            CopyLog(logs.FullName);
+        }
+        public static string CopyLog(string path)
+        {
+            string t = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
+            string fileName = $"{path}/TownOfHost-v{Main.PluginVersion}-{t}.log";
+            FileInfo file = new(@$"{Environment.CurrentDirectory}/BepInEx/LogOutput.log");
+            var logFile = file.CopyTo(fileName);
+            return logFile.FullName;
+        }
+        public static void OpenLogFolder()
+        {
+            var logs = GetLogFolder(true);
+            OpenDirectory(logs.FullName);
         }
         public static void OpenDirectory(string path)
         {
-            var startInfo = new ProcessStartInfo(path)
-            {
-                UseShellExecute = true,
-            };
-            Process.Start(startInfo);
+            Process.Start("Explorer.exe", $"/select,{path}");
         }
         public static string SummaryTexts(byte id, bool isForChat)
         {
