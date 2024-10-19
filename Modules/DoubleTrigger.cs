@@ -1,79 +1,92 @@
 using System;
 using System.Collections.Generic;
+using MS.Internal.Xml.XPath;
 using TownOfHost.Attributes;
+using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using UnityEngine;
 
 namespace TownOfHost
 {
     static class DoubleTrigger
     {
-        public static List<byte> PlayerIdList = new();
+        class DoubleTriggerData
+        {
+            public PlayerControl Target;
+            public float Timer;
+            public Func<PlayerControl, PlayerControl, bool> SingleAction;
+            public Func<PlayerControl, PlayerControl, bool> DoubleAction;
 
-        public static Dictionary<byte, float> FirstTriggerTimer = new();
-        public static Dictionary<byte, byte> FirstTriggerTarget = new();
-        public static Dictionary<byte, Action> FirstTriggerAction = new();
+            public DoubleTriggerData(Func<PlayerControl, PlayerControl, bool> singleAction, Func<PlayerControl, PlayerControl, bool> doubleAction)
+            {
+                Timer = -1f;
+                Target = null;
+                SingleAction = singleAction;
+                DoubleAction = doubleAction;
+            }
+        }
+        static Dictionary<byte, DoubleTriggerData> DoubleTriggerList = new(15);
+
+        static readonly float DoubleTriggerTime = 0.3f;
 
         [GameModuleInitializer]
         public static void Init()
         {
-            PlayerIdList = new();
-            FirstTriggerTimer = new();
-            FirstTriggerAction = new();
+            DoubleTriggerList.Clear();
         }
         public static void AddDoubleTrigger(this PlayerControl killer)
         {
-            PlayerIdList.Add(killer.PlayerId);
-        }
-        public static bool CanDoubleTrigger(this PlayerControl killer)
-        {
-            return PlayerIdList.Contains(killer.PlayerId);
+            if (killer.GetRoleClass() is not IDoubleTrigger role) throw new Exception($"{killer.name} is Not IDoubleTrigger!");
+            DoubleTriggerList[killer.PlayerId] = new DoubleTriggerData(role.SingleTrigger, role.DoubleTrigger);
         }
 
-        ///     一回目アクション時 false、2回目アクション時true
-        public static bool CheckDoubleTrigger(this PlayerControl killer, PlayerControl target, Action firstAction)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns>true:キルする false:キルしない</returns>
+        public static void OnCheckMurderAsKiller(MurderInfo info)
         {
-            if (FirstTriggerTimer.ContainsKey(killer.PlayerId))
+            var (killer, target) = info.AttemptTuple;
+
+            if (!DoubleTriggerList.TryGetValue(killer.PlayerId, out var triggerData)) throw new Exception($"{killer.name} is Not Registered DoubleTrigger");
+            if (triggerData.Target == null)
             {
-                if (FirstTriggerTarget[killer.PlayerId] != target.PlayerId)
-                {
-                    //2回目がターゲットずれてたら最初の相手にシングルアクション
-                    return false;
-                }
-                Logger.Info($"{killer.name} DoDoubleAction", "DoubleTrigger");
-                FirstTriggerTimer.Remove(killer.PlayerId);
-                FirstTriggerTarget.Remove(killer.PlayerId);
-                FirstTriggerAction.Remove(killer.PlayerId);
-                return true;
+                //シングルアクション候補
+                triggerData.Target = target;
+                triggerData.Timer = DoubleTriggerTime;
+                //シングルアクション時はキル間隔を無視
+                CheckMurderPatch.TimeSinceLastKill.Remove(killer.PlayerId);
+                Logger.Info($"{killer.name} stand by SingleAction to{triggerData.Target}", "DoubleTrigger");
+                info.DoKill = false;
             }
-            //シングルアクション時はキル間隔を無視
-            CheckMurderPatch.TimeSinceLastKill.Remove(killer.PlayerId);
-            FirstTriggerTimer.Add(killer.PlayerId, 1f);
-            FirstTriggerTarget.Add(killer.PlayerId, target.PlayerId);
-            FirstTriggerAction.Add(killer.PlayerId, firstAction);
-            return false;
+            else
+            {
+                //ダブルクリック対象がターゲットとずれたとしても元々のターゲットを優先
+                Logger.Info($"{killer.name} DoDoubleAction to{triggerData.Target}", "DoubleTrigger");
+                info.DoKill = triggerData.DoubleAction(killer, triggerData.Target);
+                //シングス処理をキャンセルするためnullにする
+                triggerData.Target = null;
+            }
         }
         public static void OnFixedUpdate(PlayerControl player)
         {
+            if (!GameStates.IsInGame) return;
+            if (player.GetRoleClass() is not IDoubleTrigger role) return;
+
+            if (!DoubleTriggerList.TryGetValue(player.PlayerId, out var triggerData)) throw new Exception($"{player.name} is Not Registered DoubleTrigger");
             if (!GameStates.IsInTask)
             {
-                FirstTriggerTimer.Clear();
-                FirstTriggerTarget.Clear();
-                FirstTriggerAction.Clear();
-                return;
+                triggerData.Target = null;
             }
+            if (triggerData.Target == null) return;
 
-            var playerId = player.PlayerId;
-            if (!FirstTriggerTimer.ContainsKey(playerId)) return;
-
-            FirstTriggerTimer[playerId] -= Time.fixedDeltaTime;
-            if (FirstTriggerTimer[playerId] <= 0)
+            triggerData.Timer -= Time.fixedDeltaTime;
+            if (triggerData.Timer < 0)
             {
                 Logger.Info($"{player.name} DoSingleAction", "DoubleTrigger");
-                FirstTriggerAction[playerId]();
-
-                FirstTriggerTimer.Remove(playerId);
-                FirstTriggerTarget.Remove(playerId);
-                FirstTriggerAction.Remove(playerId);
+                triggerData.SingleAction(player, triggerData.Target);
+                triggerData.Target = null;
             }
         }
     }

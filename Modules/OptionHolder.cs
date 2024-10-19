@@ -76,6 +76,7 @@ namespace TownOfHost
         // 各役職の詳細設定
         public static OptionItem EnableGM;
         public static float DefaultKillCooldown = Main.NormalOptions?.KillCooldown ?? 20;
+        public static OptionItem DoubleTriggerThreshold;
         public static OptionItem DefaultShapeshiftCooldown;
         public static OptionItem CanMakeMadmateCount;
         public static OptionItem MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
@@ -402,8 +403,10 @@ namespace TownOfHost
                 info.OptionCreator?.Invoke();
             });
 
-            DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
+            DoubleTriggerThreshold = FloatOptionItem.Create(5013, "DoubleTriggerThreashould", new(0.3f, 1f, 0.1f), 0.3f, TabGroup.ImpostorRoles, false)
                 .SetHeader(true)
+                .SetValueFormat(OptionFormat.Seconds);
+            DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
                 .SetValueFormat(OptionFormat.Seconds);
             CanMakeMadmateCount = IntegerOptionItem.Create(5012, "CanMakeMadmateCount", new(0, 15, 1), 0, TabGroup.ImpostorRoles, false)
                 .SetValueFormat(OptionFormat.Times);

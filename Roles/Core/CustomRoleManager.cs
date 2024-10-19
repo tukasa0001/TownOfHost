@@ -72,7 +72,14 @@ public static class CustomRoleManager
                 }
             }
             // キラーのキルチェック処理実行
-            killer.OnCheckMurderAsKiller(info);
+            if (killerRole is IDoubleTrigger)
+            {
+                DoubleTrigger.OnCheckMurderAsKiller(info);
+            }
+            else
+            {
+                killer.OnCheckMurderAsKiller(info);
+            }
         }
 
         //キル可能だった場合のみMurderPlayerに進む

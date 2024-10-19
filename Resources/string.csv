@@ -366,6 +366,7 @@
 "ImpostorVision","Impostor Vision","インポスター視界","拥有内鬼视野","擁有偽裝者的視野","Имеет дальность Обзора Предателя","Visão (Impostor)",""
 "CanUseSabotage","Can Sabotage","サボタージュを使用できる","可以破坏","可以破壞","Может использовать Саботаж","Pode Sabotar",""
 "CanCreateMadmate","Can Make SideKick Madmate","マッドメイトを指名できる","可以指名叛徒","可以招募叛徒","Он может назначить Безумцев","Pode Criar Tripulante Louco Ajudante",""
+"DoubleTriggerThreashould","Double Trigger Threashould","ダブルトリガー閾値"
 
 "AssignMode","Assign Algorithm Mode","アサインモード","分配算法","","Алгоритм назначения","Atribuir Modo do Algorítimo",""
 "AssignAlgorithm.Fixed","Fixed","固定","固定","","Фиксированный","Fixo",""
