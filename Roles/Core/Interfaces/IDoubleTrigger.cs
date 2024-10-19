@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace TownOfHost.Roles.Core.Interfaces;
 
 /// <summary>
@@ -17,12 +11,12 @@ public interface IDoubleTrigger
     /// <param name="killer"></param>
     /// <param name="target"></param>
     /// <returns>true:キルする false:キルしない</returns>
-    public bool SingleTrigger(PlayerControl killer, PlayerControl target);
+    public bool SingleAction(PlayerControl killer, PlayerControl target);
     /// <summary>
     /// ダブル時のアクションの記述
     /// </summary>
     /// <param name="killer"></param>
     /// <param name="target"></param>
     /// <returns>true:キルする false:キルしない</returns>
-    public bool DoubleTrigger(PlayerControl killer, PlayerControl target);
+    public bool DoubleAction(PlayerControl killer, PlayerControl target);
 }

@@ -217,13 +217,13 @@ namespace TownOfHost.Roles.Impostor
             return true;
         }
 
-        public bool SingleTrigger(PlayerControl killer, PlayerControl target)
+        public bool SingleAction(PlayerControl killer, PlayerControl target)
         {
             SetSpelled(target);
             return false;
         }
 
-        public bool DoubleTrigger(PlayerControl killer, PlayerControl target)
+        public bool DoubleAction(PlayerControl killer, PlayerControl target)
         {
             return true;
         }

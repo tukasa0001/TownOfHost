@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    static class DoubleTrigger
+    public static class DoubleTrigger
     {
         class DoubleTriggerData
         {
@@ -37,19 +37,17 @@ namespace TownOfHost
         public static void AddDoubleTrigger(this PlayerControl killer)
         {
             if (killer.GetRoleClass() is not IDoubleTrigger role) throw new Exception($"{killer.name} is Not IDoubleTrigger!");
-            DoubleTriggerList[killer.PlayerId] = new DoubleTriggerData(role.SingleTrigger, role.DoubleTrigger);
+            DoubleTriggerList[killer.PlayerId] = new DoubleTriggerData(role.SingleAction, role.DoubleAction);
         }
-
         /// <summary>
-        /// 
+        /// ダブルトリガーの処理
         /// </summary>
         /// <param name="info"></param>
-        /// <returns>true:キルする false:キルしない</returns>
-        public static void OnCheckMurderAsKiller(MurderInfo info)
+        /// <returns>true:処理した false:処理しない</returns>
+        public static bool OnCheckMurderAsKiller(MurderInfo info)
         {
             var (killer, target) = info.AttemptTuple;
-
-            if (!DoubleTriggerList.TryGetValue(killer.PlayerId, out var triggerData)) throw new Exception($"{killer.name} is Not Registered DoubleTrigger");
+            if (!DoubleTriggerList.TryGetValue(killer.PlayerId, out var triggerData)) return false;
             if (triggerData.Target == null)
             {
                 //シングルアクション候補
@@ -68,13 +66,11 @@ namespace TownOfHost
                 //シングス処理をキャンセルするためnullにする
                 triggerData.Target = null;
             }
+            return true;
         }
         public static void OnFixedUpdate(PlayerControl player)
         {
-            if (!GameStates.IsInGame) return;
-            if (player.GetRoleClass() is not IDoubleTrigger role) return;
-
-            if (!DoubleTriggerList.TryGetValue(player.PlayerId, out var triggerData)) throw new Exception($"{player.name} is Not Registered DoubleTrigger");
+            if (!DoubleTriggerList.TryGetValue(player.PlayerId, out var triggerData)) return;
             if (!GameStates.IsInTask)
             {
                 triggerData.Target = null;
