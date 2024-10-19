@@ -55,13 +55,13 @@ namespace TownOfHost
                 triggerData.Timer = DoubleTriggerTime;
                 //シングルアクション時はキル間隔を無視
                 CheckMurderPatch.TimeSinceLastKill.Remove(killer.PlayerId);
-                Logger.Info($"{killer.name} stand by SingleAction to{triggerData.Target}", "DoubleTrigger");
+                Logger.Info($"{killer.name} stand by SingleAction to {triggerData.Target.name}", "DoubleTrigger");
                 info.DoKill = false;
             }
             else
             {
                 //ダブルクリック対象がターゲットとずれたとしても元々のターゲットを優先
-                Logger.Info($"{killer.name} DoDoubleAction to{triggerData.Target}", "DoubleTrigger");
+                Logger.Info($"{killer.name} DoDoubleAction to {triggerData.Target.name} [{triggerData.Timer}s]", "DoubleTrigger");
                 info.DoKill = triggerData.DoubleAction(killer, triggerData.Target);
                 //シングス処理をキャンセルするためnullにする
                 triggerData.Target = null;
@@ -80,7 +80,7 @@ namespace TownOfHost
             triggerData.Timer -= Time.fixedDeltaTime;
             if (triggerData.Timer < 0)
             {
-                Logger.Info($"{player.name} DoSingleAction", "DoubleTrigger");
+                Logger.Info($"{player.name} DoSingleAction to {triggerData.Target.name} [{triggerData.Timer}s]", "DoubleTrigger");
                 triggerData.SingleAction(player, triggerData.Target);
                 triggerData.Target = null;
             }
