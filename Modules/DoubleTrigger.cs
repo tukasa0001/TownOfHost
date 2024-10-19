@@ -61,7 +61,7 @@ namespace TownOfHost
             else
             {
                 //ダブルクリック対象がターゲットとずれたとしても元々のターゲットを優先
-                Logger.Info($"{killer.name} DoDoubleAction to {triggerData.Target.name} [{triggerData.Timer}s]", "DoubleTrigger");
+                Logger.Info($"{killer.name} DoDoubleAction to {triggerData.Target.name} [{DoubleTriggerTime - triggerData.Timer}s]", "DoubleTrigger");
                 info.DoKill = triggerData.DoubleAction(killer, triggerData.Target);
                 //シングス処理をキャンセルするためnullにする
                 triggerData.Target = null;
@@ -80,7 +80,7 @@ namespace TownOfHost
             triggerData.Timer -= Time.fixedDeltaTime;
             if (triggerData.Timer < 0)
             {
-                Logger.Info($"{player.name} DoSingleAction to {triggerData.Target.name} [{triggerData.Timer}s]", "DoubleTrigger");
+                Logger.Info($"{player.name} DoSingleAction to {triggerData.Target.name} [{DoubleTriggerTime - triggerData.Timer}s]", "DoubleTrigger");
                 triggerData.SingleAction(player, triggerData.Target);
                 triggerData.Target = null;
             }

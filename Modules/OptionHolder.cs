@@ -403,7 +403,7 @@ namespace TownOfHost
                 info.OptionCreator?.Invoke();
             });
 
-            DoubleTriggerThreshold = FloatOptionItem.Create(5013, "DoubleTriggerThreashould", new(0.3f, 1f, 0.1f), 0.3f, TabGroup.ImpostorRoles, false)
+            DoubleTriggerThreshold = FloatOptionItem.Create(5013, "DoubleTriggerThreashould", new(0.3f, 1f, 0.1f), 0.5f, TabGroup.ImpostorRoles, false)
                 .SetHeader(true)
                 .SetValueFormat(OptionFormat.Seconds);
             DefaultShapeshiftCooldown = FloatOptionItem.Create(5011, "DefaultShapeshiftCooldown", new(5f, 999f, 5f), 15f, TabGroup.ImpostorRoles, false)
