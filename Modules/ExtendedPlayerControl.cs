@@ -519,9 +519,7 @@ namespace TownOfHost
         public static bool IsNeutralKiller(this PlayerControl player)
         {
             return
-                player.GetCustomRole() is
-                CustomRoles.Egoist or
-                CustomRoles.Jackal;
+                player.Is(CustomRoleTypes.Neutral) && player.GetRoleClass() is IKiller killer && killer.IsKiller;
         }
         public static bool KnowDeathReason(this PlayerControl seer, PlayerControl seen)
         {
