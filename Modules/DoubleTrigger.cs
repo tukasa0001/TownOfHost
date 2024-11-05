@@ -64,7 +64,7 @@ namespace TownOfHost
                 //ダブルクリック対象がターゲットとずれたとしても元々のターゲットを優先
                 Logger.Info($"{killer.name} DoDoubleAction to {triggerData.Target.name} [{DoubleTriggerTime - triggerData.Timer}s]", "DoubleTrigger");
                 info.DoKill = triggerData.DoubleAction(killer, triggerData.Target);
-                //シングス処理をキャンセルするためnullにする
+                //シングル処理をキャンセルするためnullにする
                 triggerData.Target = null;
             }
             return true;
