@@ -240,7 +240,12 @@ namespace TownOfHost
             {
                 if (mapId != 4)
                 {
-                    Main.AllPlayerControls.Do(pc => pc.RpcResetAbilityCooldown());
+                    Main.AllPlayerControls.Do(pc =>
+                    {
+                        pc.GetRoleClass().OnSpawn(true);
+                        pc.SyncSettings();
+                        pc.RpcResetAbilityCooldown();
+                    });
                     if (Options.FixFirstKillCooldown.GetBool())
                         _ = new LateTask(() =>
                         {

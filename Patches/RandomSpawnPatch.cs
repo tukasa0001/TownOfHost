@@ -181,11 +181,9 @@ namespace TownOfHost
             Logger.Info($"Spawn: {player.GetRealName()}", "RandomSpawn");
             if (AmongUsClient.Instance.AmHost)
             {
-                if (player.Is(CustomRoles.Penguin))
-                {
-                    var penguin = player.GetRoleClass() as Penguin;
-                    penguin?.OnSpawnAirship();
-                }
+                //最初のスポーンと判定
+                player.GetRoleClass().OnSpawn(Main.introDestroyed);
+                player.SyncSettings();
                 player.RpcResetAbilityCooldown();
                 if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
                 if (IsRandomSpawn())
