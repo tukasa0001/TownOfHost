@@ -178,11 +178,10 @@ public sealed class BountyHunter : RoleBase, IImpostor
         return target;
     }
     public override string GetAbilityButtonText() => GetString("BountyHunterChangeButtonText");
-    public override void AfterMeetingTasks()
+    public override void OnSpawn(bool initialState)
     {
         if (Player.IsAlive())
         {
-            Player.RpcResetAbilityCooldown();
             ChangeTimer = 0f;
         }
     }

@@ -87,9 +87,4 @@ public sealed class Mayor : RoleBase
         }
         return (votedForId, numVotes, doVote);
     }
-    public override void AfterMeetingTasks()
-    {
-        if (HasPortableButton)
-            Player.RpcResetAbilityCooldown();
-    }
 }

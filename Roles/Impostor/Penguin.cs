@@ -160,14 +160,7 @@ class Penguin : RoleBase, IImpostor
             RemoveVictim();
         }
     }
-    public override void AfterMeetingTasks()
-    {
-        if (Main.NormalOptions.MapId == 4) return;
-
-        //マップがエアシップ以外
-        RestartAbduct();
-    }
-    public void OnSpawnAirship()
+    public override void OnSpawn(bool initialState)
     {
         RestartAbduct();
     }
@@ -175,8 +168,6 @@ class Penguin : RoleBase, IImpostor
     {
         if (AbductVictim != null)
         {
-            Player.SyncSettings();
-            Player.RpcResetAbilityCooldown();
             stopCount = false;
         }
     }
