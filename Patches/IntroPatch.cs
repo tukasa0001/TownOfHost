@@ -224,7 +224,7 @@ namespace TownOfHost
         {
             if (!GameStates.IsInGame) return;
 
-            Main.introDestroyed = true;
+            Main.isFiirstTrun = true;
 
             var mapId = Main.NormalOptions.MapId;
             // エアシップではまだ湧かない

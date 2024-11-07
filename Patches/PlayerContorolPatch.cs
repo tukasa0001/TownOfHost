@@ -371,7 +371,7 @@ namespace TownOfHost
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
 
-            Main.introDestroyed = false;
+            Main.isFiirstTrun = false;
             foreach (var role in CustomRoleManager.AllActiveRoles.Values)
             {
                 role.OnReportDeadBody(__instance, target);

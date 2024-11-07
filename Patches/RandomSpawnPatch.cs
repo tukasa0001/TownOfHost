@@ -181,8 +181,8 @@ namespace TownOfHost
             Logger.Info($"Spawn: {player.GetRealName()}", "RandomSpawn");
             if (AmongUsClient.Instance.AmHost)
             {
-                //最初のスポーンと判定
-                player.GetRoleClass().OnSpawn(Main.introDestroyed);
+                //初期スポーンとリスポーンを判定
+                player.GetRoleClass().OnSpawn(Main.isFiirstTrun);
                 player.SyncSettings();
                 player.RpcResetAbilityCooldown();
                 if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
