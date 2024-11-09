@@ -109,7 +109,16 @@ namespace TownOfHost
             FallFromLadder.Reset();
             Utils.CountAlivePlayers(true);
             Utils.AfterMeetingTasks();
-            Utils.SyncAllSettings();
+            if (mapId != 4)
+            {
+                foreach (var pc in Main.AllPlayerControls)
+                {
+                    pc.GetRoleClass().OnSpawn();
+                    pc.SyncSettings();
+                    pc.RpcResetAbilityCooldown();
+                }
+
+            }
             Utils.NotifyRoles();
         }
 
