@@ -17,7 +17,7 @@ namespace TownOfHost
             //ここより上、全員が実行する
             if (!AmongUsClient.Instance.AmHost) return;
             //ここより下、ホストのみが実行する
-            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Main.isFiirstTrun)
+            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Main.isFirstTrun)
             {
                 if (Options.HideAndSeekKillDelayTimer > 0)
                 {

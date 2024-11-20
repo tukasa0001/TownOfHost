@@ -38,7 +38,7 @@ namespace TownOfHost
             Options.UsedButtonCount = 0;
             Main.RealOptionsData = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
 
-            Main.isFiirstTrun = false;
+            Main.isFirstTrun = false;
 
             Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
             Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);

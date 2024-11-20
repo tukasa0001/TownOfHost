@@ -132,7 +132,7 @@ namespace TownOfHost
         public static Dictionary<byte, byte> ShapeshiftTarget = new();
         public static bool VisibleTasksCount;
         public static string nickName = "";
-        public static bool isFiirstTrun = false;
+        public static bool isFirstTrun = false;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
         public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;
