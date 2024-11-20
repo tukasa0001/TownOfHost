@@ -371,6 +371,8 @@ namespace TownOfHost
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
 
+            GameStates.InTask = false;
+
             Main.isFiirstTrun = false;
             foreach (var role in CustomRoleManager.AllActiveRoles.Values)
             {

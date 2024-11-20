@@ -291,6 +291,9 @@ namespace TownOfHost
                 }
             }
             Logger.Info("OnDestroy", "IntroCutscene");
+
+            GameStates.InTask = true;
+            Logger.Info("タスクフェイズ開始", "Phase");
         }
     }
 }
