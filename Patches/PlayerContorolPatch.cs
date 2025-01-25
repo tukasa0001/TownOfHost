@@ -373,7 +373,7 @@ namespace TownOfHost
 
             GameStates.InTask = false;
 
-            Main.isFirstTrun = false;
+            Main.isFirstTurn = false;
             foreach (var role in CustomRoleManager.AllActiveRoles.Values)
             {
                 role.OnReportDeadBody(__instance, target);
