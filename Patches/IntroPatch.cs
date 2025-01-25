@@ -224,7 +224,7 @@ namespace TownOfHost
         {
             if (!GameStates.IsInGame) return;
 
-            Main.isFiirstTrun = true;
+            Main.isFirstTurn = true;
 
             var mapId = Main.NormalOptions.MapId;
             // エアシップではまだ湧かない
@@ -291,6 +291,9 @@ namespace TownOfHost
                 }
             }
             Logger.Info("OnDestroy", "IntroCutscene");
+
+            GameStates.InTask = true;
+            Logger.Info("タスクフェイズ開始", "Phase");
         }
     }
 }

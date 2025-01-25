@@ -182,7 +182,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 //初期スポーンとリスポーンを判定
-                player.GetRoleClass().OnSpawn(Main.isFiirstTrun);
+                player.GetRoleClass().OnSpawn(Main.isFirstTurn);
                 player.SyncSettings();
                 player.RpcResetAbilityCooldown();
                 if (Options.FixFirstKillCooldown.GetBool() && !MeetingStates.MeetingCalled) player.SetKillCooldown(Main.AllPlayerKillCooldown[player.PlayerId]);
