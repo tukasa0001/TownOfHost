@@ -123,7 +123,7 @@ public sealed class Warlock : RoleBase, IImpostor
             }
         }
     }
-    public override void AfterMeetingTasks()
+    public override void OnReportDeadBody(PlayerControl reporter, NetworkedPlayerInfo target)
     {
         CursedPlayer = null;
         IsCursed = false;
