@@ -127,90 +127,10 @@ namespace TownOfHost
     [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendAllStreamedObjects))]
     class InnerNetObjectSerializePatch
     {
-        public static bool Prefix(InnerNetClient __instance, ref bool __result)
+        public static void Prefix(InnerNetClient __instance, ref bool __result)
         {
             if (AmongUsClient.Instance.AmHost)
                 GameOptionsSender.SendAllGameOptions();
-
-            //9人以上部屋で落ちる現象の対策コード
-            if (!Options.FixSpawnPacketSize.GetBool()) return true;
-
-            var sended = false;
-            __result = false;
-            var obj = __instance.allObjects;
-            lock (obj)
-            {
-                for (int i = 0; i < __instance.allObjects.Count; i++)
-                {
-                    InnerNetObject innerNetObject = __instance.allObjects[i];
-                    if (innerNetObject && innerNetObject.IsDirty && (innerNetObject.AmOwner ||
-                        (innerNetObject.OwnerId == -2 && __instance.AmHost)))
-                    {
-                        var messageWriter = __instance.Streams[(byte)innerNetObject.sendMode];
-                        if (messageWriter.Length > 500)
-                        {
-                            if (!sended)
-                            {
-                                if (DebugModeManager.IsDebugMode)
-                                {
-                                    Logger.Info($"SendAllStreamedObjects: Start", "InnerNetClient");
-                                }
-                                sended = true;
-                            }
-                            messageWriter.EndMessage();
-                            __instance.SendOrDisconnect(messageWriter);
-                            messageWriter.Clear(innerNetObject.sendMode);
-                            messageWriter.StartMessage(5);
-                            messageWriter.Write(__instance.GameId);
-                        }
-                        messageWriter.StartMessage(1);
-                        messageWriter.WritePacked(innerNetObject.NetId);
-                        try
-                        {
-                            if (innerNetObject.Serialize(messageWriter, false))
-                            {
-                                messageWriter.EndMessage();
-                            }
-                            else
-                            {
-                                messageWriter.CancelMessage();
-                            }
-                            if (innerNetObject.Chunked && innerNetObject.IsDirty)
-                            {
-                                Logger.Info($"SendAllStreamedObjects: Chunked", "InnerNetClient");
-                                __result = true;
-                            }
-                        }
-                        catch (System.Exception ex)
-                        {
-                            Logger.Info($"Exception:{ex.Message}", "InnerNetClient");
-                            messageWriter.CancelMessage();
-                        }
-                    }
-                }
-            }
-            for (int j = 0; j < __instance.Streams.Length; j++)
-            {
-                MessageWriter messageWriter2 = __instance.Streams[j];
-                if (messageWriter2.HasBytes(7))
-                {
-                    if (!sended)
-                    {
-                        if (DebugModeManager.IsDebugMode)
-                        {
-                            Logger.Info($"SendAllStreamedObjects: Start", "InnerNetClient");
-                        }
-                        sended = true;
-                    }
-                    messageWriter2.EndMessage();
-                    __instance.SendOrDisconnect(messageWriter2);
-                    messageWriter2.Clear((SendOption)j);
-                    messageWriter2.StartMessage(5);
-                    messageWriter2.Write(__instance.GameId);
-                }
-            }
-            if (DebugModeManager.IsDebugMode && sended) Logger.Info($"SendAllStreamedObjects: End", "InnerNetClient");
-            return false;
         }
     }
     [HarmonyPatch]
@@ -352,73 +272,6 @@ namespace TownOfHost
             if (err != SendErrors.None)
             {
                 Logger.Info($"SendOrDisconnectPatch: SendMessage Error={err}", "InnerNetClient");
-            }
-        }
-        [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendInitialData)), HarmonyPrefix]
-        public static bool SendInitialDataPatch(InnerNetClient __instance, int clientId)
-        {
-            if (!Options.FixSpawnPacketSize.GetBool()) return true;
-            if (DebugModeManager.IsDebugMode)
-            {
-                Logger.Info($"SendInitialData: Start", "InnerNetClient");
-            }
-            MessageWriter messageWriter = MessageWriter.Get(SendOption.Reliable);
-            messageWriter.StartMessage(6);
-            messageWriter.Write(__instance.GameId);
-            messageWriter.WritePacked(clientId);
-
-            var obj = __instance.allObjects;
-            lock (obj)
-            {
-                var hashSet = new System.Collections.Generic.HashSet<GameObject>();
-                //まずはGameManagerを送信
-                GameManager gameManager = GameManager.Instance;
-                __instance.SendGameManager(clientId, gameManager);
-                hashSet.Add(gameManager.gameObject);
-
-                for (int i = 0; i < __instance.allObjects.Count; i++)
-                {
-                    InnerNetObject innerNetObject = __instance.allObjects[i];
-                    if (innerNetObject && (innerNetObject.OwnerId != -4 || __instance.AmModdedHost) && hashSet.Add(innerNetObject.gameObject))
-                    {
-                        if (messageWriter.Length > 500)
-                        {
-                            messageWriter.EndMessage();
-                            __instance.SendOrDisconnect(messageWriter);
-                            messageWriter.Clear(SendOption.Reliable);
-                            messageWriter.StartMessage(6);
-                            messageWriter.Write(__instance.GameId);
-                            messageWriter.WritePacked(clientId);
-
-                        }
-                        __instance.WriteSpawnMessage(innerNetObject, innerNetObject.OwnerId, innerNetObject.SpawnFlags, messageWriter);
-                    }
-                }
-            }
-            messageWriter.EndMessage();
-            __instance.SendOrDisconnect(messageWriter);
-            messageWriter.Recycle();
-            if (DebugModeManager.IsDebugMode)
-            {
-                Logger.Info($"SendInitialData: End", "InnerNetClient");
-            }
-            return false;
-        }
-        [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.Spawn)), HarmonyPostfix]
-        public static void SpawnPatch(InnerNetClient __instance, InnerNetObject netObjParent, int ownerId, SpawnFlags flags)
-        {
-            if (DebugModeManager.IsDebugMode)
-            {
-                Logger.Info($"SpawnPatch", "InnerNetClient");
-            }
-            var messageWriter = __instance.Streams[(byte)SendOption.Reliable];
-            if (messageWriter.Length > 500)
-            {
-                messageWriter.EndMessage();
-                __instance.SendOrDisconnect(messageWriter);
-                messageWriter.Clear(SendOption.Reliable);
-                messageWriter.StartMessage(5);
-                messageWriter.Write(__instance.GameId);
             }
         }
     }
