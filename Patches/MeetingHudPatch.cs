@@ -106,7 +106,6 @@ public static class MeetingHudPatch
             {
                 _ = new LateTask(() =>
                 {
-                    Logger.Disable("SetNameToChat");
                     foreach (var seer in Main.AllPlayerControls)
                     {
                         var sender = CustomRpcSender.Create("SetNameToChat", Hazel.SendOption.Reliable);
@@ -116,7 +115,7 @@ public static class MeetingHudPatch
                         {
                             var seenName = seen.GetRealName(isMeeting: true);
                             var coloredName = Utils.ColorString(seen.GetRoleColor(), seenName);
-                            sender.RpcSetName(seer, seer == seen ? coloredName : seenName, seer);
+                            sender.RpcSetName(seen, seer == seen ? coloredName : seenName, seer);
                         }
                         sender.SendMessage();
                     }
