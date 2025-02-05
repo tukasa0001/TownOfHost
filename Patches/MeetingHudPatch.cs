@@ -108,6 +108,7 @@ public static class MeetingHudPatch
                 {
                     foreach (var seer in Main.AllPlayerControls)
                     {
+                        if (seer.IsModClient()) continue;
                         var sender = CustomRpcSender.Create("SetNameToChat", Hazel.SendOption.Reliable);
                         sender.StartMessage(seer.GetClientId());
 
