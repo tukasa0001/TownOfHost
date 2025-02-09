@@ -170,11 +170,9 @@ class Penguin : RoleBase, IImpostor
         {
             stopCount = false;
             state = 0;
-            statetime = 0f;
         }
     }
     static int state = 0;
-    static float statetime;
     public override void OnFixedUpdate(PlayerControl player)
     {
         if (!AmongUsClient.Instance.AmHost) return;
@@ -228,9 +226,8 @@ class Penguin : RoleBase, IImpostor
             // はしごの上にいるプレイヤーにはSnapToRPCが効かずホストだけ挙動が変わるため，一律でテレポートを行わない
             else if (!AbductVictim.MyPhysics.Animations.IsPlayingAnyLadderAnimation())
             {
-                int div = 1;
+                int div = 3;
                 state++;
-                statetime += Time.fixedDeltaTime;
                 if (state % div == 0)
                 {
 
