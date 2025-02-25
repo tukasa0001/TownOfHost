@@ -180,7 +180,29 @@ namespace TownOfHost
             {
                 Logger.Info($"SendOrDisconnectPatch:Large Packet({msg.Length})", "InnerNetClient");
             }
-
+            //メッセージピークのログ出力
+            if (msg.SendOption == SendOption.Reliable)
+            {
+                int last = (int)timer % 10;
+                messageCount[last]++;
+                int totalMessages = 0;
+                foreach (var count in messageCount.Values)
+                {
+                    totalMessages += count;
+                }
+                if (totalMessages > warningThreshold)
+                {
+                    if (peak > totalMessages)
+                    {
+                        Logger.Warn($"SendOrDisconnectPatch:Packet Spam Detected ({peak})", "InnerNetClient");
+                        peak = warningThreshold;
+                    }
+                    else
+                    {
+                        peak = totalMessages;
+                    }
+                }
+            }
             if (!Options.FixSpawnPacketSize.GetBool()) return true;
 
             //ラージパケットを分割(9人以上部屋で落ちる現象の対策コード)
