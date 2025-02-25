@@ -151,8 +151,8 @@ namespace TownOfHost
             return true;
         }
         static Dictionary<int, int> messageCount = new(10);
-        static int peak = 200;
-        const int warningThreshold = 150;
+        const int warningThreshold = 100;
+        static int peak = warningThreshold;
         static float timer = 0f;
         [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.FixedUpdate)), HarmonyPrefix]
         public static void FixedUpdatePatch(InnerNetClient __instance)
