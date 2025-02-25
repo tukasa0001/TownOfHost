@@ -106,17 +106,19 @@ public static class MeetingHudPatch
             {
                 _ = new LateTask(() =>
                 {
-                    foreach (var seen in Main.AllPlayerControls)
+                    foreach (var seer in Main.AllPlayerControls)
                     {
-                        var seenName = seen.GetRealName(isMeeting: true);
-                        var coloredName = Utils.ColorString(seen.GetRoleColor(), seenName);
-                        foreach (var seer in Main.AllPlayerControls)
+                        if (seer.IsModClient()) continue;
+                        var sender = CustomRpcSender.Create("SetNameToChat", Hazel.SendOption.Reliable);
+                        sender.StartMessage(seer.GetClientId());
+
+                        foreach (var seen in Main.AllPlayerControls)
                         {
-                            seen.RpcSetNamePrivate(
-                                seer == seen ? coloredName : seenName,
-                                true,
-                                seer);
+                            var seenName = seen.GetRealName(isMeeting: true);
+                            var coloredName = Utils.ColorString(seen.GetRoleColor(), seenName);
+                            sender.RpcSetName(seen, seer == seen ? coloredName : seenName, seer);
                         }
+                        sender.SendMessage();
                     }
                     ChatUpdatePatch.DoBlockChat = false;
                 }, 3f, "SetName To Chat");
