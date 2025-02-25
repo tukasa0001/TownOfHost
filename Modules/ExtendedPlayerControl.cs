@@ -599,7 +599,7 @@ namespace TownOfHost
             }
             return null;
         }
-        public static void RpcSnapToForced(this PlayerControl pc, Vector2 position)
+        public static void RpcSnapToForced(this PlayerControl pc, Vector2 position, SendOption sendOption = SendOption.Reliable)
         {
             var netTransform = pc.NetTransform;
             if (AmongUsClient.Instance.AmClient)
@@ -607,7 +607,7 @@ namespace TownOfHost
                 netTransform.SnapTo(position, (ushort)(netTransform.lastSequenceId + 128));
             }
             ushort newSid = (ushort)(netTransform.lastSequenceId + 2);
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(netTransform.NetId, (byte)RpcCalls.SnapTo, SendOption.Reliable);
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(netTransform.NetId, (byte)RpcCalls.SnapTo, sendOption);
             NetHelpers.WriteVector2(position, messageWriter);
             messageWriter.Write(newSid);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);

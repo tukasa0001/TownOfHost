@@ -169,8 +169,10 @@ class Penguin : RoleBase, IImpostor
         if (AbductVictim != null)
         {
             stopCount = false;
+            state = 0;
         }
     }
+    static int state = 0;
     public override void OnFixedUpdate(PlayerControl player)
     {
         if (!AmongUsClient.Instance.AmHost) return;
@@ -224,19 +226,29 @@ class Penguin : RoleBase, IImpostor
             // はしごの上にいるプレイヤーにはSnapToRPCが効かずホストだけ挙動が変わるため，一律でテレポートを行わない
             else if (!AbductVictim.MyPhysics.Animations.IsPlayingAnyLadderAnimation())
             {
-                var position = Player.transform.position;
-                if (Player.PlayerId != 0)
+                int div = 3;
+                state++;
+                if (state % div == 0)
                 {
-                    AbductVictim.RpcSnapToForced(position);
-                }
-                else
-                {
-                    _ = new LateTask(() =>
+
+                    var position = Player.transform.position;
+                    if (Player.PlayerId != 0)
                     {
-                        if (AbductVictim != null)
-                            AbductVictim.RpcSnapToForced(position);
+                        //サーバー負荷を減らすためSendOption.Noneを使用
+                        AbductVictim.RpcSnapToForced(position, SendOption.None);
                     }
-                    , 0.25f, "");
+                    else
+                    {
+                        _ = new LateTask(() =>
+                        {
+                            if (AbductVictim != null)
+                            {
+                                //サーバー負荷を減らすためSendOption.Noneを使用
+                                AbductVictim.RpcSnapToForced(position, SendOption.None);
+                            }
+                        }
+                        , 0.25f, "");
+                    }
                 }
             }
         }
