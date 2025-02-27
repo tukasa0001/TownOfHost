@@ -5,6 +5,7 @@ using UnityEngine;
 using TownOfHost.Modules;
 using static TownOfHost.Translator;
 using Hazel;
+using System.Collections.Generic;
 
 namespace TownOfHost
 {
@@ -149,6 +150,22 @@ namespace TownOfHost
             }
             return true;
         }
+        static Dictionary<int, int> messageCount = new(10);
+        const int warningThreshold = 100;
+        static int peak = warningThreshold;
+        static float timer = 0f;
+        [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.FixedUpdate)), HarmonyPrefix]
+        public static void FixedUpdatePatch(InnerNetClient __instance)
+        {
+            int last = (int)timer % 10;
+            timer += Time.fixedDeltaTime;
+            int current = (int)timer % 10;
+            if (last != current)
+            {
+                messageCount[current] = 0;
+            }
+        }
+
         [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendOrDisconnect)), HarmonyPrefix]
         public static bool SendOrDisconnectPatch(InnerNetClient __instance, MessageWriter msg)
         {
@@ -163,7 +180,29 @@ namespace TownOfHost
             {
                 Logger.Info($"SendOrDisconnectPatch:Large Packet({msg.Length})", "InnerNetClient");
             }
-
+            //メッセージピークのログ出力
+            if (msg.SendOption == SendOption.Reliable)
+            {
+                int last = (int)timer % 10;
+                messageCount[last]++;
+                int totalMessages = 0;
+                foreach (var count in messageCount.Values)
+                {
+                    totalMessages += count;
+                }
+                if (totalMessages > warningThreshold)
+                {
+                    if (peak > totalMessages)
+                    {
+                        Logger.Warn($"SendOrDisconnectPatch:Packet Spam Detected ({peak})", "InnerNetClient");
+                        peak = warningThreshold;
+                    }
+                    else
+                    {
+                        peak = totalMessages;
+                    }
+                }
+            }
             if (!Options.FixSpawnPacketSize.GetBool()) return true;
 
             //ラージパケットを分割(9人以上部屋で落ちる現象の対策コード)
