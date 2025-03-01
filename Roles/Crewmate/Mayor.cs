@@ -78,7 +78,7 @@ public sealed class Mayor : RoleBase
             return true;
         }
 
-        return true;
+        return false;
     }
     public override (byte? votedForId, int? numVotes, bool doVote) ModifyVote(byte voterId, byte sourceVotedForId, bool isIntentional)
     {
