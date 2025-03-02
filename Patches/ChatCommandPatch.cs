@@ -244,7 +244,7 @@ namespace TownOfHost
                     case "/exile":
                         canceled = true;
                         if (args.Length < 2 || !int.TryParse(args[1], out int id)) break;
-                        Utils.GetPlayerById(id)?.RpcExileV2();
+                        Utils.GetPlayerById(id)?.RpcExile();
                         break;
 
                     case "/kill":

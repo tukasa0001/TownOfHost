@@ -135,7 +135,7 @@ namespace TownOfHost
                         exiled != null && //exiledがnullでない
                         exiled.Object != null) //exiled.Objectがnullでない
                     {
-                        exiled.Object.RpcExileV2();
+                        exiled.Object.RpcExile();
                     }
                 }, 0.5f, "Restore IsDead Task");
                 _ = new LateTask(() =>
@@ -149,7 +149,7 @@ namespace TownOfHost
                         Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
                         state.DeathReason = x.Value;
                         state.SetDead();
-                        player?.RpcExileV2();
+                        player?.RpcExile();
                         if (x.Value == CustomDeathReason.Suicide)
                             player?.SetRealKiller(player, true);
                         if (requireResetCam)
