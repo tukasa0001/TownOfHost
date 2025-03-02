@@ -45,7 +45,7 @@ namespace TownOfHost
             currentState = State.Ready;
             Logger.Info($"\"{name}\" is ready", "CustomRpcSender");
         }
-        public static CustomRpcSender Create(string name = "No Name Sender", SendOption sendOption = SendOption.None, bool isUnsafe = false)
+        public static CustomRpcSender Create(string name = "No Name Sender", SendOption sendOption = SendOption.Reliable, bool isUnsafe = false)
         {
             return new CustomRpcSender(name, sendOption, isUnsafe);
         }
