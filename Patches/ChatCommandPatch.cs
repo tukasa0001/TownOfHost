@@ -244,7 +244,7 @@ namespace TownOfHost
                     case "/exile":
                         canceled = true;
                         if (args.Length < 2 || !int.TryParse(args[1], out int id)) break;
-                        Utils.GetPlayerById(id)?.RpcExileV2();
+                        Utils.GetPlayerById(id)?.RpcExile();
                         break;
 
                     case "/kill":
@@ -452,7 +452,7 @@ namespace TownOfHost
                 DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
                 player.SetName(name);
             }
-            var writer = CustomRpcSender.Create("MessagesToSend", SendOption.None);
+            var writer = CustomRpcSender.Create("MessagesToSend", SendOption.Reliable);
             writer.StartMessage(clientId);
             writer.StartRpc(player.NetId, (byte)RpcCalls.SetName)
                 .Write(player.Data.NetId)
@@ -500,7 +500,7 @@ namespace TownOfHost
                 DestroyableSingleton<HudManager>.Instance.Chat.AddChat(__instance, chatText);
             if (chatText.Contains("who", StringComparison.OrdinalIgnoreCase))
                 DestroyableSingleton<UnityTelemetry>.Instance.SendWho();
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(__instance.NetId, (byte)RpcCalls.SendChat, SendOption.None);
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(__instance.NetId, (byte)RpcCalls.SendChat, SendOption.Reliable);
             messageWriter.Write(chatText);
             messageWriter.EndMessage();
             __result = true;

@@ -107,7 +107,7 @@ public sealed class Warlock : RoleBase, IImpostor
                 var killTarget = nearest.Key;
                 killTarget.SetRealKiller(Player);
                 Logger.Info($"{killTarget.GetNameWithRole()}was killed", "Warlock");
-                CursedPlayer.RpcMurderPlayerV2(killTarget);
+                CursedPlayer.RpcMurderPlayer(killTarget);
                 Player.SetKillCooldown();
                 CursedPlayer = null;
             }
