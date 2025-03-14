@@ -889,6 +889,7 @@ namespace TownOfHost
                     SelfName += SelfSuffix.ToString() == "" ? "" : "\r\n " + SelfSuffix.ToString();
                     if (!isForMeeting) SelfName += "\r\n";
 
+                    SelfName = SelfName.Replace("color=", "");
                     //適用
                     //                    seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
                     if (NoCache || Main.LastNotifyNames[(seer.PlayerId, seer.PlayerId)] != SelfName)
@@ -981,6 +982,7 @@ namespace TownOfHost
 
                             //全てのテキストを合成します。
                             string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}{TargetSuffix}";
+                            TargetName = TargetName.Replace("color=", "");
 
                             //適用
                             //target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
