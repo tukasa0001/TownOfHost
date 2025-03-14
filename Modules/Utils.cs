@@ -891,8 +891,10 @@ namespace TownOfHost
 
                     //適用
                     //                    seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
-                    if (!NoCache || Main.LastNotifyNames[(seer.PlayerId, seer.PlayerId)] != SelfName)
+                    if (NoCache || Main.LastNotifyNames[(seer.PlayerId, seer.PlayerId)] != SelfName)
+                    {
                         sender.RpcSetName(seer, SelfName, seer);
+                    }
                 }
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
@@ -982,8 +984,10 @@ namespace TownOfHost
 
                             //適用
                             //target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
-                            if (!NoCache || Main.LastNotifyNames[(target.PlayerId, seer.PlayerId)] != TargetName)
+                            if (NoCache || Main.LastNotifyNames[(target.PlayerId, seer.PlayerId)] != TargetName)
+                            {
                                 sender.RpcSetName(target, TargetName, seer);
+                            }
                         }
 
                         logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END");
