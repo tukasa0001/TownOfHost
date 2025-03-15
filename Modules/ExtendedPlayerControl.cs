@@ -228,7 +228,7 @@ namespace TownOfHost
             else
             {
                 //targetがホスト以外だった場合
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.None, target.GetClientId());
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.Reliable, target.GetClientId());
                 writer.WriteNetObject(target);
                 writer.Write(0);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -519,9 +519,7 @@ namespace TownOfHost
         public static bool IsNeutralKiller(this PlayerControl player)
         {
             return
-                player.GetCustomRole() is
-                CustomRoles.Egoist or
-                CustomRoles.Jackal;
+                player.Is(CustomRoleTypes.Neutral) && player.GetRoleClass() is IKiller killer && killer.IsKiller;
         }
         public static bool KnowDeathReason(this PlayerControl seer, PlayerControl seen)
         {
@@ -601,7 +599,7 @@ namespace TownOfHost
             }
             return null;
         }
-        public static void RpcSnapToForced(this PlayerControl pc, Vector2 position)
+        public static void RpcSnapToForced(this PlayerControl pc, Vector2 position, SendOption sendOption = SendOption.Reliable)
         {
             var netTransform = pc.NetTransform;
             if (AmongUsClient.Instance.AmClient)
@@ -609,7 +607,7 @@ namespace TownOfHost
                 netTransform.SnapTo(position, (ushort)(netTransform.lastSequenceId + 128));
             }
             ushort newSid = (ushort)(netTransform.lastSequenceId + 2);
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(netTransform.NetId, (byte)RpcCalls.SnapTo, SendOption.Reliable);
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(netTransform.NetId, (byte)RpcCalls.SnapTo, sendOption);
             NetHelpers.WriteVector2(position, messageWriter);
             messageWriter.Write(newSid);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);

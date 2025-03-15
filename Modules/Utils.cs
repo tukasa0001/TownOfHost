@@ -839,10 +839,14 @@ namespace TownOfHost
                 if (isForMeeting && (seer.GetClient().PlatformData.Platform is Platforms.Playstation or Platforms.Switch)) fontSize = "70%";
                 logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START");
 
+                var sender = CustomRpcSender.Create("NotifyRoles", Hazel.SendOption.Reliable);
+                sender.StartMessage(seer.GetClientId());
+
                 // 会議じゃなくて，キノコカオス中で，seerが生きていてdesyncインポスターの場合に自身の名前を消す
                 if (!isForMeeting && isMushroomMixupActive && seer.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && seer.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true)
                 {
-                    seer.RpcSetNamePrivate("<size=0>", true, force: NoCache);
+                    //seer.RpcSetNamePrivate("<size=0>", true, force: NoCache);
+                    sender.RpcSetName(seer, "<size=0>", seer);
                 }
                 else
                 {
@@ -885,8 +889,13 @@ namespace TownOfHost
                     SelfName += SelfSuffix.ToString() == "" ? "" : "\r\n " + SelfSuffix.ToString();
                     if (!isForMeeting) SelfName += "\r\n";
 
+                    SelfName = SelfName.Replace("color=", "");
                     //適用
-                    seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
+                    //                    seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
+                    if (NoCache || Main.LastNotifyNames[(seer.PlayerId, seer.PlayerId)] != SelfName)
+                    {
+                        sender.RpcSetName(seer, SelfName, seer);
+                    }
                 }
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
@@ -916,7 +925,8 @@ namespace TownOfHost
                         // 会議じゃなくて，キノコカオス中で，targetが生きていてseerがdesyncインポスターの場合にtargetの名前を消す
                         if (!isForMeeting && isMushroomMixupActive && target.IsAlive() && !seer.Is(CustomRoleTypes.Impostor) && seer.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true)
                         {
-                            target.RpcSetNamePrivate("<size=0>", true, seer, force: NoCache);
+                            //target.RpcSetNamePrivate("<size=0>", true, seer, force: NoCache);
+                            sender.RpcSetName(target, "<size=0>", seer);
                         }
                         else
                         {
@@ -972,14 +982,20 @@ namespace TownOfHost
 
                             //全てのテキストを合成します。
                             string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}{TargetSuffix}";
+                            TargetName = TargetName.Replace("color=", "");
 
                             //適用
-                            target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
+                            //target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
+                            if (NoCache || Main.LastNotifyNames[(target.PlayerId, seer.PlayerId)] != TargetName)
+                            {
+                                sender.RpcSetName(target, TargetName, seer);
+                            }
                         }
 
                         logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END");
                     }
                 }
+                sender.SendMessage();
                 logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END");
             }
         }

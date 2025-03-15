@@ -71,8 +71,11 @@ public sealed class Mayor : RoleBase
         if (LeftButtonCount > 0)
         {
             var user = physics.myPlayer;
-            physics.RpcBootFromVent(ventId);
-            user?.ReportDeadBody(null);
+            //ホスト視点、vent処理中に会議を呼ぶとベントの矢印が残るので遅延させる
+            _ = new LateTask(() => user?.ReportDeadBody(null), 0.1f, "MayerPortableButton");
+
+            //ポータブルボタン時はベントから追い出す必要はない
+            return true;
         }
 
         return false;
@@ -86,10 +89,5 @@ public sealed class Mayor : RoleBase
             numVotes = AdditionalVote + 1;
         }
         return (votedForId, numVotes, doVote);
-    }
-    public override void AfterMeetingTasks()
-    {
-        if (HasPortableButton)
-            Player.RpcResetAbilityCooldown();
     }
 }

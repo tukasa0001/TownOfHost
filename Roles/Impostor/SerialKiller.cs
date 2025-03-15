@@ -99,11 +99,10 @@ namespace TownOfHost.Roles.Impostor
         }
         public override bool CanUseAbilityButton() => HasKilled();
         public override string GetAbilityButtonText() => GetString("SerialKillerSuicideButtonText");
-        public override void AfterMeetingTasks()
+        public override void OnSpawn(bool initialState)
         {
             if (Player.IsAlive())
             {
-                Player.RpcResetAbilityCooldown();
                 if (HasKilled())
                     SuicideTimer = 0f;
             }

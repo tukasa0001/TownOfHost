@@ -51,9 +51,9 @@ namespace TownOfHost
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "5.1.9";
+        public const string PluginVersion = "5.1.10";
         // サポートされている最低のAmongUsバージョン
-        public static readonly string LowestSupportedVersion = "2024.8.13";
+        public static readonly string LowestSupportedVersion = "2024.11.26";
         // このバージョンのみで公開ルームを無効にする場合
         public static readonly bool IsPublicAvailableOnThisVersion = false;
         // プレリリースかどうか
@@ -132,7 +132,7 @@ namespace TownOfHost
         public static Dictionary<byte, byte> ShapeshiftTarget = new();
         public static bool VisibleTasksCount;
         public static string nickName = "";
-        public static bool introDestroyed = false;
+        public static bool isFirstTurn = false;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
         public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;

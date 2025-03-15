@@ -125,6 +125,43 @@ namespace TownOfHost
             return true;
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcMurderPlayer))]
+    class RpcMurderPlayerPatch
+    {
+        private static readonly LogHandler logger = Logger.Handler(nameof(PlayerControl.RpcMurderPlayer));
+        public static void Prefix(PlayerControl __instance, PlayerControl target, ref bool didSucceed)
+        {
+            if (didSucceed)
+            {
+                if (target.shapeshifting)
+                {
+                    //シェイプシフトアニメーション中
+                    //アニメーション時間を考慮して1s、加えてクライアントとのラグを考慮して+0.5s遅延する
+                    _ = new LateTask(
+                        () =>
+                        {
+                            if (GameStates.IsInTask)
+                            {
+                                target.RpcShapeshift(target, false);
+                                Camouflage.RpcSetSkin(target, ForceRevert: true, RevertToDefault: true);
+                                target.RpcMurderPlayer(target, true);
+                            }
+                        },
+                        1.5f, "RevertShapeshift");
+                    didSucceed = false;
+                    logger.Info($"{__instance.GetNameWithRole()} => {target.GetNameWithRole()}(シェイプシフト中のため遅延)");
+                    return;
+                }
+                if (Main.CheckShapeshift.TryGetValue(target.PlayerId, out var shapeshifting) && shapeshifting)
+                {
+                    //シェイプシフト強制解除
+                    target.RpcShapeshift(target, false);
+                }
+                Camouflage.RpcSetSkin(target, ForceRevert: true, RevertToDefault: true);
+            }
+            logger.Info($"{__instance.GetNameWithRole()} => {target.GetNameWithRole()}(didSucceed:{didSucceed})");
+        }
+    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
     class MurderPlayerPatch
     {
@@ -151,29 +188,7 @@ namespace TownOfHost
 
             if (isSucceeded)
             {
-                if (target.shapeshifting)
-                {
-                    //シェイプシフトアニメーション中
-                    //アニメーション時間を考慮して1s、加えてクライアントとのラグを考慮して+0.5s遅延する
-                    _ = new LateTask(
-                        () =>
-                        {
-                            if (GameStates.IsInTask)
-                            {
-                                target.RpcShapeshift(target, false);
-                            }
-                        },
-                        1.5f, "RevertShapeshift");
-                }
-                else
-                {
-                    if (Main.CheckShapeshift.TryGetValue(target.PlayerId, out var shapeshifting) && shapeshifting)
-                    {
-                        //シェイプシフト強制解除
-                        target.RpcShapeshift(target, false);
-                    }
-                }
-                Camouflage.RpcSetSkin(target, ForceRevert: true, RevertToDefault: true);
+                logger.Info("キルは実行されます");
             }
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target, bool __state)
@@ -371,6 +386,9 @@ namespace TownOfHost
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
 
+            GameStates.InTask = false;
+
+            Main.isFirstTurn = false;
             foreach (var role in CustomRoleManager.AllActiveRoles.Values)
             {
                 role.OnReportDeadBody(__instance, target);
