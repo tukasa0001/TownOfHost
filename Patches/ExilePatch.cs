@@ -113,7 +113,7 @@ namespace TownOfHost
             {
                 foreach (var pc in Main.AllPlayerControls)
                 {
-                    pc.GetRoleClass().OnSpawn();
+                    pc.GetRoleClass()?.OnSpawn();
                     pc.SyncSettings();
                     pc.RpcResetAbilityCooldown();
                 }
