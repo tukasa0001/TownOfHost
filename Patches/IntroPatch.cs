@@ -242,7 +242,7 @@ namespace TownOfHost
                 {
                     Main.AllPlayerControls.Do(pc =>
                     {
-                        pc.GetRoleClass().OnSpawn(true);
+                        pc.GetRoleClass()?.OnSpawn(true);
                         pc.SyncSettings();
                         pc.RpcResetAbilityCooldown();
                     });
