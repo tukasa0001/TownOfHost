@@ -99,6 +99,9 @@ namespace TownOfHost
 
         // プレイメニュー，アカウントメニュー，クレジット画面が開かれたらロゴとボタンを消す
         [HarmonyPatch(nameof(MainMenuManager.OpenGameModeMenu))]
+        [HarmonyPatch(nameof(MainMenuManager.OpenOnlineMenu))]
+        [HarmonyPatch(nameof(MainMenuManager.OpenEnterCodeMenu))]
+        [HarmonyPatch(nameof(MainMenuManager.ClickBackOnline))]
         [HarmonyPatch(nameof(MainMenuManager.OpenAccountMenu))]
         [HarmonyPatch(nameof(MainMenuManager.OpenCredits))]
         [HarmonyPostfix]
