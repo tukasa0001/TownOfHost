@@ -51,7 +51,7 @@ namespace TownOfHost
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "5.1.10";
+        public const string PluginVersion = "5.1.11";
         // サポートされている最低のAmongUsバージョン
         public static readonly string LowestSupportedVersion = "2025.3.25";
         // このバージョンのみで公開ルームを無効にする場合
