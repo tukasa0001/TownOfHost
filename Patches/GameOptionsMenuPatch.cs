@@ -360,10 +360,10 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(NormalGameOptionsV08), nameof(NormalGameOptionsV08.SetRecommendations), [typeof(int), typeof(bool), typeof(RulesPresets)])]
+    [HarmonyPatch(typeof(NormalGameOptionsV09), nameof(NormalGameOptionsV09.SetRecommendations), [typeof(int), typeof(bool), typeof(RulesPresets)])]
     public static class SetRecommendationsPatch
     {
-        public static bool Prefix(NormalGameOptionsV08 __instance, int numPlayers, bool isOnline, RulesPresets rulesPresets)
+        public static bool Prefix(NormalGameOptionsV09 __instance, int numPlayers, bool isOnline, RulesPresets rulesPresets)
         {
             switch (rulesPresets)
             {
@@ -372,7 +372,7 @@ namespace TownOfHost
                 default: return true;
             }
         }
-        private static void SetStandardRecommendations(NormalGameOptionsV08 __instance, int numPlayers, bool isOnline)
+        private static void SetStandardRecommendations(NormalGameOptionsV09 __instance, int numPlayers, bool isOnline)
         {
             numPlayers = Mathf.Clamp(numPlayers, 4, 15);
             __instance.PlayerSpeedMod = __instance.MapId == 4 ? 1.25f : 1f; //AirShipなら1.25、それ以外は1
@@ -384,7 +384,7 @@ namespace TownOfHost
             __instance.NumShortTasks = 6;
             __instance.NumEmergencyMeetings = 1;
             if (!isOnline)
-                __instance.NumImpostors = NormalGameOptionsV08.RecommendedImpostors[numPlayers];
+                __instance.NumImpostors = NormalGameOptionsV09.RecommendedImpostors[numPlayers];
             __instance.KillDistance = 0;
             __instance.DiscussionTime = 0;
             __instance.VotingTime = 150;
