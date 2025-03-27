@@ -118,7 +118,7 @@ namespace TownOfHost
                         {
                             case "crewmate":
                                 GameManager.Instance.enabled = false;
-                                GameManager.Instance.RpcEndGame(GameOverReason.HumansDisconnect, false);
+                                GameManager.Instance.RpcEndGame(GameOverReason.CrewmateDisconnect, false);
                                 break;
 
                             case "impostor":
