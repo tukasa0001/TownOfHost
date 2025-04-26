@@ -115,8 +115,9 @@ namespace TownOfHost
             Dictionary<byte, CustomRpcSender> senders = new();
             foreach (var pc in Main.AllPlayerControls)
             {
-                senders[pc.PlayerId] = new CustomRpcSender($"{pc.name}'s SetRole Sender", SendOption.Reliable, false)
-                        .StartMessage(pc.GetClientId());
+                senders[pc.PlayerId] = new CustomRpcSender($"{pc.name}'s SetRole Sender", SendOption.Reliable, false);
+                if (pc.PlayerId != 0)
+                    senders[pc.PlayerId].StartMessage(pc.GetClientId());
             }
             RpcSetRoleReplacer.StartReplace(senders);
 
@@ -361,7 +362,7 @@ namespace TownOfHost
                     else
                     {
                         var assignRole = seer.PlayerId == player.PlayerId ? BaseRole : RoleTypes.Scientist;
-                        senders[player.PlayerId].RpcSetRole(player, assignRole, seer.GetClientId());
+                        senders[seer.PlayerId].RpcSetRole(player, assignRole, seer.GetClientId());
                     }
                 }
                 //vailla配役の回避
@@ -465,13 +466,15 @@ namespace TownOfHost
                     {
                         foreach (var seer in Main.AllPlayerControls)
                         {
+                            if (seer.PlayerId == 0) continue;
                             var assignRole = DesyncImpostorList.Contains(seer.PlayerId) ? RoleTypes.Scientist : role;
-                            senders[player.PlayerId].RpcSetRole(player, assignRole, seer.GetClientId());
+                            senders[seer.PlayerId].RpcSetRole(player, assignRole, seer.GetClientId());
                         }
                     }
                     else
                     {
-                        senders[player.PlayerId].RpcSetRole(player, role);
+                        //ブロードキャストで送信
+                        senders[0].RpcSetRole(player, role);
                     }
                 }
                 doReplace = false;
