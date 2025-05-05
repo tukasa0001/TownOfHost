@@ -263,6 +263,7 @@
 "DisableUploadDataTask","Disable UploadData Tasks","ダウンロードタスク","禁用上传数据任务","禁用上傳任務","Отключить задание ''Загрузка Данных''","Desativar Tarefas de Baixar Dados",""
 "DisableStartReactorTask","Disable StartReactor Tasks","原子炉起動タスク","禁用启动反应堆任务","禁用啟動反應堆任務","Отключить задание ''Запустить Реактор''","Desativar Tarefas de Acionar Reator",""
 "DisableResetBreakerTask","Disable ResetBreaker Tasks","ブレーカーリセットタスク","禁用重置反应堆任务","禁用重置斷路器任務","Отключить задание ''Рычаги(Airship)''","Desativar Reiniciar Disjuntores",""
+"DisableFixWeatherNodeTask","Disable FixWeatherNode Tasks","気象ノードタスク","","","","",""
 "SuffixMode","Suffix","名前の二行目","附加标签","名字標籤","Суффикс","Sufixo",""
 "SuffixMode.None","Never","なし","不更换","關閉","Никто","Nunca",""
 "SuffixMode.Version","Version","バージョン","版本","版本","Версия","Versão",""
