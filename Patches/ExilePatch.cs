@@ -25,18 +25,19 @@ namespace TownOfHost
             }
         }
 
-        [HarmonyPatch(typeof(AirshipExileController), nameof(AirshipExileController.WrapUpAndSpawn))]
+        [HarmonyPatch(typeof(AirshipStatus), nameof(AirshipStatus.PrespawnStep))]
         class AirshipExileControllerPatch
         {
-            public static void Postfix(AirshipExileController __instance)
+            public static void Prefix(AirshipStatus __instance)
             {
+                var exiled = AirshipExileController.Instance?.initData?.networkedPlayer;
                 try
                 {
-                    WrapUpPostfix(__instance.initData.networkedPlayer);
+                    WrapUpPostfix(exiled);
                 }
                 finally
                 {
-                    WrapUpFinalizer(__instance.initData.networkedPlayer);
+                    WrapUpFinalizer(exiled);
                 }
             }
         }
