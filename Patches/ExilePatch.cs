@@ -43,7 +43,7 @@ namespace TownOfHost
         //[HarmonyPatch(typeof(AirshipExileController), nameof(AirshipExileController.WrapUpAndSpawn))]
         class AirshipExileControllerPatch
         {
-            public static void Postfix(ExileController __instance)
+            public static void Postfix(AirshipExileController __instance)
             {
                 try
                 {
