@@ -1,28 +1,64 @@
 
 using System;
+using System.Collections.Generic;
 using BepInEx.Unity.IL2CPP.Utils.Collections;
+using Il2CppInterop.Runtime;
 
 namespace TownOfHost;
 
-public static class IEnumeratorWaitor
+public class CoroutinPatcher
 {
-    /// <summary>指定回数実行した後にActionを実行するIEnumerator</summary
-    /// Il2CppSystem.Collections.IEnumeratorを戻り値にするとyeild returnができないので間接実行
-    public static Il2CppSystem.Collections.IEnumerator WaitCount(this Il2CppSystem.Collections.IEnumerator enumerator, int execCount, Action action)
+    Dictionary<string, Action> _prefixActions = [];
+    Dictionary<string, Action> _postfixActions = [];
+    private readonly Il2CppSystem.Collections.IEnumerator _enumerator;
+    public CoroutinPatcher(Il2CppSystem.Collections.IEnumerator enumerator)
     {
-        return enumerator.WaitCountBase(execCount, action).WrapToIl2Cpp();
+        _enumerator = enumerator;
     }
-    private static System.Collections.IEnumerator WaitCountBase(this Il2CppSystem.Collections.IEnumerator enumerator, int execCount, Action action)
+    public void AddPrefix(Type type, Action action)
     {
-        int count = 0;
-        while (enumerator.MoveNext())
+        var key = Il2CppType.From(type).FullName;
+        Logger.Info($"AddPrefix: {key}", "CoroutinPatcher");
+        _prefixActions[key] = action;
+    }
+    public void AddPostfix(Type type, Action action)
+    {
+        var key = Il2CppType.From(type).FullName;
+        Logger.Info($"AddPostfix: {key}", "CoroutinPatcher");
+        _postfixActions[key] = action;
+    }
+    public Il2CppSystem.Collections.IEnumerator EnumerateWithPatch()
+    {
+        return EnumerateWithPatchInternal().WrapToIl2Cpp();
+    }
+    public System.Collections.IEnumerator EnumerateWithPatchInternal()
+    {
+        Logger.Info("ExecEnumerator", "CoroutinPatcher");
+        while (_enumerator.MoveNext())
         {
-            if (count == execCount)
+            var fullName = _enumerator.Current?.GetIl2CppType()?.FullName;
+            if (fullName == null)
             {
-                action();
+                Logger.Info("Current: null", "CoroutinPatcher");
+                yield return _enumerator.Current;
+                continue;
             }
-            count++;
-            yield return enumerator.Current;
+            Logger.Info($"Current: {fullName}", "CoroutinPatcher");
+
+            if (_prefixActions.TryGetValue(fullName, out var prefixAction))
+            {
+                Logger.Info($"Exec Prefix: {fullName}", "CoroutinPatcher");
+                prefixAction();
+            }
+            Logger.Info($"Yield Return: {fullName}", "CoroutinPatcher");
+            yield return _enumerator.Current;
+            if (_postfixActions.TryGetValue(fullName, out var postfixAction))
+            {
+                Logger.Info($"Exec Postfix: {fullName}", "CoroutinPatcher");
+                postfixAction();
+            }
         }
+        Logger.Info("ExecEnumerator End", "CoroutinPatcher");
     }
 }
+
