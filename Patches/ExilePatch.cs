@@ -32,8 +32,9 @@ namespace TownOfHost
                 //WrapUpAndSpawnに直接パッチが当たらないのでAnimateメソッド中にパッチを当てる
                 var pathcer = new CoroutinPatcher(__result);
                 //WrapUpAndSpawnはステートマシンとしてクラス化されているためそのクラス実行前にパッチを当てる
+                //元々Postfixだが、タイミング的にはPrefixの方が適切なのでPrefixに当てる
                 pathcer.AddPrefix(typeof(AirshipExileController._WrapUpAndSpawn_d__11), () =>
-                    AirshipExileControllerPatch.Prefix(__instance)
+                    AirshipExileControllerPatch.Postfix(__instance)
                 );
                 __result = pathcer.EnumerateWithPatch();
             }
@@ -42,16 +43,15 @@ namespace TownOfHost
         //[HarmonyPatch(typeof(AirshipExileController), nameof(AirshipExileController.WrapUpAndSpawn))]
         class AirshipExileControllerPatch
         {
-            public static void Prefix(AirshipExileController __instance)
+            public static void Postfix(ExileController __instance)
             {
-                var exiled = __instance?.initData?.networkedPlayer;
                 try
                 {
-                    WrapUpPostfix(exiled);
+                    WrapUpPostfix(__instance.initData.networkedPlayer);
                 }
                 finally
                 {
-                    WrapUpFinalizer(exiled);
+                    WrapUpFinalizer(__instance.initData.networkedPlayer);
                 }
             }
         }
