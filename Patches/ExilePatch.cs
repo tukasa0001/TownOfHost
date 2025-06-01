@@ -24,13 +24,27 @@ namespace TownOfHost
                 }
             }
         }
-
-        [HarmonyPatch(typeof(AirshipStatus), nameof(AirshipStatus.PrespawnStep))]
+        [HarmonyPatch(typeof(AirshipExileController), nameof(AirshipExileController.Animate))]
+        class AirshipStatusPatch
+        {
+            public static void Postfix(AirshipExileController __instance, ref Il2CppSystem.Collections.IEnumerator __result)
+            {
+                //WrapUpAndSpawnに直接パッチが当たらないのでAnimateメソッド中にパッチを当てる
+                var pathcer = new CoroutinPatcher(__result);
+                //WrapUpAndSpawnはステートマシンとしてクラス化されているためそのクラス実行前にパッチを当てる
+                pathcer.AddPrefix(typeof(AirshipExileController._WrapUpAndSpawn_d__11), () =>
+                    AirshipExileControllerPatch.Prefix(__instance)
+                );
+                __result = pathcer.EnumerateWithPatch();
+            }
+        }
+        // Patchが当たらないが念のためコメントアウト
+        //[HarmonyPatch(typeof(AirshipExileController), nameof(AirshipExileController.WrapUpAndSpawn))]
         class AirshipExileControllerPatch
         {
-            public static void Prefix(AirshipStatus __instance)
+            public static void Prefix(AirshipExileController __instance)
             {
-                var exiled = AirshipExileController.Instance?.initData?.networkedPlayer;
+                var exiled = __instance?.initData?.networkedPlayer;
                 try
                 {
                     WrapUpPostfix(exiled);

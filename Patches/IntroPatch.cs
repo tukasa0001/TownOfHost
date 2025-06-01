@@ -11,35 +11,43 @@ using static TownOfHost.Translator;
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.CoBegin))]
-    class SetUpRoleTextPatch
+    class SetUpRoleTextCoBeginPatch
     {
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.IEnumerator __result)
         {
+            //ShowRoleに直接パッチあて出来ないためCoBegin中にパッチを当てる
+            var patcher = new CoroutinPatcher(__result);
+            //ShowRoleはステートマシンクラスになっているためその実行前にパッチを当てる
+            //元々Postfixだが、タイミング的にはPrefixの方が適切なのでPrefixに当てる
+            patcher.AddPrefix(typeof(IntroCutscene._ShowRole_d__41), () => SetUpRoleTextPatch.Postfix(__instance));
+            __result = patcher.EnumerateWithPatch();
+        }
+    }
+    // Patchが当たらないが念のためコメントアウト
+    //[HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
+    class SetUpRoleTextPatch
+    {
+        public static void Postfix(IntroCutscene __instance)
+        {
             if (!GameStates.IsModHost) return;
-            //初回yeild returnはShowTeam、2回目がShowRole
-            __result = __result.WaitCount(1, () =>
+            _ = new LateTask(() =>
             {
-                //ShowRole一回目のyeild return後を狙うため遅延発行
-                _ = new LateTask(() =>
+                CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
+                if (!role.IsVanilla())
                 {
-                    CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
-                    if (!role.IsVanilla())
-                    {
-                        __instance.YouAreText.color = Utils.GetRoleColor(role);
-                        __instance.RoleText.text = Utils.GetRoleName(role);
-                        __instance.RoleText.color = Utils.GetRoleColor(role);
-                        __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
+                    __instance.YouAreText.color = Utils.GetRoleColor(role);
+                    __instance.RoleText.text = Utils.GetRoleName(role);
+                    __instance.RoleText.color = Utils.GetRoleColor(role);
+                    __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
 
-                        __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.GetRoleInfo();
-                    }
+                    __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.GetRoleInfo();
+                }
 
-                    foreach (var subRole in PlayerState.GetByPlayerId(PlayerControl.LocalPlayer.PlayerId).SubRoles)
-                        __instance.RoleBlurbText.text += "\n" + Utils.ColorString(Utils.GetRoleColor(subRole), GetString($"{subRole}Info"));
-                    __instance.RoleText.text += Utils.GetSubRolesText(PlayerControl.LocalPlayer.PlayerId);
+                foreach (var subRole in PlayerState.GetByPlayerId(PlayerControl.LocalPlayer.PlayerId).SubRoles)
+                    __instance.RoleBlurbText.text += "\n" + Utils.ColorString(Utils.GetRoleColor(subRole), GetString($"{subRole}Info"));
+                __instance.RoleText.text += Utils.GetSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 
-                }, 0.01f, "Override Role Text");
-
-            });
+            }, 0.01f, "Override Role Text");
 
         }
     }
