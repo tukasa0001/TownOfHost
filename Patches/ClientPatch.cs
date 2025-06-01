@@ -128,7 +128,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendAllStreamedObjects))]
     class InnerNetObjectSerializePatch
     {
-        public static void Prefix(InnerNetClient __instance, ref bool __result)
+        public static void Prefix(InnerNetClient __instance)
         {
             if (AmongUsClient.Instance.AmHost)
                 GameOptionsSender.SendAllGameOptions();
