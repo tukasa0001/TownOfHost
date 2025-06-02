@@ -502,7 +502,7 @@ namespace TownOfHost
                 DestroyableSingleton<UnityTelemetry>.Instance.SendWho();
             MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.SendChat, SendOption.Reliable);
             messageWriter.Write(chatText);
-            messageWriter.EndMessage();
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
             __result = true;
             return false;
         }

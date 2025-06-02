@@ -182,7 +182,7 @@ namespace TownOfHost
             writer.Write(Main.PluginVersion);
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
             writer.Write(Main.ForkId);
-            writer.EndMessage();
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
             Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})", Main.ForkId);
         }
         public static void SendDeathReason(byte playerId, CustomDeathReason deathReason)
