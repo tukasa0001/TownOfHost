@@ -10,7 +10,21 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.CoBegin))]
+    class SetUpRoleTextCoBeginPatch
+    {
+        public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.IEnumerator __result)
+        {
+            //ShowRoleに直接パッチあて出来ないためCoBegin中にパッチを当てる
+            var patcher = new CoroutinPatcher(__result);
+            //ShowRoleはステートマシンクラスになっているためその実行前にパッチを当てる
+            //元々Postfixだが、タイミング的にはPrefixの方が適切なのでPrefixに当てる
+            patcher.AddPrefix(typeof(IntroCutscene._ShowRole_d__41), () => SetUpRoleTextPatch.Postfix(__instance));
+            __result = patcher.EnumerateWithPatch();
+        }
+    }
+    // Patchが当たらないが念のためコメントアウト
+    //[HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
     class SetUpRoleTextPatch
     {
         public static void Postfix(IntroCutscene __instance)

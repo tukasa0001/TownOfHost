@@ -106,6 +106,7 @@ namespace TownOfHost
         public static OptionItem DisableUploadData;
         public static OptionItem DisableStartReactor;
         public static OptionItem DisableResetBreaker;
+        public static OptionItem DisableFixWeatherNode;
 
         //デバイスブロック
         public static OptionItem DisableDevices;
@@ -518,11 +519,14 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             DisableResetBreaker = BooleanOptionItem.Create(100306, "DisableResetBreakerTask", false, TabGroup.MainSettings, false).SetParent(DisableTasks)
                 .SetGameMode(CustomGameMode.All);
+            DisableFixWeatherNode = BooleanOptionItem.Create(100307, "DisableFixWeatherNodeTask", false, TabGroup.MainSettings, false).SetParent(DisableTasks)
+                            .SetGameMode(CustomGameMode.All);
+
 
             //デバイス無効化
             DisableDevices = BooleanOptionItem.Create(101200, "DisableDevices", false, TabGroup.MainSettings, false)
-                .SetHeader(true)
-                .SetGameMode(CustomGameMode.Standard);
+                    .SetHeader(true)
+                    .SetGameMode(CustomGameMode.Standard);
             DisableSkeldDevices = BooleanOptionItem.Create(101210, "DisableSkeldDevices", false, TabGroup.MainSettings, false).SetParent(DisableDevices)
                 .SetGameMode(CustomGameMode.Standard);
             DisableSkeldAdmin = BooleanOptionItem.Create(101211, "DisableSkeldAdmin", false, TabGroup.MainSettings, false).SetParent(DisableSkeldDevices)

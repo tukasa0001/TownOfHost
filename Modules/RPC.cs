@@ -178,11 +178,11 @@ namespace TownOfHost
         public static async void RpcVersionCheck()
         {
             while (PlayerControl.LocalPlayer == null) await Task.Delay(500);
-            MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, SendOption.Reliable);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, SendOption.Reliable);
             writer.Write(Main.PluginVersion);
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
             writer.Write(Main.ForkId);
-            writer.EndMessage();
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
             Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})", Main.ForkId);
         }
         public static void SendDeathReason(byte playerId, CustomDeathReason deathReason)
@@ -296,14 +296,7 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }
-    [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]
-    class StartRpcPatch
-    {
-        public static void Prefix(InnerNet.InnerNetClient __instance, [HarmonyArgument(0)] uint targetNetId, [HarmonyArgument(1)] byte callId)
-        {
-            RPC.SendRpcLogger(targetNetId, callId);
-        }
-    }
+
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpcImmediately))]
     class StartRpcImmediatelyPatch
     {

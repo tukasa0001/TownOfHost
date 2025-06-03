@@ -8,6 +8,7 @@ namespace TownOfHost
     {
         public static bool Prefix(GameManager __instance, [HarmonyArgument(0)] MessageWriter writer, [HarmonyArgument(1)] bool initialState, ref bool __result)
         {
+            LogicOptionsSerializePatch.initialState = initialState;
             bool flag = false;
             for (int index = 0; index < __instance.LogicComponents.Count; ++index)
             {
@@ -16,7 +17,7 @@ namespace TownOfHost
                 {
                     flag = true;
                     writer.StartMessage((byte)index);
-                    var hasBody = logicComponent.Serialize(writer, initialState);
+                    var hasBody = logicComponent.Serialize(writer);
                     if (hasBody) writer.EndMessage();
                     else writer.CancelMessage();
                     logicComponent.ClearDirtyFlag();
@@ -30,7 +31,8 @@ namespace TownOfHost
     [HarmonyPatch(typeof(LogicOptions), nameof(LogicOptions.Serialize))]
     class LogicOptionsSerializePatch
     {
-        public static bool Prefix(LogicOptions __instance, ref bool __result, MessageWriter writer, bool initialState)
+        public static bool initialState = true;
+        public static bool Prefix(LogicOptions __instance, ref bool __result, MessageWriter writer)
         {
             // 初回以外はブロックし、CustomSyncSettingsでのみ同期する
             if (!initialState)
@@ -38,7 +40,7 @@ namespace TownOfHost
                 __result = false;
                 return false;
             }
-            else return true;
+            return true;
         }
     }
 }

@@ -27,6 +27,7 @@ namespace TownOfHost
                 if (task.TaskType == TaskTypes.UploadData && Options.DisableUploadData.GetBool()) disabledTasks.Add(task);//アップロードタスク
                 if (task.TaskType == TaskTypes.StartReactor && Options.DisableStartReactor.GetBool()) disabledTasks.Add(task);//リアクターの3x3タスク
                 if (task.TaskType == TaskTypes.ResetBreakers && Options.DisableResetBreaker.GetBool()) disabledTasks.Add(task);//レバータスク
+                if (task.TaskType == TaskTypes.FixWeatherNode && Options.DisableFixWeatherNode.GetBool()) disabledTasks.Add(task);//気象ノードタスク
             }
             foreach (var task in disabledTasks)
             {

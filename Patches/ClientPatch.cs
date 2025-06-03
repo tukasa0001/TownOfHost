@@ -128,7 +128,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.SendAllStreamedObjects))]
     class InnerNetObjectSerializePatch
     {
-        public static void Prefix(InnerNetClient __instance, ref bool __result)
+        public static void Prefix(InnerNetClient __instance)
         {
             if (AmongUsClient.Instance.AmHost)
                 GameOptionsSender.SendAllGameOptions();
@@ -170,7 +170,8 @@ namespace TownOfHost
         public static bool SendOrDisconnectPatch(InnerNetClient __instance, MessageWriter msg)
         {
             //分割するサイズ。大きすぎるとリトライ時不利、小さすぎると受信パケット取りこぼしが発生しうる。
-            var limitSize = 500;
+            //Vanila側で500byteで分割しているため競合を避け1000byteに設定
+            var limitSize = 1000;
 
             if (DebugModeManager.IsDebugMode)
             {
