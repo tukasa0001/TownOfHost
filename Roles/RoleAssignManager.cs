@@ -141,7 +141,7 @@ namespace TownOfHost.Roles
                 if (numImpostorsLeft <= 0 && numOthersLeft <= 0) break;
 
                 var targetRoles = role.GetAssignUnitRolesArray();
-                var numImpostorAssign = targetRoles.Count(role => role.IsImpostor());
+                var numImpostorAssign = targetRoles.Count(role => role.GetAssignRoleType() == CustomRoleTypes.Impostor);
                 var numOthersAssign = targetRoles.Length - numImpostorAssign;
                 //アサイン枠が足りてない場合
                 if (numImpostorAssign > numImpostorsLeft
